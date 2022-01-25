@@ -1,14 +1,21 @@
 import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import React, {useCallback, useMemo, useState} from 'react';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import {API_INSTITUTE_QUESTION_BANK} from '../../../@softbd/common/apiRoutes';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import QuestionBankAddEditPopup from './QuestionBankAddEditPopup';
+import QuestionBankDetailsPopup from './QuestionBankDetailsPopup';
 
 const QuestionBankPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -64,7 +71,6 @@ const QuestionBankPage = () => {
       {
         Header: messages['common.question'],
         accessor: 'question',
-        isVisible: false,
       },
       {
         Header: messages['common.subject_name'],
@@ -73,33 +79,19 @@ const QuestionBankPage = () => {
       {
         Header: messages['common.topic_name'],
         accessor: 'topic_name',
-        disableFilters: true,
-        disableSortBy: true,
-        isVisible: false,
       },
       {
         Header: messages['common.difficulty'],
         accessor: 'difficulty',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
       },
       {
         Header: messages['common.marks'],
         accessor: 'marks',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
       },
-      // {
-      //   Header: messages['common.status'],
-      //   accessor: 'row_status',
-      //   filter: 'rowStatusFilter',
-      //   Cell: (props: any) => {
-      //     let data = props.row.original;
-      //     return <CustomChipRowStatus value={data?.row_status} />;
-      //   },
-      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -121,7 +113,63 @@ const QuestionBankPage = () => {
     [messages],
   );
 
-  return <>question</>;
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_INSTITUTE_QUESTION_BANK,
+    });
+
+  return (
+    <>
+      <PageBlock
+        title={
+          <>
+            <IconProgramme /> <IntlMessages id='common.question_bank' />
+          </>
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['common.question_bank'],
+                }}
+              />
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <QuestionBankAddEditPopup
+            key={1}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
+
+        {isOpenDetailsModal && selectedItemId && (
+          <QuestionBankDetailsPopup
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
+      </PageBlock>
+    </>
+  );
 };
 
 export default QuestionBankPage;
