@@ -16,6 +16,7 @@ import {
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
+  API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
   API_JOB_REQUIREMENT,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
@@ -73,6 +74,9 @@ export function useFetchHumanResourceDemands(params: any) {
   return useAxiosSWR([API_JOB_REQUIREMENT, params]);
 }
 
+export function useFetchInstituteHumanResourceDemands(params: any) {
+  return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
+}
 export function useFetchJobPrimaryInformation(jobId: string | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
 }

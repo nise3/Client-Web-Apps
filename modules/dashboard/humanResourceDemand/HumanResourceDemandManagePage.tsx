@@ -1,8 +1,10 @@
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
-import {useEffect} from 'react';
-import {getHumanResource} from '../../../services/organaizationManagement/HumanResourceService';
+import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
+import {Typography} from '@mui/material';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import React from 'react';
 
 const HumanResourceDemandManagePage = () => {
   const {messages} = useIntl();
@@ -10,14 +12,29 @@ const HumanResourceDemandManagePage = () => {
   const router = useRouter();
   const {hrDemandId} = router.query;
 
-  useEffect(() => {
-    if (hrDemandId) {
-      const humanResourceDemand = getHumanResource(Number(hrDemandId));
-      console.log(humanResourceDemand);
-    }
-  }, [hrDemandId]);
+  const {
+    data: humanResourceDemandData,
+    isLoading,
+    mutate: mutateHumanResourceDemandData,
+  } = useFetchHumanResourceDemand(Number(hrDemandId));
 
-  return <></>;
+  return (
+    <>
+      <Typography variant={'h2'}>
+        {humanResourceDemandData?.organization_title}
+      </Typography>
+
+      <ReactTable
+        columns={columns}
+        data={data}
+        fetchData={onFetchData}
+        loading={loading}
+        pageCount={pageCount}
+        totalCount={totalCount}
+        toggleResetTable={isToggleTable}
+      />
+    </>
+  );
 };
 
 export default HumanResourceDemandManagePage;
