@@ -35,6 +35,7 @@ const QuestionBankPage = () => {
 
   const openDetailsModal = useCallback(
     (itemId: number) => {
+      console.log('itemId->', itemId);
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
     },
@@ -123,7 +124,8 @@ const QuestionBankPage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='common.question_bank' />
+            <IconProgramme />
+            <IntlMessages id='common.question_bank' />
           </>
         }
         extra={[
@@ -152,7 +154,6 @@ const QuestionBankPage = () => {
         />
         {isOpenAddEditModal && (
           <QuestionBankAddEditPopup
-            key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -161,7 +162,6 @@ const QuestionBankPage = () => {
 
         {isOpenDetailsModal && selectedItemId && (
           <QuestionBankDetailsPopup
-            key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
