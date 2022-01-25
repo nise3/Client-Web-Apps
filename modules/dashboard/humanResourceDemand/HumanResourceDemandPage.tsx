@@ -20,6 +20,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import HumanResourceDemandEditPop from './HumanResourceDemandEditPop';
 
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
@@ -172,11 +173,19 @@ const HumanResourceDemandPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {isOpenAddEditModal && (
+        {!selectedItemId && isOpenAddEditModal && (
           <HumanResourceDemandAddEditPop
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
+        {selectedItemId && isOpenAddEditModal && (
+          <HumanResourceDemandEditPop
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeAddEditModal}
             refreshDataTable={refreshDataTable}
           />
         )}
