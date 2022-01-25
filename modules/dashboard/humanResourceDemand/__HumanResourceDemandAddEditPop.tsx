@@ -26,8 +26,6 @@ import {
   updateHumanResourceDemand,
 } from '../../../services/IndustryManagement/HrDemandService';
 import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface HumanResourceDemandAddEditPopupProps {
   itemId: number | null;
@@ -42,17 +40,12 @@ const initialValues = {
 const HumanResourceDemandAddEditPopup: FC<
   HumanResourceDemandAddEditPopupProps
 > = ({itemId, refreshDataTable, ...props}) => {
-  const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateHumanResourceDemand,
-  } = useFetchHumanResourceDemand(itemId);
+  const {data: itemData, isLoading} = useFetchHumanResourceDemand(itemId);
 
   const [organizationFilter] = useState({});
   const {data: organizations, isLoading: isLoadingOrganizations} =
@@ -91,16 +84,7 @@ const HumanResourceDemandAddEditPopup: FC<
         .trim()
         .required()
         .label(messages['organization.label'] as string),
-      industry_association_id:
-        authUser && authUser.isIndustryAssociationUser
-          ? yup.string().trim().nullable()
-          : yup
-              .string()
-              .trim()
-              .required(function () {
-                return authUser && !authUser.isIndustryAssociationUser;
-              })
-              .label(messages['industry_association.label'] as string),
+
       hr_demands: yup.array().of(
         yup.object().shape({
           institute_id: yup
@@ -146,22 +130,9 @@ const HumanResourceDemandAddEditPopup: FC<
 
   useEffect(() => {
     if (itemData) {
-      let institutes = [itemData?.all_institutes];
-
-      let hrDemands = {
-        institute_id: institutes,
-        skill_id: itemData?.skill_id,
-        end_date: itemData?.end_date,
-        vacancy: itemData?.vacancy,
-        requirement: itemData?.remaining_vacancy,
-      };
-      let hrDemandsArr = [];
-      hrDemandsArr[0] = hrDemands;
-
       let data = {
         organization_id: itemData?.organization_id,
-        industry_association_id: itemData?.industry_association_id,
-        hr_demands: hrDemandsArr,
+        hr_demands: itemData?.hr_demands,
       };
 
       if (itemData?.hr_demands) {
@@ -178,14 +149,14 @@ const HumanResourceDemandAddEditPopup: FC<
     }
   }, [itemData]);
 
-  console.log('errors:', errors);
-
+  console.log('errors', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data--', data);
+
     try {
       if (itemId) {
         await updateHumanResourceDemand(itemId, data);
         updateSuccessMessage('job_requirement.label');
-        mutateHumanResourceDemand();
       } else {
         await createHumanResourceDemand(data);
         createSuccessMessage('job_requirement.label');
@@ -231,19 +202,17 @@ const HumanResourceDemandAddEditPopup: FC<
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          {authUser && !authUser.isIndustryAssociationUser && (
-            <CustomFilterableFormSelect
-              required
-              id='industry_association_id'
-              label={messages['common.industry_association']}
-              isLoading={isLoadingIndustryAssociation}
-              options={industryAssociations}
-              optionValueProp={'id'}
-              optionTitleProp={['title', 'title_en']}
-              control={control}
-              errorInstance={errors}
-            />
-          )}
+          <CustomFilterableFormSelect
+            required
+            id='industry_association_id'
+            label={messages['common.industry_association']}
+            isLoading={isLoadingIndustryAssociation}
+            options={industryAssociations}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
+            control={control}
+            errorInstance={errors}
+          />
         </Grid>
         <Grid item xs={12}>
           <CustomFilterableFormSelect
@@ -274,25 +243,23 @@ const HumanResourceDemandAddEditPopup: FC<
             </React.Fragment>
           );
         })}
-        {!itemId && (
-          <Grid item xs={12}>
-            <Box display={'flex'} justifyContent={'flex-end'}>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                sx={{marginRight: '10px'}}
-                onClick={onAddHrDemand}>
-                Add
-              </Button>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                onClick={onRemoveHrDemand}>
-                Remove
-              </Button>
-            </Box>
-          </Grid>
-        )}
+        <Grid item xs={12}>
+          <Box display={'flex'} justifyContent={'flex-end'}>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              sx={{marginRight: '10px'}}
+              onClick={onAddHrDemand}>
+              Add
+            </Button>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              onClick={onRemoveHrDemand}>
+              Remove
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );

@@ -1,4 +1,4 @@
-import {apiPost, apiPut} from '../../@softbd/common/api';
+import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_HUMAN_RESOURCE_DEMAND} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
@@ -19,6 +19,17 @@ export const updateHumanResourceDemand = async (
     let response: any = await apiPut(
       API_HUMAN_RESOURCE_DEMAND + '/' + requirementId,
       data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const deleteHRDemand = async (HRDemandId: number) => {
+  try {
+    let response: any = await apiDelete(
+      API_HUMAN_RESOURCE_DEMAND + '/' + HRDemandId,
     );
     return response.data;
   } catch (error) {
