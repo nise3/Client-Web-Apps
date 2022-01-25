@@ -468,6 +468,7 @@
   "yup_validation_regex": "{path} সঠিক বিন্যাস নয়",
   "yup_validation_unknown_error": "এররের বিস্তারিত জানা যায় নি",
   "yup_validation_text_length": "{path} মান দৈর্ঘ্য অতিক্রম করেছে",
+  "yup_validation_digit_length": "{path} অবশ্যই ১১ সংখ্যার হতে হবে",
   "required_field": "{path} লেখা আবশ্যক",
   "role.label": "রোল",
   "role.unique_value": "ইউনিক ভ্যালু",
