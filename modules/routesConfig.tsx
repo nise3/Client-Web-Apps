@@ -545,6 +545,15 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
+      {
+        id: 'cv_bank',
+        title: 'CV Bank',
+        messageId: 'common.cv_bank',
+        permissionKey: 'view_any_cv_bank',
+        type: 'item',
+        icon: 'room',
+        url: '/cv-bank',
+      },
     ],
   },
 ];
