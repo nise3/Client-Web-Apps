@@ -18,7 +18,7 @@ import {
   useFetchOrganizations,
   useFetchSkills,
 } from '../../../services/organaizationManagement/hooks';
-import HrDemandFields from './HrDemandFields';
+import JobRequirementFields from './JobRequirementFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDeman';
 import {
@@ -230,7 +230,7 @@ const HumanResourceDemandAddEditPopup: FC<
         {hrDemandFields.map((item, index) => {
           return (
             <React.Fragment key={index}>
-              <HrDemandFields
+              <JobRequirementFields
                 index={index}
                 control={control}
                 instituteOptions={institutes}

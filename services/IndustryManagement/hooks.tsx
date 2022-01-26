@@ -12,11 +12,12 @@ import {
   API_GET_JOB_MATCHING_CRITERIA,
   API_GET_JOB_PREVIEW,
   API_GET_JOB_PRIMARY_INFORMATION,
-  API_HUMAN_RESOURCE_DEMAND,
+  API_JOB_REQUIREMENTS,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
-  API_JOB_REQUIREMENT,
+  API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
+  API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
   API_PUBLIC_ORGANIZATIONS,
@@ -55,7 +56,9 @@ export function useFetchApplicationList(applicationId: number | null) {
 
 export function useFetchJobRequirement(jobRequirementId: number | null) {
   return useAxiosSWR(
-    jobRequirementId ? API_JOB_REQUIREMENT + '/' + jobRequirementId : null,
+    jobRequirementId
+      ? API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT + '/' + jobRequirementId
+      : null,
   );
 }
 
@@ -64,13 +67,17 @@ export function useFetchHumanResourceDemand(
 ) {
   return useAxiosSWR(
     humanResourceDemandId
-      ? API_HUMAN_RESOURCE_DEMAND + '/' + humanResourceDemandId
+      ? API_JOB_REQUIREMENTS + '/' + humanResourceDemandId
       : null,
   );
 }
 
 export function useFetchHumanResourceDemands(params: any) {
-  return useAxiosSWR([API_JOB_REQUIREMENT, params]);
+  return useAxiosSWR([API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT, params]);
+}
+
+export function useFetchInstituteHumanResourceDemands(params: any) {
+  return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
@@ -137,7 +144,7 @@ export function useFetchIndustryMember(memberId: number | null) {
  * Human resource details
  */
 export function useFetchHrDemandDetails(id: number | null) {
-  return useAxiosSWR(id ? API_HUMAN_RESOURCE_DEMAND + '/' + id : null);
+  return useAxiosSWR(id ? API_JOB_REQUIREMENTS + '/' + id : null);
 }
 
 export function useFetchIndustryAssociationMembers(params: any) {
