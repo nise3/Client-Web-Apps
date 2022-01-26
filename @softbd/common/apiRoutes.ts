@@ -386,6 +386,8 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
  */
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
+export const API_HUMAN_RESOURCE_DEMAND =
+  ORGANIZATION_SERVICE_PATH + '/hr-demands';
 export const API_JOB_REQUIREMENTS =
   ORGANIZATION_SERVICE_PATH + '/job-requirements';
 
