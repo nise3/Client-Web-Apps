@@ -358,6 +358,9 @@ export const API_GET_EDUCATIONAL_INSTITUTES =
 export const API_GET_BUSINESS_AREAS =
   ORGANIZATION_SERVICE_PATH + '/area-of-business';
 
+export const API_GET_EXPERIENCE_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/suggestions/area-of-experiences';
+
 export const API_GET_EDUCATION_LEVELS =
   ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
 

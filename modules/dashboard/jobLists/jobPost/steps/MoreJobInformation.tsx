@@ -225,6 +225,7 @@ const MoreJobInformation = ({
           additional_salary_info_en: additionalInfo?.additional_salary_info_en,
           other_benefits: additionalInfo?.other_benefits,
           others: additionalInfo?.others,
+          others_en: additionalInfo?.others_en,
           work_places: [false, false],
         };
         (additionalInfo?.work_places || []).map((workPlace: any) => {
@@ -262,10 +263,10 @@ const MoreJobInformation = ({
   };
 
   const getJobLocations = (locations: any) => {
-    let ids: any = locations.map((location: any) => location.location_id);
+    let ids: any = locations?.map((location: any) => location.location_id);
 
     return (jobLocations || []).filter((location: any) =>
-      ids.includes(location.location_id),
+      ids?.includes(location.location_id),
     );
   };
 
@@ -316,10 +317,8 @@ const MoreJobInformation = ({
       });
       data.job_locations = locationIds;
 
-      console.log('data-->', data);
-
-      const response = await saveAdditionalJobInformation(data);
-      console.log('response : ', response);
+      //console.log('data-->', data);
+      await saveAdditionalJobInformation(data);
 
       successStack('Data saved successfully');
       onContinue();

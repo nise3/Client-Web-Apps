@@ -4,6 +4,7 @@ import {
   API_GET_EDUCATION_LEVELS,
   API_GET_EDUCATIONAL_INSTITUTES,
   API_GET_EXAM_DEGREES,
+  API_GET_EXPERIENCE_AREAS,
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_CANDIDATE_REQUIREMENTS,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
@@ -113,6 +114,10 @@ export function useFetchEducationalInstitutes() {
 
 export function useFetchBusinessAreas() {
   return useAxiosSWR(API_GET_BUSINESS_AREAS);
+}
+
+export function useFetchExperienceAreas() {
+  return useAxiosSWR(API_GET_EXPERIENCE_AREAS);
 }
 
 export function useFetchEducationLevels() {
