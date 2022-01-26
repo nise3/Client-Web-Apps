@@ -8,10 +8,8 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_JOB_REQUIREMENTS} from '../../../@softbd/common/apiRoutes';
-import RejectButton from '../applicationManagement/RejectButton';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import HumanResourceDemandAddEditPop from './JobRequirementAddEditPop';
@@ -131,11 +129,6 @@ const JobRequirementPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <ApproveButton onClick={() => console.log('approved')} />
-              <RejectButton
-                rejectAction={() => {}}
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteHRDemandItem(data.id)}
