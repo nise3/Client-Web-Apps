@@ -7,26 +7,63 @@ import {
 } from '../../../services/IndustryManagement/hooks';
 import {Chip, Typography} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
+import RejectButton from '../applicationManagement/RejectButton';
+import {rejectHRDemand} from '../../../services/IndustryManagement/HrDemandService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import JobRequirementApproveByIndustryAssocPopUp from './ActionPages/JobRequirementApproveByIndustryAssocPopUp';
 
 const JobRequirementManagePage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
-  const {hrDemandId} = router.query;
+  const {jobRequirementId} = router.query;
 
-  const {
-    data: humanResourceDemandData,
-    isLoadingHumanResourceDemand,
-    mutate: mutateHumanResourceDemandData,
-  } = useFetchHumanResourceDemand(Number(hrDemandId));
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenApproveModal, setIsOpenApproveModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const openApproveModal = useCallback((itemId: number | null = null) => {
+    setIsOpenApproveModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeApproveModal = useCallback(() => {
+    setIsOpenApproveModal(false);
+    setSelectedItemId(null);
+  }, []);
+
+  const {data: humanResourceDemandData} = useFetchHumanResourceDemand(
+    Number(jobRequirementId),
+  );
 
   const {
     data: instituteHumanResourceDemandData,
-    isLoadingInstituteHRDemandsData,
-    mutate: mutateInstituteHRDemands,
-  } = useFetchInstituteHumanResourceDemands({hr_demand_id: Number(hrDemandId)});
+    isLoading: isLoadingInstituteHRDemandsData,
+  } = useFetchInstituteHumanResourceDemands({
+    hr_demand_id: Number(jobRequirementId),
+  });
+
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
+  }, []);
+
+  const rejectJobRequirementDemand = async (HRDemandId: number) => {
+    let response = await rejectHRDemand(HRDemandId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='hr_demand.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -108,12 +145,13 @@ const JobRequirementManagePage = () => {
       },
 
       {
-        Header: messages['common.vacancy_approved_by_industry_association'],
-        accessor: 'vacancy_approved_by_industry_association',
+        Header: messages['job_requirement.vacancy_provided_by_institute'],
+        accessor: 'vacancy_provided_by_institute',
       },
       {
-        Header: messages['common.vacancy_provided_by_institute'],
-        accessor: 'vacancy_provided_by_institute',
+        Header:
+          messages['job_requirement.vacancy_provided_by_industry_association'],
+        accessor: 'vacancy_approved_by_industry_association',
       },
       {
         Header: messages['common.status'],
@@ -123,6 +161,23 @@ const JobRequirementManagePage = () => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
         },
+      },
+
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ApproveButton onClick={() => openApproveModal(data.id)} />
+              <RejectButton
+                rejectAction={() => rejectJobRequirementDemand(data.id)}
+                rejectTitle={messages['common.delete_confirm'] as string}
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
       },
     ],
     [messages],
@@ -138,7 +193,15 @@ const JobRequirementManagePage = () => {
         data={instituteHumanResourceDemandData || []}
         loading={isLoadingInstituteHRDemandsData}
         skipDefaultFilter={true}
+        toggleResetTable={isToggleTable}
       />
+      {isOpenApproveModal && (
+        <JobRequirementApproveByIndustryAssocPopUp
+          itemId={selectedItemId}
+          onClose={closeApproveModal}
+          refreshDataTable={refreshDataTable}
+        />
+      )}
     </>
   );
 };

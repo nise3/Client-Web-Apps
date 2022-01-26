@@ -45,11 +45,7 @@ const HumanResourceDemandAddEditPopup: FC<
   const {createSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateHumanResourceDemand,
-  } = useFetchHumanResourceDemand(itemId);
+  const {data: itemData, isLoading} = useFetchHumanResourceDemand(itemId);
 
   const [organizationFilter] = useState({});
   const {data: organizations, isLoading: isLoadingOrganizations} =
