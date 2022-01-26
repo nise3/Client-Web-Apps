@@ -185,7 +185,9 @@ const JobRequirementManagePage = () => {
   return (
     <>
       <Typography variant={'h2'}>
-        {humanResourceDemandData?.organization_title}
+        {messages['organization.label'] +
+          ': ' +
+          humanResourceDemandData?.organization_title}
       </Typography>
 
       <ReactTable
