@@ -34,14 +34,11 @@ const QuestionBankPage = () => {
 
   const closeImportModal = useCallback(() => {
     setIsOpenImportModal(false);
-    setIsOpenAddEditModal(false);
-    setIsOpenDetailsModal(false);
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setIsOpenImportModal(false);
     setSelectedItemId(itemId);
   }, []);
 
