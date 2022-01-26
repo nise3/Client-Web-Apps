@@ -4,16 +4,16 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const JobRequirementsPage = asyncComponent(
-  () =>
-    import('../../../modules/dashboard/jobRequirements/JobRequirementsPage'),
+const JobRequirementPage = asyncComponent(
+  () => import('../../../modules/dashboard/jobRequirements/JobRequirementPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
-      <PageMeta title={messages['job_requirement.label']} />
-      <JobRequirementsPage />
+      <PageMeta title={messages['job_requirement.label'] as string} />
+      <JobRequirementPage />
     </>
   );
 });

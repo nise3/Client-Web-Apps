@@ -8,10 +8,8 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_JOB_REQUIREMENTS} from '../../../@softbd/common/apiRoutes';
-import RejectButton from '../applicationManagement/RejectButton';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import HumanResourceDemandAddEditPop from './JobRequirementAddEditPop';
@@ -20,7 +18,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import HumanResourceDemandEditPop from './JobRequirementDemandEditPop';
+import HumanResourceDemandEditPop from './JobRequirementDemandEditPopUp';
 import Link from 'next/link';
 import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
@@ -124,18 +122,13 @@ const JobRequirementPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = '/../../hr-demand/manage/__'.replace(
+          const URL = '/../../job-requirement/__'.replace(
             '__',
             String(data.id),
           );
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <ApproveButton onClick={() => console.log('approved')} />
-              <RejectButton
-                rejectAction={() => {}}
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteHRDemandItem(data.id)}

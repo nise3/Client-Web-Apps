@@ -1319,5 +1319,10 @@
   "common.difficulty": "কঠিনতা",
   "common.marks": "নাম্বার",
   "common.hr_demand": "হিউম্যান রিসোর্স চাহিদা",
-  "job_requirement.industry_association_step": "শিল্প সমিতি পদক্ষেপ"
+  "job_requirement.industry_association_step": "শিল্প সমিতি পদক্ষেপ",
+  "job_requirement.institute_step": "প্রতিষ্ঠানের পদক্ষেপ",
+  "job_requirement.vacancy_provided_by_institute" : "প্রতিষ্ঠানের প্রস্তাবিত  শূন্যপদ",
+  "job_requirement.vacancy_provided_by_industry_association" : "শিল্প সমিতি প্রস্তাবিত  শূন্যপদ",
+  "common.approved_vacancy" : "অনুমোদিত শূন্যপদ",
+  "common.vacancy_approval" : "শূন্যপদ অনুমোদন"
 }
