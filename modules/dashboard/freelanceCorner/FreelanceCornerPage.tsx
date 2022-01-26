@@ -7,7 +7,7 @@ import {API_YOUTHS_LIST} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {useRouter} from 'next/router';
 import NextLink from 'next/link';
 import {Link} from '@mui/material';
@@ -64,27 +64,26 @@ const FreelanceCornerPage = () => {
             <DatatableButtonGroup>
               <NextLink href={`${path}/youth-cv/${data?.id}`} passHref={true}>
                 <Link underline='none'>
-                  <AssignBatchButton
+                  <CommonButton
                     btnText='applicationManagement.viewCV'
                     startIcon={<Visibility style={{marginLeft: '5px'}} />}
                     variant={'text'}
                   />
                 </Link>
               </NextLink>
-              <AssignBatchButton
+              <CommonButton
                 onClick={() => {}}
                 btnText='common.interview'
                 startIcon={<FiMessageCircle style={{marginLeft: '5px'}} />}
                 color='primary'
               />
-              <AssignBatchButton
+              <CommonButton
                 onClick={() => {}}
                 btnText='common.hire'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                 color='secondary'
               />
-              <AssignBatchButton
-                onClick={() => {}}
+              <CommonButton
                 btnText='common.download'
                 startIcon={<FiDownload style={{marginLeft: '5px'}} />}
                 color='inherit'

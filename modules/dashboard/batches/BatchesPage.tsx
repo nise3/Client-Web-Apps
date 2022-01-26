@@ -20,7 +20,7 @@ import {deleteBatch} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
-import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
@@ -144,7 +144,7 @@ const BatchesPage = () => {
                 deleteTitle='Are you sure?'
               />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
-                <AssignBatchButton
+                <CommonButton
                   btnText='youth.label'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                   style={{marginLeft: '10px'}}

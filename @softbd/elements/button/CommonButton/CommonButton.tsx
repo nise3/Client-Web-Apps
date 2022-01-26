@@ -3,10 +3,10 @@ import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import clsx from 'clsx';
 import {ButtonProps} from '@mui/material/Button/Button';
-import ButtonSkeleton from '../../../@softbd/elements/display/skeleton/ButtonSkeleton/ButtonSkeleton';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
+import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
-const PREFIX = 'AssignBatchButton';
+const PREFIX = 'CommonButton';
 
 const classes = {
   button: `${PREFIX}-button`,
@@ -30,7 +30,7 @@ interface Props extends ButtonProps {
   startIcon?: React.ReactNode;
 }
 
-const AssignBatchButton = ({
+const CommonButton = ({
   onClick,
   isLoading,
   className,
@@ -39,12 +39,14 @@ const AssignBatchButton = ({
   startIcon,
   ...extra
 }: Props) => {
+  const defaultHandler = () => {};
+
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
     <StyledButton
       startIcon={startIcon}
-      onClick={onClick}
+      onClick={onClick || defaultHandler}
       className={extra?.color ? clsx(classes.button, className) : className}
       color={extra?.color || 'secondary'}
       variant={variant}
@@ -54,4 +56,4 @@ const AssignBatchButton = ({
   );
 };
 
-export default React.memo(AssignBatchButton);
+export default React.memo(CommonButton);
