@@ -13,7 +13,7 @@ import Genders from '../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import AssignBatchButton from './AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
 import AssignBatchPopup from './AssignBatchPopup';
 import {FiUserCheck} from 'react-icons/fi';
@@ -143,7 +143,7 @@ const ApplicationManagementPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <AssignBatchButton
+              <CommonButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
