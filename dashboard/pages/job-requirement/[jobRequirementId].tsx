@@ -1,22 +1,19 @@
+import React from 'react';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
-import React from 'react';
-import {useIntl} from 'react-intl';
 
-const HrDemand = asyncComponent(
+const JobRequirementManagePage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/jobRequirements/JobRequirementPage'
+      '../../../modules/dashboard/jobRequirements/JobRequirementManagePage'
     ),
 );
 export default DashboardPage(() => {
-  const {messages} = useIntl();
-
   return (
     <>
-      <PageMeta title={messages[' common.human_resource'] as string} />
-      <HrDemand />
+      <PageMeta title='Human Resource Demand' />
+      <JobRequirementManagePage />
     </>
   );
 });
