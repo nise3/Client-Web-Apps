@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import PersonIcon from '@mui/icons-material/Person';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -9,20 +9,25 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
-import Link from 'next/link';
-import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
-import {LINK_INSTITUTE_HR_DEMAND} from '../../../@softbd/common/appLinks';
-
-const PrimaryLightButton = styled(Button)(({theme}) => {
-  return {
-    color: theme.palette.primary.light,
-    border: 'none',
-  };
-});
-
+import HumanResourceDemandMangePopup from './HumanResourceDemandMangePopup';
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
   const columns = useMemo(
     () => [
       {
@@ -35,7 +40,7 @@ const HumanResourceDemandPage = () => {
       },
       {
         Header: messages['organization.label'],
-        accessor: 'hr_demand_id',
+        accessor: 'organization_title',
       },
       {
         Header: messages['skill.label'],
@@ -50,7 +55,7 @@ const HumanResourceDemandPage = () => {
               <CustomChip
                 icon={<PersonIcon fontSize={'small'} />}
                 color={'primary'}
-                label={data?.vacancy}
+                label={data?.vacancy_provided_by_institute}
               />
             </>
           );
@@ -61,14 +66,13 @@ const HumanResourceDemandPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = LINK_INSTITUTE_HR_DEMAND + `/${data?.id}`;
           return (
             <DatatableButtonGroup>
-              <Link href={URL} passHref>
-                <PrimaryLightButton variant={'outlined'}>
-                  {messages['common.manage']}
-                </PrimaryLightButton>
-              </Link>
+              <Button
+                variant={'outlined'}
+                onClick={() => openAddEditModal(data.id)}>
+                {messages['common.manage']}
+              </Button>
             </DatatableButtonGroup>
           );
         },
@@ -82,13 +86,6 @@ const HumanResourceDemandPage = () => {
     useReactTableFetchData({
       urlPath: API_HUMAN_RESOURCE_DEMAND,
     });
-  console.log('data: ', data);
-
-  /*const data = [
-    {
-      hr_demand_id: 1,
-    },
-  ];*/
 
   return (
     <>
@@ -105,7 +102,15 @@ const HumanResourceDemandPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
+        {isOpenAddEditModal && (
+          <HumanResourceDemandMangePopup
+            refreshDataTable={refreshDataTable}
+            itemId={selectedItemId}
+            onClose={closeAddEditModal}
+          />
+        )}
       </PageBlock>
     </>
   );
