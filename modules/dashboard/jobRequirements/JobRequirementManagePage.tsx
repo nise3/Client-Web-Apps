@@ -5,7 +5,7 @@ import {
   useFetchHumanResourceDemand,
   useFetchInstituteHumanResourceDemands,
 } from '../../../services/IndustryManagement/hooks';
-import {Typography} from '@mui/material';
+import {Chip, Typography} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import React, {useMemo} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -46,25 +46,75 @@ const JobRequirementManagePage = () => {
         Header: messages['skill.label'],
         accessor: 'skill_title',
       },
+      {
+        Header: messages['job_requirement.institute_step'],
+        accessor: 'rejected_by_institute',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let step = '';
+          let btnColor: any = undefined;
 
+          if (
+            data?.rejected_by_institute == 0 &&
+            data?.vacancy_provided_by_institute == 0
+          ) {
+            step = 'Pending';
+            btnColor = 'primary';
+          } else if (data?.vacancy_approved_by_industry_association) {
+            step = 'Rejected';
+            btnColor = 'error';
+          } else {
+            step = 'Approved';
+            btnColor = 'success';
+          }
+          return (
+            <Chip
+              variant={'filled'}
+              color={btnColor ?? 'default'}
+              label={step}
+            />
+          );
+        },
+      },
       {
         Header: messages['job_requirement.industry_association_step'],
         accessor: 'rejected_by_industry_association',
         Cell: (props: any) => {
           let data = props.row.original;
+          let step = '';
+          let btnColor: any = undefined;
+
+          if (
+            data?.rejected_by_industry_association == 0 &&
+            data?.vacancy_approved_by_industry_association == 0
+          ) {
+            step = 'Pending';
+            btnColor = 'primary';
+          } else if (data?.rejected_by_industry_association) {
+            step = 'Rejected';
+            btnColor = 'error';
+          } else {
+            step = 'Approved';
+            btnColor = 'success';
+          }
           return (
-            <CustomChipRowStatus value={data?.industry_association_step} />
+            <Chip
+              variant={'filled'}
+              color={btnColor ?? 'default'}
+              label={step}
+            />
           );
         },
       },
-      // {
-      //   Header: messages['common.vacancy_approved_by_industry_association'],
-      //   accessor: 'vacancy_approved_by_industry_association',
-      // },
-      // {
-      //   Header: messages['common.vacancy_provided_by_institute'],
-      //   accessor: 'vacancy_provided_by_institute',
-      // },
+
+      {
+        Header: messages['common.vacancy_approved_by_industry_association'],
+        accessor: 'vacancy_approved_by_industry_association',
+      },
+      {
+        Header: messages['common.vacancy_provided_by_institute'],
+        accessor: 'vacancy_provided_by_institute',
+      },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
