@@ -22,11 +22,13 @@ import {
   useFetchEducationalInstitutes,
   useFetchEducationLevels,
   useFetchExamDegrees,
+  useFetchExperienceAreas,
   useFetchJobCandidateRequirements,
 } from '../../../../../services/IndustryManagement/hooks';
 import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
 import {useFetchSkills} from '../../../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
+import CustomSelectAutoComplete from '../../../../youth/registration/CustomSelectAutoComplete';
 
 interface Props {
   jobId: string;
@@ -71,12 +73,13 @@ const CandidateRequirements = ({
   setLatestStep,
 }: Props) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [isFresherApplicable, setIsFresherApplicable] =
     useState<boolean>(false);
   const [notExperienced, setNotExperienced] = useState<boolean>(true);
   const {data: candidateRequirements} = useFetchJobCandidateRequirements(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [defaultEduLevelIdTrack, setDefaultEduLevelIdTrack] = useState<any>({});
 
   const {
     data: educationalInstitutes,
@@ -84,6 +87,8 @@ const CandidateRequirements = ({
   } = useFetchEducationalInstitutes();
   const {data: businessAreas, isLoading: isLoadingBusinessAreas} =
     useFetchBusinessAreas();
+  const {data: experienceAreas, isLoading: isLoadingExperienceAreas} =
+    useFetchExperienceAreas();
 
   const [skillFilters] = useState<any>({row_status: RowStatus.ACTIVE});
   const {data: skills, isLoading: isLoadingSkills} =
@@ -117,16 +122,17 @@ const CandidateRequirements = ({
         setIsReady(true);
 
         let data: any = {
-          degrees: candidateRequirements?.degrees,
+          degrees: getDegrees(candidateRequirements?.degrees),
           preferred_educational_institutions:
             candidateRequirements?.preferred_educational_institutions,
           other_educational_qualification:
             candidateRequirements?.other_educational_qualification,
           other_educational_qualification_en:
             candidateRequirements?.other_educational_qualification_en,
-          trainings: candidateRequirements?.trainings,
-          professional_certifications:
+          trainings: getTrainings(candidateRequirements?.trainings),
+          professional_certifications: getProfessionalCertification(
             candidateRequirements?.professional_certifications,
+          ),
           is_experience_needed: candidateRequirements?.is_experience_needed,
           minimum_year_of_experience:
             candidateRequirements?.minimum_year_of_experience,
@@ -134,20 +140,25 @@ const CandidateRequirements = ({
             candidateRequirements?.maximum_year_of_experience,
           is_freshers_encouraged: candidateRequirements?.is_freshers_encouraged,
           area_of_experiences: candidateRequirements?.area_of_experiences,
-          area_of_businesses: candidateRequirements?.area_of_businesses,
+          area_of_businesses: candidateRequirements?.area_of_business,
           skills: candidateRequirements?.skills,
           additional_requirements:
             candidateRequirements?.additional_requirements,
           additional_requirements_en:
             candidateRequirements?.additional_requirements_en,
-          genders: candidateRequirements?.genders,
+          genders: getGenders(candidateRequirements?.genders),
           age_minimum: candidateRequirements?.age_minimum,
           age_maximum: candidateRequirements?.age_maximum,
-          person_with_disability: candidateRequirements?.person_with_disability,
+          person_with_disability:
+            candidateRequirements?.person_with_disability == 1,
           preferred_retired_army_officer:
-            candidateRequirements?.preferred_retired_army_officer,
+            candidateRequirements?.preferred_retired_army_officer == 1,
         };
 
+        setNotExperienced(candidateRequirements?.is_experience_needed != 1);
+        setIsFresherApplicable(
+          candidateRequirements?.is_freshers_encouraged == 1,
+        );
         reset(data);
       }
       setLatestStep(latestStep);
@@ -156,6 +167,39 @@ const CandidateRequirements = ({
     }
   }, [candidateRequirements]);
 
+  const getDegrees = (degrees: any) => {
+    if (!degrees || degrees.length < 1)
+      return [{education_level_id: '', exam_degree_id: '', major_subject: ''}];
+
+    let eduLevelIds: any = {};
+
+    const eduDegrees = (degrees || []).map((item: any, index: number) => {
+      eduLevelIds['level' + index] = item.education_level_id;
+
+      return {
+        education_level_id: item.education_level_id,
+        exam_degree_id: item.exam_degree_id,
+        major_subject: item.major_subject,
+      };
+    });
+
+    setDefaultEduLevelIdTrack(eduLevelIds);
+
+    return eduDegrees;
+  };
+
+  const getTrainings = (trainings: any) => {
+    return (trainings || []).map((item: any) => item.title);
+  };
+
+  const getProfessionalCertification = (certifications: any) => {
+    return (certifications || []).map((item: any) => item.title);
+  };
+
+  const getGenders = (certifications: any) => {
+    return (certifications || []).map((item: any) => item.gender_id);
+  };
+
   const onChangeIsExperienced = (value: any) => {
     setNotExperienced((prev) => !prev);
   };
@@ -163,13 +207,52 @@ const CandidateRequirements = ({
   console.log('error', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      data.job_id = jobId;
+
+      data.is_freshers_encouraged = data.is_freshers_encouraged ? 1 : 0;
+      data.person_with_disability = data.person_with_disability ? 1 : 0;
+      data.preferred_retired_army_officer = data.preferred_retired_army_officer
+        ? 1
+        : 0;
+
+      if (data.preferred_educational_institutions) {
+        data.preferred_educational_institutions =
+          data.preferred_educational_institutions.map(
+            (edu_ins: any) => edu_ins.id,
+          );
+      }
+
+      if (data.is_experience_needed != 1) {
+        delete data.minimum_year_of_experience;
+        delete data.maximum_year_of_experience;
+        delete data.is_freshers_encouraged;
+        delete data.area_of_experiences;
+        delete data.area_of_businesses;
+        delete data.skills;
+        delete data.additional_requirements;
+        delete data.additional_requirements_en;
+      }
+
+      if (data.area_of_experiences) {
+        data.area_of_experiences = data.area_of_experiences.map(
+          (experience: any) => experience.id,
+        );
+      }
+
+      if (data.area_of_businesses) {
+        data.area_of_businesses = data.area_of_businesses.map(
+          (business: any) => business.id,
+        );
+      }
+
+      if (data.skills) {
+        data.skills = data.skills.map((skill: any) => skill.id);
+      }
+
       console.log('data', data);
+      await saveCandidateRequirements(data);
 
-      //do data save work here
-
-      const response = await saveCandidateRequirements(data);
-      console.log('response', response);
-
+      successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -198,23 +281,36 @@ const CandidateRequirements = ({
               errors={errors}
               educationLevelOptions={educationLevels || []}
               examDegreeOptions={examDegrees || []}
+              defaultEduLevelIdTrack={defaultEduLevelIdTrack}
             />
           </Grid>
           <Grid item xs={12}>
-            <CustomAddFilterableFormSelect
-              id='preferred_educational_institutes'
+            <CustomSelectAutoComplete
+              id='preferred_educational_institutions'
               label={messages['common.preferred_educational_institute']}
               isLoading={isLoadingEducationalInstitutes}
               control={control}
+              optionValueProp={'id'}
               errorInstance={errors}
               optionTitleProp={['name']}
               options={educationalInstitutes || []}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <CustomTextInput
               id='other_educational_qualification'
               label={messages['common.other_educational_qualification']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+              multiline={true}
+              rows={3}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              id='other_educational_qualification_en'
+              label={messages['common.other_educational_qualification_en']}
               register={register}
               errorInstance={errors}
               isLoading={false}
@@ -307,42 +403,56 @@ const CandidateRequirements = ({
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <CustomAddFilterableFormSelect
+                <CustomSelectAutoComplete
                   id={'area_of_experiences'}
                   label={messages['common.area_of_experience']}
-                  isLoading={false}
-                  control={control}
+                  isLoading={isLoadingExperienceAreas}
+                  optionValueProp={'id'}
                   optionTitleProp={['title']}
-                  options={[]}
+                  options={experienceAreas || []}
+                  control={control}
                   errorInstance={errors}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <CustomAddFilterableFormSelect
+                <CustomSelectAutoComplete
                   id={'area_of_businesses'}
                   label={messages['common.area_of_business']}
                   isLoading={isLoadingBusinessAreas}
-                  control={control}
+                  optionValueProp={'id'}
                   optionTitleProp={['title']}
                   options={businessAreas || []}
+                  control={control}
                   errorInstance={errors}
                 />
               </Grid>
               <Grid item xs={12}>
-                <CustomAddFilterableFormSelect
+                <CustomSelectAutoComplete
                   id={'skills'}
                   label={messages['common.skills']}
                   isLoading={isLoadingSkills}
-                  control={control}
+                  optionValueProp={'id'}
                   optionTitleProp={['title']}
                   options={skills || []}
+                  control={control}
                   errorInstance={errors}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <CustomTextInput
                   id={'additional_requirements'}
                   label={messages['job_posts.additional_requirements']}
+                  isLoading={false}
+                  register={register}
+                  multiline={true}
+                  rows={3}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id={'additional_requirements_en'}
+                  label={messages['job_posts.additional_requirements_en']}
                   isLoading={false}
                   register={register}
                   multiline={true}
@@ -426,7 +536,9 @@ const CandidateRequirements = ({
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={
+                candidateRequirements?.person_with_disability == 1
+              }
               isLoading={false}
             />
           </Grid>
@@ -452,7 +564,9 @@ const CandidateRequirements = ({
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={
+                candidateRequirements?.preferred_retired_army_officer == 1
+              }
               isLoading={false}
             />
           </Grid>

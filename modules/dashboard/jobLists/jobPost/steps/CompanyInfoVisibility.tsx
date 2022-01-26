@@ -13,6 +13,7 @@ import {Help} from '@mui/icons-material';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useFetchJobCompanyInfoVisibility} from '../../../../../services/IndustryManagement/hooks';
 import {saveCompanyInfoVisibility} from '../../../../../services/IndustryManagement/JobService';
+import {useFetchIndustryAssociationTrades} from '../../../../../services/IndustryAssociationManagement/hooks';
 
 interface Props {
   jobId: string;
@@ -41,6 +42,9 @@ const CompanyInfoVisibility = ({
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
   const {data: companyInfo} = useFetchJobCompanyInfoVisibility(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [associationTradeFilter] = useState<any>({});
+  const {data: associationTrades, isLoading: isLoadingTrades} =
+    useFetchIndustryAssociationTrades(associationTradeFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -52,7 +56,7 @@ const CompanyInfoVisibility = ({
         .mixed()
         .label(messages['common.company_name_bn'] as string)
         .when('is_company_name_visible', {
-          is: true,
+          is: (value: boolean) => !value,
           then: yup.string().required(),
         }),
       company_industry_type: yup
@@ -80,7 +84,15 @@ const CompanyInfoVisibility = ({
 
       if (latestStep >= 4) {
         setIsReady(true);
-        reset({});
+        reset({
+          is_company_name_visible: companyInfo?.is_company_name_visible,
+          is_company_address_visible: companyInfo?.is_company_address_visible,
+          is_company_business_visible: companyInfo?.is_company_business_visible,
+          company_industry_type: companyInfo?.company_industry_type,
+          company_name: companyInfo?.company_name,
+          company_name_en: companyInfo?.company_name_en,
+        });
+        setIsShowCompanyName(companyInfo.is_company_name_visible != 1);
       }
       setLatestStep(latestStep);
     } else {
@@ -88,14 +100,20 @@ const CompanyInfoVisibility = ({
     }
   }, [companyInfo]);
 
+  console.log('error', errors);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       data.job_id = jobId;
 
-      console.log('data-->', data);
+      data.is_company_name_visible = data.is_company_name_visible ? 1 : 0;
+      data.is_company_address_visible = data.is_company_address_visible ? 1 : 0;
+      data.is_company_business_visible = data.is_company_business_visible
+        ? 1
+        : 0;
 
-      const response = await saveCompanyInfoVisibility(data);
-      console.log('response', response);
+      console.log('data-->', data);
+      await saveCompanyInfoVisibility(data);
 
       successStack('Data saved successfully');
       onContinue();
@@ -133,7 +151,7 @@ const CompanyInfoVisibility = ({
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_name_visible == 1}
               isLoading={false}
               onChange={(value: boolean) => {
                 setIsShowCompanyName(!value);
@@ -189,7 +207,7 @@ const CompanyInfoVisibility = ({
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_address_visible == 1}
               isLoading={false}
             />
           </Grid>
@@ -198,11 +216,11 @@ const CompanyInfoVisibility = ({
               required
               id='company_industry_type'
               label={messages['job_posting.company_type']}
-              isLoading={false}
+              isLoading={isLoadingTrades}
               control={control}
-              options={[]}
+              options={associationTrades || []}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -228,7 +246,7 @@ const CompanyInfoVisibility = ({
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_business_visible == 1}
               isLoading={false}
             />
           </Grid>

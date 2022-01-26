@@ -12,6 +12,7 @@ type Props = {
   isLoading?: boolean;
   educationLevelOptions: Array<any>;
   examDegreeOptions: Array<any>;
+  defaultEduLevelIdTrack?: any;
   register: any;
   errors: any;
   control: any;
@@ -21,6 +22,7 @@ const CustomEducationalQualificationFieldArray = ({
   id,
   educationLevelOptions = [],
   examDegreeOptions = [],
+  defaultEduLevelIdTrack = {},
   isLoading,
   register,
   errors,
@@ -28,7 +30,9 @@ const CustomEducationalQualificationFieldArray = ({
 }: Props) => {
   const {messages} = useIntl();
 
-  const [eduLevelIdTrack, setEduLevelIdTrack] = useState<any>({});
+  const [eduLevelIdTrack, setEduLevelIdTrack] = useState<any>(
+    defaultEduLevelIdTrack,
+  );
 
   const {fields, append, remove} = useFieldArray({
     control,
