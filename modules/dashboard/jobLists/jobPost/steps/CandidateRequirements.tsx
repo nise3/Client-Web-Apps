@@ -249,7 +249,7 @@ const CandidateRequirements = ({
         data.skills = data.skills.map((skill: any) => skill.id);
       }
 
-      console.log('data', data);
+      //console.log('data', data);
       await saveCandidateRequirements(data);
 
       successStack('Data saved successfully');
