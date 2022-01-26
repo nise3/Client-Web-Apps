@@ -37,7 +37,7 @@ const ImportQuestionBank = ({...props}: IProps) => {
             />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={'sm'}
         handleSubmit={handleSubmit(onSubmit)}
         actions={
           <>
@@ -45,9 +45,23 @@ const ImportQuestionBank = ({...props}: IProps) => {
             <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
           </>
         }>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            Import Question
+        <Grid container spacing={5} sx={{textAlign: 'center'}}>
+          <Grid item xs={12}>
+            Guideline
+          </Grid>
+          <Grid item xs={12}>
+            <label htmlFor='import-question'>
+              <input
+                accept='fileSelect" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                id='import-question'
+                multiple
+                type='file'
+                // style={{display: 'none'}}
+              />
+              {/*<Button variant='contained' component='span'>*/}
+              {/*  Import*/}
+              {/*</Button>*/}
+            </label>
           </Grid>
         </Grid>
       </HookFormMuiModal>
