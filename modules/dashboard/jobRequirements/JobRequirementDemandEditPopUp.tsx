@@ -170,7 +170,11 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
   }, [itemData, institutes]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    if (data?.institute_ids.length > 0 && Array.isArray(data.institute_ids)) {
+    if (
+      data.instiute_ids &&
+      data?.institute_ids.length > 0 &&
+      Array.isArray(data.institute_ids)
+    ) {
       data.institute_ids = data?.institute_ids.map((institute: any) => {
         return institute.id;
       });

@@ -389,5 +389,11 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
 export const API_JOB_REQUIREMENTS =
   ORGANIZATION_SERVICE_PATH + '/job-requirements';
 
+export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand-rejected-by-industry-association';
+
+export const API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-industry-association';
+
 export const API_INSTITUTE_QUESTION_BANK =
   INSTITUTE_SERVICE_PATH + 'question-bank';

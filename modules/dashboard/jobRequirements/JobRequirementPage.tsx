@@ -20,7 +20,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import HumanResourceDemandEditPop from './JobRequirementDemandEditPop';
+import HumanResourceDemandEditPop from './JobRequirementDemandEditPopUp';
 import Link from 'next/link';
 import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
@@ -124,7 +124,7 @@ const JobRequirementPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = '/../../hr-demand/manage/__'.replace(
+          const URL = '/../../job-requirement/__'.replace(
             '__',
             String(data.id),
           );
