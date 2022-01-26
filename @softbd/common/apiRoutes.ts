@@ -236,7 +236,8 @@ export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
 export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list/';
-export const API_PUBLIC_ALL_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
+export const API_PUBLIC_ALL_COURSE_LIST =
+  TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_RECENT_COURSE_LIST =
   TSP_PUBLIC_SERVICE_PATH + '/course-list/recent';
 export const API_PUBLIC_TRAINING_CENTERS =
@@ -371,8 +372,11 @@ export const API_GET_EDUCATION_LEVELS =
 export const API_GET_EXAM_DEGREES =
   ORGANIZATION_SERVICE_PATH + '/suggestions/exam-degrees';
 
-export const API_JOB_REQUIREMENT =
+export const API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT =
   ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
+
+export const API_INSTITUTE_HUMAN_RESOURCE_DEMANDS =
+  ORGANIZATION_SERVICE_PATH + '/hr-demands';
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   ORGANIZATION_SERVICE_PATH + '/hr-demand';
@@ -382,8 +386,8 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
  */
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
-export const API_HUMAN_RESOURCE_DEMAND =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-hr-demands';
+export const API_JOB_REQUIREMENTS =
+  ORGANIZATION_SERVICE_PATH + '/job-requirements';
 
 export const API_INSTITUTE_QUESTION_BANK =
   INSTITUTE_SERVICE_PATH + 'question-bank';

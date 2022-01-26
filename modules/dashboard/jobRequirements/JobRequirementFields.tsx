@@ -14,11 +14,10 @@ interface CustomFieldProps {
   register: any;
   isLoadingInstitute: boolean;
   isLoadingSkill: boolean;
-  item: any;
   index: any;
 }
 
-const HrDemandAddField: FC<CustomFieldProps> = ({
+const JobRequirementFields: FC<CustomFieldProps> = ({
   errorInstance: errors,
   control,
   instituteOptions,
@@ -26,7 +25,6 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
   register,
   isLoadingInstitute,
   isLoadingSkill,
-  item,
   index,
   ...props
 }) => {
@@ -37,7 +35,7 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
       <Grid container item xs={12} spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomSelectAutoComplete
-            id={'hr_demand[' + index + '][institute_id]'}
+            id={'hr_demands[' + index + '][institute_id]'}
             label={messages['common.institute']}
             isLoading={isLoadingInstitute}
             options={instituteOptions}
@@ -47,9 +45,11 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
             errorInstance={errors}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
-            id={'hr_demand[' + index + '][end_date]'}
+            required
+            id={'hr_demands[' + index + '][end_date]'}
             label={messages['common.end_date']}
             register={register}
             errorInstance={errors}
@@ -57,7 +57,8 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            id={'hr_demand[' + index + '][skill_id]'}
+            required
+            id={'hr_demands[' + index + '][skill_id]'}
             label={messages['common.skills']}
             isLoading={isLoadingSkill}
             options={skillOptions}
@@ -69,7 +70,8 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id={'hr_demand[' + index + '][vacancy]'}
+            required
+            id={'hr_demands[' + index + '][vacancy]'}
             label={messages['common.vacancy']}
             register={register}
             errorInstance={errors}
@@ -77,7 +79,8 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id={'hr_demand[' + index + '][requirement]'}
+            required
+            id={'hr_demands[' + index + '][requirement]'}
             label={messages['common.requirements']}
             register={register}
             errorInstance={errors}
@@ -88,4 +91,4 @@ const HrDemandAddField: FC<CustomFieldProps> = ({
   );
 };
 
-export default HrDemandAddField;
+export default JobRequirementFields;
