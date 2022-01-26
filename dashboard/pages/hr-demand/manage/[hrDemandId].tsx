@@ -6,7 +6,7 @@ import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 const HumanResourceDemandManagePage = asyncComponent(
   () =>
     import(
-      '../../../../modules/dashboard/humanResourceDemand/HumanResourceDemandManagePage'
+      '../../../../modules/dashboard/jobRequirements/JobRequirementManagePage'
     ),
 );
 export default DashboardPage(() => {

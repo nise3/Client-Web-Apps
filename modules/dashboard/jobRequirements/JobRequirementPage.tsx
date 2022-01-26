@@ -10,17 +10,17 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
+import {API_JOB_REQUIREMENTS} from '../../../@softbd/common/apiRoutes';
 import RejectButton from '../applicationManagement/RejectButton';
-import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
+import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import HumanResourceDemandAddEditPop from './HumanResourceDemandAddEditPop';
+import HumanResourceDemandAddEditPop from './JobRequirementAddEditPop';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import HumanResourceDemandEditPop from './HumanResourceDemandEditPop';
+import HumanResourceDemandEditPop from './JobRequirementDemandEditPop';
 import Link from 'next/link';
 import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
@@ -32,7 +32,7 @@ const PrimaryLightButton = styled(Button)(({theme}) => {
   };
 });
 
-const HumanResourceDemandPage = () => {
+const JobRequirementPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -157,7 +157,7 @@ const HumanResourceDemandPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_HUMAN_RESOURCE_DEMAND,
+      urlPath: API_JOB_REQUIREMENTS,
     });
 
   return (
@@ -208,7 +208,7 @@ const HumanResourceDemandPage = () => {
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
-          <HumanResourceDemandDetailsPopup
+          <JobRequirementDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -220,4 +220,4 @@ const HumanResourceDemandPage = () => {
   );
 };
 
-export default HumanResourceDemandPage;
+export default JobRequirementPage;
