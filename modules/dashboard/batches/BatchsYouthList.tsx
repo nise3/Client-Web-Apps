@@ -10,7 +10,7 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 
 const YouthPage = () => {
@@ -73,7 +73,7 @@ const YouthPage = () => {
           let data = props.row.original;
           return (
             <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
-              <AssignBatchButton
+              <CommonButton
                 btnText='applicationManagement.viewCV'
                 startIcon={<FiUser style={{marginLeft: '5px'}} />}
                 style={{marginTop: '10px'}}

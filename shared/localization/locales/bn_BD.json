@@ -58,6 +58,7 @@
   "common.scheduled": "নির্ধারিত",
   "common.completed": "সম্পন্ন",
   "common.pending": "অনিষ্পন্ন",
+  "common.hire": "নিয়োগ করুন",
   "common.name": "নাম",
   "common.progress": "অগ্রগতি",
   "common.amount": "পরিমাণ",
@@ -1316,5 +1317,6 @@
   "common.topic_name": "প্রসঙ্গের নাম",
   "common.difficulty": "কঠিনতা",
   "common.marks": "নাম্বার",
-  "common.import": "ইমপোর্ট"
+  "common.hr_demand": "হিউম্যান রিসোর্স চাহিদা",
+  "job_requirement.industry_association_step": "শিল্প সমিতি পদক্ষেপ"
 }

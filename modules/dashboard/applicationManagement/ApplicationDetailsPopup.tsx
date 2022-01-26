@@ -8,7 +8,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
-import AssignBatchButton from './AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
@@ -126,7 +126,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <Link
               href={`${path}/youth-cv/${itemData?.youth_id}`}
               passHref={true}>
-              <AssignBatchButton
+              <CommonButton
                 btnText='applicationManagement.viewCV'
                 startIcon={<FiUser style={{marginLeft: '5px'}} />}
                 style={{marginTop: '10px'}}
