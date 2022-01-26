@@ -18,13 +18,10 @@ import {
   useFetchOrganizations,
   useFetchSkills,
 } from '../../../services/organaizationManagement/hooks';
-import HrDemandFields from './HrDemandFields';
+import JobRequirementFields from './JobRequirementFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDeman';
-import {
-  createHumanResourceDemand,
-  updateHumanResourceDemand,
-} from '../../../services/IndustryManagement/HrDemandService';
+import {createHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
 import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -45,7 +42,7 @@ const HumanResourceDemandAddEditPopup: FC<
   const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
   const isEdit = itemId != null;
   const {
@@ -178,18 +175,23 @@ const HumanResourceDemandAddEditPopup: FC<
     }
   }, [itemData]);
 
-  console.log('errors:', errors);
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    data.hr_demands = data.hr_demands.map((hrDemand: any) => {
+      let instituteIDs: any = [];
+      hrDemand.institute_id &&
+        hrDemand.institute_id.length > 0 &&
+        hrDemand.institute_id.forEach((institute: any) => {
+          instituteIDs.push(institute.id);
+        });
+      hrDemand.institute_ids = instituteIDs.length > 0 ? instituteIDs : null;
+      hrDemand.institute_id && delete hrDemand.institute_id;
+
+      return hrDemand;
+    });
+
     try {
-      if (itemId) {
-        await updateHumanResourceDemand(itemId, data);
-        updateSuccessMessage('job_requirement.label');
-        mutateHumanResourceDemand();
-      } else {
-        await createHumanResourceDemand(data);
-        createSuccessMessage('job_requirement.label');
-      }
+      await createHumanResourceDemand(data);
+      createSuccessMessage('job_requirement.label');
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
@@ -261,7 +263,7 @@ const HumanResourceDemandAddEditPopup: FC<
         {hrDemandFields.map((item, index) => {
           return (
             <React.Fragment key={index}>
-              <HrDemandFields
+              <JobRequirementFields
                 index={index}
                 control={control}
                 instituteOptions={institutes}
