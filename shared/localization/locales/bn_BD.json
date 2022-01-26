@@ -1307,6 +1307,7 @@
   "job_preview.experience_at_least": "অন্তত {from} বছর",
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
   "hr_demand.label": "হিউম্যান রিসোর্স চাহিদা",
+  "common.hr_demand": "Human Resource Demand",
   "industry_association.label": "শিল্প সমিতি",
   "common.manage": "ম্যানেজ",
   "common.question_bank": "প্রশ্ন ব্যাংক",
