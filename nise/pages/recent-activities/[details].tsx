@@ -8,7 +8,7 @@ import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
 export default NiseFrontPage(({data}: any) => {
   return (
     <>
-      <PageMeta title={data.title} />
+      <PageMeta title={data?.title} />
       <RecentActivitiesDetails data={data} />
     </>
   );
