@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H2, H6, Link} from '../../@softbd/elements/common';
-import {getShowInTypeByDomain} from '../../@softbd/utilities/helpers';
 import VerticalBar from './components/VerticalBar';
 
 let defaultImage =
@@ -45,13 +44,11 @@ const StyledContainer = styled(Container)(({theme}) => {
 });
 
 const RecentActivities = () => {
-  const [recentActivityFilter, setRecentActivityFilter] = useState<any>({});
+  const [recentActivityFilter] = useState<any>({});
   const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
   const {data: recentActivitiesData} =
     useFetchInstitutesRecentActivity(recentActivityFilter);
-
-  const showInType = getShowInTypeByDomain();
 
   useEffect(() => {
     let data = recentActivitiesData?.filter((item: any) => {
@@ -74,18 +71,6 @@ const RecentActivities = () => {
 
     setRecentActivitiesList(final);
   }, [recentActivitiesData]);
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      setRecentActivityFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
 
   const {messages} = useIntl();
 
