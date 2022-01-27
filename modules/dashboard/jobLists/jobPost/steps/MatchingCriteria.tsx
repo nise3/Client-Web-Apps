@@ -153,8 +153,7 @@ const MatchingCriteria = ({
       let criteria = {
         ageValue: getAge(),
         jobLocation: getLocation(),
-        totalExperience:
-          matchingCriteria?.candidate_requirement?.minimum_year_of_experience,
+        totalExperience: getExperienceText(),
         salary: getSalary(),
         gender: getGender(),
         businessAreaValue: getBusinessArea(),
@@ -177,7 +176,7 @@ const MatchingCriteria = ({
       });
       data.job_id = jobId;
 
-      console.log('data', data);
+      //console.log('data', data);
       await saveMatchingCriteria(data);
 
       successStack('Data saved successfully');
@@ -249,6 +248,26 @@ const MatchingCriteria = ({
     });
 
     return locationTextArr.join(', ');
+  };
+
+  const getExperienceText = () => {
+    let experienceText: any = '';
+    if (
+      matchingCriteria?.candidate_requirement?.maximum_year_of_experience ||
+      matchingCriteria?.candidate_requirement?.minimum_year_of_experience
+    ) {
+      if (matchingCriteria?.candidate_requirement?.maximum_year_of_experience)
+        experienceText =
+          matchingCriteria?.candidate_requirement?.maximum_year_of_experience;
+
+      if (matchingCriteria?.candidate_requirement?.minimum_year_of_experience) {
+        experienceText += experienceText ? ' - ' : '';
+        experienceText +=
+          matchingCriteria?.candidate_requirement?.minimum_year_of_experience;
+      }
+      experienceText += ' years';
+    }
+    return experienceText;
   };
 
   const getBusinessArea = () => {
