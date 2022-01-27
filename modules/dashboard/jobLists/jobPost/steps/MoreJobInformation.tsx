@@ -610,7 +610,9 @@ const MoreJobInformation = ({
               control={control}
               errorInstance={errors}
               multiSelect={false}
-              defaultValue={OtherBenefit.YES}
+              defaultValue={
+                hasOtherBenefits ? OtherBenefit.YES : OtherBenefit.NO
+              }
               onChange={(value: number) => {
                 setHasOtherBenefits(value == OtherBenefit.YES);
               }}
