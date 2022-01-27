@@ -390,6 +390,8 @@ export const API_HUMAN_RESOURCE_DEMAND =
   ORGANIZATION_SERVICE_PATH + '/hr-demands';
 export const API_JOB_REQUIREMENTS =
   ORGANIZATION_SERVICE_PATH + '/job-requirements';
+export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
 
 export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-rejected-by-industry-association';
