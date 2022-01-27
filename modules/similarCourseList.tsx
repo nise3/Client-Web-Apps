@@ -2,8 +2,10 @@ import CourseListHeaderSection from './youth/training/CourseListHeaderSection';
 import {Box, Container, Grid, Pagination, Stack} from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useFetchCourseDetails} from '../services/instituteManagement/hooks';
-import {useFetchCourseList} from '../services/youthManagement/hooks';
+import {
+  useFetchCourseDetails,
+  useFetchCourseList,
+} from '../services/instituteManagement/hooks';
 import {Link} from '../@softbd/elements/common';
 import {
   getShowInTypeByDomain,

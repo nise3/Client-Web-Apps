@@ -9,7 +9,6 @@ import {
   BLOCK_ID_HOW_NISE3_WORKS,
   CONTENT_ID_HOW_NISE3_WORKS,
 } from '../../@softbd/utilities/StaticContentConfigs';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
@@ -92,9 +91,7 @@ const Nise3WorkProcess = () => {
       try {
         const response = await getPublicStaticPageOrBlockByPageCode(
           BLOCK_ID_HOW_NISE3_WORKS,
-          {
-            show_in: ShowInTypes.NICE3,
-          },
+          {},
         );
 
         if (response && response.data) {

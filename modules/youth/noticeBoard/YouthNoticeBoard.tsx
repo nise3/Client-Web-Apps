@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -17,12 +17,7 @@ import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useFetchPublicNoticeOrNewses} from '../../../services/cmsManagement/hooks';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import {
-  getShowInTypeByDomain,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
-import {useVendor} from '../../../@crema/utility/AppHooks';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {H1} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import KeyCodes from '../../../@softbd/utilities/KeyCodes';
@@ -66,10 +61,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const YouthNoticeBoard = () => {
   const {messages} = useIntl();
-  const showInType = getShowInTypeByDomain();
   const searchFieldRef = useRef<any>();
   const page = useRef<any>(1);
-  const vendor = useVendor();
 
   const [noticeFilters, setNoticeFilters] = useState<any>({
     page: 1,
@@ -82,22 +75,6 @@ const YouthNoticeBoard = () => {
     isLoading: isNoticeLoading,
     metaData,
   } = useFetchPublicNoticeOrNewses(objectFilter(noticeFilters));
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
-
-      setNoticeFilters((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
 
   const onSearchClick = useCallback((e) => {
     if (e.keyCode && e.keyCode !== KeyCodes.ENTER) {

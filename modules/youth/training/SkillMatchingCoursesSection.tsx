@@ -3,7 +3,6 @@ import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
@@ -13,6 +12,7 @@ import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'SkillMatchingCoursesSection';
 

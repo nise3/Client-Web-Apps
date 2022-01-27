@@ -6,13 +6,13 @@ import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'CourseListSection';
 

@@ -3,12 +3,12 @@ import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
-import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
 import {H2, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
 import PageSizes from '../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 
 const PREFIX = 'PopularCourse';
 

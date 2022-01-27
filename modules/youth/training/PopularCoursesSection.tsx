@@ -3,7 +3,6 @@ import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
@@ -11,6 +10,7 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'PopularCoursesSection';
 

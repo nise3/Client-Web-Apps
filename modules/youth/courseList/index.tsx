@@ -3,11 +3,11 @@ import {Container, Grid} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {H1, Link} from '../../../@softbd/elements/common';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {styled} from '@mui/material/styles';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'CourseList';
 
