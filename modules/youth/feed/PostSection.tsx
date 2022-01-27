@@ -3,13 +3,13 @@ import {styled} from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
 import CourseInfoBlock from './components/CourseInfoBlock';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PostLoadingSkeleton from '../common/PostLoadingSkeleton';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {H1} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'PostSection';
 
