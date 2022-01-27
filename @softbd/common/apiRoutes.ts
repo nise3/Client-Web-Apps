@@ -117,7 +117,7 @@ export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
 export const API_PUBLIC_INSTITUTES =
-  INSTITUTE_SERVICE_PATH + '/public/institute-details';
+  INSTITUTE_SERVICE_PATH + '/public/institutes';
 export const API_INSTITUTE_PROFILE =
   INSTITUTE_SERVICE_PATH + '/institute-profile';
 
@@ -235,7 +235,7 @@ export const API_FRONT_END_RECENT_ACTIVITY_DETAIL =
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 
-export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list/';
+export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_ALL_COURSE_LIST =
   TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_RECENT_COURSE_LIST =

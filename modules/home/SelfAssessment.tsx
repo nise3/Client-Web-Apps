@@ -11,7 +11,6 @@ import {
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 
@@ -42,9 +41,7 @@ const SelfAssessment = () => {
       try {
         const response = await getPublicStaticPageOrBlockByPageCode(
           BLOCK_ID_SELF_ASSESSMENT,
-          {
-            show_in: ShowInTypes.NICE3,
-          },
+          {},
         );
 
         if (response && response.data) {

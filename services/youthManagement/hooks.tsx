@@ -1,12 +1,14 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_PUBLIC_COURSE_LIST,
+  API_LANGUAGES,
   API_PUBLIC_ALL_COURSE_LIST,
+  API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
+  API_YOUTH_ADDRESSES,
   API_YOUTH_CERTIFICATES,
+  API_YOUTH_COURSES,
   API_YOUTH_EDUCATION,
   API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
-  API_YOUTH_COURSES,
   API_YOUTH_FEED_STATISTICS,
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
@@ -16,9 +18,6 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
   API_YOUTH_SKILLS,
-  API_PUBLIC_PROGRAMS,
-  API_LANGUAGES,
-  API_YOUTH_ADDRESSES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchYouthSkills(params: any) {
@@ -116,15 +115,6 @@ export function useFetchLanguageProficiency(
       ? API_YOUTH_LANGUAGE_PROFICIENCIES + '/' + languageProficiencyId
       : null,
   );
-}
-
-export function useFetchCourseList(pathVariable: string, params: any) {
-  return useAxiosSWR([
-    pathVariable
-      ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
-      : API_PUBLIC_COURSE_LIST,
-    params,
-  ]);
 }
 
 export function useFetchAllCourseList(params: any) {

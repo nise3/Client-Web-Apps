@@ -3,12 +3,12 @@ import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
-import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {useIntl} from 'react-intl';
 import {Link} from '../../@softbd/elements/common';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import TrainingCard from './TrainingCard';
 import PageSizes from '../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 
 const PREFIX = 'TrainingSection';
 

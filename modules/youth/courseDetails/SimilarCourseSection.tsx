@@ -3,7 +3,6 @@ import {Button, Container, Grid} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import {useVendor} from '../../../@crema/utility/AppHooks';
@@ -11,6 +10,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 interface SimilarCourseSectionProps {
   courseId: number;
