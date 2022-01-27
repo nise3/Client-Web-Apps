@@ -2,18 +2,39 @@ import React, {FC} from 'react';
 import IconGallery from '../../../@softbd/icons/IconGallery';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import VacancyApproveButton from './VacancyApproveButton';
+import {useIntl} from 'react-intl';
+import {useFetchHrDemand} from '../../../services/instituteManagement/hooks';
+import {updateHrDemand} from '../../../services/instituteManagement/HrDemandService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+
 interface HumanResourceDemandMangePopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
+
 const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
   itemId,
   refreshDataTable,
   onClose,
 }) => {
+  const {messages} = useIntl();
+  const {updateSuccessMessage} = useSuccessMessage();
+  const {data: itemData} = useFetchHrDemand(itemId);
+  const onApproveClick = async () => {
+    try {
+      let submitData = {
+        vacancy_provided_by_institute: itemData?.vacancy,
+      };
+      await updateHrDemand(itemId, submitData);
+      updateSuccessMessage('hr_demand.label');
+      refreshDataTable();
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
   return (
     <HookFormMuiModal
       open={true}
@@ -31,7 +52,10 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       actions={
         <>
           <CancelButton onClick={onClose} />
-          <SubmitButton />
+          <VacancyApproveButton
+            label={messages['common.approve'] as string}
+            onClick={onApproveClick}
+          />
         </>
       }>
       <div>Manage</div>

@@ -282,6 +282,15 @@ const routesConfig: NavItemProps[] = [
             url: '/application-management',
           },
           {
+            id: 'hr_demand',
+            title: 'HR Demand',
+            messageId: 'hr_demand.label',
+            permissionKey: 'view_any_hr_demand',
+            type: 'item',
+            icon: 'person',
+            url: '/hr-demand',
+          },
+          {
             id: 'question-bank',
             title: 'question-bank',
             messageId: 'common.question_bank',
@@ -525,7 +534,7 @@ const routesConfig: NavItemProps[] = [
         type: 'collapse',
         icon: 'room',
         children: [
-          {
+          /*   {
             id: 'hr_demand_list',
             title: 'HR Demand',
             messageId: 'common.human_resource',
@@ -533,7 +542,7 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'person',
             url: '/hr-demand',
-          },
+          },*/
           {
             id: 'job_requirements',
             title: 'Job requirement',

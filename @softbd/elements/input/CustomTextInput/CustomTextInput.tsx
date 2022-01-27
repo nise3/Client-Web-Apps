@@ -15,6 +15,7 @@ type Props = {
   register?: any;
   errorInstance?: any;
   multiline?: boolean;
+  disabled?: boolean;
   rows?: number;
   type?: string;
   defaultValue?: string;
@@ -37,6 +38,7 @@ const CustomTextInput = ({
   type,
   defaultValue,
   inputProps,
+  disabled,
   helperText,
   ...rest
 }: Props) => {
@@ -77,6 +79,7 @@ const CustomTextInput = ({
           )
         }
         defaultValue={defaultValue}
+        disabled={disabled ? disabled : false}
         inputProps={{...inputProps, ...{required: false}}}
         {...register(id)}
         {...rest}

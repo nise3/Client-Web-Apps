@@ -15,6 +15,7 @@ import {
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_END_VIDEOS_LIST,
   API_GALLERY_ALBUMS,
+  API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
@@ -201,6 +202,12 @@ export function useFetchFAQ(faqId: number | null) {
 export function useFetchVisitorFeedback(visitorId: number | null) {
   return useAxiosSWR(
     visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
+  );
+}
+/**hr-demand**/
+export function useFetchHrDemand(hrDemandId: number | null) {
+  return useAxiosSWR(
+    hrDemandId ? API_HUMAN_RESOURCE_DEMAND + '/' + hrDemandId : null,
   );
 }
 
