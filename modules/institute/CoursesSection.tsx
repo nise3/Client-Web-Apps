@@ -58,6 +58,7 @@ const CoursesSection = () => {
 
   const {data: upcomingCourses, isLoading: isUpcomingCourse} =
     useFetchUpcomingCourseList(upcomingCoursesFilter);
+
   const {data: runningCourseList, isLoading: isLoadingCourseList} =
     useFetchCourseList('recent', runningCoursesFilter);
 
