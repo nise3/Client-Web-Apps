@@ -66,6 +66,15 @@ const JobRequirementManagePage = () => {
     }
   };
 
+  const canRejectApprove = useCallback((data: any) => {
+    return (
+      data?.vacancy_provided_by_institute > 0 &&
+      !data?.rejected_by_institute &&
+      data?.vacancy_approved_by_industry_association == 0 &&
+      data?.rejected_by_industry_association == 0
+    );
+  }, []);
+
   const columns = useMemo(
     () => [
       {
@@ -161,10 +170,7 @@ const JobRequirementManagePage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            data?.vacancy_provided_by_institute > 0 &&
-            !data?.rejected_by_institute &&
-            data?.vacancy_approved_by_industry_association == 0 &&
-            data?.rejected_by_industry_association == 0 && (
+            canRejectApprove(data) && (
               <DatatableButtonGroup>
                 <ApproveButton onClick={() => openApproveModal(data.id)} />
                 <RejectButton

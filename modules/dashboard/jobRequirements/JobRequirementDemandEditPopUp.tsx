@@ -107,8 +107,7 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
       institute_ids: yup
         .array()
         .of(yup.object())
-        .required()
-        .min(1)
+        .nullable()
         .label(messages['common.institute'] as string),
       skill_id: yup
         .string()
@@ -264,7 +263,6 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomSelectAutoComplete
-            required
             id={'institute_ids'}
             label={messages['common.institute']}
             isLoading={isLoadingInstitute}
