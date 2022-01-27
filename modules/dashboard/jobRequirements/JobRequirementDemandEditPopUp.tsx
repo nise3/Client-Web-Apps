@@ -104,9 +104,10 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
               })
               .label(messages['industry_association.label'] as string),
 
-      institute_id: yup
+      institute_ids: yup
         .array()
         .of(yup.object())
+        .required()
         .min(1)
         .label(messages['common.institute'] as string),
       skill_id: yup
@@ -145,10 +146,18 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
+      let instituteIDs: Array<any> = [];
+      itemData?.hr_demand_institutes.forEach((institute: any) => {
+        instituteIDs.push({
+          id: institute.institute_id,
+          title: institute.institute_title,
+        });
+      });
+
       let data = {
         organization_id: itemData?.organization_id,
         industry_association_id: itemData?.industry_association_id,
-        institute_ids: itemData?.institute_ids,
+        institute_ids: instituteIDs,
         skill_id: itemData?.skill_id,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
@@ -171,7 +180,7 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (
-      data.instiute_ids &&
+      data.institute_ids &&
       data?.institute_ids.length > 0 &&
       Array.isArray(data.institute_ids)
     ) {
@@ -255,6 +264,7 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomSelectAutoComplete
+            required
             id={'institute_ids'}
             label={messages['common.institute']}
             isLoading={isLoadingInstitute}
