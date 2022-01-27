@@ -5,7 +5,7 @@ import {
   useFetchHumanResourceDemand,
   useFetchInstituteHumanResourceDemands,
 } from '../../../services/IndustryManagement/hooks';
-import {Chip, Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import React, {useCallback, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -16,6 +16,7 @@ import {rejectHRDemand} from '../../../services/IndustryManagement/HrDemandServi
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import JobRequirementApproveByIndustryAssocPopUp from './ActionPages/JobRequirementApproveByIndustryAssocPopUp';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const JobRequirementManagePage = () => {
   const {messages} = useIntl();
@@ -57,7 +58,7 @@ const JobRequirementManagePage = () => {
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
-          id='common.subject_deleted_successfully'
+          id='common.subject_rejected'
           values={{subject: <IntlMessages id='hr_demand.label' />}}
         />,
       );
@@ -88,28 +89,24 @@ const JobRequirementManagePage = () => {
         accessor: 'rejected_by_institute',
         Cell: (props: any) => {
           let data = props.row.original;
-          let step = '';
+          let step: any = '';
           let btnColor: any = undefined;
 
           if (
             data?.rejected_by_institute == 0 &&
             data?.vacancy_provided_by_institute == 0
           ) {
-            step = 'Pending';
+            step = messages['common.pending'];
             btnColor = 'primary';
-          } else if (data?.vacancy_approved_by_industry_association) {
-            step = 'Rejected';
+          } else if (data?.rejected_by_institute) {
+            step = messages['common.rejected'];
             btnColor = 'error';
           } else {
-            step = 'Approved';
+            step = messages['common.approved'];
             btnColor = 'success';
           }
           return (
-            <Chip
-              variant={'filled'}
-              color={btnColor ?? 'default'}
-              label={step}
-            />
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
           );
         },
       },
@@ -118,28 +115,24 @@ const JobRequirementManagePage = () => {
         accessor: 'rejected_by_industry_association',
         Cell: (props: any) => {
           let data = props.row.original;
-          let step = '';
+          let step: any = '';
           let btnColor: any = undefined;
 
           if (
             data?.rejected_by_industry_association == 0 &&
             data?.vacancy_approved_by_industry_association == 0
           ) {
-            step = 'Pending';
+            step = messages['common.pending'];
             btnColor = 'primary';
           } else if (data?.rejected_by_industry_association) {
-            step = 'Rejected';
+            step = messages['common.rejected'];
             btnColor = 'error';
           } else {
-            step = 'Approved';
+            step = messages['common.approved'];
             btnColor = 'success';
           }
           return (
-            <Chip
-              variant={'filled'}
-              color={btnColor ?? 'default'}
-              label={step}
-            />
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
           );
         },
       },
@@ -168,13 +161,18 @@ const JobRequirementManagePage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <DatatableButtonGroup>
-              <ApproveButton onClick={() => openApproveModal(data.id)} />
-              <RejectButton
-                rejectAction={() => rejectJobRequirementDemand(data.id)}
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
-            </DatatableButtonGroup>
+            data?.vacancy_provided_by_institute > 0 &&
+            !data?.rejected_by_institute &&
+            data?.vacancy_approved_by_industry_association == 0 &&
+            data?.rejected_by_industry_association == 0 && (
+              <DatatableButtonGroup>
+                <ApproveButton onClick={() => openApproveModal(data.id)} />
+                <RejectButton
+                  rejectAction={() => rejectJobRequirementDemand(data.id)}
+                  rejectTitle={messages['common.delete_confirm'] as string}
+                />
+              </DatatableButtonGroup>
+            )
           );
         },
         sortable: false,

@@ -329,6 +329,8 @@
   "common.subject_created_successfully": "{subject} সফলভাবে তৈরি করা হয়েছে",
   "common.subject_updated_successfully": "{subject} সফলভাবে আপডেট হয়েছে",
   "common.subject_deleted_successfully": "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে",
+  "common.subject_rejected": "{subject} বাতিল করা হয়েছে",
+  "common.subject_approved": "{subject} অনুমোদন করা হয়েছে",
   "common.subject_sent_successfully": "{subject} সফলভাবে প্রেরিত হয়েছে",
   "common.root_cant_be_drag_and_drop": "দুঃখিত! রুট ড্রাগ ড্রপ করা সম্ভব নয়",
   "common.delete_confirm": "আপনি কি নিশ্চিত?",
