@@ -409,6 +409,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     data.sub_trades = subTradeIds;
 
     console.log('Data----', data);
+
     try {
       if (itemId) {
         await updateOrganization(itemId, data);
