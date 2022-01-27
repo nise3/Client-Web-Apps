@@ -104,6 +104,10 @@ export function useFetchJobPreview(jobId: string | null) {
   return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
 }
 
+export function useFetchJob(jobId: string | null) {
+  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
+}
+
 export function useFetchJobLocations() {
   return useAxiosSWR(API_GET_JOB_LOCATIONS);
 }
