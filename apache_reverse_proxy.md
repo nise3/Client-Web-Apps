@@ -148,8 +148,8 @@ mod_ssl
 		Allow from all
 	</Proxy>
 
-	ProxyPass / http://localhost:3003/
-	ProxyPassReverse / http://localhost:3003/
+	ProxyPass / http://localhost:3004/
+	ProxyPassReverse / http://localhost:3004/
 
 	Header set Access-Control-Allow-Origin "*"
 	#Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
