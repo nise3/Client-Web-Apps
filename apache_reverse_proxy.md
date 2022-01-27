@@ -148,6 +148,26 @@ mod_ssl
 		Allow from all
 	</Proxy>
 
+	ProxyPass / http://localhost:3003/
+	ProxyPassReverse / http://localhost:3003/
+
+	Header set Access-Control-Allow-Origin "*"
+	#Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
+
+</VirtualHost>
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName mcci.nise.asm
+
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+
 	ProxyPass / http://localhost:3004/
 	ProxyPassReverse / http://localhost:3004/
 
