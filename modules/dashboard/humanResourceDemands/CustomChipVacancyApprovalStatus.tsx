@@ -15,7 +15,7 @@ type Props = {
   label?: string | MessageFormatElement[];
 };
 
-const CustomChipPaymentStatusStatus = ({
+const CustomChipVacancyApprovalStatus = ({
   value,
   vacancy,
   isLoading,
@@ -53,4 +53,4 @@ const CustomChipPaymentStatusStatus = ({
   );
 };
 
-export default React.memo(CustomChipPaymentStatusStatus);
+export default React.memo(CustomChipVacancyApprovalStatus);

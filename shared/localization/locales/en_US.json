@@ -1141,6 +1141,7 @@
   "common.member_id": "Member Id",
   "common.approved": "Approved",
   "common.approve": "Approve",
+  "common.vacancy_provided_by_institute": "Vacancy provided by institute",
   "common.rejected": "Rejected",
   "common.reject": "Discard",
   "publication.label": "Publications",
