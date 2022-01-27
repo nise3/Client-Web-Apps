@@ -11,6 +11,8 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
 import {Button} from '@mui/material';
 import HumanResourceDemandMangePopup from './HumanResourceDemandMangePopup';
+import CustomChipVacancyApprovalStatus from './CustomChipVacancyApprovalStatus';
+
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -47,6 +49,24 @@ const HumanResourceDemandPage = () => {
         accessor: 'skill_title',
       },
       {
+        Header: messages['common.vacancy_approval_status'],
+        accessor: 'rejected_by_industry_association',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.rejected_by_industry_association == 1) {
+            return <CustomChipVacancyApprovalStatus value={0} />;
+          } else if (
+            data?.rejected_by_industry_association == 0 &&
+            data?.vacancy_approved_by_industry_association == 0
+          ) {
+            return <CustomChipVacancyApprovalStatus value={2} />;
+          } else {
+            return <CustomChipVacancyApprovalStatus value={1} />;
+          }
+        },
+      },
+
+      {
         Header: messages['common.vacancy'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -55,7 +75,7 @@ const HumanResourceDemandPage = () => {
               <CustomChip
                 icon={<PersonIcon fontSize={'small'} />}
                 color={'primary'}
-                label={data?.vacancy_provided_by_institute}
+                label={data?.vacancy}
               />
             </>
           );

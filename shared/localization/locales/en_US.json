@@ -1140,6 +1140,8 @@
   "common.job_type": "Job type",
   "common.member_id": "Member Id",
   "common.approved": "Approved",
+  "common.approve": "Approve",
+  "common.vacancy_provided_by_institute": "Vacancy provided by institute",
   "common.rejected": "Rejected",
   "common.reject": "Discard",
   "publication.label": "Publications",
@@ -1317,5 +1319,6 @@
   "common.topic_name": "Topic Name",
   "common.difficulty": "Difficulty",
   "common.marks": "Marks",
-  "common.import": "Imports"
+  "common.import": "Imports",
+  "common.vacancy_approval_status": "Vacancy approval Status"
 }
