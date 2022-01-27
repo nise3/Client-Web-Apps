@@ -3,11 +3,10 @@ import {useFetchHrDemandDetails} from '../../../services/IndustryManagement/hook
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IconList from '../../../@softbd/icons/IconList';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {Button, Grid} from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 type Props = {
   itemId: number;
@@ -17,8 +16,18 @@ type Props = {
 
 const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
+  const [instituteTitles, setInstituteTitles] = useState<Array<string>>([]);
 
   const {data: itemData, isLoading} = useFetchHrDemandDetails(itemId);
+
+  useEffect(() => {
+    let institutes: Array<any> = [];
+    itemData?.hr_demand_institutes.forEach((institute: any) => {
+      institutes.push(institute.institute_title);
+      institutes.push(' ');
+    });
+    setInstituteTitles(institutes);
+  }, []);
 
   return (
     <>
@@ -33,44 +42,28 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
         }
         maxWidth={'md'}
         actions={
-          <>
-            <Button
-              color={'primary'}
-              variant={'contained'}
-              startIcon={<DoneIcon />}
-              onClick={() => props.onApprove(itemData?.id)}>
-              {messages['common.accept']}
-            </Button>
-
-            <Button
-              variant={'contained'}
-              startIcon={<DeleteIcon />}
-              color={'secondary'}
-              onClick={props.onClose}>
-              {messages['common.reject']}
-            </Button>
-          </>
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
         }>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.industry_name']}
+              value={itemData?.organization_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.institute_name']}
-              value={itemData?.institute_name}
+              value={instituteTitles}
               isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.industry_name']}
-              value={itemData?.industry_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
               label={messages['common.skills']}
-              value={itemData?.skills}
+              value={itemData?.skill_title}
               isLoading={isLoading}
             />
           </Grid>
