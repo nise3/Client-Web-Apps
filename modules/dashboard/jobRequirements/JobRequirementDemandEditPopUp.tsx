@@ -19,7 +19,7 @@ import {
   useFetchSkills,
 } from '../../../services/organaizationManagement/hooks';
 import {Box} from '@mui/system';
-import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDeman';
+import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
 import {updateHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
 import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';

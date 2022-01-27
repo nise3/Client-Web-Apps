@@ -1143,6 +1143,7 @@
   "common.approved": "অনুমোদিত",
   "common.approve": "অনুমোদন",
   "common.rejected": "প্রত্যাখ্যাত",
+  "common.vacancy_provided_by_institute": "ইনস্টিটিউট দ্বারা প্রদত্ত শূন্যপদ",
   "common.reject": "প্রত্যাখ্যান",
   "publication.label": "প্রকাশনা সমূহ",
   "publication.author": "লেখক",
