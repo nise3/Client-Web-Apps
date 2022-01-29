@@ -3,7 +3,8 @@ import {AuthType} from '../../shared/constants/AppEnums';
 import {
   COOKIE_KEY_APP_ACCESS_TOKEN,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-  COOKIE_KEY_AUTH_ID_TOKEN, COOKIE_KEY_SSO_SESSION_STATE,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_SSO_SESSION_STATE,
 } from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
@@ -46,7 +47,7 @@ type TOnSSOSignInCallbackCode = string;
 export const onSSOSignInCallback = (
   code: TOnSSOSignInCallbackCode,
   redirected_from?: string,
-  session_state?:string
+  session_state?: string,
 ) => {
   return async (dispatch: Dispatch<AppActions>) => {
     const redirectUrl = new URL(getHostUrl() + '/callback');
@@ -84,11 +85,9 @@ export const onSSOSignInCallback = (
         new Date().getTime() + Number(tokenData.expires_in) * 1000,
       );
 
-      await setBrowserCookie(
-        COOKIE_KEY_SSO_SESSION_STATE,
-        session_state,
-        {expires: expireDate},
-      );
+      await setBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE, session_state, {
+        expires: expireDate,
+      });
 
       await setBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
@@ -203,6 +202,7 @@ type TAuthUserSSOResponse = {
   training_center_id?: number;
   branch_id?: number;
   industry_association_id?: number;
+  industry_association?: any;
 };
 
 type TYouthAuthUserSSOResponse = {
@@ -292,6 +292,7 @@ export const getCommonAuthUserObject = (
     training_center_id: authUser?.training_center_id,
     branch_id: authUser?.branch_id,
     industry_association_id: authUser?.industry_association_id,
+    industry_association: authUser?.industry_association,
   };
 };
 

@@ -108,7 +108,7 @@ export default function CustomSelectAutoComplete({
                 return getTitle(item, optionTitleProp);
               }}
               renderOption={(props, option, {selected}) => (
-                <li {...props}>
+                <li {...props} key={option[optionValueProp]}>
                   <Checkbox
                     icon={icon}
                     checkedIcon={checkedIcon}

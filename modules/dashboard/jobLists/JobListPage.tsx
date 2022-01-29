@@ -97,11 +97,7 @@ const JobListPage = () => {
       },
       {
         Header: messages['common.post'],
-        accessor: 'position',
-      },
-      {
-        Header: messages['common.industry'],
-        accessor: 'industry',
+        accessor: 'primary_job_information.job_title',
       },
       {
         Header: messages['common.applicants'],
@@ -113,7 +109,7 @@ const JobListPage = () => {
               <CustomChip
                 icon={<PersonIcon fontSize={'small'} />}
                 color={'primary'}
-                label={data.no_of_applicant}
+                label={data?.no_of_applicant}
               />
             </>
           );

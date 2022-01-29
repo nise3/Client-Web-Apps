@@ -93,12 +93,12 @@ const facilities = [
 ];
 
 const initialValue = {
-  job_level: [],
+  job_levels: [],
   job_context: '',
   job_context_en: '',
   job_responsibilities: '',
   job_responsibilities_en: '',
-  work_place: [],
+  work_places: [],
   job_place_type: 1,
   is_other_benefits: OtherBenefit.YES,
   salary_min: '',
@@ -111,6 +111,7 @@ const initialValue = {
   additional_salary_info: '',
   additional_salary_info_en: '',
   other_benefits: [],
+  lunch_facilities: '',
   others: '',
 };
 
@@ -136,7 +137,7 @@ const MoreJobInformation = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      job_level: yup
+      job_levels: yup
         .array()
         .of(yup.number())
         .min(1)
@@ -145,7 +146,7 @@ const MoreJobInformation = ({
         .string()
         .required()
         .label(messages['common.job_responsibility'] as string),
-      job_location: yup
+      job_locations: yup
         .array()
         .of(yup.object().shape({}))
         .min(1)
@@ -179,7 +180,7 @@ const MoreJobInformation = ({
           is: (value: any) => value == SalaryShowOption.SALARY,
           then: yup.string().trim().required(),
         }),
-      work_place: yup
+      work_places: yup
         .array()
         .of(yup.boolean())
         .min(1)
@@ -203,31 +204,46 @@ const MoreJobInformation = ({
       delete additionalInfo?.latest_step;
 
       if (latestStep >= 2) {
-        setIsReady(true);
-        reset({
-          job_level: additionalInfo?.job_level,
+        let data = {
+          job_levels: getJobLevelIds(additionalInfo?.job_levels),
           job_context: additionalInfo?.job_context,
           job_context_en: additionalInfo?.job_context_en,
           job_responsibilities: additionalInfo?.job_responsibilities,
           job_responsibilities_en: additionalInfo?.job_responsibilities_en,
-          job_location: additionalInfo?.job_location,
+          job_locations: getJobLocations(additionalInfo?.job_locations),
           job_place_type: additionalInfo?.job_place_type,
           is_other_benefits: additionalInfo?.is_other_benefits,
           salary_min: additionalInfo?.salary_min,
           salary_max: additionalInfo?.salary_max,
           is_salary_info_show: additionalInfo?.is_salary_info_show,
-          is_salary_compare_to_expected_salary:
-            additionalInfo?.is_salary_compare_to_expected_salary,
           is_salary_alert_excessive_than_given_salary_range:
             additionalInfo?.is_salary_alert_excessive_than_given_salary_range,
           salary_review: additionalInfo?.salary_review,
           festival_bonus: additionalInfo?.festival_bonus,
+          lunch_facilities: additionalInfo?.lunch_facilities,
           additional_salary_info: additionalInfo?.additional_salary_info,
           additional_salary_info_en: additionalInfo?.additional_salary_info_en,
           other_benefits: additionalInfo?.other_benefits,
           others: additionalInfo?.others,
+          others_en: additionalInfo?.others_en,
+          work_places: [false, false],
+        };
+        (additionalInfo?.work_places || []).map((workPlace: any) => {
+          if (workPlace.work_place_id == WorkPlaceTypes.HOME) {
+            data.work_places[0] = true;
+            setIsWorkFromHome(true);
+          } else if (workPlace.work_place_id == WorkPlaceTypes.OFFICE) {
+            data.work_places[1] = true;
+            setIsWorkAtOffice(true);
+          }
         });
 
+        setIsReady(true);
+        reset(data);
+
+        setIsCompareProvidedExpectedSalary(
+          additionalInfo?.is_salary_compare_to_expected_salary == 1,
+        );
         setHasOtherBenefits(
           additionalInfo?.is_other_benefits == OtherBenefit.YES,
         );
@@ -238,19 +254,35 @@ const MoreJobInformation = ({
     }
   }, [additionalInfo]);
 
+  const getJobLevelIds = (job_levels: any) => {
+    let ids: any = [];
+    (job_levels || []).map((level: any) => {
+      ids.push(level.job_level_id);
+    });
+    return ids;
+  };
+
+  const getJobLocations = (locations: any) => {
+    let ids: any = locations?.map((location: any) => location.location_id);
+
+    return (jobLocations || []).filter((location: any) =>
+      ids?.includes(location.location_id),
+    );
+  };
+
   console.log('errors: ', errors);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       data.job_id = jobId;
 
-      let workPlace = [...data.work_place];
-      data.work_place = [];
+      let workPlace = [...data.work_places];
+      data.work_places = [];
       if (workPlace[0]) {
-        data.work_place.push(WorkPlaceTypes.HOME);
+        data.work_places.push(WorkPlaceTypes.HOME);
       }
       if (workPlace[1]) {
-        data.work_place.push(WorkPlaceTypes.OFFICE);
+        data.work_places.push(WorkPlaceTypes.OFFICE);
       }
 
       data.is_salary_compare_to_expected_salary =
@@ -275,16 +307,18 @@ const MoreJobInformation = ({
         delete data.others_en;
       }
 
+      if (data.job_place_type != 1) {
+        data.job_place_type = 1;
+      }
+
       const locationIds: any = [];
-      data.job_location.map((location: any) => {
+      data.job_locations.map((location: any) => {
         locationIds.push(location.location_id);
       });
-      data.job_location = locationIds;
+      data.job_locations = locationIds;
 
-      console.log('data-->', data);
-
-      const response = await saveAdditionalJobInformation(data);
-      console.log('response : ', response);
+      //console.log('data-->', data);
+      await saveAdditionalJobInformation(data);
 
       successStack('Data saved successfully');
       onContinue();
@@ -305,7 +339,7 @@ const MoreJobInformation = ({
           <Grid item xs={12}>
             <CustomFormToggleButtonGroup
               required
-              id={'job_level'}
+              id={'job_levels'}
               label={messages['label.job_level']}
               buttons={[
                 {
@@ -380,7 +414,7 @@ const MoreJobInformation = ({
             </Body1>
             <Box display={'flex'}>
               <CustomCheckbox
-                id='work_place[0]'
+                id='work_places[0]'
                 label={messages['common.work_from_home']}
                 register={register}
                 errorInstance={errors}
@@ -391,7 +425,7 @@ const MoreJobInformation = ({
                 isLoading={false}
               />
               <CustomCheckbox
-                id='work_place[1]'
+                id='work_places[1]'
                 label={messages['common.work_at_office']}
                 register={register}
                 errorInstance={errors}
@@ -422,7 +456,7 @@ const MoreJobInformation = ({
             <div style={{marginTop: '15px'}} />
             <CustomSelectAutoComplete
               required
-              id='job_location'
+              id='job_locations'
               label={messages['common.job_location']}
               isLoading={isLoadingJobLocations}
               control={control}
@@ -576,7 +610,9 @@ const MoreJobInformation = ({
               control={control}
               errorInstance={errors}
               multiSelect={false}
-              defaultValue={OtherBenefit.YES}
+              defaultValue={
+                hasOtherBenefits ? OtherBenefit.YES : OtherBenefit.NO
+              }
               onChange={(value: number) => {
                 setHasOtherBenefits(value == OtherBenefit.YES);
               }}

@@ -38,12 +38,12 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchAssociationTrades} from '../../../services/organaizationManagement/hooks';
 import {INewIndustryAssociation} from '../../../shared/Interface/industryAssociationRegistration.interface';
 import {
   createIndustryAssociation,
   updateIndustryAssociation,
 } from '../../../services/IndustryManagement/IndustryAssociationService';
+import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface IndustryAssociationAddEditPopup {
   itemId: number | null;
@@ -55,7 +55,7 @@ const initialValues = {
   title_en: '',
   title: '',
   domain: '',
-  industry_association_trade_id: '',
+  trade_id: '',
   address: '',
   mobile: '',
   permission_sub_group_id: '',
@@ -118,7 +118,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
 
   const [associationTradeFilter] = useState({});
 
-  const {data: associationTrades} = useFetchAssociationTrades(
+  const {data: associationTrades} = useFetchIndustryAssociationTrades(
     associationTradeFilter,
   );
 
@@ -177,7 +177,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .label(
           messages['institute.name_of_the_office_head_designation'] as string,
         ),
-      industry_association_trade_id: yup
+      trade_id: yup
         .string()
         .trim()
         .required()
@@ -252,7 +252,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         domain: itemData?.domain,
-        industry_association_trade_id: itemData?.industry_association_trade_id,
+        trade_id: itemData?.trade_id,
         permission_sub_group_id: itemData?.permission_sub_group_id,
         mobile: itemData?.mobile,
         loc_division_id: itemData?.loc_division_id,
@@ -369,7 +369,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
             <Grid item xs={12}>
               <CustomFilterableFormSelect
                 required
-                id='industry_association_trade_id'
+                id='trade_id'
                 isLoading={isLoading}
                 label={messages['association.association_trades']}
                 control={control}

@@ -236,11 +236,8 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
         delete data.is_apply_online;
       }
 
-      console.log('data', data);
-
-      //do data save work here
-      const response = await savePrimaryJobInformation(data);
-      console.log('response : ', response);
+      //console.log('data', data);
+      await savePrimaryJobInformation(data);
 
       successStack('Data saved successfully');
       onContinue();
@@ -611,7 +608,9 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
               yesLabel={messages['common.yes'] as string}
               noLabel={messages['common.no'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={
+                primaryJobInfo?.is_photograph_enclose_with_resume == 1
+              }
               isLoading={false}
             />
           </Grid>
