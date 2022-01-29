@@ -39,6 +39,7 @@ export interface CommonAuthUser extends AuthUser {
   profile_pic?: string;
   name?: string;
   industry_association_id?: string | number | undefined;
+  industry_association?: any;
 }
 
 export interface YouthAuthUser extends AuthUser {
@@ -93,4 +94,5 @@ export interface YouthAuthUser extends AuthUser {
 }
 
 // @ts-ignore
-export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {}
+export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {
+}
