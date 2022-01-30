@@ -7,13 +7,11 @@ import {
   BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_INSTITUTE_DETAILS,
 } from '../../@softbd/utilities/StaticContentConfigs';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
@@ -103,17 +101,13 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const AboutSection = () => {
-  const vendor = useVendor();
   const {messages} = useIntl();
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
   });
 
-  const [staticPageParams] = useState<any>({
-    show_in: ShowInTypes.TSP,
-    institute_id: vendor?.id,
-  });
+  const [staticPageParams] = useState<any>({});
 
   const {data: blockData, isLoading} = useFetchStaticPageBlock(
     BLOCK_ID_INSTITUTE_DETAILS,

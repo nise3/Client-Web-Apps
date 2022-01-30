@@ -81,8 +81,7 @@ export const API_PUBLIC_JOB_SECTORS =
 
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
-export const API_ASSOCIATION_TRADES =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-trades';
+export const API_ASSOCIATION_TRADES = ORGANIZATION_SERVICE_PATH + '/trades';
 export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
 export const API_PUBLIC_ORGANIZATIONS =
   ORGANIZATION_SERVICE_PATH + '/public/organizations';

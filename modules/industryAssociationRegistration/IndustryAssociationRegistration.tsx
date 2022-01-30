@@ -73,7 +73,7 @@ const IndustryAssociationRegistration = () => {
         .email()
         .required()
         .label(messages['common.email'] as string),
-      industry_association_trade_id: yup
+      trade_id: yup
         .string()
         .trim()
         .required()
@@ -202,7 +202,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='industry_association_trade_id'
+                id='trade_id'
                 isLoading={isLoading}
                 label={messages['association.association_trades']}
                 control={control}
