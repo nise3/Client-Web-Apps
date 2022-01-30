@@ -311,6 +311,20 @@ export const courseDuration = (
   }
 };
 
+export const getCourseDuration = function (
+  duration: number,
+  formatFN: any,
+  messages: any,
+) {
+  duration = formatFN(duration);
+
+  if (duration > 1) {
+    return duration + ' ' + (messages['common.hours'] as string);
+  }
+
+  return duration + ' ' + (messages['common.hour'] as string);
+};
+
 export const objectFilter = (object: any) => {
   Object.keys(object).forEach((key) => {
     if (!object[key]) {

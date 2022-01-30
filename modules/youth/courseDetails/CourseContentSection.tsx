@@ -27,6 +27,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
 import {
   courseDuration,
+  getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
 
@@ -272,8 +273,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.overview']}
               </h2>
-
-              <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
+              {course?.overview ? (
+                <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
+              ) : (
+                messages['common.no_data_found']
+              )}
             </Box>
 
             <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
@@ -281,12 +285,14 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.lesson']}
               </h2>
               <Box style={{display: 'flex', alignItems: 'center'}}>
-                {course?.duration && (
+                {course?.duration ? (
                   <Typography>
-                    {courseDuration(messages, formatNumber, course?.duration)}
+                    {getCourseDuration(course.duration, formatNumber, messages)}
                   </Typography>
+                ) : (
+                  messages['common.no_data_found']
                 )}
-                {course?.enroll_count > 0 && (
+                {course?.enroll_count > 0 ? (
                   <Typography>
                     {course?.duration ? ', ' : ''}
                     <IntlMessages
@@ -296,6 +302,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                       }}
                     />{' '}
                   </Typography>
+                ) : (
+                  messages['common.no_data_found']
                 )}
               </Box>
 
@@ -328,7 +336,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 <h2 className={classes.sectionTitleStyle}>
                   {messages['course_details.assisment_method']}
                 </h2>
-                <Typography>{course?.evaluation_system}</Typography>
+                {course?.evaluation_system ? (
+                  <Typography>{course?.evaluation_system}</Typography>
+                ) : (
+                  messages['common.no_data_found']
+                )}
               </Box>
             </Box>
 
@@ -337,7 +349,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.requirements']}
               </h2>
               <Box>
-                <Typography>{course?.prerequisite}</Typography>
+                {course?.prerequisite ? (
+                  <Typography>{course?.prerequisite}</Typography>
+                ) : (
+                  messages['common.no_data_found']
+                )}
               </Box>
             </Box>
 
@@ -345,42 +361,44 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.trainer']}
               </h2>
-              {course?.trainers &&
-                course.trainers.map((trainer: any, index: number) => (
-                  <Box
-                    key={index}
-                    className={clsx(
-                      classes.dFlexAlignCenter,
-                      classes.trainerBox,
-                    )}>
-                    <Avatar
-                      sx={{height: 60, width: 60}}
-                      src={
-                        'http://lorempixel.com/80/80?id=1' +
-                        trainer?.trainer_name_en
-                      }
-                    />
-                    <Box className={classes.trainerNameAndAboutBox}>
-                      <Box fontWeight={'bold'}>
-                        {trainer?.trainer_name || trainer?.trainer_name_en}
+              {course?.trainers && course.trainers.length > 1
+                ? course.trainers.map((trainer: any, index: number) => (
+                    <Box
+                      key={index}
+                      className={clsx(
+                        classes.dFlexAlignCenter,
+                        classes.trainerBox,
+                      )}>
+                      <Avatar
+                        sx={{height: 60, width: 60}}
+                        src={
+                          'http://lorempixel.com/80/80?id=1' +
+                          trainer?.trainer_name_en
+                        }
+                      />
+                      <Box className={classes.trainerNameAndAboutBox}>
+                        <Box fontWeight={'bold'}>
+                          {trainer?.trainer_name || trainer?.trainer_name_en}
+                        </Box>
+                        <Typography variant={'caption'}>
+                          {trainer?.about}
+                        </Typography>
+                        <Link
+                          href={'#more-courses'}
+                          style={{textDecoration: 'none'}}>
+                          <IntlMessages
+                            id='course_details.view_more_courses_by'
+                            values={{
+                              subject:
+                                trainer?.trainer_name ||
+                                trainer?.trainer_name_en,
+                            }}
+                          />
+                        </Link>
                       </Box>
-                      <Typography variant={'caption'}>
-                        {trainer?.about}
-                      </Typography>
-                      <Link
-                        href={'#more-courses'}
-                        style={{textDecoration: 'none'}}>
-                        <IntlMessages
-                          id='course_details.view_more_courses_by'
-                          values={{
-                            subject:
-                              trainer?.trainer_name || trainer?.trainer_name_en,
-                          }}
-                        />
-                      </Link>
                     </Box>
-                  </Box>
-                ))}
+                  ))
+                : messages['common.no_data_found']}
             </Box>
           </Box>
         </Container>
