@@ -60,7 +60,7 @@ const NoticeOrNewsPage = () => {
           values={{subject: <IntlMessages id='common.notice_or_news' />}}
         />,
       );
-      await refreshDataTable();
+      refreshDataTable();
     }
   };
 

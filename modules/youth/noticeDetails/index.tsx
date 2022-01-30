@@ -18,6 +18,7 @@ import {useRouter} from 'next/router';
 import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {Skeleton} from '@mui/material';
+import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'NoticeDetails';
 
@@ -86,10 +87,12 @@ const NoticeDetails = () => {
                 />
               </Tooltip>
               <Tooltip title={messages['common.download_label']}>
-                <SystemUpdateAltOutlinedIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#2fc94d'}}
-                />
+                <Link target={'_blank'} href={notice?.file_path}>
+                  <SystemUpdateAltOutlinedIcon
+                    className={classes.icon}
+                    sx={{backgroundColor: '#2fc94d'}}
+                  />
+                </Link>
               </Tooltip>
             </Grid>
           </Grid>
