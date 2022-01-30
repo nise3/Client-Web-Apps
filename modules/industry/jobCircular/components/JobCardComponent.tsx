@@ -25,7 +25,6 @@ const classes = {
 
 const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.titleStyle}`]: {
-    color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
 
@@ -35,14 +34,8 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
 
   [`& .${classes.share}`]: {
-    backgroundColor: '#95979A !important',
-    borderRadius: '4px 0px 0px 4px !important',
-  },
-  [`& .${classes.shareTitle}`]: {
-    backgroundColor: '#C2C3C6 !important',
-    borderRadius: '0px 4px 4px 0px !important',
-    color: theme.palette.common.white,
-    marginLeft: '-1.5rem !important',
+    backgroundColor: theme.palette.info.dark,
+    color: theme.palette.info.dark,
   },
 }));
 
@@ -94,14 +87,10 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
                 label={`৳ ${job.remuneration} ${messages['common.taka']}`}
               />
             </Box>
-            <Box display={'flex'}>
+            <Box>
               <TagChip
                 icon={<Share sx={{color: 'white !important'}} />}
                 className={classes.share}
-              />
-              <TagChip
-                label={messages['common.share']}
-                className={classes.shareTitle}
               />
             </Box>
           </Box>

@@ -1331,5 +1331,6 @@
   "job_requirement.vacancy_provided_by_industry_association" : "শিল্প সমিতি প্রস্তাবিত  শূন্যপদ",
   "common.approved_vacancy" : "অনুমোদিত শূন্যপদ",
   "common.vacancy_approval" : "শূন্যপদ অনুমোদন",
-  "common.vacancy_approval_status": "Vacancy approval Status"
+  "common.vacancy_approval_status": "Vacancy approval Status",
+  "common.total_job_number": "{subject} টি চাকরি"
 }
