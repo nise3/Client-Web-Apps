@@ -22,6 +22,14 @@ const routesConfig: NavItemProps[] = [
     type: 'group',
     children: [
       {
+        id: 'dashboard',
+        title: 'Dashboard',
+        messageId: 'menu.dashboard',
+        type: 'item',
+        icon: 'dashboard',
+        url: '/',
+      },
+      {
         id: 'user_management',
         title: 'User Management',
         messageId: 'menu.user_management',
