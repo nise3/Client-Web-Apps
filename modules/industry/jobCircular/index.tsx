@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {
   Box,
   Button,
-  Chip,
   Container,
   Grid,
   IconButton,
@@ -13,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import {useIntl} from 'react-intl';
-import {H1, H2} from '../../../@softbd/elements/common';
+import {H6} from '../../../@softbd/elements/common';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
@@ -23,6 +22,9 @@ import JobCardComponent from './components/JobCardComponent';
 import clsx from 'clsx';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+// import WindowIcon from '@mui/icons-material/Window';
+// import {ListAlt} from '@mui/icons-material';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 let jobCircularList = [
   {
@@ -98,10 +100,12 @@ let jobCircularList = [
       ' this is the job description, ',
   },
 ];
+const totalJobCircular = 30;
 
 const PREFIX = 'JobCircular';
 
 const classes = {
+  titleStyle: `${PREFIX}-titleStyle`,
   gridMargin: `${PREFIX}-gridMargin`,
   filterBox: `${PREFIX}-filterBox`,
   chipStyle: `${PREFIX}-chipStyle`,
@@ -109,6 +113,11 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.titleStyle}`]: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+  },
+
   [`& .${classes.chipStyle}`]: {
     color: theme.palette.primary.light,
     padding: '3px 7px',
@@ -176,19 +185,6 @@ const JobCircular = () => {
 
   return (
     <>
-      <Grid container sx={{maxWidth: '100%'}}>
-        <Grid item xs={12} textAlign={'center'}>
-          <H1
-            py={3}
-            sx={{
-              ...result.h3,
-              fontWeight: 'bold',
-            }}>
-            {messages['industry.job_circular']}
-          </H1>
-        </Grid>
-      </Grid>
-
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12}>
@@ -258,14 +254,20 @@ const JobCircular = () => {
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <H2
-                  gutterBottom
-                  sx={{
-                    ...result.h6,
-                  }}>
-                  {messages['total_result.institute']}{' '}
-                  <Chip label={'১৫'} className={classes.chipStyle} />
-                </H2>
+                <Grid container justifyContent={'space-between'}>
+                  <Grid item>
+                    <H6 className={classes.titleStyle}>
+                      <IntlMessages
+                        id={'common.total_job_number'}
+                        values={{subject: totalJobCircular}}
+                      />
+                    </H6>
+                  </Grid>
+                  <Grid item>
+                    {/*<ListAlt />*/}
+                    {/*<WindowIcon />*/}
+                  </Grid>
+                </Grid>
               </Grid>
               {isLoadingJobCirculars ? (
                 <PostLoadingSkeleton />
