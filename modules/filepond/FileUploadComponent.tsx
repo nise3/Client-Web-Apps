@@ -2,6 +2,7 @@ import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {
   FormControl,
@@ -12,7 +13,11 @@ import {
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType,
+);
 
 interface FilepondComponentProps {
   id: string;
@@ -22,6 +27,7 @@ interface FilepondComponentProps {
   required: boolean;
   label: string | React.ReactNode;
   defaultFileUrl?: string | null;
+  acceptedFileTypes?: Array<string> | null;
 }
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
@@ -33,6 +39,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   register,
   required,
   label,
+  acceptedFileTypes,
   defaultFileUrl,
 }) => {
   let errorObj = errorInstance?.[id];
@@ -73,6 +80,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       <FormControl fullWidth>
         <FilePond
           files={files}
+          acceptedFileTypes={acceptedFileTypes ? acceptedFileTypes : []}
           onupdatefiles={setFiles}
           ref={filePondRef}
           allowMultiple={false}
