@@ -97,9 +97,13 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
                   {getIntlDateFromString(formatDate, notice.published_at)}
                 </Button>
               )}
-              <Button color={'primary'} variant={'contained'}>
-                {messages['common.download']}
-              </Button>
+              {notice?.file_path && (
+                <Button color={'primary'} variant={'contained'}>
+                  <Link target={'_blank'} href={notice?.file_path}>
+                    {messages['common.download']}
+                  </Link>
+                </Button>
+              )}
             </Box>
           </Grid>
         </Grid>

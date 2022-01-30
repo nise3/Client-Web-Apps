@@ -416,7 +416,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       } else {
         await createNoticeOrNews(data);
         createSuccessMessage('common.notice_or_news');
-        mutateNoticeOrNews();
       }
       props.onClose();
       refreshDataTable();
@@ -548,6 +547,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['application/pdf']}
             label={messages['common.file_path']}
             required={false}
           />
@@ -560,6 +560,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.main_image_path']}
             required={true}
           />
@@ -571,6 +572,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.grid_image_path']}
             required={false}
           />
@@ -582,6 +584,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.thumb_image_path']}
             required={false}
           />
