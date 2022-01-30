@@ -65,8 +65,8 @@ const BasicInfo = () => {
         <Box className={classes.topCover} />
         <Box className={classes.container}>
           <Avatar
-            alt={'sakibul'}
-            src={'/images/userPageImages/profileImage.jpeg'}
+            alt={'youth profile pic'}
+            src={authUser?.photo}
             className={classes.userImage}
           />
           <H2 className={classes.userName}>
