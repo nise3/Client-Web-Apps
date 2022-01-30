@@ -10,7 +10,7 @@ import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import yup from '../../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
-import IconHumanResourceDemand from '../../../../@softbd/icons/HumanResourceDeman';
+import IconHumanResourceDemand from '../../../../@softbd/icons/HumanResourceDemand';
 import {approveJobRequirement} from '../../../../services/IndustryManagement/HrDemandService';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 
