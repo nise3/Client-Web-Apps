@@ -1,9 +1,9 @@
 import React, {ForwardedRef} from 'react';
 import {Editor as TinymceEditor} from '@tinymce/tinymce-react';
 import {
+  FormControl,
   FormHelperText,
   InputLabel,
-  FormControl,
   TextField,
 } from '@mui/material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -60,13 +60,38 @@ const TextEditor = React.forwardRef(
       errorObj = errorInstance?.[matches[1]]?.[matches[2]];
     }
 
+    const onActivateUI = () => {
+      // @ts-ignore
+      const tinyMCE = window.tinyMCE;
+
+      if (tinyMCE) {
+        tinyMCE.activeEditor.windowManager.open = (
+          (open: any) =>
+          (...args: any) => {
+            let op = open(...args);
+            let dialog =
+              document.getElementsByClassName('tox-tinymce-aux')?.[0];
+            let target = document.getElementsByClassName(
+              'MuiDialog-container',
+            )?.[0];
+
+            if (target && dialog) {
+              target.appendChild(dialog);
+            }
+            return op;
+          }
+        )(tinyMCE.activeEditor.windowManager.open);
+      }
+    };
+
     let toolbar =
-      'undo redo formatselect bold italic underline | alignleft aligncenter alignright alignjustify';
+      'undo redo formatselect bold italic underline | alignleft aligncenter alignright alignjustify | image media template link';
     return (
       <>
         <InputLabel required={required}>{label}</InputLabel>
         <FormControl fullWidth>
           <TinymceEditor
+            onInit={onActivateUI}
             id={id}
             onEditorChange={debounce((content: string, editor: any) => {
               const key = matches ? matches[1] + '.' + matches[2] : id;
@@ -92,7 +117,7 @@ const TextEditor = React.forwardRef(
               // images_upload_handler: tinyMceEditorImageUploader,
               fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
               plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
+                'advlist autolink lists link image charmap print preview anchor template linkchecker ',
                 'searchreplace visualblocks code image fullscreen',
                 'insertdatetime media table paste code help wordcount',
               ],
@@ -103,6 +128,22 @@ const TextEditor = React.forwardRef(
                 editor.on('focus', function () {});
                 editor.on('blur', function () {});
               },
+              templates: [
+                {
+                  title: 'Two column table',
+                  description: 'Creates a new table',
+                  content:
+                    '<div class="editor-template-table">' +
+                    '<table width="100%"  border="0">' +
+                    '<tr><td colspan="6"> </td><td colspan="6"> </td></tr>' +
+                    '</table>' +
+                    '</div>',
+                },
+              ],
+              template_cdate_format:
+                '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+              template_mdate_format:
+                '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
             }}
           />
           <TextField

@@ -1306,7 +1306,7 @@
   "common.click_here": "Click here",
   "job_preview.company_information": "Company Information",
   "job_preview.send_your_cv": "Send your CV to {email} ",
-  "job_preview.or_from_nise3_account": "or to Email CV from {nise3} account ",
+  "job_preview.or_from_nise_account": "or to Email CV from {nise} account ",
   "job_preview.experience_from_to": "{from} to {to} year(s)",
   "job_preview.experience_at_least": "At least {from} year(s)",
   "job_preview.experience_at_most": "At most {to} year(s)",

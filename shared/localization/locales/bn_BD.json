@@ -1310,7 +1310,7 @@
   "common.click_here": "এখানে ক্লিক করুন",
   "job_preview.company_information": "কোম্পানির তথ্য",
   "job_preview.send_your_cv": "{email} এ আপনার সিভি পাঠান ",
-  "job_preview.or_from_nise3_account": "অথবা {nise3} অ্যাকাউন্ট থেকে সিভি ইমেল করতে ",
+  "job_preview.or_from_nise_account": "অথবা {nise} অ্যাকাউন্ট থেকে সিভি ইমেল করতে ",
   "job_preview.experience_from_to": "{from} থেকে {to} বছর",
   "job_preview.experience_at_least": "অন্তত {from} বছর",
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",

@@ -9,7 +9,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_JOBS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -17,10 +16,11 @@ import {
   deleteJob,
   getJobId,
 } from '../../../services/IndustryManagement/JobService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import PersonIcon from '@mui/icons-material/Person';
 import {useRouter} from 'next/router';
 import {
   LINK_JOB_CREATE_OR_UPDATE,
@@ -97,31 +97,20 @@ const JobListPage = () => {
       },
       {
         Header: messages['common.post'],
-        accessor: 'primary_job_information.job_title',
+        accessor: 'job_title',
       },
       {
-        Header: messages['common.applicants'],
-        accessor: 'applicants',
+        Header: messages['common.publish_at'],
+        accessor: 'published_at',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
             <>
-              <CustomChip
-                icon={<PersonIcon fontSize={'small'} />}
-                color={'primary'}
-                label={data?.no_of_applicant}
-              />
+              {data.published_at
+                ? getMomentDateFormat(data.published_at, 'MM-DD-YYYY')
+                : 'Not published yet'}
             </>
           );
-        },
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
       {
