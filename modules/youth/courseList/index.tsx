@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Box, Container, Grid, Stack} from '@mui/material';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Container, Grid, Pagination, Stack} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -26,32 +28,27 @@ export const StyledContainer = styled(Container)(({theme}) => ({
     fontWeight: 'bold',
     color: theme.palette.primary.main,
   },
-  [`& .${classes.paginationBox}`]: {
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'center',
-  },
 }));
 
 const CourseList = () => {
   const {messages} = useIntl();
   const router = useRouter();
 
-  const page = useRef<any>(1);
-
   let {courseCategory} = router.query;
   courseCategory = String(courseCategory)?.trim();
   const authUser = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters, setCourseFilters] = useState({
-    page: 1,
-  });
+  const [courseFilters, setCourseFilters] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(1);
   const {data: courseList, metaData} = useFetchCourseList(
     courseCategory,
     courseFilters,
   );
 
   useEffect(() => {
+    setCourseFilters({page: currentPage, page_size: pageSize});
+    if (courseCategory == 'nearby')
     if (authUser?.isYouthUser) {
       setCourseFilters((prevState) => {
         return {...prevState, loc_district_id: authUser?.loc_district_id};
@@ -73,6 +70,14 @@ const CourseList = () => {
         return 'common.recent_courses';
     }
   };
+
+  const handlePaginationPageChange = useCallback(
+    (event: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+      setCourseFilters({page: page, page_size: pageSize});
+    },
+    [],
+  );
 
   const filterPopularCoursesList = useCallback(
     (filterKey: string, filterValue: any) => {
