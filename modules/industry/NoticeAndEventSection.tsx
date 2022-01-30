@@ -20,7 +20,7 @@ import {
   ICalendar,
   ICalendarQuery,
 } from '../../shared/Interface/common.interface';
-import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
@@ -105,7 +105,7 @@ const NoticeAndEventSection = () => {
     moment(Date.now()).format(dateFormat),
   );
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {}, [currentDate]);
 

@@ -11,7 +11,6 @@ import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import BoxCardsSkeleton from './Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 
@@ -51,11 +50,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const GallerySection = () => {
   const {messages} = useIntl();
   const pageSize = 10;
-  const vendor = useVendor();
   const [galleryFilter] = useState<any>({
     only_parent_gallery_album: 1,
     page_size: pageSize,
-    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
   });
 

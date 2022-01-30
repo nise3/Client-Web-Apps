@@ -481,7 +481,7 @@ export const getCurrentDomain = () => {
     } else if (origin?.includes(youthDomain())) {
       return ' youth.nise.gov.bd';
     } else if (origin?.includes(industryDomain())) {
-      return ' youth.nise.gov.bd';
+      return 'mcci.nise.gov.bd';
     } else if (origin?.includes(instituteDomain())) {
       return 'dyd.nise.gov.bd';
     }
