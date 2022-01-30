@@ -29,6 +29,9 @@ mod_ssl
 
 127.0.0.1	smef.nise.asm
 ::1	smef.nise.asm
+
+127.0.0.1	nascib.nise.asm
+::1	nascib.nise.asm
 ```
 
 ### After that add the following entries in your apache virtual host file:
