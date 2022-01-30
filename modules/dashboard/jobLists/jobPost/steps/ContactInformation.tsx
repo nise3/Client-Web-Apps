@@ -117,7 +117,7 @@ const ContactInformation = ({
               <InfoOutlined sx={{paddingRight: '5px'}} />
               <Typography variant='body1'>
                 If it's required to contact for any kind of query about this
-                particular circular, then Nise3 team will contact with the
+                particular circular, then Nise team will contact with the
                 following person.
               </Typography>
             </Box>
