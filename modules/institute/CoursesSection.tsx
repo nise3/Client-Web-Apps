@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
+import {Box, Container, Grid, Skeleton, Tab, Tabs} from '@mui/material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {
   useFetchCourseList,
@@ -9,7 +9,6 @@ import {useIntl} from 'react-intl';
 import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CourseTypes from '../../@softbd/utilities/CourseTypes';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 
 interface TabPanelProps {
@@ -42,18 +41,15 @@ const indexProps = (index: number) => {
 
 const CoursesSection = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const [upcomingCoursesFilter, setUpcomingCoursesFilter] = useState<any>({
     page_size: PageSizes.TEN,
     availability: CourseTypes.UPCOMING,
-    institute_id: vendor?.id,
   });
 
   const [runningCoursesFilter, setRunningCoursesFilter] = useState<any>({
     page_size: PageSizes.TEN,
     availability: CourseTypes.RUNNING,
-    institute_id: vendor?.id,
   });
 
   const {data: upcomingCourses, isLoading: isUpcomingCourse} =

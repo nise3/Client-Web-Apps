@@ -4,11 +4,10 @@ import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
 import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {styled} from '@mui/material/styles';
 import {H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -35,11 +34,9 @@ const NearbyTrainingCenterSection = ({
   showInType,
 }: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
-  const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
 
   const [nearbyTrainingCenterFilters] = useState<any>({
-    institute_id: showInType == ShowInTypes.TSP ? vendor?.id : null,
     district_id: authUser?.loc_district_id,
     upazila_id: authUser?.loc_upazila_id,
     page_size: PageSizes.FOUR,

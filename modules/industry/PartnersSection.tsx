@@ -51,9 +51,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const PartnersSection = () => {
   const {messages} = useIntl();
 
-  const [industryAssocMemberFilter] = useState<any>({
-    industry_association_id: 2,
-  });
+  const [industryAssocMemberFilter] = useState<any>({});
 
   //Todo: industry_association_id is static now. Have to update after domain base implementation
   const {data: members} = useFetchIndustryMembers(industryAssocMemberFilter);

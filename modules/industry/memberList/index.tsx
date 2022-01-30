@@ -74,7 +74,6 @@ const MemberListPage = () => {
 
   //Todo: industry_association_id is static now. Have to update after implement domain base implementation is done
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
-    industry_association_id: 2,
     page: 1,
     page_size: PageSizes.EIGHT,
   });

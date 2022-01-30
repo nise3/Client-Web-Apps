@@ -21,7 +21,6 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
 
@@ -65,7 +64,6 @@ interface CourseListHeaderSection {
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {messages} = useIntl();
   const showInType = getShowInTypeByDomain();
-  const vendor = useVendor();
   const [instituteFilters] = useState({});
   const {data: institutes} = useFetchInstitutes(instituteFilters);
   const [selectedInstituteId, setSelectedInstituteId] = useState<any>('');
@@ -121,9 +119,6 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
         show_in: showInType,
       };
 
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
       setProgrammeFilters((prev: any) => {
         return {...prev, ...params};
       });
@@ -184,7 +179,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   }, []);
 
   const onClickResetButton = useCallback(() => {
-    if (!vendor?.id) {
+    if (showInType !== ShowInTypes.TSP) {
       setSelectedInstituteId('');
       addFilterKey('institute_id', 0);
     }
