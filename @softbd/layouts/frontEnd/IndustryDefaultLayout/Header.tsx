@@ -117,7 +117,11 @@ const Header: React.FC<AppHeaderProps> = () => {
             className={classes.headerHalfLogo}>
             <LogoCustomizable
               instituteName='Industry'
-              instituteLogo='/images/logo-industry.svg'
+              instituteLogo='/images/mcci-logo.png'
+            />
+            <LogoCustomizable
+              instituteName='Industry'
+              instituteLogo='/images/gov-logo.png'
             />
           </Link>
         </Container>
