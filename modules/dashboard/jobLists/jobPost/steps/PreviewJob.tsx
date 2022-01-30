@@ -650,7 +650,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           </JobPreviewSubComponent>
 
           <JobPreviewSubComponent title={messages['job_posting.job_source']}>
-            Nise3 Online Job Posting.
+            Nise Online Job Posting.
           </JobPreviewSubComponent>
           {jobData?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
@@ -808,9 +808,9 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
                   1 && (
                   <React.Fragment>
                     <IntlMessages
-                      id={'job_preview.or_from_nise3_account'}
+                      id={'job_preview.or_from_nise_account'}
                       values={{
-                        nise3: <span style={{fontWeight: 'bold'}}>NISE3</span>,
+                        nise: <span style={{fontWeight: 'bold'}}>NISE</span>,
                       }}
                     />
                     <Link

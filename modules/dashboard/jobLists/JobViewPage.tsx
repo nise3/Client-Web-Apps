@@ -581,7 +581,7 @@ const JobViewPage = () => {
           </JobPreviewSubComponent>
 
           <JobPreviewSubComponent title={messages['job_posting.job_source']}>
-            Nise3 Online Job Posting.
+            Nise Online Job Posting.
           </JobPreviewSubComponent>
           {jobData?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
