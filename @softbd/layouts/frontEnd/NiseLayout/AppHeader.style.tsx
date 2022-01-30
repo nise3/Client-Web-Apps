@@ -92,6 +92,11 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     '& img': {
       marginRight: '5px',
     },
+    '&:hover': {
+      color: theme.palette.primary.main,
+      // transform: 'translateY(-3px)',
+      fontWeight: 'bold',
+    },
   },
 
   [`& .${classes.menuItemMobile}`]: {
