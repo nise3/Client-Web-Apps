@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Container, Grid} from '@mui/material';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Container, Grid, Pagination, Stack} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -32,9 +32,15 @@ const CourseList = () => {
   const authYouth = useAuthUser<YouthAuthUser>();
 
   const [courseFilters, setCourseFilters] = useState({});
-  const {data: courseList} = useFetchCourseList(courseCategory, courseFilters);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(1);
+  const {data: courseList, metaData} = useFetchCourseList(
+    courseCategory,
+    courseFilters,
+  );
 
   useEffect(() => {
+    setCourseFilters({page: currentPage, page_size: pageSize});
     if (courseCategory == 'nearby')
       setCourseFilters((prevState) => {
         return {...prevState, loc_district_id: authYouth?.loc_district_id};
@@ -55,6 +61,14 @@ const CourseList = () => {
         return 'common.recent_courses';
     }
   };
+
+  const handlePaginationPageChange = useCallback(
+    (event: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+      setCourseFilters({page: page, page_size: pageSize});
+    },
+    [],
+  );
 
   return (
     <StyledContainer>
@@ -86,6 +100,30 @@ const CourseList = () => {
               </Grid>
             );
           })}
+        {metaData ? (
+          <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
+            <Stack spacing={2}>
+              <Pagination
+                page={currentPage}
+                count={metaData?.total_page}
+                color={'primary'}
+                shape='rounded'
+                onChange={handlePaginationPageChange}
+              />
+            </Stack>
+          </Grid>
+        ) : (
+          <Grid item md={12} mt={4} display={'flex'} justifyContent={'center'}>
+            <Stack spacing={2}>
+              <Pagination
+                page={1}
+                count={1}
+                color={'primary'}
+                shape='rounded'
+              />
+            </Stack>
+          </Grid>
+        )}
       </Grid>
     </StyledContainer>
   );
