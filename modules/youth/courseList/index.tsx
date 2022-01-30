@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Box, Container, Grid, Stack} from '@mui/material';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Container, Grid, Pagination, Stack} from '@mui/material';
+import {Box, Container, Grid, Pagination, Stack} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -13,7 +11,6 @@ import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 import CourseListHeaderSection from '../training/CourseListHeaderSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
-import {Pagination} from '@mui/lab';
 
 const PREFIX = 'CourseList';
 
@@ -27,6 +24,11 @@ export const StyledContainer = styled(Container)(({theme}) => ({
     fontSize: '1.75rem',
     fontWeight: 'bold',
     color: theme.palette.primary.main,
+  },
+  [`& .${classes.paginationBox}`]: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
@@ -49,11 +51,11 @@ const CourseList = () => {
   useEffect(() => {
     setCourseFilters({page: currentPage, page_size: pageSize});
     if (courseCategory == 'nearby')
-    if (authUser?.isYouthUser) {
-      setCourseFilters((prevState) => {
-        return {...prevState, loc_district_id: authUser?.loc_district_id};
-      });
-    }
+      if (authUser?.isYouthUser) {
+        setCourseFilters((prevState) => {
+          return {...prevState, loc_district_id: authUser?.loc_district_id};
+        });
+      }
   }, [authUser]);
 
   const getMessageId = (category: any) => {
@@ -91,13 +93,6 @@ const CourseList = () => {
     [],
   );
 
-  const onPaginationChange = useCallback((event: any, currentPage: number) => {
-    page.current = currentPage;
-    setCourseFilters((params: any) => {
-      return {...params, ...{page: currentPage}};
-    });
-  }, []);
-
   return (
     <>
       <CourseListHeaderSection addFilterKey={filterPopularCoursesList} />
@@ -132,11 +127,11 @@ const CourseList = () => {
           <Box className={classes.paginationBox}>
             <Stack spacing={2}>
               <Pagination
-                page={page.current}
+                page={currentPage}
                 count={metaData.total_page}
                 color={'primary'}
                 shape='rounded'
-                onChange={onPaginationChange}
+                onChange={handlePaginationPageChange}
               />
             </Stack>
           </Box>
