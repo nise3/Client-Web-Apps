@@ -4,7 +4,7 @@ import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import {
-  courseDuration,
+  getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
 import {H1, Link} from '../../../@softbd/elements/common';
@@ -67,7 +67,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           </H1>
           {course?.duration && (
             <TagChip
-              label={courseDuration(messages, formatNumber, course.duration)}
+              label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
           {course?.lessons && (
@@ -113,7 +113,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 </Link>
               ) : (
                 <CustomChip
-                  label={messages['common.not_available']}
+                  label={messages['common.not_enrollable']}
                   color={'primary'}
                 />
               )
