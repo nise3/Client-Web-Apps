@@ -1322,5 +1322,7 @@
   "common.difficulty": "Difficulty",
   "common.marks": "Marks",
   "common.import": "Imports",
-  "common.vacancy_approval_status": "Vacancy approval Status"
+  "common.vacancy_approval_status": "Vacancy approval Status",
+  "common.hour" : "Hour",
+  "common.hours" : "Hours"
 }
