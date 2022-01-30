@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
@@ -6,10 +6,9 @@ import PopularCoursesSection from './PopularCoursesSection';
 import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 const PREFIX = 'TrainingPage';
 
@@ -26,19 +25,10 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 }));
 
 const CourseListPage = () => {
-  const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
   const showInType = getShowInTypeByDomain();
 
   const [filters, setFilters] = useState<any>({});
-
-  useEffect(() => {
-    if (showInType && showInType == ShowInTypes.TSP) {
-      setFilters((prev: any) => {
-        return {...prev, ...{institute_id: vendor?.id}};
-      });
-    }
-  }, [showInType]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: number | null) => {
