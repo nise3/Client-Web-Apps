@@ -40,7 +40,7 @@ const CourseListPage = () => {
   }, [showInType]);
 
   const filterCoursesListTrainingList = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
 

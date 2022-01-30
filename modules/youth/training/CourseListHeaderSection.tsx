@@ -58,7 +58,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
 }));
 
 interface CourseListHeaderSection {
-  addFilterKey: (filterKey: string, filterValue: number | null) => void;
+  addFilterKey: (filterKey: string, filterValue: any) => void;
 }
 
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
@@ -184,6 +184,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
       addFilterKey('institute_id', 0);
     }
 
+    searchTextField.current.value = '';
+    addFilterKey('search_text', '');
+
     setSelectedProgrammeId('');
     addFilterKey('program_id', 0);
     setSelectedCourseTypeId('');
@@ -232,7 +235,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     className={classes.thinSearchButton}
                     onClick={useCallback(() => {
                       addFilterKey(
-                        'course_name',
+                        'search_text',
                         searchTextField.current.value,
                       );
                     }, [])}>
@@ -242,6 +245,21 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
               </Grid>
             </Card>
           </Grid>
+          <Grid item xs={12} md={2} display={'flex'} alignItems={'flex-end'}>
+            <Button
+              fullWidth
+              variant={'contained'}
+              color={'secondary'}
+              size={'small'}
+              sx={{
+                height: '48px',
+                marginBottom: '6px',
+              }}
+              onClick={onClickResetButton}>
+              {messages['common.reset']}
+            </Button>
+          </Grid>
+
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
               {showInType != ShowInTypes.TSP && (
@@ -318,16 +336,6 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                 />
-              </Grid>
-              <Grid item xs={6} sm={4} md={2}>
-                <Button
-                  fullWidth
-                  variant={'contained'}
-                  color={'secondary'}
-                  size={'small'}
-                  onClick={onClickResetButton}>
-                  {messages['common.reset']}
-                </Button>
               </Grid>
             </Grid>
           </Grid>

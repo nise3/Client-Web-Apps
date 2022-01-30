@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Container, Grid} from '@mui/material';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Box, Container, Grid, Stack} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -9,11 +9,15 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {styled} from '@mui/material/styles';
 import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 import CourseListHeaderSection from '../training/CourseListHeaderSection';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import {Pagination} from '@mui/lab';
 
 const PREFIX = 'CourseList';
 
 export const classes = {
   header: `${PREFIX}-header`,
+  paginationBox: `${PREFIX}-paginationBox`,
 };
 
 export const StyledContainer = styled(Container)(({theme}) => ({
@@ -22,25 +26,38 @@ export const StyledContainer = styled(Container)(({theme}) => ({
     fontWeight: 'bold',
     color: theme.palette.primary.main,
   },
+  [`& .${classes.paginationBox}`]: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 const CourseList = () => {
   const {messages} = useIntl();
   const router = useRouter();
 
+  const page = useRef<any>(1);
+
   let {courseCategory} = router.query;
   courseCategory = String(courseCategory)?.trim();
-  const authYouth = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters, setCourseFilters] = useState({});
-  const {data: courseList} = useFetchCourseList(courseCategory, courseFilters);
+  const [courseFilters, setCourseFilters] = useState({
+    page: 1,
+  });
+  const {data: courseList, metaData} = useFetchCourseList(
+    courseCategory,
+    courseFilters,
+  );
 
   useEffect(() => {
-    if (courseCategory == 'nearby')
+    if (authUser?.isYouthUser) {
       setCourseFilters((prevState) => {
-        return {...prevState, loc_district_id: authYouth?.loc_district_id};
+        return {...prevState, loc_district_id: authUser?.loc_district_id};
       });
-  }, [authYouth]);
+    }
+  }, [authUser]);
 
   const getMessageId = (category: any) => {
     switch (category) {
@@ -58,52 +75,67 @@ const CourseList = () => {
   };
 
   const filterPopularCoursesList = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
 
-      console.log('nwe filter->', newFilter);
-
       setCourseFilters((prev: any) => {
-        return {...prev, ...newFilter};
+        return objectFilter({...prev, ...newFilter});
       });
     },
     [],
   );
 
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setCourseFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
+
   return (
     <>
       <CourseListHeaderSection addFilterKey={filterPopularCoursesList} />
       <StyledContainer>
-        <Grid container spacing={3} padding={5}>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={6}>
-                <H1 className={classes.header}>
-                  {messages[getMessageId(courseCategory)]}
-                </H1>
-              </Grid>
-              {/*<Grid item xs={6} textAlign={'right'}>*/}
-              {/*  <IconButton>*/}
-              {/*    <ListOutlinedIcon />*/}
-              {/*  </IconButton>*/}
-              {/*  <IconButton>*/}
-              {/*    <GridViewOutlinedIcon />*/}
-              {/*  </IconButton>*/}
-              {/*</Grid>*/}
-            </Grid>
-          </Grid>
-          {courseList &&
-            courseList.map((course: any) => {
-              return (
-                <Grid item xs={12} sm={6} md={3} key={course.id}>
-                  <Link href={`/course-details/${course.id}`}>
-                    <CourseCardComponent course={course} />
-                  </Link>
+        {courseList && courseList.length > 0 ? (
+          <Grid container spacing={3} padding={5}>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={6}>
+                  <H1 className={classes.header}>
+                    {messages[getMessageId(courseCategory)]}
+                  </H1>
                 </Grid>
-              );
-            })}
-        </Grid>
+              </Grid>
+            </Grid>
+            {courseList &&
+              courseList.map((course: any) => {
+                return (
+                  <Grid item xs={12} sm={6} md={3} key={course.id}>
+                    <Link href={`/course-details/${course.id}`}>
+                      <CourseCardComponent course={course} />
+                    </Link>
+                  </Grid>
+                );
+              })}
+          </Grid>
+        ) : (
+          <NoDataFoundComponent />
+        )}
+
+        {metaData && metaData.total_page && metaData.total_page > 1 && (
+          <Box className={classes.paginationBox}>
+            <Stack spacing={2}>
+              <Pagination
+                page={page.current}
+                count={metaData.total_page}
+                color={'primary'}
+                shape='rounded'
+                onChange={onPaginationChange}
+              />
+            </Stack>
+          </Box>
+        )}
       </StyledContainer>
     </>
   );
