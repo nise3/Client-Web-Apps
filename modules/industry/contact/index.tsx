@@ -52,14 +52,14 @@ const StyledGrid = styled(Grid)(({theme}) => {
     },
     [`& .${classes.formCard}`]: {
       [theme.breakpoints.up('md')]: {
-        height: '525px',
+        height: '570px',
       },
     },
     [`& .${classes.mapDiv}`]: {
       height: '320px',
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        height: '420px',
+        height: '463px',
       },
     },
     [`& .${classes.textStyle}`]: {
@@ -209,7 +209,7 @@ const ContactPage = () => {
                 </Grid>
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-                    <Grid container spacing={5}>
+                    <Grid container spacing={3}>
                       <Grid item xs={12}>
                         <CustomTextInput
                           required
