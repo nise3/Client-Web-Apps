@@ -26,7 +26,6 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
 import {
-  courseDuration,
   getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
@@ -157,8 +156,13 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();
   const lessonRef = useRef<any>();
+  const assessmentMethodRef = useRef<any>();
   const requirementRef = useRef<any>();
+  const objectiveRef = useRef<any>();
+  const eligibilityRef = useRef<any>();
+  const targetGroupRef = useRef<any>();
   const trainerRef = useRef<any>();
+  const trainingMethodologyRef = useRef<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -176,6 +180,12 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           block: 'start',
         });
         break;
+      case CourseDetailsTabs.TAB_EVALUATION_SYSTEM:
+        assessmentMethodRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
       case CourseDetailsTabs.TAB_REQUIREMENTS:
         requirementRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -184,6 +194,32 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
         break;
       case CourseDetailsTabs.TAB_TRAINER:
         trainerRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_TRAINING_METHODOLOGY:
+        trainingMethodologyRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_OBJECTIVE:
+        objectiveRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+
+      case CourseDetailsTabs.TAB_ELIGIBILITY:
+        eligibilityRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+
+      case CourseDetailsTabs.TAB_TARGET_GROUP:
+        targetGroupRef.current?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
         });
@@ -206,8 +242,28 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 value={CourseDetailsTabs.TAB_LESSON}
               />
               <Tab
+                label={messages['course_details.objective']}
+                value={CourseDetailsTabs.TAB_OBJECTIVE}
+              />
+              <Tab
+                label={messages['course_details.assessment_method']}
+                value={CourseDetailsTabs.TAB_EVALUATION_SYSTEM}
+              />
+              <Tab
+                label={messages['course_details.target_group']}
+                value={CourseDetailsTabs.TAB_TARGET_GROUP}
+              />
+              <Tab
                 label={messages['course_details.requirements']}
                 value={CourseDetailsTabs.TAB_REQUIREMENTS}
+              />
+              <Tab
+                label={messages['course_details.training_methodology']}
+                value={CourseDetailsTabs.TAB_TRAINING_METHODOLOGY}
+              />
+              <Tab
+                label={messages['course_details.eligibility']}
+                value={CourseDetailsTabs.TAB_ELIGIBILITY}
               />
               <Tab
                 label={messages['course_details.trainer']}
@@ -262,7 +318,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                   <Alarm className={classes.courseBadgeIcon} />
                   <Box>
                     <Box className={classes.courseBadgeTitle}>
-                      {courseDuration(messages, formatNumber, course?.duration)}
+                      {getCourseDuration(
+                        course?.duration,
+                        formatNumber,
+                        messages,
+                      )}
                     </Box>
                   </Box>
                 </Box>
@@ -303,6 +363,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     />{' '}
                   </Typography>
                 ) : (
+                  (course?.duration ? ', ' : ' ') +
                   messages['common.no_data_found']
                 )}
               </Box>
@@ -332,16 +393,30 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                   </List>
                 </Grid>
               </Grid>
+            </Box>
+
+            <Box ref={objectiveRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.objective']}
+              </h2>
               <Box>
-                <h2 className={classes.sectionTitleStyle}>
-                  {messages['course_details.assisment_method']}
-                </h2>
-                {course?.evaluation_system ? (
-                  <Typography>{course?.evaluation_system}</Typography>
+                {course?.objective ? (
+                  <Typography>{course?.objective}</Typography>
                 ) : (
                   messages['common.no_data_found']
                 )}
               </Box>
+            </Box>
+
+            <Box ref={assessmentMethodRef}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.assessment_method']}
+              </h2>
+              {course?.evaluation_system ? (
+                <Typography>{course?.evaluation_system}</Typography>
+              ) : (
+                messages['common.no_data_found']
+              )}
             </Box>
 
             <Box ref={requirementRef} className={classes.boxMargin}>
@@ -351,6 +426,45 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <Box>
                 {course?.prerequisite ? (
                   <Typography>{course?.prerequisite}</Typography>
+                ) : (
+                  messages['common.no_data_found']
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={eligibilityRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.eligibility']}
+              </h2>
+              <Box>
+                {course?.eligibility ? (
+                  <Typography>{course?.eligibility}</Typography>
+                ) : (
+                  messages['common.no_data_found']
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={targetGroupRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.target_group']}
+              </h2>
+              <Box>
+                {course?.target_group ? (
+                  <Typography>{course?.target_group}</Typography>
+                ) : (
+                  messages['common.no_data_found']
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={trainingMethodologyRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.training_methodology']}
+              </h2>
+              <Box>
+                {course?.training_methodology ? (
+                  <Typography>{course?.training_methodology}</Typography>
                 ) : (
                   messages['common.no_data_found']
                 )}

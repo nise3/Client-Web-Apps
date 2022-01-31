@@ -136,6 +136,30 @@ export function useFetchCourseList(pathVariable: string, params: any) {
   ]);
 }
 
+export function useFetchSkillMatchingCourseList(
+  pathVariable: string,
+  params: any,
+) {
+  if (params?.skill_ids?.length > 0) {
+    return useAxiosSWR([
+      pathVariable
+        ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
+        : API_PUBLIC_COURSE_LIST,
+      params,
+    ]);
+  }
+
+  const {data: {data = undefined, ...metaData} = {}} = {};
+
+  return {
+    data,
+    metaData,
+    isLoading: false,
+    error: {},
+    isValidating: false,
+  };
+}
+
 export function useFetchUpcomingCourseList(params: any) {
   return useAxiosSWR([API_PUBLIC_COURSE_LIST, params]);
 }
