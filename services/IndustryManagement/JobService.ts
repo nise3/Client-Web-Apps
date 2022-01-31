@@ -93,7 +93,7 @@ export const deleteJob = async (jobId: number) => {
   }
 };
 
-export const publishJob = async (jobId: number) => {
+export const publishJob = async (jobId: string) => {
   try {
     let response: any = await apiPost(
       API_PUBLISH_JOBS + '/' + jobId + '/status-change',
