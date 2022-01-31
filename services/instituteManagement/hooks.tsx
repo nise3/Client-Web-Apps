@@ -9,12 +9,10 @@ import {
   API_COURSE_DETAILS,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
-  API_FONT_END_CONTACT_MAP,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_FAQ,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_RECENT_ACTIVITY_LIST,
-  API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_END_VIDEOS_LIST,
   API_GALLERY_ALBUMS,
@@ -30,6 +28,7 @@ import {
   API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMMES,
+  API_PUBLIC_TRAINING_CENTERS,
   API_TRAINERS,
   API_TRAINING_CENTERS,
   API_VISITOR_FEEDBACKS,
@@ -123,10 +122,6 @@ export function useFetchVideos(params: any) {
   return useAxiosSWR([API_FRONT_END_VIDEOS_LIST, params]);
 }
 
-export function useFetchVideo(videoId: number | null) {
-  return useAxiosSWR(API_FRONT_END_VIDEO);
-}
-
 export function useFetchCourseList(pathVariable: string, params: any) {
   return useDataLocalizationAxiosSWR([
     pathVariable
@@ -170,7 +165,7 @@ export function useFetchTrainers(params: any) {
 }
 
 export function useFetchInstitutesContactMap() {
-  return useAxiosSWR([API_FONT_END_CONTACT_MAP]);
+  return useAxiosSWR([API_PUBLIC_TRAINING_CENTERS]);
 }
 
 export function useFetchInstitutesRecentActivity(params: any) {

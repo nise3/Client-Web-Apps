@@ -95,6 +95,10 @@ const InstituteContact = () => {
     lng: 90.38155009066672,
   });
 
+  useEffect(() => {
+    console.log('mapCenter->', mapCenter);
+  }, [mapCenter]);
+
   const [mapLocations, setMapLocations] = useState([]);
 
   useEffect(() => {
@@ -108,7 +112,10 @@ const InstituteContact = () => {
     let newArr: any = [...filterData];
     setMapLocations(newArr);
     if (newArr.length > 0) {
-      setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+      setMapCenter({
+        lat: parseFloat(newArr[0].location_latitude),
+        lng: parseFloat(newArr[0].location_longitude),
+      });
     }
   };
 
@@ -286,14 +293,13 @@ const InstituteContact = () => {
                     <div className={classes.mapDiv}>
                       <GoogleMapReact
                         bootstrapURLKeys={{key: APIKEY}}
-                        defaultCenter={mapCenter}
-                        defaultZoom={11}
-                        center={mapCenter}>
+                        center={mapCenter}
+                        zoom={11}>
                         {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
                             key={i}
-                            lat={item.lat}
-                            lng={item.lng}
+                            lat={item.location_latitude}
+                            lng={item.location_longitude}
                             text={item.title}
                           />
                         ))}
