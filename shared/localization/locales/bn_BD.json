@@ -1335,5 +1335,7 @@
   "common.total_job_number": "{subject} টি চাকরি",
   "common.hour" : "ঘন্টা",
   "common.hours" : "ঘন্টার",
-  "common.not_enrollable": "নথিভুক্ত নয়"
+  "common.not_enrollable": "নথিভুক্ত নয়",
+  "common.optional_skills": "ঐচ্ছিক দক্ষতা",
+  "common.mandatory_skills": "বাধ্যতামূলক দক্ষতা"
 }
