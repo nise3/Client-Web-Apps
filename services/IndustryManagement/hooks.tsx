@@ -13,14 +13,15 @@ import {
   API_GET_JOB_MATCHING_CRITERIA,
   API_GET_JOB_PREVIEW,
   API_GET_JOB_PRIMARY_INFORMATION,
-  API_JOB_REQUIREMENTS,
+  API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_PUBLIC_PUBLICATIONS,
   API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
-  API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
+  API_JOB_REQUIREMENTS,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+  API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
 
@@ -79,6 +80,10 @@ export function useFetchHumanResourceDemands(params: any) {
 
 export function useFetchInstituteHumanResourceDemands(params: any) {
   return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
+}
+
+export function useFetchPublicJobs(params: any) {
+  return useAxiosSWR([API_PUBLIC_JOBS, params]);
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
