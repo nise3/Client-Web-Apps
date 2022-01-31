@@ -48,7 +48,7 @@ const CustomCheckbox = ({
             style={{padding: '2px', marginRight: 5}}
           />
         }
-        label={label}
+        label={label as string}
       />
     </Typography>
   );
