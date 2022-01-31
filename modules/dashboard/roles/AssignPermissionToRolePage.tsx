@@ -7,7 +7,14 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
+import {
+  Button,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  Divider,
+  Grid,
+} from '@mui/material';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
@@ -20,6 +27,8 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
+import Link from 'next/link';
+import {ArrowBack} from '@mui/icons-material';
 
 const AssignPermissionToRolePage = () => {
   const router = useRouter();
@@ -157,13 +166,21 @@ const AssignPermissionToRolePage = () => {
     <PageBlock
       title={messages['common.assign_permission']}
       extra={[
-        <SubmitButton
-          key={1}
-          onClick={syncPermissionAction}
-          isLoading={isLoading}
-          isSubmitting={isSubmitting}
-          label={messages['permissions.sync_permission'] as string}
-        />,
+        <>
+          <Link href={'/roles'} passHref>
+            <Button startIcon={<ArrowBack />} sx={{marginRight: '5px'}}>
+              {messages['common.back']}
+            </Button>
+          </Link>
+
+          <SubmitButton
+            key={1}
+            onClick={syncPermissionAction}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            label={messages['permissions.sync_permission'] as string}
+          />
+        </>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (

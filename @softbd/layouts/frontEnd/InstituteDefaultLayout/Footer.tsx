@@ -26,8 +26,8 @@ import {
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
-import {useVendor} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
+import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
 
 const PREFIX = 'Footer';
 
@@ -90,7 +90,7 @@ const StyledFoot = styled(Grid)(({theme}) => ({
 
 const Footer = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
+  const {data: institute} = useFetchPublicInstituteDetails();
 
   const redirectToSSO = useCallback(() => {
     window.location.href = getSSOLoginUrl();
@@ -99,18 +99,18 @@ const Footer = () => {
   const getAddress = () => {
     let address = '';
     let addrs = [];
-    if (vendor) {
-      if (vendor.address) {
-        addrs.push(vendor.address);
+    if (institute) {
+      if (institute.address) {
+        addrs.push(institute.address);
       }
-      if (vendor.upazila_title) {
-        addrs.push(vendor.upazila_title);
+      if (institute.upazila_title) {
+        addrs.push(institute.upazila_title);
       }
-      if (vendor.district_title) {
-        addrs.push(vendor.district_title);
+      if (institute.district_title) {
+        addrs.push(institute.district_title);
       }
-      if (vendor.division_title) {
-        addrs.push(vendor.division_title);
+      if (institute.division_title) {
+        addrs.push(institute.division_title);
       }
 
       address = addrs.join(', ');
@@ -163,7 +163,7 @@ const Footer = () => {
                 <Text
                   style={{marginTop: '2px', marginLeft: '6px'}}
                   className={classes.textColor}>
-                  {vendor?.email}
+                  {institute?.email}
                 </Text>
               </Box>
               <Box display='flex' mt={4}>

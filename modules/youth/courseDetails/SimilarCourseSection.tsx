@@ -5,8 +5,6 @@ import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {Link} from '../../../@softbd/elements/common';
 import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import {useVendor} from '../../../@crema/utility/AppHooks';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -24,7 +22,6 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   const {messages} = useIntl();
   const pageSize = PageSizes.FOUR;
   const showInType = getShowInTypeByDomain();
-  const vendor = useVendor();
 
   const [courseFilters, setCourseFilters] = useState<any>({
     page_size: pageSize,
@@ -35,10 +32,6 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
       let params: any = {
         page_size: pageSize,
       };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
 
       if (skillIds) {
         params.skill_ids = skillIds;
