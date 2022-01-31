@@ -276,11 +276,6 @@ const YouthCourseRegistrationPage = () => {
             .string()
             .title()
             .label(messages['common.last_name_bn'] as string),
-          training_center_id: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['training_center.label'] as string),
           date_of_birth: yup
             .string()
             .trim()
@@ -1326,11 +1321,6 @@ const YouthCourseRegistrationPage = () => {
         does_belong_to_ethnic_group:
           String(authUser?.does_belong_to_ethnic_group) ==
           EthnicGroupStatus.YES,
-        /* present_address: {
-          loc_division_id: authUser?.loc_division_id,
-          loc_district_id: authUser?.loc_district_id,
-          loc_upazila_id: authUser?.loc_upazila_id,
-        },*/
       };
 
       (authUser.educations || []).forEach((education: any) => {
@@ -1432,7 +1422,6 @@ const YouthCourseRegistrationPage = () => {
       case CourseConfigKeys.PERSONAL_KEY:
         return (
           <PersonalInfoForm
-            course={course}
             register={register}
             errors={errors}
             control={control}
