@@ -12,7 +12,7 @@ import {
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {courseDuration, getIntlNumber} from '../../utilities/helpers';
+import {getCourseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 
 const PREFIX = 'CourseCardComponent';
@@ -132,7 +132,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         <Box className={classes.tagBox}>
           {course?.duration && (
             <TagChip
-              label={courseDuration(messages, formatNumber, course.duration)}
+              label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
           <TagChip label={formatNumber(15) + ' ' + messages['common.lesson']} />
