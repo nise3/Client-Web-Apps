@@ -24,6 +24,7 @@ import {
   API_PROGRAMMES,
   API_PUBLIC_COURSE_LIST,
   API_PUBLIC_GALLERY_ALBUMS,
+  API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMMES,
   API_TRAINERS,
@@ -41,6 +42,10 @@ export function useFetchInstituteProfile() {
 
 export function useFetchInstitutes(params: any) {
   return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
+}
+
+export function useFetchPublicInstituteDetails() {
+  return useAxiosSWR(API_PUBLIC_INSTITUTE_DETAILS);
 }
 
 export function useFetchAllInstitutes(params: any) {
