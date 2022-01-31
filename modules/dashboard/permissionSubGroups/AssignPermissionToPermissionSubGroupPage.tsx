@@ -7,7 +7,14 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
+import {
+  Button,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  Divider,
+  Grid,
+} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -18,6 +25,8 @@ import {assignPermissions} from '../../../services/userManagement/PermissionSubG
 import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import Card from '@mui/material/Card';
+import Link from 'next/link';
+import {ArrowBack} from '@mui/icons-material';
 
 const AssignPermissionToPermissionSubGroupPage = () => {
   const router = useRouter();
@@ -158,13 +167,20 @@ const AssignPermissionToPermissionSubGroupPage = () => {
     <PageBlock
       title={messages['common.assign_permission']}
       extra={[
-        <SubmitButton
-          key={1}
-          onClick={syncPermissionAction}
-          isLoading={isLoading}
-          isSubmitting={isSubmitting}
-          label={messages['permissions.sync_permission'] as string}
-        />,
+        <>
+          <Link href={'/permission-sub-groups'} passHref>
+            <Button startIcon={<ArrowBack />} sx={{marginRight: '5px'}}>
+              {messages['common.back']}
+            </Button>
+          </Link>
+          <SubmitButton
+            key={1}
+            onClick={syncPermissionAction}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            label={messages['permissions.sync_permission'] as string}
+          />
+        </>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
