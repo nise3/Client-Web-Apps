@@ -37,7 +37,7 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
         params.skill_ids = skillIds;
       }
 
-      setCourseFilters((prev: any) => {
+      setCourseFilters(() => {
         return {...params};
       });
     }
