@@ -84,7 +84,21 @@ const JobListPage = () => {
   };
 
   const publishAction = async (jobId: string) => {
-    let response = await publishJob(jobId);
+    const data: any = {status: 1};
+    let response = await publishJob(jobId, data);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_publish_successfully'
+          values={{subject: <IntlMessages id='common.job' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+  const archiveAction = async (jobId: string) => {
+    const data: any = {status: 2};
+    let response = await publishJob(jobId, data);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -146,7 +160,7 @@ const JobListPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-
+          let today = new Date().toISOString().slice(0, 10);
           return (
             <DatatableButtonGroup>
               <ReadButton
@@ -163,10 +177,20 @@ const JobListPage = () => {
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <ApproveButton
-                approveAction={() => publishAction(data.job_id)}
-                approveTitle={messages['common.publish'] as string}
-              />
+              {!data?.published_at && (
+                <ApproveButton
+                  approveAction={() => publishAction(data.job_id)}
+                  approveTitle={messages['common.publish'] as string}
+                />
+              )}
+              {data?.published_at && data?.application_deadline < today ? (
+                <ApproveButton
+                  approveAction={() => archiveAction(data.job_id)}
+                  approveTitle={messages['common.archive'] as string}
+                />
+              ) : (
+                <></>
+              )}
             </DatatableButtonGroup>
           );
         },
