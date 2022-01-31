@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
@@ -6,9 +6,6 @@ import PopularCoursesSection from './PopularCoursesSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 
 const PREFIX = 'AllCourseSection';
 
@@ -28,16 +25,6 @@ const CourseListPage = () => {
   const [filters, setFilters] = useState<any>({});
   const router = useRouter();
   const {courseType} = router.query;
-  const vendor = useVendor();
-  const showInType = getShowInTypeByDomain();
-
-  useEffect(() => {
-    if (showInType && showInType == ShowInTypes.TSP) {
-      setFilters((prev: any) => {
-        return {...prev, ...{institute_id: vendor?.id}};
-      });
-    }
-  }, [showInType]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: any) => {

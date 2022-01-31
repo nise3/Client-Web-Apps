@@ -27,7 +27,6 @@ import {
   useFetchPublicGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import AlbumTypes from '../../dashboard/galleryAlbums/AlbumTypes';
 import CustomizedDialogs from '../Components/ImageDialog';
 import {H2} from '../../../@softbd/elements/common';
@@ -87,7 +86,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteVideos = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
@@ -114,7 +112,6 @@ const InstituteVideos = () => {
 
   const onResetClicked = useCallback(() => {
     setVideoAlbumContentFilter({
-      institute_id: vendor?.id,
       album_type: AlbumTypes.VIDEO,
       page: 1,
       page_size: PageSizes.EIGHT,
@@ -132,7 +129,6 @@ const InstituteVideos = () => {
     (videoAlbumId: number | null) => {
       setSelectedVideoAlbumId(videoAlbumId);
       setVideoAlbumContentFilter({
-        institute_id: vendor?.id,
         gallery_album_id: videoAlbumId,
         album_type: 2,
       });
