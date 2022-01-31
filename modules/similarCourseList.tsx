@@ -16,8 +16,6 @@ import NoDataFoundComponent from './youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
 
 import {styled} from '@mui/material/styles';
-import {useVendor} from '../@crema/utility/AppHooks';
-import ShowInTypes from '../@softbd/utilities/ShowInTypes';
 import BoxCardsSkeleton from './institute/Components/BoxCardsSkeleton';
 import PageSizes from '../@softbd/utilities/PageSizes';
 
@@ -44,7 +42,6 @@ const SimilarCourseList = () => {
   });
   const router = useRouter();
   const {courseId} = router.query;
-  const vendor = useVendor();
   const showInType = getShowInTypeByDomain();
   const page = useRef<any>(1);
   const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
@@ -66,9 +63,6 @@ const SimilarCourseList = () => {
       params.skill_ids = skillIds;
     }
 
-    if (showInType == ShowInTypes.TSP && vendor) {
-      params.institute_id = vendor.id;
-    }
     setSimilarCourseFilter((prev: any) => {
       return {...prev, ...params};
     });

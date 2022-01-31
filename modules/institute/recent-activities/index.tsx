@@ -5,11 +5,8 @@ import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {H1, H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -51,16 +48,13 @@ const StyledContainer = styled(Container)(({theme}) => {
 
 const RecentActivities = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
-  const showInType = getShowInTypeByDomain();
 
   const [recentActivityFilter, setRecentActivityFilter] = useState<any>({
     page: 1,
     page_size: PageSizes.EIGHT,
     row_status: RowStatus.ACTIVE,
   });
-  const [recentActivityMasonryFilter, setRecentActivityMasonryFilter] =
-    useState<any>({});
+  const [recentActivityMasonryFilter] = useState<any>({});
 
   const [recentActivitiesMasonryList, setRecentActivitiesMasonryList] =
     useState<any>([]);
@@ -107,24 +101,6 @@ const RecentActivities = () => {
 
     setRecentActivitiesMasonryList(final);
   }, [recentActivitiesFetchedMasonryData]);
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
-      setRecentActivityFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-      setRecentActivityMasonryFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
