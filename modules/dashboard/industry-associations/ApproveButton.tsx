@@ -9,10 +9,12 @@ import DoneIcon from '@mui/icons-material/Done';
 interface ApproveButtonProps extends ButtonProps {
   approveAction: () => void;
   className?: string;
+  approveTitle?: string;
 }
 
 const ApproveButton: React.FC<ApproveButtonProps> = ({
   approveAction,
+  approveTitle,
   className,
   ...extra
 }) => {
@@ -36,7 +38,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
           sx={extra?.color && {color: 'secondary.main'}}
           color={'success'}
           {...extra}>
-          {<IntlMessages id='common.accept' />}
+          {<IntlMessages id='common.publish' />}
         </Button>
       </Tooltip>
 
@@ -45,7 +47,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
           open={isApproveDialogOpen}
           onDeny={onDeny}
           onConfirm={onConfirm}
-          title=''
+          title={approveTitle}
           dialogTitle={<IntlMessages id='common.accept_application' />}
         />
       ) : null}
