@@ -14,16 +14,10 @@ import MaritalStatus from '../../../@softbd/utilities/MaritalStatus';
 import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatus';
 import Religions from '../../../@softbd/utilities/Religions';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {
-  useFetchPublicPrograms,
-  useFetchPublicTrainingCenters,
-} from '../../../services/youthManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface PersonalInfoFormProps {
-  course: any;
   register: any;
   errors: any;
   control: any;
@@ -33,7 +27,6 @@ interface PersonalInfoFormProps {
 }
 
 const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
-  course,
   register,
   errors,
   control,
@@ -42,18 +35,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   visibleFieldKeys,
 }) => {
   const {messages} = useIntl();
-  const [trainingCenterFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-    institute_id: course?.institute_id,
-  });
-  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchPublicTrainingCenters(trainingCenterFilters);
-  const [programFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-    institute_id: course?.institute_id,
-  });
-  const {data: programs, isLoading: isLoadingPrograms} =
-    useFetchPublicPrograms(programFilters);
 
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
@@ -268,32 +249,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           inputProps={{
             disabled: true,
           }}
-        />
-      </Grid>
-
-      <Grid item xs={6}>
-        <CustomFilterableFormSelect
-          required
-          id='training_center_id'
-          label={messages['training_center.label']}
-          isLoading={isLoadingTrainingCenters}
-          control={control}
-          options={trainingCenters}
-          optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6} md={6}>
-        <CustomFilterableFormSelect
-          id='program_id'
-          label={messages['programme.label']}
-          isLoading={isLoadingPrograms}
-          control={control}
-          options={programs}
-          optionValueProp='id'
-          optionTitleProp={['title_en', 'title']}
-          errorInstance={errors}
         />
       </Grid>
 
