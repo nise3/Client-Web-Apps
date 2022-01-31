@@ -10,7 +10,6 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
@@ -109,15 +108,6 @@ const DivisionsPage = () => {
       {
         Header: messages['common.bbs_code'],
         accessor: 'bbs_code',
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
       },
       {
         Header: messages['common.actions'],
