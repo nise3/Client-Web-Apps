@@ -13,11 +13,13 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {H1, H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
-import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchInstitutesContactMap,
+  useFetchPublicInstituteDetails,
+} from '../../../services/instituteManagement/hooks';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'InstituteContact';
@@ -83,7 +85,7 @@ const MapComponent = ({text}: MapProp) => (
 
 const InstituteContact = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
+  const {data: institute} = useFetchPublicInstituteDetails();
   const {successStack, errorStack} = useNotiStack();
 
   const {data: mapsData} = useFetchInstitutesContactMap();
@@ -148,7 +150,6 @@ const InstituteContact = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
-    if (vendor) data.institute_id = vendor.id;
 
     try {
       await createVisitorFeedback(data);
@@ -189,7 +190,7 @@ const InstituteContact = () => {
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                     <Grid container spacing={5}>
-                      {!vendor?.id && (
+                      {!institute?.id && (
                         <Grid item xs={12}>
                           <CustomFormSelect
                             id='recipient'
