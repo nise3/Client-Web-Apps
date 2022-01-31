@@ -83,7 +83,7 @@ const JobListPage = () => {
     }
   };
 
-  const publishAction = async (jobId: number) => {
+  const publishAction = async (jobId: string) => {
     let response = await publishJob(jobId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -129,6 +129,20 @@ const JobListPage = () => {
         },
       },
       {
+        Header: messages['common.publication_deadline'],
+        accessor: 'application_deadline',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <>
+              {data.application_deadline
+                ? getMomentDateFormat(data.application_deadline, 'MM-DD-YYYY')
+                : 'Not fixed yet'}
+            </>
+          );
+        },
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -150,7 +164,7 @@ const JobListPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <ApproveButton
-                approveAction={() => publishAction(data.id)}
+                approveAction={() => publishAction(data.job_id)}
                 approveTitle={messages['common.publish'] as string}
               />
             </DatatableButtonGroup>
