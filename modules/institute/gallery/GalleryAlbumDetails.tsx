@@ -24,7 +24,6 @@ import {
 } from '../../../services/cmsManagement/hooks';
 import {useRouter} from 'next/router';
 import ContentItemCard from './ContentItemCard';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -72,7 +71,6 @@ const GalleryAlbumDetails = () => {
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const {albumDetailsId: galleryAlbumId}: any = router.query;
-  const vendor = useVendor();
   const page = useRef<any>(1);
 
   const inputFieldRef = useRef<any>();
@@ -80,7 +78,6 @@ const GalleryAlbumDetails = () => {
 
   const [childGalleryAlbumFilter, setChildGalleryAlbumFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
-    institute_id: vendor?.id,
   });
   const {data: childGalleryAlbums, isLoading: isLoadingChildGalleryAlbums} =
     useFetchPublicGalleryAlbums(childGalleryAlbumFilter);
@@ -92,7 +89,6 @@ const GalleryAlbumDetails = () => {
   const [galleryAlbumContentFilter, setGalleryAlbumContentFilter] = useState({
     page: 1,
     page_size: PageSizes.EIGHT,
-    institute_id: vendor?.id,
   });
   const {
     data: galleryAlbumContents,

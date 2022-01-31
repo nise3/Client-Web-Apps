@@ -12,7 +12,6 @@ import {useIntl} from 'react-intl';
 import {H1, H6} from '../../../@softbd/elements/common';
 import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
 import GalleryItemCardView from './GalleryItemCardView';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 
@@ -48,11 +47,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const [galleryFilter, setGalleryFilter] = useState<any>({
     only_parent_gallery_album: 1,
-    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
     page: 1,
     page_size: PageSizes.EIGHT,
