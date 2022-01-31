@@ -7,14 +7,7 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {
-  Button,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  Divider,
-  Grid,
-} from '@mui/material';
+import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -25,8 +18,7 @@ import {assignPermissions} from '../../../services/userManagement/PermissionSubG
 import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import Card from '@mui/material/Card';
-import Link from 'next/link';
-import {ArrowBack} from '@mui/icons-material';
+import BackButton from '../../../@softbd/elements/button/BackButton';
 
 const AssignPermissionToPermissionSubGroupPage = () => {
   const router = useRouter();
@@ -165,14 +157,15 @@ const AssignPermissionToPermissionSubGroupPage = () => {
 
   return (
     <PageBlock
-      title={messages['common.assign_permission']}
+      title={
+        <IntlMessages
+          id='common.assign_permission'
+          values={{subject: itemData?.title}}
+        />
+      }
       extra={[
         <>
-          <Link href={'/permission-sub-groups'} passHref>
-            <Button startIcon={<ArrowBack />} sx={{marginRight: '5px'}}>
-              {messages['common.back']}
-            </Button>
-          </Link>
+          <BackButton url={'/permission-sub-groups'} />
           <SubmitButton
             key={1}
             onClick={syncPermissionAction}
