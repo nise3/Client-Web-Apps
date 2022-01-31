@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_ALL_FAQS,
   API_BATCHES,
@@ -125,7 +128,7 @@ export function useFetchVideo(videoId: number | null) {
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {
-  return useAxiosSWR([
+  return useDataLocalizationAxiosSWR([
     pathVariable
       ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
       : API_PUBLIC_COURSE_LIST,
@@ -141,7 +144,7 @@ export function useFetchCourseDetailsWithParams(
   courseId: number | null,
   params: any,
 ) {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     courseId ? [API_COURSE_DETAILS + '/' + courseId, params] : null,
   );
 }
@@ -193,7 +196,7 @@ export function useFetchApplicationDetails(applicationId: number | null) {
 export function useFetchBatchesToAssign(courseId: number | null) {
   return useAxiosSWR(
     courseId
-      ? API_COURSES + '/' + courseId + '/' + 'training_centers/batches'
+      ? API_COURSES + '/' + courseId + '/' + 'training-centers/batches'
       : null,
   );
 }
@@ -209,6 +212,7 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
     visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
   );
 }
+
 /**hr-demand**/
 export function useFetchHrDemand(hrDemandId: number | null) {
   return useAxiosSWR(
