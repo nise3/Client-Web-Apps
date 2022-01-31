@@ -15,6 +15,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   deleteJob,
   getJobId,
+  publishJob,
 } from '../../../services/IndustryManagement/JobService';
 import {
   getMomentDateFormat,
@@ -26,6 +27,7 @@ import {
   LINK_JOB_CREATE_OR_UPDATE,
   LINK_JOB_DETAILS_VIEW,
 } from '../../../@softbd/common/appLinks';
+import ApproveButton from '../industry-associations/ApproveButton';
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -75,6 +77,19 @@ const JobListPage = () => {
         <IntlMessages
           id='common.subject_deleted_successfully'
           values={{subject: <IntlMessages id='job_lists.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
+  const publishAction = async (jobId: number) => {
+    let response = await publishJob(jobId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_publish_successfully'
+          values={{subject: <IntlMessages id='common.job' />}}
         />,
       );
       refreshDataTable();
@@ -133,6 +148,10 @@ const JobListPage = () => {
               <DeleteButton
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
+              />
+              <ApproveButton
+                approveAction={() => publishAction(data.id)}
+                approveTitle={messages['common.publish'] as string}
               />
             </DatatableButtonGroup>
           );

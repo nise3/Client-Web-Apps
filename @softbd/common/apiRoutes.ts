@@ -326,6 +326,7 @@ export const API_INDUSTRY_ASSOCIATION_MEMBERS =
 export const API_JOB = ORGANIZATION_SERVICE_PATH + '/job';
 export const API_JOBS = API_JOB + '/jobs';
 export const API_JOB_ID = API_JOB + '/job-id';
+export const API_PUBLISH_JOBS = ORGANIZATION_SERVICE_PATH + '/jobs';
 
 export const API_JOB_STORE_PRIMARY_INFORMATION =
   API_JOB + '/store-primary-job-information';

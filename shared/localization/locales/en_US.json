@@ -365,6 +365,8 @@
   "customizer.layoutTypes": "Layout type",
   "organization_type.is_government": "Is government?",
   "job_sectors.label": "Job sector",
+  "common.job": "Job",
+  "common.publish": "Publish",
   "organization.label": "Organization",
   "organization_type.label": "Organization type",
   "trainers.label": "Trainer",
