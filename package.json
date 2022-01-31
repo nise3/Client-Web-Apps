@@ -9,7 +9,7 @@
     "dev:youth": "next dev youth -p 3002",
     "dev:institute": "next dev institute -p 3003",
     "dev:industry": "next dev industry -p 3004",
-    "build:admin": "next build dashboard",
+    "build:admin": "env-cmd -f .\\dashboard\\.env.development next build dashboard",
     "build:nise": "next build nise",
     "build:youth": "next build youth",
     "build:institute": "next build institute",
@@ -108,6 +108,7 @@
     "@types/yup": "^0.29.13",
     "@typescript-eslint/parser": "^4.29.2",
     "babel-loader": "^8.2.2",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "11.1.2",
     "prettier": "^2.3.2"
