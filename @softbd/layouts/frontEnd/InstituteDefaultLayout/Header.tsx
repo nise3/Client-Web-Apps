@@ -23,20 +23,20 @@ import {useIntl} from 'react-intl';
 import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
-import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
-import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
+import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
 
-interface AppHeaderProps {
-}
+interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-  const vendor = useVendor<CurrentInstitute>();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
+
+  const {data: institute} = useFetchPublicInstituteDetails();
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -99,14 +99,14 @@ const Header: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LanguageSwitcher/>
+        <LanguageSwitcher />
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         {authUser ? (
-          <GotoDashboardButton/>
+          <GotoDashboardButton />
         ) : (
           <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons}/>
+            <Login className={classes.menuIcons} />
             {messages['common.registration_login']}
           </Link>
         )}
@@ -142,7 +142,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
-              {vendor?.title}
+              {institute?.title}
             </Text>
           </Grid>
 
@@ -229,15 +229,15 @@ const Header: React.FC<AppHeaderProps> = () => {
 
             <Box className={classes.headerMenuGroup}>
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
-                <LanguageSwitcher/>
+                <LanguageSwitcher />
               </Box>
               {authUser ? (
-                <GotoDashboardButton/>
+                <GotoDashboardButton />
               ) : (
                 <Link
                   href={gotoLoginSignUpPage(LINK_SIGNUP)}
                   className={classes.menuItemRegOrLogin}>
-                  <Login className={classes.menuIcons}/>
+                  <Login className={classes.menuIcons} />
                   {messages['common.registration_login']}
                 </Link>
               )}
@@ -252,7 +252,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                 // color='inherit'
                 className={classes.mobileMenuButton}
                 size='large'>
-                <MoreIcon/>
+                <MoreIcon />
               </IconButton>
             </Box>
           </Container>
