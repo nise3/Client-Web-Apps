@@ -492,7 +492,6 @@
   "permission.uri": "URI",
   "permission.method": "Method",
   "permissions.sync_permission": "Sync Permission",
-  "common.assign_permission": "Assign Permission",
   "permission.module": "Module Name",
   "permission.key": "Key",
   "common.change_userId": "Change user Id",
@@ -1329,5 +1328,6 @@
   "common.vacancy_approval_status": "Vacancy approval Status",
   "common.hour" : "Hour",
   "common.hours" : "Hours",
-  "common.not_enrollable": "Not Enrollable"
+  "common.not_enrollable": "Not Enrollable",
+  "common.assign_permission": "Assign permission to {subject}"
 }
