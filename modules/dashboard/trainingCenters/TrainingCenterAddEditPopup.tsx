@@ -218,7 +218,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<ITrainingCenter> = async (
     data: ITrainingCenter,
   ) => {
-    if (authUser?.isSystemUser) {
+    if (!authUser?.isSystemUser) {
       delete data.institute_id;
     }
 
@@ -380,6 +380,24 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='location_latitude'
+            label={messages['common.location_latitude']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='location_longitude'
+            label={messages['common.location_longitude']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={6}>

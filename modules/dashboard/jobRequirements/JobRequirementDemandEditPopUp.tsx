@@ -37,6 +37,8 @@ interface HumanResourceDemandEditPopupProps {
 const initialValues = {
   organization_id: '',
   institute_ids: [],
+  mandatory_skill_ids: [],
+  optional_skill_ids: [],
 };
 
 const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
@@ -109,11 +111,17 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
         .of(yup.object())
         .nullable()
         .label(messages['common.institute'] as string),
-      skill_id: yup
-        .string()
-        .trim()
+      mandatory_skill_ids: yup
+        .array()
+        .of(yup.object())
+        .min(1)
         .required()
-        .label(messages['common.skills'] as string),
+        .label(messages['common.mandatory_skills'] as string),
+      optional_skill_ids: yup
+        .array()
+        .of(yup.object())
+        .nullable()
+        .label(messages['common.optional_skills'] as string),
       vacancy: yup
         .string()
         .trim()
@@ -157,7 +165,8 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
         organization_id: itemData?.organization_id,
         industry_association_id: itemData?.industry_association_id,
         institute_ids: instituteIDs,
-        skill_id: itemData?.skill_id,
+        mandatory_skill_ids: itemData?.mandatory_skill_ids,
+        optional_skill_ids: itemData?.optional_skill_ids,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
         requirement: itemData?.remaining_vacancy,
@@ -178,17 +187,19 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
   }, [itemData, institutes]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    if (
-      data.institute_ids &&
-      data?.institute_ids.length > 0 &&
-      Array.isArray(data.institute_ids)
-    ) {
-      data.institute_ids = data?.institute_ids.map((institute: any) => {
-        return institute.id;
-      });
-    } else {
-      data.institute_ids = null;
-    }
+    data.institute_ids =
+      data?.institute_ids?.length >= 1
+        ? data.institute_ids.map((skill: any) => skill.id)
+        : null;
+
+    data.mandatory_skill_ids = data.mandatory_skill_ids.map(
+      (skill: any) => skill.id,
+    );
+
+    data.optional_skill_ids =
+      data?.optional_skill_ids?.length >= 1
+        ? data.optional_skill_ids.map((skill: any) => skill.id)
+        : null;
 
     try {
       if (itemId) {
@@ -284,14 +295,26 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
+          <CustomSelectAutoComplete
             required
-            id={'skill_id'}
-            label={messages['common.skills']}
+            id={'mandatory_skill_ids'}
+            label={messages['common.mandatory_skills']}
             isLoading={isLoadingSkills}
             options={skills}
             optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomSelectAutoComplete
+            id={'optional_skill_ids'}
+            label={messages['common.optional_skills']}
+            isLoading={isLoadingSkills}
+            options={skills}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             control={control}
             errorInstance={errors}
           />

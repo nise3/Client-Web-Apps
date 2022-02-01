@@ -15,6 +15,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   deleteJob,
   getJobId,
+  publishJob,
 } from '../../../services/IndustryManagement/JobService';
 import {
   getMomentDateFormat,
@@ -26,6 +27,7 @@ import {
   LINK_JOB_CREATE_OR_UPDATE,
   LINK_JOB_DETAILS_VIEW,
 } from '../../../@softbd/common/appLinks';
+import ApproveButton from '../industry-associations/ApproveButton';
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -81,6 +83,33 @@ const JobListPage = () => {
     }
   };
 
+  const publishAction = async (jobId: string) => {
+    const data: any = {status: 1};
+    let response = await publishJob(jobId, data);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_publish_successfully'
+          values={{subject: <IntlMessages id='common.job' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+  const archiveAction = async (jobId: string) => {
+    const data: any = {status: 2};
+    let response = await publishJob(jobId, data);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_publish_successfully'
+          values={{subject: <IntlMessages id='common.job' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
@@ -114,10 +143,24 @@ const JobListPage = () => {
         },
       },
       {
+        Header: messages['common.publication_deadline'],
+        accessor: 'application_deadline',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <>
+              {data.application_deadline
+                ? getMomentDateFormat(data.application_deadline, 'MM-DD-YYYY')
+                : 'Not fixed yet'}
+            </>
+          );
+        },
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-
+          let today = new Date().toISOString().slice(0, 10);
           return (
             <DatatableButtonGroup>
               <ReadButton
@@ -134,6 +177,20 @@ const JobListPage = () => {
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              {!data?.published_at && (
+                <ApproveButton
+                  approveAction={() => publishAction(data.job_id)}
+                  approveTitle={messages['common.publish'] as string}
+                />
+              )}
+              {data?.published_at && data?.application_deadline < today ? (
+                <ApproveButton
+                  approveAction={() => archiveAction(data.job_id)}
+                  approveTitle={messages['common.archive'] as string}
+                />
+              ) : (
+                <></>
+              )}
             </DatatableButtonGroup>
           );
         },

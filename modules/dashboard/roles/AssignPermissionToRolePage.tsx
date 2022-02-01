@@ -7,14 +7,7 @@ import {
   startCase as lodashStartCase,
   toLower as lodashToLower,
 } from 'lodash';
-import {
-  Button,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  Divider,
-  Grid,
-} from '@mui/material';
+import {CardContent, CardHeader, Checkbox, Divider, Grid} from '@mui/material';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
@@ -27,8 +20,8 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
-import Link from 'next/link';
-import {ArrowBack} from '@mui/icons-material';
+import BackButton from '../../../@softbd/elements/button/BackButton';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 const AssignPermissionToRolePage = () => {
   const router = useRouter();
@@ -164,15 +157,15 @@ const AssignPermissionToRolePage = () => {
 
   return (
     <PageBlock
-      title={messages['common.assign_permission']}
+      title={
+        <IntlMessages
+          id='common.assign_permission'
+          values={{subject: itemData?.title}}
+        />
+      }
       extra={[
         <>
-          <Link href={'/roles'} passHref>
-            <Button startIcon={<ArrowBack />} sx={{marginRight: '5px'}}>
-              {messages['common.back']}
-            </Button>
-          </Link>
-
+          <BackButton url={'/roles'} />
           <SubmitButton
             key={1}
             onClick={syncPermissionAction}

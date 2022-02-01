@@ -10,7 +10,6 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteDistrict} from '../../../services/locationManagement/DistrictService';
 import DistrictAddEditPopup from './DistrictAddEditPopup';
 import DistrictDetailsPopup from './DistrictDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
@@ -93,15 +92,6 @@ const DistrictsPage = () => {
       {
         Header: messages['divisions.label'],
         accessor: 'division_title_en',
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
       },
       {
         Header: messages['common.actions'],
