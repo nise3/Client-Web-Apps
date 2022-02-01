@@ -215,8 +215,8 @@ export const API_HUMAN_RESOURCE_DEMAND =
   ORGANIZATION_SERVICE_PATH + '/hr-demands';
 export const API_JOB_REQUIREMENTS =
   ORGANIZATION_SERVICE_PATH + '/job-requirements';
-export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
-  ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
+export const API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand-youths';
 
 export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-rejected-by-industry-association';
@@ -314,6 +314,10 @@ export const API_INSTITUTE_HUMAN_RESOURCE_DEMANDS =
 
 export const API_HUMAN_RESOURCE_DEMAND_LIST =
   ORGANIZATION_SERVICE_PATH + '/hr-demand';
+
+export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
+
 
 //Industry Association section end
 
