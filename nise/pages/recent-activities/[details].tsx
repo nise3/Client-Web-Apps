@@ -16,7 +16,7 @@ export default NiseFrontPage(({data}: any) => {
 
 export async function getServerSideProps(context: any) {
   const {
-    req: {cookies},
+    req: {cookies, headers},
   } = context;
 
   let id = context.params.details;
@@ -32,7 +32,10 @@ export async function getServerSideProps(context: any) {
     }
 
     const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_LIST + `/${id}`, {
-      headers: {Authorization: 'Bearer ' + appAccessToken},
+      headers: {
+        Authorization: 'Bearer ' + appAccessToken,
+        Domain: headers?.host,
+      },
     });
 
     return {props: {data: res?.data?.data}};

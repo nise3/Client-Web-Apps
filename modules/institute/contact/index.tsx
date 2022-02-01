@@ -14,13 +14,14 @@ import {H1, H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
 import {
-  useFetchInstitutesContactMap,
   useFetchPublicInstituteDetails,
+  useFetchPublicTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
+import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
 
 const PREFIX = 'InstituteContact';
 
@@ -88,27 +89,26 @@ const InstituteContact = () => {
   const {data: institute} = useFetchPublicInstituteDetails();
   const {successStack, errorStack} = useNotiStack();
 
-  const {data: mapsData} = useFetchInstitutesContactMap();
+  const [trainingCenterFilters] = useState<any>({});
+  const {data: trainingCenters} = useFetchPublicTrainingCenters(
+    trainingCenterFilters,
+  );
 
   const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
   });
 
-  useEffect(() => {
-    console.log('mapCenter->', mapCenter);
-  }, [mapCenter]);
-
   const [mapLocations, setMapLocations] = useState([]);
 
   useEffect(() => {
-    setMapLocations(mapsData);
-  }, [mapsData]);
-
-  const APIKEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
+    setMapLocations(trainingCenters);
+  }, [trainingCenters]);
 
   const onChangeMapValue = (value: any) => {
-    let filterData = mapsData?.filter((item: any) => item.title === value);
+    let filterData = trainingCenters?.filter(
+      (item: any) => item.title === value,
+    );
     let newArr: any = [...filterData];
     setMapLocations(newArr);
     if (newArr.length > 0) {
@@ -284,7 +284,7 @@ const InstituteContact = () => {
                       isLoading={false}
                       control={control}
                       optionValueProp={'title'}
-                      options={mapsData}
+                      options={trainingCenters}
                       optionTitleProp={['title']}
                       onChange={onChangeMapValue}
                     />
@@ -292,7 +292,7 @@ const InstituteContact = () => {
                   <Grid item xs={12}>
                     <div className={classes.mapDiv}>
                       <GoogleMapReact
-                        bootstrapURLKeys={{key: APIKEY}}
+                        bootstrapURLKeys={{key: GOOGLE_MAP_API_KEY}}
                         center={mapCenter}
                         zoom={11}>
                         {mapLocations?.map((item: any, i: number) => (

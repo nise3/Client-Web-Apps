@@ -20,12 +20,12 @@ import IconCourse from '../../../@softbd/icons/IconProgramme';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
-  useFetchProgrammes,
+  useFetchPublicPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -100,10 +100,10 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, []);
 
   const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchProgrammes(programmeFilters);
+    useFetchPublicPrograms(programmeFilters);
 
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchYouthSkills(youthSkillsFilter);
+    useFetchSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
@@ -773,8 +773,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
                       }
                       label={
                         configRequiredItems.includes(item.key)
-                          ? messages['common.required']
-                          : messages['common.not_required']
+                          ? (messages['common.required'] as string)
+                          : (messages['common.not_required'] as string)
                       }
                     />
                   </Grid>

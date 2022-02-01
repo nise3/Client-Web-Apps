@@ -248,6 +248,7 @@
   "common.first_name_bn": "First Name",
   "common.last_name_en": "Last Name (En)",
   "common.last_name_bn": "Last Name",
+  "common.total_job_number": "Total Job {subject}",
   "common.dontHaveAccount": "Don't have account?",
   "common.signup": "Sign up",
   "common.password": "Password",

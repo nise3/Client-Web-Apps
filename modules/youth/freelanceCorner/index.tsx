@@ -20,7 +20,7 @@ import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import FeaturedFreelanceSection from './FeaturedFreelanceSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
@@ -83,7 +83,7 @@ const FreelanceCorner = () => {
   const [skillFilters] = useState<any>({});
   const searchTextField = useRef<any>();
 
-  const {data: skills} = useFetchYouthSkills(skillFilters);
+  const {data: skills} = useFetchSkills(skillFilters);
   const [upazilaFilters] = useState<any>({});
   const {data: upazilas} = useFetchUpazilas(upazilaFilters);
 

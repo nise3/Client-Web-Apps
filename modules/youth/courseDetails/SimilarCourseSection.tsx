@@ -4,7 +4,6 @@ import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {Link} from '../../../@softbd/elements/common';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -21,27 +20,18 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
 }) => {
   const {messages} = useIntl();
   const pageSize = PageSizes.FOUR;
-  const showInType = getShowInTypeByDomain();
 
-  const [courseFilters, setCourseFilters] = useState<any>({
-    page_size: pageSize,
-  });
+  const [courseFilters, setCourseFilters] = useState<any>(null);
 
   useEffect(() => {
-    if (showInType) {
+    if (skillIds && skillIds.length > 0) {
       let params: any = {
         page_size: pageSize,
       };
-
-      if (skillIds) {
-        params.skill_ids = skillIds;
-      }
-
-      setCourseFilters(() => {
-        return {...params};
-      });
+      params.skill_ids = skillIds;
+      setCourseFilters(params);
     }
-  }, [showInType, skillIds]);
+  }, [skillIds]);
 
   const pathVariable = 'skill-matching';
   const {
