@@ -12,7 +12,7 @@ import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {
   useFetchInstitutes,
-  useFetchProgrammes,
+  useFetchPublicPrograms,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
@@ -125,7 +125,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     }
   }, [showInType]);
 
-  const {data: programmes} = useFetchProgrammes(programmeFilters);
+  const {data: programmes} = useFetchPublicPrograms(programmeFilters);
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {

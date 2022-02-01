@@ -1342,10 +1342,12 @@
   "common.vacancy_approval": "শূন্যপদ অনুমোদন",
   "common.vacancy_approval_status": "Vacancy approval Status",
   "common.total_job_number": "{subject} টি চাকরি",
+  "common.org_job_requirements": "{subject} চাকরির প্রয়োজনীয়তা",
   "common.hour": "ঘন্টা",
   "common.hours": "ঘন্টার",
   "common.not_enrollable": "নথিভুক্ত নয়",
   "common.optional_skills": "ঐচ্ছিক দক্ষতা",
   "common.mandatory_skills": "বাধ্যতামূলক দক্ষতা",
-  "common.assign_permission": "{subject}কে পারমিশন দিন"
+  "common.assign_permission": "{subject}কে পারমিশন দিন",
+  "button.youth_approve": "ইয়ুথ অনুমোদন"
 }

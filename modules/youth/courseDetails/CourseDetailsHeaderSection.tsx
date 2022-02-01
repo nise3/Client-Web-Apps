@@ -130,7 +130,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
         <Grid item xs={12} sm={6} md={6}>
           <CardMedia
             image={course?.cover_image}
-            sx={{height: 300, width: '100%'}}
+            sx={{height: 300, width: '100%', backgroundSize: 'contain'}}
             title={course?.title}
           />
         </Grid>

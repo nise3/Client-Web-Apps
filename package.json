@@ -95,7 +95,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "swr": "^1.0.0",
+    "swr": "1.0.0",
     "typescript": "^4.3.5",
     "use-url-search-params": "^2.3.13",
     "yup": "^0.32.9"

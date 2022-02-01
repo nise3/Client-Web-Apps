@@ -13,6 +13,7 @@ import {
   API_GET_JOB_MATCHING_CRITERIA,
   API_GET_JOB_PREVIEW,
   API_GET_JOB_PRIMARY_INFORMATION,
+  API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST,
   API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
@@ -70,6 +71,15 @@ export function useFetchHumanResourceDemand(
   return useAxiosSWR(
     humanResourceDemandId
       ? API_JOB_REQUIREMENTS + '/' + humanResourceDemandId
+      : null,
+  );
+}
+export function useFetchInstituteProvidedYouthList(
+  hrDemandInstituteId: number | null,
+) {
+  return useAxiosSWR(
+    hrDemandInstituteId
+      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + hrDemandInstituteId
       : null,
   );
 }

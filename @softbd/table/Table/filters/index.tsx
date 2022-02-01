@@ -4,6 +4,7 @@ import {Button, InputLabel, MenuItem, TextField} from '@mui/material';
 import {matchSorter} from 'match-sorter';
 import {rowStatusArray} from '../../../utilities/RowStatus';
 import {IFilterProps} from '../../../../shared/Interface/common.interface';
+import {useFetchSkills} from '../../../../services/organaizationManagement/hooks';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -291,14 +292,30 @@ export function rowStatusFilter<T extends object>(
   return rows.filter((row) => filterValue == row.values[id[0]]);
 }
 
+export function skillsFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  return rows.filter((row) => filterValue == row.values[id[0]]);
+}
+
 // Let the table remove the filter if the string is empty
 numericTextFilter.autoRemove = (val: any) => !val;
 
 export function DefaultColumnFilter<T extends object>({
   column: {id, filterValue, setFilter, render, parent, filter},
 }: IFilterProps<T>) {
-  console.log(filter);
   const [value, setValue] = React.useState(filterValue || '');
+
+  const {data: skillsArray} = useFetchSkills({});
+  const finalSkillsArray = skillsArray?.map((skill: any) => {
+    return {
+      key: skill.id,
+      label: skill.title_en,
+    };
+  });
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
@@ -308,27 +325,47 @@ export function DefaultColumnFilter<T extends object>({
   }, [filterValue]);
 
   /*const firstIndex = !parent;*/
-  return filter === 'rowStatusFilter' ? (
-    <TextField
-      name={id}
-      select
-      label={render('Header')}
-      value={value}
-      variant={'standard'}
-      onChange={handleChange}>
-      {rowStatusArray().map((option: any, i: any) => (
-        <MenuItem key={i} value={option.key}>
-          {option.label}
-        </MenuItem>
-      ))}
-    </TextField>
-  ) : (
-    <TextField
-      name={id}
-      label={render('Header')}
-      value={value}
-      variant={'standard'}
-      onChange={handleChange}
-    />
-  );
+
+  if (filter === 'rowStatusFilter') {
+    return (
+      <TextField
+        name={id}
+        select
+        label={render('Header')}
+        value={value}
+        variant={'standard'}
+        onChange={handleChange}>
+        {rowStatusArray().map((option: any, i: any) => (
+          <MenuItem key={i} value={option.key}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+    );
+  } else if (filter === 'skillsFilter') {
+    return (
+      <TextField
+        name={id}
+        select
+        label={render('Header')}
+        value={value}
+        variant={'standard'}
+        onChange={handleChange}>
+        {finalSkillsArray?.map((option: any, i: any) => (
+          <MenuItem key={i} value={option.key}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+    );
+  } else
+    return (
+      <TextField
+        name={id}
+        label={render('Header')}
+        value={value}
+        variant={'standard'}
+        onChange={handleChange}
+      />
+    );
 }

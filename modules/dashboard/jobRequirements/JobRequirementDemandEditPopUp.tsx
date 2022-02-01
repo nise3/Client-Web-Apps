@@ -27,6 +27,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import _ from 'lodash';
 
 interface HumanResourceDemandEditPopupProps {
   itemId: number;
@@ -80,13 +81,36 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
     });
   }, []);
 
-  const onRemoveHrDemand = () => {
+  const onRemoveHrDemand = useCallback(() => {
     let array = [...hrDemandFields];
     if (hrDemandFields.length > 1) {
       array.splice(hrDemandFields.length - 1, 1);
       setHrDemandFields(array);
     }
-  };
+  }, []);
+
+  const getFormattedArray = useCallback(
+    (
+      data: any,
+      idFieldName: string = 'id',
+      titleFieldName: string = 'title',
+    ) => {
+      if (!Array.isArray(data) || data.length <= 0) {
+        return [];
+      }
+
+      let outputData: Array<any> = [];
+      data.forEach((d: any) => {
+        outputData.push({
+          id: d[idFieldName],
+          title: d[titleFieldName],
+        });
+      });
+
+      return outputData;
+    },
+    [],
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -153,20 +177,25 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
-      let instituteIDs: Array<any> = [];
-      itemData?.hr_demand_institutes.forEach((institute: any) => {
-        instituteIDs.push({
-          id: institute.institute_id,
-          title: institute.institute_title,
-        });
-      });
+      let instituteIDs: Array<any> = getFormattedArray(
+        itemData?.hr_demand_institutes,
+        'institute_id',
+        'institute_title',
+      );
+
+      const mandatorySkillIds: Array<any> = getFormattedArray(
+        itemData?.mandatory_skills,
+      );
+      const optionalSkillIds: Array<any> = getFormattedArray(
+        itemData?.optional_skills,
+      );
 
       let data = {
         organization_id: itemData?.organization_id,
         industry_association_id: itemData?.industry_association_id,
         institute_ids: instituteIDs,
-        mandatory_skill_ids: itemData?.mandatory_skill_ids,
-        optional_skill_ids: itemData?.optional_skill_ids,
+        mandatory_skill_ids: mandatorySkillIds,
+        optional_skill_ids: optionalSkillIds,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
         requirement: itemData?.remaining_vacancy,
@@ -187,23 +216,25 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
   }, [itemData, institutes]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    data.institute_ids =
-      data?.institute_ids?.length >= 1
-        ? data.institute_ids.map((skill: any) => skill.id)
+    const formData = _.cloneDeep(data);
+
+    formData.institute_ids =
+      formData?.institute_ids?.length >= 1
+        ? formData.institute_ids.map((skill: any) => skill.id)
         : null;
 
-    data.mandatory_skill_ids = data.mandatory_skill_ids.map(
+    formData.mandatory_skill_ids = formData.mandatory_skill_ids.map(
       (skill: any) => skill.id,
     );
 
-    data.optional_skill_ids =
-      data?.optional_skill_ids?.length >= 1
-        ? data.optional_skill_ids.map((skill: any) => skill.id)
+    formData.optional_skill_ids =
+      formData?.optional_skill_ids?.length >= 1
+        ? formData.optional_skill_ids.map((skill: any) => skill.id)
         : null;
 
     try {
       if (itemId) {
-        await updateHumanResourceDemand(itemId, data);
+        await updateHumanResourceDemand(itemId, formData);
         updateSuccessMessage('job_requirement.label');
         mutateHumanResourceDemand();
       }

@@ -12,6 +12,7 @@ import {
   niseDomain,
   youthDomain,
 } from '../common/constants';
+import URL from 'url';
 
 export const genders = [
   {
@@ -441,7 +442,7 @@ export const getVimeoUrl = (url: any) => {
 };
 
 export const getEmbeddedVideoUrl = (video_url: any) => {
-  const domain = new window.URL(video_url);
+  const domain = URL.parse(video_url);
   if (domain.host == 'www.youtube.com') {
     return getYoutubeUrl(video_url);
   } else if (domain.host == 'www.facebook.com') {
@@ -474,17 +475,21 @@ export const getErrorObject = (id: any, errorInstance: any) => {
 
 export const getCurrentDomain = () => {
   const origin = getHostUrl();
-  const host = window?.location?.host;
-  if (isLocalHost()) {
-    if (origin?.includes(niseDomain())) {
-      return 'nise.gov.bd';
-    } else if (origin?.includes(youthDomain())) {
-      return ' youth.nise.gov.bd';
-    } else if (origin?.includes(industryDomain())) {
-      return 'mcci.nise.gov.bd';
-    } else if (origin?.includes(instituteDomain())) {
-      return 'dyd.nise.gov.bd';
+  if (typeof window != 'undefined') {
+    const host = window?.location?.host;
+    if (isLocalHost()) {
+      if (origin?.includes(niseDomain())) {
+        return 'nise.gov.bd';
+      } else if (origin?.includes(youthDomain())) {
+        return ' youth.nise.gov.bd';
+      } else if (origin?.includes(industryDomain())) {
+        return 'mcci.nise.gov.bd';
+      } else if (origin?.includes(instituteDomain())) {
+        return 'dyd.nise.gov.bd';
+      }
     }
+    return host;
+  } else {
+    return '';
   }
-  return host;
 };

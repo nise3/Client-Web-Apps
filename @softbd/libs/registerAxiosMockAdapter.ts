@@ -1,21 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
-import {
-  API_FRONT_END_ALL_ACTIVITY_LIST,
-  API_FRONT_END_GALLERY,
-  API_FRONT_END_GALLERY_CATEGORY_LIST,
-  API_FRONT_END_RECENT_ACTIVITY_DETAIL,
-  API_FRONT_END_VIDEOS_CATEGORY_LIST,
-  API_FRONT_SC,
-  API_INSTITUTE_QUESTION_BANK,
-  API_NOTICE_BOARD,
-} from '../common/apiRoutes';
-import {videosCategories} from '../mock-db/videos';
-import galleries, {galleryCategories} from '../mock-db/gallery';
-import allActivityItems from '../mock-db/recentActivity';
-import recentActivityDetails from '../mock-db/recentActivityDetails';
-import staticContent from '../mock-db/staticContent';
-import noticeList from '../mock-db/noticeBoard';
+import {API_INSTITUTE_QUESTION_BANK} from '../common/apiRoutes';
 import questionBank from '../mock-db/question-bank';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
@@ -28,14 +13,8 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .reply(200, {data: applicationManagement});*/
 
   /*mock.onGet(API_FRONT_END_VIDEOS_LIST).reply(200, {data: videos});*/
-  mock
-    .onGet(API_FRONT_END_VIDEOS_CATEGORY_LIST)
-    .reply(200, {data: videosCategories});
 
   /*  mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: galleries});*/
-  mock
-    .onGet(API_FRONT_END_GALLERY_CATEGORY_LIST)
-    .reply(200, {data: galleryCategories});
 
   // mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
   // mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});
@@ -48,20 +27,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // mock
   //   .onGet(API_FRONT_END_RECENT_ACTIVITY_LIST)
   //   .reply(200, {data: recentActivityItems});
-
-  mock
-    .onGet(API_FRONT_END_ALL_ACTIVITY_LIST)
-    .reply(200, {data: allActivityItems});
-
-  mock
-    .onGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL)
-    .reply(200, {data: recentActivityDetails[0]});
-
-  mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
-
-  mock.onGet(API_NOTICE_BOARD).reply(200, {data: noticeList});
-
-  mock.onGet(API_FRONT_END_GALLERY).reply(200, {data: galleries[0]});
 
   /**Industry**/
   // mock.onGet(API_INDUSTRY_PUBLICATIONS).reply(200, {data: publications});

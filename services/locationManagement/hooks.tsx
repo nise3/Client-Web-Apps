@@ -2,8 +2,6 @@ import {
   API_COUNTRIES,
   API_DISTRICTS,
   API_DIVISIONS,
-  API_INSTITUTE_BRANCH_LIST,
-  API_INSTITUTE_TRAINING_CENTER_LIST,
   API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
@@ -34,12 +32,4 @@ export function useFetchUpazila(upazilaId: number | null) {
 
 export function useFetchCountries(params: any) {
   return useAxiosSWR([API_COUNTRIES, params]);
-}
-
-export function useFetchBranch(params: any) {
-  return useAxiosSWR([API_INSTITUTE_BRANCH_LIST, params]);
-}
-
-export function useFetchTrainingCenter(params: any) {
-  return useAxiosSWR([API_INSTITUTE_TRAINING_CENTER_LIST, params]);
 }
