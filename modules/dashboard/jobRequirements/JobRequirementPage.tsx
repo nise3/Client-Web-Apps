@@ -135,9 +135,9 @@ const JobRequirementPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <PrimaryLightButton variant={'outlined'}>
+                <Button sx={{border: 'none'}} variant={'outlined'}>
                   {messages['common.manage']}
-                </PrimaryLightButton>
+                </Button>
               </Link>
             </DatatableButtonGroup>
           );

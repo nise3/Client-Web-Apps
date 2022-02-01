@@ -5,7 +5,7 @@ import {Grid, Typography} from '@mui/material';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import yup from '../../../@softbd/libs/yup';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
