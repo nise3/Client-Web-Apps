@@ -21,7 +21,7 @@ import GuardiansInfoForm from './GuardiansInfoForm';
 import OtherInfoForm from './OtherInfoForm';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
-import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
+import {useFetchPublicCourseDetails} from '../../../services/instituteManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
@@ -246,7 +246,7 @@ const YouthCourseRegistrationPage = () => {
   const router = useRouter();
   const {courseId} = router.query;
   const authUser = useAuthUser<YouthAuthUser>();
-  const {data: course} = useFetchCourseDetails(Number(courseId));
+  const {data: course} = useFetchPublicCourseDetails(Number(courseId));
 
   const [visibleFormConfigKeys, setVisibleFormConfigKeys] = useState<any>([]);
   const [requiredFormConfigKeys, setRequiredFormConfigKeys] = useState<any>([]);

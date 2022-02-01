@@ -2,8 +2,8 @@ import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
-    useFetchRoles,
-    useFetchUser,
+  useFetchRoles,
+  useFetchUser,
 } from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import yup from '../../../@softbd/libs/yup';
@@ -18,32 +18,34 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
-    createUser,
-    updateUser,
+  createUser,
+  updateUser,
 } from '../../../services/userManagement/UserService';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-    MOBILE_NUMBER_REGEX,
-    TEXT_REGEX_PASSWORD,
+  MOBILE_NUMBER_REGEX,
+  TEXT_REGEX_PASSWORD,
 } from '../../../@softbd/common/patternRegex';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-    useFetchBranch,
-    useFetchDistricts,
-    useFetchDivisions,
-    useFetchTrainingCenter,
-    useFetchUpazilas,
+  useFetchDistricts,
+  useFetchDivisions,
+  useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
-    filterDistrictsByDivisionId,
-    filterUpazilasByDistrictId,
+  filterDistrictsByDivisionId,
+  filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {getUserType} from '../../../@softbd/utilities/helpers';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {
+  useFetchBranches,
+  useFetchTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
 
 interface UserAddEditPopupProps {
     itemId: number | null;
@@ -113,10 +115,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     });
 
     const {data: branchList, isLoading: isBranchListLoading} =
-        useFetchBranch(branchFilters);
+        useFetchBranches(branchFilters);
 
     const {data: trainingCenterList, isLoading: isTrainingCenterLoading} =
-        useFetchTrainingCenter(trainingCenterFilters);
+        useFetchTrainingCenters(trainingCenterFilters);
 
     const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
     const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);

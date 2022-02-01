@@ -3,7 +3,7 @@ import {Box, Container, Grid, Pagination, Stack} from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
 import {
-  useFetchCourseDetails,
+  useFetchPublicCourseDetails,
   useFetchCourseList,
 } from '../services/instituteManagement/hooks';
 import {Link} from '../@softbd/elements/common';
@@ -44,7 +44,7 @@ const SimilarCourseList = () => {
   const {courseId} = router.query;
   const showInType = getShowInTypeByDomain();
   const page = useRef<any>(1);
-  const {data: courseDetails} = useFetchCourseDetails(Number(courseId));
+  const {data: courseDetails} = useFetchPublicCourseDetails(Number(courseId));
   const [skillIds, setSkillIds] = useState<Array<number>>([]);
 
   useEffect(() => {

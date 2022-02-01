@@ -232,7 +232,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
       <TabContext value={value}>
         <Box sx={{background: '#e6f3ec'}}>
           <Container maxWidth={'lg'}>
-            <TabList aria-label='tabs' onChange={handleChange}>
+            <TabList
+              aria-label='tabs'
+              onChange={handleChange}
+              variant='scrollable'
+              scrollButtons='auto'>
               <Tab
                 label={messages['course_details.overview']}
                 value={CourseDetailsTabs.TAB_OVERVIEW}
@@ -345,14 +349,12 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.lesson']}
               </h2>
               <Box style={{display: 'flex', alignItems: 'center'}}>
-                {course?.duration ? (
+                {course?.duration && (
                   <Typography>
                     {getCourseDuration(course.duration, formatNumber, messages)}
                   </Typography>
-                ) : (
-                  messages['common.no_data_found']
                 )}
-                {course?.enroll_count > 0 ? (
+                {course?.enroll_count > 0 && (
                   <Typography>
                     {course?.duration ? ', ' : ''}
                     <IntlMessages
@@ -362,9 +364,6 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                       }}
                     />{' '}
                   </Typography>
-                ) : (
-                  (course?.duration ? ', ' : ' ') +
-                  messages['common.no_data_found']
                 )}
               </Box>
 
