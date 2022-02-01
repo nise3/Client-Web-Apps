@@ -25,6 +25,7 @@ import {createHumanResourceDemand} from '../../../services/IndustryManagement/Hr
 import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import _ from 'lodash';
 
 interface HumanResourceDemandAddEditPopupProps {
   itemId: number | null;
@@ -138,7 +139,6 @@ const HumanResourceDemandAddEditPopup: FC<
     control,
     reset,
     setError,
-    getValues,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -179,13 +179,8 @@ const HumanResourceDemandAddEditPopup: FC<
     }
   }, [itemData]);
 
-  console.log('errors', errors);
-  console.log('values', getValues());
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data', JSON.parse(JSON.stringify(data)));
-
-    const formData = {...data};
+    const formData = _.cloneDeep(data);
 
     formData.hr_demands = formData.hr_demands.map((hrDemand: any) => {
       hrDemand.institute_ids =
