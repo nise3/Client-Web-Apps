@@ -7,6 +7,7 @@ import {
   Grid,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
@@ -53,6 +54,8 @@ const NoticeDetails = () => {
   const {data: notice, isLoading: isNoticeLoading} = useFetchPublicNoticeOrNews(
     Number(noticeId),
   );
+
+  const theme = useTheme();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -108,19 +111,28 @@ const NoticeDetails = () => {
             <Skeleton variant='rectangular' width={1150} height={400} />
           </Grid>
         ) : (
-          <Grid item xs={12}>
-            <CardMedia
-              component='img'
-              height='300'
-              image={
-                notice?.main_image_path
-                  ? notice?.main_image_path
-                  : '/images/notice_details.jpg'
-              }
-              alt={notice?.image_alt_title}
-              title={notice?.title}
-            />
-          </Grid>
+          <>
+            {notice && notice?.main_image_path && (
+              <Grid item xs={12}>
+                <CardMedia
+                  component='img'
+                  height='400'
+                  sx={{
+                    objectFit: 'unset',
+                    [theme.breakpoints.down('sm')]: {
+                      height: 150,
+                    },
+                    [theme.breakpoints.up('xl')]: {
+                      height: 550,
+                    },
+                  }}
+                  image={notice?.main_image_path}
+                  alt={notice?.image_alt_title}
+                  title={notice?.title}
+                />
+              </Grid>
+            )}
+          </>
         )}
 
         <Grid item xs={12}>

@@ -19,7 +19,8 @@ const classes = {
 const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.image}`]: {
     width: '100%',
-    height: '150px',
+    height: '170px',
+    objectFit: 'unset',
   },
 
   [`& .${classes.buttons}`]: {
@@ -110,11 +111,7 @@ const CardItemWithButton = ({
             component='img'
             alt='port folio'
             className={classes.image}
-            image={
-              portfolio?.file_path
-                ? portfolio.file_path + '?id=' + portfolio.id
-                : '/images/youth/portfolio.jpeg'
-            }
+            image={portfolio?.file_path + '?id=' + portfolio?.id}
           />
           {/*<Image
             className={classes.image}

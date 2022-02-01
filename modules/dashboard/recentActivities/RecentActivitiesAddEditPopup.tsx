@@ -596,6 +596,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               register={register}
               label={messages['common.image_path']}
               required={true}
+              acceptedFileTypes={['image/*']}
             />
           </Grid>
         )}
@@ -651,6 +652,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               register={register}
               label={messages['common.collage_image_path']}
               required={true}
+              acceptedFileTypes={['image/*']}
             />
           </Grid>
         )}
@@ -664,6 +666,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             register={register}
             label={messages['common.grid_image_path']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -675,6 +678,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             register={register}
             label={messages['common.thumb_image_path']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
 
