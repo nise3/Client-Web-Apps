@@ -1,42 +1,27 @@
 import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
 import {
   useFetchHumanResourceDemand,
   useFetchInstituteHumanResourceDemands,
 } from '../../../services/IndustryManagement/hooks';
-import {Typography} from '@mui/material';
+import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import React, {useCallback, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
-import RejectButton from '../applicationManagement/RejectButton';
-import {rejectHRDemand} from '../../../services/IndustryManagement/HrDemandService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import JobRequirementApproveByIndustryAssocPopUp from './ActionPages/JobRequirementApproveByIndustryAssocPopUp';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import Link from 'next/link';
+import DoneIcon from '@mui/icons-material/Done';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import BackButton from '../../../@softbd/elements/button/BackButton';
 
 const JobRequirementManagePage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
   const router = useRouter();
   const {jobRequirementId} = router.query;
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenApproveModal, setIsOpenApproveModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  const openApproveModal = useCallback((itemId: number | null = null) => {
-    setIsOpenApproveModal(true);
-    setSelectedItemId(itemId);
-  }, []);
-
-  const closeApproveModal = useCallback(() => {
-    setIsOpenApproveModal(false);
-    setSelectedItemId(null);
-  }, []);
+  const [isToggleTable] = useState<boolean>(false);
 
   const {data: humanResourceDemandData} = useFetchHumanResourceDemand(
     Number(jobRequirementId),
@@ -48,23 +33,6 @@ const JobRequirementManagePage = () => {
   } = useFetchInstituteHumanResourceDemands({
     hr_demand_id: Number(jobRequirementId),
   });
-
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  }, []);
-
-  const rejectJobRequirementDemand = async (HRDemandId: number) => {
-    let response = await rejectHRDemand(HRDemandId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='hr_demand.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
 
   const canRejectApprove = useCallback((data: any) => {
     return (
@@ -169,16 +137,20 @@ const JobRequirementManagePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const APPROVE_YOUTHS_PAGE_URL =
+            '/job-requirement/youth-approval/' + data.id;
           return (
-            canRejectApprove(data) && (
-              <DatatableButtonGroup>
-                <ApproveButton onClick={() => openApproveModal(data.id)} />
-                <RejectButton
-                  rejectAction={() => rejectJobRequirementDemand(data.id)}
-                  rejectTitle={messages['common.delete_confirm'] as string}
-                />
-              </DatatableButtonGroup>
-            )
+            // canRejectApprove(data) && (
+            <DatatableButtonGroup>
+              <Link href={APPROVE_YOUTHS_PAGE_URL} passHref>
+                <Button
+                  sx={{color: (theme) => theme.palette.secondary.main}}
+                  startIcon={<DoneIcon />}>
+                  {messages['button.youth_approve']}
+                </Button>
+              </Link>
+            </DatatableButtonGroup>
+            // )
           );
         },
         sortable: false,
@@ -187,13 +159,18 @@ const JobRequirementManagePage = () => {
     [messages],
   );
   return (
-    <>
-      <Typography variant={'h2'}>
-        {messages['organization.label'] +
-          ': ' +
-          humanResourceDemandData?.organization_title}
-      </Typography>
-
+    <PageBlock
+      title={
+        <IntlMessages
+          id='common.org_job_requirements'
+          values={{subject: humanResourceDemandData?.organization_title}}
+        />
+      }
+      extra={[
+        <>
+          <BackButton url={'/job-requirement'} />
+        </>,
+      ]}>
       <ReactTable
         columns={columns}
         data={instituteHumanResourceDemandData || []}
@@ -201,14 +178,7 @@ const JobRequirementManagePage = () => {
         skipDefaultFilter={true}
         toggleResetTable={isToggleTable}
       />
-      {isOpenApproveModal && (
-        <JobRequirementApproveByIndustryAssocPopUp
-          itemId={selectedItemId}
-          onClose={closeApproveModal}
-          refreshDataTable={refreshDataTable}
-        />
-      )}
-    </>
+    </PageBlock>
   );
 };
 
