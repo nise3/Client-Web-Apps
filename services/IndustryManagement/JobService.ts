@@ -91,3 +91,15 @@ export const deleteJob = async (jobId: number) => {
     catchBlockHandler(error);
   }
 };
+
+export const publishJob = async (jobId: string, data: any) => {
+  try {
+    let response: any = await apiPost(
+      API_JOBS + '/status-change' + '/' + jobId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};

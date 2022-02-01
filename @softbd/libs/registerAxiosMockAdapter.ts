@@ -1,20 +1,17 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
 import {
-  API_FONT_END_CONTACT_MAP,
   API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_GALLERY,
   API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_RECENT_ACTIVITY_DETAIL,
-  API_FRONT_END_VIDEO,
   API_FRONT_END_VIDEOS_CATEGORY_LIST,
   API_FRONT_SC,
   API_INSTITUTE_QUESTION_BANK,
   API_NOTICE_BOARD,
 } from '../common/apiRoutes';
-import videos, {videosCategories} from '../mock-db/videos';
+import {videosCategories} from '../mock-db/videos';
 import galleries, {galleryCategories} from '../mock-db/gallery';
-import contactMapData from '../mock-db/contactMap';
 import allActivityItems from '../mock-db/recentActivity';
 import recentActivityDetails from '../mock-db/recentActivityDetails';
 import staticContent from '../mock-db/staticContent';
@@ -40,8 +37,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .onGet(API_FRONT_END_GALLERY_CATEGORY_LIST)
     .reply(200, {data: galleryCategories});
 
-  mock.onGet(API_FONT_END_CONTACT_MAP).reply(200, {data: contactMapData});
-
   // mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
   // mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});
   // mock.onGet(API_COURSES + '/popular').reply(200, {data: courses});
@@ -65,8 +60,6 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
 
   mock.onGet(API_NOTICE_BOARD).reply(200, {data: noticeList});
-
-  mock.onGet(API_FRONT_END_VIDEO).reply(200, {data: videos[0]});
 
   mock.onGet(API_FRONT_END_GALLERY).reply(200, {data: galleries[0]});
 

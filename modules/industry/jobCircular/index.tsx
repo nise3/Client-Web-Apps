@@ -21,86 +21,10 @@ import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
 import JobCardComponent from './components/JobCardComponent';
 import clsx from 'clsx';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 // import WindowIcon from '@mui/icons-material/Window';
 // import {ListAlt} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-
-let jobCircularList = [
-  {
-    id: 1,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-3.png',
-    title: 'ওটি অ্যাসিস্ট্যান্ট',
-    experience: '১-৩ বছর অভিজ্ঞতা',
-    location: 'আশুলিয়াা',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-  {
-    id: 2,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-4.png',
-    title: 'মেডিক্যাল সহকারী',
-    experience: 'প্রযোজ্য নয়',
-    location: 'রূপগঞ্জ',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-  {
-    id: 3,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-5.png',
-    title: 'সিসিটিভি টেকনিশিয়ান',
-    experience: '২ বছর অভিজ্ঞতা',
-    location: 'ঢাকা',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-  {
-    id: 4,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-6.png',
-    title: 'অটোমোবাইল ইঞ্জিনিয়ার',
-    experience: '৫-৭ বছর অভিজ্ঞতা',
-    location: 'উত্তরা',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-  {
-    id: 5,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-7.png',
-    title: 'কম্পিউটার অপারেটর',
-    experience: '২-৩ বছর অভিজ্ঞতা',
-    location: 'মিরপুর',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-  {
-    id: 6,
-    company: 'Soft BD Ltd',
-    logo: '/images/skill-matching-job-8.png',
-    title: 'ডাটা এন্ট্রি অপারেটর',
-    experience: 'প্রযোজ্য নয়়',
-    location: 'ঢাকা',
-    remuneration: '50000-60000',
-    description:
-      'this is the job description, this is the job description,' +
-      ' this is the job description, ',
-  },
-];
-const totalJobCircular = 30;
+import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 
 const PREFIX = 'JobCircular';
 
@@ -152,16 +76,16 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const JobCircular = () => {
   const {messages} = useIntl();
-  const result = useCustomStyle();
-
+  const [jobFilter] = useState({});
+  /*const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
+    useFetchJobCirculars();*/
   /*  const [jobCircularFilters] = useState<any>({
           page: 1,
           page_size: PageSizes.EIGHT,
         });*/
 
-  /*const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
-          useFetchJobCircular(objectFilter(jobCircularFilters));*/
-  const isLoadingJobCirculars = false;
+  const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
+    useFetchPublicJobs(jobFilter);
 
   /*const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');*/
   const [selectedVideoAlbumId] = useState<any>('');
@@ -255,14 +179,17 @@ const JobCircular = () => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Grid container justifyContent={'space-between'}>
-                  <Grid item>
-                    <H6 className={classes.titleStyle}>
-                      <IntlMessages
-                        id={'common.total_job_number'}
-                        values={{subject: totalJobCircular}}
-                      />
-                    </H6>
-                  </Grid>
+                  {!isLoadingJobCirculars && (
+                    <Grid item>
+                      <H6 className={classes.titleStyle}>
+                        <IntlMessages
+                          id={'common.total_job_number'}
+                          values={{subject: jobCircularList.length}}
+                        />
+                      </H6>
+                    </Grid>
+                  )}
+
                   <Grid item>
                     {/*<ListAlt />*/}
                     {/*<WindowIcon />*/}

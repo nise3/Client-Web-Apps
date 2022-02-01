@@ -79,6 +79,8 @@ export const API_PUBLIC_OCCUPATIONS =
 export const API_PUBLIC_JOB_SECTORS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-sectors';
 
+export const API_PUBLIC_JOBS = ORGANIZATION_SERVICE_PUBLIC_PATH + '/jobs';
+
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
 export const API_ASSOCIATION_TRADES = ORGANIZATION_SERVICE_PATH + '/trades';
@@ -193,9 +195,6 @@ export const API_FRONT_END_VIDEOS_LIST =
 export const API_FRONT_END_VIDEO = INSTITUTE_SERVICE_PATH + '/video';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
-
-/** Routes for contact page map */
-export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
 
 /** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
 export const API_COURSE_ENROLLMENTS =
@@ -325,42 +324,41 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
 export const API_INDUSTRY_ASSOCIATION_MEMBERS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-members';
 
-export const API_JOB = ORGANIZATION_SERVICE_PATH + '/job';
-export const API_JOBS = API_JOB + '/jobs';
-export const API_JOB_ID = API_JOB + '/job-id';
+export const API_JOBS = ORGANIZATION_SERVICE_PATH + '/jobs';
+export const API_JOB_ID = API_JOBS + '/job-id';
 
 export const API_JOB_STORE_PRIMARY_INFORMATION =
-  API_JOB + '/store-primary-job-information';
+  API_JOBS + '/store-primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
-  API_JOB + '/primary-job-information/';
+  API_JOBS + '/primary-job-information/';
 
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
-  API_JOB + '/store-additional-job-information';
+  API_JOBS + '/store-additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
-  API_JOB + '/additional-job-information/';
+  API_JOBS + '/additional-job-information/';
 
 export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
-  API_JOB + '/store-candidate-requirements';
+  API_JOBS + '/store-candidate-requirements';
 export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
-  API_JOB + '/candidate-requirements/';
+  API_JOBS + '/candidate-requirements/';
 
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
-  API_JOB + '/store-company-info-visibility';
+  API_JOBS + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
-  API_JOB + '/company-info-visibility/';
+  API_JOBS + '/company-info-visibility/';
 
 export const API_JOB_STORE_MATCHING_CRITERIA =
-  API_JOB + '/store-matching-criteria';
-export const API_GET_JOB_MATCHING_CRITERIA = API_JOB + '/matching-criteria/';
+  API_JOBS + '/store-matching-criteria';
+export const API_GET_JOB_MATCHING_CRITERIA = API_JOBS + '/matching-criteria/';
 
 export const API_JOB_STORE_CONTACT_INFORMATION =
-  API_JOB + '/contact-information';
+  API_JOBS + '/contact-information';
 export const API_GET_JOB_CONTACT_INFORMATION =
-  API_JOB + '/contact-information/';
+  API_JOBS + '/contact-information/';
 
-export const API_GET_JOB_PREVIEW = API_JOB + '/job-preview/';
+export const API_GET_JOB_PREVIEW = API_JOBS + '/job-preview/';
 
-export const API_GET_JOB_LOCATIONS = API_JOB + '/job-location';
+export const API_GET_JOB_LOCATIONS = API_JOBS + '/job-location';
 export const API_GET_EDUCATIONAL_INSTITUTES =
   ORGANIZATION_SERVICE_PATH + '/educational-institutions';
 
