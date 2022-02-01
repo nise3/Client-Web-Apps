@@ -7,13 +7,21 @@ Install it and run:
 yarn install
 ```
 
-### Command to Run Local Dev Environment
+### Command to Run Local Dev Environment Using ASM PC as API Server
 ```sh
-yarn run dev:admin
-yarn run dev:nise
-yarn run dev:youth
-yarn run dev:institute
-yarn run dev:industry
+yarn run dev-local:admin
+yarn run dev-local:nise
+yarn run dev-local:youth
+yarn run dev-local:institute
+yarn run dev-local:industry
+```
+### Command to Run Local Dev Environment Using Dev Server as API Server
+```sh
+yarn run dev-live:admin
+yarn run dev-live:nise
+yarn run dev-live:youth
+yarn run dev-live:institute
+yarn run dev-live:industry
 ```
 
 ### Build Command for Development Server
