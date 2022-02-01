@@ -84,6 +84,7 @@
   "error.message1": "We can't find the page that",
   "error.message2": "you are looking for.",
   "error.goBackToHome": "Go Back To Home",
+  "common.cv_links": "Cv links",
   "error.500Error": "500 Error",
   "error.500Message1": "We are facing internal server error",
   "error.500Message2": "and working towards to fix it soon.",
