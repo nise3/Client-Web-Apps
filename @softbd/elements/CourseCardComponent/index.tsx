@@ -34,8 +34,8 @@ const StyledCard = styled(Card)(({theme}) => ({
   height: '100%',
 
   [`& .${classes.trainingCardImage}`]: {
-    height: 140,
-    objectFit: 'contain',
+    height: 150,
+    objectFit: 'unset',
   },
 
   [`& .${classes.providerLogo}`]: {
@@ -43,11 +43,12 @@ const StyledCard = styled(Card)(({theme}) => ({
     width: 55,
     border: '1px solid ' + theme.palette.grey['300'],
     position: 'absolute',
-    top: 110,
+    top: 120,
     left: 10,
     background: theme.palette.common.white,
     '& img': {
       height: 'auto',
+      objectFit: 'unset',
     },
   },
 

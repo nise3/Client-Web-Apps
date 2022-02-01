@@ -33,8 +33,9 @@ function GalleryItemCardView({item}: any) {
           <CardActionArea>
             <CardMedia
               component='img'
-              height='140'
+              height='150'
               image={image}
+              sx={{objectFit: 'unset'}}
               alt={item?.image_alt_title}
               title={item?.title}
             />
