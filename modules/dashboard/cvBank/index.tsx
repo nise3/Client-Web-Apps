@@ -34,27 +34,44 @@ const CVBankPage = () => {
       {
         Header: messages['youth.username'],
         accessor: 'username',
-        disableFilters: true,
         isVisible: false,
+        disableFilters: true,
       },
       {
-        Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        Header: messages['common.first_name_bn'],
+        accessor: 'first_name',
+      },
+      {
+        Header: messages['common.last_name_bn'],
+        accessor: 'last_name',
       },
       {
         Header: messages['youth.gender'],
         accessor: 'gender_label',
-        disableFilters: true,
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['youth.mobile'],
         accessor: 'mobile',
+        disableFilters: true,
+        isVisible: false,
+      },
+      {
+        Header: messages['skill.label'],
+        accessor: 'skill_ids',
+        isVisible: false,
+        filter: 'skillsFilter',
+        Cell: (props: any) => {
+          const {skills} = props?.row?.original;
+          return skills?.map((skill: any) => (
+            <p key={skill?.id}>{skill?.title_en}</p>
+          ));
+        },
       },
       {
         Header: messages['youth.email'],
         accessor: 'email',
-        isVisible: false,
       },
       {
         Header: messages['common.status'],
@@ -123,7 +140,6 @@ const CVBankPage = () => {
     return {
       ...youth,
       gender_label,
-      full_name: youth.first_name + ' ' + youth.last_name,
     };
   });
 
