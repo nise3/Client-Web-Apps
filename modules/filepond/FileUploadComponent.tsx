@@ -24,10 +24,13 @@ interface FilepondComponentProps {
   errorInstance: any;
   setValue: any;
   register: any;
-  required: boolean;
+  required?: boolean;
   label: string | React.ReactNode;
-  defaultFileUrl?: string | null;
+  defaultFileUrl?: string | Array<any> | null;
   acceptedFileTypes?: Array<string> | null;
+  uploadedUrls?:any;
+  allowMultiple?:boolean;
+
 }
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
@@ -41,6 +44,8 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   label,
   acceptedFileTypes,
   defaultFileUrl,
+    allowMultiple,
+    uploadedUrls,
 }) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
@@ -83,7 +88,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           acceptedFileTypes={acceptedFileTypes ? acceptedFileTypes : []}
           onupdatefiles={setFiles}
           ref={filePondRef}
-          allowMultiple={false}
+          allowMultiple={allowMultiple}
           onremovefile={handleRemoveFile}
           maxFiles={1}
           server={{
