@@ -58,13 +58,15 @@ const getFilterValue = (
       return getRowStatusLabel(filterValue);
     case 'skillsFilter':
       let name;
+
       getAllSkills().then((skills: any) => {
         const data = skills?.data?.filter((skill: any) => {
           return skill.id == filterValue;
         });
         name = data[0]?.title_en;
       });
-      return name;
+
+      return name ?? filterValue;
   }
 
   return filterValue;
