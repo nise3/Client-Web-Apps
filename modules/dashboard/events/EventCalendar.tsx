@@ -91,13 +91,15 @@ const EventCalendar = () => {
     if (events) {
       // events = eventsDateTimeMap(events);
       events.map((e: ICalendar) => {
-        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
-        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        // console.log('log start_time ', e.start_time);
+        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}T00:00:00`;
+        console.log('log start ', start);
+        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}T00:00:00`;
         e.start = new Date(start);
         e.end = new Date(end);
         return e;
       });
-      // console.log(events);
+      console.log('log events ', events);
       setEventsList(events);
     }
   }, [events]);
