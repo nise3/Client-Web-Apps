@@ -1,11 +1,13 @@
 import {Checkbox, FormControlLabel} from '@mui/material';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import React, {JSXElementConstructor, ReactElement} from 'react';
+// import React, {JSXElementConstructor, ReactElement} from 'react';
 import Typography from '@mui/material/Typography';
+import {MessageFormatElement} from 'react-intl';
 
 type Props = {
   id: string;
-  label: string | number | ReactElement<any, string | JSXElementConstructor<any>>;
+  label: string | number | MessageFormatElement[];
+  // label: string | number | MessageFormatElement[] | ReactElement<any, string | JSXElementConstructor<any>>;
   isLoading?: boolean;
   register?: any;
   errorInstance?: any;

@@ -14,7 +14,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 
 import {
   useFetchCourses,
-  useFetchProgrammes,
+  useFetchPublicPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {
   useFetchCMSGlobalConfig,
@@ -103,7 +103,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: programmes, isLoading: isLoadingProgramme} =
-    useFetchProgrammes(programFilters);
+    useFetchPublicPrograms(programFilters);
 
   const [courseFilters, setCourseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
