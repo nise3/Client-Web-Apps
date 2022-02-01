@@ -8,7 +8,6 @@ import {
   API_JOB_STORE_MATCHING_CRITERIA,
   API_JOB_STORE_PRIMARY_INFORMATION,
   API_JOBS,
-  API_PUBLISH_JOBS,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
@@ -93,10 +92,11 @@ export const deleteJob = async (jobId: number) => {
   }
 };
 
-export const publishJob = async (jobId: string) => {
+export const publishJob = async (jobId: string, data: any) => {
   try {
     let response: any = await apiPost(
-      API_PUBLISH_JOBS + '/' + jobId + '/status-change',
+      API_JOBS + '/status-change' + '/' + jobId,
+      data,
     );
     return response.data;
   } catch (error) {

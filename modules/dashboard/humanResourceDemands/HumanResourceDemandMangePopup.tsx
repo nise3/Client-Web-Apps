@@ -10,7 +10,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';

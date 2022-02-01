@@ -79,6 +79,8 @@ export const API_PUBLIC_OCCUPATIONS =
 export const API_PUBLIC_JOB_SECTORS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-sectors';
 
+export const API_PUBLIC_JOBS = ORGANIZATION_SERVICE_PUBLIC_PATH + '/jobs';
+
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
 export const API_ASSOCIATION_TRADES = ORGANIZATION_SERVICE_PATH + '/trades';
@@ -193,9 +195,6 @@ export const API_FRONT_END_VIDEOS_LIST =
 export const API_FRONT_END_VIDEO = INSTITUTE_SERVICE_PATH + '/video';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
-
-/** Routes for contact page map */
-export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
 
 /** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
 export const API_COURSE_ENROLLMENTS =
