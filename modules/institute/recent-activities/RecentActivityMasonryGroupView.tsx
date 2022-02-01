@@ -30,15 +30,18 @@ const StyledImageList = styled(ImageList)(({theme}) => {
       minWidth: '180px',
       maxWidth: '195px',
       borderRadius: '5px',
-      bottom: '9vh',
+      bottom: '55px',
       left: '5px',
       position: 'absolute',
-      [theme.breakpoints.down('lg')]: {
-        bottom: '10vh',
-      },
+      // [theme.breakpoints.down('lg')]: {
+      //   bottom: '10vh',
+      // },
     },
     [`&.${classes.image}`]: {
       overflow: 'hidden',
+      '& img': {
+        objectFit: 'unset',
+      },
     },
     [`& .${classes.imageTexts}`]: {
       position: 'relative',
@@ -82,7 +85,7 @@ function RecentActivityMasonryGroupView({items}: any) {
       sx={{width: '100%', height: 'auto'}}
       variant='quilted'
       cols={4}
-      rowHeight={250}
+      rowHeight={270}
       className={classes.image}>
       {items &&
         items?.map((item: any) => (
