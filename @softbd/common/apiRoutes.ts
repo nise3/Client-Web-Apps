@@ -196,9 +196,6 @@ export const API_FRONT_END_VIDEO = INSTITUTE_SERVICE_PATH + '/video';
 export const API_FRONT_END_VIDEOS_CATEGORY_LIST =
   INSTITUTE_SERVICE_PATH + '/video-categories';
 
-/** Routes for contact page map */
-export const API_FONT_END_CONTACT_MAP = API_INSTITUTES + '/contact';
-
 /** Routes for APPLICATION_MANAGEMENT in dashboard/application-management */
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
