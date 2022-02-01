@@ -238,6 +238,7 @@
   "common.done": "Done",
   "common.add_new": "New {subject}",
   "common.edit": "{subject} edit",
+  "common.total_job_number": "{subject} Jobs",
   "common.status": "Status",
   "common.all": "All",
   "common.none": "None",
