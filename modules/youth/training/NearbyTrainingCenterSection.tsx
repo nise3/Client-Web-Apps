@@ -3,7 +3,6 @@ import {Button, Grid} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
-import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
@@ -11,6 +10,7 @@ import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {styled} from '@mui/material/styles';
 import {H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
