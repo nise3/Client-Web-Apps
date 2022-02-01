@@ -12,7 +12,7 @@ import {
   API_FRONT_END_FAQ,
   API_FRONT_END_RECENT_ACTIVITY_LIST,
   API_GALLERY_ALBUMS,
-  API_HUMAN_RESOURCE_DEMAND,
+  API_HUMAN_RESOURCE_DEMAND, API_HUMAN_RESOURCE_DEMAND_YOUTHS,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
@@ -194,6 +194,11 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
 export function useFetchHrDemand(hrDemandId: number | null) {
   return useAxiosSWR(
     hrDemandId ? API_HUMAN_RESOURCE_DEMAND + '/' + hrDemandId : null,
+  );
+}
+export function useFetchInstituteYouths(instituteId:number | null) {
+  return useAxiosSWR(
+      instituteId ? API_HUMAN_RESOURCE_DEMAND_YOUTHS + '/' + instituteId : null,
   );
 }
 
