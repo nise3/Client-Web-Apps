@@ -48,7 +48,7 @@ export interface IPartner extends IIdTitle {
   row_status: string;
   other_language_fields?: object;
 }
-export interface ICalendar extends Event, Partial<IIdTitleCreateUpdateAt> {
+export interface ICalendar extends Event, Partial<Omit<IIdTitleCreateUpdateAt, "title">> {
   youth_id?: number | string;
   institute_id?: number | string;
   organization_id?: number | string;
