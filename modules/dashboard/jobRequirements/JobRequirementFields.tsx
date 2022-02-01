@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {Grid} from '@mui/material';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -56,14 +55,26 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
+          <CustomSelectAutoComplete
             required
-            id={'hr_demands[' + index + '][skill_id]'}
-            label={messages['common.skills']}
+            id={'hr_demands[' + index + '][mandatory_skill_ids]'}
+            label={messages['common.mandatory_skills']}
             isLoading={isLoadingSkill}
             options={skillOptions}
             optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomSelectAutoComplete
+            id={'hr_demands[' + index + '][optional_skill_ids]'}
+            label={messages['common.optional_skills']}
+            isLoading={isLoadingSkill}
+            options={skillOptions}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             control={control}
             errorInstance={errors}
           />
