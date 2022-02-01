@@ -6,6 +6,7 @@ import {
   Grid,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
@@ -48,6 +49,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const RecentActivitiesDetails = ({data}: any) => {
   const {messages, formatDate} = useIntl();
   const [videoUrl, setVideoUrl] = useState<any>(null);
+  const theme = useTheme();
 
   useEffect(() => {
     if (data && data?.content_type != ContentTypes.IMAGE) {
@@ -106,10 +108,19 @@ const RecentActivitiesDetails = ({data}: any) => {
             {data?.content_type && data.content_type == ContentTypes.IMAGE && (
               <CardMedia
                 component='img'
-                height='350'
+                height='400'
                 image={data?.image_path}
                 alt={data?.title}
                 title={data?.title}
+                sx={{
+                  objectFit: 'unset',
+                  [theme.breakpoints.up('xl')]: {
+                    height: 550,
+                  },
+                  [theme.breakpoints.down('sm')]: {
+                    height: 150,
+                  },
+                }}
               />
             )}
 

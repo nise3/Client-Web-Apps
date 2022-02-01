@@ -53,8 +53,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.coverImage}`]: {
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
-    height: '300px',
+    height: 400,
     position: 'absolute',
+    objectFit: 'unset',
+    [theme.breakpoints.up('xl')]: {
+      height: 550,
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: 150,
+    },
   },
   [`& .${classes.coverTitle}`]: {
     background: theme.palette.common.white,
