@@ -25,7 +25,7 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import Genders from '../../../@softbd/utilities/Genders';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {youthRegistration} from '../../../services/youthManagement/YouthRegistrationService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -92,7 +92,7 @@ const YouthRegistration = () => {
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: skills} = useFetchYouthSkills(youthSkillsFilter);
+  const {data: skills} = useFetchSkills(youthSkillsFilter);
 
   const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);

@@ -39,7 +39,9 @@ axiosInstance.interceptors.request.use(
       config.headers['User-Token'] = `Bearer ${userAccessToken}`;
     }
 
-    config.headers['Domain'] = getCurrentDomain();
+    if (!config.headers['Domain']) {
+      config.headers['Domain'] = getCurrentDomain();
+    }
 
     return config;
   },

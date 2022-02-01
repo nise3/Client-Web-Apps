@@ -6,15 +6,11 @@ import {
   API_ALL_FAQS,
   API_BATCHES,
   API_BRANCHES,
-  API_COURSE_DETAILS,
+  API_PUBLIC_COURSE_DETAILS,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
-  API_FRONT_END_ALL_ACTIVITY_LIST,
   API_FRONT_END_FAQ,
-  API_FRONT_END_GALLERY_CATEGORY_LIST,
   API_FRONT_END_RECENT_ACTIVITY_LIST,
-  API_FRONT_END_VIDEOS_CATEGORY_LIST,
-  API_FRONT_END_VIDEOS_LIST,
   API_GALLERY_ALBUMS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_MEMBERS,
@@ -27,7 +23,7 @@ import {
   API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
-  API_PUBLIC_PROGRAMMES,
+  API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
   API_TRAINERS,
   API_TRAINING_CENTERS,
@@ -47,7 +43,7 @@ export function useFetchInstitutes(params: any) {
 }
 
 export function useFetchPublicInstituteDetails() {
-  return useAxiosSWR(API_PUBLIC_INSTITUTE_DETAILS);
+  return useDataLocalizationAxiosSWR(API_PUBLIC_INSTITUTE_DETAILS);
 }
 
 export function useFetchAllInstitutes(params: any) {
@@ -64,18 +60,6 @@ export function useFetchInstitutesGallery(params: any) {
 
 export function useFetchInstitutesPublicGallery(params: any) {
   return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
-}
-
-export function useFetchInstitutesGalleryCategory() {
-  return useAxiosSWR(API_FRONT_END_GALLERY_CATEGORY_LIST);
-}
-
-export function useFetchInstitutesVideos() {
-  return useAxiosSWR(API_FRONT_END_VIDEOS_LIST);
-}
-
-export function useFetchInstitutesVideoCategory() {
-  return useAxiosSWR(API_FRONT_END_VIDEOS_CATEGORY_LIST);
 }
 
 export function useFetchBranch(branchId: number | null) {
@@ -96,8 +80,8 @@ export function useFetchPublication(publicationId: number | null) {
   );
 }
 
-export function useFetchProgrammes(params: any) {
-  return useAxiosSWR([API_PUBLIC_PROGRAMMES, params]);
+export function useFetchPublicPrograms(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_PROGRAMS, params]);
 }
 
 export function useFetchTrainingCenter(trainingCenterId: number | null) {
@@ -118,58 +102,36 @@ export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
 }
 
-export function useFetchVideos(params: any) {
-  return useAxiosSWR([API_FRONT_END_VIDEOS_LIST, params]);
-}
-
 export function useFetchCourseList(pathVariable: string, params: any) {
-  return useDataLocalizationAxiosSWR([
-    pathVariable
-      ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
-      : API_PUBLIC_COURSE_LIST,
-    params,
-  ]);
-}
-
-export function useFetchSkillMatchingCourseList(
-  pathVariable: string,
-  params: any,
-) {
-  if (params?.skill_ids?.length > 0) {
-    return useAxiosSWR([
-      pathVariable
-        ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
-        : API_PUBLIC_COURSE_LIST,
-      params,
-    ]);
-  }
-
-  const {data: {data = undefined, ...metaData} = {}} = {};
-
-  return {
-    data,
-    metaData,
-    isLoading: false,
-    error: {},
-    isValidating: false,
-  };
+  return useDataLocalizationAxiosSWR(
+    params
+      ? [
+          pathVariable
+            ? API_PUBLIC_COURSE_LIST + '/' + pathVariable
+            : API_PUBLIC_COURSE_LIST,
+          params,
+        ]
+      : null,
+  );
 }
 
 export function useFetchUpcomingCourseList(params: any) {
   return useAxiosSWR([API_PUBLIC_COURSE_LIST, params]);
 }
 
-export function useFetchCourseDetailsWithParams(
+export function useFetchPublicCourseDetailsWithParams(
   courseId: number | null,
   params: any,
 ) {
   return useDataLocalizationAxiosSWR(
-    courseId ? [API_COURSE_DETAILS + '/' + courseId, params] : null,
+    courseId ? [API_PUBLIC_COURSE_DETAILS + '/' + courseId, params] : null,
   );
 }
 
-export function useFetchCourseDetails(courseId: number | null) {
-  return useAxiosSWR(courseId ? API_COURSE_DETAILS + '/' + courseId : null);
+export function useFetchPublicCourseDetails(courseId: number | null) {
+  return useAxiosSWR(
+    courseId ? API_PUBLIC_COURSE_DETAILS + '/' + courseId : null,
+  );
 }
 
 export function useFetchBatch(batchId: number | null) {
@@ -188,16 +150,12 @@ export function useFetchTrainers(params: any) {
   return useAxiosSWR([API_TRAINERS, params]);
 }
 
-export function useFetchInstitutesContactMap() {
-  return useAxiosSWR([API_PUBLIC_TRAINING_CENTERS]);
+export function useFetchPublicTrainingCenters(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
 }
 
 export function useFetchInstitutesRecentActivity(params: any) {
   return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST, params]);
-}
-
-export function useFetchInstitutesAllActivity() {
-  return useAxiosSWR([API_FRONT_END_ALL_ACTIVITY_LIST]);
 }
 
 export function useFetchInstitutesFAQ(params: any) {
