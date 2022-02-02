@@ -597,6 +597,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               label={messages['common.image_path']}
               required={true}
               acceptedFileTypes={['image/*']}
+              height={'550'}
+              width={'1080'}
             />
           </Grid>
         )}
@@ -653,6 +655,8 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               label={messages['common.collage_image_path']}
               required={true}
               acceptedFileTypes={['image/*']}
+              height={'500'}
+              width={'500'}
             />
           </Grid>
         )}

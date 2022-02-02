@@ -556,6 +556,8 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
                       register={register}
                       label={messages['common.image_path']}
                       required={true}
+                      height={'150'}
+                      width={'400'}
                     />
                   </Grid>
 
