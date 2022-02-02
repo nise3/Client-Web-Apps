@@ -145,7 +145,7 @@ export interface IColumnInstance<T extends object> extends ColumnInstance<any> {
   setFilter: (updater: any) => void;
   preFilteredRows: Array<any>;
   align: string;
-  selectFilterItems: Array<ISelectFilterItem>;
+  selectFilterItems?: Array<ISelectFilterItem>;
 }
 
 export interface IFilters<T extends object> extends Filters<any> {
