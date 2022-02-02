@@ -55,7 +55,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
     SSO_CONFIG.clientKey +
     '&scope=openid&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
-    redirectUrl.toString()
+    encodeURI(redirectUrl.toString())
   );
 };
 
@@ -77,7 +77,7 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
 // };
 
 export const getSSOLogoutUrl = () => {
-  const postLogoutRedirectUri = niseDomain() + '/logout' ;
+  const postLogoutRedirectUri = niseDomain() + '/logout';
   const idToken = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
   const ssoSessionState = getBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE);
 
