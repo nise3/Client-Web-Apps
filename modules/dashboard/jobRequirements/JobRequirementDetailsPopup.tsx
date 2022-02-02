@@ -17,6 +17,8 @@ type Props = {
 const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const [instituteTitles, setInstituteTitles] = useState<Array<string>>([]);
+  const [mandatorySkills, setMandatorySkills] = useState<Array<string>>([]);
+  const [optionalSkills, setOptionalSkills] = useState<Array<string>>([]);
 
   const {data: itemData, isLoading} = useFetchHrDemandDetails(itemId);
 
@@ -27,7 +29,32 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
       institutes.push(' ');
     });
     setInstituteTitles(institutes);
-  }, []);
+
+    let mandatorySkills: Array<any> = [];
+    itemData.mandatory_skills.forEach((skill: any) => {
+      mandatorySkills.push(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<Chip>${skill.title}</Chip>`,
+          }}
+        />,
+      );
+    });
+
+    setMandatorySkills(mandatorySkills);
+
+    let optionalSkills: Array<any> = [];
+    itemData.optional_skills.forEach((skill: any) => {
+      optionalSkills.push(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<Chip>${skill.title}</Chip>`,
+          }}
+        />,
+      );
+    });
+    setOptionalSkills(optionalSkills);
+  }, [itemData]);
 
   return (
     <>
@@ -62,8 +89,15 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.skills']}
-              value={itemData?.skill_title}
+              label={messages['common.mandatory_skills']}
+              value={mandatorySkills}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.optional_skills']}
+              value={optionalSkills}
               isLoading={isLoading}
             />
           </Grid>
