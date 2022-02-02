@@ -75,7 +75,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
                 <Avatar src={job?.logo} sx={{width: '60px', height: '60px'}} />
                 <Box sx={{marginLeft: 2}}>
                   <Typography className={classes.titleStyle}>
-                    {job.title}
+                    {job.job_title}
                   </Typography>
                   <Typography variant='caption'>{job.company}</Typography>
                 </Box>

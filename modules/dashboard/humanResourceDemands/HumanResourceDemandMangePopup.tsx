@@ -6,7 +6,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import {useIntl} from 'react-intl';
 import {
   useFetchHrDemand,
-  useFetchInstituteYouths,
+  useFetchInstituteTraineeYouths,
 } from '../../../services/instituteManagement/hooks';
 import {updateHrDemand} from '../../../services/instituteManagement/HrDemandService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -18,7 +18,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 
 interface HumanResourceDemandMangePopupProps {
   itemId: number | null;
@@ -37,14 +37,15 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
   const {updateSuccessMessage} = useSuccessMessage();
   const {data: itemData} = useFetchHrDemand(itemId);
 
-  const {data: skills} = useFetchInstituteYouths(itemId);
+  const {data: youths} = useFetchInstituteTraineeYouths();
+
+  console.log('youths: ', youths);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      vacancy_provided_by_institute: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.vacancy_provided_by_institute'] as string),
+      cv_links: yup
+        .array()
+        .of(yup.string())
+        .label(messages['common.cv_links'] as string),
     });
   }, [messages]);
   const {
@@ -53,6 +54,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     setValue,
     handleSubmit,
     control,
+    watch,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -67,11 +69,12 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       }
       onClose();
       refreshDataTable();
+      console.log('data: ', data);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
+  console.log('errors: ', errors);
   return (
     <HookFormMuiModal
       open={true}
@@ -98,12 +101,12 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='skills'
-            label={messages['common.skills']}
+          <CustomSelectAutoComplete
+            id='youth_ids'
+            label={messages['common.youths']}
             isLoading={false}
             control={control}
-            options={skills}
+            options={youths}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
@@ -111,13 +114,15 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
+            id={'cv_links'}
             defaultFileUrl={itemData?.cv_links}
             setValue={setValue}
-            id={'cv_links'}
             register={register}
             label={messages['common.cv_links']}
             errorInstance={errors}
             allowMultiple={true}
+            acceptedFileTypes={['application/pdf']}
+            uploadedUrls={watch('cv_links')}
           />
         </Grid>
       </Grid>
