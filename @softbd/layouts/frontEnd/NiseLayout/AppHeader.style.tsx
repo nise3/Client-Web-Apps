@@ -82,6 +82,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     fontSize: '1rem',
     padding: '20px 10px',
     color: '#746F6F',
+    transition: 'all .7s ease',
     '&>a': {
       display: 'flex',
     },
@@ -93,9 +94,9 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
       marginRight: '5px',
     },
     '&:hover': {
-      color: theme.palette.primary.main,
-      // transform: 'translateY(-3px)',
-      fontWeight: 'bold',
+      color: '#682988',
+      transform: 'scale(1.2)',
+      // fontWeight: 'bold',
     },
   },
 
