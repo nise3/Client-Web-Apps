@@ -5,7 +5,7 @@
   "scripts": {
     "staging:start": "next start dashboard -p 3000 && next start nise -p 3001 && next start youth -p 3002 && next start institute -p 3003",
     "dev-local:admin": "env-cmd -f .\\env.local next dev dashboard -p 3000",
-    "dev-local:nise": "env-cmd -f .\\NcuNenv.local next dev nise -p 3001",
+    "dev-local:nise": "env-cmd -f .\\env.local next dev nise -p 3001",
     "dev-local:youth": "env-cmd -f .\\env.local next dev youth -p 3002",
     "dev-local:institute": "env-cmd -f .\\env.local next dev institute -p 3003",
     "dev-local:industry": "env-cmd -f .\\env.local next dev industry -p 3004",

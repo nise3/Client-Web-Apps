@@ -563,6 +563,8 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             acceptedFileTypes={['image/*']}
             label={messages['common.main_image_path']}
             required={true}
+            height={'550'}
+            width={'1080'}
           />
         </Grid>
         <Grid item xs={12} md={6}>

@@ -708,6 +708,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             label={messages['common.cover_image']}
             required={false}
+            height={'400'}
+            width={'600'}
           />
         </Grid>
         <Grid item xs={12}>

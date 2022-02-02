@@ -433,6 +433,8 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             register={register}
             label={messages['common.image_path']}
             required={true}
+            height={'550'}
+            width={'1080'}
           />
         </Grid>
 
