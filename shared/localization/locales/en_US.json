@@ -4,6 +4,7 @@
   "applicationManagement.courseTitle": "Course Name",
   "applicationManagement.traineeDetails": "Trainee Details",
   "applicationManagement.assignBatch": "Assign Batch",
+  "industry_association.assignPermission": "Assign Permission",
   "applicationManagement.reject": "Reject",
   "applicationManagement.viewCV": "View CV",
   "applicationManagement.batches": "Available Batches",
