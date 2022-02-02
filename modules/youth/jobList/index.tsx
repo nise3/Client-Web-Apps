@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   Box,
-  Button,
   Container,
   Grid,
   IconButton,
@@ -9,11 +8,9 @@ import {
   Pagination,
   Paper,
   Stack,
-  Typography,
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H6} from '../../../@softbd/elements/common';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
@@ -129,12 +126,12 @@ const JobList = () => {
             <Grid container justifyContent={'space-between'}>
               <Grid item>
                 <Box className={classes.filterBox}>
-                  <Box display={'flex'}>
-                    <FilterListIcon />
-                    <Typography sx={{marginLeft: '15px'}}>
-                      {messages['filter.institute']}
-                    </Typography>
-                  </Box>
+                  {/*<Box display={'flex'}>*/}
+                  {/*  <FilterListIcon />*/}
+                  {/*  <Typography sx={{marginLeft: '15px'}}>*/}
+                  {/*    {messages['filter.institute']}*/}
+                  {/*  </Typography>*/}
+                  {/*</Box>*/}
 
                   {/*<CustomFilterableSelect*/}
                   {/*  id='job_circular_id'*/}
@@ -148,14 +145,14 @@ const JobList = () => {
                   {/*  className={clsx(classes.gridMargin, classes.selectStyle)}*/}
                   {/*/>*/}
 
-                  <Button
-                    variant={'contained'}
-                    size={'small'}
-                    color={'primary'}
-                    className={classes.gridMargin}
-                    sx={{height: '40px', width: '30%'}}>
-                    {messages['common.reset']}
-                  </Button>
+                  {/*<Button*/}
+                  {/*  variant={'contained'}*/}
+                  {/*  size={'small'}*/}
+                  {/*  color={'primary'}*/}
+                  {/*  className={classes.gridMargin}*/}
+                  {/*  sx={{height: '40px', width: '30%'}}>*/}
+                  {/*  {messages['common.reset']}*/}
+                  {/*</Button>*/}
                 </Box>
               </Grid>
               <Grid item>
@@ -222,7 +219,7 @@ const JobList = () => {
                 })
               )}
 
-              {jobs && jobs.length <= 0 && (
+              {(!jobs || (jobs && jobs.length <= 0)) && (
                 <NoDataFoundComponent
                   message={messages['common.no_data_found'] as string}
                 />

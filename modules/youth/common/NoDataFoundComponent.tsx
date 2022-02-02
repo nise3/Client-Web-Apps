@@ -14,7 +14,8 @@ interface NoDataFoundComponentProps {
     | 'subtitle1'
     | 'subtitle2'
     | 'body1'
-    | 'body2';
+    | 'body2'
+    | 'inherit';
 }
 
 const NoDataFoundComponent = ({
