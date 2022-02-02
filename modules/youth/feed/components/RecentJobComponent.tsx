@@ -40,10 +40,11 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 interface RecentJobProps {
   data: {
-    imageUrl: string;
-    jobTitle: string;
-    jobProviderName: string;
-    location: string;
+    image?: string;
+    job_title?: string;
+    industry_association_title?: string;
+    industry_title?: string;
+    location?: string;
   };
 }
 
@@ -56,16 +57,17 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
       <Box>
         <Avatar
           alt='provider image'
-          src={data.imageUrl}
+          src={data.image}
           className={classes.jobProviderImage}
         />
       </Box>
       <Box marginLeft={'10px'}>
         <H3 sx={{...result.body2}} className={classes.jobTitle}>
-          {data.jobTitle}
+          {data?.job_title}
         </H3>
         <Box className={classes.jobProviderName}>
-          {data.jobProviderName} &#8226; {data.location}
+          {data?.industry_association_title ?? data?.industry_title} &#8226;{' '}
+          {data.location ?? messages['no_location']}
         </Box>
         <Box>
           <Button variant='contained' color='primary' size={'small'}>
