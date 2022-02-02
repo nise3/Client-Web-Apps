@@ -94,8 +94,9 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     },
     '&:hover': {
       color: theme.palette.primary.main,
-      // transform: 'translateY(-3px)',
-      fontWeight: 'bold',
+      transition: 'all .7s ease',
+      transform: 'scale(1.2)',
+      // fontWeight: 'bold',
     },
   },
 
