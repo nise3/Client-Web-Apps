@@ -39,7 +39,7 @@ const classes = {
 
 const StyledContainer = styled(Container)(({theme}) => ({
   padding: '0 !important',
-  // position: 'relative',
+  position: 'relative',
   marginBottom: '20px',
   [`& .${classes.searchIcon}`]: {
     position: 'absolute',
@@ -197,8 +197,8 @@ const GalleryAlbumDetails = () => {
               </Grid>
             )
           )}
-
-          <Grid item xs={12}>
+          {/*Todo: this margin top is a temporary fix for design*/}
+          <Grid item xs={12} sx={{marginTop: '100px'}}>
             <Grid container>
               <Grid item xs={12}>
                 <Box
