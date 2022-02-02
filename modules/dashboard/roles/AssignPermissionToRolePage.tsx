@@ -164,16 +164,16 @@ const AssignPermissionToRolePage = () => {
         />
       }
       extra={[
-        <>
-          <BackButton url={'/roles'} />
+        <React.Fragment key={1}>
+          <BackButton key={1} url={'/roles'} />
           <SubmitButton
-            key={1}
+            key={2}
             onClick={syncPermissionAction}
             isLoading={isLoading}
             isSubmitting={isSubmitting}
             label={messages['permissions.sync_permission'] as string}
           />
-        </>,
+        </React.Fragment>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
