@@ -20,13 +20,16 @@ export interface IIdHolder {
 export interface IIdTitle extends IIdHolder {
   title: string;
 }
+
 export interface IIdTitles extends IIdTitle {
   title_en?: string;
 }
+
 export interface ICreateUpdateAt {
   updated_at?: string | undefined;
   created_at?: string | undefined;
 }
+
 export interface IIdTitleCreateUpdateAt extends IIdTitles, ICreateUpdateAt {}
 
 export interface IFAQ {
@@ -39,6 +42,7 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
+
 export interface IPartner extends IIdTitle {
   main_image_path?: string;
   thumb_image_path?: string;
@@ -48,7 +52,10 @@ export interface IPartner extends IIdTitle {
   row_status: string;
   other_language_fields?: object;
 }
-export interface ICalendar extends Event, Partial<Omit<IIdTitleCreateUpdateAt, "title">> {
+
+export interface ICalendar
+  extends Event,
+    Partial<Omit<IIdTitleCreateUpdateAt, 'title'>> {
   youth_id?: number | string;
   institute_id?: number | string;
   organization_id?: number | string;
@@ -60,21 +67,26 @@ export interface ICalendar extends Event, Partial<Omit<IIdTitleCreateUpdateAt, "
   end_time?: string;
   color?: string;
 }
+
 export interface ICalendarDto extends Omit<ICalendar, 'start' | 'end'> {
   start?: string;
   end?: string;
 }
+
 export interface ICalendarSlotInfo extends Omit<SlotInfo, 'start' | 'end'> {
   id: string;
 }
+
 export interface ICalendarQuery {
   type: string;
   youth_id?: string | number;
   institute_id?: string | number;
 }
+
 export interface IStaticPageCommon extends IIdTitle {
   sub_title?: string;
 }
+
 export interface IStaticPageDto extends IIdTitle, IStaticPageCommon {
   show_in?: number | string;
   content_slug_or_id?: string;
@@ -84,9 +96,11 @@ export interface IStaticPageDto extends IIdTitle, IStaticPageCommon {
   contents?: string;
   row_status?: number | string;
 }
+
 export interface IStaticPageBlock extends IStaticPageDto, IStaticPageCommon {
   // id?: string | number | undefined;
 }
+
 export interface IStaticPageContent
   extends IIdTitleCreateUpdateAt,
     IStaticPageCommon {
@@ -117,11 +131,13 @@ export interface IStaticPageContent
   created_by?: string;
   updated_by?: string;
 }
+
 export interface IStaticBlockAddEditPopupProps {
   pageCode: string;
   pageCategory: number;
   onClose: () => void;
 }
+
 export interface IColumnInstance<T extends object> extends ColumnInstance<any> {
   filter?: any;
   canFilter: boolean;
@@ -129,17 +145,22 @@ export interface IColumnInstance<T extends object> extends ColumnInstance<any> {
   setFilter: (updater: any) => void;
   preFilteredRows: Array<any>;
   align: string;
+  selectFilterItems: Array<ISelectFilterItem>;
 }
+
 export interface IFilters<T extends object> extends Filters<any> {
   id: IdType<any>;
   value: FilterValue;
 }
+
 export interface ITableState extends TableState {
   filters: IFilters<any>;
 }
+
 export interface IFilterProps<T extends object> extends FilterProps<any> {
   column: IColumnInstance<any>;
 }
+
 export interface ITableInstance<T extends object> extends TableInstance<any> {
   setAllFilters: (
     updater: Filters<any> | ((filters: Filters<any>) => Filters<any>),
@@ -152,9 +173,15 @@ export interface ITableInstance<T extends object> extends TableInstance<any> {
   gotoPage: (updater: ((pageIndex: number) => number) | number) => void;
   setPageSize: (pageSize: number) => void;
 }
+
 export interface ICellProps<T extends object> extends CellProps<any> {
   column: IColumnInstance<any>;
   row: Row<any>;
   cell: Cell<any, any>;
   value: CellValue<any>;
+}
+
+export interface ISelectFilterItem {
+  id: number | string;
+  title: string;
 }

@@ -30,7 +30,7 @@ import {
   fuzzyTextFilter,
   numericTextFilter,
   rowStatusFilter,
-  skillsFilter,
+  selectFilter,
 } from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
@@ -150,7 +150,7 @@ const filterTypes = {
   fuzzyText: fuzzyTextFilter,
   numeric: numericTextFilter,
   rowStatusFilter: rowStatusFilter,
-  skillsFilter: skillsFilter,
+  selectFilter: selectFilter,
 };
 
 /**
