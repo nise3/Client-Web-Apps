@@ -5,18 +5,14 @@ import {useFetchInstituteProvidedYouthList} from '../../../services/IndustryMana
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import React, {useCallback, useMemo, useState} from 'react';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import RejectButton from '../applicationManagement/RejectButton';
-import {rejectHRDemand} from '../../../services/IndustryManagement/HrDemandService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {Checkbox} from '@mui/material';
+import {Button, Checkbox} from '@mui/material';
 import {startCase as lodashStartCase} from 'lodash';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import BackButton from '../../../@softbd/elements/button/BackButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {approveYouths} from '../../../services/IndustryManagement/JobRequirementService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {ArrowBack} from '@mui/icons-material';
 
 const youthListTemp = [
   {
@@ -38,22 +34,17 @@ const youthListTemp = [
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
-  const {successStack, errorStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
   const router = useRouter();
   const {hrDemandInstituteId} = router.query;
 
   const [checkedYouths, setCheckedYouths] = useState<any>(new Set([]));
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const {data: youthList, isLoading: isLoadingYouthList} =
     useFetchInstituteProvidedYouthList(Number(hrDemandInstituteId));
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  }, []);
-
-  const rejectJobRequirementDemand = async (HRDemandId: number) => {
+  /*  const rejectJobRequirementDemand = async (HRDemandId: number) => {
     let response = await rejectHRDemand(HRDemandId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -64,7 +55,7 @@ const InstituteProvidedYouthList = () => {
       );
       refreshDataTable();
     }
-  };
+  };*/
 
   const handleYouthCheck = useCallback(
     (youthId: number) => {
@@ -80,14 +71,14 @@ const InstituteProvidedYouthList = () => {
     [checkedYouths],
   );
 
-  const canRejectApprove = useCallback((data: any) => {
-    return (
-      data?.vacancy_provided_by_institute > 0 &&
-      !data?.rejected_by_institute &&
-      data?.vacancy_approved_by_industry_association == 0 &&
-      data?.rejected_by_industry_association == 0
-    );
-  }, []);
+  // const canRejectApprove = useCallback((data: any) => {
+  //   return (
+  //     data?.vacancy_provided_by_institute > 0 &&
+  //     !data?.rejected_by_institute &&
+  //     data?.vacancy_approved_by_industry_association == 0 &&
+  //     data?.rejected_by_industry_association == 0
+  //   );
+  // }, []);
 
   const submitYouthApproval = useCallback(async () => {
     try {
@@ -153,23 +144,28 @@ const InstituteProvidedYouthList = () => {
     <PageBlock
       title={messages['button.youth_approve']}
       extra={[
-        <>
-          {/*url have to change to job-requirements/id*/}
-          <BackButton url={''} />
-          <SubmitButton
+        <React.Fragment key={1}>
+          <Button
             key={1}
+            startIcon={<ArrowBack />}
+            sx={{marginRight: '10px'}}
+            variant={'outlined'}
+            onClick={() => router.back()}>
+            {messages['common.back']}
+          </Button>
+          <SubmitButton
+            key={2}
             onClick={submitYouthApproval}
             isLoading={isLoadingYouthList}
             label={messages['common.approve'] as string}
           />
-        </>,
+        </React.Fragment>,
       ]}>
       <ReactTable
         columns={columns}
         data={youthListTemp || []}
         loading={isLoadingYouthList}
         skipDefaultFilter={true}
-        toggleResetTable={isToggleTable}
       />
     </PageBlock>
   );
