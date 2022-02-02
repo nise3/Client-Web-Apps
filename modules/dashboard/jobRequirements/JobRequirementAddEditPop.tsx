@@ -14,10 +14,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
-import {
-  useFetchOrganizations,
-  useFetchSkills,
-} from '../../../services/organaizationManagement/hooks';
+import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
 import JobRequirementFields from './JobRequirementFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
@@ -26,6 +23,7 @@ import {useFetchIndustryAssociations} from '../../../services/IndustryAssociatio
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import _ from 'lodash';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 
 interface HumanResourceDemandAddEditPopupProps {
   itemId: number | null;
@@ -63,7 +61,7 @@ const HumanResourceDemandAddEditPopup: FC<
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchSkills(skillFilter);
+    useFetchPublicSkills(skillFilter);
 
   const onAddHrDemand = useCallback(() => {
     setHrDemandFields((prev: any) => {

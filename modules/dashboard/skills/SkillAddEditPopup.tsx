@@ -15,10 +15,10 @@ import {
   createSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
-import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ISkill} from '../../../shared/Interface/organization.interface';
+import {useFetchSkill} from '../../../services/youthManagement/hooks';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;

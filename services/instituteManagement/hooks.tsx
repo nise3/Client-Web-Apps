@@ -3,31 +3,26 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_ALL_FAQS,
   API_BATCHES,
   API_BRANCHES,
-  API_PUBLIC_COURSE_DETAILS,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
-  API_FRONT_END_FAQ,
-  API_FRONT_END_RECENT_ACTIVITY_LIST,
-  API_GALLERY_ALBUMS,
-  API_HUMAN_RESOURCE_DEMAND, API_HUMAN_RESOURCE_DEMAND_YOUTHS,
+  API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST,
+  API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
   API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTES,
   API_PROGRAMMES,
+  API_PUBLIC_COURSE_DETAILS,
   API_PUBLIC_COURSE_LIST,
-  API_PUBLIC_GALLERY_ALBUMS,
   API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_VISITOR_FEEDBACKS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -38,7 +33,7 @@ export function useFetchInstituteProfile() {
   return useAxiosSWR(API_INSTITUTE_PROFILE);
 }
 
-export function useFetchInstitutes(params: any) {
+export function useFetchPublicInstitutes(params: any) {
   return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
 }
 
@@ -52,14 +47,6 @@ export function useFetchAllInstitutes(params: any) {
 
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_MEMBERS, params]);
-}
-
-export function useFetchInstitutesGallery(params: any) {
-  return useAxiosSWR([API_GALLERY_ALBUMS, params]);
-}
-
-export function useFetchInstitutesPublicGallery(params: any) {
-  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
 }
 
 export function useFetchBranch(branchId: number | null) {
@@ -154,14 +141,6 @@ export function useFetchPublicTrainingCenters(params: any) {
   return useDataLocalizationAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
 }
 
-export function useFetchInstitutesRecentActivity(params: any) {
-  return useAxiosSWR([API_FRONT_END_RECENT_ACTIVITY_LIST, params]);
-}
-
-export function useFetchInstitutesFAQ(params: any) {
-  return useAxiosSWR([API_FRONT_END_FAQ, params]);
-}
-
 /** fetches a single application's details */
 export function useFetchApplicationDetails(applicationId: number | null) {
   return useAxiosSWR(
@@ -178,27 +157,18 @@ export function useFetchBatchesToAssign(courseId: number | null) {
   );
 }
 
-/** fetches a single FAQ's details */
-export function useFetchFAQ(faqId: number | null) {
-  return useAxiosSWR(faqId ? API_ALL_FAQS + '/' + faqId : null);
-}
-
-/** fetches a single user's feedback */
-export function useFetchVisitorFeedback(visitorId: number | null) {
-  return useAxiosSWR(
-    visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
-  );
-}
-
 /**hr-demand**/
 export function useFetchHrDemand(hrDemandId: number | null) {
   return useAxiosSWR(
     hrDemandId ? API_HUMAN_RESOURCE_DEMAND + '/' + hrDemandId : null,
   );
 }
-export function useFetchInstituteYouths(instituteId:number | null) {
+
+export function useFetchInstituteYouths(instituteId: number | null) {
   return useAxiosSWR(
-      instituteId ? API_HUMAN_RESOURCE_DEMAND_YOUTHS + '/' + instituteId : null,
+    instituteId
+      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + instituteId
+      : null,
   );
 }
 

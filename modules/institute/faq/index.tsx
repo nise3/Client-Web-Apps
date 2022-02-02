@@ -9,9 +9,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import {Container, Grid, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H1} from '../../../@softbd/elements/common';
-import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {useFetchPublicFAQ} from '../../../services/cmsManagement/hooks';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -45,7 +45,7 @@ const InstituteFAQ = () => {
   });
 
   const {data: faqItems, isLoading: isLoadingFaq} =
-    useFetchInstitutesFAQ(faqFilters);
+    useFetchPublicFAQ(faqFilters);
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {

@@ -3,7 +3,7 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_YOUTHS_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_YOUTHS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconCourse from '../../../@softbd/icons/IconCourse';
@@ -98,7 +98,7 @@ const FreelanceCornerPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_YOUTHS_LIST,
+      urlPath: API_YOUTHS,
       paramsValueModifier: (params: any) => {
         params['is_freelance_profile'] = 1;
         return params;
