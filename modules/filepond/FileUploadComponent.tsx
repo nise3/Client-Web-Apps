@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
+import Box from '@mui/material/Box';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -41,6 +42,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   errorInstance,
   setValue,
   register,
+  uploadedUrls,
   required,
   label,
   allowMultiple,
@@ -95,13 +97,12 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           ref={filePondRef}
           allowMultiple={allowMultiple}
           onremovefile={handleRemoveFile}
-          maxFiles={1}
           server={{
             process: {
               url: 'https://file.nise3.xyz/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
-                setValue(id, res?.url || '');
+                setValue(id, [...uploadedUrls, res?.url]);
                 return 1;
               },
             },

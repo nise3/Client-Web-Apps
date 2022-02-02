@@ -7,12 +7,12 @@ import {
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
-  API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
   API_INSTITUTE_QUESTION_BANK,
+  API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
   API_PROGRAMMES,
   API_PUBLIC_COURSE_DETAILS,
@@ -164,12 +164,8 @@ export function useFetchHrDemand(hrDemandId: number | null) {
   );
 }
 
-export function useFetchInstituteYouths(instituteId: number | null) {
-  return useAxiosSWR(
-    instituteId
-      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + instituteId
-      : null,
-  );
+export function useFetchInstituteTraineeYouths() {
+  return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
 /**

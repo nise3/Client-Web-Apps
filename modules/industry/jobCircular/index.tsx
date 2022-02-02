@@ -198,7 +198,7 @@ const JobCircular = () => {
               </Grid>
               {isLoadingJobCirculars ? (
                 <PostLoadingSkeleton />
-              ) : (
+              ) : jobCircularList && jobCircularList.length ? (
                 jobCircularList?.map((jobCircular: any) => {
                   return (
                     <Grid item xs={12} sm={12} md={12} key={jobCircular.id}>
@@ -206,13 +206,12 @@ const JobCircular = () => {
                     </Grid>
                   );
                 })
-              )}
-
-              {jobCircularList && jobCircularList.length <= 0 && (
+              ) : (
                 <NoDataFoundComponent
                   message={messages['common.no_data_found'] as string}
                 />
               )}
+
               <Grid
                 item
                 md={12}
