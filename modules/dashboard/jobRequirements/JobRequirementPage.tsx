@@ -20,15 +20,8 @@ import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandServi
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import HumanResourceDemandEditPop from './JobRequirementDemandEditPopUp';
 import Link from 'next/link';
-import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
-
-const PrimaryLightButton = styled(Button)(({theme}) => {
-  return {
-    color: theme.palette.primary.light,
-    border: 'none',
-  };
-});
+import {ManageAccounts} from '@mui/icons-material';
 
 const JobRequirementPage = () => {
   const {messages} = useIntl();
@@ -135,7 +128,7 @@ const JobRequirementPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={URL} passHref>
-                <Button sx={{border: 'none'}} variant={'outlined'}>
+                <Button startIcon={<ManageAccounts />}>
                   {messages['common.manage']}
                 </Button>
               </Link>

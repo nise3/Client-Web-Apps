@@ -6,7 +6,7 @@ import {
 } from '../../../services/IndustryManagement/hooks';
 import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -20,8 +20,10 @@ const JobRequirementManagePage = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const {jobRequirementId} = router.query;
-
-  const [isToggleTable] = useState<boolean>(false);
+  const [
+    instituteHumanResourceDemandFilter,
+    setInstituteHumanResourceDemandFilter,
+  ] = useState<any>({});
 
   const {data: humanResourceDemandData} = useFetchHumanResourceDemand(
     Number(jobRequirementId),
@@ -30,18 +32,20 @@ const JobRequirementManagePage = () => {
   const {
     data: instituteHumanResourceDemandData,
     isLoading: isLoadingInstituteHRDemandsData,
-  } = useFetchInstituteHumanResourceDemands({
-    hr_demand_id: Number(jobRequirementId),
-  });
+  } = useFetchInstituteHumanResourceDemands(instituteHumanResourceDemandFilter);
 
-  const canRejectApprove = useCallback((data: any) => {
-    return (
-      data?.vacancy_provided_by_institute > 0 &&
-      !data?.rejected_by_institute &&
-      data?.vacancy_approved_by_industry_association == 0 &&
-      data?.rejected_by_industry_association == 0
-    );
-  }, []);
+  useEffect(() => {
+    setInstituteHumanResourceDemandFilter({hr_demand_id: jobRequirementId});
+  }, [jobRequirementId]);
+
+  // const canRejectApprove = useCallback((data: any) => {
+  //   return (
+  //     data?.vacancy_provided_by_institute > 0 &&
+  //     !data?.rejected_by_institute &&
+  //     data?.vacancy_approved_by_industry_association == 0 &&
+  //     data?.rejected_by_industry_association == 0
+  //   );
+  // }, []);
 
   const columns = useMemo(
     () => [
@@ -158,27 +162,25 @@ const JobRequirementManagePage = () => {
     ],
     [messages],
   );
+
   return (
-    <PageBlock
-      title={
-        <IntlMessages
-          id='common.org_job_requirements'
-          values={{subject: humanResourceDemandData?.organization_title}}
+    <>
+      <PageBlock
+        title={
+          <IntlMessages
+            id='common.org_job_requirements'
+            values={{subject: humanResourceDemandData?.organization_title}}
+          />
+        }
+        extra={[<BackButton key={1} url={'/job-requirement'} />]}>
+        <ReactTable
+          columns={columns}
+          data={instituteHumanResourceDemandData || []}
+          loading={isLoadingInstituteHRDemandsData}
+          skipDefaultFilter={true}
         />
-      }
-      extra={[
-        <>
-          <BackButton url={'/job-requirement'} />
-        </>,
-      ]}>
-      <ReactTable
-        columns={columns}
-        data={instituteHumanResourceDemandData || []}
-        loading={isLoadingInstituteHRDemandsData}
-        skipDefaultFilter={true}
-        toggleResetTable={isToggleTable}
-      />
-    </PageBlock>
+      </PageBlock>
+    </>
   );
 };
 
