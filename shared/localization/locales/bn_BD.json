@@ -1349,5 +1349,6 @@
   "common.optional_skills": "ঐচ্ছিক দক্ষতা",
   "common.mandatory_skills": "বাধ্যতামূলক দক্ষতা",
   "common.assign_permission": "{subject}কে পারমিশন দিন",
-  "button.youth_approve": "ইয়ুথ অনুমোদন"
+  "button.youth_approve": "ইয়ুথ অনুমোদন",
+  "common.no_location": "অবস্থান নেই"
 }

@@ -1339,5 +1339,6 @@
   "common.not_enrollable": "Not Enrollable",
   "common.assign_permission": "Assign permission to {subject}",
   "button.youth_approve": "Approve Youth",
-  "common.org_job_requirements": "{subject} Job Requirement"
+  "common.org_job_requirements": "{subject} Job Requirement",
+  "common.no_location": "No Location"
 }
