@@ -5,6 +5,7 @@ import {
   API_INDUSTRY_ASSOCIATION_REGISTRATION,
   API_REJECT_INDUSTRY_ASSOC_REGISTRATION,
 } from '../../@softbd/common/apiRoutes';
+import {IPermissionSubGroupAssign} from '../../shared/Interface/industryAssociation.interface';
 
 export const industryAssociationRegistration = async (data: any) => {
   try {
@@ -35,13 +36,14 @@ export const rejectIndustryAssociationRegistration = async (
 };
 
 export const approveIndustryAssociationRegistration = async (
+  data: IPermissionSubGroupAssign,
   industryAssociationId: number,
 ) => {
   try {
     let response: any = await apiPut(
       API_APPROVE_INDUSTRY_ASSOC_REGISTRATION + '/' + industryAssociationId,
       {
-        industryAssociationId: industryAssociationId,
+        permission_sub_group_id: data?.permission_sub_group_id,
       },
     );
     return response.data;
