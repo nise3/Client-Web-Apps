@@ -6,7 +6,7 @@ import {
 } from '../../../services/IndustryManagement/hooks';
 import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -38,14 +38,14 @@ const JobRequirementManagePage = () => {
     setInstituteHumanResourceDemandFilter({hr_demand_id: jobRequirementId});
   }, [jobRequirementId]);
 
-  const canRejectApprove = useCallback((data: any) => {
-    return (
-      data?.vacancy_provided_by_institute > 0 &&
-      !data?.rejected_by_institute &&
-      data?.vacancy_approved_by_industry_association == 0 &&
-      data?.rejected_by_industry_association == 0
-    );
-  }, []);
+  // const canRejectApprove = useCallback((data: any) => {
+  //   return (
+  //     data?.vacancy_provided_by_institute > 0 &&
+  //     !data?.rejected_by_institute &&
+  //     data?.vacancy_approved_by_industry_association == 0 &&
+  //     data?.rejected_by_industry_association == 0
+  //   );
+  // }, []);
 
   const columns = useMemo(
     () => [
