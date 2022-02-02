@@ -167,7 +167,7 @@ const AssociationProfile = () => {
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['association.association_trades']}
-                value={userData?.industry_association_trade_title}
+                value={userData?.trade_title}
                 isLoading={false}
               />
             </Grid>
