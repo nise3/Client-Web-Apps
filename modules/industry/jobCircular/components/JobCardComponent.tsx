@@ -1,5 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {styled} from '@mui/material/styles';
+import {useRouter} from 'next/router';
 import {
   Avatar,
   Box,
@@ -13,6 +14,11 @@ import {useIntl} from 'react-intl';
 import {BusinessCenter, LocationOn, Share} from '@mui/icons-material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {Link} from '../../../../@softbd/elements/common';
+import {gotoLoginSignUpPage} from '../../../../@softbd/common/constants';
+import {LINK_YOUTH_SIGNUP} from '../../../../@softbd/common/appLinks';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import JobApplyPopup from './JobApplyPopup';
 
 const PREFIX = 'JobCardComponent';
 
@@ -45,7 +51,20 @@ interface JobCardComponentProps {
 
 const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
   const {messages} = useIntl();
+  const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
+  const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const closeJobApplyModal = useCallback(() => {
+    setIsOpenJobApplyModal(false);
+  }, []);
 
+  const onJobApply = useCallback(() => {
+    if (authUser) {
+      setIsOpenJobApplyModal(true);
+    } else {
+      router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
+    }
+  }, []);
   return (
     <StyledCard>
       {job && (
@@ -71,7 +90,10 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
                   {messages['industry.details']}
                 </Button>
               </Link>
-              <Button variant={'contained'} color={'primary'}>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                onClick={onJobApply}>
                 {messages['industry.apply']}
               </Button>
             </Grid>
@@ -95,6 +117,9 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
             </Box>
           </Box>
         </CardContent>
+      )}
+      {isOpenJobApplyModal && (
+        <JobApplyPopup job={job} onClose={closeJobApplyModal} />
       )}
     </StyledCard>
   );
