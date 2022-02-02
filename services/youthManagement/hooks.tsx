@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_LANGUAGES,
   API_YOUTH_ADDRESSES,
@@ -33,8 +36,8 @@ export function useFetchYouthProfile() {
   return useAxiosSWR(API_YOUTH_PROFILE);
 }
 
-export function useFetchYouthJobExperiences(params: any) {
-  return useAxiosSWR([API_YOUTH_JOB_EXPERIENCES, params]);
+export function useFetchYouthJobExperiences() {
+  return useDataLocalizationAxiosSWR(API_YOUTH_JOB_EXPERIENCES);
 }
 
 export function useFetchJobExperience(jobExperienceId: number | null) {
@@ -44,7 +47,7 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
 }
 
 export function useFetchYouthCertificates(params?: any) {
-  return useAxiosSWR([API_YOUTH_CERTIFICATES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_CERTIFICATES, params]);
 }
 
 export function useFetchYouthCertificate(certificateId: number | null) {
@@ -54,7 +57,7 @@ export function useFetchYouthCertificate(certificateId: number | null) {
 }
 
 export function useFetchYouthReferences() {
-  return useAxiosSWR(API_YOUTH_REFERENCES);
+  return useDataLocalizationAxiosSWR(API_YOUTH_REFERENCES);
 }
 
 export function useFetchReference(referenceId: number | null) {
@@ -64,7 +67,7 @@ export function useFetchReference(referenceId: number | null) {
 }
 
 export function useFetchEducations() {
-  return useAxiosSWR(API_YOUTH_EDUCATION);
+  return useDataLocalizationAxiosSWR(API_YOUTH_EDUCATION);
 }
 
 export function useFetchEducation(educationId: number | null) {
@@ -88,12 +91,12 @@ export function useFetchPortfolio(portfolioId: number | null) {
 }
 
 export function useFetchLanguageProficiencies() {
-  return useAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
+  return useDataLocalizationAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
 }
 
 /** fetches guardians list of the youth */
 export function useFetchGuardians() {
-  return useAxiosSWR(API_YOUTH_GUARDIANS);
+  return useDataLocalizationAxiosSWR(API_YOUTH_GUARDIANS);
 }
 
 /** fetches a single guardian's info */
@@ -135,7 +138,7 @@ export function useFetchLanguages() {
 }
 
 export function useFetchYouthAddresses(params: any) {
-  return useAxiosSWR([API_YOUTH_ADDRESSES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_ADDRESSES, params]);
 }
 
 export function useFetchYouthAddress(addressId: number | null) {

@@ -24,7 +24,6 @@ const CertificationSection = () => {
   const {successStack} = useNotiStack();
   const dispatch = useDispatch();
   const authUser = useAuthUser<YouthAuthUser>();
-  /*  console.log('profile auth ', authUser);*/
   const [isOpenCertificateAddEditForm, setIsOpenCertificateAddEditForm] =
     useState<boolean>(false);
   const [certificateItemId, setCertificateItemId] = useState<number | null>(

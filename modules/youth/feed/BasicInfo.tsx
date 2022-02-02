@@ -66,7 +66,7 @@ const BasicInfo = () => {
         <Box className={classes.container}>
           <Avatar
             alt={'youth profile pic'}
-            src={authUser?.photo}
+            src={authUser?.photo ? authUser?.photo : '/images/blank_image.png'}
             className={classes.userImage}
           />
           <H2 className={classes.userName}>

@@ -90,7 +90,7 @@ export const API_COURSE_ENROLLMENTS =
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
-export const COURSE_ENROLL_PAYMENT_PAY =
+export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/payment/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
@@ -331,7 +331,7 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
 
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/contact-info';
-export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
+export const API_PUBLIC_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
 
 /** Industry and Industry Association service public routes section end */
@@ -345,8 +345,8 @@ export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
-export const CMS_RECENT_ACTIVITIES = CMS_SERVICE_PATH + '/recent-activities';
-export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/notice-or-news';
+export const API_RECENT_ACTIVITIES = CMS_SERVICE_PATH + '/recent-activities';
+export const API_NOTICE_OR_NEWSES = CMS_SERVICE_PATH + '/notice-or-news';
 export const API_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
