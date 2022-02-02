@@ -27,6 +27,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {updateIndustryAssocProfile} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import {useFetchSkills} from '../../../services/youthManagement/hooks';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
@@ -51,6 +53,12 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+
+  const [skillFilter] = useState({});
+  const {data: skillData, isLoading: isLoadingSkillData} =
+    useFetchSkills(skillFilter);
+
+  const [selectedSkillList, setSelectedSkillList] = useState<any>([]);
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -142,13 +150,14 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         contact_person_name: userData?.contact_person_name,
         contact_person_designation: userData?.contact_person_designation,
       });
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, userData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, userData?.loc_district_id),
+      );
+      setSelectedSkillList(userData?.skills);
     }
-    setDistrictsList(
-      filterDistrictsByDivisionId(districts, userData?.loc_division_id),
-    );
-    setUpazilasList(
-      filterUpazilasByDistrictId(upazilas, userData?.loc_district_id),
-    );
   }, [userData, districts, upazilas]);
 
   const changeDivisionAction = useCallback(
@@ -166,7 +175,19 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     [upazilas],
   );
 
+  const onSkillChange = useCallback((options) => {
+    setSelectedSkillList(options);
+  }, []);
+
   const onSubmit: SubmitHandler<any> = async (data) => {
+    let skillIds: any = [];
+    if (selectedSkillList) {
+      selectedSkillList.map((skill: any) => {
+        skillIds.push(skill.id);
+      });
+    }
+    data.skills = skillIds;
+
     try {
       await updateIndustryAssocProfile(data);
       updateSuccessMessage('industry_association_reg.label');
@@ -335,6 +356,21 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             label={messages['common.contact_person_designation']}
             register={register}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomSelectAutoComplete
+            required
+            id='skills'
+            label={messages['common.skills']}
+            isLoading={isLoadingSkillData}
+            control={control}
+            options={skillData}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title']}
+            defaultValue={selectedSkillList}
+            errorInstance={errors}
+            onChange={onSkillChange}
           />
         </Grid>
       </Grid>
