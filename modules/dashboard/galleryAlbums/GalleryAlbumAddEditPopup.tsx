@@ -713,6 +713,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             register={register}
             label={messages['common.main_image_path']}
             required={true}
+            height={'400'}
+            width={'1080'}
           />
         </Grid>
         <Grid item xs={12} md={6}>
