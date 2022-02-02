@@ -1,11 +1,18 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
-import RecentJobComponent from './components/RecentJobComponet';
+import RecentJobComponent from './components/RecentJobComponent';
 import {ChevronRight} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
+import Link from 'next/link';
+import JobCategory from '../../../@softbd/utilities/JobCategorie';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const PREFIX = 'RecentJobSection';
 
@@ -63,32 +70,52 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const RecentJobSection = () => {
   const {messages} = useIntl();
-  const [selectedValue, setSelectedValue] = useState(1);
+  const [selectedValue, setSelectedValue] = useState(JobCategory.RECENT);
+  const URL = `/job-list/${selectedValue}`;
+  const authYouth = useAuthUser<YouthAuthUser>();
+  const [youthSkillIdArray, setYouthSkillIdArray] = useState<any>([]);
 
-  const items = [
-    {
-      imageUrl: '/images/skill-matching-job1.jpg',
-      jobTitle: 'Sales Executive',
-      jobProviderName: 'Ajker Deal',
-      location: 'Dhaka, Bangladesh',
-    },
-    {
-      imageUrl: '/images/skill-matching-job1.jpg',
-      jobTitle: 'Senior UX Designer',
-      jobProviderName: 'Pathao',
-      location: 'Dhaka, Bangladesh',
-    },
-    {
-      imageUrl: '/images/skill-matching-job1.jpg',
-      jobTitle: 'Data Engineer',
-      jobProviderName: 'Evaly',
-      location: 'Dhaka, Bangladesh',
-    },
-  ];
+  const [jobFilters, setJobFilters] = useState<any>({
+    type: selectedValue,
+    page_size: PageSizes.THREE,
+  });
+  const {data: jobs, metaData: jobsMetaData} = useFetchJobList(jobFilters);
 
-  const onSelectChange = useCallback((value: any) => {
-    setSelectedValue(value);
-  }, []);
+  useEffect(() => {
+    if (authYouth?.skills) {
+      const skillIds = authYouth.skills.map((skill: any) => skill.id);
+      setYouthSkillIdArray(skillIds);
+    }
+  }, [authYouth]);
+
+  const handleJobCategoryChange = useCallback(
+    (event: any) => {
+      const value = event.target.value;
+      switch (value) {
+        case JobCategory.RECENT:
+          setJobFilters({type: 'recent', page_size: PageSizes.THREE});
+          break;
+        case JobCategory.POPULAR:
+          setJobFilters({type: 'popular', page_size: PageSizes.THREE});
+          break;
+        case JobCategory.NEARBY:
+          setJobFilters({
+            loc_district_id: authYouth?.loc_district_id,
+            page_size: PageSizes.THREE,
+          });
+          break;
+        case JobCategory.SKILL_MATCHING:
+          setJobFilters({
+            skill_ids: youthSkillIdArray,
+            page_size: PageSizes.THREE,
+          });
+          break;
+      }
+
+      setSelectedValue(value);
+    },
+    [youthSkillIdArray],
+  );
 
   return (
     <StyledCard>
@@ -100,39 +127,53 @@ const RecentJobSection = () => {
             defaultValue={selectedValue}
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
-            onChange={onSelectChange}>
-            <MenuItem value={1}>{messages['common.recent_jobs']}</MenuItem>
-            <MenuItem value={2}>{messages['common.popular_jobs']}</MenuItem>
-            <MenuItem value={3}>{messages['common.nearby_jobs']}</MenuItem>
-            <MenuItem value={4}>
+            onChange={handleJobCategoryChange}>
+            <MenuItem value={JobCategory.RECENT ?? ''}>
+              {messages['common.recent_jobs']}
+            </MenuItem>
+            <MenuItem value={JobCategory.POPULAR ?? ''}>
+              {messages['common.popular_jobs']}
+            </MenuItem>
+            <MenuItem value={JobCategory.NEARBY ?? ''}>
+              {messages['common.nearby_jobs']}
+            </MenuItem>
+            <MenuItem value={JobCategory.SKILL_MATCHING ?? ''}>
               {messages['common.skill_matching_jobs']}
             </MenuItem>
           </Select>
         </Grid>
-        {items.map((job: any, index: number) => {
-          return (
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              key={index}
-              className={classes.jobItem}>
-              {index != 0 && <Divider className={classes.divider} />}
-              <RecentJobComponent data={job} />
-            </Grid>
-          );
-        })}
-        <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
-          <Button
-            variant={'text'}
-            color={'primary'}
-            size={'medium'}
-            className={classes.seeMoreButton}>
-            {messages['youth_feed.see_more_jobs']}
-            <ChevronRight color={'primary'} />
-          </Button>
-        </Grid>
+        {jobs &&
+          jobs.map((job: any, index: number) => {
+            return (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                key={index}
+                className={classes.jobItem}>
+                {index != 0 && <Divider className={classes.divider} />}
+                <RecentJobComponent data={job} />
+              </Grid>
+            );
+          })}
+        {(!jobs || jobs.length <= 0) && (
+          <NoDataFoundComponent messageTextType={'inherit'} />
+        )}
+        {jobsMetaData.total_page > jobsMetaData.current_page && (
+          <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
+            <Link href={URL} passHref>
+              <Button
+                variant={'text'}
+                color={'primary'}
+                size={'medium'}
+                className={classes.seeMoreButton}>
+                {messages['youth_feed.see_more_jobs']}
+                <ChevronRight color={'primary'} />
+              </Button>
+            </Link>
+          </Grid>
+        )}
       </Grid>
     </StyledCard>
   );

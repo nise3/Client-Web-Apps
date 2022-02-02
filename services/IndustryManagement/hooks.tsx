@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
@@ -173,4 +176,8 @@ export function useFetchHrDemandDetails(id: number | null) {
 
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_MEMBERS, params]);
+}
+
+export function useFetchJobList(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
 }
