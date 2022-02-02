@@ -68,7 +68,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .string()
         .title()
         .label(messages['association.association_name'] as string),
-      industry_association_trade_id: yup
+      trade_id: yup
         .string()
         .trim()
         .required()
@@ -108,6 +108,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.contact_person_designation'] as string),
+      skills: yup
+        .array()
+        .of(yup.object())
+        .min(1, messages['common.must_have_one_skill'] as string)
+        .label(messages['common.skills'] as string),
     });
   }, []);
 
@@ -126,7 +131,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
       reset({
         logo: userData?.logo,
         title: userData?.title,
-        industry_association_trade_id: userData?.industry_association_trade_id,
+        trade_id: userData?.trade_id,
         address: userData?.address,
         loc_division_id: userData?.loc_division_id,
         loc_district_id: userData?.loc_district_id,
@@ -224,7 +229,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
-            id='industry_association_trade_id'
+            id='trade_id'
             isLoading={isLoadingTrades}
             label={messages['association.association_trades']}
             control={control}
