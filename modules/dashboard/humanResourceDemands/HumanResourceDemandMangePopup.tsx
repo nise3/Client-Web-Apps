@@ -54,7 +54,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     setValue,
     handleSubmit,
     control,
-    watch,
+    getValues,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -75,6 +75,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     }
   };
   console.log('errors: ', errors);
+  console.log('getvalues: ', getValues('cv_links'));
   return (
     <HookFormMuiModal
       open={true}
@@ -122,7 +123,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
             errorInstance={errors}
             allowMultiple={true}
             acceptedFileTypes={['application/pdf']}
-            uploadedUrls={watch('cv_links')}
+            uploadedUrls={getValues('cv_links')}
           />
         </Grid>
       </Grid>
