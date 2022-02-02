@@ -90,12 +90,19 @@ const NoticeDetails = () => {
                 />
               </Tooltip>
               <Tooltip title={messages['common.download_label']}>
-                <Link target={'_blank'} href={notice?.file_path}>
+                {notice?.file_path ? (
+                  <Link target={'_blank'} href={notice?.file_path}>
+                    <SystemUpdateAltOutlinedIcon
+                      className={classes.icon}
+                      sx={{backgroundColor: '#2fc94d'}}
+                    />
+                  </Link>
+                ) : (
                   <SystemUpdateAltOutlinedIcon
                     className={classes.icon}
                     sx={{backgroundColor: '#2fc94d'}}
                   />
-                </Link>
+                )}
               </Tooltip>
             </Grid>
           </Grid>

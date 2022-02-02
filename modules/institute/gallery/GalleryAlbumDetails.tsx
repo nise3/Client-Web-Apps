@@ -39,7 +39,7 @@ const classes = {
 
 const StyledContainer = styled(Container)(({theme}) => ({
   padding: '0 !important',
-  position: 'relative',
+  // position: 'relative',
   marginBottom: '20px',
   [`& .${classes.searchIcon}`]: {
     position: 'absolute',

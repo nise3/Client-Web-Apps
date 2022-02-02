@@ -17,10 +17,16 @@ const StyledBox = styled(Box)(({theme}) => ({
   display: 'flex',
   position: 'relative',
   justifyContent: 'center',
+  [theme.breakpoints.up('xl')]: {
+    height: 550,
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: 150,
+  },
 
   [`& .${classes.image}`]: {
     zIndex: -1,
-    objectFit: 'cover',
+    objectFit: 'unset',
     height: '100%',
     width: '100%',
     position: 'absolute',
