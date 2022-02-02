@@ -87,31 +87,34 @@ const RecentJobSection = () => {
     }
   }, [authYouth]);
 
-  const handleJobCategoryChange = useCallback((event: any) => {
-    const value = event.target.value;
-    switch (value) {
-      case JobCategory.RECENT:
-        setJobFilters({type: 'recent', page_size: PageSizes.THREE});
-        break;
-      case JobCategory.POPULAR:
-        setJobFilters({type: 'popular', page_size: PageSizes.THREE});
-        break;
-      case JobCategory.NEARBY:
-        setJobFilters({
-          loc_district_id: authYouth?.loc_district_id,
-          page_size: PageSizes.THREE,
-        });
-        break;
-      case JobCategory.SKILL_MATCHING:
-        setJobFilters({
-          skill_ids: youthSkillIdArray,
-          page_size: PageSizes.THREE,
-        });
-        break;
-    }
+  const handleJobCategoryChange = useCallback(
+    (event: any) => {
+      const value = event.target.value;
+      switch (value) {
+        case JobCategory.RECENT:
+          setJobFilters({type: 'recent', page_size: PageSizes.THREE});
+          break;
+        case JobCategory.POPULAR:
+          setJobFilters({type: 'popular', page_size: PageSizes.THREE});
+          break;
+        case JobCategory.NEARBY:
+          setJobFilters({
+            loc_district_id: authYouth?.loc_district_id,
+            page_size: PageSizes.THREE,
+          });
+          break;
+        case JobCategory.SKILL_MATCHING:
+          setJobFilters({
+            skill_ids: youthSkillIdArray,
+            page_size: PageSizes.THREE,
+          });
+          break;
+      }
 
-    setSelectedValue(value);
-  }, []);
+      setSelectedValue(value);
+    },
+    [youthSkillIdArray],
+  );
 
   return (
     <StyledCard>
