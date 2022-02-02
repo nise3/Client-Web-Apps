@@ -7,9 +7,9 @@ import {ThemeMode} from '../../../shared/constants/AppEnums';
 import {
   IColumnInstance,
   IFilters,
+  ISelectFilterItem,
   ITableInstance,
 } from '../../../shared/Interface/common.interface';
-import {getAllSkills} from '../../../services/organaizationManagement/SkillService';
 
 const PREFIX = 'FilterChipBar';
 
@@ -56,15 +56,12 @@ const getFilterValue = (
       return min ? (max ? `${min}-${max}` : `>=${min}`) : `<=${max}`;
     case 'rowStatusFilter':
       return getRowStatusLabel(filterValue);
-    case 'skillsFilter':
+    case 'selectFilter':
       let name;
-
-      getAllSkills().then((skills: any) => {
-        const data = skills?.data?.filter((skill: any) => {
-          return skill.id == filterValue;
-        });
-        name = data[0]?.title_en;
-      });
+      const data = (column.selectFilterItems || []).find(
+        (item: ISelectFilterItem) => item.id == filterValue,
+      );
+      if (data) name = data.title;
 
       return name ?? filterValue;
   }
