@@ -12,6 +12,7 @@ import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
 import Link from 'next/link';
 import JobCategory from '../../../@softbd/utilities/JobCategorie';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const PREFIX = 'RecentJobSection';
 
@@ -156,6 +157,9 @@ const RecentJobSection = () => {
               </Grid>
             );
           })}
+        {(!jobs || jobs.length <= 0) && (
+          <NoDataFoundComponent messageTextType={'inherit'} />
+        )}
         {jobsMetaData.total_page > jobsMetaData.current_page && (
           <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
             <Link href={URL} passHref>
