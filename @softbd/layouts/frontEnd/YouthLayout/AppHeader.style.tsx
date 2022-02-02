@@ -84,11 +84,17 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   [`& .${classes.menuItem}`]: {
     fontSize: 16,
     padding: '20px 10px',
+    color: theme.palette.grey[500],
     '&>a': {
       display: 'flex',
     },
     '& .active': {
       color: theme.palette.primary.main,
+    },
+    '&:hover': {
+      color: theme.palette.primary.main,
+      transition: 'all 0.7s ease',
+      transform: 'scale(1.2)',
     },
   },
 
@@ -159,8 +165,5 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.logoRoot}`]: {
     height: 30,
-  },
-  [`& .${classes.navTextColor}`]: {
-    color: theme.palette.grey[500],
   },
 }));

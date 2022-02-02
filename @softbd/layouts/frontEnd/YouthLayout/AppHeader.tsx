@@ -130,24 +130,21 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_ROOT}
-                    className={classes.navTextColor}>
+                    href={LINK_FRONTEND_YOUTH_ROOT}>
                     <Home className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
                     {messages['menu.home']}
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_FEED}
-                    className={classes.navTextColor}>
+                    href={LINK_FRONTEND_YOUTH_FEED}>
                     <Badge className={classes.menuIcons} sx={{fontSize: 42}} />{' '}
                     {messages['menu.my_life']}
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_TRAINING}
-                    className={classes.navTextColor}>
+                    href={LINK_FRONTEND_YOUTH_TRAINING}>
                     <CastForEducation
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
@@ -157,8 +154,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}
-                    className={classes.navTextColor}>
+                    href={LINK_FRONTEND_YOUTH_NOTICE_BOARD}>
                     <ListAltIcon
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
@@ -168,8 +164,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box>
                 <Box component='span' className={classes.menuItem}>
                   <Link
-                    href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}
-                    className={classes.navTextColor}>
+                    href={LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES}>
                     <LocalActivityIcon
                       className={classes.menuIcons}
                       sx={{fontSize: 42}}
