@@ -102,6 +102,8 @@ const LanguageProficiencyViewPage = ({
     }
   };
 
+  console.log('languageProficiencies: ', languageProficiencies);
+
   return (
     <Zoom in={true}>
       <Box>

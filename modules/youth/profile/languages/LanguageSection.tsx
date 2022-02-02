@@ -46,7 +46,7 @@ const LanguageSection = () => {
   const {
     data: languageProficiencies,
     isLoading,
-    mutate: mutateLanguageProfeciencies,
+    mutate: mutateLanguageProficiencies,
   } = useFetchLanguageProficiencies();
 
   const [isOpenLanguageAddEditForm, setIsOpenLanguageAddEditForm] =
@@ -76,7 +76,7 @@ const LanguageSection = () => {
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
     updateProfile();
-    mutateLanguageProfeciencies();
+    mutateLanguageProficiencies();
   }, []);
 
   const openLanguageProficiencyView = useCallback(() => {
