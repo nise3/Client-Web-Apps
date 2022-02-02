@@ -25,34 +25,45 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
   useEffect(() => {
     let institutes: Array<any> = [];
     itemData?.hr_demand_institutes.forEach((institute: any) => {
-      institutes.push(institute.institute_title);
+      institutes.push(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<Chip>${institute.institute_title}</Chip>`,
+          }}
+        />,
+      );
       institutes.push(' ');
     });
     setInstituteTitles(institutes);
 
     let mandatorySkills: Array<any> = [];
-    itemData.mandatory_skills.forEach((skill: any) => {
-      mandatorySkills.push(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `<Chip>${skill.title}</Chip>`,
-          }}
-        />,
-      );
-    });
+    if (itemData && itemData?.mandatory_skills.length > 0) {
+      itemData.mandatory_skills.forEach((skill: any) => {
+        mandatorySkills.push(
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<Chip>${skill.title}</Chip>`,
+            }}
+          />,
+        );
+      });
+    }
 
     setMandatorySkills(mandatorySkills);
 
     let optionalSkills: Array<any> = [];
-    itemData.optional_skills.forEach((skill: any) => {
-      optionalSkills.push(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `<Chip>${skill.title}</Chip>`,
-          }}
-        />,
-      );
-    });
+    if (itemData && itemData?.optional_skills.length > 0) {
+      itemData.optional_skills.forEach((skill: any) => {
+        optionalSkills.push(
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<Chip>${skill.title}</Chip>`,
+            }}
+          />,
+        );
+      });
+    }
+
     setOptionalSkills(optionalSkills);
   }, [itemData]);
 
