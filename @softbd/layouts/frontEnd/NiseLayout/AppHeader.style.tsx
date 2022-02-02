@@ -94,7 +94,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
       marginRight: '5px',
     },
     '&:hover': {
-      color: '#682988',
+      color: theme.palette.primary.main,
       transform: 'scale(1.2)',
       // fontWeight: 'bold',
     },
