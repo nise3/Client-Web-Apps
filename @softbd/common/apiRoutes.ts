@@ -70,8 +70,6 @@ export const PROFILE_UPDATE = '/profile-update';
 export const API_INSTITUTE_REGISTRATION =
   INSTITUTE_SERVICE_PATH + '/institute-open-registration';
 export const API_INSTITUTES = INSTITUTE_SERVICE_PATH + '/institutes';
-export const API_PUBLIC_INSTITUTES =
-  INSTITUTE_SERVICE_PATH + '/public/institutes';
 export const API_INSTITUTE_PROFILE =
   INSTITUTE_SERVICE_PATH + '/institute-profile';
 
@@ -105,6 +103,7 @@ export const API_INSTITUTE_QUESTION_BANK =
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
+export const API_PUBLIC_INSTITUTES = TSP_PUBLIC_SERVICE_PATH + '/institutes';
 export const API_PUBLIC_PROGRAMS = TSP_PUBLIC_SERVICE_PATH + '/programs';
 export const API_PUBLIC_INSTITUTE_DETAILS =
   TSP_PUBLIC_SERVICE_PATH + '/institute-details';
@@ -118,8 +117,7 @@ export const API_PUBLIC_TRAINING_CENTERS =
 /** Youth service routes section start */
 
 export const API_SKILLS = YOUTH_SERVICE_PATH + '/skills';
-export const API_YOUTHS_LIST = YOUTH_SERVICE_PATH + '/youths';
-export const API_YOUTH_LIST = YOUTH_SERVICE_PATH + '/youths';
+export const API_YOUTHS = YOUTH_SERVICE_PATH + '/youths';
 
 export const API_YOUTH_REGISTRATION =
   YOUTH_SERVICE_PATH + '/youth-registration';
@@ -169,8 +167,6 @@ export const API_JOB_SECTORS = ORGANIZATION_SERVICE_PATH + '/job-sectors';
 export const API_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-types';
 export const API_ORGANIZATIONS = ORGANIZATION_SERVICE_PATH + '/organizations';
-export const API_PUBLIC_ORGANIZATIONS =
-  ORGANIZATION_SERVICE_PATH + '/public/organizations';
 export const API_ORGANIZATION_UNIT_TYPES =
   ORGANIZATION_SERVICE_PATH + '/organization-unit-types';
 export const API_ORGANIZATION_UNITS =
@@ -227,9 +223,6 @@ export const API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
 
-export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
-  ORGANIZATION_SERVICE_PATH + '/public/publications';
-
 export const API_INDUSTRY_MEMBERS = ORGANIZATION_SERVICE_PATH + '/members';
 
 export const API_INDUSTRY_ASSOCIATIONS =
@@ -249,9 +242,6 @@ export const API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE =
 
 export const API_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PATH + '/contact-info';
-
-export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
-  ORGANIZATION_SERVICE_PATH + '/public/contact-info';
 
 export const API_INDUSTRY_ASSOCIATION_MEMBERS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-members';
@@ -318,7 +308,6 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
 export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
 
-
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
@@ -330,10 +319,19 @@ export const API_PUBLIC_OCCUPATIONS =
 export const API_PUBLIC_JOB_SECTORS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-sectors';
 
+export const API_PUBLIC_ORGANIZATIONS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/organizations';
+
 export const API_PUBLIC_JOBS = ORGANIZATION_SERVICE_PUBLIC_PATH + '/jobs';
 
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
+
+export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/contact-info';
+export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
+
 /** Industry and Industry Association service public routes section end */
 
 /** CMS service routes section start */
@@ -345,13 +343,10 @@ export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
-export const API_FRONT_END_RECENT_ACTIVITY_LIST =
-  CMS_SERVICE_PATH + '/public/recent-activities';
-export const CMS_RECENT_ACTIVITY = CMS_SERVICE_PATH + '/' + 'recent-activities';
-export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/' + 'notice-or-news';
-export const API_ALL_FAQS = CMS_SERVICE_PATH + '/faqs';
+export const CMS_RECENT_ACTIVITIES = CMS_SERVICE_PATH + '/recent-activities';
+export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/notice-or-news';
+export const API_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
-export const API_PUBLIC_PARTNERS = CMS_SERVICE_PATH + '/public/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
 export const API_SLIDERS = CMS_SERVICE_PATH + '/sliders';
 export const API_BANNERS = CMS_SERVICE_PATH + '/banners';
@@ -360,9 +355,6 @@ export const API_VISITOR_FEEDBACKS =
 export const API_STATIC_PAGE_TYPES = CMS_SERVICE_PATH + '/static-page-types';
 export const API_STATIC_PAGE_BLOCKS = CMS_SERVICE_PATH + '/static-page-blocks/';
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
-
-export const API_PUBLIC_CALENDAR_EVENTS =
-  CMS_SERVICE_PATH + '/public/calender-events';
 
 /** CMS service routes section end */
 
@@ -373,8 +365,13 @@ export const API_PUBLIC_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PUBLIC_PATH + '/gallery-images-videos';
 export const API_PUBLIC_NOTICE_OR_NEWS =
   CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
-export const API_FRONT_END_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
-export const PUBLIC_API_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
+export const API_PUBLIC_RECENT_ACTIVITIES =
+  CMS_SERVICE_PUBLIC_PATH + '/recent-activities';
+export const API_PUBLIC_PARTNERS = CMS_SERVICE_PUBLIC_PATH + '/nise3-partners';
+export const API_PUBLIC_CALENDAR_EVENTS =
+  CMS_SERVICE_PUBLIC_PATH + '/calender-events';
+export const API_PUBLIC_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
+export const API_PUBLIC_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
 

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Button, Container, Grid} from '@mui/material';
-import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
 import {H2, H6, Link} from '../../@softbd/elements/common';
 import VerticalBar from './components/VerticalBar';
+import {useFetchPublicRecentActivities} from '../../services/cmsManagement/hooks';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -48,7 +48,7 @@ const RecentActivities = () => {
   const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
   const {data: recentActivitiesData} =
-    useFetchInstitutesRecentActivity(recentActivityFilter);
+    useFetchPublicRecentActivities(recentActivityFilter);
 
   useEffect(() => {
     let data = recentActivitiesData?.filter((item: any) => {

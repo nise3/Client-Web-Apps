@@ -1,7 +1,7 @@
 import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 import PageMeta from '../../../@crema/core/PageMeta';
 import RecentActivitiesDetails from '../../../modules/institute/recent-activities/RecentActivitiesDetails';
-import {API_FRONT_END_RECENT_ACTIVITY_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_PUBLIC_RECENT_ACTIVITIES} from '../../../@softbd/common/apiRoutes';
 import {apiGet} from '../../../@softbd/common/api';
 import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
 
@@ -31,7 +31,7 @@ export async function getServerSideProps(context: any) {
       appAccessToken = response?.data?.access_token;
     }
 
-    const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_LIST + `/${id}`, {
+    const res = await apiGet(API_PUBLIC_RECENT_ACTIVITIES + `/${id}`, {
       headers: {
         Authorization: 'Bearer ' + appAccessToken,
         Domain: headers?.host,

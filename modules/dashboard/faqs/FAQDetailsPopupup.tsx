@@ -6,8 +6,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchFAQ,
+} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';

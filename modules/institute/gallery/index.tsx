@@ -10,10 +10,10 @@ import {
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {H1, H6} from '../../../@softbd/elements/common';
-import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
 import GalleryItemCardView from './GalleryItemCardView';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchPublicGalleryAlbums} from '../../../services/cmsManagement/hooks';
 
 const PREFIX = 'InstituteGallery';
 
@@ -59,7 +59,7 @@ const InstituteGallery = () => {
     data: galleryItems,
     isLoading: isLoadingGalleryItems,
     metaData,
-  } = useFetchInstitutesPublicGallery(galleryFilter);
+  } = useFetchPublicGalleryAlbums(galleryFilter);
   const page = useRef<any>(1);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {

@@ -12,7 +12,7 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomHookForm from '../component/CustomHookForm';
-import {useFetchSkills} from '../../../../services/youthManagement/hooks';
+import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
 import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
 import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
@@ -92,7 +92,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchSkills(youthSkillsFilter);
+    useFetchPublicSkills(youthSkillsFilter);
 
   const [divisionFilters] = useState<any>({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =

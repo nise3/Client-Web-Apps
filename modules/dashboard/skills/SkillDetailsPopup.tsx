@@ -7,7 +7,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
+import {useFetchSkill} from '../../../services/youthManagement/hooks';
 
 type Props = {
   itemId: number;

@@ -26,9 +26,9 @@ import {
   useFetchJobCandidateRequirements,
 } from '../../../../../services/IndustryManagement/hooks';
 import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
-import {useFetchSkills} from '../../../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import CustomSelectAutoComplete from '../../../../youth/registration/CustomSelectAutoComplete';
+import {useFetchPublicSkills} from '../../../../../services/youthManagement/hooks';
 
 interface Props {
   jobId: string;
@@ -92,7 +92,7 @@ const CandidateRequirements = ({
 
   const [skillFilters] = useState<any>({row_status: RowStatus.ACTIVE});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchSkills(skillFilters);
+    useFetchPublicSkills(skillFilters);
 
   const {data: educationLevels} = useFetchEducationLevels();
   const {data: examDegrees} = useFetchExamDegrees();

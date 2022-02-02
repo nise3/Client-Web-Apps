@@ -14,7 +14,6 @@ import {
   API_PUBLIC_JOB_SECTORS,
   API_RANK_TYPES,
   API_RANKS,
-  API_SKILLS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
@@ -95,14 +94,6 @@ export function useFetchOrganizationService(serviceId: number | null) {
   return useAxiosSWR(
     serviceId ? API_ORGANIZATION_SERVICES + '/' + serviceId : null,
   );
-}
-
-export function useFetchSkill(skillId: number | null) {
-  return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
-}
-
-export function useFetchSkills(params: any) {
-  return useAxiosSWR([API_SKILLS, params]);
 }
 
 export function useFetchRankType(rankTypeId: number | null) {

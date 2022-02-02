@@ -25,7 +25,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
-import {useFetchSkills} from '../../../services/youthManagement/hooks';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -103,7 +103,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     useFetchPublicPrograms(programmeFilters);
 
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchSkills(youthSkillsFilter);
+    useFetchPublicSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
