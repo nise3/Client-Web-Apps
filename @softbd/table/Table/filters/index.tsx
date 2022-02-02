@@ -3,8 +3,10 @@ import React, {useEffect} from 'react';
 import {Button, InputLabel, MenuItem, TextField} from '@mui/material';
 import {matchSorter} from 'match-sorter';
 import {rowStatusArray} from '../../../utilities/RowStatus';
-import {IFilterProps} from '../../../../shared/Interface/common.interface';
-import {useFetchSkills} from '../../../../services/organaizationManagement/hooks';
+import {
+  IFilterProps,
+  ISelectFilterItem,
+} from '../../../../shared/Interface/common.interface';
 
 export function roundedMedian(values: any[]) {
   let min = values[0] || '';
@@ -292,7 +294,7 @@ export function rowStatusFilter<T extends object>(
   return rows.filter((row) => filterValue == row.values[id[0]]);
 }
 
-export function skillsFilter<T extends object>(
+export function selectFilter<T extends object>(
   rows: Array<Row<T>>,
   id: IdType<T>,
   filterValue: FilterValue,
@@ -304,17 +306,17 @@ export function skillsFilter<T extends object>(
 numericTextFilter.autoRemove = (val: any) => !val;
 
 export function DefaultColumnFilter<T extends object>({
-  column: {id, filterValue, setFilter, render, parent, filter},
+  column: {
+    id,
+    filterValue,
+    setFilter,
+    render,
+    parent,
+    filter,
+    selectFilterItems,
+  },
 }: IFilterProps<T>) {
   const [value, setValue] = React.useState(filterValue || '');
-
-  const {data: skillsArray} = useFetchSkills({});
-  const finalSkillsArray = skillsArray?.map((skill: any) => {
-    return {
-      key: skill.id,
-      label: skill.title_en,
-    };
-  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -342,7 +344,7 @@ export function DefaultColumnFilter<T extends object>({
         ))}
       </TextField>
     );
-  } else if (filter === 'skillsFilter') {
+  } else if (filter === 'selectFilter') {
     return (
       <TextField
         name={id}
@@ -351,9 +353,9 @@ export function DefaultColumnFilter<T extends object>({
         value={value}
         variant={'standard'}
         onChange={handleChange}>
-        {finalSkillsArray?.map((option: any, i: any) => (
-          <MenuItem key={i} value={option.key}>
-            {option.label}
+        {(selectFilterItems || []).map((option: ISelectFilterItem, i: any) => (
+          <MenuItem key={i} value={option.id}>
+            {option.title}
           </MenuItem>
         ))}
       </TextField>
