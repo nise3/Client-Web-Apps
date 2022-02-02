@@ -1,6 +1,5 @@
 import {Box, Container, Grid, Skeleton, Stack} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {useFetchInstitutesRecentActivity} from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
@@ -10,6 +9,7 @@ import {Pagination} from '@mui/lab';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {H1, H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchPublicRecentActivities} from '../../../services/cmsManagement/hooks';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -66,12 +66,12 @@ const RecentActivities = () => {
     data: recentActivitiesFetchedData,
     metaData,
     isLoading: isLoadingRecentActivitiesFetchedData,
-  } = useFetchInstitutesRecentActivity(recentActivityFilter);
+  } = useFetchPublicRecentActivities(recentActivityFilter);
 
   const {
     data: recentActivitiesFetchedMasonryData,
     isLoading: isLoadingRecentActivitiesFetchedMasonryData,
-  } = useFetchInstitutesRecentActivity(recentActivityMasonryFilter);
+  } = useFetchPublicRecentActivities(recentActivityMasonryFilter);
 
   useEffect(() => {
     let data = recentActivitiesFetchedData?.filter((item: any) => {

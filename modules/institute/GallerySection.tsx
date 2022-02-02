@@ -4,7 +4,6 @@ import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {useFetchInstitutesPublicGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
 import {Link} from '../../@softbd/elements/common';
 import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
@@ -13,6 +12,7 @@ import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
 import BoxCardsSkeleton from './Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
+import {useFetchPublicGalleryAlbums} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'GallerySection';
 
@@ -57,7 +57,7 @@ const GallerySection = () => {
   });
 
   const {data: galleryItems, isLoading: isLoadingGallery} =
-    useFetchInstitutesPublicGallery(galleryFilter);
+    useFetchPublicGalleryAlbums(galleryFilter);
 
   return (
     <StyledContainer maxWidth='lg'>

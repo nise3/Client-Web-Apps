@@ -10,14 +10,22 @@ import {
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
-  API_YOUTH_LIST,
+  API_YOUTHS,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
   API_SKILLS,
 } from '../../@softbd/common/apiRoutes';
 
+export function useFetchSkill(skillId: number | null) {
+  return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
+}
+
 export function useFetchSkills(params: any) {
+  return useAxiosSWR([API_SKILLS, params]);
+}
+
+export function useFetchPublicSkills(params: any) {
   return useAxiosSWR([API_SKILLS, params]);
 }
 
@@ -97,11 +105,11 @@ export function useFetchGuardian(guardianId: number | null) {
 
 /** fetches a single youth's details */
 export function useFetchYouthDetails(youthId: number | null | string) {
-  return useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
+  return useAxiosSWR(youthId ? API_YOUTHS + '/' + youthId : null);
 }
 
 export function useFetchYouths(params: any) {
-  return useAxiosSWR([API_YOUTH_LIST, params]);
+  return useAxiosSWR([API_YOUTHS, params]);
 }
 
 export function useFetchLanguageProficiency(

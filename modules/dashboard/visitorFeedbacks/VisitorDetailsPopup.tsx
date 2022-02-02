@@ -5,8 +5,8 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchVisitorFeedback} from '../../../services/instituteManagement/hooks';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useFetchVisitorFeedback} from '../../../services/cmsManagement/hooks';
 
 type Props = {
   itemId: number;

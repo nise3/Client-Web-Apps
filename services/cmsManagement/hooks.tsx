@@ -15,13 +15,13 @@ import {
   API_SLIDERS,
   API_STATIC_PAGE_TYPES,
   CMS_NOTICE_OR_NEWS,
-  CMS_RECENT_ACTIVITY,
-  PUBLIC_API_SLIDERS,
+  CMS_RECENT_ACTIVITIES,
+  API_PUBLIC_SLIDERS,
+  API_PUBLIC_FAQ,
+  API_VISITOR_FEEDBACKS,
+  API_FAQS,
+  API_PUBLIC_RECENT_ACTIVITIES,
 } from '../../@softbd/common/apiRoutes';
-
-/*export function useFetchVisitorFeedbacks(params: any) {
-  return useAxiosSWR([API_VISITOR_FEEDBACKS, params]);
-}*/
 
 export function useFetchSliders(params: any) {
   return useAxiosSWR([API_SLIDERS, params]);
@@ -49,8 +49,12 @@ export function useFetchStaticPageTypes(params: any) {
 
 export function useFetchRecentActivity(recentActivityId: number | null) {
   return useAxiosSWR(
-    recentActivityId ? CMS_RECENT_ACTIVITY + '/' + recentActivityId : null,
+    recentActivityId ? CMS_RECENT_ACTIVITIES + '/' + recentActivityId : null,
   );
+}
+
+export function useFetchPublicRecentActivities(params: any) {
+  return useAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
 }
 
 export function useFetchNoticeOrNews(itemId: number | null) {
@@ -150,5 +154,19 @@ export function useFetchPublicNoticeOrNews(noticeId: number | null) {
 }
 
 export function useFetchPublicSliders(params: any) {
-  return useAxiosSWR([PUBLIC_API_SLIDERS, params]);
+  return useAxiosSWR([API_PUBLIC_SLIDERS, params]);
+}
+
+export function useFetchFAQ(faqId: number | null) {
+  return useAxiosSWR(faqId ? API_FAQS + '/' + faqId : null);
+}
+
+export function useFetchPublicFAQ(params: any) {
+  return useAxiosSWR([API_PUBLIC_FAQ, params]);
+}
+
+export function useFetchVisitorFeedback(visitorId: number | null) {
+  return useAxiosSWR(
+    visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
+  );
 }

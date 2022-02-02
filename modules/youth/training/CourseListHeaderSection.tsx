@@ -11,7 +11,7 @@ import {
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {
-  useFetchInstitutes,
+  useFetchPublicInstitutes,
   useFetchPublicPrograms,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -65,7 +65,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {messages} = useIntl();
   const showInType = getShowInTypeByDomain();
   const [instituteFilters] = useState({});
-  const {data: institutes} = useFetchInstitutes(instituteFilters);
+  const {data: institutes} = useFetchPublicInstitutes(instituteFilters);
   const [selectedInstituteId, setSelectedInstituteId] = useState<any>('');
   const [selectedCourseTypeId, setSelectedCourseTypeId] = useState<any>('');
   const searchTextField = useRef<any>();
