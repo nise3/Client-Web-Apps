@@ -5,7 +5,6 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {
-  Box,
   FormControl,
   FormHelperText,
   InputLabel,

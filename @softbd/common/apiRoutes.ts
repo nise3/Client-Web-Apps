@@ -156,6 +156,8 @@ export const API_YOUTH_SETTINGS_CHANGE_USERID =
 export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
+export const API_YOUTH_JOB_APPLY = YOUTH_SERVICE_PATH + '/apply-job';
+
 /** Youth service routes section end */
 
 /** Industry and Industry Association service private routes section start */
