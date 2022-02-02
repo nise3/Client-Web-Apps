@@ -10,7 +10,7 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CMS_RECENT_ACTIVITY} from '../../../@softbd/common/apiRoutes';
+import {CMS_RECENT_ACTIVITIES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import RecentActivitiesAddEditPopup from './RecentActivitiesAddEditPopup';
 import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
@@ -30,7 +30,7 @@ const RecentActivitiesPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
-      urlPath: CMS_RECENT_ACTIVITY,
+      urlPath: CMS_RECENT_ACTIVITIES,
     });
 
   const closeAddEditModal = useCallback(() => {

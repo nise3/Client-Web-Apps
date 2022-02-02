@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_YOUTH_LIST} from '../../../@softbd/common/apiRoutes';
+import {API_YOUTHS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -85,7 +85,7 @@ const CVListsPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_YOUTH_LIST,
+      urlPath: API_YOUTHS,
     });
 
   const filteredData = data.map((youth: any) => {

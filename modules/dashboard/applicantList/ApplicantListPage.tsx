@@ -7,10 +7,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import SkillDetailsPopup from './SkillDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import {useFetchSkills} from '../../../services/organaizationManagement/hooks';
 import InterviewChipRowStatus from './InterviewChipRowStatus';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {Download, Message} from '@mui/icons-material';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 
 const ApplicantListPage = () => {
   const {messages} = useIntl();
@@ -19,7 +19,7 @@ const ApplicantListPage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [applicantsFilters] = useState({});
 
-  const {data: applicantList, isLoading} = useFetchSkills(applicantsFilters);
+  const {data: applicantList, isLoading} = useFetchPublicSkills(applicantsFilters);
 
   const openDetailsModal = useCallback(
     (itemId: number) => {

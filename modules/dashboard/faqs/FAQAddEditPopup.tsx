@@ -9,12 +9,14 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchFAQ,
+} from '../../../services/cmsManagement/hooks';
 import {createFAQ, updateFAQ} from '../../../services/cmsManagement/FAQService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
