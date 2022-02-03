@@ -6,7 +6,6 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 import {
-  Box,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -38,17 +37,17 @@ interface FilepondComponentProps {
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
-  id,
-  errorInstance,
-  setValue,
-  register,
-  required,
-  label,
-  defaultFileUrl,
-  allowMultiple,
-  acceptedFileTypes = [],
-  uploadedUrls,
-}) => {
+                                                           id,
+                                                           errorInstance,
+                                                           setValue,
+                                                           register,
+                                                           required,
+                                                           label,
+                                                           defaultFileUrl,
+                                                           allowMultiple,
+                                                           acceptedFileTypes = [],
+                                                           uploadedUrls,
+                                                         }) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
   const matches = id.match(reg);
@@ -60,7 +59,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   useEffect(() => {
     if (defaultFileUrl && defaultFileUrl.length) {
       let source = defaultFileUrl.replace(
-        'https://file.nise3.xyz/uploads/',
+        FILE_SERVER_FILE_VIEW_ENDPOINT,
         '',
       );
 
@@ -102,7 +101,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           maxFiles={50}
           server={{
             process: {
-              url: 'https://file.nise3.xyz/test',
+              url: FILE_SERVER_UPLOAD_ENDPOINT,
               onload: (response: any) => {
                 let res = JSON.parse(response);
                 console.log('res?.filePath', res?.url);
@@ -116,7 +115,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
               },
             },
             load: {
-              url: 'https://file.nise3.xyz/uploads/',
+              url: FILE_SERVER_FILE_VIEW_ENDPOINT,
             },
           }}
           styleProgressIndicatorPosition={'center'}
