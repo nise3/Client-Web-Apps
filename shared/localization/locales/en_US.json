@@ -855,7 +855,6 @@
   "footer.news": "News",
   "footer.events": "Events",
   "footer.about_us": "About Us",
-  "footer.service_or_products": "Service / Products",
   "footer.contact": "Contact",
   "footer.question_and_answer": "Question and Answer",
   "footer.login": "Login",
@@ -922,7 +921,7 @@
   "common.share_label": "Share",
   "common.download_label": "Download",
   "common.map_of_bangladesh": "Map of Bangladesh",
-  "certificate.to": " to ",
+  "certificate.to": "to",
   "education.cgpa_out_of_scale": "{cgpa} out of {scale}",
   "landing.text_find_job_here": "Find out Jobs or Skill Trainings according to your demand",
   "landing.text_if_candidate": "If You are a Skill or Job Seeker, Then find a suitable Job or Training According to your Requirement",
@@ -1044,7 +1043,6 @@
   "footer.my_jobs": "My jobs",
   "footer.job_provider": "Job provider",
   "footer.in_implementation": "In implementation",
-  "footer.in_implementation_a2i": "In implementation a2i",
   "common.technical_support": "Technical Support",
   "footer.bio_edit": "Bio Edit",
   "static_page.template_code": "Template",
@@ -1346,5 +1344,5 @@
   "common.assign_permission": "Assign permission to {subject}",
   "button.youth_approve": "Approve Youth",
   "common.org_job_requirements": "{subject} Job Requirement",
-  "common.no_location": "No Location"
+  "common.youths": "Youths"
 }
