@@ -14,8 +14,8 @@ import {
   API_PUBLIC_STATIC_PAGE_BLOCKS,
   API_SLIDERS,
   API_STATIC_PAGE_TYPES,
-  CMS_NOTICE_OR_NEWS,
-  CMS_RECENT_ACTIVITIES,
+  API_NOTICE_OR_NEWSES,
+  API_RECENT_ACTIVITIES,
   API_PUBLIC_SLIDERS,
   API_PUBLIC_FAQ,
   API_VISITOR_FEEDBACKS,
@@ -49,7 +49,7 @@ export function useFetchStaticPageTypes(params: any) {
 
 export function useFetchRecentActivity(recentActivityId: number | null) {
   return useAxiosSWR(
-    recentActivityId ? CMS_RECENT_ACTIVITIES + '/' + recentActivityId : null,
+    recentActivityId ? API_RECENT_ACTIVITIES + '/' + recentActivityId : null,
   );
 }
 
@@ -58,7 +58,7 @@ export function useFetchPublicRecentActivities(params: any) {
 }
 
 export function useFetchNoticeOrNews(itemId: number | null) {
-  return useAxiosSWR(itemId ? CMS_NOTICE_OR_NEWS + '/' + itemId : null);
+  return useAxiosSWR(itemId ? API_NOTICE_OR_NEWSES + '/' + itemId : null);
 }
 
 /** fetches CMS Global Config */

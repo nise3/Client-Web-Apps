@@ -44,3 +44,7 @@ export interface IContactInfo extends IIdHolder {
   phone?: number | undefined | string;
   row_status?: number | string;
 }
+
+export interface IPermissionSubGroupAssign {
+  permission_sub_group_id: number | string | null;
+}

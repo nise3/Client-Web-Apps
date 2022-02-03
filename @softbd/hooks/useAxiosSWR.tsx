@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import {apiGet} from '../common/api';
 import {useIntl} from 'react-intl';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {getBrowserCookie} from '../libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../shared/constants/AppConst';
 
@@ -36,6 +36,7 @@ export function useDataLocalizationAxiosSWR<T = any>(
   const [newDataObject, setNewDataObject] = useState<any>(data);
   const [loc, setLoc] = useState<any>(locale);
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  const locRef = useRef<number>(0);
 
   useEffect(() => {
     if (
@@ -44,7 +45,8 @@ export function useDataLocalizationAxiosSWR<T = any>(
       loc != locale
     ) {
       const objIN = {...data};
-      if (locale != loc || language != 'bn') {
+      if (locale != loc || (locRef.current == 0 && language != 'bn')) {
+        locRef.current = 1;
         if (Array.isArray(objIN.data)) {
           for (let i = 0; i < objIN.data.length; i++) {
             objIN.data[i] = swapLocalText(objIN.data[i]);

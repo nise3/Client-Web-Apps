@@ -75,14 +75,14 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
                 <Avatar src={job?.logo} sx={{width: '60px', height: '60px'}} />
                 <Box sx={{marginLeft: 2}}>
                   <Typography className={classes.titleStyle}>
-                    {job.title}
+                    {job?.job_title}
                   </Typography>
                   <Typography variant='caption'>{job.company}</Typography>
                 </Box>
               </Box>
             </Grid>
             <Grid item xs={12} sm={5} md={5} style={{textAlign: 'end'}}>
-              <Link passHref href={`/job-circular-details/${job.id}`}>
+              <Link passHref href={`/job-circular-details/${job.job_id}`}>
                 <Button
                   variant={'outlined'}
                   color={'primary'}

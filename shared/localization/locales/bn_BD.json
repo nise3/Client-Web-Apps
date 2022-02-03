@@ -4,6 +4,7 @@
   "applicationManagement.courseTitle": "কোর্স টাইটেল",
   "applicationManagement.traineeDetails": "প্রশিক্ষণার্থীর বিস্তারিত",
   "applicationManagement.assignBatch": "ব্যাচ বরাদ্দ",
+  "industry_association.assignPermission": "পারমিশন দিন",
   "applicationManagement.assignedBatch": "বরাদ্দকৃত ব্যাচ",
   "applicationManagement.viewCV": "সিভি দেখুন",
   "common.cv_links": "সিভি লিঙ্ক",
@@ -1354,4 +1355,5 @@
   "button.youth_approve": "ইয়ুথ অনুমোদন",
   "common.no_location": "অবস্থান নেই",
   "member_management.label": "সদস্য ব্যবস্থাপনা"
+  "common.youths": "ইয়ুথ"
 }

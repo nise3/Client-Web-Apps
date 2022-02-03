@@ -4,6 +4,7 @@
   "applicationManagement.courseTitle": "Course Name",
   "applicationManagement.traineeDetails": "Trainee Details",
   "applicationManagement.assignBatch": "Assign Batch",
+  "industry_association.assignPermission": "Assign Permission",
   "applicationManagement.reject": "Reject",
   "applicationManagement.viewCV": "View CV",
   "applicationManagement.batches": "Available Batches",
@@ -1330,6 +1331,7 @@
   "common.question_bank": "Question Bank",
   "common.question_id": "Question Id",
   "common.question": "Question",
+  "common.questions": "Questions",
   "common.subject_name": "Subject Name",
   "common.topic_name": "Topic Name",
   "common.difficulty": "Difficulty",
@@ -1342,6 +1344,7 @@
   "common.assign_permission": "Assign permission to {subject}",
   "button.youth_approve": "Approve Youth",
   "common.org_job_requirements": "{subject} Job Requirement",
+  "common.youths": "Youths",
   "common.no_location": "No Location",
   "member_management.label": "Member Management"
 }
