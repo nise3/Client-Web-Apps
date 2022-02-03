@@ -1054,6 +1054,8 @@
   "common.your_info": "আপনার তথ্য",
   "common.questions": "প্রশ্নাবলি",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
+  "common.must_have_one_area_of_experiences": "অন্তত একটি অভিজ্ঞতার ক্ষেত্র থাকতে হবে",
+  "common.must_have_one_area_of_businesses": "অন্তত একটি কর্ম ক্ষেত্র থাকতে হবে",
   "common.must_have_one_sub_trade": "অন্তত একটি সাব ট্রেড থাকতে হবে",
   "common.must_have_one_physical_disability": "অন্তত একটি শারীরিক অক্ষমতা থাকতে হবে",
   "static_page.template_code": "টেমপ্লেট",
