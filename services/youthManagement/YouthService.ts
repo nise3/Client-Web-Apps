@@ -6,7 +6,7 @@ import {
   API_YOUTH_PERSONAL_INFO_UPDATE,
   API_YOUTH_PROFILE,
   COURSE_ENROLL_RESEND_VERIFICATION,
-  COURSE_ENROLL_PAYMENT_PAY,
+  API_COURSE_ENROLL_PAYMENT_PAY,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {YouthPersonalInfo} from './typing';
@@ -83,7 +83,7 @@ export const courseEnrollmentResendVerificationCode = async (
 
 export const courseEnrollmentPaymentPay = async (data: any) => {
   try {
-    let response: any = await apiPost(COURSE_ENROLL_PAYMENT_PAY, data);
+    let response: any = await apiPost(API_COURSE_ENROLL_PAYMENT_PAY, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

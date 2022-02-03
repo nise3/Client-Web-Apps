@@ -6,41 +6,41 @@ import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import Router from 'next/router';
 import {Dashboard} from '@mui/icons-material';
-import {adminDomain, niseDomain, youthDomain} from "../../../common/constants";
+import {adminDomain, niseDomain, youthDomain} from '../../../common/constants';
 
-interface Props extends ButtonProps {
-}
+interface Props extends ButtonProps {}
 
 const GotoDashboardButton = ({className, ...extra}: Props) => {
-    const authUser = useAuthUser();
+  const authUser = useAuthUser();
 
-    const onClickButton = useCallback(() => {
-        if (authUser && authUser.isYouthUser) {
-            Router.push(youthDomain());
-        } else if (
-            authUser &&
-            (authUser.isSystemUser ||
-                authUser.isInstituteUser ||
-                authUser.isOrganizationUser)
-        ) {
-            Router.push(adminDomain());
-        } else {
-            Router.push(niseDomain());
-        }
-    }, [authUser]);
+  const onClickButton = useCallback(() => {
+    if (authUser && authUser.isYouthUser) {
+      Router.push(youthDomain());
+    } else if (
+      authUser &&
+      (authUser.isSystemUser ||
+        authUser.isInstituteUser ||
+        authUser.isOrganizationUser ||
+        authUser.isIndustryAssociationUser)
+    ) {
+      Router.push(adminDomain());
+    } else {
+      Router.push(niseDomain());
+    }
+  }, [authUser]);
 
-    return !authUser ? (
-        <ButtonSkeleton/>
-    ) : (
-        <Button
-            startIcon={<Dashboard/>}
-            onClick={onClickButton}
-            variant={'contained'}
-            color={'primary'}
-            {...extra}>
-            <IntlMessages id='menu.dashboard'/>
-        </Button>
-    );
+  return !authUser ? (
+    <ButtonSkeleton />
+  ) : (
+    <Button
+      startIcon={<Dashboard />}
+      onClick={onClickButton}
+      variant={'contained'}
+      color={'primary'}
+      {...extra}>
+      <IntlMessages id='menu.dashboard' />
+    </Button>
+  );
 };
 
 export default React.memo(GotoDashboardButton);
