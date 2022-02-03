@@ -113,6 +113,9 @@ export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 export const API_INSTITUTE_QUESTION_BANK =
   INSTITUTE_SERVICE_PATH + 'question-bank';
 
+export const API_INSTITUTE_TRAINEE_YOUTHS =
+  INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -169,7 +172,7 @@ export const API_YOUTH_SETTINGS_CHANGE_USERID =
 export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
-export const API_YOUTH_JOB_APPLY = YOUTH_SERVICE_PATH + '/apply-job';
+export const API_YOUTH_APPLY_JOB = YOUTH_SERVICE_PATH + '/apply-job';
 
 /** Youth service routes section end */
 
