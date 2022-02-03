@@ -126,14 +126,20 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const getSalary = () => {
     let salaryText: any = '';
 
-    if (jobData?.additional_job_information?.is_salary_info_show == 1) {
+    if (
+      jobData?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.SALARY
+    ) {
       salaryText =
         '৳ ' +
         formatNumber(jobData?.additional_job_information?.salary_min) +
         ' - ' +
         formatNumber(jobData?.additional_job_information?.salary_max) +
         ` (${messages['common.monthly']})`;
-    } else if (jobData?.additional_job_information?.is_salary_info_show == 3) {
+    } else if (
+      jobData?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.NEGOTIABLE
+    ) {
       salaryText = messages['common.negotiable'];
     }
 

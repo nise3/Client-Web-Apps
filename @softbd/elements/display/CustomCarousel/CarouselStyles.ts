@@ -135,6 +135,10 @@ const CarouselStyles = {
     flexShrink: '0 !important',
   },
 
+  '& .react-multi-carousel-item--active:first-of-type': {
+    paddingLeft: '1px',
+  },
+
   /*'& @media all and (-ms-high-contrast: none),(-ms-high-contrast: active)': {
     '& .react-multi-carousel-item': {
       flexShrink: '0 !important',
