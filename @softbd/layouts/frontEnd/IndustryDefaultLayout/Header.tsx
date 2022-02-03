@@ -19,7 +19,7 @@ import {
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
-import {Container} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
@@ -111,6 +111,7 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
+          style={{marginBottom: '10px', padding: '0'}}
           className={classes.logoArea}>
           <Link
             href={LINK_FRONTEND_INDUSTRY_ROOT}
@@ -124,6 +125,13 @@ const Header: React.FC<AppHeaderProps> = () => {
               instituteLogo='/images/gov-logo.png'
             />
           </Link>
+          <Grid item md={4} className={classes.headerHalf}>
+            <img
+              className={classes.logoInstitute}
+              src='/images/NISE-SSP34.png'
+              alt='NISECube'
+            />
+          </Grid>
         </Container>
       </StyledBox>
 
