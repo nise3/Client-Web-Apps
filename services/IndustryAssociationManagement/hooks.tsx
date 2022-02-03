@@ -1,10 +1,11 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_INDUSTRY_ASSOCIATION_PROFILE,
-  API_INDUSTRY_ASSOCIATIONS,
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
-  API_INDUSTRY_ASSOCIATION_TRADES,
+  API_INDUSTRY_ASSOCIATION_PROFILE,
   API_INDUSTRY_ASSOCIATION_SUB_TRADES,
+  API_INDUSTRY_ASSOCIATION_TRADES,
+  API_INDUSTRY_ASSOCIATIONS,
+  API_PUBLIC_JOB_DETAILS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchIndustryAssociations(params: any) {
@@ -28,4 +29,8 @@ export function useFetchIndustryAssociationTrades(params: any) {
 }
 export function useFetchIndustryAssociationSubTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
+}
+
+export function useFetchPublicJob(jobId: any) {
+  return useAxiosSWR(jobId ? API_PUBLIC_JOB_DETAILS + '/' + jobId : null);
 }

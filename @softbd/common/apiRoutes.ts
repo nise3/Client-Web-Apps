@@ -310,6 +310,9 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
 export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
 
+export const API_PUBLIC_JOB_DETAILS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-details';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
