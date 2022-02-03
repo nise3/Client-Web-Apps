@@ -118,7 +118,7 @@ export const onSSOSignInCallback = (
     }
   };
 };
-
+/** TODO: This Function should not be here */
 export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
   tokenData: TOnSSOSignInCallback,
@@ -135,6 +135,7 @@ export const loadAuthUser = async (
     const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     console.log('permission call: appAccessTokenData', appAccessTokenData);
 
+    //TODO: This api will be '/user-profile or /auth-profile'
     const coreResponse =
       ssoTokenData.user_type == UserTypes.YOUTH_USER
         ? await apiGet(youthServicePath + '/youth-profile', {
@@ -144,7 +145,7 @@ export const loadAuthUser = async (
             },
           })
         : await apiGet(
-            coreServicePath + `/users/${ssoTokenData.sub}/permissions`, //TODO: This api will be '/user-profile or /auth-profile'
+            coreServicePath + `/users/${ssoTokenData.sub}/permissions`,
             {
               headers: {
                 Authorization: 'Bearer ' + appAccessTokenData?.access_token,
