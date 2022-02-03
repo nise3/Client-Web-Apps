@@ -175,7 +175,7 @@ const MemberDetails = () => {
                   flexDirection={'column'}>
                   <Avatar
                     className={classes.contact_person_avatar}
-                    src={data?.logo}
+                    src={data?.office_head_avatar}
                   />
                   <H6 fontWeight={'bold'} mt={1}>
                     {data?.contact_person_name}
