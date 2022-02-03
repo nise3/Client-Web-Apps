@@ -24,7 +24,7 @@ const StyledBox = styled(Box)((/*theme*/) => ({
   },
 
   [`& .${classes.logo}`]: {
-    height: 48,
+    /*height: 48,*/
     marginRight: 10,
   },
 

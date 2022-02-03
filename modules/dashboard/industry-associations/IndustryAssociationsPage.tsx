@@ -17,12 +17,11 @@ import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
 import CustomChipApplicationStatus from '../memberList/CustomChipApplicationStatus';
-import ApproveButton from './ApproveButton';
 import RejectButton from '../applicationManagement/RejectButton';
-import {
-  approveIndustryAssociationRegistration,
-  rejectIndustryAssociationRegistration,
-} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
+import {rejectIndustryAssociationRegistration} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
+import {FiUserCheck} from 'react-icons/fi';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import AssignPermissionSubGroupPopup from './AssignPermissionSubGroupPopup';
 
 const IndustryAssociationsPage = () => {
   const {messages} = useIntl();
@@ -44,6 +43,9 @@ const IndustryAssociationsPage = () => {
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
   }, []);
+
+  const [isOpenPermissionSubGroupModal, setIsOpenPermissionSubGroupModal] =
+    useState(false);
 
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
@@ -75,6 +77,20 @@ const IndustryAssociationsPage = () => {
     }
   };
 
+  const openAssignPermissionModal = useCallback(
+    (itemId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenPermissionSubGroupModal(true);
+      setSelectedItemId(itemId);
+    },
+    [],
+  );
+
+  const closeAssignPermissionModal = useCallback(() => {
+    setIsOpenPermissionSubGroupModal(false);
+    setSelectedItemId(null);
+  }, []);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
@@ -87,23 +103,6 @@ const IndustryAssociationsPage = () => {
       if (isResponseSuccess(response)) {
         {
           successStack(<IntlMessages id='industry_association_reg.rejected' />);
-        }
-        refreshDataTable();
-      }
-    } catch (error: any) {
-      errorStack(<IntlMessages id='message.somethingWentWrong' />);
-      console.log('error', error);
-    }
-  };
-
-  const approveIndustryAssocRegistration = async (industryAssocId: number) => {
-    try {
-      let response = await approveIndustryAssociationRegistration(
-        industryAssocId,
-      );
-      if (isResponseSuccess(response)) {
-        {
-          successStack(<IntlMessages id='industry_association_reg.approved' />);
         }
         refreshDataTable();
       }
@@ -164,10 +163,11 @@ const IndustryAssociationsPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               {data.row_status != 1 ? (
-                <ApproveButton
-                  approveAction={() =>
-                    approveIndustryAssocRegistration(data.id)
-                  }
+                <CommonButton
+                  onClick={() => openAssignPermissionModal(data.id)}
+                  btnText='common.approve'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  color='secondary'
                 />
               ) : (
                 ''
@@ -241,6 +241,14 @@ const IndustryAssociationsPage = () => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+          />
+        )}
+        {isOpenPermissionSubGroupModal && (
+          <AssignPermissionSubGroupPopup
+            key={1}
+            onClose={closeAssignPermissionModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

@@ -131,25 +131,30 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.about_us']}
+              <Link href='/' component={'span'} mt={2}>
+                {messages['common.create_account']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href='/' component={'span'} mt={2}>
-                {messages['footer.terms_and_condition']}
+                {messages['footer.service_or_products']}
+              </Link>
+            </Typography>
+            <Typography gutterBottom={true}>
+              <Link href='/' component={'span'} mt={2}>
+                {messages['job_post.label']}
+              </Link>
+            </Typography>
+            <Typography gutterBottom={true}>
+              <Link href='/' component={'span'} mt={2}>
+                {messages['common.questions']}
               </Link>
             </Typography>
           </Grid>
           <Grid item md={3}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.in_implementation']}
+                {messages['footer.in_implementation_a2i']}
               </Box>
             </Typography>
             <a
