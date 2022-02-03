@@ -48,11 +48,7 @@ const CustomTextInput = ({
     <TextInputSkeleton />
   ) : (
     <>
-      {helperText && (
-        <FormHelperText sx={{color: 'primary.main'}}>
-          {helperText}
-        </FormHelperText>
-      )}
+
       <TextField
         fullWidth
         variant={variant ? variant : 'outlined'}
@@ -84,6 +80,12 @@ const CustomTextInput = ({
         {...register(id)}
         {...rest}
       />
+      {helperText && (
+          <FormHelperText sx={{color: 'primary.main'}}>
+            {helperText}
+          </FormHelperText>
+      )}
+
     </>
   );
 };
