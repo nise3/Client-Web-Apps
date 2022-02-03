@@ -11,9 +11,13 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 interface JobCardComponentProps {
   job: any;
+  isGridView?: boolean;
 }
 
-const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
+const JobCardComponent: FC<JobCardComponentProps> = ({
+  job,
+  isGridView = false,
+}) => {
   return <StyledCard>Text</StyledCard>;
 };
 
