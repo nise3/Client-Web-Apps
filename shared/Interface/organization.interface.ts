@@ -60,6 +60,7 @@ export interface IOrganization extends IIdTitleCreateUpdateAt {
   organization_types_title?: string;
   organization_type_id: number | string;
   row_status?: number | string;
+  industry_association_trade_id?: number | string;
 }
 
 // export interface IService extends IidTitleCreateUpdateAt{

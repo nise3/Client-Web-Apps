@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
-import JobCardComponent from '../../../modules/industry/jobCircular/components/JobCardComponent';
+import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
 import JobCategory from '../../../@softbd/utilities/JobCategorie';
