@@ -152,7 +152,7 @@ const Publications = () => {
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <H1
-            py={3}
+            pt={3}
             sx={{
               ...result.h2,
               fontWeight: 'bold',
@@ -162,7 +162,7 @@ const Publications = () => {
         </Grid>
       </Grid>
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
-        <Grid container mt={4} spacing={2}>
+        <Grid container mt={3} spacing={2}>
           <Grid item md={6} xs={12}>
             <Grid container spacing={1}>
               <Grid
