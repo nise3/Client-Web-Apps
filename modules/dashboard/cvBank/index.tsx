@@ -9,13 +9,12 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
 import {useRouter} from 'next/router';
-import NextLink from 'next/link';
-import {Link} from '@mui/material';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiDownload, FiMessageCircle, FiUser, FiUserCheck} from 'react-icons/fi';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {Link} from '../../../@softbd/elements/common';
 
 const CVBankPage = () => {
   const {messages} = useIntl();
@@ -109,15 +108,13 @@ const CVBankPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <NextLink href={`${path}/${data?.id}`} passHref={true}>
-                <Link underline='none'>
-                  <CommonButton
-                    btnText='applicationManagement.viewCV'
-                    startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                    variant={'text'}
-                  />
-                </Link>
-              </NextLink>
+              <Link href={`${path}/${data?.id}`}>
+                <CommonButton
+                  btnText='applicationManagement.viewCV'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  variant={'text'}
+                />
+              </Link>
               <CommonButton
                 onClick={() => {}}
                 btnText='common.interview'

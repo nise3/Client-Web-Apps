@@ -34,7 +34,7 @@ const CommonButton = ({
   onClick,
   isLoading,
   className,
-  variant = 'contained',
+  variant = 'text',
   btnText,
   startIcon,
   ...extra

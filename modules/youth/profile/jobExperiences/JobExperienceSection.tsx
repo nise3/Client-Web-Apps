@@ -24,13 +24,12 @@ const JobExperienceSection = () => {
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
-  const [jobExperienceFilters] = useState({});
 
   const {
     data: jobExperiences,
     isLoading,
     mutate: mutateJobExperiences,
-  } = useFetchYouthJobExperiences(jobExperienceFilters);
+  } = useFetchYouthJobExperiences();
   const [isOpenJobExperienceAddEditForm, setIsOpenJobExperienceAddEditForm] =
     useState<boolean>(false);
   const [jobExperienceId, setJobExperienceId] = useState<number | null>(null);

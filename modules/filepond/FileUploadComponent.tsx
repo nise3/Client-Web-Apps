@@ -2,9 +2,11 @@ import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import IntlMessages from '../../@crema/utility/IntlMessages';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+
 import {
+  Box,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -26,12 +28,10 @@ interface FilepondComponentProps {
   register: any;
   required?: boolean;
   label: string | React.ReactNode;
-  defaultFileUrl?: string | Array<any> | null;
-  acceptedFileTypes?: Array<string> | null;
-  uploadedUrls?: any;
+  defaultFileUrl?: string | null;
+  acceptedFileTypes?: any;
   allowMultiple?: boolean;
-  height?: string;
-  width?: string;
+  uploadedUrls?: any;
 }
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
@@ -43,11 +43,10 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   register,
   required,
   label,
-  allowMultiple,
-  acceptedFileTypes,
   defaultFileUrl,
-  height,
-  width,
+  allowMultiple,
+  acceptedFileTypes = [],
+  uploadedUrls,
 }) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
@@ -59,49 +58,59 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
 
   useEffect(() => {
     if (defaultFileUrl && defaultFileUrl.length) {
-      if (!Array.isArray(defaultFileUrl)) {
-        let source = defaultFileUrl.replace(
-          'https://file.nise3.xyz/uploads/',
-          '',
-        );
+      let source = defaultFileUrl.replace(
+        'https://file.nise3.xyz/uploads/',
+        '',
+      );
 
-        let initFile = [
-          {
-            source: source,
+      let initFile = [
+        {
+          source: source,
 
-            //  set type to local to indicate an already uploaded file
-            options: {
-              type: 'local',
-            },
+          //  set type to local to indicate an already uploaded file
+          options: {
+            type: 'local',
           },
-        ];
-        setFiles(initFile);
-      } else {
-      }
+        },
+      ];
+      setFiles(initFile);
     }
   }, [defaultFileUrl]);
+
   const handleRemoveFile = useCallback((errorResponse, file) => {
-    setValue(id, '');
+    if (allowMultiple) {
+      setValue(id, []);
+    } else {
+      setValue(id, '');
+    }
   }, []);
   const filePondRef = useRef<any>(null);
+
   return (
     <StyledWrapper>
       <InputLabel required={required}>{label}</InputLabel>
       <FormControl fullWidth>
         <FilePond
           files={files}
-          acceptedFileTypes={acceptedFileTypes ? acceptedFileTypes : []}
           onupdatefiles={setFiles}
           ref={filePondRef}
           allowMultiple={allowMultiple}
           onremovefile={handleRemoveFile}
-          maxFiles={1}
+          acceptedFileTypes={acceptedFileTypes}
+          maxParallelUploads={1}
+          maxFiles={50}
           server={{
             process: {
               url: 'https://file.nise3.xyz/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
-                setValue(id, res?.url || '');
+                console.log('res?.filePath', res?.url);
+                if (!allowMultiple) {
+                  setValue(id, res?.url || '');
+                } else {
+                  setValue(id, [...uploadedUrls, res?.url]);
+                }
+                console.log('uploadedurl: ', uploadedUrls);
                 return 1;
               },
             },
@@ -137,11 +146,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           )}
         </FormHelperText>
       </FormControl>
-      {height && width && (
-        <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
-          {`Please  upload Image with size ${width} px * ${height} px`}
-        </Box>
-      )}
     </StyledWrapper>
   );
 };

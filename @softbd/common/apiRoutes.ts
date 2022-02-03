@@ -90,7 +90,7 @@ export const API_COURSE_ENROLLMENTS =
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
-export const COURSE_ENROLL_PAYMENT_PAY =
+export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/payment/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
@@ -99,6 +99,9 @@ export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
 export const API_INSTITUTE_QUESTION_BANK =
   INSTITUTE_SERVICE_PATH + 'question-bank';
+
+export const API_INSTITUTE_TRAINEE_YOUTHS =
+  INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
 
 /** All institute service privates routes section end */
 
@@ -156,7 +159,7 @@ export const API_YOUTH_SETTINGS_CHANGE_USERID =
 export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
-export const API_YOUTH_JOB_APPLY = YOUTH_SERVICE_PATH + '/apply-job';
+export const API_YOUTH_APPLY_JOB = YOUTH_SERVICE_PATH + '/apply-job';
 
 /** Youth service routes section end */
 
@@ -310,6 +313,9 @@ export const API_HUMAN_RESOURCE_DEMAND_LIST =
 export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
 
+export const API_PUBLIC_JOB_DETAILS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-details';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
@@ -331,7 +337,7 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
 
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/contact-info';
-export const API_INDUSTRY_PUBLIC_PUBLICATIONS =
+export const API_PUBLIC_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
 
 /** Industry and Industry Association service public routes section end */
@@ -345,8 +351,8 @@ export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
 export const API_GALLERY_ALBUM_CONTENTS =
   CMS_SERVICE_PATH + '/gallery-images-videos';
-export const CMS_RECENT_ACTIVITIES = CMS_SERVICE_PATH + '/recent-activities';
-export const CMS_NOTICE_OR_NEWS = CMS_SERVICE_PATH + '/notice-or-news';
+export const API_RECENT_ACTIVITIES = CMS_SERVICE_PATH + '/recent-activities';
+export const API_NOTICE_OR_NEWSES = CMS_SERVICE_PATH + '/notice-or-news';
 export const API_FAQS = CMS_SERVICE_PATH + '/faqs';
 export const API_PARTNERS = CMS_SERVICE_PATH + '/nise3-partners';
 export const API_CMS_GLOBAL_CONFIG = CMS_SERVICE_PATH + '/cms-global-config';
