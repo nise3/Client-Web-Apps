@@ -18,13 +18,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
-import JobCardComponent from './components/JobCardComponent';
 import clsx from 'clsx';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 // import WindowIcon from '@mui/icons-material/Window';
 // import {ListAlt} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
+import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 
 const PREFIX = 'JobCircular';
 

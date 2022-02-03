@@ -27,13 +27,13 @@ import {
   LINK_FRONTEND_JOB_DETAILS,
   LINK_YOUTH_SIGNUP,
 } from '../../common/appLinks';
-import JobApplyPopup from '../../../modules/industry/jobCircular/components/JobApplyPopup';
 import {gotoLoginSignUpPage} from '../../common/constants';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
 import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
+import JobApplyPopup from '../../components/JobApplyPopup';
 
 const PREFIX = 'JobCardComponent';
 
