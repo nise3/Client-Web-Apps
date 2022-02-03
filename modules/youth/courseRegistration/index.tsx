@@ -1483,6 +1483,7 @@ const YouthCourseRegistrationPage = () => {
       } else if (activeStep == stepKeys.length - 1) {
         let data: any = {...formData};
         data.youth_id = authUser?.youthId;
+        data.youth_code = authUser?.youthCode;
         data.course_id = course?.id;
         data.does_belong_to_ethnic_group = formData.does_belong_to_ethnic_group
           ? 1
