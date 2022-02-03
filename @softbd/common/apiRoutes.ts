@@ -2,15 +2,18 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
-export const FILE_SERVER_UPLOAD_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
+export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   : 'https://file.nise3.xyz/test';
 
-export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
+export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   : 'https://file.nise3.xyz/uploads/';
 
-export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
+export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   : 'https://file.nise3.xyz/test';
 
@@ -307,6 +310,12 @@ export const API_GET_BUSINESS_AREAS =
 
 export const API_GET_EXPERIENCE_AREAS =
   ORGANIZATION_SERVICE_PATH + '/suggestions/area-of-experiences';
+
+export const API_PUBLIC_GET_EXPERIENCE_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/public/area-of-experiences';
+
+export const API_PUBLIC_GET_BUSINESS_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/public/area-of-business';
 
 export const API_GET_EDUCATION_LEVELS =
   ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
