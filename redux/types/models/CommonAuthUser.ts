@@ -44,6 +44,7 @@ export interface CommonAuthUser extends AuthUser {
 
 export interface YouthAuthUser extends AuthUser {
   youthId: string | number;
+  youthCode?: string;
   first_name: string;
   first_name_en?: string;
   last_name: string;
@@ -94,5 +95,4 @@ export interface YouthAuthUser extends AuthUser {
 }
 
 // @ts-ignore
-export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {
-}
+export interface AllAuthUser extends CommonAuthUser, YouthAuthUser {}

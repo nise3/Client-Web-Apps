@@ -214,6 +214,7 @@ type TYouthAuthUserSSOResponse = {
   family_name: string;
   userType: 'youth';
   displayName?: string;
+  code?: string;
   email?: string;
   username: string;
   permissions: string[];
@@ -312,6 +313,7 @@ export const getYouthAuthUserObject = (
     email: authUser?.email,
     uid: authUser?.sub,
     youthId: authUser?.id,
+    youthCode: authUser?.code,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,
