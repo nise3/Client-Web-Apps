@@ -1,18 +1,18 @@
 import React, {FC, useMemo} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import HookFormMuiModal from '../../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import HookFormMuiModal from '../../modals/HookFormMuiModal/HookFormMuiModal';
+import CancelButton from '../../elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomTextInput from '../../elements/input/CustomTextInput/CustomTextInput';
 import {useIntl} from 'react-intl';
-import IconJobSector from '../../../../@softbd/icons/IconJobSector';
-import yup from '../../../../@softbd/libs/yup';
-import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
-import {createJobApplication} from '../../../../services/youthManagement/JobApplicationService';
-import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import IconJobSector from '../../icons/IconJobSector';
+import yup from '../../libs/yup';
+import {processServerSideErrors} from '../../utilities/validationErrorHandler';
+import useSuccessMessage from '../../hooks/useSuccessMessage';
+import {createJobApplication} from '../../../services/youthManagement/JobApplicationService';
+import useNotiStack from '../../hooks/useNotifyStack';
 
 interface JobApplyPopupProps {
   job: any;
