@@ -295,6 +295,20 @@ const AssociationProfile = () => {
               />
             </Grid>
             <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.location_latitude']}
+                value={userData?.location_latitude}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.location_longitude']}
+                value={userData?.location_longitude}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
               <CustomChipRowStatus
                 label={messages['common.active_status']}
                 value={userData?.row_status}

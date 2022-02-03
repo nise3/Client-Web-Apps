@@ -149,6 +149,8 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
           userData?.name_of_the_office_head_designation,
         contact_person_name: userData?.contact_person_name,
         contact_person_designation: userData?.contact_person_designation,
+        location_latitude: userData?.location_latitude,
+        location_longitude: userData?.location_longitude,
       });
       setDistrictsList(
         filterDistrictsByDivisionId(districts, userData?.loc_division_id),
@@ -330,6 +332,24 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             errorInstance={errors}
             multiline={true}
             rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='location_latitude'
+            label={messages['common.location_latitude']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='location_longitude'
+            label={messages['common.location_longitude']}
+            register={register}
+            errorInstance={errors}
           />
         </Grid>
 
