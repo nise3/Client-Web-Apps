@@ -18,6 +18,8 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
   API_SKILLS,
+  API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_PUBLIC_GET_BUSINESS_AREAS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSkill(skillId: number | null) {
@@ -44,6 +46,14 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
   return useAxiosSWR(
     jobExperienceId ? API_YOUTH_JOB_EXPERIENCES + '/' + jobExperienceId : null,
   );
+}
+
+export function useFetchPublicAreaOfBusiness() {
+  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
+}
+
+export function useFetchPublicAreaOfExperience() {
+  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
 }
 
 export function useFetchYouthCertificates(params?: any) {
