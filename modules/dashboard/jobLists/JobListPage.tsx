@@ -28,6 +28,9 @@ import {
   LINK_JOB_DETAILS_VIEW,
 } from '../../../@softbd/common/appLinks';
 import ApproveButton from '../industry-associations/ApproveButton';
+import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
+import {FiUser} from "react-icons/fi";
+import {Link} from "../../../@softbd/elements/common";
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -191,6 +194,13 @@ const JobListPage = () => {
               ) : (
                 <></>
               )}
+              <Link href={`${'candidates'}/${data?.job_id}`}>
+                <CommonButton
+                    btnText='common.candidates'
+                    startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                    variant={'text'}
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },
