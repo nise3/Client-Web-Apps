@@ -1346,5 +1346,6 @@
   "common.org_job_requirements": "{subject} Job Requirement",
   "common.youths": "Youths",
   "common.no_location": "No Location",
-  "member_management.label": "Member Management"
+  "member_management.label": "Member Management",
+  "common.candidates": "Candidates"
 }
