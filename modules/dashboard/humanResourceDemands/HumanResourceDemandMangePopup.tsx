@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import IconGallery from '../../../@softbd/icons/IconGallery';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
@@ -7,7 +7,10 @@ import {
   useFetchHrDemand,
   useFetchInstituteTraineeYouths,
 } from '../../../services/instituteManagement/hooks';
-import {updateHrDemand} from '../../../services/instituteManagement/HrDemandService';
+import {
+  rejectHrdemand,
+  updateHrDemand,
+} from '../../../services/instituteManagement/HrDemandService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {Grid} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -19,6 +22,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import RejectButton from './RejectButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 
 interface HumanResourceDemandMangePopupProps {
   itemId: number | null;
@@ -33,9 +37,11 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-
+  const {successStack} = useNotiStack();
+  const [isRejectDisable, setIsRejectDisable] = useState(false);
+  const [isDisableSubmit, setIsDisableSubmit] = useState(false);
   const {updateSuccessMessage} = useSuccessMessage();
-  const {data: itemData} = useFetchHrDemand(itemId);
+  const {data: itemData, mutate: mutateHrDemand} = useFetchHrDemand(itemId);
 
   const {data: youths} = useFetchInstituteTraineeYouths();
 
@@ -60,12 +66,41 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {}, []);
+  const onRejectAction = useCallback(async (itemId: any) => {
+    console.log('itemId: ', itemId);
+    let response = await rejectHrdemand(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='hr_demand.label' />}}
+        />,
+      );
+      onClose();
+      mutateHrDemand();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      itemData?.rejected_by_industry_association ||
+      itemData?.vacancy_approved_by_industry_association ||
+      itemData?.rejected_by_institute
+    ) {
+      setIsRejectDisable(true);
+    }
+
+    if (itemData?.rejected_by_industry_association) {
+      setIsDisableSubmit(true);
+    }
+  }, [itemData]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       if (itemId) {
         await updateHrDemand(itemId, data);
         updateSuccessMessage('hr_demand.label');
+        setIsRejectDisable(false);
       }
       onClose();
       refreshDataTable();
@@ -94,12 +129,14 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       actions={
         <>
           <RejectButton
-            onClick={onClose}
+            isDisable={isRejectDisable}
+            onRejectAction={() => onRejectAction(itemId)}
             label={messages['common.reject'] as string}
           />
           <SubmitButton
             label={messages['common.approve'] as string}
             isSubmitting={isSubmitting}
+            isDisable={isDisableSubmit}
           />
         </>
       }>
