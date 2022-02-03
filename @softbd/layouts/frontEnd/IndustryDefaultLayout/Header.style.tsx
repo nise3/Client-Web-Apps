@@ -62,7 +62,6 @@ export const StyledBox = styled(Box)(({theme}) => ({
     margin: 'auto',
     color: theme.palette.grey[800],
     [theme.breakpoints.up('md')]: {
-      margin: '0px 16px 0px 0px',
       justifyContent: 'unset',
       textAlign: 'end',
     },
