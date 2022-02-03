@@ -5,12 +5,13 @@ import ButtonSkeleton from '../../../@softbd/elements/display/skeleton/ButtonSke
 
 interface Props {
   onClick?: () => void;
+  onRejectAction?: (id: any) => void;
   className?: string;
   label?: string;
   isSubmitting?: boolean;
   isLoading?: boolean;
   startIcon?: React.ReactNode | false;
-
+  isDisable?: boolean;
   [x: string]: any;
 }
 
@@ -21,6 +22,8 @@ const RejectButton = ({
   isSubmitting,
   isLoading,
   startIcon,
+  onRejectAction,
+  isDisable,
   ...rest
 }: Props) => {
   const {messages} = useIntl();
@@ -30,11 +33,12 @@ const RejectButton = ({
   ) : (
     <Button
       startIcon={startIcon === false ? undefined : startIcon}
-      sx={{color: 'error.main', backgroundColor: 'red'}}
-      onClick={onClick}
+      sx={{color: 'error.main'}}
+      onClick={onRejectAction}
+      variant={'outlined'}
       className={className}
       type='submit'
-      disabled={isSubmitting}
+      disabled={isDisable}
       {...rest}>
       {btnText}
     </Button>
