@@ -73,7 +73,6 @@ axiosInstance.interceptors.response.use(
 );
 
 export function setDefaultAuthorizationHeader(accessToken?: string) {
-  // console.log('setDefaultAuthorizationHeader', accessToken);
   axiosInstance.defaults.headers.common['Authorization'] =
     'Bearer ' + accessToken || '';
 }
