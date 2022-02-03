@@ -6,6 +6,7 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 import {
+  Box,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -13,7 +14,10 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
-import {FILE_SERVER_FILE_VIEW_ENDPOINT, FILE_SERVER_UPLOAD_ENDPOINT} from '../../@softbd/common/apiRoutes';
+import {
+  FILE_SERVER_FILE_VIEW_ENDPOINT,
+  FILE_SERVER_UPLOAD_ENDPOINT,
+} from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -32,22 +36,26 @@ interface FilepondComponentProps {
   acceptedFileTypes?: any;
   allowMultiple?: boolean;
   uploadedUrls?: any;
+  height?: string;
+  width?: string;
 }
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
-                                                           id,
-                                                           errorInstance,
-                                                           setValue,
-                                                           register,
-                                                           required,
-                                                           label,
-                                                           defaultFileUrl,
-                                                           allowMultiple,
-                                                           acceptedFileTypes = [],
-                                                           uploadedUrls,
-                                                         }) => {
+  id,
+  errorInstance,
+  setValue,
+  register,
+  required,
+  label,
+  defaultFileUrl,
+  allowMultiple,
+  acceptedFileTypes = [],
+  uploadedUrls,
+  height,
+  width,
+}) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
   const matches = id.match(reg);
@@ -58,10 +66,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
 
   useEffect(() => {
     if (defaultFileUrl && defaultFileUrl.length) {
-      let source = defaultFileUrl.replace(
-        FILE_SERVER_FILE_VIEW_ENDPOINT,
-        '',
-      );
+      let source = defaultFileUrl.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, '');
 
       let initFile = [
         {
@@ -146,6 +151,11 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           )}
         </FormHelperText>
       </FormControl>
+      {height && width && (
+        <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+          {`Please  upload Image with size ${width} px * ${height} px`}
+        </Box>
+      )}
     </StyledWrapper>
   );
 };
