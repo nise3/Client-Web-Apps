@@ -33,9 +33,9 @@ import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutl
 import BackButton from '../../../@softbd/elements/button/BackButton';
 import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
 import {LINK_YOUTH_SIGNUP} from '../../../@softbd/common/appLinks';
-import JobApplyPopup from '../jobCircular/components/JobApplyPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 
 const PREFIX = 'JobPreview';
 
