@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
-import JobCardComponent from '../../../modules/industry/jobCircular/components/JobCardComponent';
+import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
 import JobCategory from '../../../@softbd/utilities/JobCategorie';
@@ -98,10 +98,10 @@ const JobList = () => {
   useEffect(() => {
     switch (jobCategory) {
       case JobCategory.RECENT:
-        setJobFilters({type: 'recent', page_size: PageSizes.TEN});
+        setJobFilters({type: JobCategory.RECENT, page_size: PageSizes.TEN});
         break;
       case JobCategory.POPULAR:
-        setJobFilters({type: 'popular', page_size: PageSizes.TEN});
+        setJobFilters({type: JobCategory.POPULAR, page_size: PageSizes.TEN});
         break;
       case JobCategory.NEARBY:
         setJobFilters({
@@ -210,10 +210,10 @@ const JobList = () => {
               {isLoading ? (
                 <PostLoadingSkeleton />
               ) : (
-                jobs?.map((jobCircular: any) => {
+                jobs?.map((job: any) => {
                   return (
-                    <Grid item xs={12} sm={12} md={12} key={jobCircular.id}>
-                      <JobCardComponent job={jobCircular} />
+                    <Grid item xs={12} sm={12} md={12} key={job.id}>
+                      <JobCardComponent job={job} />
                     </Grid>
                   );
                 })

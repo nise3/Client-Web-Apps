@@ -944,7 +944,7 @@
   "nise.how_nise_works_text": "The Nice-3 portal attaches great importance to our joint efforts to provide skills and job opportunities to the youth.",
   "common.read_more": "Read details",
   "common.map": "Map",
-  "nise.skill_matching_Job": "Skill matching job",
+  "nise.popular_jobs": "Popular jobs",
   "nise.partners": "Partners",
   "industry_association.members": "Our Members",
   "course_details.enrolled": "{total} enrolled",
@@ -1344,5 +1344,7 @@
   "common.assign_permission": "Assign permission to {subject}",
   "button.youth_approve": "Approve Youth",
   "common.org_job_requirements": "{subject} Job Requirement",
-  "common.youths": "Youths"
+  "common.youths": "Youths",
+  "common.no_location": "No Location",
+  "member_management.label": "Member Management"
 }

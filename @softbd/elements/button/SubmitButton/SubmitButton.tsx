@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from '@mui/material';
 import {Save} from '@mui/icons-material';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
@@ -21,10 +21,18 @@ const SubmitButton = ({
   label,
   isSubmitting,
   isLoading,
+  isDisable,
   startIcon,
   ...rest
 }: Props) => {
   const {messages} = useIntl();
+  const [disable, setIsDisable] = useState(false);
+
+  useEffect(() => {
+    if (isSubmitting || isDisable) {
+      setIsDisable(true);
+    }
+  }, [isSubmitting, isDisable]);
   const btnText = label ? label : messages['common.done'];
   return isLoading ? (
     <ButtonSkeleton />
@@ -36,7 +44,7 @@ const SubmitButton = ({
       onClick={onClick}
       className={className}
       type='submit'
-      disabled={isSubmitting}
+      disabled={disable}
       {...rest}>
       {btnText}
     </Button>

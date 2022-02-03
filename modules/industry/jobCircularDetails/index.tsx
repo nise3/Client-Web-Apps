@@ -33,16 +33,16 @@ import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutl
 import BackButton from '../../../@softbd/elements/button/BackButton';
 import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
 import {LINK_YOUTH_SIGNUP} from '../../../@softbd/common/appLinks';
-import JobApplyPopup from '../jobCircular/components/JobApplyPopup';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 
 const PREFIX = 'JobPreview';
 
 const classes = {
   footerTitle: `${PREFIX}-footerTitle`,
   otherBenefit: `${PREFIX}-otherBenefit`,
-  icon: `${PREFIX}-icon`,
+  icons: `${PREFIX}-icons`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -57,13 +57,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
     marginTop: '20px',
     marginLeft: '40px',
 
-    [`& .${classes.icon}`]: {
-      color: '#ffff',
-      padding: '2px',
-      borderRadius: '3px',
-      '&:not(:last-child)': {marginRight: '10px'},
-    },
-
     [`& .MuiSvgIcon-root`]: {
       display: 'block',
       margin: 'auto',
@@ -72,6 +65,14 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
   [`& ul>li`]: {
     marginTop: '5px',
+  },
+  [`& .${classes.icons}`]: {
+    color: '#ffff',
+    padding: '2px',
+    borderRadius: '3px',
+    marginRight: '10px',
+    // '&:not(:last-child)': {marginRight: '10px'},
+    float: 'right',
   },
 }));
 
@@ -296,11 +297,15 @@ const JobCircularDetails = () => {
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
-          (degree: any, index: number) => (
-            <li key={index}>
-              {degree?.exam_degree?.title} in {degree?.major_subject}
-            </li>
-          ),
+          (degree: any, index: number) =>
+            degree?.exam_degree ? (
+              <li key={index}>
+                {degree?.exam_degree?.title}
+                {degree?.major_subject ? ' in ' + degree?.major_subject : ''}
+              </li>
+            ) : (
+              <></>
+            ),
         )}
         {additionalEducationRequirement.map((req: string, index) => (
           <li key={index}>{req}</li>
@@ -595,10 +600,48 @@ const JobCircularDetails = () => {
 
   return (
     <StyledContainer>
-      <Box sx={{marginTop: 2}}>
-        <BackButton key={1} url={'/jobs'} />
-      </Box>
-      <Box mt={3}>
+      <Grid container sx={{marginTop: 2}}>
+        <Grid item xs={6}>
+          <BackButton key={1} url={'/jobs'} />
+        </Grid>
+        <Grid item xs={6}>
+          <Tooltip title={messages['common.download_label']}>
+            <SystemUpdateAltOutlinedIcon
+              className={classes.icons}
+              sx={{
+                backgroundColor: '#2fc94d',
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={messages['common.print']}>
+            <PrintOutlinedIcon
+              className={classes.icons}
+              sx={{
+                backgroundColor: '#ffb700b8',
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={messages['common.share_label']}>
+            <ShareIcon
+              className={classes.icons}
+              sx={{
+                backgroundColor: '#4E4E98',
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={messages['common.like']}>
+            <ThumbUpAltIcon
+              className={classes.icons}
+              sx={{
+                backgroundColor: '#008fff',
+              }}
+            />
+          </Tooltip>
+        </Grid>
+      </Grid>
+      <Box
+        mt={3}
+        sx={{border: '1px solid', padding: '10px', background: '#ededed'}}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8}>
             <H3>{jobData?.primary_job_information?.job_title}</H3>
@@ -686,50 +729,6 @@ const JobCircularDetails = () => {
             )}
           </Grid>
           <Grid item xs={1} md={4}>
-            <Tooltip title={messages['common.like']}>
-              <ThumbUpAltIcon
-                sx={{
-                  backgroundColor: '#008fff',
-                  color: '#ffff',
-                  padding: '2px',
-                  borderRadius: '3px',
-                  '&:not(:last-child)': {marginRight: '10px'},
-                }}
-              />
-            </Tooltip>
-            <Tooltip title={messages['common.share_label']}>
-              <ShareIcon
-                sx={{
-                  backgroundColor: '#4E4E98',
-                  color: '#ffff',
-                  padding: '2px',
-                  borderRadius: '3px',
-                  '&:not(:last-child)': {marginRight: '10px'},
-                }}
-              />
-            </Tooltip>
-            <Tooltip title={messages['common.print']}>
-              <PrintOutlinedIcon
-                sx={{
-                  backgroundColor: '#ffb700b8',
-                  color: '#ffff',
-                  padding: '2px',
-                  borderRadius: '3px',
-                  '&:not(:last-child)': {marginRight: '10px'},
-                }}
-              />
-            </Tooltip>
-            <Tooltip title={messages['common.download_label']}>
-              <SystemUpdateAltOutlinedIcon
-                sx={{
-                  backgroundColor: '#2fc94d',
-                  color: '#ffff',
-                  padding: '2px',
-                  borderRadius: '3px',
-                  '&:not(:last-child)': {marginRight: '10px'},
-                }}
-              />
-            </Tooltip>
             <Typography>
               <b>{messages['job_preview.job_sector_occupation']}</b>{' '}
               {jobData?.primary_job_information?.job_sector_title}/
@@ -952,11 +951,11 @@ const JobCircularDetails = () => {
             </Box>
           </Grid>
         </Grid>
-      </Box>
-      <Box style={{textAlign: 'center', margin: '30px 0'}}>
-        <Button variant={'contained'} color={'primary'} onClick={onJobApply}>
-          {messages['industry.apply_now']}
-        </Button>
+        <Box style={{textAlign: 'center', margin: '30px 0'}}>
+          <Button variant={'contained'} color={'primary'} onClick={onJobApply}>
+            {messages['industry.apply_now']}
+          </Button>
+        </Box>
       </Box>
       {isOpenJobApplyModal && (
         <JobApplyPopup job={jobData} onClose={closeJobApplyModal} />
