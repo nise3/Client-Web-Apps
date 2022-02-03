@@ -2,7 +2,7 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import React, {useCallback, useMemo, useState} from 'react';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {CMS_NOTICE_OR_NEWS} from '../../../@softbd/common/apiRoutes';
+import {API_NOTICE_OR_NEWSES} from '../../../@softbd/common/apiRoutes';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {deleteNoticeOrNews} from '../../../services/cmsManagement/NoticeOrNewsService';
@@ -145,7 +145,7 @@ const NoticeOrNewsPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
-      urlPath: CMS_NOTICE_OR_NEWS,
+      urlPath: API_NOTICE_OR_NEWSES,
     });
 
   return (

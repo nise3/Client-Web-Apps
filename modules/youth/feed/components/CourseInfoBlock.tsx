@@ -84,7 +84,6 @@ interface CourseInfoBlockProps {
 }
 
 const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
-  console.log('course->', course);
   const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
 
@@ -100,7 +99,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
             image={
               course.cover_image
                 ? course.cover_image
-                : '/images/courseImage.jpeg'
+                : '/images/blank_image.png'
             }
             sx={{height: '100%'}}
             title={course?.title}
@@ -125,7 +124,9 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CardMedia
                         component='img'
                         alt={course.title}
-                        image={course.logo ? course.logo : '/images/logo1.png'}
+                        image={
+                          course.logo ? course.logo : '/images/blank_image.png'
+                        }
                         className={classes.jobProviderImage}
                       />
                     </Grid>

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
@@ -70,15 +70,15 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const CourseListSection = () => {
   const {messages} = useIntl();
-  const [selectedValue, setSelectedValue] = useState('recent');
-  const URL = `/course-list/${selectedValue}`;
+  const selectedType = useRef<string>('recent');
+  const URL = `/course-list/${selectedType.current}`;
   const authYouth = useAuthUser<YouthAuthUser>();
 
   const [courseFilters, setCourseFilters] = useState({
     page_size: PageSizes.THREE,
   });
   const {data: courses, metaData: coursesMetaData} = useFetchCourseList(
-    selectedValue,
+    selectedType.current,
     courseFilters,
   );
 
@@ -94,7 +94,7 @@ const CourseListSection = () => {
       });
     }
 
-    setSelectedValue(value);
+    selectedType.current = value;
   }, []);
 
   return (
@@ -104,7 +104,7 @@ const CourseListSection = () => {
           <Select
             id='recentCourses'
             autoWidth
-            defaultValue={selectedValue}
+            defaultValue={selectedType.current}
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
             onChange={handleCourseCategoryChange}>
