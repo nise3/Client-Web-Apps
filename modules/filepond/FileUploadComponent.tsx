@@ -1,4 +1,5 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import {Box} from '@mui/material';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -12,6 +13,7 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT, FILE_SERVER_UPLOAD_ENDPOINT} from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -37,18 +39,18 @@ interface FilepondComponentProps {
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
-  id,
-  errorInstance,
-  setValue,
-  register,
-  required,
-  label,
-  allowMultiple,
-  acceptedFileTypes,
-  defaultFileUrl,
-  height,
-  width,
-}) => {
+                                                           id,
+                                                           errorInstance,
+                                                           setValue,
+                                                           register,
+                                                           required,
+                                                           label,
+                                                           allowMultiple,
+                                                           acceptedFileTypes,
+                                                           defaultFileUrl,
+                                                           height,
+                                                           width,
+                                                         }) => {
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
   const matches = id.match(reg);
@@ -61,7 +63,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
     if (defaultFileUrl && defaultFileUrl.length) {
       if (!Array.isArray(defaultFileUrl)) {
         let source = defaultFileUrl.replace(
-          'https://file.nise3.xyz/uploads/',
+          FILE_SERVER_FILE_VIEW_ENDPOINT,
           '',
         );
 
@@ -98,7 +100,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           maxFiles={1}
           server={{
             process: {
-              url: 'https://file.nise3.xyz/test',
+              url: FILE_SERVER_UPLOAD_ENDPOINT,
               onload: (response: any) => {
                 let res = JSON.parse(response);
                 setValue(id, res?.url || '');
@@ -106,7 +108,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
               },
             },
             load: {
-              url: 'https://file.nise3.xyz/uploads/',
+              url: FILE_SERVER_FILE_VIEW_ENDPOINT,
             },
           }}
           styleProgressIndicatorPosition={'center'}
