@@ -49,11 +49,11 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
 }
 
 export function useFetchPublicAreaOfBusiness() {
-  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
+  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
 }
 
 export function useFetchPublicAreaOfExperience() {
-  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
+  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
 }
 
 export function useFetchYouthCertificates(params?: any) {
