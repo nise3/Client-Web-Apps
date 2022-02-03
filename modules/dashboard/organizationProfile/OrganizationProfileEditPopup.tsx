@@ -11,7 +11,7 @@ import {useIntl} from 'react-intl';
 import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 
 interface OrganizationProfileEditPopupProps {
   onClose: () => void;

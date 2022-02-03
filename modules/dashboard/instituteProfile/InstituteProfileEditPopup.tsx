@@ -2,7 +2,7 @@ import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
