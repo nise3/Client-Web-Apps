@@ -90,7 +90,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
           variant={'outlined'}
           color={'primary'}
           className={classes.detailsButton}>
-          {messages['common.details']}
+          {messages['industry.details']}
         </Button>
       </Link>
       <CardContent>
