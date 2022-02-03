@@ -28,9 +28,9 @@ import {
   LINK_JOB_DETAILS_VIEW,
 } from '../../../@softbd/common/appLinks';
 import ApproveButton from '../industry-associations/ApproveButton';
-import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import {FiUser} from "react-icons/fi";
-import {Link} from "../../../@softbd/elements/common";
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
+import {Link} from '../../../@softbd/elements/common';
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -180,7 +180,7 @@ const JobListPage = () => {
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              {!data?.published_at && (
+              {!data?.published_at && data?.application_deadline >= today && (
                 <ApproveButton
                   approveAction={() => publishAction(data.job_id)}
                   approveTitle={messages['common.publish'] as string}
@@ -196,9 +196,9 @@ const JobListPage = () => {
               )}
               <Link href={`${'candidates'}/${data?.job_id}`}>
                 <CommonButton
-                    btnText='common.candidates'
-                    startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                    variant={'text'}
+                  btnText='common.candidates'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  variant={'text'}
                 />
               </Link>
             </DatatableButtonGroup>
