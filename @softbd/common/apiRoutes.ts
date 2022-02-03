@@ -2,15 +2,18 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
-export const FILE_SERVER_UPLOAD_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
+export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   : 'https://file.nise3.xyz/test';
 
-export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
+export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   : 'https://file.nise3.xyz/uploads/';
 
-export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
+export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   : 'https://file.nise3.xyz/test';
 
@@ -281,6 +284,8 @@ export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
   API_JOBS + '/store-candidate-requirements';
 export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
   API_JOBS + '/candidate-requirements/';
+
+export const API_GET_JOB_CANDIDATES = API_JOBS + '/candidates/all';
 
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOBS + '/store-company-info-visibility';
