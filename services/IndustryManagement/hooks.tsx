@@ -77,6 +77,7 @@ export function useFetchHumanResourceDemand(
       : null,
   );
 }
+
 export function useFetchInstituteProvidedYouthList(
   hrDemandInstituteId: number | null,
 ) {
@@ -96,7 +97,7 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
 }
 
 export function useFetchPublicJobs(params: any) {
-  return useAxiosSWR([API_PUBLIC_JOBS, params]);
+  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
