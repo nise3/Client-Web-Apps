@@ -104,6 +104,10 @@ export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';
 export const LINK_FRONTEND_FAQ = '/faqs';
+export const LINK_FRONTEND_JOB_DETAILS = '/job-details/';
+export const LINK_FRONTEND_JOB_LISTS = '/job-list/';
+export const LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS =
+  '/course-skill-matching-jobs/';
 
 /** static content links */
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
