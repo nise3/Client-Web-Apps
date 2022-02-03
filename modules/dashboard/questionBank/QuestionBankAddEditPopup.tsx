@@ -3,7 +3,7 @@ import {useFetchQuestionBank} from '../../../services/instituteManagement/hooks'
 import React, {useEffect, useMemo} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
