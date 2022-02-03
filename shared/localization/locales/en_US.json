@@ -1344,5 +1344,7 @@
   "common.assign_permission": "Assign permission to {subject}",
   "button.youth_approve": "Approve Youth",
   "common.org_job_requirements": "{subject} Job Requirement",
-  "common.youths": "Youths"
+  "common.youths": "Youths",
+  "common.no_location": "No Location",
+  "member_management.label": "Member Management"
 }
