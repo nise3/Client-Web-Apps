@@ -96,6 +96,8 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           allowMultiple={allowMultiple}
           onremovefile={handleRemoveFile}
           acceptedFileTypes={acceptedFileTypes}
+          maxParallelUploads={1}
+          maxFiles={50}
           server={{
             process: {
               url: 'https://file.nise3.xyz/test',

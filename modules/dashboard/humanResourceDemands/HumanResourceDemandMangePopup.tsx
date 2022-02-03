@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useMemo} from 'react';
 import IconGallery from '../../../@softbd/icons/IconGallery';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {useIntl} from 'react-intl';
 import {
@@ -19,6 +18,7 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import RejectButton from './RejectButton';
 
 interface HumanResourceDemandMangePopupProps {
   itemId: number | null;
@@ -93,7 +93,10 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={onClose} />
+          <RejectButton
+            onClick={onClose}
+            label={messages['common.reject'] as string}
+          />
           <SubmitButton
             label={messages['common.approve'] as string}
             isSubmitting={isSubmitting}
