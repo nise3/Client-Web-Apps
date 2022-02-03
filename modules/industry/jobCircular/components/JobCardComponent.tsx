@@ -82,7 +82,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({job}) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={5} md={5} style={{textAlign: 'end'}}>
-              <Link passHref href={`/job-circular-details/${job.id}`}>
+              <Link passHref href={`/job-circular-details/${job.job_id}`}>
                 <Button
                   variant={'outlined'}
                   color={'primary'}
