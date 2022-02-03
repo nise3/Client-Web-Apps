@@ -329,7 +329,7 @@ const ContactPage = () => {
                   {contactInfoData?.map((contact: any) => (
                     <Grid item xs={12} sm={2} md={3} key={contact.id}>
                       <Box className={classes.contactBox}>
-                        <H5 sx={{color: 'primary.main'}}>{contact?.name}</H5>
+                        <H5 sx={{color: 'primary.main'}}>{contact?.title}</H5>
                         <Text className={classes.contactBoxItem}>
                           <Call className={classes.contactBoxItemIcon} />
                           {contact?.mobile}
