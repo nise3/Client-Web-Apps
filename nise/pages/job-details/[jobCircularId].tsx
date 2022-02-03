@@ -1,12 +1,12 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
-import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/IndustryDefaultFrontPage';
+import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 
 const JobDetailsPage = asyncComponent(
   () => import('../../../modules/industry/jobCircularDetails'),
 );
-export default IndustryDefaultFrontPage(() => {
+export default NiseFrontPage(() => {
   return (
     <>
       <PageMeta title={'Job Circular Details'} />

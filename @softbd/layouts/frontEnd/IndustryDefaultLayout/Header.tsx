@@ -9,13 +9,13 @@ import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
 import {NavLink as Link} from '../../../elements/common';
 import {
-  LINK_FRONTEND_INDUSTRY_ROOT,
   LINK_FRONTEND_INDUSTRY_ABOUT_US,
   LINK_FRONTEND_INDUSTRY_CONTACT,
-  LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
-  LINK_SIGNUP,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
+  LINK_FRONTEND_INDUSTRY_ROOT,
+  LINK_FRONTEND_JOBS,
+  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
@@ -77,9 +77,7 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR}>
-          {messages['menu.job_circular']}
-        </Link>
+        <Link href={LINK_FRONTEND_JOBS}>{messages['menu.job_circular']}</Link>
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
@@ -175,9 +173,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                     {messages['menu.industry_contact']}
                   </Link>
 
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR}
-                    className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_JOBS} className={classes.menuItem}>
                     {messages['menu.job_circular']}
                   </Link>
 

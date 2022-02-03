@@ -9,10 +9,11 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 import Link from 'next/link';
 import JobCategory from '../../../@softbd/utilities/JobCategorie';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import {LINK_FRONTEND_JOBS} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'RecentJobSection';
 
@@ -71,7 +72,6 @@ const StyledCard = styled(Card)(({theme}) => ({
 const RecentJobSection = () => {
   const {messages} = useIntl();
   const [selectedValue, setSelectedValue] = useState(JobCategory.RECENT);
-  const URL = `/job-list/${selectedValue}`;
   const authYouth = useAuthUser<YouthAuthUser>();
   const [youthSkillIdArray, setYouthSkillIdArray] = useState<any>([]);
 
@@ -79,7 +79,7 @@ const RecentJobSection = () => {
     type: selectedValue,
     page_size: PageSizes.THREE,
   });
-  const {data: jobs, metaData: jobsMetaData} = useFetchJobList(jobFilters);
+  const {data: jobs, metaData: jobsMetaData} = useFetchPublicJobs(jobFilters);
 
   useEffect(() => {
     if (authYouth?.skills) {
@@ -162,7 +162,7 @@ const RecentJobSection = () => {
         )}
         {jobsMetaData.total_page > jobsMetaData.current_page && (
           <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
-            <Link href={URL} passHref>
+            <Link href={`${LINK_FRONTEND_JOBS}/${selectedValue}`} passHref>
               <Button
                 variant={'text'}
                 color={'primary'}
