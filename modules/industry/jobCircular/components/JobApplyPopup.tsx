@@ -40,8 +40,9 @@ const JobApplyPopup: FC<JobApplyPopupProps> = ({job, ...props}) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<Division> = async (data: Division) => {
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      data.job_id = job?.job_id;
       await createJobApplication(data);
       createSuccessMessage('common.job_apply');
       props.onClose();

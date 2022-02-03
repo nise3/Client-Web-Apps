@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button} from '@mui/material';
-import {Save} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import ButtonSkeleton from '../../../@softbd/elements/display/skeleton/ButtonSkeleton/ButtonSkeleton';
 
@@ -15,7 +14,7 @@ interface Props {
   [x: string]: any;
 }
 
-const VacancyApproveButton = ({
+const RejectButton = ({
   onClick,
   className,
   label,
@@ -30,9 +29,8 @@ const VacancyApproveButton = ({
     <ButtonSkeleton />
   ) : (
     <Button
-      startIcon={startIcon === false ? undefined : startIcon || <Save />}
-      variant='contained'
-      color='primary'
+      startIcon={startIcon === false ? undefined : startIcon}
+      sx={{color: 'error.main', backgroundColor: 'red'}}
       onClick={onClick}
       className={className}
       type='submit'
@@ -43,4 +41,4 @@ const VacancyApproveButton = ({
   );
 };
 
-export default React.memo(VacancyApproveButton);
+export default React.memo(RejectButton);
