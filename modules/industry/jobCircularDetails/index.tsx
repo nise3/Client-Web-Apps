@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -31,6 +31,11 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import BackButton from '../../../@softbd/elements/button/BackButton';
+import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
+import {LINK_YOUTH_SIGNUP} from '../../../@softbd/common/appLinks';
+import JobApplyPopup from '../jobCircular/components/JobApplyPopup';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const PREFIX = 'JobPreview';
 
@@ -76,6 +81,21 @@ const JobCircularDetails = () => {
   const {jobCircularId} = router.query;
 
   const {data: jobData} = useFetchPublicJob(jobCircularId);
+  const authUser = useAuthUser<YouthAuthUser>();
+
+  const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
+
+  const closeJobApplyModal = useCallback(() => {
+    setIsOpenJobApplyModal(false);
+  }, []);
+
+  const onJobApply = useCallback(() => {
+    if (authUser) {
+      setIsOpenJobApplyModal(true);
+    } else {
+      router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
+    }
+  }, []);
 
   const getJobNature = () => {
     let jobNature: Array<string> = [];
@@ -933,6 +953,14 @@ const JobCircularDetails = () => {
           </Grid>
         </Grid>
       </Box>
+      <Box style={{textAlign: 'center', margin: '30px 0'}}>
+        <Button variant={'contained'} color={'primary'} onClick={onJobApply}>
+          {messages['industry.apply_now']}
+        </Button>
+      </Box>
+      {isOpenJobApplyModal && (
+        <JobApplyPopup job={jobData} onClose={closeJobApplyModal} />
+      )}
     </StyledContainer>
   );
 };
