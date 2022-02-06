@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   Box,
   Button,
@@ -112,18 +112,6 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     ],
     [messages],
   );
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      setProgrammeFilters((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
 
   const {data: programmes} = useFetchPublicPrograms(programmeFilters);
 
