@@ -35,7 +35,7 @@ export function useFetchSliderBanners(params: any) {
   return useAxiosSWR([API_BANNERS, params]);
 }
 
-export function useFetchStaticPageBlock(pageCode: string, params: any) {
+export function useFetchStaticPageBlock(pageCode: any, params: any) {
   return useAxiosSWR([API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params]);
 }
 
@@ -55,6 +55,12 @@ export function useFetchRecentActivity(recentActivityId: number | null) {
 
 export function useFetchPublicRecentActivities(params: any) {
   return useAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
+}
+
+export function useFetchPublicRecentActivityDetails(itemId: any) {
+  return useAxiosSWR(
+    itemId ? API_PUBLIC_RECENT_ACTIVITIES + '/' + itemId : null,
+  );
 }
 
 export function useFetchNoticeOrNews(itemId: number | null) {
