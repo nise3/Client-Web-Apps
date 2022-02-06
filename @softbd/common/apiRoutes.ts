@@ -2,10 +2,10 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
-export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+/*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
-  : 'https://file.nise3.xyz/test';
+  : 'https://file.nise3.xyz/test';*/
 
 export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
