@@ -16,6 +16,43 @@ const StyledContainer = styled(Container)(({theme}) => ({
     width: '100%',
     height: '253px',
   },
+  [`& .editor-template-table`]: {
+    [`& tr`]: {
+      width: '100%',
+    },
+    [`& td`]: {
+      width: '50%',
+      paddingBottom: '15px',
+      verticalAlign: 'top',
+      wordBreak: 'break-all',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        paddingRight: '0',
+        display: 'inline-block',
+      },
+    },
+    [`& td h3`]: {
+      fontSize: '40px',
+      margin: '10px 0',
+    },
+    [`& td p`]: {
+      lineHeight: '30px',
+    },
+    [`& td:first-of-type`]: {
+      paddingRight: '20px',
+    },
+    [`& td:last-of-type`]: {
+      paddingLeft: '20px',
+    },
+    [`& td>img`]: {
+      height: '300px',
+      width: '100%',
+    },
+    [`& td>iframe`]: {
+      height: '300px',
+      width: '100%',
+    },
+  },
 }));
 
 const AboutUs = () => {
