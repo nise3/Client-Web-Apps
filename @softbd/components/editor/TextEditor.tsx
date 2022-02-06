@@ -130,6 +130,29 @@ const TextEditor = React.forwardRef(
               },
               templates: [
                 {
+                  title: 'about us component',
+                  description: 'create about us',
+                  content:
+                    '<div style="margin: 10px 30px">' +
+                    '<div class="row" style="box-sizing: border-box; width: 100%">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '<div class="row" style="box-sizing: border-box; width:100%;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '<div class="row" style="box-sizing: border-box; width:100%;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '</div>',
+                },
+
+                {
                   title: 'Two column table',
                   description: 'Creates a new table',
                   content:

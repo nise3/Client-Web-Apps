@@ -851,6 +851,8 @@
   "footer.user_manual": "User manual",
   "footer.details": "Details",
   "footer.important_links": "Important Links",
+  "footer.service_or_products": "Service / Products",
+  "footer.in_implementation_a2i": "In implementation a2i",
   "footer.online_courses": "Online Courses",
   "footer.news": "News",
   "footer.events": "Events",
@@ -1348,5 +1350,6 @@
   "common.org_job_requirements": "{subject} Job Requirement",
   "common.youths": "Youths",
   "common.no_location": "No Location",
-  "member_management.label": "Member Management"
+  "member_management.label": "Member Management",
+  "common.candidates": "Candidates"
 }
