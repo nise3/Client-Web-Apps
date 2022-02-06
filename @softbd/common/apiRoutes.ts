@@ -366,6 +366,8 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/contact-info';
 export const API_PUBLIC_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
+export const API_PUBLIC_INDUSTRY_ASSOC_DETAILS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-details';
 
 /** Industry and Industry Association service public routes section end */
 
