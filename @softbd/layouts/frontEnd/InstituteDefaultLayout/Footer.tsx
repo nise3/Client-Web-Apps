@@ -28,6 +28,7 @@ import {
 } from '../../../utilities/StaticContentConfigs';
 import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 
 const PREFIX = 'Footer';
 
@@ -228,7 +229,7 @@ const Footer = () => {
                   <Link
                     target={'_blank'}
                     href={
-                      'https://file.nise3.xyz/uploads/tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
+                      FILE_SERVER_FILE_VIEW_ENDPOINT + 'tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos

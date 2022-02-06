@@ -10,14 +10,15 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import Link from 'next/link';
 import {LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS} from '../../../@softbd/common/appLinks';
-import JobCategory from '../../../@softbd/utilities/JobCategorie';
 
 interface CourseDetailsSkillMatchingJobSectionProps {
   skillIds: Array<number>;
+  courseId: any;
 }
 
 const CourseDetailsSkillMatchingJobSection = ({
   skillIds,
+  courseId,
 }: CourseDetailsSkillMatchingJobSectionProps) => {
   const {messages} = useIntl();
 
@@ -46,7 +47,7 @@ const CourseDetailsSkillMatchingJobSection = ({
             </Grid>
             <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link
-                href={`${LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS}${JobCategory.POPULAR}`}
+                href={`${LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS}${courseId}`}
                 passHref>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}

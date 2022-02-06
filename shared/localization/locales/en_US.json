@@ -851,6 +851,8 @@
   "footer.user_manual": "User manual",
   "footer.details": "Details",
   "footer.important_links": "Important Links",
+  "footer.service_or_products": "Service / Products",
+  "footer.in_implementation_a2i": "In implementation a2i",
   "footer.online_courses": "Online Courses",
   "footer.news": "News",
   "footer.events": "Events",
@@ -1052,6 +1054,8 @@
   "common.training_courses": "Training Courses",
   "common.your_info": "Your Information",
   "common.must_have_one_skill": "Must have one skill",
+  "common.must_have_one_area_of_experiences": "Must have one area of experience",
+  "common.must_have_one_area_of_businesses": "Must have one area of business",
   "common.must_have_one_sub_trade": "Must have one sub trade",
   "guardian.info": "Guardian information",
   "common.nise3": "NISE3",
@@ -1346,5 +1350,6 @@
   "common.org_job_requirements": "{subject} Job Requirement",
   "common.youths": "Youths",
   "common.no_location": "No Location",
-  "member_management.label": "Member Management"
+  "member_management.label": "Member Management",
+  "common.candidates": "Candidates"
 }
