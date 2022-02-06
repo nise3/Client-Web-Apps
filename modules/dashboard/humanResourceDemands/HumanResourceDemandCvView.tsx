@@ -9,22 +9,29 @@ import {HrDemandApprovalStatusByIndustry} from './HrDemandEnums';
 import {useFetchHrDemand} from '../../../services/instituteManagement/hooks';
 import Router, {useRouter} from 'next/router';
 import {Button} from '@mui/material';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import {Link} from '../../../@softbd/elements/common';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const HumanResourceDemandCvView = () => {
   const {messages} = useIntl();
   const router = useRouter();
-  const {hrDemandId} = router.query;
+  const {hrDemandId, show_cv} = router.query;
   const {data: hrDemand, isLoading} = useFetchHrDemand(hrDemandId);
-  const [hrDemandCv, setHrDemandCv] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
     if (hrDemand) {
-      let cv_links = hrDemand?.hr_demand_youths_cv_links;
-      setHrDemandCv(cv_links);
-      console.log('hrDemandCv: ', cv_links);
+      if (show_cv == '0') {
+        let youths = hrDemand?.hr_demand_youths_youth_ids;
+        setData(youths);
+      } else {
+        let cv_links = hrDemand?.hr_demand_youths_cv_links;
+        setData(cv_links);
+      }
     }
-  }, [hrDemand]);
+  }, [hrDemand, show_cv]);
+
+  console.log('show cv: ', router.query);
+
   const columns = useMemo(
     () => [
       {
@@ -35,19 +42,24 @@ const HumanResourceDemandCvView = () => {
           return props.row.index + 1;
         },
       },
+
       {
-        Header: messages['common.cv_links'],
+        Header:
+          show_cv == '1'
+            ? messages['common.cv_links']
+            : messages['common.youths'],
         accessor: 'cv_link',
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <Link target={'_blank'} href={data?.cv_link}>
-              <CustomChip
-                color={'primary'}
-                label={messages['common.view_cv']}
-              />
-            </Link>
-          );
+          if (show_cv == '1') {
+            return (
+              <Link href={data?.cv_link} target={'_blank'}>
+                <ReadButton>{messages['common.view_cv']}</ReadButton>
+              </Link>
+            );
+          } else {
+            return <></>;
+          }
         },
       },
 
@@ -98,7 +110,7 @@ const HumanResourceDemandCvView = () => {
         </Button>
         <ReactTable
           columns={columns}
-          data={hrDemandCv || []}
+          data={data || []}
           loading={isLoading}
           skipDefaultFilter={true}
         />

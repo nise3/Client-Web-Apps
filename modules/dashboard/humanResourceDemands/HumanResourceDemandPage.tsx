@@ -87,8 +87,11 @@ const HumanResourceDemandPage = () => {
           return (
             <DatatableButtonGroup>
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <Link href={URL} passHref>
+              <Link href={URL + '?show_cv=1'} passHref>
                 <ReadButton>{messages['common.cv_read']}</ReadButton>
+              </Link>
+              <Link href={URL + '?show_cv=0'} passHref>
+                <ReadButton>{messages['common.youth_read']}</ReadButton>
               </Link>
             </DatatableButtonGroup>
           );
