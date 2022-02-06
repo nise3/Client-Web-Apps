@@ -1,26 +1,25 @@
-import React, {useMemo, useState} from 'react';
-import {Box, Button, Card, CardContent, Grid, Skeleton} from '@mui/material';
-import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import GoogleMapReact from 'google-map-react';
-import {styled} from '@mui/material/styles';
-import {ThemeMode} from '../../../shared/constants/AppEnums';
-import RoomIcon from '@mui/icons-material/Room';
-import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
-import yup from '../../../@softbd/libs/yup';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {Call, Email} from '@mui/icons-material';
-import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {createVisitorFeedbackIndustry} from '../../../services/cmsManagement/VisitorFeedbackService';
-import {useFetchContactInfo} from '../../../services/IndustryManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import React, { useMemo, useState } from "react";
+import { Box, Button, Card, CardContent, Grid, Skeleton } from "@mui/material";
+import { H1, H2, H3, H5, Text } from "../../../@softbd/elements/common";
+import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
+import GoogleMapReact from "google-map-react";
+import { styled } from "@mui/material/styles";
+import { ThemeMode } from "../../../shared/constants/AppEnums";
+import RoomIcon from "@mui/icons-material/Room";
+import { useIntl } from "react-intl";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { GOOGLE_MAP_API_KEY } from "../../../@softbd/common/constants";
+import yup from "../../../@softbd/libs/yup";
+import { MOBILE_NUMBER_REGEX } from "../../../@softbd/common/patternRegex";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { VisitorFeedbackTypes } from "../../../services/cmsManagement/Constants";
+import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
+import { Call, Email } from "@mui/icons-material";
+import { useCustomStyle } from "../../../@softbd/hooks/useCustomStyle";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import { createVisitorFeedbackIndustry } from "../../../services/cmsManagement/VisitorFeedbackService";
+import { useFetchContactInfo } from "../../../services/IndustryManagement/hooks";
 
 const PREFIX = 'IndustryContact';
 
@@ -113,11 +112,7 @@ const ContactPage = () => {
     lng: 90.38155009066672,
   });
 
-  const authUser = useAuthUser();
-
-  const [contactInfoFilter] = useState({
-    industry_association_id: authUser?.industry_association_id,
-  });
+  const [contactInfoFilter] = useState({});
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
