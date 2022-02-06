@@ -30,12 +30,12 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
-import BackButton from '../../../@softbd/elements/button/BackButton';
 import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
 import {LINK_YOUTH_SIGNUP} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
+import {ArrowBack} from '@mui/icons-material';
 
 const PREFIX = 'JobPreview';
 
@@ -610,7 +610,14 @@ const JobCircularDetails = () => {
     <StyledContainer>
       <Grid container sx={{marginTop: 2}}>
         <Grid item xs={6}>
-          <BackButton key={1} url={'/jobs'} />
+          <Button
+            key={1}
+            startIcon={<ArrowBack />}
+            sx={{marginRight: '10px'}}
+            variant={'outlined'}
+            onClick={() => router.back()}>
+            {messages['common.back']}
+          </Button>
         </Grid>
         <Grid item xs={6}>
           <Tooltip title={messages['common.download_label']}>
@@ -842,13 +849,15 @@ const JobCircularDetails = () => {
               {messages['job_preview.apply_procedure']}
             </S2>
 
-            {jobData?.primary_job_information?.is_apply_online == 1 && (
+            {(!authUser || authUser?.isYouthUser) && (
               <Button
-                color={'primary'}
-                size={'medium'}
+                sx={{
+                  marginTop: '20px',
+                }}
                 variant={'contained'}
-                sx={{marginTop: '15px'}}>
-                {messages['common.apply_online']}
+                color={'primary'}
+                onClick={onJobApply}>
+                {messages['industry.apply_now']}
               </Button>
             )}
 
@@ -957,16 +966,6 @@ const JobCircularDetails = () => {
             </Box>
           </Grid>
         </Grid>
-        {(!authUser || authUser?.isYouthUser) && (
-          <Box style={{textAlign: 'center', margin: '30px 0'}}>
-            <Button
-              variant={'contained'}
-              color={'primary'}
-              onClick={onJobApply}>
-              {messages['industry.apply_now']}
-            </Button>
-          </Box>
-        )}
       </Box>
       {isOpenJobApplyModal && (
         <JobApplyPopup job={jobData} onClose={closeJobApplyModal} />

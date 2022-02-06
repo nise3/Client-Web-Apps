@@ -22,7 +22,6 @@ import {
   rejectOrgMemberShip,
 } from '../../../services/organaizationManagement/OrganizationService';
 
-//Todo: have to remove member list, this is not necessary
 const MemberListPage = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
@@ -31,9 +30,16 @@ const MemberListPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_INDUSTRY_ASSOCIATION_MEMBERS,
+    });
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
+
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
@@ -63,8 +69,8 @@ const MemberListPage = () => {
         refreshDataTable();
       }
     } catch (error: any) {
+      //console.log('error', error);
       errorStack(<IntlMessages id='message.somethingWentWrong' />);
-      console.log('error', error);
     }
   };
 
@@ -132,10 +138,6 @@ const MemberListPage = () => {
     [messages],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_INDUSTRY_ASSOCIATION_MEMBERS,
-    });
   return (
     <>
       <PageBlock
