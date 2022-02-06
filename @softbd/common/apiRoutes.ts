@@ -2,10 +2,10 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
-export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+/*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
-  : 'https://file.nise3.xyz/test';
+  : 'https://file.nise3.xyz/test';*/
 
 export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
@@ -367,6 +367,8 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
 export const API_PUBLIC_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_DETAILS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-details';
+export const API_PUBLIC_INDUSTRY_ASSOC_DETAILS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-details';
 
 /** Industry and Industry Association service public routes section end */

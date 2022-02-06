@@ -9,7 +9,7 @@ import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip'
 import {Fonts} from '../../../shared/constants/AppEnums';
 
 type Props = {
-  value: number;
+  value: number | string;
   vacancy?: number;
   isLoading?: boolean;
   label?: string | MessageFormatElement[];
@@ -37,12 +37,12 @@ const CustomChipVacancyApprovalStatus = ({
         </FormLabel>
       )}
       <CustomChip
-        icon={value == 1 ? <CheckCircleOutline /> : <CancelIcon />}
-        color={value == 1 ? 'primary' : 'secondary'}
+        icon={value == 2 ? <CheckCircleOutline /> : <CancelIcon />}
+        color={value == 2 ? 'primary' : 'secondary'}
         label={
-          value == 1 ? (
+          value == 2 ? (
             <IntlMessages id='common.approved' />
-          ) : value == 0 ? (
+          ) : value == 3 ? (
             <IntlMessages id='common.rejected' />
           ) : (
             <IntlMessages id='common.pending' />

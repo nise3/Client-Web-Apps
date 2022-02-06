@@ -6,7 +6,7 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 const HumanResourceDemandManagePage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/humanResourceDemands/HumanResourceDemandMangePopup'
+      '../../../modules/dashboard/humanResourceDemands/HumanResourceDemandCvView'
     ),
 );
 export default DashboardPage(() => {
