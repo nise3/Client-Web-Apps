@@ -9,7 +9,7 @@ import {
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchIndustryAssociations(params: any) {
-  return useAxiosSWR([API_INDUSTRY_ASSOCIATIONS, params]);
+  return useAxiosSWR(params ? [API_INDUSTRY_ASSOCIATIONS, params] : null);
 }
 
 export const useFetchContactInfo = (contactInfoId: number | null) => {
@@ -27,6 +27,7 @@ export function useFetchIndustryAssocProfile() {
 export function useFetchIndustryAssociationTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_TRADES, params]);
 }
+
 export function useFetchIndustryAssociationSubTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
 }
