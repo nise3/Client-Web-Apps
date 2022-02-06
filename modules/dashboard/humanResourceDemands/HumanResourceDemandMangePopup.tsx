@@ -23,6 +23,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import RejectButton from './RejectButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {HrDemandApprovalStatusByInstitute} from './HrDemandEnums';
 
 interface HumanResourceDemandMangePopupProps {
   itemId: number | null;
@@ -48,10 +49,10 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      cv_links: yup
+      /*  cv_links: yup
         .array()
         .of(yup.string())
-        .label(messages['common.cv_links'] as string),
+        .label(messages['common.cv_links'] as string),*/
     });
   }, [messages]);
   const {
@@ -88,11 +89,13 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     if (itemData) {
       let urlPaths: any = [];
       let cvs = itemData?.hr_demand_youths_cv_links;
+      /**To fetch active cv paths**/
       cvs.map((cv: any) => {
-        urlPaths.push(cv.cv_link);
+        if (cv.row_status == HrDemandApprovalStatusByInstitute.ACTIVE) {
+          urlPaths.push(cv.cv_link);
+        }
       });
       setCvLinks(urlPaths);
-      console.log('Cv links: ', cvLinks);
     }
   }, [itemData]);
 
