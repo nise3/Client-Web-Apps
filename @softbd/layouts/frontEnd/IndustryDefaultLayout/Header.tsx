@@ -24,7 +24,6 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
-import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 
 interface AppHeaderProps {}
@@ -121,7 +120,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Box>
               <img
                 className={classes.logoInstitute}
-                src='/images/mcci-logo.png'
+                src={industryAssociationDetails?.logo}
                 alt='industry logo'
               />
             </Box>
@@ -137,7 +136,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
-              {industryAssociation?.title}
+              {industryAssociationDetails?.title}
             </Text>
           </Grid>
           <Grid item md={4} className={classes.headerHalf}>
