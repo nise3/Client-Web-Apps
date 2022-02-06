@@ -43,9 +43,9 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
   const {updateSuccessMessage} = useSuccessMessage();
   const {data: itemData, mutate: mutateHrDemand} = useFetchHrDemand(itemId);
 
+  const [cvLinks, setCvLinks] = useState<any>([]);
   const {data: youths} = useFetchInstituteTraineeYouths();
 
-  console.log('youths: ', youths);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       cv_links: yup
@@ -60,26 +60,41 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     setValue,
     handleSubmit,
     control,
+    watch,
     getValues,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  const onRejectAction = useCallback(async (itemId: any) => {
-    console.log('itemId: ', itemId);
-    let response = await rejectHrdemand(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='hr_demand.label' />}}
-        />,
-      );
-      onClose();
-      mutateHrDemand();
+  const onRejectAction = useCallback(
+    async (itemId: any) => {
+      console.log('itemId: ', itemId);
+      let response = await rejectHrdemand(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_rejected'
+            values={{subject: <IntlMessages id='hr_demand.label' />}}
+          />,
+        );
+        onClose();
+        mutateHrDemand();
+      }
+    },
+    [itemId],
+  );
+  useEffect(() => {
+    if (itemData) {
+      let urlPaths: any = [];
+      let cvs = itemData?.hr_demand_youths_cv_links;
+      cvs.map((cv: any) => {
+        urlPaths.push(cv.cv_link);
+      });
+      setCvLinks(urlPaths);
+      console.log('Cv links: ', cvLinks);
     }
-  }, []);
+  }, [itemData]);
 
   useEffect(() => {
     if (
@@ -88,6 +103,8 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       itemData?.rejected_by_institute
     ) {
       setIsRejectDisable(true);
+    } else {
+      setIsRejectDisable(false);
     }
 
     if (itemData?.rejected_by_industry_association) {
@@ -100,14 +117,15 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       if (itemId) {
         await updateHrDemand(itemId, data);
         updateSuccessMessage('hr_demand.label');
-        setIsRejectDisable(false);
       }
       onClose();
       refreshDataTable();
+
       console.log('data: ', data);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
+    console.log('getvalues inner: ', getValues('cv_links'));
   };
   console.log('errors: ', errors);
   console.log('getvalues: ', getValues('cv_links'));
@@ -156,14 +174,14 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id={'cv_links'}
-            defaultFileUrl={itemData?.cv_links}
+            defaultFileUrl={cvLinks}
             setValue={setValue}
             register={register}
             label={messages['common.cv_links']}
             errorInstance={errors}
             allowMultiple={true}
             acceptedFileTypes={['application/pdf']}
-            uploadedUrls={getValues('cv_links')}
+            uploadedUrls={watch('cv_links')}
           />
         </Grid>
       </Grid>
