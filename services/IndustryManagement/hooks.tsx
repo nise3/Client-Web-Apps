@@ -20,11 +20,12 @@ import {
   API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
-  API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
   API_JOB_REQUIREMENTS,
+  API_PUBLIC_INDUSTRY_ASSOC_DETAILS,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+  API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
@@ -39,6 +40,10 @@ export function useFetchPublication(publicationId: number | null) {
       ? API_PUBLIC_INDUSTRY_PUBLICATIONS + '/' + publicationId
       : null,
   );
+}
+
+export function useFetchPublicIndustryAssocDetails() {
+  return useDataLocalizationAxiosSWR(API_PUBLIC_INDUSTRY_ASSOC_DETAILS);
 }
 
 export function useFetchContactInfo(params: any) {
