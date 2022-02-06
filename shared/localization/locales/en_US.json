@@ -1351,5 +1351,8 @@
   "common.youths": "Youths",
   "common.no_location": "No Location",
   "member_management.label": "Member Management",
-  "common.candidates": "Candidates"
+  "common.candidates": "Candidates",
+  "common.see_cv": "See CV",
+  "common.cv_approve": "CV Approve"
+
 }

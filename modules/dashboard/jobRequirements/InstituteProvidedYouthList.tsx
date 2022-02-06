@@ -3,7 +3,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
 import {useFetchInstituteProvidedYouthList} from '../../../services/IndustryManagement/hooks';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {Button, Checkbox} from '@mui/material';
 import {startCase as lodashStartCase} from 'lodash';
@@ -11,38 +11,38 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {approveYouths} from '../../../services/IndustryManagement/JobRequirementService';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ArrowBack} from '@mui/icons-material';
-
-const youthListTemp = [
-  {
-    id: 1,
-    name: 'John Doe',
-    cv: 'https/dldlelx/cv.com',
-  },
-  {
-    id: 2,
-    name: 'Dan Brown',
-    cv: 'https/dldlelx/cvv.com',
-  },
-  {
-    id: 3,
-    name: 'Louis Pastur',
-    cv: 'https/passtur/cv.com',
-  },
-];
+import {Link} from '../../../@softbd/elements/common';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import IndustryAssociationYouthApproval from '../../../@softbd/utilities/IndustryAssociationYouthApproval';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
-  const {updateSuccessMessage} = useSuccessMessage();
+  const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
   const {hrDemandInstituteId} = router.query;
 
   const [checkedYouths, setCheckedYouths] = useState<any>(new Set([]));
+  const [youthListFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
 
   const {data: youthList, isLoading: isLoadingYouthList} =
-    useFetchInstituteProvidedYouthList(Number(hrDemandInstituteId));
+    useFetchInstituteProvidedYouthList(
+      Number(hrDemandInstituteId),
+      youthListFilters,
+    );
+
+  useEffect(() => {
+    const approvedYouths = youthList.filter(
+      (youth: any) =>
+        youth.approval_status == IndustryAssociationYouthApproval.APPROVED,
+    );
+
+    setCheckedYouths(new Set(approvedYouths));
+  }, [youthList]);
 
   /*  const rejectJobRequirementDemand = async (HRDemandId: number) => {
     let response = await rejectHRDemand(HRDemandId);
@@ -86,7 +86,9 @@ const InstituteProvidedYouthList = () => {
         Number(hrDemandInstituteId),
         Array.from(checkedYouths),
       );
-      updateSuccessMessage('permission.label');
+      successStack(
+        messages['industry_association.youth_approved_successfully'],
+      );
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
@@ -108,7 +110,37 @@ const InstituteProvidedYouthList = () => {
       },
       {
         Header: messages['common.cv'],
-        accessor: 'cv',
+        accessor: 'cv_link',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          const URL = data?.cv_link;
+
+          return (
+            URL && (
+              <Link href={URL} target={'_blank'}>
+                <CommonButton btnText={'common.see_cv'} variant={'contained'} />
+              </Link>
+            )
+          );
+        },
+      },
+      {
+        Header: messages['youth_profile.label'],
+        accessor: 'youth_id',
+        Cell: (props: any) => {
+          let data = props.row.original;
+
+          return (
+            data?.youth_id && (
+              <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>
+                <CommonButton
+                  btnText={'youth_profile.label'}
+                  variant={'contained'}
+                />
+              </Link>
+            )
+          );
+        },
       },
       {
         Header: messages['common.actions'],
@@ -121,7 +153,7 @@ const InstituteProvidedYouthList = () => {
               <label style={{display: 'block'}}>
                 <Checkbox
                   value={data.id}
-                  onChange={() => handleYouthCheck(data.id)}
+                  onChange={() => handleYouthCheck(data.youth_id || data.id)}
                   checked={checkedYouths.has(data.id)}
                 />
                 {lodashStartCase(messages['common.accept'] as string)}
@@ -137,7 +169,7 @@ const InstituteProvidedYouthList = () => {
         sortable: false,
       },
     ],
-    [messages, checkedYouths],
+    [messages, checkedYouths, youthList],
   );
 
   return (
@@ -163,7 +195,7 @@ const InstituteProvidedYouthList = () => {
       ]}>
       <ReactTable
         columns={columns}
-        data={youthListTemp || []}
+        data={youthList || []}
         loading={isLoadingYouthList}
         skipDefaultFilter={true}
       />

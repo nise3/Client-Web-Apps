@@ -117,16 +117,6 @@ const JobRequirementManagePage = () => {
           );
         },
       },
-
-      {
-        Header: messages['job_requirement.vacancy_provided_by_institute'],
-        accessor: 'vacancy_provided_by_institute',
-      },
-      {
-        Header:
-          messages['job_requirement.vacancy_provided_by_industry_association'],
-        accessor: 'vacancy_approved_by_industry_association',
-      },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
@@ -143,6 +133,8 @@ const JobRequirementManagePage = () => {
           let data = props.row.original;
           const APPROVE_YOUTHS_PAGE_URL =
             '/job-requirement/youth-approval/' + data.id;
+
+          const APPROVE_CV_PAGE_URL = '/job-requirement/cv-approval/' + data.id;
           return (
             // canRejectApprove(data) && (
             <DatatableButtonGroup>
@@ -151,6 +143,13 @@ const JobRequirementManagePage = () => {
                   sx={{color: (theme) => theme.palette.secondary.main}}
                   startIcon={<DoneIcon />}>
                   {messages['button.youth_approve']}
+                </Button>
+              </Link>
+              <Link href={APPROVE_CV_PAGE_URL} passHref>
+                <Button
+                  sx={{color: (theme) => theme.palette.primary.main}}
+                  startIcon={<DoneIcon />}>
+                  {messages['common.cv_approve']}
                 </Button>
               </Link>
             </DatatableButtonGroup>
