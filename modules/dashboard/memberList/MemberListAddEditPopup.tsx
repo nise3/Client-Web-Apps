@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Chip, Grid} from '@mui/material';
+import {Chip, Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -91,6 +91,7 @@ const initialValues = {
   logo: '',
   row_status: '1',
   industry_association_trade_id: '',
+  sub_trades: [],
 };
 
 const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
@@ -103,9 +104,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const [organizationTypeFilters] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
+
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
     key: PERMISSION_GROUP_ORGANIZATION_KEY,
@@ -115,6 +114,12 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     useState<any>({
       row_status: RowStatus.ACTIVE,
     });
+
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
+    useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   const [divisionsFilter] = useState({
     row_status: RowStatus.ACTIVE,
@@ -132,26 +137,12 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
+  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
-  const [industryAssociationTradeFilter] = useState({});
-  const {
-    data: industryAssociationTrades,
-    isLoading: isLoadingIndustryAssociationTrades,
-  } = useFetchIndustryAssociationTrades(industryAssociationTradeFilter);
-
-  const [
-    industryAssociationSubTradeFilter,
-    setIndustryAssociationSubTradeFilter,
-  ] = useState({});
-  const {
-    data: industryAssociationSubTrades,
-    isLoading: isLoadingIndustryAssociationSubTrades,
-  } = useFetchIndustryAssociationSubTrades(industryAssociationSubTradeFilter);
-
-  const [selectedTradeList, setSelectedTradeList] = useState<any>([]);
-  const [selectedAllTradeList, setSelectedAllTradeList] = useState<any>([]);
-  const [selectedAllTradeIds, setSelectedAllTradeIds] = useState<any>([]);
-
+  const [organizationTypeFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
   const {
     data: itemData,
     isLoading,
@@ -160,19 +151,26 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
     useFetchOrganizationTypes(organizationTypeFilters);
 
-  const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
-  const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
-
-  const [industryAssociationFilter] = useState({});
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
 
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
     useFetchIndustryAssociations(industryAssociationFilter);
 
-  const {data: permissionGroups} = useFetchPermissionGroups(
-    permissionGroupFilters,
-  );
-  const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+  const [tradeFilter] = useState({});
+  const {
+    data: industryAssociationTrades,
+    isLoading: isLoadingIndustryAssociationTrades,
+  } = useFetchIndustryAssociationTrades(tradeFilter);
+
+  const [subTradeFilter, setSubTradeFilter] = useState({});
+  const {
+    data: industryAssociationSubTrades,
+    isLoading: isLoadingIndustryAssociationSubTrades,
+  } = useFetchIndustryAssociationSubTrades(subTradeFilter);
+
+  const [selectedTradeId, setSelectedTradeId] = useState<any>(null);
+  const [selectedAllSubTrades, setSelectedAllSubTrades] = useState<any>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -211,7 +209,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         .label(messages['common.contact_person_mobile'] as string)
         .matches(MOBILE_NUMBER_REGEX),
       sub_trades:
-        selectedAllTradeList.length != 0
+        selectedAllSubTrades.length != 0
           ? yup.array()
           : yup
               .array()
@@ -264,12 +262,13 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         .label(messages['districts.label'] as string),
       row_status: yup.string().label(messages['common.status'] as string),
     });
-  }, [messages, selectedAllTradeList]);
+  }, [messages, selectedAllSubTrades]);
 
   const {
     control,
     register,
     reset,
+    getValues,
     handleSubmit,
     setError,
     setValue,
@@ -286,6 +285,12 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
       });
     }
   }, [permissionGroups]);
+
+  useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIndustryAssociationFilter({row_status: RowStatus.ACTIVE});
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -325,7 +330,6 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
         sub_trades: itemData.sub_trades,
-        industry_association_trade_id: '',
       });
 
       setDistrictsList(
@@ -334,8 +338,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
       setUpazilasList(
         filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
       );
-      setSelectedTradeList(itemData?.sub_trades);
-      setSelectedAllTradeList(itemData?.sub_trades);
+      setSelectedAllSubTrades(itemData?.sub_trades);
     } else {
       reset(initialValues);
     }
@@ -359,85 +362,90 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
 
   const onTradeChange = useCallback(
     (industryAssociationTradeId: number) => {
-      console.log('trade changed', industryAssociationTradeId);
+      let selectedForTrades: Array<any> = [...selectedAllSubTrades];
 
-      setIndustryAssociationSubTradeFilter({
-        industry_association_trade_id: industryAssociationTradeId,
-      });
+      if (industryAssociationTradeId) {
+        selectedForTrades = selectedAllSubTrades.filter(
+          (subTrade: any) => subTrade.trade_id == industryAssociationTradeId,
+        );
 
-      console.log('selected all trade list:', selectedAllTradeList.length);
+        reset({
+          ...getValues(),
+          sub_trades: selectedForTrades,
+          industry_association_trade_id: industryAssociationTradeId,
+        });
 
-      const stl = selectedAllTradeList.filter(
-        (subTrade: any) => subTrade.trade_id == industryAssociationTradeId,
-      );
+        setSubTradeFilter({
+          trade_id: industryAssociationTradeId,
+        });
+        setSelectedTradeId(industryAssociationTradeId);
+      } else {
+        reset({
+          ...getValues(),
+          sub_trades: selectedForTrades,
+          industry_association_trade_id: '',
+        });
 
-      console.log('stl', stl);
-      setSelectedTradeList(() => {
-        return stl;
-      });
-
-      setSelectedTradeList(stl);
-
-      console.log('selected trade list:', selectedTradeList);
-
-      reset({
-        sub_trades: selectedTradeList,
-        industry_association_trade_id: industryAssociationTradeId,
-      });
+        setSubTradeFilter({});
+        setSelectedTradeId(null);
+      }
     },
-    [
-      selectedAllTradeList,
-      selectedTradeList,
-      industryAssociationSubTradeFilter,
-    ],
+    [selectedAllSubTrades],
   );
 
   const onSubTradeChange = useCallback(
-    (options) => {
-      setSelectedAllTradeList(options);
-      /* const newSubTrades: Array<any> = [];
-                              const newSubTradeIds: Array<any> = [];
-                              options.map((option: any) => {
-                                if (!selectedAllTradeIds.includes(option.id)) {
-                                  newSubTrades.push(option);
-                                  newSubTradeIds.push(option.id);
-                                }
-                              });
-                              setSelectedAllTradeList((prev: any) => {
-                                return [...prev, ...newSubTrades];
-                              });
-                              setSelectedAllTradeIds((prev: any) => [...prev, ...newSubTradeIds]);*/
+    (options: any) => {
+      let selectedSubTrades: Array<any> = [...selectedAllSubTrades];
+
+      if (selectedTradeId) {
+        selectedSubTrades = selectedSubTrades.filter(
+          (subTrade: any) => subTrade.trade_id != selectedTradeId,
+        );
+
+        selectedSubTrades = [...selectedSubTrades, ...options];
+      } else {
+        selectedSubTrades = options;
+      }
+
+      setSelectedAllSubTrades(selectedSubTrades);
     },
-    [selectedAllTradeIds, selectedAllTradeList],
+    [selectedTradeId, selectedAllSubTrades],
   );
   const onTradeDelete = useCallback(
     (deletedTrade) => () => {
-      console.log(deletedTrade);
+      if (deletedTrade) {
+        let selectedSubTrades: Array<any> = [...selectedAllSubTrades];
+        selectedSubTrades = selectedSubTrades.filter(
+          (subTrade: any) => subTrade.id != deletedTrade.id,
+        );
+        setSelectedAllSubTrades(selectedSubTrades);
 
-      let trades = selectedAllTradeList.filter(
-        (tradeItem: any) =>
-          tradeItem.id != deletedTrade?.id &&
-          tradeItem.trade_id != deletedTrade.trade_id,
-      );
-
-      setSelectedAllTradeList(trades);
-      let selectedTrades = selectedTradeList.filter(
-        (tradeItem: any) =>
-          tradeItem.id != deletedTrade?.id &&
-          tradeItem.trade_id != deletedTrade.trade_id,
-      );
-      setSelectedTradeList(selectedTrades);
-      let ids = selectedAllTradeIds.filter((id: any) => id != deletedTrade?.id);
-      setSelectedAllTradeIds(ids);
+        if (selectedTradeId) {
+          let subTrades = selectedSubTrades.filter(
+            (subTrade: any) => subTrade.trade_id == selectedTradeId,
+          );
+          reset({
+            ...getValues(),
+            sub_trades: subTrades,
+          });
+        } else {
+          reset({
+            ...getValues(),
+            sub_trades: selectedSubTrades,
+          });
+        }
+      }
     },
-    [selectedAllTradeList, selectedAllTradeIds, selectedTradeList],
+    [selectedAllSubTrades, selectedTradeId],
   );
 
   console.log('errors', errors);
   const onSubmit: SubmitHandler<any> = async (data: IOrganization) => {
     const formData = cloneDeep(data);
 
-    formData.sub_trades = (formData.sub_trades || []).map(
+    delete formData.industry_association_trade_id;
+
+    formData.sub_trades = (selectedAllSubTrades || []).map(
       (subTrade: any) => subTrade.id,
     );
 
@@ -555,7 +563,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             control={control}
             options={industryAssociationTrades}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onTradeChange}
           />
@@ -569,17 +577,17 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             control={control}
             options={industryAssociationSubTrades}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            defaultValue={selectedTradeList}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onSubTradeChange}
           />
         </Grid>
 
-        <Grid item xs={12}>
-          <Box>
-            {selectedAllTradeList.length > 0 ? (
-              selectedAllTradeList.map((trade: any) => {
+        {selectedAllSubTrades.length > 0 && (
+          <Grid item xs={12}>
+            <Typography>Selected Trades</Typography>
+            <Box>
+              {selectedAllSubTrades.map((trade: any) => {
                 return (
                   <React.Fragment key={trade.id}>
                     <Chip
@@ -589,14 +597,13 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
                     />
                   </React.Fragment>
                 );
-              })
-            ) : (
-              <></>
-            )}
-          </Box>
-        </Grid>
+              })}
+            </Box>
+          </Grid>
+        )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='membership_id'
             label={messages['common.memberId']}
             register={register}
@@ -646,25 +653,6 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            required
-            id='contact_person_name'
-            label={messages['common.contact_person_name']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='contact_person_name_en'
-            label={messages['common.contact_person_name_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
             id='name_of_the_office_head'
             label={messages['common.name_of_the_office_head']}
             register={register}
@@ -694,6 +682,26 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
           <CustomTextInput
             id='name_of_the_office_head_designation_en'
             label={messages['common.name_of_the_office_head_designation_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} />
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='contact_person_name'
+            label={messages['common.contact_person_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='contact_person_name_en'
+            label={messages['common.contact_person_name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

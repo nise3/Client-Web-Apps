@@ -56,6 +56,7 @@ export const LINK_FRONTEND_INSTITUTE_CALENDAR = '/events';
 export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR = '/training-calendar';
 export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
+export const LINK_HUMAN_RESOURCE_DEMAND = '/hr-demand';
 
 /** industry links  */
 export const LINK_FRONTEND_INDUSTRY_ROOT = '/';

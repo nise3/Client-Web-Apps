@@ -181,7 +181,7 @@
   "common.institute_address": "প্রতিষ্ঠানের ঠিকানা",
   "common.key": "কী",
   "common.logout": "লগআউট",
-  "common.logo": "লগো",
+  "common.logo": "লোগো",
   "common.company_type": "কোম্পানির ধরন",
   "common.file_upload": "ফাইল আপলোড",
   "signup.label": "নিবন্ধন",
@@ -1160,6 +1160,10 @@
   "common.member_id": "ম্যাম্বার আইডি",
   "common.approved": "অনুমোদিত",
   "common.approve": "অনুমোদন",
+  "common.approval_status": "অনুমোদনের অবস্থা",
+  "common.read": "প্রদর্শন",
+  "common.cv_read": "সিভি প্রদর্শন",
+  "common.youth_read": "ইয়ুথ প্রদর্শন",
   "common.rejected": "প্রত্যাখ্যাত",
   "common.vacancy_provided_by_institute": "ইনস্টিটিউট দ্বারা প্রদত্ত শূন্যপদ",
   "common.reject": "প্রত্যাখ্যান",
@@ -1365,4 +1369,5 @@
   "common.see_cv": "সিভি দেখুন",
   "industry_association.youth_approved_successfully": "ইয়ুথ সফলভাবে অনুমোদিত হয়েছে",
   "common.cv_approve": "সিভি অনুমোদন"
+  "common.candidates_list": "প্রার্থী তালিকা"
 }

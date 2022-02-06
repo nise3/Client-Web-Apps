@@ -15,7 +15,6 @@ import {
   BusinessCenter,
   CalendarToday,
   LocationOn,
-  Paid,
   Room,
   Share,
 } from '@mui/icons-material';
@@ -46,6 +45,8 @@ const classes = {
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
   overflowText: `${PREFIX}-overflowText`,
+  details: `${PREFIX}-details`,
+  salaryIcon: `${PREFIX}-salaryIcon`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -92,6 +93,17 @@ const StyledCard = styled(Card)(({theme}) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+  },
+  [`& .${classes.details}`]: {
+    whiteSpace: 'break-spaces',
+    maxHeight: '95px',
+    overflow: 'hidden',
+  },
+  [`& .${classes.salaryIcon}`]: {
+    background: '#616161',
+    color: '#e4e4e4 !important',
+    padding: '2px 6px',
+    borderRadius: '50%',
   },
 }));
 
@@ -181,22 +193,27 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   };
 
   const getLocationText = () => {
-    return job?.job_locations
-      ?.map((location: any) => location.title)
+    return (job?.additional_job_information?.job_locations || [])
+      .map((location: any) => location.title)
       .join(', ');
   };
 
   const getSalary = () => {
     let salaryText: any = '';
 
-    if (job?.is_salary_info_show == SalaryShowOption.SALARY) {
+    if (
+      job?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.SALARY
+    ) {
       salaryText =
-        '৳ ' +
-        formatNumber(job?.salary_min) +
+        formatNumber(job?.additional_job_information?.salary_min) +
         ' - ' +
-        formatNumber(job?.salary_max) +
+        formatNumber(job?.additional_job_information?.salary_max) +
         ` (${messages['common.monthly']})`;
-    } else if (job?.is_salary_info_show == SalaryShowOption.NEGOTIABLE) {
+    } else if (
+      job?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.NEGOTIABLE
+    ) {
       salaryText = messages['common.negotiable'];
     }
 
@@ -239,7 +256,13 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               <Grid item xs={12} display={'flex'} alignItems={'center'}>
                 <CalendarToday className={classes.marginRight10} />
                 {job?.application_deadline
-                  ? getIntlDateFromString(formatDate, job.application_deadline)
+                  ? messages['common.publication_deadline'] +
+                    ': ' +
+                    getIntlDateFromString(
+                      formatDate,
+                      job.application_deadline,
+                      'short',
+                    )
                   : ''}
               </Grid>
               <Grid
@@ -251,10 +274,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                 <Link
                   passHref
                   href={`${LINK_FRONTEND_JOB_DETAILS}${job.job_id}`}>
-                  <Button variant='outlined' color='primary' size={'small'}>
+                  <Button variant='outlined' color='primary'>
                     {messages['common.details']}
                   </Button>
                 </Link>
+
                 <Button
                   variant={'contained'}
                   color={'primary'}
@@ -282,7 +306,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                 <Link
                   passHref
                   href={`${LINK_FRONTEND_JOB_DETAILS}${job.job_id}`}>
-                  <Button variant='outlined' color='primary' size={'small'}>
+                  <Button variant='outlined' color='primary'>
                     {messages['common.details']}
                   </Button>
                 </Link>
@@ -299,12 +323,18 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             subheader={<Body2>{getJobProviderTitle()}</Body2>}
           />
           <CardContent>
-            <Body1>{job?.job_responsibilities}</Body1>
+            <Body1 className={classes.details}>
+              {job?.additional_job_information?.job_responsibilities}
+            </Body1>
             <Box className={classes.marginTop10}>
               <TagChip label={getLocationText()} icon={<LocationOn />} />
               <TagChip label={getExperienceText()} icon={<BusinessCenter />} />
-              {job?.is_salary_info_show != SalaryShowOption.NOTHING && (
-                <TagChip label={getSalary()} icon={<Paid />} />
+              {job?.additional_job_information?.is_salary_info_show !=
+                SalaryShowOption.NOTHING && (
+                <TagChip
+                  label={getSalary()}
+                  icon={<span className={classes.salaryIcon}>৳</span>}
+                />
               )}
               <Share className={classes.shareIcon} />
             </Box>

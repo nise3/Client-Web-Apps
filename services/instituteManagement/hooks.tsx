@@ -158,7 +158,7 @@ export function useFetchBatchesToAssign(courseId: number | null) {
 }
 
 /**hr-demand**/
-export function useFetchHrDemand(hrDemandId: number | null) {
+export function useFetchHrDemand(hrDemandId: any) {
   return useAxiosSWR(
     hrDemandId ? API_HUMAN_RESOURCE_DEMAND + '/' + hrDemandId : null,
   );

@@ -64,7 +64,7 @@ const CandidatesPage = () => {
       <PageBlock
         title={
           <>
-            <IconJobSector /> <IntlMessages id='job_lists.label' />
+            <IconJobSector /> <IntlMessages id='common.candidates_list' />
           </>
         }
         // extra={[

@@ -24,13 +24,16 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
-import {useFetchIndustryAssociationDetails} from '../../../../services/IndustryManagement/hooks';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-  const {data: industryAssociation} = useFetchIndustryAssociationDetails();
+
+  const {data: industryAssociationDetails} =
+    useFetchPublicIndustryAssocDetails();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -39,10 +42,6 @@ const Header: React.FC<AppHeaderProps> = () => {
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
   }
-
-  // const redirectToSSO = useCallback(() => {
-  //   window.location.href = getSSOLoginUrl();
-  // }, []);
 
   function handleMobileMenuOpen(event: React.MouseEvent<HTMLElement>) {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -160,7 +159,6 @@ const Header: React.FC<AppHeaderProps> = () => {
           <Container
             maxWidth={'lg'}
             className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
-            {/*<Box className={classes.grow} />*/}
             <Box
               className={clsx(
                 classes.sectionDesktop,
@@ -227,7 +225,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                 aria-controls={mobileMenuId}
                 aria-haspopup='true'
                 onClick={handleMobileMenuOpen}
-                // color='inherit'
                 className={classes.mobileMenuButton}
                 size='large'>
                 <MoreIcon />
