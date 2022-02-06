@@ -137,7 +137,9 @@ const TextEditor = React.forwardRef(
                     '<div class="row" style="box-sizing: border-box; width: 100%">' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px; word-break: break-word;">' +
                     'content</div>' +
-                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '<div class="column" style="float: right; width: 50%; max-height: 300px">' +
+                    '   Upload image or video here   ' +
+                    '</div>' +
                     '</div>' +
                     '<div class="row" style="box-sizing: border-box; width:100%;">' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
@@ -147,7 +149,9 @@ const TextEditor = React.forwardRef(
                     '<div class="row" style="box-sizing: border-box; width:100%;">' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px; word-break: break-word;">' +
                     'content</div>' +
-                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '<div class="column" style="float: right; width: 50%; max-height: 300px">' +
+                    '   Upload image or video here   ' +
+                    '</div>' +
                     '</div>' +
                     '</div>',
                 },
