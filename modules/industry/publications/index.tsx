@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState, useEffect} from 'react';
 import {
   Box,
   Button,
@@ -99,10 +99,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const Publications = () => {
   const {messages} = useIntl();
   const result = useCustomStyle();
+  const [selectedWriter, setSelectedWriter] = useState<any>('');
+  const [uniqueAuthors, setUniqueAuthors] = useState<any>([]);
 
-  // Todo: industry_association_id is static have to change after created id
   const [publicationFilter, setPublicationFilter] = useState<any>({
-    // industry_association_id: 1,
     row_status: RowStatus.ACTIVE,
     page: 1,
     page_size: PageSizes.EIGHT,
@@ -113,6 +113,15 @@ const Publications = () => {
     isLoading,
     metaData,
   } = useFetchPublications(publicationFilter);
+
+  useEffect(() => {
+    const uniqueAuthorsSet = [
+      ...new Map(
+        publications?.map((item: any) => [item['author'], item]),
+      ).values(),
+    ];
+    setUniqueAuthors(uniqueAuthorsSet);
+  }, [publications]);
 
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
@@ -126,19 +135,18 @@ const Publications = () => {
 
   const onResetClicked = useCallback(() => {
     setPublicationFilter({
-      // industry_association_id: 1,
       row_status: RowStatus.ACTIVE,
       page: 1,
       page_size: PageSizes.EIGHT,
     });
   }, []);
 
-  const onSearchAuthor = useCallback((input: string) => {
+  useEffect(() => {
     page.current = 1;
     setPublicationFilter((param: any) => {
-      return {...param, ...{author: input}};
+      return {...param, ...{author: selectedWriter}};
     });
-  }, []);
+  }, [selectedWriter]);
 
   const onSearch = useCallback(() => {
     page.current = 1;
@@ -183,14 +191,14 @@ const Publications = () => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomFilterableSelect
-                  id='writer_id'
-                  label={messages['industry.writer_name']}
-                  defaultValue={''}
+                  id={'author'}
+                  defaultValue={selectedWriter}
+                  label={messages['industry.writer_name'] as string}
+                  onChange={(value) => setSelectedWriter(value)}
                   isLoading={false}
                   optionValueProp={'author'}
-                  options={publications}
+                  options={uniqueAuthors}
                   optionTitleProp={['author']}
-                  onChange={(value) => onSearchAuthor(value)}
                   className={clsx(classes.gridMargin, classes.selectStyle)}
                 />
               </Grid>
@@ -337,5 +345,4 @@ const Publications = () => {
     </>
   );
 };
-
 export default Publications;
