@@ -24,11 +24,13 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
+import {useFetchIndustryAssociationDetails} from '../../../../services/IndustryManagement/hooks';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
+  const {data: industryAssociation} = useFetchIndustryAssociationDetails();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -136,7 +138,7 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
-              {'Nascib'}
+              {industryAssociation?.title}
             </Text>
           </Grid>
           <Grid item md={4} className={classes.headerHalf}>
