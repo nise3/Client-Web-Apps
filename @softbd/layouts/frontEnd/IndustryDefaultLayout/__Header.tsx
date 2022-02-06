@@ -24,6 +24,7 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 
 interface AppHeaderProps {}
 
@@ -37,10 +38,6 @@ const Header: React.FC<AppHeaderProps> = () => {
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
   }
-
-  // const redirectToSSO = useCallback(() => {
-  //   window.location.href = getSSOLoginUrl();
-  // }, []);
 
   function handleMobileMenuOpen(event: React.MouseEvent<HTMLElement>) {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -112,25 +109,19 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
-          className={classes.logoArea}
-          style={{marginTop: '16px'}}>
+          style={{marginBottom: '10px', padding: '0'}}
+          className={classes.logoArea}>
           <Link
             href={LINK_FRONTEND_INDUSTRY_ROOT}
             className={classes.headerHalfLogo}>
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/mcci-logo.png'
-                alt='industry logo'
-              />
-            </Box>
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/gov-logo.png'
-                alt='bd-gov logo'
-              />
-            </Box>
+            <LogoCustomizable
+              instituteName='Industry'
+              instituteLogo='/images/mcci-logo.png'
+            />
+            <LogoCustomizable
+              instituteName='Industry'
+              instituteLogo='/images/gov-logo.png'
+            />
           </Link>
           <Grid item md={4} className={classes.headerHalf}>
             <img
@@ -151,7 +142,6 @@ const Header: React.FC<AppHeaderProps> = () => {
           <Container
             maxWidth={'lg'}
             className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
-            {/*<Box className={classes.grow} />*/}
             <Box
               className={clsx(
                 classes.sectionDesktop,
@@ -218,7 +208,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                 aria-controls={mobileMenuId}
                 aria-haspopup='true'
                 onClick={handleMobileMenuOpen}
-                // color='inherit'
                 className={classes.mobileMenuButton}
                 size='large'>
                 <MoreIcon />
