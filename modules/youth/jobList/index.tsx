@@ -1,17 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Box,
-  Container,
-  Grid,
-  IconButton,
-  InputBase,
-  Pagination,
-  Paper,
-  Stack,
-} from '@mui/material';
+import {Container, Grid, Pagination, Stack} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H6} from '../../../@softbd/elements/common';
-import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
@@ -23,6 +13,8 @@ import {useRouter} from 'next/router';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import JobListSearchSection from '../../industry/jobCircular/JobListSearchSection';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'JobList';
 
@@ -81,7 +73,6 @@ const JobList = () => {
   });
   const authYouth = useAuthUser<YouthAuthUser>();
   const [youthSkillIdArray, setYouthSkillIdArray] = useState<any>([]);
-  const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
   const {
@@ -131,16 +122,6 @@ const JobList = () => {
     }
   }, [jobCategory, youthSkillIdArray]);
 
-  const onSearch = useCallback(() => {
-    page.current = 1;
-    setJobFilters((params: any) => {
-      return {
-        ...params,
-        ...{job_title: inputFieldRef.current?.value, page: page.current},
-      };
-    });
-  }, []);
-
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setJobFilters((params: any) => {
@@ -148,73 +129,20 @@ const JobList = () => {
     });
   }, []);
 
+  const filterJobList = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
+
+    setJobFilters((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
+    });
+  }, []);
+
   return (
     <>
+      <JobListSearchSection addFilterKey={filterJobList} />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
-          <Grid item md={12}>
-            <Grid container justifyContent={'space-between'}>
-              <Grid item>
-                <Box className={classes.filterBox}>
-                  {/*<Box display={'flex'}>*/}
-                  {/*  <FilterListIcon />*/}
-                  {/*  <Typography sx={{marginLeft: '15px'}}>*/}
-                  {/*    {messages['filter.institute']}*/}
-                  {/*  </Typography>*/}
-                  {/*</Box>*/}
-
-                  {/*<CustomFilterableSelect*/}
-                  {/*  id='job_circular_id'*/}
-                  {/*  label={messages['industry.filter']}*/}
-                  {/*  defaultValue={selectedVideoAlbumId}*/}
-                  {/*  isLoading={isLoadingVideoAlbums}*/}
-                  {/*  optionValueProp={'id'}*/}
-                  {/*  options={videoAlbums}*/}
-                  {/*  optionTitleProp={['title']}*/}
-                  {/*  onChange={onChangeVideoAlbum}*/}
-                  {/*  className={clsx(classes.gridMargin, classes.selectStyle)}*/}
-                  {/*/>*/}
-
-                  {/*<Button*/}
-                  {/*  variant={'contained'}*/}
-                  {/*  size={'small'}*/}
-                  {/*  color={'primary'}*/}
-                  {/*  className={classes.gridMargin}*/}
-                  {/*  sx={{height: '40px', width: '30%'}}>*/}
-                  {/*  {messages['common.reset']}*/}
-                  {/*</Button>*/}
-                </Box>
-              </Grid>
-              <Grid item>
-                <Paper
-                  style={{
-                    display: 'flex',
-                    width: 220,
-                    height: '40px',
-                  }}
-                  className={classes.gridMargin}>
-                  <InputBase
-                    size={'small'}
-                    style={{
-                      paddingLeft: '20px',
-                    }}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    inputRef={inputFieldRef}
-                    onKeyDown={(event) => {
-                      if (event.code == 'Enter') onSearch();
-                    }}
-                  />
-                  <IconButton
-                    sx={{p: '5px'}}
-                    aria-label='search'
-                    onClick={onSearch}>
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
