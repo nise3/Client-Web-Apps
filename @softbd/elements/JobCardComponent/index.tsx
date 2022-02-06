@@ -45,6 +45,7 @@ const classes = {
   marginTop10: `${PREFIX}-marginTop10`,
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
+  overflowText: `${PREFIX}-overflowText`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -86,6 +87,11 @@ const StyledCard = styled(Card)(({theme}) => ({
     width: '80px',
     height: '80px',
     border: '1px solid #e9e9e9',
+  },
+  [`& .${classes.overflowText}`]: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
 }));
 
@@ -209,8 +215,15 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             alt={job.job_title}
           />
           <CardContent sx={{paddingBottom: '5px'}}>
-            <H5 fontWeight={'bold'}>{job.job_title}</H5>
-            <Body2>{getJobProviderTitle()}</Body2>
+            <H5
+              fontWeight={'bold'}
+              title={job.job_title}
+              className={classes.overflowText}>
+              {job.job_title}
+            </H5>
+            <Body2 className={classes.overflowText}>
+              {getJobProviderTitle()}
+            </Body2>
           </CardContent>
           <Divider />
           <CardContent>
