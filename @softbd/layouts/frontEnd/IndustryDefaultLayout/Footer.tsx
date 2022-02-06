@@ -154,7 +154,22 @@ const Footer = () => {
           <Grid item md={3}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.in_implementation_a2i']}
+                {messages['common.contact']}
+              </Box>
+            </Typography>
+            <Typography gutterBottom={true}>
+              <Box component={'span'} mt={2}>
+                {messages['common.email']}: contactus@nise.gov.bd,
+              </Box>
+            </Typography>
+            <Typography gutterBottom={true} sx={{textAlign: 'center'}}>
+              <Box component={'span'}>nise@a2i.gov.bd</Box>
+            </Typography>
+          </Grid>
+          <Grid item md={3}>
+            <Typography variant='subtitle2' gutterBottom={true}>
+              <Box component={'span'} fontWeight='fontWeightBold'>
+                {messages['footer.in_implementation']}
               </Box>
             </Typography>
             <a
@@ -169,9 +184,8 @@ const Footer = () => {
                 />
               </Box>
             </a>
-          </Grid>
-          <Grid item md={3}>
-            <Typography variant='subtitle2' gutterBottom={true}>
+
+            <Typography variant='subtitle2' gutterBottom={true} mt={5}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['common.technical_support']}
               </Box>
