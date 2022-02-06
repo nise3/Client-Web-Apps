@@ -18,10 +18,14 @@ import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
 import CustomChipApplicationStatus from '../memberList/CustomChipApplicationStatus';
 import RejectButton from '../applicationManagement/RejectButton';
-import {rejectIndustryAssociationRegistration} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
+import {
+  reapproveIndustryAssociationRegistration,
+  rejectIndustryAssociationRegistration,
+} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 import {FiUserCheck} from 'react-icons/fi';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import AssignPermissionSubGroupPopup from './AssignPermissionSubGroupPopup';
+import ApproveButton from './ApproveButton';
 
 const IndustryAssociationsPage = () => {
   const {messages} = useIntl();
@@ -112,6 +116,25 @@ const IndustryAssociationsPage = () => {
     }
   };
 
+  const reapproveIndustryAssocRegistration = async (
+    industryAssocId: number,
+  ) => {
+    try {
+      let response = await reapproveIndustryAssociationRegistration(
+        industryAssocId,
+      );
+      if (isResponseSuccess(response)) {
+        {
+          successStack(<IntlMessages id='industry_association_reg.approved' />);
+        }
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      errorStack(<IntlMessages id='message.somethingWentWrong' />);
+      console.log('error', error);
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -162,23 +185,30 @@ const IndustryAssociationsPage = () => {
                 deleteAction={() => deleteIndustryAssocAction(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              {data.row_status != 1 ? (
+
+              {data.row_status === 2 && (
                 <CommonButton
                   onClick={() => openAssignPermissionModal(data.id)}
                   btnText='common.approve'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                   color='secondary'
                 />
-              ) : (
-                ''
               )}
-              {data.row_status != 3 && data.row_status != 0 ? (
+
+              {data.row_status != 3 && data.row_status != 0 && (
                 <RejectButton
                   rejectAction={() => rejectIndustryAssocRegistration(data.id)}
                   rejectTitle={messages['common.delete_confirm'] as string}
                 />
-              ) : (
-                ''
+              )}
+
+              {data.row_status === 3 && (
+                <ApproveButton
+                  approveAction={() =>
+                    reapproveIndustryAssocRegistration(data.id)
+                  }
+                  buttonText={messages['common.approve'] as string}
+                />
               )}
             </DatatableButtonGroup>
           );
