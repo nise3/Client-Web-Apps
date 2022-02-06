@@ -59,7 +59,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       if (Array.isArray(defaultFileUrl)) {
         let initFile = defaultFileUrl.map((url) => ({
           source: url.replace('https://file.nise3.xyz/uploads/', ''),
-          //  set type to local to indicate an already uploaded file
           options: {
             type: 'local',
           },
@@ -73,7 +72,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
         let initFile = [
           {
             source: source,
-            //  set type to local to indicate an already uploaded file
             options: {
               type: 'local',
             },
@@ -109,7 +107,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           ref={filePondRef}
           allowMultiple={allowMultiple}
           // onremovefile={(...a) => {
-          //   console.log('onremovefile: ', ...a);
           //   handleRemoveFile(...a);
           // }}
           acceptedFileTypes={acceptedFileTypes}
@@ -127,7 +124,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
                 } else {
                   setValue(id, [...uploadedUrls, res?.url]);
                 }
-                console.log('uploadedurl: ', uploadedUrls);
                 return 1;
               },
             },
@@ -137,7 +133,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           }}
           styleProgressIndicatorPosition={'center'}
           name='files'
-          /* credits={false}*/
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Upload</span>'
         />
         <TextField
