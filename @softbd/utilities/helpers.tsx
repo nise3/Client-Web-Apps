@@ -355,12 +355,16 @@ export const passingYears = () => {
     }
 };*/
 
-export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
+export const getIntlDateFromString = (
+  formatFn: any,
+  dateStr: any,
+  monthFormat?: string,
+) => {
   const dt = new Date(dateStr).toLocaleString();
   if (dt !== 'Invalid Date') {
     return formatFn(dateStr, {
       day: '2-digit',
-      month: 'long',
+      month: monthFormat ? monthFormat : 'long',
       year: 'numeric',
     });
   } else {
