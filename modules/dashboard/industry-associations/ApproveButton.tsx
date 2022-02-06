@@ -10,12 +10,14 @@ interface ApproveButtonProps extends ButtonProps {
   approveAction: () => void;
   className?: string;
   approveTitle?: string;
+  buttonText?: string;
 }
 
 const ApproveButton: React.FC<ApproveButtonProps> = ({
   approveAction,
   approveTitle,
   className,
+  buttonText,
   ...extra
 }) => {
   const [isApproveDialogOpen, setApproveDialogOpen] = useState(false);
@@ -38,7 +40,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
           sx={extra?.color && {color: 'secondary.main'}}
           color={'success'}
           {...extra}>
-          {<IntlMessages id='common.publish' />}
+          {buttonText ?? <IntlMessages id='common.publish' />}
         </Button>
       </Tooltip>
 

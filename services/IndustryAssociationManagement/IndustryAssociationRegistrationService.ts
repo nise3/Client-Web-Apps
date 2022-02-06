@@ -35,9 +35,25 @@ export const rejectIndustryAssociationRegistration = async (
   }
 };
 
-export const approveIndustryAssociationRegistration = async (
-  data: IPermissionSubGroupAssign,
+export const reapproveIndustryAssociationRegistration = async (
   industryAssociationId: number,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_APPROVE_INDUSTRY_ASSOC_REGISTRATION + '/' + industryAssociationId,
+      {
+        industryAssociationId: industryAssociationId,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const approveIndustryAssociationRegistration = async (
+  industryAssociationId: number,
+  data: IPermissionSubGroupAssign,
 ) => {
   try {
     let response: any = await apiPut(
