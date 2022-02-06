@@ -130,22 +130,22 @@ const TextEditor = React.forwardRef(
               },
               templates: [
                 {
-                  title: 'about us component',
+                  title: 'about us',
                   description: 'create about us',
                   content:
                     '<div style="margin: 10px 30px">' +
                     '<div class="row" style="box-sizing: border-box; width: 100%">' +
-                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px; word-break: break-word;">' +
                     'content</div>' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
                     '</div>' +
                     '<div class="row" style="box-sizing: border-box; width:100%;">' +
-                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
-                    'content</div>' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px; word-break: break-word;">' +
+                    '<p style="margin: 10px">content</p></div>' +
                     '</div>' +
                     '<div class="row" style="box-sizing: border-box; width:100%;">' +
-                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px; word-break: break-word;">' +
                     'content</div>' +
                     '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
                     '</div>' +
