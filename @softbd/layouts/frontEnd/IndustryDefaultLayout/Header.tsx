@@ -25,11 +25,15 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
+
+  const {data: industryAssociationDetails} =
+    useFetchPublicIndustryAssocDetails();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -115,8 +119,10 @@ const Header: React.FC<AppHeaderProps> = () => {
             href={LINK_FRONTEND_INDUSTRY_ROOT}
             className={classes.headerHalfLogo}>
             <LogoCustomizable
-              instituteName='Industry'
-              instituteLogo='/images/mcci-logo.png'
+              instituteName={industryAssociationDetails?.title ?? 'industry'}
+              instituteLogo={
+                industryAssociationDetails?.logo ?? '/images/mcci-logo.png'
+              }
             />
             <LogoCustomizable
               instituteName='Industry'
