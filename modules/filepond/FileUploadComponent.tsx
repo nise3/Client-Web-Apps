@@ -1,10 +1,9 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-
 import {
   Box,
   FormControl,
@@ -16,7 +15,7 @@ import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
 import {
   FILE_SERVER_FILE_VIEW_ENDPOINT,
-  FILE_SERVER_UPLOAD_ENDPOINT,
+  // FILE_SERVER_UPLOAD_ENDPOINT,
 } from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
@@ -79,16 +78,39 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
         },
       ];
       setFiles(initFile);
+      if (Array.isArray(defaultFileUrl)) {
+        let initFile = defaultFileUrl.map((url) => ({
+          source: url.replace('https://file.nise3.xyz/uploads/', ''),
+          options: {
+            type: 'local',
+          },
+        }));
+        setFiles(initFile);
+      } else {
+        let source = defaultFileUrl.replace(
+          'https://file.nise3.xyz/uploads/',
+          '',
+        );
+        let initFile = [
+          {
+            source: source,
+            options: {
+              type: 'local',
+            },
+          },
+        ];
+        setFiles(initFile);
+      }
     }
   }, [defaultFileUrl]);
 
-  const handleRemoveFile = useCallback((errorResponse, file) => {
+  /*  const handleRemoveFile = useCallback((errorResponse, file) => {
     if (allowMultiple) {
       setValue(id, []);
     } else {
       setValue(id, '');
     }
-  }, []);
+  }, []);*/
   const filePondRef = useRef<any>(null);
 
   return (
@@ -97,16 +119,25 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       <FormControl fullWidth>
         <FilePond
           files={files}
-          onupdatefiles={setFiles}
+          onupdatefiles={(newFiles) => {
+            console.log('onupdatefiles: ', newFiles);
+            // if (files.length > newFiles.length) { // removed
+            //   setValue(id, [...(nf => )(newFiles)]);
+            // }
+            setFiles(newFiles);
+          }}
           ref={filePondRef}
           allowMultiple={allowMultiple}
-          onremovefile={handleRemoveFile}
+          // onremovefile={(...a) => {
+          //   handleRemoveFile(...a);
+          // }}
           acceptedFileTypes={acceptedFileTypes}
           maxParallelUploads={1}
           maxFiles={50}
+          // allowRemove={false} // prop does not exist
           server={{
             process: {
-              url: FILE_SERVER_UPLOAD_ENDPOINT,
+              url: 'https://file.nise3.xyz/test',
               onload: (response: any) => {
                 let res = JSON.parse(response);
                 console.log('res?.filePath', res?.url);
@@ -115,17 +146,15 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
                 } else {
                   setValue(id, [...uploadedUrls, res?.url]);
                 }
-                console.log('uploadedurl: ', uploadedUrls);
                 return 1;
               },
             },
             load: {
-              url: FILE_SERVER_FILE_VIEW_ENDPOINT,
+              url: 'https://file.nise3.xyz/uploads/',
             },
           }}
           styleProgressIndicatorPosition={'center'}
           name='files'
-          /* credits={false}*/
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Upload</span>'
         />
         <TextField
