@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -15,7 +15,7 @@ import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
 import {
   FILE_SERVER_FILE_VIEW_ENDPOINT,
-  FILE_SERVER_UPLOAD_ENDPOINT,
+  // FILE_SERVER_UPLOAD_ENDPOINT,
 } from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
