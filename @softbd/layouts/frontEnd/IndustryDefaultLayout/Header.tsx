@@ -7,7 +7,7 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
-import {NavLink as Link} from '../../../elements/common';
+import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_INDUSTRY_ABOUT_US,
   LINK_FRONTEND_INDUSTRY_CONTACT,
@@ -132,6 +132,13 @@ const Header: React.FC<AppHeaderProps> = () => {
               />
             </Box>
           </Link>
+          <Grid item md={4} className={classes.instituteName}>
+            <Text
+              fontWeight={'bold'}
+              style={{color: '#6C91C5', fontWeight: '700'}}>
+              {'Nascib'}
+            </Text>
+          </Grid>
           <Grid item md={4} className={classes.headerHalf}>
             <img
               className={classes.logoInstitute}
