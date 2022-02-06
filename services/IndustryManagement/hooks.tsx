@@ -178,7 +178,3 @@ export function useFetchHrDemandDetails(id: number | null) {
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_MEMBERS, params]);
 }
-
-export function useFetchJobList(params: any) {
-  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
-}

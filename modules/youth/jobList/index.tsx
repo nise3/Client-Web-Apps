@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Box,
   Container,
@@ -17,7 +17,7 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
 import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {useFetchJobList} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 import JobCategory from '../../../@softbd/utilities/JobCategorie';
 import {useRouter} from 'next/router';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -73,7 +73,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const JobList = () => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const {jobCategory} = router.query;
   const [jobFilters, setJobFilters] = useState<any>({
@@ -81,12 +81,14 @@ const JobList = () => {
   });
   const authYouth = useAuthUser<YouthAuthUser>();
   const [youthSkillIdArray, setYouthSkillIdArray] = useState<any>([]);
+  const inputFieldRef = useRef<any>();
+  const page = useRef<any>(1);
 
   const {
     data: jobs,
     metaData: jobsMetaData,
     isLoading,
-  } = useFetchJobList(jobFilters);
+  } = useFetchPublicJobs(jobFilters);
 
   useEffect(() => {
     if (authYouth?.skills) {
@@ -96,27 +98,55 @@ const JobList = () => {
   }, [authYouth]);
 
   useEffect(() => {
+    page.current = 1;
     switch (jobCategory) {
       case JobCategory.RECENT:
-        setJobFilters({type: JobCategory.RECENT, page_size: PageSizes.TEN});
+        //setJobFilters({type: JobCategory.RECENT,  page: page.current});
+        setJobFilters((params: any) => ({
+          ...params,
+          page: page.current,
+        }));
         break;
       case JobCategory.POPULAR:
-        setJobFilters({type: JobCategory.POPULAR, page_size: PageSizes.TEN});
+        //setJobFilters({type: JobCategory.POPULAR, page: page.current});
+        setJobFilters((params: any) => ({
+          ...params,
+          page: page.current,
+        }));
         break;
       case JobCategory.NEARBY:
-        setJobFilters({
+        setJobFilters((params: any) => ({
+          ...params,
           loc_district_id: authYouth?.loc_district_id,
-          page_size: PageSizes.TEN,
-        });
+          page: page.current,
+        }));
         break;
       case JobCategory.SKILL_MATCHING:
-        setJobFilters({
+        setJobFilters((params: any) => ({
+          ...params,
           skill_ids: youthSkillIdArray,
-          page_size: PageSizes.TEN,
-        });
+          page: page.current,
+        }));
         break;
     }
   }, [jobCategory, youthSkillIdArray]);
+
+  const onSearch = useCallback(() => {
+    page.current = 1;
+    setJobFilters((params: any) => {
+      return {
+        ...params,
+        ...{job_title: inputFieldRef.current?.value, page: page.current},
+      };
+    });
+  }, []);
+
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setJobFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
 
   return (
     <>
@@ -170,16 +200,15 @@ const JobList = () => {
                     }}
                     placeholder={messages['common.search'] as string}
                     inputProps={{'aria-label': 'Search'}}
-                    // inputRef={}
-                    // onKeyDown={(event) => {
-                    //   if (event.code == 'Enter') onSearch();
-                    // }}
+                    inputRef={inputFieldRef}
+                    onKeyDown={(event) => {
+                      if (event.code == 'Enter') onSearch();
+                    }}
                   />
                   <IconButton
                     sx={{p: '5px'}}
                     aria-label='search'
-                    // onClick={onSearch}
-                  >
+                    onClick={onSearch}>
                     <SearchIcon />
                   </IconButton>
                 </Paper>
@@ -195,7 +224,9 @@ const JobList = () => {
                       <H6 className={classes.titleStyle}>
                         <IntlMessages
                           id={'common.total_job_number'}
-                          values={{subject: jobs ? jobs.length : 0}}
+                          values={{
+                            subject: formatNumber(jobs ? jobs.length : 0),
+                          }}
                         />
                       </H6>
                     </Grid>
@@ -224,7 +255,7 @@ const JobList = () => {
                   message={messages['common.no_data_found'] as string}
                 />
               )}
-              {jobsMetaData?.total_page > jobsMetaData?.current_page && (
+              {jobsMetaData?.total_page > 1 && (
                 <Grid
                   item
                   md={12}
@@ -233,8 +264,9 @@ const JobList = () => {
                   justifyContent={'center'}>
                   <Stack spacing={2}>
                     <Pagination
-                      page={jobsMetaData.current_page}
+                      page={page.current}
                       count={jobsMetaData.total_page}
+                      onChange={onPaginationChange}
                       color={'primary'}
                       shape='rounded'
                     />

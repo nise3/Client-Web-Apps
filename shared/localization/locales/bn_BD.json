@@ -1047,10 +1047,15 @@
   "footer.job_provider": "চাকরিদাতা",
   "footer.in_implementation": "বাস্তবায়নে",
   "common.technical_support": "কারিগরি সহায়তায়",
+  "footer.service_or_products": "পণ্য / সার্ভিস",
+  "footer.in_implementation_a2i": "বাস্তবায়নে এটুআই",
   "footer.bio_edit": "জীবনবৃত্তান্ত এডিট",
   "common.training_courses": "ট্রেনিং কোর্সসমূহ",
   "common.your_info": "আপনার তথ্য",
+  "common.questions": "প্রশ্নাবলি",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
+  "common.must_have_one_area_of_experiences": "অন্তত একটি অভিজ্ঞতার ক্ষেত্র থাকতে হবে",
+  "common.must_have_one_area_of_businesses": "অন্তত একটি কর্ম ক্ষেত্র থাকতে হবে",
   "common.must_have_one_sub_trade": "অন্তত একটি সাব ট্রেড থাকতে হবে",
   "common.must_have_one_physical_disability": "অন্তত একটি শারীরিক অক্ষমতা থাকতে হবে",
   "static_page.template_code": "টেমপ্লেট",
@@ -1355,5 +1360,6 @@
   "button.youth_approve": "ইয়ুথ অনুমোদন",
   "common.no_location": "অবস্থান নেই",
   "member_management.label": "সদস্য ব্যবস্থাপনা",
-  "common.youths": "ইয়ুথ"
+  "common.youths": "ইয়ুথ",
+  "common.candidates": "প্রার্থী"
 }

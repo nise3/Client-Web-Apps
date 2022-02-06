@@ -40,12 +40,20 @@ import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 const PREFIX = 'JobPreview';
 
 const classes = {
+  jobDetailsBox: `${PREFIX}-jobDetailsBox`,
   footerTitle: `${PREFIX}-footerTitle`,
   otherBenefit: `${PREFIX}-otherBenefit`,
   icons: `${PREFIX}-icons`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.jobDetailsBox}`]: {
+    marginTop: '24px',
+    border: '1px solid #cacaca',
+    padding: '20px',
+    background: '#fafafa',
+    marginBottom: '20px',
+  },
   [`& .${classes.footerTitle}`]: {
     display: 'inline-block',
     paddingBottom: '10px',
@@ -639,9 +647,7 @@ const JobCircularDetails = () => {
           </Tooltip>
         </Grid>
       </Grid>
-      <Box
-        mt={3}
-        sx={{border: '1px solid', padding: '10px', background: '#ededed'}}>
+      <Box mt={3} className={classes.jobDetailsBox}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8}>
             <H3>{jobData?.primary_job_information?.job_title}</H3>
@@ -951,11 +957,16 @@ const JobCircularDetails = () => {
             </Box>
           </Grid>
         </Grid>
-        <Box style={{textAlign: 'center', margin: '30px 0'}}>
-          <Button variant={'contained'} color={'primary'} onClick={onJobApply}>
-            {messages['industry.apply_now']}
-          </Button>
-        </Box>
+        {(!authUser || authUser?.isYouthUser) && (
+          <Box style={{textAlign: 'center', margin: '30px 0'}}>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              onClick={onJobApply}>
+              {messages['industry.apply_now']}
+            </Button>
+          </Box>
+        )}
       </Box>
       {isOpenJobApplyModal && (
         <JobApplyPopup job={jobData} onClose={closeJobApplyModal} />
