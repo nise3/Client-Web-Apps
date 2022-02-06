@@ -26,6 +26,8 @@ const StyledBox = styled(Box)((/*theme*/) => ({
   [`& .${classes.logo}`]: {
     /*height: 48,*/
     marginRight: 10,
+    maxWidth: 140,
+    maxHeight: 63,
   },
 
   [`& .${classes.texts}`]: {
