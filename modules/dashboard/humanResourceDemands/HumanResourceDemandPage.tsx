@@ -1,6 +1,4 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import PersonIcon from '@mui/icons-material/Person';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
@@ -9,9 +7,13 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
-import {Button} from '@mui/material';
 import HumanResourceDemandMangePopup from './HumanResourceDemandMangePopup';
 import CustomChipVacancyApprovalStatus from './CustomChipVacancyApprovalStatus';
+import {HrDemandApprovalStatusByIndustry} from './HrDemandEnums';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import Link from 'next/link';
+import {LINK_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/appLinks';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 
 const HumanResourceDemandPage = () => {
   const {messages} = useIntl();
@@ -49,50 +51,48 @@ const HumanResourceDemandPage = () => {
         accessor: 'skill_title',
       },
       {
-        Header: messages['common.vacancy_approval_status'],
+        Header: messages['common.approval_status'],
         accessor: 'rejected_by_industry_association',
         Cell: (props: any) => {
           let data = props.row.original;
           if (data?.rejected_by_industry_association == 1) {
-            return <CustomChipVacancyApprovalStatus value={0} />;
+            return (
+              <CustomChipVacancyApprovalStatus
+                value={HrDemandApprovalStatusByIndustry.REJECTED}
+              />
+            );
           } else if (
             data?.rejected_by_industry_association == 0 &&
             data?.vacancy_approved_by_industry_association == 0
           ) {
-            return <CustomChipVacancyApprovalStatus value={2} />;
+            return (
+              <CustomChipVacancyApprovalStatus
+                value={HrDemandApprovalStatusByIndustry.PENDING}
+              />
+            );
           } else {
-            return <CustomChipVacancyApprovalStatus value={1} />;
+            return (
+              <CustomChipVacancyApprovalStatus
+                value={HrDemandApprovalStatusByIndustry.APPROVED}
+              />
+            );
           }
         },
       },
-
-      {
-        Header: messages['common.vacancy'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <>
-              <CustomChip
-                icon={<PersonIcon fontSize={'small'} />}
-                color={'primary'}
-                label={data?.vacancy}
-              />
-            </>
-          );
-        },
-      },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = LINK_HUMAN_RESOURCE_DEMAND + `/${data.id}`;
           return (
             <DatatableButtonGroup>
-              <Button
-                variant={'outlined'}
-                onClick={() => openAddEditModal(data.id)}>
-                {messages['common.manage']}
-              </Button>
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <Link href={URL + '?show_cv=1'} passHref>
+                <ReadButton>{messages['common.cv_read']}</ReadButton>
+              </Link>
+              <Link href={URL + '?show_cv=0'} passHref>
+                <ReadButton>{messages['common.youth_read']}</ReadButton>
+              </Link>
             </DatatableButtonGroup>
           );
         },
