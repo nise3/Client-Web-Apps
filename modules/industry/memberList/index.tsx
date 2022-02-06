@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -68,11 +68,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
+  const [selectedMemberTitle, setSelectedMemberTitle] = useState<any>('');
 
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
-  //Todo: industry_association_id is static now. Have to update after implement domain base implementation is done
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
     page: 1,
     page_size: PageSizes.EIGHT,
@@ -83,7 +83,6 @@ const MemberListPage = () => {
 
   const onResetClicked = useCallback(() => {
     setIndustryMemberFilter({
-      industry_association_id: 2,
       page: 1,
       page_size: PageSizes.EIGHT,
     });
@@ -96,6 +95,13 @@ const MemberListPage = () => {
       ...{page: page.current},
     }));
   }, []);
+
+  useEffect(() => {
+    page.current = 1;
+    setIndustryMemberFilter((param: any) => {
+      return {...param, ...{title: selectedMemberTitle}};
+    });
+  }, [selectedMemberTitle]);
 
   const onSearch = useCallback(() => {
     page.current = 1;
@@ -129,9 +135,11 @@ const MemberListPage = () => {
             <Box display={'flex'}>
               <CustomFilterableSelect
                 id='title'
+                defaultValue={selectedMemberTitle}
                 label={messages['common.company_name']}
+                onChange={(value) => setSelectedMemberTitle(value)}
                 isLoading={isLoading}
-                optionValueProp={'id'}
+                optionValueProp={'title'}
                 options={data}
                 optionTitleProp={['title']}
                 className={clsx(classes.gridMargin, classes.selectStyle)}
