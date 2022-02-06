@@ -13,10 +13,6 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
-import {
-  FILE_SERVER_FILE_VIEW_ENDPOINT,
-  // FILE_SERVER_UPLOAD_ENDPOINT,
-} from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -35,8 +31,8 @@ interface FilepondComponentProps {
   acceptedFileTypes?: any;
   allowMultiple?: boolean;
   uploadedUrls?: any;
-  height?: string;
-  width?: string;
+  height?: any;
+  width?: any;
 }
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
@@ -65,19 +61,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
 
   useEffect(() => {
     if (defaultFileUrl && defaultFileUrl.length) {
-      let source = defaultFileUrl.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, '');
-
-      let initFile = [
-        {
-          source: source,
-
-          //  set type to local to indicate an already uploaded file
-          options: {
-            type: 'local',
-          },
-        },
-      ];
-      setFiles(initFile);
       if (Array.isArray(defaultFileUrl)) {
         let initFile = defaultFileUrl.map((url) => ({
           source: url.replace('https://file.nise3.xyz/uploads/', ''),
@@ -120,7 +103,6 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
         <FilePond
           files={files}
           onupdatefiles={(newFiles) => {
-            console.log('onupdatefiles: ', newFiles);
             // if (files.length > newFiles.length) { // removed
             //   setValue(id, [...(nf => )(newFiles)]);
             // }

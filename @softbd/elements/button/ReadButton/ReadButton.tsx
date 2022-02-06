@@ -25,6 +25,7 @@ interface Props extends ButtonProps {
   onClick?: () => void;
   className?: string;
   isLoading?: boolean;
+  startIcon?: any;
 }
 
 const ReadButton = ({
@@ -32,13 +33,14 @@ const ReadButton = ({
   className,
   isLoading,
   children,
+  startIcon,
   ...extra
 }: Props) => {
   return isLoading ? (
     <ButtonSkeleton />
   ) : (
     <StyledButton
-      startIcon={<Visibility />}
+      startIcon={startIcon ? startIcon : <Visibility />}
       onClick={onClick}
       className={clsx(classes.button, className)}
       {...extra}>
