@@ -97,7 +97,7 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   ) => {
     try {
       if (itemId) {
-        await approveIndustryAssociationRegistration(data, itemId);
+        await approveIndustryAssociationRegistration(itemId, data);
         successStack(
           <IntlMessages
             id='industry_association_reg.approved'
