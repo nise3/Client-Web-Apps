@@ -9,6 +9,7 @@ export const LINK_YOUTH_REGISTRATION_VERIFICATION =
   '/registration-verification';
 
 export const LINK_DASHBOARD = '/';
+export const LINK_CV_BANK = '/cv-bank';
 
 /**  User Role Permission links */
 export const LINK_PERMISSION = '/permissions';

@@ -53,7 +53,7 @@ export const approveYouths = async (
   youth_ids: number[] = [],
 ) => {
   try {
-    let response: any = await apiPost(
+    let response: any = await apiPut(
       `${API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION}/${hrDemandId}`,
       {hr_demand_youth_ids: youth_ids},
     );
