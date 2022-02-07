@@ -298,6 +298,7 @@
   "common.address": "Address",
   "common.address_en": "Address (En)",
   "common.organization_en": "Organization",
+  "common.organization": "Organization",
   "common.organization_registration": "Organization registration",
   "common.organization_name": "Organization name",
   "common.contact_person_name": "Contact person name",
