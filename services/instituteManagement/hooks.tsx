@@ -35,7 +35,7 @@ export function useFetchInstituteProfile() {
 }
 
 export function useFetchPublicInstitutes(params: any) {
-  return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
+  return useDataLocalizationAxiosSWR([API_PUBLIC_INSTITUTES, params]);
 }
 
 export function useFetchPublicInstituteDetails() {

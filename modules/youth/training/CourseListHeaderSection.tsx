@@ -260,7 +260,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     options={institutes}
                     isLoading={false}
                     optionValueProp={'id'}
-                    optionTitleProp={['title', 'title_en']}
+                    optionTitleProp={['title']}
                   />
                 </Grid>
               )}
