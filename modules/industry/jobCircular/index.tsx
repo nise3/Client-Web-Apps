@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import JobListSearchSection from './JobListSearchSection';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'JobCircular';
 
@@ -49,16 +50,6 @@ const JobCircular = () => {
     metaData: jobsMetaData,
   } = useFetchPublicJobs(jobFilters);
 
-  // const onSearch = useCallback(() => {
-  //   page.current = 1;
-  //   setJobFilters((params: any) => {
-  //     return {
-  //       ...params,
-  //       ...{job_title: inputFieldRef.current?.value, page: page.current},
-  //     };
-  //   });
-  // }, []);
-
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setJobFilters((params: any) => {
@@ -71,7 +62,7 @@ const JobCircular = () => {
     newFilter[filterKey] = filterValue;
 
     setJobFilters((prev: any) => {
-      return {...prev, ...newFilter};
+      return objectFilter({...prev, ...newFilter});
     });
   }, []);
 
