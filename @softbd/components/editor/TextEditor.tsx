@@ -129,7 +129,7 @@ const TextEditor = React.forwardRef(
                 editor.on('blur', function () {});
               },
               templates: [
-                {
+                /* {
                   title: 'about us component',
                   description: 'create about us',
                   content:
@@ -150,7 +150,7 @@ const TextEditor = React.forwardRef(
                     '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
                     '</div>' +
                     '</div>',
-                },
+                },*/
 
                 {
                   title: 'Two column table',
@@ -158,7 +158,7 @@ const TextEditor = React.forwardRef(
                   content:
                     '<div class="editor-template-table">' +
                     '<table width="100%"  border="0">' +
-                    '<tr><td colspan="6"> </td><td colspan="6"> </td></tr>' +
+                    '<tr><td colspan="6">Content</td><td colspan="6">Content</td></tr>' +
                     '</table>' +
                     '</div>',
                 },

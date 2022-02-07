@@ -101,8 +101,8 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
     useFetchPublicJobSectors(jobSectorFilters);
 
   const handleJobSectorsFilterChange = useCallback((jobSectorId: any) => {
-    setSelectJobSectorsId([jobSectorId]);
-    addFilterKey('job_sector_ids', [jobSectorId]);
+    setSelectJobSectorsId(jobSectorId);
+    addFilterKey('job_sector_ids', jobSectorId);
   }, []);
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
       try {
         const response = await getAllPublicOccupations({
           row_status: RowStatus.ACTIVE,
-          job_sector_id: selectJobSectorsId,
+          job_sector_ids: selectJobSectorsId,
         });
         setOccupations(response.data);
       } catch (e) {
@@ -140,7 +140,7 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
 
   return (
     <StyledBox sx={{borderTop: '1px solid #340946'}}>
-      <Container maxWidth={'xl'}>
+      <Container maxWidth={'lg'}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
             <Card sx={{alignItems: 'center'}}>
@@ -211,7 +211,7 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
 
               <Grid item xs={6} sm={4} md={2}>
                 <CustomFilterableSelect
-                  id={'job_sector_id'}
+                  id={'job_sector_ids'}
                   defaultValue={selectJobSectorsId}
                   label={messages['job_sectors.label'] as string}
                   onChange={handleJobSectorsFilterChange}
@@ -223,7 +223,7 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
                 <CustomFilterableSelect
-                  id={'occupation_id'}
+                  id={'occupation_ids'}
                   defaultValue={selectOccupationId}
                   label={messages['occupations.label'] as string}
                   onChange={onOccupationChange}

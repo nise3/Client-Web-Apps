@@ -85,10 +85,16 @@ export function useFetchHumanResourceDemand(
 
 export function useFetchInstituteProvidedYouthList(
   hrDemandInstituteId: number | null,
+  params: any,
 ) {
   return useAxiosSWR(
     hrDemandInstituteId
-      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + hrDemandInstituteId
+      ? [
+          API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST +
+            '/' +
+            hrDemandInstituteId,
+          params,
+        ]
       : null,
   );
 }

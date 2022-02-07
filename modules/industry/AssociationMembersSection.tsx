@@ -2,10 +2,11 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {H6} from '../../@softbd/elements/common';
+import {H6, Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {useFetchIndustryMembers} from '../../services/IndustryManagement/hooks';
+import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'Partners';
 
@@ -48,28 +49,32 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 }));
 
-const PartnersSection = () => {
+const AssociationMembersSection = () => {
   const {messages} = useIntl();
 
   const [industryAssocMemberFilter] = useState<any>({});
 
-  //Todo: industry_association_id is static now. Have to update after domain base implementation
   const {data: members} = useFetchIndustryMembers(industryAssocMemberFilter);
 
   const cardItem = (member: any, key: number) => {
     return (
-      <Box mr={1} ml={1} key={key}>
-        <Card className={classes.cardItem}>
-          <Box className={classes.imageAlt}>
-            <img
-              className={classes.image}
-              src={member?.logo}
-              alt={member?.title}
-              title={member?.title}
-            />
-          </Box>
-        </Card>
-      </Box>
+      <Link
+        href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST + '/' + member.id}
+        passHref
+        key={key}>
+        <Box mr={1} ml={1}>
+          <Card className={classes.cardItem}>
+            <Box className={classes.imageAlt}>
+              <img
+                className={classes.image}
+                src={member?.logo}
+                alt={member?.title}
+                title={member?.title}
+              />
+            </Box>
+          </Card>
+        </Box>
+      </Link>
     );
   };
 
@@ -97,4 +102,4 @@ const PartnersSection = () => {
   );
 };
 
-export default PartnersSection;
+export default AssociationMembersSection;
