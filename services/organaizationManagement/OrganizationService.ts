@@ -2,6 +2,8 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {
   API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP,
+  API_ORGANIZATION_USER_APPROVAL,
+  API_ORGANIZATION_USER_REJECTION,
   API_ORGANIZATIONS,
   API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP,
 } from '../../@softbd/common/apiRoutes';
@@ -76,6 +78,28 @@ export const approveOrgMemberShip = async (memberId: number) => {
   try {
     let response: any = await apiPut(
       API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const rejectOrganization = async (organizationId: any) => {
+  try {
+    let response: any = await apiPut(
+      API_ORGANIZATION_USER_REJECTION + '/' + organizationId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const ApproveOrganization = async (organizationId: any) => {
+  try {
+    let response: any = await apiPut(
+      API_ORGANIZATION_USER_APPROVAL + '/' + organizationId,
     );
     return response.data;
   } catch (error) {
