@@ -7,7 +7,7 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
-import {NavLink as Link, Text} from '../../../elements/common';
+import {NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_INDUSTRY_ABOUT_US,
   LINK_FRONTEND_INDUSTRY_CONTACT,
@@ -24,15 +24,12 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
-import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-
-  const {data: industryAssociationDetails} =
-    useFetchPublicIndustryAssocDetails();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -112,33 +109,20 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
-          className={classes.logoArea}
-          style={{marginTop: '16px'}}>
+          style={{marginBottom: '10px', padding: '0'}}
+          className={classes.logoArea}>
           <Link
             href={LINK_FRONTEND_INDUSTRY_ROOT}
             className={classes.headerHalfLogo}>
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src={industryAssociationDetails?.logo}
-                alt='industry logo'
-              />
-            </Box>
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/gov-logo.png'
-                alt='bd-gov logo'
-              />
-            </Box>
+            <LogoCustomizable
+              instituteName='Industry'
+              instituteLogo='/images/mcci-logo.png'
+            />
+            <LogoCustomizable
+              instituteName='Industry'
+              instituteLogo='/images/gov-logo.png'
+            />
           </Link>
-          <Grid item md={4} className={classes.instituteName}>
-            <Text
-              fontWeight={'bold'}
-              style={{color: '#6C91C5', fontWeight: '700'}}>
-              {industryAssociationDetails?.title}
-            </Text>
-          </Grid>
           <Grid item md={4} className={classes.headerHalf}>
             <img
               className={classes.logoInstitute}

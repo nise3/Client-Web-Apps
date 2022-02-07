@@ -28,7 +28,7 @@ const InstituteProvidedYouthList = () => {
   const [checkedYouths, setCheckedYouths] = useState<any>(new Set([]));
   const [youthListFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
-    hr_demand_youth_type: HRDemandYouthType.YOUTH_ID,
+    hr_demand_youth_type: HRDemandYouthType.CV_LINK,
   });
 
   const {data: youthList, isLoading: isLoadingYouthList} =
@@ -43,7 +43,7 @@ const InstituteProvidedYouthList = () => {
         if (
           youth.approval_status == IndustryAssociationYouthApproval.APPROVED
         ) {
-          return youth.youth_id;
+          return youth.id;
         }
       });
 
@@ -116,18 +116,16 @@ const InstituteProvidedYouthList = () => {
         accessor: 'name',
       },
       {
-        Header: messages['youth_profile.label'],
-        accessor: 'youth_id',
+        Header: messages['common.cv'],
+        accessor: 'cv_link',
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = data?.cv_link;
 
           return (
-            data?.youth_id && (
-              <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>
-                <CommonButton
-                  btnText={'youth_profile.label'}
-                  variant={'contained'}
-                />
+            URL && (
+              <Link href={URL} target={'_blank'}>
+                <CommonButton btnText={'common.see_cv'} variant={'contained'} />
               </Link>
             )
           );
@@ -144,7 +142,7 @@ const InstituteProvidedYouthList = () => {
               <label style={{display: 'block'}}>
                 <Checkbox
                   value={data.id}
-                  onChange={() => handleYouthCheck(data.youth_id)}
+                  onChange={() => handleYouthCheck(data.id)}
                   checked={checkedYouths.has(data.id)}
                 />
                 {lodashStartCase(messages['common.accept'] as string)}
