@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -38,14 +38,21 @@ const StyledGrid = styled(Grid)(({theme}) => {
 
 const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
-  const [faqFilters] = useState<any>({
+  const [faqFilters, setFaqFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
 
   const {data: faqItems, isLoading: isLoadingFaq} =
     useFetchPublicFAQ(faqFilters);
+
+  useEffect(() => {
+    if (locale) {
+      let langCode = locale.split('-')[0];
+      setFaqFilters((prev: any) => ({...prev, 'Accept-Language': langCode}));
+    }
+  }, [locale]);
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {

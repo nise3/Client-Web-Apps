@@ -89,6 +89,9 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       {
         code: PageBlockTemplateTypes.PBT_RL,
         title: messages['page_block.template_code_pbt_rl'],
+      }, {
+        code: PageBlockTemplateTypes.PBT_SHOW_EDITOR_CONTENT,
+        title: messages['page_block.template_code_pbt_show_editor_content'],
       },
     ],
     [messages],

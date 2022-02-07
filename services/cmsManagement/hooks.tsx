@@ -36,7 +36,9 @@ export function useFetchSliderBanners(params: any) {
 }
 
 export function useFetchStaticPageBlock(pageCode: any, params: any) {
-  return useAxiosSWR([API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params]);
+  return useAxiosSWR(
+    pageCode ? [API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params] : null,
+  );
 }
 
 export function useFetchSliderBanner(bannerId: number | null) {
