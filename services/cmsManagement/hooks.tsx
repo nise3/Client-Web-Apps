@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useLocalizedAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BANNERS,
   API_CALENDAR_EVENTS,
@@ -36,7 +39,9 @@ export function useFetchSliderBanners(params: any) {
 }
 
 export function useFetchStaticPageBlock(pageCode: any, params: any) {
-  return useAxiosSWR([API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params]);
+  return useLocalizedAxiosSWR(
+    pageCode ? [API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params] : null,
+  );
 }
 
 export function useFetchSliderBanner(bannerId: number | null) {
@@ -168,7 +173,7 @@ export function useFetchFAQ(faqId: number | null) {
 }
 
 export function useFetchPublicFAQ(params: any) {
-  return useAxiosSWR([API_PUBLIC_FAQ, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_FAQ, params]);
 }
 
 export function useFetchVisitorFeedback(visitorId: number | null) {

@@ -117,13 +117,15 @@ const Header: React.FC<AppHeaderProps> = () => {
           <Link
             href={LINK_FRONTEND_INDUSTRY_ROOT}
             className={classes.headerHalfLogo}>
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src={industryAssociationDetails?.logo}
-                alt='industry logo'
-              />
-            </Box>
+            {industryAssociationDetails?.logo && (
+              <Box sx={{marginRight: '10px'}}>
+                <img
+                  className={classes.logoInstitute}
+                  src={industryAssociationDetails?.logo}
+                  alt='industry logo'
+                />
+              </Box>
+            )}
             <Box>
               <img
                 className={classes.logoInstitute}
