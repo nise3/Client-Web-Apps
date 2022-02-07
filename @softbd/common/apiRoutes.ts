@@ -120,6 +120,10 @@ export const API_INSTITUTE_TRAINEE_YOUTHS =
   INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
 export const API_PROGRAMS = INSTITUTE_SERVICE_PATH + '/programs';
 
+export const API_INSTITUTE_USER_REJECTION =
+  INSTITUTE_SERVICE_PATH + '/institute-registration-rejection';
+export const API_INSTITUTE_USER_APPROVAL =
+  INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
