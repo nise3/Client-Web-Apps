@@ -127,6 +127,7 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
             register={register}
             label={messages['common.profile_picture_upload']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12}>
