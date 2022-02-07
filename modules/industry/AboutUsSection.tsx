@@ -1,7 +1,7 @@
 import {styled} from '@mui/material/styles';
 import {Container, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 import {BLOCK_ID_ABOUT_US} from '../../@softbd/utilities/StaticContentConfigs';
@@ -81,22 +81,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const AboutUsSection = () => {
-  const {messages, locale} = useIntl();
-  const [staticPageParams, setStaticPageParams] = useState<any>({});
+  const {messages} = useIntl();
+  const [staticPageParams] = useState<any>({});
 
   const {data: blockData, isLoading} = useFetchStaticPageBlock(
     BLOCK_ID_ABOUT_US,
     staticPageParams,
   );
-
-  useEffect(() => {
-    if (locale) {
-      let langCode = locale.split('-')[0];
-      setStaticPageParams({
-        'Accept-Language': langCode,
-      });
-    }
-  }, [locale]);
 
   return (
     <StyledContainer maxWidth='lg' sx={{marginTop: '50px'}}>
