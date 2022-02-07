@@ -1,23 +1,13 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Box,
-  Button,
   Chip,
   Container,
   Grid,
-  IconButton,
-  InputBase,
   Pagination,
-  Paper,
   Skeleton,
   Stack,
-  Typography,
 } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import clsx from 'clsx';
-import SearchIcon from '@mui/icons-material/Search';
 import {H1, H2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
@@ -25,6 +15,8 @@ import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hook
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import MemberListSearchSection from './MemberListSearchSection';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -68,9 +60,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const MemberListPage = () => {
   const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
-  const [selectedMemberTitle, setSelectedMemberTitle] = useState<any>('');
+  const [selectedMemberTitle] = useState<any>('');
 
-  const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
   const [industryMemberFilter, setIndustryMemberFilter] = useState<any>({
@@ -80,13 +71,6 @@ const MemberListPage = () => {
 
   const {data, isLoading, metaData} =
     useFetchIndustryMembers(industryMemberFilter);
-
-  const onResetClicked = useCallback(() => {
-    setIndustryMemberFilter({
-      page: 1,
-      page_size: PageSizes.EIGHT,
-    });
-  }, []);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
@@ -103,10 +87,12 @@ const MemberListPage = () => {
     });
   }, [selectedMemberTitle]);
 
-  const onSearch = useCallback(() => {
-    page.current = 1;
-    setIndustryMemberFilter((param: any) => {
-      return {...param, ...{title: inputFieldRef.current?.value}};
+  const filterMemberList = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
+
+    setIndustryMemberFilter((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
     });
   }, []);
 
@@ -122,69 +108,10 @@ const MemberListPage = () => {
         {messages['common.member_list']}
       </H1>
 
-      <Grid container justifyContent={'space-between'} mt={3}>
-        <Grid item>
-          <Box className={classes.filterBox}>
-            <Box display={'flex'}>
-              <FilterListIcon />
-              <Typography sx={{marginLeft: '15px'}}>
-                {messages['common.filter']}
-              </Typography>
-            </Box>
-
-            <Box display={'flex'}>
-              <CustomFilterableSelect
-                id='title'
-                defaultValue={selectedMemberTitle}
-                label={messages['common.company_name']}
-                onChange={(value) => setSelectedMemberTitle(value)}
-                isLoading={isLoading}
-                optionValueProp={'title'}
-                options={data}
-                optionTitleProp={['title']}
-                className={clsx(classes.gridMargin, classes.selectStyle)}
-              />
-              <Button
-                onClick={onResetClicked}
-                variant={'contained'}
-                size={'small'}
-                color={'primary'}
-                className={classes.gridMargin}
-                sx={{height: '40px', marginLeft: '15px !important'}}>
-                {messages['common.reset']}
-              </Button>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item>
-          <Paper
-            style={{
-              display: 'flex',
-              width: 220,
-              height: '40px',
-            }}
-            className={classes.gridMargin}>
-            <InputBase
-              size={'small'}
-              style={{
-                paddingLeft: '20px',
-              }}
-              placeholder={messages['common.search'] as string}
-              inputProps={{'aria-label': 'Search'}}
-              inputRef={inputFieldRef}
-              onKeyDown={(event) => {
-                if (event.code == 'Enter') onSearch();
-              }}
-            />
-            <IconButton sx={{p: '5px'}} aria-label='search' onClick={onSearch}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-        </Grid>
-      </Grid>
+      <MemberListSearchSection addFilterKey={filterMemberList} />
 
       {isLoading ? (
-        <Grid container spacing={1}>
+        <Grid container spacing={1} mt={5}>
           <Grid
             item
             xs={12}

@@ -1,7 +1,7 @@
 import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Link} from '../../../@softbd/elements/common';
+import {H3, Link} from '../../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const PREFIX = 'BannerTemplateCenterBackground';
@@ -44,7 +44,7 @@ interface BannerProps {
 const BannerTemplateLeftRight = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
-      <Grid item xs={12} md={6} sx={{height: '100%'}}>
+      <Grid item xs={6} sx={{height: '100%'}}>
         <CardMedia
           component='img'
           image={banner?.banner_image_path}
@@ -55,18 +55,12 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
       </Grid>
       <Grid
         item
-        xs={12}
-        md={6}
+        xs={6}
         sx={{display: 'flex', alignItems: 'center', height: '100%'}}>
         <Container maxWidth={'lg'}>
-          <Typography
-            variant='h3'
-            fontWeight={'bold'}
-            mb={6}
-            className={classes.heading}>
+          <H3 fontWeight={'bold'} mb={6} className={classes.heading}>
             {banner?.title}
-          </Typography>
-
+          </H3>
           <Typography
             variant={'h4'}
             fontWeight={'bold'}
