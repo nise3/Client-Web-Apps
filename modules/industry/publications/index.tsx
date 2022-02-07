@@ -97,7 +97,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const Publications = () => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
   const [selectedWriter, setSelectedWriter] = useState<any>('');
   const [uniqueAuthors, setUniqueAuthors] = useState<any>([]);
@@ -250,7 +250,7 @@ const Publications = () => {
                 <Body2 gutterBottom sx={{fontWeight: 'bold'}}>
                   {messages['total_result.institute']}{' '}
                   <Chip
-                    label={publications?.length}
+                    label={formatNumber(publications?.length)}
                     className={classes.chipStyle}
                   />
                 </Body2>
