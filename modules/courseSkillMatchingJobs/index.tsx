@@ -3,17 +3,7 @@ import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import {useFetchPublicJobs} from '../../services/IndustryManagement/hooks';
-import {
-  Box,
-  Container,
-  Grid,
-  IconButton,
-  InputBase,
-  Pagination,
-  Paper,
-  Stack,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import {Container, Grid, Pagination, Stack} from '@mui/material';
 import {H6} from '../../@softbd/elements/common';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import PostLoadingSkeleton from '../youth/common/PostLoadingSkeleton';
@@ -21,6 +11,8 @@ import JobCardComponent from '../../@softbd/elements/JobCardComponent';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import {styled} from '@mui/material/styles';
 import {useFetchPublicCourseDetailsWithParams} from '../../services/instituteManagement/hooks';
+import {objectFilter} from '../../@softbd/utilities/helpers';
+import JobListSearchSection from '../industry/jobCircular/JobListSearchSection';
 
 const PREFIX = 'CourseSkillMatchingJobs';
 
@@ -74,7 +66,6 @@ const CourseSkillMatchingJobs = () => {
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const {courseId} = router.query;
-  const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
   const [courseDetailsFilter] = useState<any>({});
@@ -108,16 +99,6 @@ const CourseSkillMatchingJobs = () => {
     }
   }, [courseDetails]);
 
-  const onSearch = useCallback(() => {
-    page.current = 1;
-    setJobFilters((params: any) => {
-      return {
-        ...params,
-        ...{job_title: inputFieldRef.current?.value, page: page.current},
-      };
-    });
-  }, []);
-
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setJobFilters((params: any) => {
@@ -125,45 +106,20 @@ const CourseSkillMatchingJobs = () => {
     });
   }, []);
 
+  const filterJobList = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
+
+    setJobFilters((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
+    });
+  }, []);
+
   return (
     <>
+      <JobListSearchSection addFilterKey={filterJobList} />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
-          <Grid item md={12}>
-            <Grid container justifyContent={'space-between'}>
-              <Grid item>
-                <Box className={classes.filterBox}></Box>
-              </Grid>
-              <Grid item>
-                <Paper
-                  style={{
-                    display: 'flex',
-                    width: 220,
-                    height: '40px',
-                  }}
-                  className={classes.gridMargin}>
-                  <InputBase
-                    size={'small'}
-                    style={{
-                      paddingLeft: '20px',
-                    }}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    inputRef={inputFieldRef}
-                    onKeyDown={(event) => {
-                      if (event.code == 'Enter') onSearch();
-                    }}
-                  />
-                  <IconButton
-                    sx={{p: '5px'}}
-                    aria-label='search'
-                    onClick={onSearch}>
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
