@@ -33,6 +33,7 @@ yarn build:youth-dev
 yarn build:institute-dev
 yarn build:industry-dev
 ```
+# Deployment 
 ### Build Command for Production Server
 
 ```bash
@@ -42,7 +43,7 @@ yarn build:youth-prod
 yarn build:institute-prod
 yarn build:industry-prod
 ```
-### Commands to Deploy the Web Apps in the Live Server
+### Commands to Deploy the Web Apps in the Dev/Production Server
 ```bash
 pm2 start yarn --name "nise" --interpreter bash -- start:nise
 pm2 start yarn --name "admin" --interpreter bash -- start:admin
