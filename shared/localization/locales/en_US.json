@@ -1359,5 +1359,6 @@
   "common.candidates": "Candidates",
   "common.candidates_list": "Candidates List",
   "common.see_cv": "See CV",
-  "common.cv_approve": "CV Approve"
+  "common.cv_approve": "CV Approve",
+  "assign_permission.label": "Assign Permission"
 }
