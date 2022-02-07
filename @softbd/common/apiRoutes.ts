@@ -118,6 +118,7 @@ export const API_INSTITUTE_QUESTION_BANK =
 
 export const API_INSTITUTE_TRAINEE_YOUTHS =
   INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
+export const API_PROGRAMS = INSTITUTE_SERVICE_PATH + '/programs';
 
 /** All institute service privates routes section end */
 
