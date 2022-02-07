@@ -101,6 +101,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       <InputLabel required={required}>{label}</InputLabel>
       <FormControl fullWidth>
         <FilePond
+          className={allowMultiple ? 'multi-upload' : ''}
           files={files}
           onupdatefiles={(newFiles) => {
             // if (files.length > newFiles.length) { // removed
