@@ -28,6 +28,7 @@ import {
   API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
+  API_PUBLIC_INDUSTRY_ASSOCIATION_DETAILS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
@@ -85,10 +86,16 @@ export function useFetchHumanResourceDemand(
 
 export function useFetchInstituteProvidedYouthList(
   hrDemandInstituteId: number | null,
+  params: any,
 ) {
   return useAxiosSWR(
     hrDemandInstituteId
-      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + hrDemandInstituteId
+      ? [
+          API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST +
+            '/' +
+            hrDemandInstituteId,
+          params,
+        ]
       : null,
   );
 }
@@ -182,4 +189,8 @@ export function useFetchHrDemandDetails(id: number | null) {
 
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_MEMBERS, params]);
+}
+
+export function useFetchIndustryAssociationDetails() {
+  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_DETAILS]);
 }

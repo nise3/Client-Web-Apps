@@ -347,7 +347,7 @@ export const API_PUBLIC_JOB_DETAILS =
 
 /** Industry and Industry Association service private routes section end */
 
-/** Industry and Industry Association service public routes section end */
+/** Industry and Industry Association service public routes section start */
 
 export const API_PUBLIC_OCCUPATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/occupations';

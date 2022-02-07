@@ -255,7 +255,6 @@
   "common.first_name_bn": "First Name",
   "common.last_name_en": "Last Name (En)",
   "common.last_name_bn": "Last Name",
-  "common.total_job_number": "Total Job {subject}",
   "common.dontHaveAccount": "Don't have account?",
   "common.signup": "Sign up",
   "common.password": "Password",
@@ -1357,5 +1356,7 @@
   "common.no_location": "No Location",
   "member_management.label": "Member Management",
   "common.candidates": "Candidates",
-  "common.candidates_list": "Candidates List"
+  "common.candidates_list": "Candidates List",
+  "common.see_cv": "See CV",
+  "common.cv_approve": "CV Approve"
 }

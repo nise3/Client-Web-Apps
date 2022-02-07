@@ -81,8 +81,7 @@
   "common.label": "লেবেল",
   "common.refresh": "রিফ্রেশ",
   "common.done": "সম্পন্ন",
-  "common.cv": "সিভি ",
-  "common.view_cv": "সিভি প্রদর্শন",
+  "common.cv": "সিভি",
   "common.add_new": "নতুন {subject}",
   "common.edit": "{subject} সম্পাদনা",
   "common.read_btn": "প্রদর্শন",
@@ -1367,5 +1366,8 @@
   "member_management.label": "সদস্য ব্যবস্থাপনা",
   "common.youths": "ইয়ুথ",
   "common.candidates": "প্রার্থী",
+  "common.see_cv": "সিভি দেখুন",
+  "industry_association.youth_approved_successfully": "ইয়ুথ সফলভাবে অনুমোদিত হয়েছে",
+  "common.cv_approve": "সিভি অনুমোদন",
   "common.candidates_list": "প্রার্থী তালিকা"
 }
