@@ -4,7 +4,7 @@ import JobCircularSection from './JobCircularSection';
 import NoticeAndEventSection from './NoticeAndEventSection';
 import AboutUsSection from './AboutUsSection';
 import TrainingSection from './TrainingSection';
-import PartnersSection from './PartnersSection';
+import AssociationMembersSection from './AssociationMembersSection';
 
 const Industry = () => {
   return (
@@ -14,7 +14,7 @@ const Industry = () => {
       <NoticeAndEventSection />
       <AboutUsSection />
       <TrainingSection />
-      <PartnersSection />
+      <AssociationMembersSection />
     </>
   );
 };
