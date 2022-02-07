@@ -108,6 +108,8 @@ const StaticPageDetailsPopup = ({
         return messages['page_block.template_code_pbt_lr'];
       case PageBlockTemplateTypes.PBT_RL:
         return messages['page_block.template_code_pbt_rl'];
+      case PageBlockTemplateTypes.PBT_SHOW_EDITOR_CONTENT:
+        return messages['page_block.template_code_pbt_show_editor_content'];
       default:
         return '';
     }
