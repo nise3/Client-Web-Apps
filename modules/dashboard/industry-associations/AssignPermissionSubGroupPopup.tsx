@@ -15,10 +15,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 import {IPermissionSubGroupAssign} from '../../../shared/Interface/industryAssociation.interface';
 import {approveIndustryAssociationRegistration} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
-import {
-  useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
-} from '../../../services/userManagement/hooks';
+import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 interface AssignPermissionSubGroupPopup {
@@ -31,6 +28,9 @@ const initialValues = {
   permission_sub_group_id: '',
 };
 
+enum Permission {
+  INDUSTRY_ASSOCIATION = 4,
+}
 const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   itemId,
   refreshDataTable,
@@ -45,22 +45,16 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
     useState<any>({
       row_status: RowStatus.ACTIVE,
     });
-  const [permissionGroupFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
-  const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
-    useFetchPermissionGroups(permissionGroupFilters);
-
-  const changePermissionGroupAction = (value: number) => {
+  useEffect(() => {
     setPermissionSubGroupFilters({
-      permission_group_id: value,
+      permission_group_id: Permission.INDUSTRY_ASSOCIATION,
       row_status: RowStatus.ACTIVE,
     });
-  };
+  }, []);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -145,20 +139,7 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='permission_group_id'
-            label={messages['permission_group.label']}
-            isLoading={isLoadingPermissionGroups}
-            control={control}
-            options={permissionGroups}
-            onChange={changePermissionGroupAction}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomFormSelect
             id='permission_sub_group_id'
             label={messages['permission_sub_group.label']}
