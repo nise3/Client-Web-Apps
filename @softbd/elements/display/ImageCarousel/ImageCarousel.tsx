@@ -92,7 +92,7 @@ const ImageCarousel = ({banners}: Props) => {
       autoPlay={true}
       autoPlaySpeed={3000}
       beforeChange={() => {
-        console.log('beforeChange');
+        //console.log('beforeChange');
       }}
       centerMode={false}
       className=''
