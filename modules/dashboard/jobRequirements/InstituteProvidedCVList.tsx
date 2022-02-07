@@ -16,10 +16,9 @@ import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import IndustryAssociationYouthApproval from '../../../@softbd/utilities/IndustryAssociationYouthApproval';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
 import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
 
-const InstituteProvidedYouthList = () => {
+const InstituteProvidedCVList = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
@@ -192,4 +191,4 @@ const InstituteProvidedYouthList = () => {
   );
 };
 
-export default InstituteProvidedYouthList;
+export default InstituteProvidedCVList;
