@@ -880,13 +880,14 @@ const FilepondImagePreviewCSS = {
       marginBottom: '0.1875em',
       marginLeft: '0.1875em',
     },
-  '.filepond--file-action-button.filepond--action-revert-item-processing': {
+  '.multi-upload .filepond--file-action-button.filepond--action-revert-item-processing':
+    {
+      display: 'none',
+    },
+  '.multi-upload .filepond--file > button': {
     display: 'none',
   },
-  '.filepond--file > button': {
-    display: 'none',
-  },
-  '.filepond--file > .filepond--file-status': {
+  '.multi-upload .filepond--file > .filepond--file-status': {
     marginRight: '0px',
   },
 };
