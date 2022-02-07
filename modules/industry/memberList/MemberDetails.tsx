@@ -92,23 +92,26 @@ const MemberDetails = () => {
         mt={3}
         justifyContent={'space-between'}
         alignItems={'center'}>
-        <TagChip
-          label={
-            <Typography
-              sx={{
-                color: 'primary.main',
-              }}>
-              {messages['common.establish_date']}
-              {formatDate(data?.created_at, {
-                month: 'long',
-                year: 'numeric',
-              })}
-            </Typography>
-          }
-          sx={{
-            margin: '0 !important',
-          }}
-        />
+        {data?.date_of_establishment && (
+          <TagChip
+            label={
+              <Typography
+                sx={{
+                  color: 'primary.main',
+                }}>
+                {messages['common.establish_date']}
+                {formatDate(data?.date_of_establishment, {
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </Typography>
+            }
+            sx={{
+              margin: '0 !important',
+            }}
+          />
+        )}
+
         <Box>
           <Tooltip title={messages['common.like']}>
             <ThumbUpAltIcon
