@@ -59,11 +59,11 @@ export function useFetchRecentActivity(recentActivityId: number | null) {
 }
 
 export function useFetchPublicRecentActivities(params: any) {
-  return useAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
 }
 
 export function useFetchPublicRecentActivityDetails(itemId: any) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     itemId ? API_PUBLIC_RECENT_ACTIVITIES + '/' + itemId : null,
   );
 }
@@ -82,7 +82,7 @@ export function useFetchPartners(params: any) {
 }
 
 export function useFetchPublicPartners(params: any) {
-  return useAxiosSWR([API_PUBLIC_PARTNERS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_PARTNERS, params]);
 }
 
 export function useFetchPartner(partnerId: number | null) {
@@ -95,7 +95,7 @@ export function useFetchGalleryAlbums(params: any) {
 }
 
 export function useFetchPublicGalleryAlbums(params: any) {
-  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
 }
 
 export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
@@ -105,7 +105,7 @@ export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
 }
 
 export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     galleryAlbumId ? API_PUBLIC_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
   );
 }
@@ -116,7 +116,7 @@ export function useFetchGalleryAlbumContents(params: any) {
 }
 
 export function useFetchPublicGalleryAlbumContents(params: any) {
-  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
 }
 
 export function useFetchGalleryAlbumContent(
@@ -132,7 +132,7 @@ export function useFetchGalleryAlbumContent(
 export function useFetchPublicGalleryAlbumContent(
   galleryAlbumContentId: number | null,
 ) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     galleryAlbumContentId
       ? API_PUBLIC_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
       : null,
@@ -146,7 +146,7 @@ export function useFetchCalenderEvents(params: any) {
 
 export function useFetchPublicCalenderEvents(params: any) {
   // console.log('axis: ', params);
-  return useAxiosSWR([API_PUBLIC_CALENDAR_EVENTS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_CALENDAR_EVENTS, params]);
 }
 
 /** fetches a single calendar event */
@@ -155,17 +155,17 @@ export function useFetchCalendarEvent(eventId: number | null | undefined) {
 }
 
 export function useFetchPublicNoticeOrNewses(params: any) {
-  return useAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
 }
 
 export function useFetchPublicNoticeOrNews(noticeId: number | null) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     noticeId ? API_PUBLIC_NOTICE_OR_NEWS + '/' + noticeId : null,
   );
 }
 
 export function useFetchPublicSliders(params: any) {
-  return useAxiosSWR([API_PUBLIC_SLIDERS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_SLIDERS, params]);
 }
 
 export function useFetchFAQ(faqId: number | null) {
