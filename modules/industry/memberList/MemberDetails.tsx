@@ -46,6 +46,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.logo}`]: {
     width: '100%',
     maxHeight: '350px',
+    objectFit: 'unset',
   },
   [`& .${classes.contact_person_avatar}`]: {
     width: '100px',
@@ -67,7 +68,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    background: 'red',
   },
 }));
 
