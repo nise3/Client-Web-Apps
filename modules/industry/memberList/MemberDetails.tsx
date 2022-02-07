@@ -15,8 +15,7 @@ import {
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {ArrowBack, Call, Email} from '@mui/icons-material';
-import {Body1, H4, H6, Link} from '../../../@softbd/elements/common';
-import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../../@softbd/common/appLinks';
+import {Body1, H4, H6} from '../../../@softbd/elements/common';
 import Box from '@mui/material/Box';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -74,12 +73,13 @@ const MemberDetails = () => {
 
   return (
     <StyledContainer maxWidth={'lg'}>
-      <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST}>
-        <Button variant={'outlined'} color={'primary'}>
-          <ArrowBack />
-          {messages['common.member_list']}
-        </Button>
-      </Link>
+      <Button
+        startIcon={<ArrowBack />}
+        sx={{marginRight: '10px'}}
+        variant={'outlined'}
+        onClick={() => router.back()}>
+        {messages['common.back']}
+      </Button>
       <Box
         display={'flex'}
         mt={3}

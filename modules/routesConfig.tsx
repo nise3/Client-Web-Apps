@@ -81,15 +81,6 @@ const routesConfig: NavItemProps[] = [
             icon: 'person',
             url: '/users',
           },
-          {
-            id: 'cv_list',
-            title: 'CV List',
-            messageId: 'common.cv_list',
-            permissionKey: 'view_any_cv_list',
-            type: 'item',
-            icon: 'person',
-            url: '/cv-lists',
-          },
         ],
       },
       {
@@ -209,15 +200,6 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
-            id: 'timeline',
-            title: 'Institute',
-            messageId: 'menu.institute',
-            permissionKey: 'view_any_institute',
-            type: 'item',
-            icon: 'timeline',
-            url: '/institutes',
-          },
-          {
             id: 'profile',
             title: 'Institute-Profile',
             messageId: 'menu.profile',
@@ -225,6 +207,15 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'timeline',
             url: '/institute-profile',
+          },
+          {
+            id: 'timeline',
+            title: 'Institute',
+            messageId: 'menu.institute',
+            permissionKey: 'view_any_institute',
+            type: 'item',
+            icon: 'timeline',
+            url: '/institutes',
           },
           {
             id: 'branch',
@@ -317,15 +308,6 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
-            id: 'industry_association',
-            title: 'Industry Association',
-            messageId: 'menu.industry_associations',
-            permissionKey: 'view_any_industry_association',
-            type: 'item',
-            icon: 'timeline',
-            url: '/industry-association',
-          },
-          {
             id: 'association-profile',
             title: 'association profile',
             messageId: 'common.profile',
@@ -335,7 +317,15 @@ const routesConfig: NavItemProps[] = [
             url: '/association-profile',
           },
           {
-            //Todo: have to remove member list, this is not necessary
+            id: 'industry_association',
+            title: 'Industry Association',
+            messageId: 'menu.industry_associations',
+            permissionKey: 'view_any_industry_association',
+            type: 'item',
+            icon: 'timeline',
+            url: '/industry-association',
+          },
+          {
             id: 'member-list',
             title: 'Member List',
             messageId: 'common.member_list',
