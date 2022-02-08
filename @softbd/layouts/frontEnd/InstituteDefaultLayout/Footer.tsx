@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
@@ -29,6 +29,7 @@ import {
 import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicInstituteDetailsWithParams} from '../../../../services/instituteManagement/hooks';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'Footer';
 
@@ -91,13 +92,10 @@ const StyledFoot = styled(Grid)(({theme}) => ({
 
 const Footer = () => {
   const {messages} = useIntl();
+  const {query} = useRouter();
   const [instituteFilter] = useState({});
   const {data: institute} =
     useFetchPublicInstituteDetailsWithParams(instituteFilter);
-
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
 
   const getAddress = () => {
     let address = '';
@@ -252,7 +250,7 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.question_and_answer']}
                   </Link>
-                  <Link onClick={redirectToSSO} className={classes.bullet}>
+                  <Link href={getSSOLoginUrl(query)} className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}

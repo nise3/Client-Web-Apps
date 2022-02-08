@@ -22,6 +22,7 @@
   "industry_association_reg.rejected": "শিল্প সমিতির নিবন্ধন সফলভাবে বাতিল করা হয়েছে",
   "industry_association_reg.label": "শিল্প সমিতি",
   "industry_association_reg.approved": "শিল্প সমিতির নিবন্ধন সফলভাবে অনুমোদিত হয়েছে",
+  "institute_reg.approved": "প্রতিষ্ঠানের নিবন্ধন সফলভাবে অনুমোদিত হয়েছে",
   "applicationManagement.applicantFullName": "প্রশিক্ষণার্থীর পুরো নাম",
   "applicationManagement.details": "আবেদনের বিস্তারিত",
   "applicationManagement.status": "আবেদনের অবস্থা",
@@ -262,7 +263,7 @@
   "common.content_description": "কন্টেন্টের বিবরণ",
   "menu.visitor_feedback": "ভিজিটর ফিডব্যাক",
   "menu.notices_and_news": "সংবাদ এবং বিজ্ঞপ্তি",
-  "menu.nise3_partners": "NISE3 পার্টনার সমূহ",
+  "menu.nise3_partners": "NISE পার্টনার সমূহ",
   "menu.recent_activities": "সাম্প্রতিক কার্যক্রম",
   "menu.events": "ঘটনাবলী",
   "menu.sliders": "স্লাইডার",
@@ -1054,7 +1055,6 @@
   "footer.bio_edit": "জীবনবৃত্তান্ত এডিট",
   "common.training_courses": "ট্রেনিং কোর্সসমূহ",
   "common.your_info": "আপনার তথ্য",
-  "common.questions": "প্রশ্নাবলি",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
   "common.must_have_one_area_of_experiences": "অন্তত একটি অভিজ্ঞতার ক্ষেত্র থাকতে হবে",
   "common.must_have_one_area_of_businesses": "অন্তত একটি কর্ম ক্ষেত্র থাকতে হবে",
@@ -1063,7 +1063,7 @@
   "static_page.template_code": "টেমপ্লেট",
   "common.is_attachment_available": "এটাচমেন্ট আছে?",
   "common.attachment_type": "এটাচমেন্টের ধরন",
-  "common.nise3": "নাইস৩",
+  "common.nise3": "নাইস",
   "institute.feedback": "আমাদেরকে মতামত দিন",
   "common.cv_list": "সিভির তালিকা",
   "common.cv_bank": "সিভি ব্যাংক",
@@ -1372,5 +1372,6 @@
   "industry_association.youth_approved_successfully": "ইয়ুথ সফলভাবে অনুমোদিত হয়েছে",
   "common.cv_approve": "সিভি অনুমোদন",
   "common.candidates_list": "প্রার্থী তালিকা",
-  "assign_permission.label": "পারমিশন প্রদান"
+  "assign_permission.label": "পারমিশন প্রদান",
+  "common.applied": "এপ্লাইড"
 }

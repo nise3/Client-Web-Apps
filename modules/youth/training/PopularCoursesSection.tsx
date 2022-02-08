@@ -51,6 +51,11 @@ const PopularCoursesSection = ({
   }, [filters]);
 
   const pathValue = 'popular';
+  let pathWithParams = pathValue;
+  if (Object.keys(router.query).length > 0) {
+    const params = router.asPath.split('?')[1];
+    pathWithParams += '?' + params;
+  }
   const {
     data: courseList,
     metaData: popularCoursesMetaData,
@@ -78,7 +83,7 @@ const PopularCoursesSection = ({
           {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link
-                href={`${path}/${pathValue}`}
+                href={`${path}/${pathWithParams}`}
                 style={{display: 'inline-block'}}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}

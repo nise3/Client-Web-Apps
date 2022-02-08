@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
@@ -36,6 +36,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 import {ArrowBack} from '@mui/icons-material';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const PREFIX = 'JobPreview';
 
@@ -86,13 +87,22 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const JobCircularDetails = () => {
   const {messages, formatNumber, formatDate} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const {jobCircularId} = router.query;
 
-  const {data: jobData} = useFetchPublicJob(jobCircularId);
-  const authUser = useAuthUser<YouthAuthUser>();
+  const [jobFilters, setJobFilters] = useState<any>(null);
+  const {data: jobData} = useFetchPublicJob(jobCircularId, jobFilters);
 
   const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
+
+  useEffect(() => {
+    if (authUser && authUser?.isYouthUser) {
+      setJobFilters({
+        youth_id: authUser.youthId,
+      });
+    }
+  }, [authUser]);
 
   const closeJobApplyModal = useCallback(() => {
     setIsOpenJobApplyModal(false);
@@ -849,17 +859,23 @@ const JobCircularDetails = () => {
               {messages['job_preview.apply_procedure']}
             </S2>
 
-            {(!authUser || authUser?.isYouthUser) && (
-              <Button
-                sx={{
-                  marginTop: '20px',
-                }}
-                variant={'contained'}
-                color={'primary'}
-                onClick={onJobApply}>
-                {messages['industry.apply_now']}
-              </Button>
-            )}
+            {(!authUser || authUser?.isYouthUser) &&
+              (jobData?.has_applied == '1' ? (
+                <CustomChip
+                  label={messages['common.applied']}
+                  color={'primary'}
+                />
+              ) : (
+                <Button
+                  sx={{
+                    marginTop: '20px',
+                  }}
+                  variant={'contained'}
+                  color={'primary'}
+                  onClick={onJobApply}>
+                  {messages['industry.apply_now']}
+                </Button>
+              ))}
 
             {jobData?.primary_job_information?.resume_receiving_option ==
               ResumeReceivingOptions.EMAIL && (
