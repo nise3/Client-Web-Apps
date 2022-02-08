@@ -47,10 +47,6 @@ const HumanResourceDemandPage = () => {
         accessor: 'organization_title',
       },
       {
-        Header: messages['skill.label'],
-        accessor: 'skill_title',
-      },
-      {
         Header: messages['common.approval_status'],
         accessor: 'rejected_by_industry_association',
         Cell: (props: any) => {
