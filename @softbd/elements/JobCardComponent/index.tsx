@@ -89,6 +89,9 @@ const StyledCard = styled(Card)(({theme}) => ({
     width: '80px',
     height: '80px',
     border: '1px solid #e9e9e9',
+    [`& img`]: {
+      objectFit: 'contain',
+    },
   },
   [`& .${classes.overflowText}`]: {
     whiteSpace: 'nowrap',
@@ -97,7 +100,7 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
   [`& .${classes.details}`]: {
     whiteSpace: 'break-spaces',
-    maxHeight: '95px',
+    maxHeight: '100px',
     overflow: 'hidden',
   },
   [`& .${classes.salaryIcon}`]: {
@@ -133,8 +136,6 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
       router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
     }
   }, []);
-
-  console.log('job: ', job);
 
   const getJobProviderTitle = () => {
     if (job.industry_association_id) {
@@ -275,18 +276,27 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                 <Link
                   passHref
                   href={`${LINK_FRONTEND_JOB_DETAILS}${job.job_id}`}>
-                  <Button variant='outlined' color='primary'>
+                  <Button variant='outlined' color='primary' size={'small'}>
                     {messages['common.details']}
                   </Button>
                 </Link>
-
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  sx={{marginLeft: '15px'}}
-                  onClick={onJobApply}>
-                  {messages['common.apply_now']}
-                </Button>
+                {(!authUser || authUser?.isYouthUser) &&
+                  (job?.has_applied == '1' ? (
+                    <CustomChip
+                      label={messages['common.applied']}
+                      color={'primary'}
+                      sx={{marginLeft: '15px'}}
+                    />
+                  ) : (
+                    <Button
+                      variant={'contained'}
+                      color={'primary'}
+                      size={'small'}
+                      sx={{marginLeft: '15px'}}
+                      onClick={onJobApply}>
+                      {messages['common.apply_now']}
+                    </Button>
+                  ))}
               </Grid>
             </Grid>
           </CardContent>
@@ -307,20 +317,22 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                 <Link
                   passHref
                   href={`${LINK_FRONTEND_JOB_DETAILS}${job.job_id}`}>
-                  <Button variant='outlined' color='primary'>
+                  <Button variant='outlined' color='primary' size={'small'}>
                     {messages['common.details']}
                   </Button>
                 </Link>
                 {(!authUser || authUser?.isYouthUser) &&
-                  (job?.has_applied ? (
+                  (job?.has_applied == '1' ? (
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
+                      sx={{marginLeft: '15px'}}
                     />
                   ) : (
                     <Button
                       variant={'contained'}
                       color={'primary'}
+                      size={'small'}
                       sx={{marginLeft: '15px'}}
                       onClick={onJobApply}>
                       {messages['common.apply_now']}

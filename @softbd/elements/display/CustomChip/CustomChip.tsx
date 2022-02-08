@@ -6,6 +6,7 @@ type Props = {
   label: any;
   icon?: any;
   variant?: 'filled' | 'outlined';
+  sx?: any;
 };
 
 const CustomChip = ({
@@ -13,6 +14,7 @@ const CustomChip = ({
   label,
   icon,
   variant = 'outlined',
+  sx = {},
 }: Props) => {
   return (
     <Chip
@@ -21,7 +23,7 @@ const CustomChip = ({
       color={color}
       label={label}
       variant={variant}
-      sx={{padding: '15px'}}
+      sx={{padding: '15px', ...sx}}
     />
   );
 };

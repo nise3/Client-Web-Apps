@@ -860,7 +860,7 @@ const JobCircularDetails = () => {
             </S2>
 
             {(!authUser || authUser?.isYouthUser) &&
-              (jobData?.has_applied ? (
+              (jobData?.has_applied == '1' ? (
                 <CustomChip
                   label={messages['common.applied']}
                   color={'primary'}

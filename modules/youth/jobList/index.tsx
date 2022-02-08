@@ -15,6 +15,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobListSearchSection from '../../industry/jobCircular/JobListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {ListAlt, Window} from '@mui/icons-material';
 
 const PREFIX = 'JobList';
 
@@ -24,6 +25,8 @@ const classes = {
   filterBox: `${PREFIX}-filterBox`,
   chipStyle: `${PREFIX}-chipStyle`,
   selectStyle: `${PREFIX}-selectStyle`,
+  activeStyle: `${PREFIX}-activeStyle`,
+  viewIcon: `${PREFIX}-viewIcon`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -62,6 +65,17 @@ const StyledContainer = styled(Container)(({theme}) => ({
       width: '100%',
     },
   },
+  [`& .${classes.activeStyle}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    padding: '2px',
+    borderRadius: '3px',
+    cursor: 'pointer',
+  },
+
+  [`& .${classes.viewIcon}`]: {
+    cursor: 'pointer',
+  },
 }));
 
 const JobList = () => {
@@ -69,10 +83,11 @@ const JobList = () => {
   const router = useRouter();
   const {jobCategory} = router.query;
   const [jobFilters, setJobFilters] = useState<any>({
-    page_size: PageSizes.THREE,
+    page_size: PageSizes.EIGHT,
   });
   const authYouth = useAuthUser<YouthAuthUser>();
   const [youthSkillIdArray, setYouthSkillIdArray] = useState<any>([]);
+  const [viewType, setViewType] = useState(0); //viewType 1== grid view
   const page = useRef<any>(1);
 
   const {
@@ -92,16 +107,16 @@ const JobList = () => {
     page.current = 1;
     switch (jobCategory) {
       case JobCategory.RECENT:
-        //setJobFilters({type: JobCategory.RECENT,  page: page.current});
         setJobFilters((params: any) => ({
           ...params,
+          type: JobCategory.RECENT,
           page: page.current,
         }));
         break;
       case JobCategory.POPULAR:
-        //setJobFilters({type: JobCategory.POPULAR, page: page.current});
         setJobFilters((params: any) => ({
           ...params,
+          type: JobCategory.POPULAR,
           page: page.current,
         }));
         break;
@@ -161,8 +176,27 @@ const JobList = () => {
                   )}
 
                   <Grid item>
-                    {/*<ListAlt />*/}
-                    {/*<WindowIcon />*/}
+                    <ListAlt
+                      color={'primary'}
+                      fontSize={'medium'}
+                      className={
+                        viewType == 0 ? classes.activeStyle : classes.viewIcon
+                      }
+                      onClick={() => {
+                        setViewType(0);
+                      }}
+                    />
+                    <Window
+                      color={'primary'}
+                      fontSize={'medium'}
+                      onClick={() => {
+                        setViewType(1);
+                      }}
+                      className={
+                        viewType == 1 ? classes.activeStyle : classes.viewIcon
+                      }
+                      sx={{marginLeft: '10px'}}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -171,8 +205,13 @@ const JobList = () => {
               ) : (
                 jobs?.map((job: any) => {
                   return (
-                    <Grid item xs={12} sm={12} md={12} key={job.id}>
-                      <JobCardComponent job={job} />
+                    <Grid
+                      item
+                      xs={12}
+                      sm={viewType == 1 ? 6 : 12}
+                      md={viewType == 1 ? 3 : 12}
+                      key={job.id}>
+                      <JobCardComponent job={job} isGridView={viewType == 1} />
                     </Grid>
                   );
                 })

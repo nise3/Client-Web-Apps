@@ -11,6 +11,7 @@ import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import JobListSearchSection from './JobListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {ListAlt, Window} from '@mui/icons-material';
 
 const PREFIX = 'JobCircular';
 
@@ -18,6 +19,8 @@ const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
   chipStyle: `${PREFIX}-chipStyle`,
   selectStyle: `${PREFIX}-selectStyle`,
+  activeStyle: `${PREFIX}-activeStyle`,
+  viewIcon: `${PREFIX}-viewIcon`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -30,6 +33,18 @@ const StyledContainer = styled(Container)(({theme}) => ({
     color: theme.palette.primary.light,
     padding: '3px 7px',
     marginLeft: '10px',
+  },
+
+  [`& .${classes.activeStyle}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    padding: '2px',
+    borderRadius: '3px',
+    cursor: 'pointer',
+  },
+
+  [`& .${classes.viewIcon}`]: {
+    cursor: 'pointer',
   },
 
   [`& .${classes.selectStyle}`]: {
@@ -45,6 +60,7 @@ const JobCircular = () => {
   const [jobFilters, setJobFilters] = useState({
     page_size: PageSizes.EIGHT,
   });
+  const [viewType, setViewType] = useState(0); //viewType 1== grid view
   const page = useRef<any>(1);
 
   const {
@@ -78,10 +94,10 @@ const JobCircular = () => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Grid container justifyContent={'space-between'}>
-                  {!isLoadingJobCirculars &&
-                    jobCircularList &&
-                    jobCircularList?.length > 0 && (
-                      <Grid item>
+                  <Grid item>
+                    {!isLoadingJobCirculars &&
+                      jobCircularList &&
+                      jobCircularList?.length > 0 && (
                         <H6 className={classes.titleStyle}>
                           <IntlMessages
                             id={'common.total_job_number'}
@@ -90,8 +106,32 @@ const JobCircular = () => {
                             }}
                           />
                         </H6>
-                      </Grid>
-                    )}
+                      )}
+                  </Grid>
+
+                  <Grid item>
+                    <ListAlt
+                      color={'primary'}
+                      fontSize={'medium'}
+                      className={
+                        viewType == 0 ? classes.activeStyle : classes.viewIcon
+                      }
+                      onClick={() => {
+                        setViewType(0);
+                      }}
+                    />
+                    <Window
+                      color={'primary'}
+                      fontSize={'medium'}
+                      onClick={() => {
+                        setViewType(1);
+                      }}
+                      className={
+                        viewType == 1 ? classes.activeStyle : classes.viewIcon
+                      }
+                      sx={{marginLeft: '10px'}}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
               {isLoadingJobCirculars ? (
@@ -99,8 +139,16 @@ const JobCircular = () => {
               ) : jobCircularList && jobCircularList?.length > 0 ? (
                 jobCircularList?.map((jobCircular: any) => {
                   return (
-                    <Grid item xs={12} sm={12} md={12} key={jobCircular.id}>
-                      <JobCardComponent job={jobCircular} />
+                    <Grid
+                      item
+                      xs={12}
+                      sm={viewType == 1 ? 6 : 12}
+                      md={viewType == 1 ? 3 : 12}
+                      key={jobCircular.id}>
+                      <JobCardComponent
+                        job={jobCircular}
+                        isGridView={viewType == 1}
+                      />
                     </Grid>
                   );
                 })

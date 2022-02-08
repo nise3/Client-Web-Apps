@@ -44,15 +44,6 @@ interface BannerProps {
 const LandingBannerTemplateLeftRight = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
-      <Grid item xs={12} md={6} sx={{height: '100%'}}>
-        <CardMedia
-          component='img'
-          image={banner?.banner_image_path}
-          className={classes.image}
-          alt={banner?.alt_image_title}
-          title={banner?.title}
-        />
-      </Grid>
       <Grid
         item
         xs={12}
@@ -78,6 +69,7 @@ const LandingBannerTemplateLeftRight = ({banner}: BannerProps) => {
           {banner?.is_button_available ? (
             <Link
               href={banner?.link}
+              passHref={true}
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -90,6 +82,15 @@ const LandingBannerTemplateLeftRight = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
+      </Grid>
+      <Grid item xs={12} md={6} sx={{height: '100%'}}>
+        <CardMedia
+          component='img'
+          image={banner?.banner_image_path}
+          className={classes.image}
+          alt={banner?.alt_image_title}
+          title={banner?.title}
+        />
       </Grid>
     </StyledGrid>
   );
