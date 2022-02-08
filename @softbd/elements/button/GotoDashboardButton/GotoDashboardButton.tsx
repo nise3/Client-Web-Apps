@@ -7,6 +7,7 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import Router from 'next/router';
 import {Dashboard} from '@mui/icons-material';
 import {adminDomain, niseDomain, youthDomain} from '../../../common/constants';
+import {LINK_FRONTEND_YOUTH_FEED} from '../../../common/appLinks';
 
 interface Props extends ButtonProps {}
 
@@ -15,7 +16,7 @@ const GotoDashboardButton = ({className, ...extra}: Props) => {
 
   const onClickButton = useCallback(() => {
     if (authUser && authUser.isYouthUser) {
-      Router.push(youthDomain());
+      Router.push(youthDomain() + LINK_FRONTEND_YOUTH_FEED);
     } else if (
       authUser &&
       (authUser.isSystemUser ||

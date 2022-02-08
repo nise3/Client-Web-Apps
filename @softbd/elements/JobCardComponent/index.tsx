@@ -312,7 +312,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                   </Button>
                 </Link>
                 {(!authUser || authUser?.isYouthUser) &&
-                  (job?.has_applied ? (
+                  (job?.has_applied == '1' ? (
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
