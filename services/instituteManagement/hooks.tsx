@@ -15,6 +15,7 @@ import {
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
   API_PROGRAMMES,
+  API_PROGRAMS,
   API_PUBLIC_COURSE_DETAILS,
   API_PUBLIC_COURSE_LIST,
   API_PUBLIC_INSTITUTE_DETAILS,
@@ -34,11 +35,15 @@ export function useFetchInstituteProfile() {
 }
 
 export function useFetchPublicInstitutes(params: any) {
-  return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
+  return useDataLocalizationAxiosSWR([API_PUBLIC_INSTITUTES, params]);
 }
 
 export function useFetchPublicInstituteDetails() {
   return useDataLocalizationAxiosSWR(API_PUBLIC_INSTITUTE_DETAILS);
+}
+
+export function useFetchPublicInstituteDetailsWithParams(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_INSTITUTE_DETAILS, params]);
 }
 
 export function useFetchAllInstitutes(params: any) {
@@ -69,6 +74,10 @@ export function useFetchPublication(publicationId: number | null) {
 
 export function useFetchPublicPrograms(params: any) {
   return useDataLocalizationAxiosSWR([API_PUBLIC_PROGRAMS, params]);
+}
+
+export function useFetchPrograms(params: any) {
+  return useDataLocalizationAxiosSWR([API_PROGRAMS, params]);
 }
 
 export function useFetchTrainingCenter(trainingCenterId: number | null) {

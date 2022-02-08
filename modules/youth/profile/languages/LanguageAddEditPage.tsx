@@ -173,7 +173,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
                 control={control}
                 options={languages}
                 optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 label={messages['common.language']}
               />
