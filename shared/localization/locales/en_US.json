@@ -365,7 +365,7 @@
   "menu.gallery_album_content": "Gallery Album Content",
   "menu.visitor_feedback": "Visitor Feedback",
   "menu.notices_and_news": "Notices and News",
-  "menu.nise3_partners": "NISE3 Partners",
+  "menu.nise3_partners": "NISE Partners",
   "menu.recent_activities": "Recent Activities",
   "menu.events": "Events",
   "industry.notice_and_events": "Notice and Events",
@@ -1063,7 +1063,7 @@
   "common.must_have_one_area_of_businesses": "Must have one area of business",
   "common.must_have_one_sub_trade": "Must have one sub trade",
   "guardian.info": "Guardian information",
-  "common.nise3": "NISE3",
+  "common.nise3": "NISE",
   "common.must_have_one_physical_disability": "Must have atleast one physical disability",
   "institute.feedback": "Send us your Feedback",
   "common.cv_list": "CV List",
@@ -1236,7 +1236,7 @@
   "job_posting.hard_copy_en": "Hard Copy (En)",
   "job_posting.walk_in_interview": "Walk in Interview",
   "job_posting.walk_in_interview_en": "Walk in Interview (En)",
-  "job_posting.use_nise3_email": "Applicant can use Nise3 email system",
+  "job_posting.use_nise3_email": "Applicant can use Nise email system",
   "job_posting.educational_requirements": "Educational Requirements",
   "job_posting.experience_requirements": "Experience Requirements",
   "job_posting.additional_requirements": "Additional Requirements",
@@ -1361,5 +1361,6 @@
   "common.candidates_list": "Candidates List",
   "common.see_cv": "See CV",
   "common.cv_approve": "CV Approve",
-  "assign_permission.label": "Assign Permission"
+  "assign_permission.label": "Assign Permission",
+  "common.applied": "Applied"
 }
