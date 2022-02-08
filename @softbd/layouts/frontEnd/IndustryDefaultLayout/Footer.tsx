@@ -151,57 +151,47 @@ const Footer = () => {
               </Link>
             </Typography>
           </Grid>
-          <Grid item md={3}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['common.contact']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['common.email']}: contactus@nise.gov.bd,
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true} sx={{textAlign: 'center'}}>
-              <Box component={'span'}>nise@a2i.gov.bd</Box>
-            </Typography>
-          </Grid>
-          <Grid item md={3}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.in_implementation']}
-              </Box>
-            </Typography>
-            <a
-              target='_blank'
-              href='https://a2i.gov.bd/'
-              rel='noopener noreferrer'>
-              <Box component={'span'}>
-                <img
-                  src={'/images/footer-img.png'}
-                  alt='crema-logo'
-                  className={classes.footerImage}
-                />
-              </Box>
-            </a>
-
-            <Typography variant='subtitle2' gutterBottom={true} mt={5}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['common.technical_support']}
-              </Box>
-            </Typography>
-            <a
-              target='_blank'
-              href='https://softbdltd.com/'
-              rel='noopener noreferrer'>
-              <Box component={'span'}>
-                <img
-                  src={'/images/softbd.png'}
-                  alt='crema-logo'
-                  className={classes.softbdImage}
-                />
-              </Box>
-            </a>
+          <Grid item md={6}>
+            <Grid container columnSpacing={12}>
+              <Grid item md={6}>
+                <Typography variant='subtitle2' gutterBottom={true}>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    {messages['footer.in_implementation']}
+                  </Box>
+                </Typography>
+                <a
+                  target='_blank'
+                  href='https://a2i.gov.bd/'
+                  rel='noopener noreferrer'>
+                  <Box component={'span'}>
+                    <img
+                      src={'/images/footer-img.png'}
+                      alt='crema-logo'
+                      className={classes.footerImage}
+                    />
+                  </Box>
+                </a>
+              </Grid>
+              <Grid item md={6}>
+                <Typography variant='subtitle2' gutterBottom={true}>
+                  <Box component={'span'} fontWeight='fontWeightBold'>
+                    {messages['common.technical_support']}
+                  </Box>
+                </Typography>
+                <a
+                  target='_blank'
+                  href='https://softbdltd.com/'
+                  rel='noopener noreferrer'>
+                  <Box component={'span'}>
+                    <img
+                      src={'/images/softbd.png'}
+                      alt='crema-logo'
+                      className={classes.softbdImage}
+                    />
+                  </Box>
+                </a>
+              </Grid>
+            </Grid>
           </Grid>
           <GoToTop />
         </Grid>

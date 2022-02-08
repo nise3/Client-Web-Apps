@@ -4,7 +4,6 @@ import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import {H2, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import {
   BLOCK_ID_HOW_NISE3_WORKS,
   CONTENT_ID_HOW_NISE3_WORKS,
@@ -13,6 +12,7 @@ import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
+import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'Nise3WorkProcess';
 
@@ -80,42 +80,38 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const Nise3WorkProcess = () => {
-  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
   });
+  const [staticPageParams] = useState<any>({});
+
+  const {data: blockData} = useFetchStaticPageBlock(
+    BLOCK_ID_HOW_NISE3_WORKS,
+    staticPageParams,
+  );
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPublicStaticPageOrBlockByPageCode(
-          BLOCK_ID_HOW_NISE3_WORKS,
-          {},
-        );
+    if (blockData) {
+      if (
+        blockData.attachment_type != ContentTypes.IMAGE &&
+        blockData?.video_url
+      ) {
+        const embeddedUrl = getEmbeddedVideoUrl(blockData?.video_url);
+        setVideoUrl(embeddedUrl);
+      }
 
-        if (response && response.data) {
-          const data = response.data;
-          setBlockData(data);
-
-          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
-            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
-            setVideoUrl(embeddedUrl);
-          }
-
-          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
-            setTemplateConfig({
-              textLeft: false,
-            });
-          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
-            setTemplateConfig({
-              textLeft: true,
-            });
-          }
-        }
-      } catch (e) {}
-    })();
-  }, []);
+      if (blockData.template_code == PageBlockTemplateTypes.PBT_RL) {
+        setTemplateConfig({
+          textLeft: false,
+        });
+      } else if (blockData.template_code == PageBlockTemplateTypes.PBT_LR) {
+        setTemplateConfig({
+          textLeft: true,
+        });
+      }
+    }
+  }, [blockData]);
 
   return (
     <>

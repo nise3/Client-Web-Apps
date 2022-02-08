@@ -156,6 +156,7 @@
   "common.address": "ঠিকানা",
   "common.address_en": "ঠিকানা (ইংরেজি)",
   "common.organization_en": "সংস্থ্যা",
+  "common.organization": "সংস্থ্যা",
   "common.contact_person_name": "কন্টাক্ট পারসনের নাম",
   "common.contact_person_name_bn": "কন্টাক্ট পারসনের নাম",
   "common.contact_person_name_en": "কন্টাক্ট পারসনের নাম (ইংরেজি)",
@@ -1028,6 +1029,7 @@
   "slider.template_code_bt_rl": "টেক্সট ডান এবং ছবি বাম সঙ্গে ব্যানার",
   "page_block.template_code_pbt_lr": "টেক্সট বামে এবং ছবি ডানে দিয়ে ব্লক",
   "page_block.template_code_pbt_rl": "টেক্সট ডানে এবং ছবি বামে দিয়ে ব্লক",
+  "page_block.template_code_pbt_show_editor_content": "এডিটর কন্টেন্ট দিয়ে ব্লক",
   "collage_position.left": "বামে",
   "collage_position.right_top": "ডানে উপরে",
   "collage_position.right_bottom_1": "ডানে নিচের বামে",
@@ -1370,5 +1372,6 @@
   "industry_association.youth_approved_successfully": "ইয়ুথ সফলভাবে অনুমোদিত হয়েছে",
   "common.cv_approve": "সিভি অনুমোদন",
   "common.candidates_list": "প্রার্থী তালিকা",
-  "common.recruitment_step": "নিয়োগের ধাপ"
+  "common.recruitment_step": "নিয়োগের ধাপ",
+  "assign_permission.label": "পারমিশন প্রদান"
 }

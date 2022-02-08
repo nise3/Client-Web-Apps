@@ -30,8 +30,6 @@ const HumanResourceDemandCvView = () => {
     }
   }, [hrDemand, show_cv]);
 
-  console.log('show cv: ', router.query);
-
   const columns = useMemo(
     () => [
       {

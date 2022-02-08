@@ -1,25 +1,28 @@
-import React, { useMemo, useState } from "react";
-import { Box, Button, Card, CardContent, Grid, Skeleton } from "@mui/material";
-import { H1, H2, H3, H5, Text } from "../../../@softbd/elements/common";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import GoogleMapReact from "google-map-react";
-import { styled } from "@mui/material/styles";
-import { ThemeMode } from "../../../shared/constants/AppEnums";
-import RoomIcon from "@mui/icons-material/Room";
-import { useIntl } from "react-intl";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { GOOGLE_MAP_API_KEY } from "../../../@softbd/common/constants";
-import yup from "../../../@softbd/libs/yup";
-import { MOBILE_NUMBER_REGEX } from "../../../@softbd/common/patternRegex";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { VisitorFeedbackTypes } from "../../../services/cmsManagement/Constants";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import { Call, Email } from "@mui/icons-material";
-import { useCustomStyle } from "../../../@softbd/hooks/useCustomStyle";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import { createVisitorFeedbackIndustry } from "../../../services/cmsManagement/VisitorFeedbackService";
-import { useFetchContactInfo } from "../../../services/IndustryManagement/hooks";
+import React, {useEffect, useMemo, useState} from 'react';
+import {Box, Button, Card, CardContent, Grid, Skeleton} from '@mui/material';
+import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import GoogleMapReact from 'google-map-react';
+import {styled} from '@mui/material/styles';
+import {ThemeMode} from '../../../shared/constants/AppEnums';
+import RoomIcon from '@mui/icons-material/Room';
+import {useIntl} from 'react-intl';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
+import yup from '../../../@softbd/libs/yup';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {Call, Email} from '@mui/icons-material';
+import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {createVisitorFeedbackIndustry} from '../../../services/cmsManagement/VisitorFeedbackService';
+import {
+  useFetchContactInfo,
+  useFetchPublicIndustryAssocDetails,
+} from '../../../services/IndustryManagement/hooks';
 
 const PREFIX = 'IndustryContact';
 
@@ -98,7 +101,7 @@ const MapComponent = ({text}: MapProp) => (
       transform: 'translate(-50%, -50%)',
     }}>
     <RoomIcon htmlColor={'#e80808'} />
-    {text}
+    <div style={{color: '#8c8888'}}>{text}</div>
   </div>
 );
 
@@ -107,10 +110,26 @@ const ContactPage = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
 
-  const [mapCenter] = useState({
+  const {data: industryAssociationDetails} =
+    useFetchPublicIndustryAssocDetails();
+
+  const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
     lng: 90.38155009066672,
   });
+
+  // 28.6466773,76.813073
+
+  useEffect(() => {
+    setMapCenter({
+      lat: industryAssociationDetails?.location_latitude
+        ? parseFloat(industryAssociationDetails?.location_latitude)
+        : 23.776488939377593,
+      lng: industryAssociationDetails?.location_longitude
+        ? parseFloat(industryAssociationDetails?.location_longitude)
+        : 90.38155009066672,
+    });
+  }, [industryAssociationDetails]);
 
   const [contactInfoFilter] = useState({});
 
@@ -283,12 +302,12 @@ const ContactPage = () => {
                       <GoogleMapReact
                         bootstrapURLKeys={{key: GOOGLE_MAP_API_KEY}}
                         defaultCenter={mapCenter}
-                        defaultZoom={11}
+                        defaultZoom={15}
                         center={mapCenter}>
                         <MapComponent
                           lat={mapCenter.lat}
                           lng={mapCenter.lng}
-                          text={'Industry'}
+                          text={industryAssociationDetails?.title}
                         />
                       </GoogleMapReact>
                     </div>

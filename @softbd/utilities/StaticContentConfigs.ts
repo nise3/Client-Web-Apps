@@ -1,6 +1,7 @@
 export const BLOCK_ID_SELF_ASSESSMENT = 'self-assessment-block';
 export const BLOCK_ID_HOW_NISE3_WORKS = 'how-nise3-works-block';
 export const BLOCK_ID_INSTITUTE_DETAILS = 'institute-details';
+export const BLOCK_ID_ABOUT_US = 'about-us-block';
 export const CONTENT_ID_SELF_ASSESSMENT = 'self-assessment';
 export const CONTENT_ID_HOW_NISE3_WORKS = 'how-nise3-works';
 export const CONTENT_ID_INSTITUTE_DETAILS = 'institute-details';

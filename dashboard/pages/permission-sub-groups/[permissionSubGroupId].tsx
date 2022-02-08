@@ -14,7 +14,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.assign_permission']} />
+      <PageMeta title={messages['assign_permission.label']} />
       <AssignPermissionToPermissionSubGroupPage />
     </>
   );

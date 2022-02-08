@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_INDUSTRY_ASSOCIATION_PROFILE,
@@ -33,5 +36,7 @@ export function useFetchIndustryAssociationSubTrades(params: any) {
 }
 
 export function useFetchPublicJob(jobId: any) {
-  return useAxiosSWR(jobId ? API_PUBLIC_JOB_DETAILS + '/' + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_PUBLIC_JOB_DETAILS + '/' + jobId : null,
+  );
 }

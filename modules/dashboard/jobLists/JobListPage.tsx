@@ -31,6 +31,7 @@ import ApproveButton from '../industry-associations/ApproveButton';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {Link} from '../../../@softbd/elements/common';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const JobListPage = () => {
   const {messages} = useIntl();
@@ -87,18 +88,23 @@ const JobListPage = () => {
   };
 
   const publishAction = async (jobId: string) => {
-    const data: any = {status: 1};
-    let response = await publishJob(jobId, data);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_publish_successfully'
-          values={{subject: <IntlMessages id='common.job' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      const data: any = {status: 1};
+      let response = await publishJob(jobId, data);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_publish_successfully'
+            values={{subject: <IntlMessages id='common.job' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
     }
   };
+
   const archiveAction = async (jobId: string) => {
     const data: any = {status: 2};
     let response = await publishJob(jobId, data);

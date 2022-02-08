@@ -284,7 +284,7 @@ const routesConfig: NavItemProps[] = [
             id: 'hr_demand',
             title: 'HR Demand',
             messageId: 'hr_demand.label',
-            permissionKey: 'view_any_hr_demand',
+            permissionKey: 'view_any_institute_hr_demand',
             type: 'item',
             icon: 'person',
             url: '/hr-demand',

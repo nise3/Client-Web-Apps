@@ -14,7 +14,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 
 import {
   useFetchCourses,
-  useFetchPublicPrograms,
+  useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {
   useFetchCMSGlobalConfig,
@@ -99,39 +99,25 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
-  const [programFilters, setProgramFilter] = useState<any>({
+  const [programFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: programmes, isLoading: isLoadingProgramme} =
-    useFetchPublicPrograms(programFilters);
+    useFetchPrograms(programFilters);
 
-  const [courseFilters, setCourseFilters] = useState<any>({
+  const [courseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
-  const [galleryAlbumFilters, setGalleryAlbumFilter] = useState<any>({
+  const [galleryAlbumFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const [filteredGalleryAlbums, setFilteredGalleryAlbums] = useState([]);
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
     useFetchGalleryAlbums(galleryAlbumFilters);
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setGalleryAlbumFilter({
-          row_status: RowStatus.ACTIVE,
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setGalleryAlbumFilter({
-          row_status: RowStatus.ACTIVE,
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
+
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
@@ -288,20 +274,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     ],
     [messages],
   );
-
-  useEffect(() => {
-    if (authUser && authUser.isInstituteUser) {
-      setCourseFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: authUser.institute_id,
-      });
-
-      setProgramFilter({
-        row_status: RowStatus.ACTIVE,
-        institute_id: authUser.institute_id,
-      });
-    }
-  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
