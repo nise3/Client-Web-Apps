@@ -35,8 +35,12 @@ export function useFetchIndustryAssociationSubTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
 }
 
-export function useFetchPublicJob(jobId: any) {
+export function useFetchPublicJob(jobId: any, params?: any) {
   return useDataLocalizationAxiosSWR(
-    jobId ? API_PUBLIC_JOB_DETAILS + '/' + jobId : null,
+    jobId
+      ? params
+        ? [API_PUBLIC_JOB_DETAILS + '/' + jobId, params]
+        : API_PUBLIC_JOB_DETAILS + '/' + jobId
+      : null,
   );
 }

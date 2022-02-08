@@ -114,6 +114,13 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
 }
 
 export function useFetchPublicJobs(params: any) {
+  /*  const authUser = useAuthUser<YouthAuthUser>();
+  useEffect(() => {
+    if (authUser && authUser?.isYouthUser && params) {
+      params.youth_id = authUser.youthId;
+    }
+  }, [authUser]);*/
+
   return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
 }
 
