@@ -38,13 +38,13 @@ const InstituteProvidedCVList = () => {
 
   useEffect(() => {
     if (youthList && youthList.length > 0) {
-      const approvedYouths = youthList.map((youth: any) => {
-        if (
-          youth.approval_status == IndustryAssociationYouthApproval.APPROVED
-        ) {
-          return youth.id;
-        }
-      });
+      const approvedYouths = youthList
+        .filter((youth: any) => {
+          return (
+            youth.approval_status == IndustryAssociationYouthApproval.APPROVED
+          );
+        })
+        .map((youth: any) => youth.id);
 
       setCheckedYouths(new Set(approvedYouths));
     }
