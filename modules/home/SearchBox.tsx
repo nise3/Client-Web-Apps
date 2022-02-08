@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Button,
-  Divider,
   IconButton,
   InputBase,
   MenuItem,
@@ -13,6 +12,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined';
 import {useIntl} from 'react-intl';
 import Hidden from '../../@softbd/elements/Hidden';
+import {useRouter} from 'next/router';
+import RowStatus from '../../@softbd/utilities/RowStatus';
+import {useFetchUpazilas} from '../../services/locationManagement/hooks';
+import {LINK_FRONTEND_NISE_TRAINING} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'SearchBox';
 
@@ -100,8 +103,26 @@ const StyledPaper = styled(Paper)(({theme}) => ({
 
 const SearchBox = () => {
   const {messages} = useIntl();
-  const [locationValue, setLocationValue] = useState(1);
-  const [typeValue, setTypeValue] = useState(1);
+  const router = useRouter();
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const [locationValue, setLocationValue] = useState<any>('0');
+  const [typeValue, setTypeValue] = useState<any>('1');
+  const searchTextField = useRef<any>();
+
+  const onSearchClick = () => {
+    const text = searchTextField.current.value;
+    if (text) {
+      router
+        .push({
+          pathname: LINK_FRONTEND_NISE_TRAINING,
+          query: {
+            search_text: searchTextField.current.value,
+          },
+        })
+        .then(() => {});
+    }
+  };
 
   return (
     <StyledPaper
@@ -120,6 +141,7 @@ const SearchBox = () => {
         sx={{ml: 1, flex: 1}}
         placeholder={messages['common.search_2'] as string}
         inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
+        inputRef={searchTextField}
       />
       <Hidden mdDown>
         <Paper component='span' elevation={0}>
@@ -132,10 +154,16 @@ const SearchBox = () => {
             value={locationValue}
             label=''
             onChange={(e: any) => {
-              setLocationValue(e?.target?.value);
+              setLocationValue(e.target.value);
             }}
             MenuProps={{disableScrollLock: true}}>
-            <MenuItem value='1'>{messages['common.location_2']}</MenuItem>
+            <MenuItem value='0'>{messages['common.location_2']}</MenuItem>
+            {upazilas &&
+              upazilas.map((upazila: any) => (
+                <MenuItem key={upazila.id} value={upazila.id}>
+                  {upazila.title}
+                </MenuItem>
+              ))}
           </Select>
         </Paper>
       </Hidden>
@@ -143,7 +171,8 @@ const SearchBox = () => {
         variant='contained'
         size={'large'}
         className={classes.searchButton}
-        disableElevation>
+        disableElevation
+        onClick={onSearchClick}>
         {messages['common.search']}
       </Button>
       <Select
@@ -158,16 +187,17 @@ const SearchBox = () => {
         value={typeValue}
         label=''
         MenuProps={{disableScrollLock: true}}
+        defaultValue={typeValue}
         onChange={(e: any) => {
-          setTypeValue(e?.target?.value);
+          setTypeValue(e.target.value);
         }}>
         <MenuItem value='1'>{messages['common.skills']}</MenuItem>
-        <Divider className={classes.resetDivider} />
+        {/*<Divider className={classes.resetDivider} />
         <MenuItem value='2'>{messages['menu.jobs']}</MenuItem>
         <Divider className={classes.resetDivider} />
         <MenuItem value='3'>{messages['common.business']}</MenuItem>
         <Divider className={classes.resetDivider} />
-        <MenuItem value='4'>{messages['common.educations']}</MenuItem>
+        <MenuItem value='4'>{messages['common.educations']}</MenuItem>*/}
       </Select>
     </StyledPaper>
   );

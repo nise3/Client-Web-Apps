@@ -482,13 +482,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                         classes.dFlexAlignCenter,
                         classes.trainerBox,
                       )}>
-                      <Avatar
-                        sx={{height: 60, width: 60}}
-                        src={
-                          'http://lorempixel.com/80/80?id=1' +
-                          trainer?.trainer_name_en
-                        }
-                      />
+                      <Avatar sx={{height: 60, width: 60}} />
                       <Box className={classes.trainerNameAndAboutBox}>
                         <Box fontWeight={'bold'}>
                           {trainer?.trainer_name || trainer?.trainer_name_en}
