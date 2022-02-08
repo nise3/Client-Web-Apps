@@ -10,9 +10,10 @@ type Props = {
   value: number;
   isLoading?: boolean;
   label?: string | MessageFormatElement[];
+  variant?: 'filled' | 'outlined';
 };
 
-const CustomChipStatus = ({value, isLoading, label}: Props) => {
+const CustomChipStatus = ({value, isLoading, label, variant}: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -31,6 +32,7 @@ const CustomChipStatus = ({value, isLoading, label}: Props) => {
 
       <CustomChip
         color={value == 1 ? 'primary' : value == 3 ? 'error' : 'secondary'}
+        variant={variant}
         label={
           value == 0 ? (
             <IntlMessages id='common.inactive' />

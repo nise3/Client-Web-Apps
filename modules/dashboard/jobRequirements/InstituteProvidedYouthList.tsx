@@ -10,7 +10,10 @@ import {startCase as lodashStartCase} from 'lodash';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {approveYouths} from '../../../services/IndustryManagement/JobRequirementService';
+import {
+  approveYouths,
+  rejectHRDemandYouth,
+} from '../../../services/IndustryManagement/JobRequirementService';
 import {ArrowBack} from '@mui/icons-material';
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
@@ -18,6 +21,11 @@ import IndustryAssociationYouthApproval from '../../../@softbd/utilities/Industr
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
 import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
+import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
@@ -31,11 +39,14 @@ const InstituteProvidedYouthList = () => {
     hr_demand_youth_type: HRDemandYouthType.YOUTH_ID,
   });
 
-  const {data: youthList, isLoading: isLoadingYouthList} =
-    useFetchInstituteProvidedYouthList(
-      Number(hrDemandInstituteId),
-      youthListFilters,
-    );
+  const {
+    data: youthList,
+    isLoading: isLoadingYouthList,
+    mutate: mutateYouthList,
+  } = useFetchInstituteProvidedYouthList(
+    Number(hrDemandInstituteId),
+    youthListFilters,
+  );
 
   useEffect(() => {
     if (youthList && youthList.length > 0) {
@@ -51,19 +62,6 @@ const InstituteProvidedYouthList = () => {
     }
   }, [youthList]);
 
-  /*  const rejectJobRequirementDemand = async (HRDemandId: number) => {
-    let response = await rejectHRDemand(HRDemandId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='hr_demand.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };*/
-
   const handleYouthCheck = useCallback(
     (youthId: number) => {
       const newApprovedYouths = [...checkedYouths];
@@ -78,14 +76,19 @@ const InstituteProvidedYouthList = () => {
     [checkedYouths],
   );
 
-  // const canRejectApprove = useCallback((data: any) => {
-  //   return (
-  //     data?.vacancy_provided_by_institute > 0 &&
-  //     !data?.rejected_by_institute &&
-  //     data?.vacancy_approved_by_industry_association == 0 &&
-  //     data?.rejected_by_industry_association == 0
-  //   );
-  // }, []);
+  const rejectAction = async (itemId: number) => {
+    let response = await rejectHRDemandYouth(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+
+      mutateYouthList();
+    }
+  };
 
   const submitYouthApproval = useCallback(async () => {
     try {
@@ -99,6 +102,7 @@ const InstituteProvidedYouthList = () => {
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
+    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -134,14 +138,45 @@ const InstituteProvidedYouthList = () => {
         },
       },
       {
+        Header: messages['common.status'],
+        accessor: 'approval_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let step: any = '';
+          let btnColor: any = undefined;
+
+          switch (data.approval_status) {
+            case ApprovalStatus.PENDING:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+              break;
+            case ApprovalStatus.APPROVED:
+              step = messages['common.approved'];
+              btnColor = 'success';
+              break;
+            case ApprovalStatus.REJECTED:
+              step = messages['common.rejected'];
+              btnColor = 'error';
+              break;
+            default:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+          }
+
+          return (
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
+          );
+        },
+      },
+
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
 
           return (
-            // canRejectApprove(data) && (
             <DatatableButtonGroup>
-              <label style={{display: 'block'}}>
+              <label style={{display: 'block', marginRight: '5px'}}>
                 <Checkbox
                   value={data.id}
                   onChange={() => handleYouthCheck(data.youth_id)}
@@ -149,12 +184,14 @@ const InstituteProvidedYouthList = () => {
                 />
                 {lodashStartCase(messages['common.accept'] as string)}
               </label>
-              {/*<RejectButton*/}
-              {/*  rejectAction={() => rejectJobRequirementDemand(data.id)}*/}
-              {/*  rejectTitle={messages['common.delete_confirm'] as string}*/}
-              {/*/>*/}
+
+              <RejectButton
+                itemId={data.id}
+                rejectTitle={messages['common.youth'] as string}
+                rejectAction={rejectAction}>
+                {messages['common.reject']}
+              </RejectButton>
             </DatatableButtonGroup>
-            // )
           );
         },
         sortable: false,
