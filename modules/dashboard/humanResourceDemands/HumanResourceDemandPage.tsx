@@ -8,7 +8,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/apiRoutes';
 import HumanResourceDemandMangePopup from './HumanResourceDemandMangePopup';
-import CustomChipVacancyApprovalStatus from './CustomChipVacancyApprovalStatus';
+import CustomChipApprovalStatus from './CustomChipApprovalStatus';
 import {HrDemandApprovalStatusByIndustry} from './HrDemandEnums';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import Link from 'next/link';
@@ -47,18 +47,15 @@ const HumanResourceDemandPage = () => {
         accessor: 'organization_title',
       },
       {
-        Header: messages['skill.label'],
-        accessor: 'skill_title',
-      },
-      {
         Header: messages['common.approval_status'],
         accessor: 'rejected_by_industry_association',
         Cell: (props: any) => {
           let data = props.row.original;
           if (data?.rejected_by_industry_association == 1) {
             return (
-              <CustomChipVacancyApprovalStatus
+              <CustomChipApprovalStatus
                 value={HrDemandApprovalStatusByIndustry.REJECTED}
+                variant={'filled'}
               />
             );
           } else if (
@@ -66,13 +63,15 @@ const HumanResourceDemandPage = () => {
             data?.vacancy_approved_by_industry_association == 0
           ) {
             return (
-              <CustomChipVacancyApprovalStatus
+              <CustomChipApprovalStatus
+                variant={'filled'}
                 value={HrDemandApprovalStatusByIndustry.PENDING}
               />
             );
           } else {
             return (
-              <CustomChipVacancyApprovalStatus
+              <CustomChipApprovalStatus
+                variant={'filled'}
                 value={HrDemandApprovalStatusByIndustry.APPROVED}
               />
             );
