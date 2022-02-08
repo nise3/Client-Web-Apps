@@ -419,5 +419,7 @@ export const API_PUBLIC_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
 export const API_PUBLIC_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
+export const API_PUBLIC_VISITOR_FEEDBACKS =
+  CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
 
 /** CMS service public routes section end */
