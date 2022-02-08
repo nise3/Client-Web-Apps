@@ -351,6 +351,9 @@ export const API_HUMAN_RESOURCE_DEMAND_REJECTED_BY_INSTITUTE =
 export const API_PUBLIC_JOB_DETAILS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-details';
 
+export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
