@@ -169,7 +169,7 @@ const JobRequirementManagePage = () => {
                   </Button>
                 </Link>
                 <RejectButton
-                  itemId={data?.hr_demand_id}
+                  itemId={data.id}
                   rejectTitle={messages['common.youth'] as string}
                   rejectAction={rejectAction}>
                   {messages['common.reject']}
