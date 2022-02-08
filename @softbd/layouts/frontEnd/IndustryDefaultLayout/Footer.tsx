@@ -6,13 +6,10 @@ import {
   LINK_FRONTEND_INDUSTRY_CONTACT,
   LINK_FRONTEND_INDUSTRY_FAQS,
   LINK_FRONTEND_JOBS,
-  LINK_INDUSTRY_ASSOCIATION_SIGNUP,
   LINK_INDUSTRY_FRONTEND_STATIC_CONTENT,
 } from '../../../common/appLinks';
 import {
   CONTENT_ID_ABOUT_US,
-  CONTENT_ID_CAREER_ADVICE,
-  CONTENT_ID_GUIDELINES,
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
@@ -99,66 +96,14 @@ const Footer = () => {
               </Link>
             </Typography>
           </Grid>
-          <Grid item md={2}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.for_job_seeker']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['footer.bio_edit']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
-                  CONTENT_ID_CAREER_ADVICE
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.career_advice']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['footer.my_jobs']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={LINK_FRONTEND_INDUSTRY_FAQS}
-                component={'span'}
-                mt={2}>
-                {messages['footer.faq']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.guideline']}
-              </Link>
-            </Typography>
-          </Grid>
+
           <Grid item md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['footer.job_provider']}
               </Box>
             </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={LINK_INDUSTRY_ASSOCIATION_SIGNUP}
-                component={'span'}
-                mt={2}>
-                {messages['common.create_account']}
-              </Link>
-            </Typography>
+
             <Typography gutterBottom={true}>
               <Box component={'span'} mt={2}>
                 {messages['footer.service_or_products']}
