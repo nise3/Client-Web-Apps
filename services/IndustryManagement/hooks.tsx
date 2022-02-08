@@ -1,7 +1,4 @@
-import {
-  useAxiosSWR,
-  useDataLocalizationAxiosSWR,
-} from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR, useDataLocalizationAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
@@ -114,13 +111,6 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
 }
 
 export function useFetchPublicJobs(params: any) {
-  /*  const authUser = useAuthUser<YouthAuthUser>();
-  useEffect(() => {
-    if (authUser && authUser?.isYouthUser && params) {
-      params.youth_id = authUser.youthId;
-    }
-  }, [authUser]);*/
-
   return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
 }
 
