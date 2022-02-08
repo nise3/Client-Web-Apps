@@ -11,7 +11,6 @@ import IconList from '../../../@softbd/icons/IconList';
 import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INDUSTRY_ASSOCIATION_MEMBERS} from '../../../@softbd/common/apiRoutes';
-import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import MemberListAddEditPopup from './MemberListAddEditPopup';
@@ -21,6 +20,7 @@ import {
   approveOrgMemberShip,
   rejectOrgMemberShip,
 } from '../../../services/organaizationManagement/OrganizationService';
+import CustomChipStatus from './CustomChipStatus';
 
 const MemberListPage = () => {
   const {messages} = useIntl();
@@ -106,7 +106,7 @@ const MemberListPage = () => {
         Header: messages['applicationManagement.status'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipApplicationStatus value={data?.row_status} />;
+          return <CustomChipStatus value={data?.row_status} />;
         },
       },
       {

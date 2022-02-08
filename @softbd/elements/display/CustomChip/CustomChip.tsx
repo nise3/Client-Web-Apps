@@ -2,7 +2,7 @@ import React from 'react';
 import {Chip} from '@mui/material';
 
 type Props = {
-  color: 'primary' | 'secondary' | 'default' | undefined;
+  color: 'primary' | 'secondary' | 'default' | 'error' | undefined;
   label: any;
   icon?: any;
   variant?: 'filled' | 'outlined';

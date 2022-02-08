@@ -2,8 +2,8 @@ import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {
-  ApproveInstitute,
   deleteInstitute,
+  ReApproveInstitute,
   rejectInstitute,
 } from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
@@ -19,24 +19,39 @@ import InstituteAddEditPopup from './InstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import ApproveButton from '../organizations/ApproveButton';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
-import {
-  ApproveOrganization,
-  rejectOrganization,
-} from '../../../services/organaizationManagement/OrganizationService';
+import {ApprovalStatus} from './ApprovalStatusEnums';
+import {FiUserCheck} from 'react-icons/fi';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import InstituteAssingnPermissionPopup from './InstituteAssingnPermissionPopup';
+import CustomChipStatus from '../memberList/CustomChipStatus';
+import ApproveButton from '../industry-associations/ApproveButton';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-
+  const [isOpenPermissionSubGroupModal, setIsOpenPermissionSubGroupModal] =
+    useState(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const openAssignPermissionModal = useCallback(
+    (itemId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenPermissionSubGroupModal(true);
+      setSelectedItemId(itemId);
+    },
+    [],
+  );
+
+  const closeAssignPermissionModal = useCallback(() => {
+    setIsOpenPermissionSubGroupModal(false);
+    setSelectedItemId(null);
+  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -67,9 +82,10 @@ const InstitutePage = () => {
         />,
       );
     }
+    refreshDataTable();
   };
-  const approveAction = async (itemId: number) => {
-    let response = await ApproveInstitute(itemId);
+  const ReApproveAction = async (itemId: number) => {
+    let response = await ReApproveInstitute(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -78,7 +94,9 @@ const InstitutePage = () => {
         />,
       );
     }
+    refreshDataTable();
   };
+
   const deleteInstituteItem = async (itemId: number) => {
     let response = await deleteInstitute(itemId);
     if (isResponseSuccess(response)) {
@@ -131,7 +149,7 @@ const InstitutePage = () => {
         filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          return <CustomChipStatus value={data?.row_status} />;
         },
       },
       {
@@ -143,18 +161,30 @@ const InstitutePage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <ApproveButton
-                itemId={itemId}
-                approveTitle={messages['common.organization'] as string}
-                approveAction={approveAction}>
-                {messages['common.approve']}
-              </ApproveButton>
-              <RejectButton
-                itemId={itemId}
-                rejectTitle={messages['common.organization'] as string}
-                rejectAction={rejectAction}>
-                {messages['common.reject']}
-              </RejectButton>
+
+              {data?.row_status == ApprovalStatus.PENDING && (
+                <CommonButton
+                  onClick={() => openAssignPermissionModal(data.id)}
+                  btnText='common.approve'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  color='secondary'
+                />
+              )}
+              {data?.row_status == ApprovalStatus.APPROVED && (
+                <RejectButton
+                  itemId={itemId}
+                  rejectTitle={messages['common.organization'] as string}
+                  rejectAction={rejectAction}>
+                  {messages['common.reject']}
+                </RejectButton>
+              )}
+              {data?.row_status == ApprovalStatus.REJECTED && (
+                <ApproveButton
+                  approveAction={() => ReApproveAction(data.id)}
+                  buttonText={messages['common.approve'] as string}
+                />
+              )}
+
               <DeleteButton
                 deleteAction={() => deleteInstituteItem(data.id)}
                 deleteTitle='Are you sure?'
@@ -220,6 +250,14 @@ const InstitutePage = () => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+          />
+        )}
+        {isOpenPermissionSubGroupModal && (
+          <InstituteAssingnPermissionPopup
+            key={1}
+            onClose={closeAssignPermissionModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>
