@@ -169,7 +169,7 @@ const ContactPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
-    data.industry_association_id = 30;
+    // data.industry_association_id = 30;
 
     try {
       await createVisitorFeedbackIndustry(data);
