@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
@@ -21,6 +21,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {useFetchJobCandidatesAppliedList} from '../../../services/IndustryAssociationManagement/hooks';
 
 const PREFIX = 'CandidatesPage';
 
@@ -73,6 +74,10 @@ const CandidatesPage = () => {
   const {jobIdCandidates} = router.query;
 
   const {data: jobDetails} = useFetchJobPreview(String(jobIdCandidates));
+  const {data: appliedCandidateLists} = useFetchJobCandidatesAppliedList(
+    String(jobIdCandidates),
+  );
+  console.log('appllied->', appliedCandidateLists);
 
   const [isToggleTable] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -129,11 +134,11 @@ const CandidatesPage = () => {
   const {
     control,
     register,
-    reset,
-    getValues,
+    // reset,
+    // getValues,
     handleSubmit,
-    setError,
-    setValue,
+    // setError,
+    // setValue,
     formState: {errors, isSubmitting},
   } = useForm<IOrganization>();
 
@@ -186,22 +191,28 @@ const CandidatesPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      console.log('formData->', formData);
-      let steps: any = [];
-      steps.push({...formData, formData});
-      setStepList(steps);
+      // console.log('formData->', formData);
+
+      let arr: any = [];
+      arr = [...stepList, formData];
+      setStepList(arr);
+
       handleModalOpenClose();
     } catch (error: any) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    console.log('setpLisets->', stepList);
+  }, [stepList]);
+
   return (
     <StyledBox>
       <Grid container sx={{color: '#fff'}}>
         <Grid item xs={12}>
           <H3 sx={{color: '#130f0f'}}>
-            {jobDetails?.primary_job_information.job_title}
+            {jobDetails?.primary_job_information?.job_title}
           </H3>
         </Grid>
         <Grid item xs={12}>
