@@ -87,7 +87,7 @@ export function useFetchEducation(educationId: number | null) {
 }
 
 export function useFetchEducationExamsBoardsEduGroupsAndSubjects() {
-  return useAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
+  return useDataLocalizationAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
 }
 
 export function useFetchPortfolios() {
@@ -136,7 +136,7 @@ export function useFetchLanguageProficiency(
 }
 
 export function useFetchYouthCourses(params: any) {
-  return useAxiosSWR([API_YOUTH_COURSES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_COURSES, params]);
 }
 
 export function useFetchYouthFeedStatistics() {
@@ -144,7 +144,7 @@ export function useFetchYouthFeedStatistics() {
 }
 
 export function useFetchLanguages() {
-  return useAxiosSWR([API_LANGUAGES]);
+  return useDataLocalizationAxiosSWR([API_LANGUAGES]);
 }
 
 export function useFetchYouthAddresses(params: any) {

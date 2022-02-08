@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {ArrowBack, Call, Email} from '@mui/icons-material';
-import {Body1, H4, H6} from '../../../@softbd/elements/common';
+import {Body1, H4, H6, S2} from '../../../@softbd/elements/common';
 import Box from '@mui/material/Box';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -31,6 +31,7 @@ const classes = {
   contact_person_info: `${PREFIX}-contact_person_info`,
   contact_person_avatar: `${PREFIX}-contact_person_avatar`,
   divider: `${PREFIX}-divider`,
+  overflowEllipsis: `${PREFIX}-overflowEllipsis`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -45,6 +46,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.logo}`]: {
     width: '100%',
     maxHeight: '350px',
+    objectFit: 'unset',
   },
   [`& .${classes.contact_person_avatar}`]: {
     width: '100px',
@@ -61,6 +63,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
   [`& .${classes.divider}`]: {
     width: '100%',
+  },
+  [`& .${classes.overflowEllipsis}`]: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
 }));
 
@@ -85,23 +92,26 @@ const MemberDetails = () => {
         mt={3}
         justifyContent={'space-between'}
         alignItems={'center'}>
-        <TagChip
-          label={
-            <Typography
-              sx={{
-                color: 'primary.main',
-              }}>
-              {messages['common.establish_date']}
-              {formatDate(data?.created_at, {
-                month: 'long',
-                year: 'numeric',
-              })}
-            </Typography>
-          }
-          sx={{
-            margin: '0 !important',
-          }}
-        />
+        {data?.date_of_establishment && (
+          <TagChip
+            label={
+              <Typography
+                sx={{
+                  color: 'primary.main',
+                }}>
+                {messages['common.establish_date']}
+                {formatDate(data?.date_of_establishment, {
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </Typography>
+            }
+            sx={{
+              margin: '0 !important',
+            }}
+          />
+        )}
+
         <Box>
           <Tooltip title={messages['common.like']}>
             <ThumbUpAltIcon
@@ -177,16 +187,17 @@ const MemberDetails = () => {
                     className={classes.contact_person_avatar}
                     src={data?.office_head_avatar}
                   />
-                  <H6 fontWeight={'bold'} mt={1}>
+                  <H6 centered={true} fontWeight={'bold'} mt={1}>
                     {data?.contact_person_name}
                   </H6>
-                  <Typography
+                  <S2
+                    centered={true}
                     variant={'subtitle2'}
                     sx={{
                       color: 'primary.main',
                     }}>
                     {data?.contact_person_designation}
-                  </Typography>
+                  </S2>
                 </Grid>
                 <Divider
                   orientation={'horizontal'}
@@ -237,17 +248,16 @@ const MemberDetails = () => {
                     }}>
                     <Email />
                   </IconButton>
-                  <Box>
+                  <Box className={classes.overflowEllipsis}>
                     <Typography variant={'subtitle2'}>
                       {messages['common.email']}
                     </Typography>
-                    <Typography
-                      variant={'subtitle2'}
-                      sx={{
-                        color: 'grey.500',
-                      }}>
+                    <S2
+                      sx={{color: 'grey.500'}}
+                      className={classes.overflowEllipsis}
+                      title={data?.contact_person_email}>
                       {data?.contact_person_email}
-                    </Typography>
+                    </S2>
                   </Box>
                 </Grid>
               </Grid>

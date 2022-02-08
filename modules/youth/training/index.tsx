@@ -8,7 +8,6 @@ import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'TrainingPage';
 
@@ -26,7 +25,6 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 
 const CourseListPage = () => {
   const authUser = useAuthUser<YouthAuthUser>();
-  const showInType = getShowInTypeByDomain();
 
   const [filters, setFilters] = useState<any>({});
 
@@ -62,7 +60,7 @@ const CourseListPage = () => {
             <TrendingCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
           <Grid item xs={12}>
-            <NearbyTrainingCenterSection showInType={showInType} />
+            <NearbyTrainingCenterSection />
           </Grid>
         </Grid>
       </Container>

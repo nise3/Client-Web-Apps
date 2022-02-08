@@ -10,6 +10,7 @@ import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
 import JobListSearchSection from './JobListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'JobCircular';
 
@@ -41,7 +42,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const JobCircular = () => {
   const {messages, formatNumber} = useIntl();
-  const [jobFilters, setJobFilters] = useState({});
+  const [jobFilters, setJobFilters] = useState({
+    page_size: PageSizes.EIGHT,
+  });
   const page = useRef<any>(1);
 
   const {

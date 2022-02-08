@@ -31,11 +31,14 @@ import {
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchPublications(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_PUBLICATIONS, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_PUBLICATIONS,
+    params,
+  ]);
 }
 
-export function useFetchPublication(publicationId: number | null) {
-  return useAxiosSWR(
+export function useFetchPublicPublication(publicationId: number | null) {
+  return useDataLocalizationAxiosSWR(
     publicationId
       ? API_PUBLIC_INDUSTRY_PUBLICATIONS + '/' + publicationId
       : null,
@@ -47,7 +50,10 @@ export function useFetchPublicIndustryAssocDetails() {
 }
 
 export function useFetchContactInfo(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
+    params,
+  ]);
 }
 
 export function useFetchIndustryAssociation(industryAssocId: number | null) {
@@ -138,7 +144,9 @@ export function useFetchJobContactInformation(jobId: string | null) {
 }
 
 export function useFetchJobPreview(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_PREVIEW + jobId : null,
+  );
 }
 
 export function useFetchJob(jobId: string | null) {
@@ -170,11 +178,14 @@ export function useFetchExamDegrees() {
 }
 
 export function useFetchIndustryMembers(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+    params,
+  ]);
 }
 
 export function useFetchIndustryMember(memberId: number | null) {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     memberId ? API_PUBLIC_ORGANIZATIONS + '/' + memberId : null,
   );
 }

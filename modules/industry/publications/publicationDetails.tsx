@@ -10,7 +10,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useRouter} from 'next/router';
-import {useFetchPublication} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicPublication} from '../../../services/IndustryManagement/hooks';
 
 const PREFIX = 'PublicationDetails';
 
@@ -47,7 +47,7 @@ const PublicationDetails = () => {
   const router = useRouter();
   const {publicationId}: any = router.query;
 
-  const {data: publicationData} = useFetchPublication(publicationId);
+  const {data: publicationData} = useFetchPublicPublication(publicationId);
 
   return (
     <StyledContainer maxWidth={'lg'}>

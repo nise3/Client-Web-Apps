@@ -11,8 +11,8 @@ import {
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
-import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
+import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'SelfAssessment';
 
@@ -29,48 +29,39 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const SelfAssessment = () => {
-  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
     imageOrVideoLeft: false,
   });
+  const [staticPageParams] = useState<any>({});
+
+  const {data: blockData} = useFetchStaticPageBlock(
+    BLOCK_ID_SELF_ASSESSMENT,
+    staticPageParams,
+  );
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPublicStaticPageOrBlockByPageCode(
-          BLOCK_ID_SELF_ASSESSMENT,
-          {},
-        );
+    if (blockData) {
+      if (
+        blockData.attachment_type != ContentTypes.IMAGE &&
+        blockData?.video_url
+      ) {
+        const embeddedUrl = getEmbeddedVideoUrl(blockData?.video_url);
+        setVideoUrl(embeddedUrl);
+      }
 
-        if (response && response.data) {
-          const data = response.data;
-          setBlockData({
-            ...data,
-            ...{
-              image_path: '/images/self-assessment.png',
-            },
-          });
-
-          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
-            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
-            setVideoUrl(embeddedUrl);
-          }
-
-          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
-            setTemplateConfig({
-              textLeft: false,
-            });
-          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
-            setTemplateConfig({
-              textLeft: true,
-            });
-          }
-        }
-      } catch (e) {}
-    })();
-  }, []);
+      if (blockData.template_code == PageBlockTemplateTypes.PBT_RL) {
+        setTemplateConfig({
+          textLeft: false,
+        });
+      } else if (blockData.template_code == PageBlockTemplateTypes.PBT_LR) {
+        setTemplateConfig({
+          textLeft: true,
+        });
+      }
+    }
+  }, [blockData]);
 
   return (
     <>
