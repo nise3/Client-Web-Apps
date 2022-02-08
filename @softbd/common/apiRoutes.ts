@@ -249,6 +249,9 @@ export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
 export const API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-industry-association';
 
+export const API_REJECT_HR_DEMAND_YOUTH =
+  ORGANIZATION_SERVICE_PATH + '/reject-hr-demand-youth';
+
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
 
