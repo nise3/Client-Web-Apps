@@ -2,11 +2,19 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Container, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {LINK_INDUSTRY_FRONTEND_STATIC_CONTENT} from '../../../common/appLinks';
+import {
+  LINK_FRONTEND_INDUSTRY_CONTACT,
+  LINK_FRONTEND_INDUSTRY_FAQS,
+  LINK_FRONTEND_JOBS,
+  LINK_INDUSTRY_ASSOCIATION_SIGNUP,
+  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT,
+} from '../../../common/appLinks';
 import {
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_CAREER_ADVICE,
   CONTENT_ID_GUIDELINES,
+  CONTENT_ID_PRIVACY_POLICY,
+  CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 import GoToTop from '../../../../modules/goToTop';
 import {Link} from '../../../elements/common';
@@ -56,24 +64,34 @@ const Footer = () => {
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Link
+                href={
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                  CONTENT_ID_TERMS_AND_CONDITIONS
+                }
+                component={'span'}
+                mt={2}>
                 {messages['footer.terms_and_condition']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['footer.partner']}
-              </Box>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Link
+                href={
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                  CONTENT_ID_PRIVACY_POLICY
+                }
+                component={'span'}
+                mt={2}>
                 {messages['footer.privacy_policy']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
+              <Link
+                href={LINK_FRONTEND_INDUSTRY_CONTACT}
+                component={'span'}
+                mt={2}>
                 {messages['common.contact']}
-              </Box>
+              </Link>
             </Typography>
             <Typography gutterBottom={true}>
               <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
@@ -109,7 +127,10 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Link
+                href={LINK_FRONTEND_INDUSTRY_FAQS}
+                component={'span'}
+                mt={2}>
                 {messages['footer.faq']}
               </Link>
             </Typography>
@@ -131,23 +152,29 @@ const Footer = () => {
               </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Link
+                href={LINK_INDUSTRY_ASSOCIATION_SIGNUP}
+                component={'span'}
+                mt={2}>
                 {messages['common.create_account']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Box component={'span'} mt={2}>
                 {messages['footer.service_or_products']}
-              </Link>
+              </Box>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
+              <Link href={LINK_FRONTEND_JOBS} component={'span'} mt={2}>
                 {messages['job_post.label']}
               </Link>
             </Typography>
             <Typography gutterBottom={true}>
-              <Link href='/' component={'span'} mt={2}>
-                {messages['common.questions']}
+              <Link
+                href={LINK_FRONTEND_INDUSTRY_FAQS}
+                component={'span'}
+                mt={2}>
+                {messages['footer.faq']}
               </Link>
             </Typography>
           </Grid>
