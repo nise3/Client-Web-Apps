@@ -295,6 +295,9 @@ export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
 
 export const API_GET_JOB_CANDIDATES = API_JOBS + '/candidates/all';
 
+export const API_GET_JOB_CANDIDATES_APPLIED_LIST =
+  API_JOBS + '/candidates/applied';
+
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOBS + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
