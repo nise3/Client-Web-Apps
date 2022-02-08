@@ -14,14 +14,13 @@ import AddIcon from '@mui/icons-material/Add';
 import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {RiEditBoxFill} from 'react-icons/ri';
-import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
-import {yupResolver} from '@hookform/resolvers/yup';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 
 const PREFIX = 'CandidatesPage';
 
@@ -77,6 +76,7 @@ const CandidatesPage = () => {
 
   const [isToggleTable] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [stepList, setStepList] = useState<any>([]);
 
   const {
     onFetchData,
@@ -144,6 +144,58 @@ const CandidatesPage = () => {
   let isEdit = false;
   let isLoading = false;
 
+  const shortLists = useMemo(
+    () => [
+      {
+        key: '1',
+        label: messages['common.only_short_list'],
+      },
+      {
+        key: '2',
+        label: messages['common.short_list_live_interview'],
+      },
+      {
+        key: '3',
+        label: messages['common.short_list_written'],
+      },
+      {
+        key: '4',
+        label: messages['common.short_list_face_to_face'],
+      },
+      {
+        key: '5',
+        label: messages['common.short_list_other'],
+      },
+    ],
+    [messages],
+  );
+
+  const applicantCanReschedule = useMemo(
+    () => [
+      {
+        key: '1',
+        label: messages['common.yes'],
+      },
+      {
+        key: '2',
+        label: messages['common.no'],
+      },
+    ],
+    [messages],
+  );
+
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    try {
+      console.log('formData->', formData);
+      let steps: any = [];
+      steps.push({...formData, formData});
+      setStepList(steps);
+      handleModalOpenClose();
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   return (
     <StyledBox>
       <Grid container sx={{color: '#fff'}}>
@@ -172,16 +224,19 @@ const CandidatesPage = () => {
               <Body1>All Applicants</Body1>
               <Fab className={classes.fab}>{candidates.length}</Fab>
             </Grid>
-            <Grid item xs={2} sx={{textAlign: 'center'}}>
-              <Body1>
-                1st Step{' '}
-                <RiEditBoxFill
-                  onClick={handleModalOpenClose}
-                  className={classes.edit}
-                />
-              </Body1>
-              <Fab className={classes.fab}>{candidates.length}</Fab>
-            </Grid>
+            {stepList.map((step: any, index: any) => (
+              <Grid key={index} item xs={2} sx={{textAlign: 'center'}}>
+                <Body1>
+                  1st Step{' '}
+                  <RiEditBoxFill
+                    onClick={handleModalOpenClose}
+                    className={classes.edit}
+                  />
+                </Body1>
+                <Fab className={classes.fab}>{candidates.length}</Fab>
+              </Grid>
+            ))}
+
             <Grid item xs={3} className={classes.button}>
               <S2
                 className={classes.buttonChild}
@@ -218,7 +273,7 @@ const CandidatesPage = () => {
                   )}
                 </>
               }
-              handleSubmit={handleSubmit(() => console.log('adf'))}
+              handleSubmit={handleSubmit(onSubmit)}
               actions={
                 <>
                   <CancelButton
@@ -233,13 +288,47 @@ const CandidatesPage = () => {
               }
               onClose={handleModalOpenClose}>
               <Grid container spacing={5}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
+                  <FormRadioButtons
+                    id='step_list'
+                    radios={shortLists}
+                    control={control}
+                    isLoading={isLoading}
+                    styles={{
+                      border: '1px solid gray',
+                      padding: '10px',
+                      margin: '5px',
+                      borderRadius: '5px',
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
                   <CustomTextInput
-                    required
-                    id='title'
-                    label={messages['common.title']}
+                    id='step_name'
+                    label={messages['common.step_name']}
                     register={register}
                     errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='Type a test name'
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='contact_no'
+                    label={messages['common.phone']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='Write a Contact Number'
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormRadioButtons
+                    id='reschedule'
+                    label={'common.applicants_cat_reschedule'}
+                    required={true}
+                    radios={applicantCanReschedule}
+                    control={control}
                     isLoading={isLoading}
                   />
                 </Grid>

@@ -12,13 +12,14 @@ import {Controller} from 'react-hook-form';
 
 interface Props {
   id: string;
-  label: string;
+  label?: string;
   radios: Array<any>;
   isLoading?: boolean;
   required?: boolean;
   control: any;
   defaultValue?: string | number | undefined;
   onChange?: (e: any) => any;
+  styles?: any;
 }
 
 const FormRadioButtons = ({
@@ -30,6 +31,7 @@ const FormRadioButtons = ({
   control,
   defaultValue = '',
   onChange: onChangeCallback,
+  styles = {},
 }: Props) => {
   const {messages} = useIntl();
 
@@ -37,9 +39,11 @@ const FormRadioButtons = ({
     <TextInputSkeleton />
   ) : (
     <FormControl component='fieldset'>
-      <FormLabel component='legend' required={required}>
-        {messages[label]}
-      </FormLabel>
+      {label && (
+        <FormLabel component='legend' required={required}>
+          {messages[label]}
+        </FormLabel>
+      )}
       <Controller
         render={({field: {onChange, value = defaultValue.toString()}}) => (
           <RadioGroup
@@ -56,6 +60,7 @@ const FormRadioButtons = ({
               <FormControlLabel
                 key={status.key}
                 value={status.key}
+                sx={styles}
                 control={<Radio />}
                 label={status.label}
               />
