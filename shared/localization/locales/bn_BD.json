@@ -22,6 +22,7 @@
   "industry_association_reg.rejected": "শিল্প সমিতির নিবন্ধন সফলভাবে বাতিল করা হয়েছে",
   "industry_association_reg.label": "শিল্প সমিতি",
   "industry_association_reg.approved": "শিল্প সমিতির নিবন্ধন সফলভাবে অনুমোদিত হয়েছে",
+  "institute_reg.approved": "প্রতিষ্ঠানের নিবন্ধন সফলভাবে অনুমোদিত হয়েছে",
   "applicationManagement.applicantFullName": "প্রশিক্ষণার্থীর পুরো নাম",
   "applicationManagement.details": "আবেদনের বিস্তারিত",
   "applicationManagement.status": "আবেদনের অবস্থা",

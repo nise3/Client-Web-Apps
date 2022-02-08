@@ -1,7 +1,4 @@
-import {
-  useAxiosSWR,
-  useDataLocalizationAxiosSWR,
-} from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR, useDataLocalizationAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
