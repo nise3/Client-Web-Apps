@@ -4,7 +4,7 @@ import {
   API_DIVISIONS,
   API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR, useLocalizedAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);
@@ -31,5 +31,5 @@ export function useFetchUpazila(upazilaId: number | null) {
 }
 
 export function useFetchCountries(params: any) {
-  return useAxiosSWR([API_COUNTRIES, params]);
+  return useLocalizedAxiosSWR([API_COUNTRIES, params]);
 }

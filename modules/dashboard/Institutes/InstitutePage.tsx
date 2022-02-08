@@ -1,7 +1,11 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
+import {
+  ApproveInstitute,
+  deleteInstitute,
+  rejectInstitute,
+} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -17,6 +21,12 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import ApproveButton from '../organizations/ApproveButton';
+import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
+import {
+  ApproveOrganization,
+  rejectOrganization,
+} from '../../../services/organaizationManagement/OrganizationService';
 
 const InstitutePage = () => {
   const {messages} = useIntl();
@@ -47,7 +57,28 @@ const InstitutePage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
+  const rejectAction = async (itemId: number) => {
+    let response = await rejectInstitute(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+    }
+  };
+  const approveAction = async (itemId: number) => {
+    let response = await ApproveInstitute(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_approved'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+    }
+  };
   const deleteInstituteItem = async (itemId: number) => {
     let response = await deleteInstitute(itemId);
     if (isResponseSuccess(response)) {
@@ -107,10 +138,23 @@ const InstitutePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let itemId = data?.id;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ApproveButton
+                itemId={itemId}
+                approveTitle={messages['common.organization'] as string}
+                approveAction={approveAction}>
+                {messages['common.approve']}
+              </ApproveButton>
+              <RejectButton
+                itemId={itemId}
+                rejectTitle={messages['common.organization'] as string}
+                rejectAction={rejectAction}>
+                {messages['common.reject']}
+              </RejectButton>
               <DeleteButton
                 deleteAction={() => deleteInstituteItem(data.id)}
                 deleteTitle='Are you sure?'

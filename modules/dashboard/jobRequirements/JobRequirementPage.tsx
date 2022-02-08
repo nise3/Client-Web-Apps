@@ -90,10 +90,7 @@ const JobRequirementPage = () => {
         Header: messages['organization.label'],
         accessor: 'organization_title',
       },
-      {
-        Header: messages['skill.label'],
-        accessor: 'skill_title',
-      },
+
       {
         Header: messages['common.vacancy'],
         accessor: 'vacancy',

@@ -26,13 +26,9 @@ export const StyledGrid = styled(Grid)(({theme}) => ({
   },
 }));
 
-interface NearbyTrainingCenterSectionProps {
-  showInType: number;
-}
+interface NearbyTrainingCenterSectionProps {}
 
-const NearbyTrainingCenterSection = ({
-  showInType,
-}: NearbyTrainingCenterSectionProps) => {
+const NearbyTrainingCenterSection = ({}: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
 
