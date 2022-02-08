@@ -101,7 +101,6 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 
       reset({
         cv_links: cvLinks,
-        youth_ids: itemData?.hr_demand_youths_youth_ids,
       });
     }
   }, [itemData]);
@@ -125,6 +124,17 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log('data: ', data);
+    if (
+      (data?.cv_links &&
+        data?.cv_links.length == 0 &&
+        data?.youth_ids &&
+        data?.youth_ids.length == 0) ||
+      data.youth_ids == undefined
+    ) {
+      setValidationMessage('You must select at least one field!');
+    } else {
+      setValidationMessage('');
+    }
     try {
       if (itemId) {
         await updateHrDemand(itemId, data);
@@ -132,16 +142,6 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       }
       onClose();
       refreshDataTable();
-
-      if (
-        (data?.cv_links && data.cv_links.length == 0) ||
-        (data?.youth_ids && data.youth_ids.length == 0)
-      ) {
-        console.log('test: ');
-        setValidationMessage('You must select at least one field!');
-      } else {
-        setValidationMessage('');
-      }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
