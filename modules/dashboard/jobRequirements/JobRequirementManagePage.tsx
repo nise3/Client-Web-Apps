@@ -6,7 +6,7 @@ import {
 } from '../../../services/IndustryManagement/hooks';
 import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -15,8 +15,13 @@ import Link from 'next/link';
 import DoneIcon from '@mui/icons-material/Done';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import BackButton from '../../../@softbd/elements/button/BackButton';
+import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {rejectInstituteJobRequirement} from '../../../services/IndustryManagement/JobRequirementService';
 
 const JobRequirementManagePage = () => {
+  const {successStack} = useNotiStack();
   const {messages} = useIntl();
   const router = useRouter();
   const {jobRequirementId} = router.query;
@@ -30,22 +35,34 @@ const JobRequirementManagePage = () => {
   );
 
   const {
-    data: instituteHumanResourceDemandData,
-    isLoading: isLoadingInstituteHRDemandsData,
+    data: HRDemandInstitutes,
+    isLoading: isLoadingHumanResourceDemandInstitutes,
+    mutate: mutateHRDemandInstitutes,
   } = useFetchInstituteHumanResourceDemands(instituteHumanResourceDemandFilter);
 
   useEffect(() => {
     setInstituteHumanResourceDemandFilter({hr_demand_id: jobRequirementId});
   }, [jobRequirementId]);
 
-  // const canRejectApprove = useCallback((data: any) => {
-  //   return (
-  //     data?.vacancy_provided_by_institute > 0 &&
-  //     !data?.rejected_by_institute &&
-  //     data?.vacancy_approved_by_industry_association == 0 &&
-  //     data?.rejected_by_industry_association == 0
-  //   );
-  // }, []);
+  const canRejectApprove = useCallback((data: any) => {
+    return (
+      data?.vacancy_provided_by_institute > 0 && !data?.rejected_by_institute
+    );
+  }, []);
+
+  const rejectAction = async (itemId: number) => {
+    let response = await rejectInstituteJobRequirement(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+
+      mutateHRDemandInstitutes();
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -60,10 +77,6 @@ const JobRequirementManagePage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-      },
-      {
-        Header: messages['skill.label'],
-        accessor: 'skill_title',
       },
       {
         Header: messages['job_requirement.institute_step'],
@@ -126,7 +139,6 @@ const JobRequirementManagePage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -136,30 +148,38 @@ const JobRequirementManagePage = () => {
 
           const APPROVE_CV_PAGE_URL = '/job-requirement/cv-approval/' + data.id;
           return (
-            // canRejectApprove(data) && (
-            <DatatableButtonGroup>
-              <Link href={APPROVE_YOUTHS_PAGE_URL} passHref>
-                <Button
-                  sx={{color: (theme) => theme.palette.secondary.main}}
-                  startIcon={<DoneIcon />}>
-                  {messages['button.youth_approve']}
-                </Button>
-              </Link>
-              <Link href={APPROVE_CV_PAGE_URL} passHref>
-                <Button
-                  sx={{color: (theme) => theme.palette.primary.main}}
-                  startIcon={<DoneIcon />}>
-                  {messages['common.cv_approve']}
-                </Button>
-              </Link>
-            </DatatableButtonGroup>
-            // )
+            canRejectApprove(data) && (
+              <DatatableButtonGroup>
+                <Link href={APPROVE_YOUTHS_PAGE_URL} passHref>
+                  <Button
+                    sx={{color: (theme) => theme.palette.secondary.main}}
+                    startIcon={<DoneIcon />}>
+                    {messages['button.youth_approve']}
+                  </Button>
+                </Link>
+                <Link href={APPROVE_CV_PAGE_URL} passHref>
+                  <Button
+                    sx={{color: (theme) => theme.palette.primary.main}}
+                    startIcon={<DoneIcon />}>
+                    {messages['common.cv_approve']}
+                  </Button>
+                </Link>
+                {!data?.rejected_by_industry_association && (
+                  <RejectButton
+                    itemId={data.id}
+                    rejectTitle={messages['common.youth'] as string}
+                    rejectAction={rejectAction}>
+                    {messages['common.reject']}
+                  </RejectButton>
+                )}
+              </DatatableButtonGroup>
+            )
           );
         },
         sortable: false,
       },
     ],
-    [messages],
+    [messages, HRDemandInstitutes],
   );
 
   return (
@@ -174,8 +194,8 @@ const JobRequirementManagePage = () => {
         extra={[<BackButton key={1} url={'/job-requirement'} />]}>
         <ReactTable
           columns={columns}
-          data={instituteHumanResourceDemandData || []}
-          loading={isLoadingInstituteHRDemandsData}
+          data={HRDemandInstitutes || []}
+          loading={isLoadingHumanResourceDemandInstitutes}
           skipDefaultFilter={true}
         />
       </PageBlock>

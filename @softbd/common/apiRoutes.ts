@@ -249,6 +249,9 @@ export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
 export const API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-industry-association';
 
+export const API_REJECT_HR_DEMAND_YOUTH =
+  ORGANIZATION_SERVICE_PATH + '/reject-hr-demand-youth';
+
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
 
@@ -351,6 +354,9 @@ export const API_HUMAN_RESOURCE_DEMAND_REJECTED_BY_INSTITUTE =
 export const API_PUBLIC_JOB_DETAILS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-details';
 
+export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
@@ -419,5 +425,7 @@ export const API_PUBLIC_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
 export const API_PUBLIC_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
+export const API_PUBLIC_VISITOR_FEEDBACKS =
+  CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
 
 /** CMS service public routes section end */

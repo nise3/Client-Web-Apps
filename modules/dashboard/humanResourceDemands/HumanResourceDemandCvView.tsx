@@ -4,7 +4,7 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipVacancyApprovalStatus from './CustomChipVacancyApprovalStatus';
+import CustomChipVacancyApprovalStatus from './CustomChipApprovalStatus';
 import {HrDemandApprovalStatusByIndustry} from './HrDemandEnums';
 import {useFetchHrDemand} from '../../../services/instituteManagement/hooks';
 import Router, {useRouter} from 'next/router';
