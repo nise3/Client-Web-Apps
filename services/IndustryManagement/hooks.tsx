@@ -29,6 +29,9 @@ import {
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
+import {useAuthUser} from '../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
+import {useEffect, useState} from 'react';
 
 export function useFetchPublications(params: any) {
   return useDataLocalizationAxiosSWR([
@@ -114,14 +117,15 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
 }
 
 export function useFetchPublicJobs(params: any) {
-  /*  const authUser = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const [parameters, setParameters] = useState<any>(params);
   useEffect(() => {
-    if (authUser && authUser?.isYouthUser && params) {
-      params.youth_id = authUser.youthId;
-    }
-  }, [authUser]);*/
+    setParameters({...params, youth_id: authUser?.youthId});
+  }, [authUser, params]);
 
-  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
+  return useDataLocalizationAxiosSWR(
+    parameters ? [API_PUBLIC_JOBS, parameters] : null,
+  );
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
