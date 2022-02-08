@@ -4,6 +4,7 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
+  API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS,
   API_INDUSTRY_ASSOCIATION_PROFILE,
   API_INDUSTRY_ASSOCIATION_SUB_TRADES,
   API_INDUSTRY_ASSOCIATION_TRADES,
@@ -43,4 +44,8 @@ export function useFetchPublicJob(jobId: any, params?: any) {
         : API_PUBLIC_JOB_DETAILS + '/' + jobId
       : null,
   );
+}
+
+export function useFetchIndustryAssociationDashboardStatics() {
+  return useAxiosSWR(API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS);
 }
