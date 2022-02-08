@@ -24,6 +24,8 @@ import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
@@ -100,6 +102,7 @@ const InstituteProvidedYouthList = () => {
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
+    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -134,6 +137,38 @@ const InstituteProvidedYouthList = () => {
           );
         },
       },
+      {
+        Header: messages['common.status'],
+        accessor: 'approval_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let step: any = '';
+          let btnColor: any = undefined;
+
+          switch (data.approval_status) {
+            case ApprovalStatus.PENDING:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+              break;
+            case ApprovalStatus.APPROVED:
+              step = messages['common.approved'];
+              btnColor = 'success';
+              break;
+            case ApprovalStatus.REJECTED:
+              step = messages['common.rejected'];
+              btnColor = 'error';
+              break;
+            default:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+          }
+
+          return (
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
+          );
+        },
+      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
