@@ -33,6 +33,7 @@ import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
 import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
+import CustomChip from '../display/CustomChip/CustomChip';
 
 const PREFIX = 'JobCardComponent';
 
@@ -310,13 +311,21 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     {messages['common.details']}
                   </Button>
                 </Link>
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  sx={{marginLeft: '15px'}}
-                  onClick={onJobApply}>
-                  {messages['common.apply_now']}
-                </Button>
+                {(!authUser || authUser?.isYouthUser) &&
+                  (job?.has_applied ? (
+                    <CustomChip
+                      label={messages['common.applied']}
+                      color={'primary'}
+                    />
+                  ) : (
+                    <Button
+                      variant={'contained'}
+                      color={'primary'}
+                      sx={{marginLeft: '15px'}}
+                      onClick={onJobApply}>
+                      {messages['common.apply_now']}
+                    </Button>
+                  ))}
               </Box>
             }
             title={<H5 fontWeight={'bold'}>{job.job_title}</H5>}
