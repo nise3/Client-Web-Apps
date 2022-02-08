@@ -39,13 +39,13 @@ const InstituteProvidedYouthList = () => {
 
   useEffect(() => {
     if (youthList && youthList.length > 0) {
-      const approvedYouths = youthList.map((youth: any) => {
-        if (
-          youth.approval_status == IndustryAssociationYouthApproval.APPROVED
-        ) {
-          return youth.youth_id;
-        }
-      });
+      const approvedYouths = youthList
+        .map((youth: any) => {
+          return (
+            youth.approval_status == IndustryAssociationYouthApproval.APPROVED
+          );
+        })
+        .map((youth: any) => youth.youth_id);
 
       setCheckedYouths(new Set(approvedYouths));
     }
