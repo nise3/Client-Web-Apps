@@ -12,7 +12,7 @@ type Props = {
   label?: string | MessageFormatElement[];
 };
 
-const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
+const CustomChipStatus = ({value, isLoading, label}: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -30,7 +30,7 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
       )}
 
       <CustomChip
-        color={value == 1 ? 'primary' : 'secondary'}
+        color={value == 1 ? 'primary' : value == 3 ? 'error' : 'secondary'}
         label={
           value == 0 ? (
             <IntlMessages id='common.inactive' />
@@ -47,4 +47,4 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
   );
 };
 
-export default React.memo(CustomChipPaymentStatusStatus);
+export default CustomChipStatus;

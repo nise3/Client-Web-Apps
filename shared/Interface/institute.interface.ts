@@ -174,3 +174,7 @@ export interface IApplication extends IIdHolder, ICreateUpdateAt {
   accepted: number;
   rejected: number;
 }
+
+export interface IPermissionSubGroupAssignInstitute {
+  permission_sub_group_id: number | string | null;
+}
