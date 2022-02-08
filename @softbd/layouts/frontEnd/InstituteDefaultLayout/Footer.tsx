@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid, Typography} from '@mui/material';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
@@ -27,7 +27,7 @@ import {
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 import {gotoLoginSignUpPage} from '../../../common/constants';
-import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
+import {useFetchPublicInstituteDetailsWithParams} from '../../../../services/instituteManagement/hooks';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 
 const PREFIX = 'Footer';
@@ -91,7 +91,9 @@ const StyledFoot = styled(Grid)(({theme}) => ({
 
 const Footer = () => {
   const {messages} = useIntl();
-  const {data: institute} = useFetchPublicInstituteDetails();
+  const [instituteFilter] = useState({});
+  const {data: institute} =
+    useFetchPublicInstituteDetailsWithParams(instituteFilter);
 
   const redirectToSSO = useCallback(() => {
     window.location.href = getSSOLoginUrl();
@@ -229,7 +231,8 @@ const Footer = () => {
                   <Link
                     target={'_blank'}
                     href={
-                      FILE_SERVER_FILE_VIEW_ENDPOINT + 'tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
+                      FILE_SERVER_FILE_VIEW_ENDPOINT +
+                      'tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos

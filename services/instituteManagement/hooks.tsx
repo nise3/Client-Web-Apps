@@ -42,6 +42,10 @@ export function useFetchPublicInstituteDetails() {
   return useDataLocalizationAxiosSWR(API_PUBLIC_INSTITUTE_DETAILS);
 }
 
+export function useFetchPublicInstituteDetailsWithParams(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_INSTITUTE_DETAILS, params]);
+}
+
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
 }
