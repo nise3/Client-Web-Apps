@@ -480,7 +480,7 @@ const routesConfig: NavItemProps[] = [
           },
           {
             id: 'nise3_partners',
-            title: 'NISE3 Partners',
+            title: 'NISE Partners',
             messageId: 'menu.nise3_partners',
             permissionKey: 'view_any_nise3_partner',
             type: 'item',
