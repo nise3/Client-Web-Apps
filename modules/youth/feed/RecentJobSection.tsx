@@ -93,10 +93,13 @@ const RecentJobSection = () => {
       const value = event.target.value;
       switch (value) {
         case JobCategory.RECENT:
-          setJobFilters((prev: any) => ({...prev, type: JobCategory.RECENT}));
+          setJobFilters({type: JobCategory.RECENT, page_size: PageSizes.THREE});
           break;
         case JobCategory.POPULAR:
-          setJobFilters((prev: any) => ({...prev, type: JobCategory.POPULAR}));
+          setJobFilters({
+            type: JobCategory.POPULAR,
+            page_size: PageSizes.THREE,
+          });
           break;
         case JobCategory.NEARBY:
           setJobFilters({
