@@ -130,7 +130,7 @@ const FAQPage = () => {
   let modifiedData = data?.map((faq: any) => {
     let name: string, question_short: string, answer_short: string;
     if (parseInt(faq?.show_in) === 1) {
-      name = 'NISE3';
+      name = 'NISE';
     } else if (parseInt(faq?.show_in) === 2) {
       name = 'Youth';
     } else if (parseInt(faq?.show_in) === 3) {

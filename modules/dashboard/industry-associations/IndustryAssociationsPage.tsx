@@ -16,7 +16,6 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
-import CustomChipApplicationStatus from '../memberList/CustomChipApplicationStatus';
 import RejectButton from '../applicationManagement/RejectButton';
 import {
   reapproveIndustryAssociationRegistration,
@@ -26,6 +25,8 @@ import {FiUserCheck} from 'react-icons/fi';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import AssignPermissionSubGroupPopup from './AssignPermissionSubGroupPopup';
 import ApproveButton from './ApproveButton';
+import CustomChipStatus from '../memberList/CustomChipStatus';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
 
 const IndustryAssociationsPage = () => {
   const {messages} = useIntl();
@@ -170,7 +171,7 @@ const IndustryAssociationsPage = () => {
         filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipApplicationStatus value={data?.row_status} />;
+          return <CustomChipStatus value={data?.row_status} />;
         },
       },
       {
@@ -186,7 +187,7 @@ const IndustryAssociationsPage = () => {
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
 
-              {data.row_status === 2 && (
+              {data.row_status === ApprovalStatus.PENDING && (
                 <CommonButton
                   onClick={() => openAssignPermissionModal(data.id)}
                   btnText='common.approve'
@@ -195,12 +196,15 @@ const IndustryAssociationsPage = () => {
                 />
               )}
 
-              {data.row_status != 3 && data.row_status != 0 && (
-                <RejectButton
-                  rejectAction={() => rejectIndustryAssocRegistration(data.id)}
-                  rejectTitle={messages['common.delete_confirm'] as string}
-                />
-              )}
+              {data.row_status != ApprovalStatus.REJECTED &&
+                data.row_status != 0 && (
+                  <RejectButton
+                    rejectAction={() =>
+                      rejectIndustryAssocRegistration(data.id)
+                    }
+                    rejectTitle={messages['common.delete_confirm'] as string}
+                  />
+                )}
 
               {data.row_status === 3 && (
                 <ApproveButton

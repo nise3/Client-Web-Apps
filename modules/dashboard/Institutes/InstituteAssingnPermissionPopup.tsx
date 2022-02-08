@@ -13,10 +13,10 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
-import {IPermissionSubGroupAssign} from '../../../shared/Interface/industryAssociation.interface';
-import {approveIndustryAssociationRegistration} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {ApproveInstitute} from '../../../services/instituteManagement/InstituteService';
+import {IPermissionSubGroupAssignInstitute} from '../../../shared/Interface/institute.interface';
 
 interface AssignPermissionSubGroupPopup {
   itemId: number | null;
@@ -29,7 +29,7 @@ const initialValues = {
 };
 
 enum PermissionGroup {
-  INDUSTRY_ASSOCIATION = 4,
+  INSTITUTE = 3,
 }
 const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   itemId,
@@ -51,7 +51,7 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
 
   useEffect(() => {
     setPermissionSubGroupFilters({
-      permission_group_id: PermissionGroup.INDUSTRY_ASSOCIATION,
+      permission_group_id: PermissionGroup.INSTITUTE,
       row_status: RowStatus.ACTIVE,
     });
   }, []);
@@ -86,15 +86,15 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<IPermissionSubGroupAssign> = async (
-    data: IPermissionSubGroupAssign,
+  const onSubmit: SubmitHandler<IPermissionSubGroupAssignInstitute> = async (
+    data: IPermissionSubGroupAssignInstitute,
   ) => {
     try {
       if (itemId) {
-        await approveIndustryAssociationRegistration(itemId, data);
+        await ApproveInstitute(itemId, data);
         successStack(
           <IntlMessages
-            id='industry_association_reg.approved'
+            id='institute_reg.approved'
             values={{subject: <IntlMessages id='common.label' />}}
           />,
         );
