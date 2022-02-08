@@ -1373,5 +1373,12 @@
   "common.cv_approve": "সিভি অনুমোদন",
   "common.candidates_list": "প্রার্থী তালিকা",
   "common.recruitment_step": "নিয়োগের ধাপ",
-  "assign_permission.label": "পারমিশন প্রদান"
+  "assign_permission.label": "পারমিশন প্রদান",
+  "common.only_short_list": "শুধুমাত্র সংক্ষিপ্ত তালিকা",
+  "common.short_list_live_interview": "লাইভ সাক্ষাৎকারের জন্য সংক্ষিপ্ত তালিকা",
+    "common.short_list_written": "লিখিত জন্য সংক্ষিপ্ত তালিকা",
+  "common.short_list_face_to_face": "সরাসরি জন্য সংক্ষিপ্ত তালিকা",
+  "common.short_list_other": "অন্যদের জন্য শুধুমাত্র সংক্ষিপ্ত তালিকা",
+  "common.step_name": "স্টেপ নাম",
+  "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন"
 }

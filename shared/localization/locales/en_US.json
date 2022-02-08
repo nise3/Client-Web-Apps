@@ -1362,5 +1362,12 @@
   "common.see_cv": "See CV",
   "common.cv_approve": "CV Approve",
   "common.recruitment_step": "Recruitment Step",
-  "assign_permission.label": "Assign Permission"
+  "assign_permission.label": "Assign Permission",
+  "common.only_short_list": "Only Short List",
+  "common.short_list_live_interview": "Short List for Live Interview",
+  "common.short_list_written": "Short List for Written",
+  "common.short_list_face_to_face": "Short List for Face to Face",
+  "common.short_list_other": "Only SList for Other",
+  "common.step_name": "Step Name",
+  "common.applicants_cat_reschedule": "Applicants can request for reschedule through system"
 }
