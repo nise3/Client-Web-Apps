@@ -73,7 +73,7 @@ const DashboardTabView = () => {
             aria-label='Dashboard Tabs'
             className={classes.tabList}>
             <Tab
-              label={messages['dashboard.tab_industry']}
+              label={messages['common.member_list']}
               value={IndustryDashboardTabs.INDUSTRY}
             />
             <Tab
