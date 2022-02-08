@@ -114,10 +114,12 @@ const StyledCard = styled(Card)(({theme}) => ({
 interface JobCardComponentProps {
   job: any;
   isGridView?: boolean;
+  onPopupClose?: () => void;
 }
 
 const JobCardComponent: FC<JobCardComponentProps> = ({
   job,
+  onPopupClose,
   isGridView = false,
 }) => {
   const {messages, formatDate, formatNumber} = useIntl();
@@ -127,6 +129,9 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
 
   const closeJobApplyModal = useCallback(() => {
     setIsOpenJobApplyModal(false);
+    if (onPopupClose) {
+      onPopupClose();
+    }
   }, []);
 
   const onJobApply = useCallback(() => {
