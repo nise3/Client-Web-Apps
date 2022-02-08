@@ -23,6 +23,8 @@ import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const InstituteProvidedCVList = () => {
   const {messages} = useIntl();
@@ -99,6 +101,8 @@ const InstituteProvidedCVList = () => {
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
+
+    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -132,6 +136,37 @@ const InstituteProvidedCVList = () => {
         },
       },
       {
+        Header: messages['common.status'],
+        accessor: 'approval_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let step: any = '';
+          let btnColor: any = undefined;
+
+          switch (data.approval_status) {
+            case ApprovalStatus.PENDING:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+              break;
+            case ApprovalStatus.APPROVED:
+              step = messages['common.approved'];
+              btnColor = 'success';
+              break;
+            case ApprovalStatus.REJECTED:
+              step = messages['common.rejected'];
+              btnColor = 'error';
+              break;
+            default:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+          }
+
+          return (
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
+          );
+        },
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -146,12 +181,14 @@ const InstituteProvidedCVList = () => {
                 />
                 {lodashStartCase(messages['common.accept'] as string)}
               </label>
-              <RejectButton
-                itemId={data.id}
-                rejectTitle={messages['common.youth'] as string}
-                rejectAction={rejectAction}>
-                {messages['common.reject']}
-              </RejectButton>
+              {data?.approval_status != ApprovalStatus.REJECTED && (
+                <RejectButton
+                  itemId={data.id}
+                  rejectTitle={messages['common.youth'] as string}
+                  rejectAction={rejectAction}>
+                  {messages['common.reject']}
+                </RejectButton>
+              )}
             </DatatableButtonGroup>
           );
         },

@@ -79,10 +79,6 @@ const JobRequirementManagePage = () => {
         accessor: 'institute_title',
       },
       {
-        Header: messages['skill.label'],
-        accessor: 'skill_title',
-      },
-      {
         Header: messages['job_requirement.institute_step'],
         accessor: 'rejected_by_institute',
         Cell: (props: any) => {
@@ -168,12 +164,14 @@ const JobRequirementManagePage = () => {
                     {messages['common.cv_approve']}
                   </Button>
                 </Link>
-                <RejectButton
-                  itemId={data.id}
-                  rejectTitle={messages['common.youth'] as string}
-                  rejectAction={rejectAction}>
-                  {messages['common.reject']}
-                </RejectButton>
+                {!data?.rejected_by_industry_association && (
+                  <RejectButton
+                    itemId={data.id}
+                    rejectTitle={messages['common.youth'] as string}
+                    rejectAction={rejectAction}>
+                    {messages['common.reject']}
+                  </RejectButton>
+                )}
               </DatatableButtonGroup>
             )
           );
