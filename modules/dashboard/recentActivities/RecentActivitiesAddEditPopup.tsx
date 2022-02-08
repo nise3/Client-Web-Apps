@@ -122,12 +122,18 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           is: (val: number) => val == ContentTypes.IMAGE,
           then: yup.string().required(),
         }),
-      collage_image_path: hasCollagePosition
-        ? yup
-            .string()
-            .required()
-            .label(messages['common.collage_image_path'] as string)
-        : yup.string(),
+      collage_position: yup
+        .mixed()
+        .test('collage_position', (value) => !value || value),
+      collage_image_path: yup
+        .mixed()
+        .label(messages['common.collage_image_path'] as string)
+        .when('collage_position', {
+          is: () => {
+            return hasCollagePosition;
+          },
+          then: yup.string().required(),
+        }),
       video_id: yup
         .mixed()
         .label(messages['common.video_id'] as string)
