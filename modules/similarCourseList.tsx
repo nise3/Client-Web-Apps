@@ -3,14 +3,11 @@ import {Box, Container, Grid, Pagination, Stack} from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
 import {
-  useFetchPublicCourseDetails,
   useFetchCourseList,
+  useFetchPublicCourseDetails,
 } from '../services/instituteManagement/hooks';
 import {Link} from '../@softbd/elements/common';
-import {
-  getShowInTypeByDomain,
-  objectFilter,
-} from '../@softbd/utilities/helpers';
+import {objectFilter} from '../@softbd/utilities/helpers';
 import CourseCardComponent from '../@softbd/elements/CourseCardComponent';
 import NoDataFoundComponent from './youth/common/NoDataFoundComponent';
 import {useIntl} from 'react-intl';
@@ -42,7 +39,6 @@ const SimilarCourseList = () => {
   });
   const router = useRouter();
   const {courseId} = router.query;
-  const showInType = getShowInTypeByDomain();
   const page = useRef<any>(1);
   const {data: courseDetails} = useFetchPublicCourseDetails(Number(courseId));
   const [skillIds, setSkillIds] = useState<Array<number>>([]);
@@ -66,7 +62,7 @@ const SimilarCourseList = () => {
     setSimilarCourseFilter((prev: any) => {
       return {...prev, ...params};
     });
-  }, [skillIds, showInType]);
+  }, [skillIds]);
 
   const filterCoursesListTrainingList = useCallback(
     (filterKey: string, filterValue: any) => {
