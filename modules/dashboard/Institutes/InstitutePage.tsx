@@ -23,10 +23,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import ApproveButton from '../organizations/ApproveButton';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
-import {
-  ApproveOrganization,
-  rejectOrganization,
-} from '../../../services/organaizationManagement/OrganizationService';
+
 
 const InstitutePage = () => {
   const {messages} = useIntl();
