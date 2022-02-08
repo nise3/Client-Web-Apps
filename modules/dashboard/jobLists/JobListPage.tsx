@@ -219,6 +219,9 @@ const JobListPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_JOBS,
+      filters: {
+        job_title: 'search_text',
+      },
     });
 
   return (
