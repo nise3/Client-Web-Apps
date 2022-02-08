@@ -134,11 +134,6 @@ const InstitutePage = () => {
         accessor: 'title_en',
         isVisible: false,
       },
-
-      {
-        Header: messages['common.domain'],
-        accessor: 'domain',
-      },
       {
         Header: messages['common.code'],
         accessor: 'code',
@@ -149,7 +144,9 @@ const InstitutePage = () => {
         filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipStatus value={data?.row_status} />;
+          return (
+            <CustomChipStatus variant={'filled'} value={data?.row_status} />
+          );
         },
       },
       {
