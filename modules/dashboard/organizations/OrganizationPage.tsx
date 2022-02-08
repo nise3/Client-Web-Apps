@@ -10,19 +10,13 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import OrganizationAddEditPopup from './OrganizationAddEditPopup';
-import {
-  ApproveOrganization,
-  deleteOrganization,
-  rejectOrganization,
-} from '../../../services/organaizationManagement/OrganizationService';
+import {deleteOrganization} from '../../../services/organaizationManagement/OrganizationService';
 import OrganizationDetailsPopup from './OrganizationDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
-import ApproveButton from './ApproveButton';
 
 const OrganizationPage = () => {
   const {successStack} = useNotiStack();
@@ -52,7 +46,7 @@ const OrganizationPage = () => {
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
-  const rejectAction = async (itemId: number) => {
+  /*const rejectAction = async (itemId: number) => {
     let response = await rejectOrganization(itemId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -73,7 +67,7 @@ const OrganizationPage = () => {
         />,
       );
     }
-  };
+  };*/
   const deleteOrganizationItem = async (organizationId: number) => {
     let response = await deleteOrganization(organizationId);
     if (isResponseSuccess(response)) {
@@ -130,12 +124,12 @@ const OrganizationPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          let itemId = data?.id;
+          /*   let itemId = data?.id;*/
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <ApproveButton
+              {/*<ApproveButton
                 itemId={itemId}
                 approveTitle={messages['common.organization'] as string}
                 approveAction={approveAction}>
@@ -146,7 +140,7 @@ const OrganizationPage = () => {
                 rejectTitle={messages['common.organization'] as string}
                 rejectAction={rejectAction}>
                 {messages['common.reject']}
-              </RejectButton>
+              </RejectButton>*/}
               <DeleteButton
                 deleteAction={() => deleteOrganizationItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
