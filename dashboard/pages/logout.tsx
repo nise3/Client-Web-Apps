@@ -5,7 +5,6 @@ import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
 import {removeBrowserCookie} from '../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA} from '../../shared/constants/AppConst';
-import {niseDomain} from '../../@softbd/common/constants';
 
 export default () => {
   removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
@@ -19,7 +18,7 @@ export default () => {
     if (authUser) {
       dispatch(onJWTAuthSignout());
     } else {
-      router.push(niseDomain());
+      router.push(window.location.origin);
     }
   }, [dispatch, authUser]);
 

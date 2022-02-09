@@ -30,10 +30,9 @@ export default NiseFrontPage(() => {
       setStaleAuthUser(authUser);
     } else {
       if (staleAuthUser?.domain) {
-        const logoutUrl = new URL(staleAuthUser?.domain);
-        logoutUrl.pathname = '/logout';
-        console.log('the logout url: ', logoutUrl.toString());
-        window.location.href = logoutUrl.toString();
+        const protocol = window.location.protocol;
+        window.location.href =
+          protocol + '//' + staleAuthUser?.domain + '/logout';
       } else {
         router.push(niseDomain());
       }
