@@ -1,7 +1,4 @@
-import {
-  useAxiosSWR,
-  useDataLocalizationAxiosSWR,
-} from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR, useDataLocalizationAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
@@ -20,29 +17,43 @@ import {
   API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
   API_INDUSTRY_ASSOCIATIONS,
-  API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
   API_JOB_REQUIREMENTS,
+  API_PUBLIC_INDUSTRY_ASSOC_DETAILS,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+  API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
 } from '../../@softbd/common/apiRoutes';
+import {useAuthUser} from '../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
+import {useEffect, useState} from 'react';
 
 export function useFetchPublications(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_PUBLICATIONS, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_PUBLICATIONS,
+    params,
+  ]);
 }
 
-export function useFetchPublication(publicationId: number | null) {
-  return useAxiosSWR(
+export function useFetchPublicPublication(publicationId: number | null) {
+  return useDataLocalizationAxiosSWR(
     publicationId
       ? API_PUBLIC_INDUSTRY_PUBLICATIONS + '/' + publicationId
       : null,
   );
 }
 
+export function useFetchPublicIndustryAssocDetails() {
+  return useDataLocalizationAxiosSWR(API_PUBLIC_INDUSTRY_ASSOC_DETAILS);
+}
+
 export function useFetchContactInfo(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
+    params,
+  ]);
 }
 
 export function useFetchIndustryAssociation(industryAssocId: number | null) {
@@ -80,10 +91,16 @@ export function useFetchHumanResourceDemand(
 
 export function useFetchInstituteProvidedYouthList(
   hrDemandInstituteId: number | null,
+  params: any,
 ) {
   return useAxiosSWR(
     hrDemandInstituteId
-      ? API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST + '/' + hrDemandInstituteId
+      ? [
+          API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST +
+            '/' +
+            hrDemandInstituteId,
+          params,
+        ]
       : null,
   );
 }
@@ -97,7 +114,15 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
 }
 
 export function useFetchPublicJobs(params: any) {
-  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
+  const authUser = useAuthUser<YouthAuthUser>();
+  const [parameters, setParameters] = useState<any>(params);
+  useEffect(() => {
+    setParameters({...params, youth_id: authUser?.youthId});
+  }, [authUser, params]);
+
+  return useDataLocalizationAxiosSWR(
+    parameters ? [API_PUBLIC_JOBS, parameters] : null,
+  );
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
@@ -127,7 +152,9 @@ export function useFetchJobContactInformation(jobId: string | null) {
 }
 
 export function useFetchJobPreview(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_PREVIEW + jobId : null,
+  );
 }
 
 export function useFetchJob(jobId: string | null) {
@@ -159,11 +186,14 @@ export function useFetchExamDegrees() {
 }
 
 export function useFetchIndustryMembers(params: any) {
-  return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST, params]);
+  return useDataLocalizationAxiosSWR([
+    API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+    params,
+  ]);
 }
 
 export function useFetchIndustryMember(memberId: number | null) {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     memberId ? API_PUBLIC_ORGANIZATIONS + '/' + memberId : null,
   );
 }
@@ -177,8 +207,4 @@ export function useFetchHrDemandDetails(id: number | null) {
 
 export function useFetchIndustryAssociationMembers(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_MEMBERS, params]);
-}
-
-export function useFetchJobList(params: any) {
-  return useDataLocalizationAxiosSWR(params ? [API_PUBLIC_JOBS, params] : null);
 }

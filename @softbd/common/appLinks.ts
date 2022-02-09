@@ -9,6 +9,7 @@ export const LINK_YOUTH_REGISTRATION_VERIFICATION =
   '/registration-verification';
 
 export const LINK_DASHBOARD = '/';
+export const LINK_CV_BANK = '/cv-bank';
 
 /**  User Role Permission links */
 export const LINK_PERMISSION = '/permissions';
@@ -55,14 +56,15 @@ export const LINK_FRONTEND_INSTITUTE_CALENDAR = '/events';
 export const LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR = '/training-calendar';
 export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
+export const LINK_HUMAN_RESOURCE_DEMAND = '/hr-demand';
 
 /** industry links  */
 export const LINK_FRONTEND_INDUSTRY_ROOT = '/';
 export const LINK_FRONTEND_INDUSTRY_ABOUT_US = '/about-us';
 export const LINK_FRONTEND_INDUSTRY_PUBLICATION = '/publications';
 export const LINK_FRONTEND_INDUSTRY_CONTACT = '/contact';
-export const LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR = '/job-circular';
 export const LINK_FRONTEND_INDUSTRY_MEMBER_LIST = '/member-list';
+export const LINK_FRONTEND_INDUSTRY_FAQS = '/faqs';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
@@ -99,13 +101,13 @@ export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST = '/training/trending';
 /** nise links  */
 export const LINK_FRONTEND_NISE_ROOT = '/';
 export const LINK_FRONTEND_NISE_TRAINING = '/training';
-export const LINK_FRONTEND_NISE_JOBS = '/jobs';
 export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';
 export const LINK_FRONTEND_FAQ = '/faqs';
+
+export const LINK_FRONTEND_JOBS = '/jobs';
 export const LINK_FRONTEND_JOB_DETAILS = '/job-details/';
-export const LINK_FRONTEND_JOB_LISTS = '/job-list/';
 export const LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS =
   '/course-skill-matching-jobs/';
 

@@ -242,6 +242,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             label={messages['common.logo']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={6}>

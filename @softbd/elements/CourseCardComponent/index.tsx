@@ -96,7 +96,9 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
       <CardMedia
         component={'img'}
         className={classes.trainingCardImage}
-        image={course?.cover_image}
+        image={
+          course?.cover_image ? course?.cover_image : '/images/blank_image.png'
+        }
         title={course.title}
         alt={course.title}
       />
@@ -105,7 +107,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}
-          src={course?.cover_image}
+          src={course?.logo ? course?.logo : '/images/blank_image.png'}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:

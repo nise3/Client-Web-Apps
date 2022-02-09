@@ -129,14 +129,48 @@ const TextEditor = React.forwardRef(
                 editor.on('blur', function () {});
               },
               templates: [
+                /* {
+                  title: 'about us component',
+                  description: 'create about us',
+                  content:
+                    '<div style="margin: 10px 30px">' +
+                    '<div class="row" style="box-sizing: border-box; width: 100%">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '<div class="row" style="box-sizing: border-box; width:100%;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '<div class="row" style="box-sizing: border-box; width:100%;">' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px;">' +
+                    'content</div>' +
+                    '<div class="column" style="float: left; width: 50%; max-height: 300px">image</div>' +
+                    '</div>' +
+                    '</div>',
+                },*/
+
                 {
                   title: 'Two column table',
                   description: 'Creates a new table',
                   content:
                     '<div class="editor-template-table">' +
                     '<table width="100%"  border="0">' +
-                    '<tr><td colspan="6"> </td><td colspan="6"> </td></tr>' +
+                    '<tr><td colspan="6">Content</td><td colspan="6">Content</td></tr>' +
                     '</table>' +
+                    '</div>',
+                },
+                {
+                  title: 'Link Button',
+                  description: 'Creates a new button',
+                  content:
+                    '<div >' +
+                    '<a class="link-button MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root" style="border-radius: 5px; border: 1px solid #bfbfbf; padding: 5px 10px 8px; text-decoration: none; color: #1c1c1c;" href="#" title="">' +
+                    'Button Text' +
+                    '<span class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="DashboardIcon"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path></svg></span>' +
+                    '</a>' +
                     '</div>',
                 },
               ],

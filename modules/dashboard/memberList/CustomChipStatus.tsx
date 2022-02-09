@@ -1,6 +1,4 @@
 import React from 'react';
-import {CheckCircleOutline} from '@mui/icons-material';
-import CancelIcon from '@mui/icons-material/Cancel';
 import FormLabel from '@mui/material/FormLabel';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
@@ -10,17 +8,12 @@ import {Fonts} from '../../../shared/constants/AppEnums';
 
 type Props = {
   value: number;
-  vacancy?: number;
   isLoading?: boolean;
   label?: string | MessageFormatElement[];
+  variant?: 'filled' | 'outlined';
 };
 
-const CustomChipVacancyApprovalStatus = ({
-  value,
-  vacancy,
-  isLoading,
-  label,
-}: Props) => {
+const CustomChipStatus = ({value, isLoading, label, variant}: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -36,16 +29,19 @@ const CustomChipVacancyApprovalStatus = ({
           {label}
         </FormLabel>
       )}
+
       <CustomChip
-        icon={value == 1 ? <CheckCircleOutline /> : <CancelIcon />}
-        color={value == 1 ? 'primary' : 'secondary'}
+        color={value == 1 ? 'primary' : value == 3 ? 'error' : 'secondary'}
+        variant={variant}
         label={
-          value == 1 ? (
+          value == 0 ? (
+            <IntlMessages id='common.inactive' />
+          ) : value == 1 ? (
             <IntlMessages id='common.approved' />
-          ) : value == 0 ? (
-            <IntlMessages id='common.rejected' />
-          ) : (
+          ) : value == 2 ? (
             <IntlMessages id='common.pending' />
+          ) : (
+            <IntlMessages id='common.rejected' />
           )
         }
       />
@@ -53,4 +49,4 @@ const CustomChipVacancyApprovalStatus = ({
   );
 };
 
-export default React.memo(CustomChipVacancyApprovalStatus);
+export default CustomChipStatus;

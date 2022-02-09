@@ -3,7 +3,7 @@ import asyncComponent from '../../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 
-const YouthJobApprovalPage = asyncComponent(
+const YouthJobApprovalYouthListPage = asyncComponent(
   () =>
     import(
       '../../../../modules/dashboard/jobRequirements/InstituteProvidedYouthList'
@@ -12,8 +12,8 @@ const YouthJobApprovalPage = asyncComponent(
 export default DashboardPage(() => {
   return (
     <>
-      <PageMeta title='youth job approval' />
-      <YouthJobApprovalPage />
+      <PageMeta title='Youth approval' />
+      <YouthJobApprovalYouthListPage />
     </>
   );
 });

@@ -114,8 +114,6 @@ const AboutSection = () => {
     staticPageParams,
   );
 
-  console.log('blockdata-------', blockData);
-
   useEffect(() => {
     if (blockData) {
       if (

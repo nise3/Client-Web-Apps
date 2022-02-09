@@ -17,7 +17,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
   canonical,
 }) => (
   <Head>
-    <title>{title ? 'NISE3 | ' + title : 'NISE3'}</title>
+    <title>{title ? 'NISE | ' + title : 'NISE'}</title>
     <meta name='description' content={desc} />
     <meta property='og:type' content='website' />
     <meta name='og:title' property='og:title' content={title as string} />

@@ -18,6 +18,8 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
   API_SKILLS,
+  API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_PUBLIC_GET_BUSINESS_AREAS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSkill(skillId: number | null) {
@@ -44,6 +46,14 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
   return useAxiosSWR(
     jobExperienceId ? API_YOUTH_JOB_EXPERIENCES + '/' + jobExperienceId : null,
   );
+}
+
+export function useFetchPublicAreaOfBusiness() {
+  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
+}
+
+export function useFetchPublicAreaOfExperience() {
+  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
 }
 
 export function useFetchYouthCertificates(params?: any) {
@@ -77,7 +87,7 @@ export function useFetchEducation(educationId: number | null) {
 }
 
 export function useFetchEducationExamsBoardsEduGroupsAndSubjects() {
-  return useAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
+  return useDataLocalizationAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
 }
 
 export function useFetchPortfolios() {
@@ -126,7 +136,7 @@ export function useFetchLanguageProficiency(
 }
 
 export function useFetchYouthCourses(params: any) {
-  return useAxiosSWR([API_YOUTH_COURSES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_COURSES, params]);
 }
 
 export function useFetchYouthFeedStatistics() {
@@ -134,7 +144,7 @@ export function useFetchYouthFeedStatistics() {
 }
 
 export function useFetchLanguages() {
-  return useAxiosSWR([API_LANGUAGES]);
+  return useDataLocalizationAxiosSWR([API_LANGUAGES]);
 }
 
 export function useFetchYouthAddresses(params: any) {

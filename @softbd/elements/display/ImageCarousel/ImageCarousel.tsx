@@ -89,10 +89,10 @@ const ImageCarousel = ({banners}: Props) => {
     <StyledCarousel
       additionalTransfrom={0}
       arrows
-      autoPlay={true}
+      autoPlay={false}
       autoPlaySpeed={3000}
       beforeChange={() => {
-        console.log('beforeChange');
+        //console.log('beforeChange');
       }}
       centerMode={false}
       className=''

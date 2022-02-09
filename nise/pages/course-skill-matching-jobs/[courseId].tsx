@@ -4,7 +4,7 @@ import React from 'react';
 import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 
 const JobListPage = asyncComponent(
-  () => import('../../../modules/youth/courseList'),
+  () => import('../../../modules/courseSkillMatchingJobs'),
 );
 export default NiseFrontPage(() => {
   return (
