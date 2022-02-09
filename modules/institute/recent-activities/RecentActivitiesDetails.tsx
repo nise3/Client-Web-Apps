@@ -7,7 +7,6 @@ import {
   Skeleton,
   Tooltip,
   Typography,
-  useTheme,
 } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
@@ -32,6 +31,7 @@ const PREFIX = 'RecentActivitiesDetails';
 const classes = {
   date: `${PREFIX}-date`,
   icon: `${PREFIX}-icon`,
+  image: `${PREFIX}-image`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -47,12 +47,21 @@ const StyledContainer = styled(Container)(({theme}) => ({
     borderRadius: '3px',
     '&:not(:last-child)': {marginRight: '10px'},
   },
+
+  [`& .${classes.image}`]: {
+    objectFit: 'unset',
+    [theme.breakpoints.up('xl')]: {
+      height: 550,
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: 150,
+    },
+  },
 }));
 
 const RecentActivitiesDetails = () => {
   const {messages, formatDate} = useIntl();
   const [videoUrl, setVideoUrl] = useState<any>(null);
-  const theme = useTheme();
 
   const route = useRouter();
   const {details} = route.query;
@@ -117,24 +126,17 @@ const RecentActivitiesDetails = () => {
                 <H4 fontWeight={'bold'}>{data?.title}</H4>
               </Grid>
               <Grid item xs={12} my={3}>
-                {data?.content_type && data.content_type == ContentTypes.IMAGE && (
-                  <CardMedia
-                    component='img'
-                    height='400'
-                    image={data?.image_path}
-                    alt={data?.title}
-                    title={data?.title}
-                    sx={{
-                      objectFit: 'unset',
-                      [theme.breakpoints.up('xl')]: {
-                        height: 550,
-                      },
-                      [theme.breakpoints.down('sm')]: {
-                        height: 150,
-                      },
-                    }}
-                  />
-                )}
+                {data?.content_type &&
+                  data.content_type == ContentTypes.IMAGE && (
+                    <CardMedia
+                      component='img'
+                      height='400'
+                      image={data?.image_path}
+                      alt={data?.title}
+                      title={data?.title}
+                      className={classes.image}
+                    />
+                  )}
 
                 {data?.content_type &&
                   data.content_type != ContentTypes.IMAGE && (
