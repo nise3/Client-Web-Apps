@@ -601,7 +601,7 @@ const JobViewPage = () => {
             size={'small'}
             onClick={onGoBack}>
             <ArrowBack />
-            Go Back
+            {messages['common.back']}
           </Button>
         </Grid>
       </Grid>

@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {H6, Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
-import {useFetchIndustryMembers} from '../../services/IndustryManagement/hooks';
+import {useFetchPublicIndustryMembers} from '../../services/IndustryManagement/hooks';
 import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'Partners';
@@ -54,7 +54,9 @@ const AssociationMembersSection = () => {
 
   const [industryAssocMemberFilter] = useState<any>({});
 
-  const {data: members} = useFetchIndustryMembers(industryAssocMemberFilter);
+  const {data: members} = useFetchPublicIndustryMembers(
+    industryAssocMemberFilter,
+  );
 
   const cardItem = (member: any, key: number) => {
     return (
