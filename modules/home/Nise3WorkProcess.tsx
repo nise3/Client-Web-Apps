@@ -31,7 +31,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     marginTop: '200px',
   },
   [theme.breakpoints.down('xl')]: {
-    marginTop: '150px',
+    marginTop: '175px',
   },
 
   [`& .${classes.detailsButton}`]: {
