@@ -2,15 +2,18 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
-export const FILE_SERVER_UPLOAD_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
+/*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
-  : 'https://file.nise3.xyz/test';
+  : 'https://file.nise3.xyz/test';*/
 
-export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
+export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   : 'https://file.nise3.xyz/uploads/';
 
-export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
+export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env
+  .NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
   : 'https://file.nise3.xyz/test';
 
@@ -115,7 +118,12 @@ export const API_INSTITUTE_QUESTION_BANK =
 
 export const API_INSTITUTE_TRAINEE_YOUTHS =
   INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
+export const API_PROGRAMS = INSTITUTE_SERVICE_PATH + '/programs';
 
+export const API_INSTITUTE_USER_REJECTION =
+  INSTITUTE_SERVICE_PATH + '/institute-registration-rejection';
+export const API_INSTITUTE_USER_APPROVAL =
+  INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -206,7 +214,10 @@ export const API_ORGANIZATION_UNIT_HIERARCHY = (organizationUnitId: number) => {
 
 export const API_RANK_TYPES = ORGANIZATION_SERVICE_PATH + '/rank-types';
 export const API_RANKS = ORGANIZATION_SERVICE_PATH + '/ranks';
-
+export const API_ORGANIZATION_USER_REJECTION =
+  ORGANIZATION_SERVICE_PATH + '/organization-user-rejection';
+export const API_ORGANIZATION_USER_APPROVAL =
+  ORGANIZATION_SERVICE_PATH + '/organization-user-approval';
 //Industry section end
 
 //Industry Association section start
@@ -237,6 +248,9 @@ export const API_REJECT_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
 
 export const API_APPROVE_HR_DEMAND_BY_INDUSTRY_ASSOCIATION =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-industry-association';
+
+export const API_REJECT_HR_DEMAND_YOUTH =
+  ORGANIZATION_SERVICE_PATH + '/reject-hr-demand-youth';
 
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
@@ -282,6 +296,8 @@ export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
 export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
   API_JOBS + '/candidate-requirements/';
 
+export const API_GET_JOB_CANDIDATES = API_JOBS + '/candidates/all';
+
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
   API_JOBS + '/store-company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
@@ -308,6 +324,12 @@ export const API_GET_BUSINESS_AREAS =
 export const API_GET_EXPERIENCE_AREAS =
   ORGANIZATION_SERVICE_PATH + '/suggestions/area-of-experiences';
 
+export const API_PUBLIC_GET_EXPERIENCE_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/public/area-of-experiences';
+
+export const API_PUBLIC_GET_BUSINESS_AREAS =
+  ORGANIZATION_SERVICE_PATH + '/public/area-of-business';
+
 export const API_GET_EDUCATION_LEVELS =
   ORGANIZATION_SERVICE_PATH + '/suggestions/education-levels';
 
@@ -332,11 +354,14 @@ export const API_HUMAN_RESOURCE_DEMAND_REJECTED_BY_INSTITUTE =
 export const API_PUBLIC_JOB_DETAILS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/job-details';
 
+export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
+  ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
 
-/** Industry and Industry Association service public routes section end */
+/** Industry and Industry Association service public routes section start */
 
 export const API_PUBLIC_OCCUPATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/occupations';
@@ -355,6 +380,8 @@ export const API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/contact-info';
 export const API_PUBLIC_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/publications';
+export const API_PUBLIC_INDUSTRY_ASSOC_DETAILS =
+  ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-details';
 
 /** Industry and Industry Association service public routes section end */
 
@@ -398,5 +425,7 @@ export const API_PUBLIC_FAQ = CMS_SERVICE_PUBLIC_PATH + '/faqs';
 export const API_PUBLIC_SLIDERS = CMS_SERVICE_PUBLIC_PATH + '/sliders';
 export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
+export const API_PUBLIC_VISITOR_FEEDBACKS =
+  CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
 
 /** CMS service public routes section end */

@@ -40,6 +40,7 @@ type TOnSSOSignInCallback = {
   expires_in: string | number; // token lifetime in second
   id_token: string; // {Header, payload, signature}
   session_state: string; // I don't know.
+  refresh_token: string;
 };
 
 type TOnSSOSignInCallbackCode = string;
@@ -94,6 +95,7 @@ export const onSSOSignInCallback = (
         JSON.stringify({
           access_token: tokenData.access_token,
           expires_in: tokenData.expires_in,
+          refresh_token: tokenData.refresh_token,
         }),
         {expires: expireDate},
       );

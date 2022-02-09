@@ -1,39 +1,26 @@
-import React, {useState} from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputBase,
-  Pagination,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import React, {useCallback, useRef, useState} from 'react';
+import {Container, Grid, Pagination, Stack} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H6} from '../../../@softbd/elements/common';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PostLoadingSkeleton from '../../youth/common/PostLoadingSkeleton';
-import clsx from 'clsx';
-import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-// import WindowIcon from '@mui/icons-material/Window';
-// import {ListAlt} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchPublicJobs} from '../../../services/IndustryManagement/hooks';
 import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
+import JobListSearchSection from './JobListSearchSection';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {ListAlt, Window} from '@mui/icons-material';
 
 const PREFIX = 'JobCircular';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
-  gridMargin: `${PREFIX}-gridMargin`,
-  filterBox: `${PREFIX}-filterBox`,
   chipStyle: `${PREFIX}-chipStyle`,
   selectStyle: `${PREFIX}-selectStyle`,
+  activeStyle: `${PREFIX}-activeStyle`,
+  viewIcon: `${PREFIX}-viewIcon`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -48,22 +35,16 @@ const StyledContainer = styled(Container)(({theme}) => ({
     marginLeft: '10px',
   },
 
-  [`& .${classes.gridMargin}`]: {
-    marginLeft: '15px',
-    [theme.breakpoints.only('xs')]: {
-      marginLeft: 0,
-      marginTop: '15px',
-    },
+  [`& .${classes.activeStyle}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    padding: '2px',
+    borderRadius: '3px',
+    cursor: 'pointer',
   },
 
-  [`& .${classes.filterBox}`]: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    [theme.breakpoints.only('xs')]: {
-      flexDirection: 'column',
-      alignItems: 'flex-end',
-    },
+  [`& .${classes.viewIcon}`]: {
+    cursor: 'pointer',
   },
 
   [`& .${classes.selectStyle}`]: {
@@ -75,134 +56,104 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const JobCircular = () => {
-  const {messages} = useIntl();
-  const [jobFilter] = useState({});
-  /*const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
-    useFetchJobCirculars();*/
-  /*  const [jobCircularFilters] = useState<any>({
-          page: 1,
-          page_size: PageSizes.EIGHT,
-        });*/
+  const {messages, formatNumber} = useIntl();
+  const [jobFilters, setJobFilters] = useState({
+    page_size: PageSizes.EIGHT,
+  });
+  const [viewType, setViewType] = useState(0); //viewType 1== grid view
+  const page = useRef<any>(1);
 
-  const {data: jobCircularList, isLoading: isLoadingJobCirculars} =
-    useFetchPublicJobs(jobFilter);
+  const {
+    data: jobCircularList,
+    isLoading: isLoadingJobCirculars,
+    metaData: jobsMetaData,
+    mutate: mutateJobs,
+  } = useFetchPublicJobs(jobFilters);
 
-  /*const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');*/
-  const [selectedVideoAlbumId] = useState<any>('');
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setJobFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
 
-  /*  const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
-          useFetchPublicGalleryAlbums(videoAlbumFilter);*/
-  const videoAlbums: any = [];
-  const isLoadingVideoAlbums = false;
+  const onPopupClose = () => {
+    mutateJobs();
+  };
+  const filterJobList = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
 
-  /*  const onChangeVideoAlbum = useCallback(
-        (videoAlbumId: number | null) => {
-                  setSelectedVideoAlbumId(videoAlbumId);
-                  setVideoAlbumContentFilter({
-                    gallery_album_id: videoAlbumId,
-                    album_type: 2,
-                  });
-                },
-        [selectedVideoAlbumId],
-      );*/
-  const onChangeVideoAlbum = () => isLoadingJobCirculars;
+    setJobFilters((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
+    });
+  }, []);
 
   return (
     <>
+      <JobListSearchSection addFilterKey={filterJobList} />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
-          <Grid item md={12}>
-            <Grid container justifyContent={'space-between'}>
-              <Grid item>
-                <Box className={classes.filterBox}>
-                  <Box display={'flex'}>
-                    <FilterListIcon />
-                    <Typography sx={{marginLeft: '15px'}}>
-                      {messages['filter.institute']}
-                    </Typography>
-                  </Box>
-
-                  <CustomFilterableSelect
-                    id='job_circular_id'
-                    label={messages['industry.filter']}
-                    defaultValue={selectedVideoAlbumId}
-                    isLoading={isLoadingVideoAlbums}
-                    optionValueProp={'id'}
-                    options={videoAlbums}
-                    optionTitleProp={['title']}
-                    onChange={onChangeVideoAlbum}
-                    className={clsx(classes.gridMargin, classes.selectStyle)}
-                  />
-
-                  <Button
-                    variant={'contained'}
-                    size={'small'}
-                    color={'primary'}
-                    className={classes.gridMargin}
-                    sx={{height: '40px', width: '30%'}}>
-                    {messages['common.reset']}
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item>
-                <Paper
-                  style={{
-                    display: 'flex',
-                    width: 220,
-                    height: '40px',
-                  }}
-                  className={classes.gridMargin}>
-                  <InputBase
-                    size={'small'}
-                    style={{
-                      paddingLeft: '20px',
-                    }}
-                    placeholder={messages['common.search'] as string}
-                    inputProps={{'aria-label': 'Search'}}
-                    // inputRef={}
-                    // onKeyDown={(event) => {
-                    //   if (event.code == 'Enter') onSearch();
-                    // }}
-                  />
-                  <IconButton
-                    sx={{p: '5px'}}
-                    aria-label='search'
-                    // onClick={onSearch}
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Grid container justifyContent={'space-between'}>
-                  {!isLoadingJobCirculars && (
-                    <Grid item>
-                      <H6 className={classes.titleStyle}>
-                        <IntlMessages
-                          id={'common.total_job_number'}
-                          values={{subject: jobCircularList.length}}
-                        />
-                      </H6>
-                    </Grid>
-                  )}
+                  <Grid item>
+                    {!isLoadingJobCirculars &&
+                      jobCircularList &&
+                      jobCircularList?.length > 0 && (
+                        <H6 className={classes.titleStyle}>
+                          <IntlMessages
+                            id={'common.total_job_number'}
+                            values={{
+                              subject: formatNumber(jobCircularList.length),
+                            }}
+                          />
+                        </H6>
+                      )}
+                  </Grid>
 
                   <Grid item>
-                    {/*<ListAlt />*/}
-                    {/*<WindowIcon />*/}
+                    <ListAlt
+                      color={'primary'}
+                      fontSize={'medium'}
+                      className={
+                        viewType == 0 ? classes.activeStyle : classes.viewIcon
+                      }
+                      onClick={() => {
+                        setViewType(0);
+                      }}
+                    />
+                    <Window
+                      color={'primary'}
+                      fontSize={'medium'}
+                      onClick={() => {
+                        setViewType(1);
+                      }}
+                      className={
+                        viewType == 1 ? classes.activeStyle : classes.viewIcon
+                      }
+                      sx={{marginLeft: '10px'}}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
               {isLoadingJobCirculars ? (
                 <PostLoadingSkeleton />
-              ) : jobCircularList && jobCircularList?.length ? (
+              ) : jobCircularList && jobCircularList?.length > 0 ? (
                 jobCircularList?.map((jobCircular: any) => {
                   return (
-                    <Grid item xs={12} sm={12} md={12} key={jobCircular.id}>
-                      <JobCardComponent job={jobCircular} />
+                    <Grid
+                      item
+                      xs={12}
+                      sm={viewType == 1 ? 6 : 12}
+                      md={viewType == 1 ? 3 : 12}
+                      key={jobCircular.id}>
+                      <JobCardComponent
+                        onPopupClose={onPopupClose}
+                        job={jobCircular}
+                        isGridView={viewType == 1}
+                      />
                     </Grid>
                   );
                 })
@@ -212,21 +163,24 @@ const JobCircular = () => {
                 />
               )}
 
-              <Grid
-                item
-                md={12}
-                mt={4}
-                display={'flex'}
-                justifyContent={'center'}>
-                <Stack spacing={2}>
-                  <Pagination
-                    page={1}
-                    count={1}
-                    color={'primary'}
-                    shape='rounded'
-                  />
-                </Stack>
-              </Grid>
+              {jobsMetaData?.total_page > 1 && (
+                <Grid
+                  item
+                  md={12}
+                  mt={4}
+                  display={'flex'}
+                  justifyContent={'center'}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      page={page.current}
+                      count={jobsMetaData.total_page}
+                      onChange={onPaginationChange}
+                      color={'primary'}
+                      shape='rounded'
+                    />
+                  </Stack>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

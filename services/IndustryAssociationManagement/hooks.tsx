@@ -1,6 +1,10 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
+  API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS,
   API_INDUSTRY_ASSOCIATION_PROFILE,
   API_INDUSTRY_ASSOCIATION_SUB_TRADES,
   API_INDUSTRY_ASSOCIATION_TRADES,
@@ -9,7 +13,7 @@ import {
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchIndustryAssociations(params: any) {
-  return useAxiosSWR([API_INDUSTRY_ASSOCIATIONS, params]);
+  return useAxiosSWR(params ? [API_INDUSTRY_ASSOCIATIONS, params] : null);
 }
 
 export const useFetchContactInfo = (contactInfoId: number | null) => {
@@ -27,10 +31,21 @@ export function useFetchIndustryAssocProfile() {
 export function useFetchIndustryAssociationTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_TRADES, params]);
 }
+
 export function useFetchIndustryAssociationSubTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
 }
 
-export function useFetchPublicJob(jobId: any) {
-  return useAxiosSWR(jobId ? API_PUBLIC_JOB_DETAILS + '/' + jobId : null);
+export function useFetchPublicJob(jobId: any, params?: any) {
+  return useDataLocalizationAxiosSWR(
+    jobId
+      ? params
+        ? [API_PUBLIC_JOB_DETAILS + '/' + jobId, params]
+        : API_PUBLIC_JOB_DETAILS + '/' + jobId
+      : null,
+  );
+}
+
+export function useFetchIndustryAssociationDashboardStatics() {
+  return useAxiosSWR(API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS);
 }

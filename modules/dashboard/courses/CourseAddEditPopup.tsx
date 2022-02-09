@@ -20,7 +20,7 @@ import IconCourse from '../../../@softbd/icons/IconProgramme';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
-  useFetchPublicPrograms,
+  useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -100,7 +100,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, []);
 
   const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchPublicPrograms(programmeFilters);
+    useFetchPrograms(programmeFilters);
 
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchPublicSkills(youthSkillsFilter);

@@ -23,6 +23,7 @@ import {styled} from '@mui/material/styles';
 import CustomFilterableSelect from './components/CustomFilterableSelect';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -63,6 +64,7 @@ interface CourseListHeaderSection {
 
 const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {messages} = useIntl();
+  const router = useRouter();
   const showInType = getShowInTypeByDomain();
   const [instituteFilters] = useState({});
   const {data: institutes} = useFetchPublicInstitutes(instituteFilters);
@@ -74,6 +76,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const [selectedLanguageId, setSelectedLanguageId] = useState<any>('');
   const [selectedAvailability, setSelectedAvailability] = useState<any>('');
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
+  const {search_text} = router.query;
 
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -113,19 +116,13 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     [messages],
   );
 
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      setProgrammeFilters((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
-
   const {data: programmes} = useFetchPublicPrograms(programmeFilters);
+
+  useEffect(() => {
+    if (search_text) {
+      addFilterKey('search_text', String(search_text));
+    }
+  }, [search_text]);
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {
@@ -216,6 +213,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     name='searchBox'
                     placeholder={messages['common.search'] as string}
                     fullWidth
+                    defaultValue={search_text ? search_text : ''}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment
@@ -272,7 +270,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     options={institutes}
                     isLoading={false}
                     optionValueProp={'id'}
-                    optionTitleProp={['title', 'title_en']}
+                    optionTitleProp={['title']}
                   />
                 </Grid>
               )}

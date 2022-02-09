@@ -3,59 +3,64 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
 import {useFetchInstituteProvidedYouthList} from '../../../services/IndustryManagement/hooks';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {Button, Checkbox} from '@mui/material';
 import {startCase as lodashStartCase} from 'lodash';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {approveYouths} from '../../../services/IndustryManagement/JobRequirementService';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {
+  approveYouths,
+  rejectHRDemandYouth,
+} from '../../../services/IndustryManagement/JobRequirementService';
 import {ArrowBack} from '@mui/icons-material';
-
-const youthListTemp = [
-  {
-    id: 1,
-    name: 'John Doe',
-    cv: 'https/dldlelx/cv.com',
-  },
-  {
-    id: 2,
-    name: 'Dan Brown',
-    cv: 'https/dldlelx/cvv.com',
-  },
-  {
-    id: 3,
-    name: 'Louis Pastur',
-    cv: 'https/passtur/cv.com',
-  },
-];
+import {Link} from '../../../@softbd/elements/common';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import IndustryAssociationYouthApproval from '../../../@softbd/utilities/IndustryAssociationYouthApproval';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
+import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
+import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
-  const {updateSuccessMessage} = useSuccessMessage();
+  const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
   const {hrDemandInstituteId} = router.query;
 
   const [checkedYouths, setCheckedYouths] = useState<any>(new Set([]));
+  const [youthListFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+    hr_demand_youth_type: HRDemandYouthType.YOUTH_ID,
+  });
 
-  const {data: youthList, isLoading: isLoadingYouthList} =
-    useFetchInstituteProvidedYouthList(Number(hrDemandInstituteId));
+  const {
+    data: youthList,
+    isLoading: isLoadingYouthList,
+    mutate: mutateYouthList,
+  } = useFetchInstituteProvidedYouthList(
+    Number(hrDemandInstituteId),
+    youthListFilters,
+  );
 
-  /*  const rejectJobRequirementDemand = async (HRDemandId: number) => {
-    let response = await rejectHRDemand(HRDemandId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='hr_demand.label' />}}
-        />,
-      );
-      refreshDataTable();
+  useEffect(() => {
+    if (youthList && youthList.length > 0) {
+      const approvedYouths = youthList
+        .map((youth: any) => {
+          return (
+            youth.approval_status == IndustryAssociationYouthApproval.APPROVED
+          );
+        })
+        .map((youth: any) => youth.youth_id);
+
+      setCheckedYouths(new Set(approvedYouths));
     }
-  };*/
+  }, [youthList]);
 
   const handleYouthCheck = useCallback(
     (youthId: number) => {
@@ -71,14 +76,19 @@ const InstituteProvidedYouthList = () => {
     [checkedYouths],
   );
 
-  // const canRejectApprove = useCallback((data: any) => {
-  //   return (
-  //     data?.vacancy_provided_by_institute > 0 &&
-  //     !data?.rejected_by_institute &&
-  //     data?.vacancy_approved_by_industry_association == 0 &&
-  //     data?.rejected_by_industry_association == 0
-  //   );
-  // }, []);
+  const rejectAction = async (itemId: number) => {
+    let response = await rejectHRDemandYouth(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+
+      mutateYouthList();
+    }
+  };
 
   const submitYouthApproval = useCallback(async () => {
     try {
@@ -86,10 +96,13 @@ const InstituteProvidedYouthList = () => {
         Number(hrDemandInstituteId),
         Array.from(checkedYouths),
       );
-      updateSuccessMessage('permission.label');
+      successStack(
+        messages['industry_association.youth_approved_successfully'],
+      );
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
+    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -107,37 +120,84 @@ const InstituteProvidedYouthList = () => {
         accessor: 'name',
       },
       {
-        Header: messages['common.cv'],
-        accessor: 'cv',
+        Header: messages['youth_profile.label'],
+        accessor: 'youth_id',
+        Cell: (props: any) => {
+          let data = props.row.original;
+
+          return (
+            data?.youth_id && (
+              <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>
+                <CommonButton
+                  btnText={'youth_profile.label'}
+                  variant={'contained'}
+                />
+              </Link>
+            )
+          );
+        },
       },
+      {
+        Header: messages['common.status'],
+        accessor: 'approval_status',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let step: any = '';
+          let btnColor: any = undefined;
+
+          switch (data.approval_status) {
+            case ApprovalStatus.PENDING:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+              break;
+            case ApprovalStatus.APPROVED:
+              step = messages['common.approved'];
+              btnColor = 'success';
+              break;
+            case ApprovalStatus.REJECTED:
+              step = messages['common.rejected'];
+              btnColor = 'error';
+              break;
+            default:
+              step = messages['common.pending'];
+              btnColor = 'primary';
+          }
+
+          return (
+            <CustomChip label={step} variant={'filled'} color={btnColor} />
+          );
+        },
+      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
 
           return (
-            // canRejectApprove(data) && (
             <DatatableButtonGroup>
-              <label style={{display: 'block'}}>
+              <label style={{display: 'block', marginRight: '5px'}}>
                 <Checkbox
                   value={data.id}
-                  onChange={() => handleYouthCheck(data.id)}
+                  onChange={() => handleYouthCheck(data.youth_id)}
                   checked={checkedYouths.has(data.id)}
                 />
                 {lodashStartCase(messages['common.accept'] as string)}
               </label>
-              {/*<RejectButton*/}
-              {/*  rejectAction={() => rejectJobRequirementDemand(data.id)}*/}
-              {/*  rejectTitle={messages['common.delete_confirm'] as string}*/}
-              {/*/>*/}
+
+              <RejectButton
+                itemId={data.id}
+                rejectTitle={messages['common.youth'] as string}
+                rejectAction={rejectAction}>
+                {messages['common.reject']}
+              </RejectButton>
             </DatatableButtonGroup>
-            // )
           );
         },
         sortable: false,
       },
     ],
-    [messages, checkedYouths],
+    [messages, checkedYouths, youthList],
   );
 
   return (
@@ -163,7 +223,7 @@ const InstituteProvidedYouthList = () => {
       ]}>
       <ReactTable
         columns={columns}
-        data={youthListTemp || []}
+        data={youthList || []}
         loading={isLoadingYouthList}
         skipDefaultFilter={true}
       />

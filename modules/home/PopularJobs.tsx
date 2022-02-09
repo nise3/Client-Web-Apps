@@ -13,9 +13,9 @@ import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import JobCategory from '../../@softbd/utilities/JobCategorie';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import Link from 'next/link';
-import {LINK_FRONTEND_JOB_LISTS} from '../../@softbd/common/appLinks';
+import {LINK_FRONTEND_JOBS} from '../../@softbd/common/appLinks';
 
-const PREFIX = 'SkillMatchingJobs';
+const PREFIX = 'NisePopularJobs';
 
 const classes = {
   title: `${PREFIX}-title`,
@@ -57,7 +57,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const PopularJobs = () => {
   const {messages} = useIntl();
   const [jobFilters] = useState<any>({
-    type: JobCategory.POPULAR,
     page_size: PageSizes.EIGHT,
   });
   const {data: jobs, isLoading} = useFetchPublicJobs(jobFilters);
@@ -84,26 +83,30 @@ const PopularJobs = () => {
           ) : jobs && jobs.length > 0 ? (
             <CustomCarousel>
               {jobs.map((job: any, index: number) => (
-                <JobCardComponent job={job} isGridView={true} key={index} />
+                <Box mr={1} ml={1} key={index}>
+                  <JobCardComponent job={job} isGridView={true} />
+                </Box>
               ))}
             </CustomCarousel>
           ) : (
             <NoDataFoundComponent />
           )}
         </Box>
-        <Grid item container justifyContent='center'>
-          <Link
-            href={`${LINK_FRONTEND_JOB_LISTS}${JobCategory.POPULAR}`}
-            passHref>
-            <Button
-              sx={{borderRadius: '10px'}}
-              variant='outlined'
-              color='primary'
-              endIcon={<ArrowRightAlt />}>
-              {messages['common.see_more']}
-            </Button>
-          </Link>
-        </Grid>
+        {jobs && jobs?.length > 0 && (
+          <Grid item container justifyContent='center'>
+            <Link
+              href={`${LINK_FRONTEND_JOBS}/${JobCategory.POPULAR}`}
+              passHref>
+              <Button
+                sx={{borderRadius: '10px'}}
+                variant='outlined'
+                color='primary'
+                endIcon={<ArrowRightAlt />}>
+                {messages['common.see_more']}
+              </Button>
+            </Link>
+          </Grid>
+        )}
       </Container>
     </StyledGrid>
   );

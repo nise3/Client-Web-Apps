@@ -11,7 +11,6 @@ import IconList from '../../../@softbd/icons/IconList';
 import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INDUSTRY_ASSOCIATION_MEMBERS} from '../../../@softbd/common/apiRoutes';
-import CustomChipApplicationStatus from './CustomChipApplicationStatus';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import MemberListAddEditPopup from './MemberListAddEditPopup';
@@ -21,8 +20,8 @@ import {
   approveOrgMemberShip,
   rejectOrgMemberShip,
 } from '../../../services/organaizationManagement/OrganizationService';
+import CustomChipStatus from './CustomChipStatus';
 
-//Todo: have to remove member list, this is not necessary
 const MemberListPage = () => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
@@ -31,9 +30,16 @@ const MemberListPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_INDUSTRY_ASSOCIATION_MEMBERS,
+    });
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
+
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
@@ -63,8 +69,8 @@ const MemberListPage = () => {
         refreshDataTable();
       }
     } catch (error: any) {
+      //console.log('error', error);
       errorStack(<IntlMessages id='message.somethingWentWrong' />);
-      console.log('error', error);
     }
   };
 
@@ -100,7 +106,7 @@ const MemberListPage = () => {
         Header: messages['applicationManagement.status'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipApplicationStatus value={data?.row_status} />;
+          return <CustomChipStatus value={data?.row_status} />;
         },
       },
       {
@@ -132,10 +138,6 @@ const MemberListPage = () => {
     [messages],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_INDUSTRY_ASSOCIATION_MEMBERS,
-    });
   return (
     <>
       <PageBlock

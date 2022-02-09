@@ -15,7 +15,6 @@ import {
   BusinessCenter,
   CalendarToday,
   LocationOn,
-  Paid,
   Room,
   Share,
 } from '@mui/icons-material';
@@ -34,6 +33,7 @@ import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
 import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
+import CustomChip from '../display/CustomChip/CustomChip';
 
 const PREFIX = 'JobCardComponent';
 
@@ -45,6 +45,9 @@ const classes = {
   marginTop10: `${PREFIX}-marginTop10`,
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
+  overflowText: `${PREFIX}-overflowText`,
+  details: `${PREFIX}-details`,
+  salaryIcon: `${PREFIX}-salaryIcon`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -86,16 +89,37 @@ const StyledCard = styled(Card)(({theme}) => ({
     width: '80px',
     height: '80px',
     border: '1px solid #e9e9e9',
+    [`& img`]: {
+      objectFit: 'contain',
+    },
+  },
+  [`& .${classes.overflowText}`]: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+  [`& .${classes.details}`]: {
+    whiteSpace: 'break-spaces',
+    maxHeight: '100px',
+    overflow: 'hidden',
+  },
+  [`& .${classes.salaryIcon}`]: {
+    background: '#616161',
+    color: '#e4e4e4 !important',
+    padding: '2px 6px',
+    borderRadius: '50%',
   },
 }));
 
 interface JobCardComponentProps {
   job: any;
   isGridView?: boolean;
+  onPopupClose?: () => void;
 }
 
 const JobCardComponent: FC<JobCardComponentProps> = ({
   job,
+  onPopupClose,
   isGridView = false,
 }) => {
   const {messages, formatDate, formatNumber} = useIntl();
@@ -105,6 +129,9 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
 
   const closeJobApplyModal = useCallback(() => {
     setIsOpenJobApplyModal(false);
+    if (onPopupClose) {
+      onPopupClose();
+    }
   }, []);
 
   const onJobApply = useCallback(() => {
@@ -114,8 +141,6 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
       router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
     }
   }, []);
-
-  console.log('job: ', job);
 
   const getJobProviderTitle = () => {
     if (job.industry_association_id) {
@@ -175,22 +200,27 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   };
 
   const getLocationText = () => {
-    return job?.job_locations
-      ?.map((location: any) => location.title)
+    return (job?.additional_job_information?.job_locations || [])
+      .map((location: any) => location.title)
       .join(', ');
   };
 
   const getSalary = () => {
     let salaryText: any = '';
 
-    if (job?.is_salary_info_show == SalaryShowOption.SALARY) {
+    if (
+      job?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.SALARY
+    ) {
       salaryText =
-        '৳ ' +
-        formatNumber(job?.salary_min) +
+        formatNumber(job?.additional_job_information?.salary_min) +
         ' - ' +
-        formatNumber(job?.salary_max) +
+        formatNumber(job?.additional_job_information?.salary_max) +
         ` (${messages['common.monthly']})`;
-    } else if (job?.is_salary_info_show == SalaryShowOption.NEGOTIABLE) {
+    } else if (
+      job?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.NEGOTIABLE
+    ) {
       salaryText = messages['common.negotiable'];
     }
 
@@ -209,8 +239,15 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             alt={job.job_title}
           />
           <CardContent sx={{paddingBottom: '5px'}}>
-            <H5 fontWeight={'bold'}>{job.job_title}</H5>
-            <Body2>{getJobProviderTitle()}</Body2>
+            <H5
+              fontWeight={'bold'}
+              title={job.job_title}
+              className={classes.overflowText}>
+              {job.job_title}
+            </H5>
+            <Body2 className={classes.overflowText}>
+              {getJobProviderTitle()}
+            </Body2>
           </CardContent>
           <Divider />
           <CardContent>
@@ -226,7 +263,13 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               <Grid item xs={12} display={'flex'} alignItems={'center'}>
                 <CalendarToday className={classes.marginRight10} />
                 {job?.application_deadline
-                  ? getIntlDateFromString(formatDate, job.application_deadline)
+                  ? messages['common.publication_deadline'] +
+                    ': ' +
+                    getIntlDateFromString(
+                      formatDate,
+                      job.application_deadline,
+                      'short',
+                    )
                   : ''}
               </Grid>
               <Grid
@@ -242,13 +285,23 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     {messages['common.details']}
                   </Button>
                 </Link>
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  sx={{marginLeft: '15px'}}
-                  onClick={onJobApply}>
-                  {messages['common.apply_now']}
-                </Button>
+                {(!authUser || authUser?.isYouthUser) &&
+                  (job?.has_applied == '1' ? (
+                    <CustomChip
+                      label={messages['common.applied']}
+                      color={'primary'}
+                      sx={{marginLeft: '15px'}}
+                    />
+                  ) : (
+                    <Button
+                      variant={'contained'}
+                      color={'primary'}
+                      size={'small'}
+                      sx={{marginLeft: '15px'}}
+                      onClick={onJobApply}>
+                      {messages['common.apply_now']}
+                    </Button>
+                  ))}
               </Grid>
             </Grid>
           </CardContent>
@@ -273,25 +326,41 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     {messages['common.details']}
                   </Button>
                 </Link>
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  sx={{marginLeft: '15px'}}
-                  onClick={onJobApply}>
-                  {messages['common.apply_now']}
-                </Button>
+                {(!authUser || authUser?.isYouthUser) &&
+                  (job?.has_applied == '1' ? (
+                    <CustomChip
+                      label={messages['common.applied']}
+                      color={'primary'}
+                      sx={{marginLeft: '15px'}}
+                    />
+                  ) : (
+                    <Button
+                      variant={'contained'}
+                      color={'primary'}
+                      size={'small'}
+                      sx={{marginLeft: '15px'}}
+                      onClick={onJobApply}>
+                      {messages['common.apply_now']}
+                    </Button>
+                  ))}
               </Box>
             }
             title={<H5 fontWeight={'bold'}>{job.job_title}</H5>}
             subheader={<Body2>{getJobProviderTitle()}</Body2>}
           />
           <CardContent>
-            <Body1>{job?.job_responsibilities}</Body1>
+            <Body1 className={classes.details}>
+              {job?.additional_job_information?.job_responsibilities}
+            </Body1>
             <Box className={classes.marginTop10}>
               <TagChip label={getLocationText()} icon={<LocationOn />} />
               <TagChip label={getExperienceText()} icon={<BusinessCenter />} />
-              {job?.is_salary_info_show != SalaryShowOption.NOTHING && (
-                <TagChip label={getSalary()} icon={<Paid />} />
+              {job?.additional_job_information?.is_salary_info_show !=
+                SalaryShowOption.NOTHING && (
+                <TagChip
+                  label={getSalary()}
+                  icon={<span className={classes.salaryIcon}>৳</span>}
+                />
               )}
               <Share className={classes.shareIcon} />
             </Box>

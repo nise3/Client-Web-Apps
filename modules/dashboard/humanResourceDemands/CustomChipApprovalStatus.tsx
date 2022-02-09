@@ -7,12 +7,18 @@ import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip'
 import {Fonts} from '../../../shared/constants/AppEnums';
 
 type Props = {
-  value: number;
+  value: number | string;
   isLoading?: boolean;
   label?: string | MessageFormatElement[];
+  variant?: 'filled' | 'outlined';
 };
 
-const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
+const CustomChipApprovalStatus = ({
+  value,
+  isLoading,
+  label,
+  variant,
+}: Props) => {
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -30,13 +36,14 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
       )}
 
       <CustomChip
-        color={value == 1 ? 'primary' : 'secondary'}
+        color={value == 1 ? 'primary' : value == 3 ? 'error' : 'secondary'}
+        variant={variant}
         label={
           value == 0 ? (
             <IntlMessages id='common.inactive' />
-          ) : value == 1 ? (
-            <IntlMessages id='common.approved' />
           ) : value == 2 ? (
+            <IntlMessages id='common.approved' />
+          ) : value == 1 ? (
             <IntlMessages id='common.pending' />
           ) : (
             <IntlMessages id='common.rejected' />
@@ -47,4 +54,4 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
   );
 };
 
-export default React.memo(CustomChipPaymentStatusStatus);
+export default CustomChipApprovalStatus;

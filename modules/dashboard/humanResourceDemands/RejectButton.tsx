@@ -37,7 +37,6 @@ const RejectButton = ({
       onClick={onRejectAction}
       variant={'outlined'}
       className={className}
-      type='submit'
       disabled={isDisable}
       {...rest}>
       {btnText}

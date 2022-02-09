@@ -22,7 +22,7 @@ import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_NISE_CALENDAR,
-  LINK_FRONTEND_NISE_JOBS,
+  LINK_FRONTEND_JOBS,
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
@@ -85,7 +85,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_JOBS}>
+        <Link href={LINK_FRONTEND_JOBS}>
           <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
         </Link>
       </MenuItem>
@@ -147,7 +147,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_NISE_JOBS}>
+                  <Link href={LINK_FRONTEND_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
                       sx={{fontSize: '2.6rem'}}

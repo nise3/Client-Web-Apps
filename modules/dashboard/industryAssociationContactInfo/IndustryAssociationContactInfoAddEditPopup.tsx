@@ -8,7 +8,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import yup from '../../../@softbd/libs/yup';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {IContactInfo} from '../../../shared/Interface/industryAssociation.interface';
 import {
   createContactInfo,
