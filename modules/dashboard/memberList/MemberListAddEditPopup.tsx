@@ -22,7 +22,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchOrganization,
-  useFetchOrganizationTypes,
+  useFetchPublicOrganizationTypes,
 } from '../../../services/organaizationManagement/hooks';
 import {
   useFetchPermissionGroups,
@@ -149,7 +149,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
     mutate: mutateOrganization,
   } = useFetchOrganization(itemId);
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
-    useFetchOrganizationTypes(organizationTypeFilters);
+    useFetchPublicOrganizationTypes(organizationTypeFilters);
 
   const [industryAssociationFilter, setIndustryAssociationFilter] =
     useState<any>(null);
