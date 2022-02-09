@@ -17,9 +17,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const GalleryAlbumContentsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -77,6 +78,12 @@ const GalleryAlbumContentsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.content_type'],
@@ -107,12 +114,22 @@ const GalleryAlbumContentsPage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['institute.label_en'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
@@ -146,7 +163,7 @@ const GalleryAlbumContentsPage = () => {
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
-      urlPath: API_GALLERY_ALBUM_CONTENTS
+      urlPath: API_GALLERY_ALBUM_CONTENTS,
     });
 
   return (
