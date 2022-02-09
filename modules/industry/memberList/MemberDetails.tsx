@@ -80,38 +80,17 @@ const MemberDetails = () => {
 
   return (
     <StyledContainer maxWidth={'lg'}>
-      <Button
-        startIcon={<ArrowBack />}
-        sx={{marginRight: '10px'}}
-        variant={'outlined'}
-        onClick={() => router.back()}>
-        {messages['common.back']}
-      </Button>
       <Box
         display={'flex'}
-        mt={3}
         justifyContent={'space-between'}
         alignItems={'center'}>
-        {data?.date_of_establishment && (
-          <TagChip
-            label={
-              <Typography
-                sx={{
-                  color: 'primary.main',
-                }}>
-                {messages['common.establish_date']}
-                {formatDate(data?.date_of_establishment, {
-                  month: 'long',
-                  year: 'numeric',
-                })}
-              </Typography>
-            }
-            sx={{
-              margin: '0 !important',
-            }}
-          />
-        )}
-
+        <Button
+          startIcon={<ArrowBack />}
+          sx={{marginRight: '10px'}}
+          variant={'outlined'}
+          onClick={() => router.back()}>
+          {messages['common.back']}
+        </Button>
         <Box>
           <Tooltip title={messages['common.like']}>
             <ThumbUpAltIcon
@@ -138,6 +117,32 @@ const MemberDetails = () => {
             />
           </Tooltip>
         </Box>
+      </Box>
+
+      <Box
+        display={'flex'}
+        mt={3}
+        justifyContent={'space-between'}
+        alignItems={'center'}>
+        {data?.date_of_establishment && (
+          <TagChip
+            label={
+              <Typography
+                sx={{
+                  color: 'primary.main',
+                }}>
+                {messages['common.establish_date']}
+                {formatDate(data?.date_of_establishment, {
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </Typography>
+            }
+            sx={{
+              margin: '0 !important',
+            }}
+          />
+        )}
       </Box>
       <H4 py={2} fontWeight={'bold'}>
         {messages['common.organization_details']}
