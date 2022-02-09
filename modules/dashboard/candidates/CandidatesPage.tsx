@@ -7,9 +7,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_GET_JOB_CANDIDATES} from '../../../@softbd/common/apiRoutes';
 import {useRouter} from 'next/router';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const CandidatesPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
   const router = useRouter();
   const {jobIdCandidates} = router.query;
@@ -34,6 +35,12 @@ const CandidatesPage = () => {
       {
         Header: messages['common.name'],
         accessor: 'youth_profile.first_name',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.name_en'],
+        accessor: 'youth_profile.first_name_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['youth.mobile'],

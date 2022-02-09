@@ -24,9 +24,10 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const BatchesPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
@@ -88,11 +89,12 @@ const BatchesPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['batches.total_and_available_seat'],
