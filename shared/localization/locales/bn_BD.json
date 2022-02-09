@@ -502,7 +502,7 @@
   "common.change_userId": "চেঞ্জ ইউজার আইডি",
   "common.change_password": "পাসওয়ার্ড পরিবর্তন",
   "common.forgot_password": "Forgot password",
-  "common.passwordHint": "Password must contain at least 8 characters including 1 uppercase, 1 lowercase letter and 1 number",
+  "common.passwordHint": "পাসওয়ার্ডে 1টি বড় হাতের অক্ষর, ১টি ছোট হাতের অক্ষর এবং ১টি সংখ্যা সহ কমপক্ষে ৮টি অক্ষর থাকতে হবে",
   "common.confirm_email": "Confirm Email",
   "common.deactivate": "Deactivate",
   "common.profile": "প্রোফাইল",
