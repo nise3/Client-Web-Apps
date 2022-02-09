@@ -5,10 +5,14 @@ import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import {H2, Link} from '../../@softbd/elements/common';
-import VerticalBar from './components/VerticalBar';
+import {Link} from '../../@softbd/elements/common';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
+import SectionTitle from './SectionTitle';
+import {
+  LINK_FRONTEND_COURSE_DETAILS,
+  LINK_FRONTEND_COURSE_LIST,
+} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'PopularCourse';
 
@@ -18,7 +22,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(() => ({
-  marginTop: '50px',
+  marginTop: '60px',
   backgroundColor: '#fff',
 
   [`& .${classes.title}`]: {
@@ -47,20 +51,18 @@ const PopularCourse = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <Box
-          style={{marginBottom: '50px', marginTop: '50px'}}
-          className={classes.title}
-          justifyContent={'center'}>
-          <VerticalBar />
-          <H2 style={{fontSize: '2rem', fontWeight: 'bold'}}>
-            {messages['common.popular_courses']}
-          </H2>
-        </Box>
-        <Box mb={2}>
+        <SectionTitle
+          title={messages['common.popular_courses'] as string}
+          center={true}
+        />
+        <Box mb={2} sx={{marginTop: '-16px'}}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                <Link passHref key={key} href={`/course-details/${course.id}`}>
+                <Link
+                  passHref
+                  key={key}
+                  href={`${LINK_FRONTEND_COURSE_DETAILS}${course.id}`}>
                   <Box mr={1} ml={1}>
                     <CourseCardComponent course={course} />
                   </Box>
@@ -78,7 +80,7 @@ const PopularCourse = () => {
         {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
             <Link
-              href={'/course-list/popular'}
+              href={`${LINK_FRONTEND_COURSE_LIST}/${pathValue}`}
               passHref
               className={classes.seeMore}>
               <Button

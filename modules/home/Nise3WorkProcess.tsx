@@ -27,11 +27,11 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   padding: '50px',
   background: theme.palette.primary.main,
   color: '#fff',
-  [theme.breakpoints.up('sm')]: {
-    marginTop: '200px',
+  [theme.breakpoints.down('md')]: {
+    marginTop: '60px !important',
   },
-  [theme.breakpoints.down('xl')]: {
-    marginTop: '175px',
+  [theme.breakpoints.up('md')]: {
+    marginTop: '166px',
   },
 
   [`& .${classes.detailsButton}`]: {

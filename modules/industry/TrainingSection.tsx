@@ -9,6 +9,7 @@ import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import TrainingCard from './TrainingCard';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
+import {LINK_FRONTEND_COURSE_DETAILS} from '../../@softbd/common/appLinks';
 
 const PREFIX = 'TrainingSection';
 
@@ -17,7 +18,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(() => ({
-  marginTop: '50px',
+  marginTop: '60px',
   backgroundColor: '#fff',
 
   [`& .${classes.title}`]: {
@@ -41,16 +42,16 @@ const TrainingSection = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        {/** headline */}
         <UnderlinedHeading>{messages['industry.training']}</UnderlinedHeading>
 
-        {/** Carousel content */}
         <Box mb={2}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                /*<Link passHref key={key} href={`/course-details/${course.id}`}>*/
-                <Link passHref key={key}>
+                <Link
+                  passHref
+                  key={key}
+                  href={`${LINK_FRONTEND_COURSE_DETAILS}${course.id}`}>
                   <Box mr={1} ml={1}>
                     <TrainingCard course={course} />
                   </Box>

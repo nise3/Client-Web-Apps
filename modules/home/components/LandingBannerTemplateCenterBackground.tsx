@@ -24,6 +24,9 @@ const StyledBox = styled(Box)(({theme}) => ({
   [theme.breakpoints.down('sm')]: {
     height: 150,
   },
+  [theme.breakpoints.only('sm')]: {
+    height: 300,
+  },
 
   [`& .${classes.image}`]: {
     zIndex: -1,
