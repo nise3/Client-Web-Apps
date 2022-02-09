@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import {Login} from '@mui/icons-material';
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
-  LINK_FRONTEND_INDUSTRY_ABOUT_US,
+  LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
@@ -61,13 +61,6 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_ABOUT_US}>
-          {/*{messages['menu.about_us']}*/}
-          About us
-        </Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INDUSTRY_PUBLICATION}>
           {messages['menu.publication']}
         </Link>
@@ -87,6 +80,9 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST}>
           {messages['menu.member_list']}
         </Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_FAQ}>{messages['menu.faq']}</Link>
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
@@ -174,12 +170,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                   </Link>
 
                   <Link
-                    href={LINK_FRONTEND_INDUSTRY_ABOUT_US}
-                    className={classes.menuItem}>
-                    {messages['footer.about_us']}
-                  </Link>
-
-                  <Link
                     href={LINK_FRONTEND_INDUSTRY_PUBLICATION}
                     className={classes.menuItem}>
                     {messages['menu.publication']}
@@ -199,6 +189,10 @@ const Header: React.FC<AppHeaderProps> = () => {
                     href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST}
                     className={classes.menuItem}>
                     {messages['menu.member_list']}
+                  </Link>
+
+                  <Link href={LINK_FRONTEND_FAQ} className={classes.menuItem}>
+                    {messages['menu.faq']}
                   </Link>
                 </Box>
               </Box>

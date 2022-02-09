@@ -17,7 +17,7 @@ const classes = {
   icon: `${PREFIX}-icon`,
 };
 
-const StyledContainer = styled(Container)(() => {
+const StyledContainer = styled(Container)(({theme}) => {
   return {
     marginBottom: '40px',
     [`& .${classes.icon}`]: {
@@ -25,6 +25,44 @@ const StyledContainer = styled(Container)(() => {
       padding: '2px',
       borderRadius: '3px',
       '&:not(:last-child)': {marginRight: '10px'},
+    },
+
+    [`& .editor-template-table`]: {
+      [`& tr`]: {
+        width: '100%',
+      },
+      [`& td`]: {
+        width: '50%',
+        paddingBottom: '15px',
+        verticalAlign: 'top',
+        wordBreak: 'break-word',
+        [theme.breakpoints.down('sm')]: {
+          width: '100%',
+          paddingRight: '0',
+          display: 'inline-block',
+        },
+      },
+      [`& td h3`]: {
+        fontSize: '40px',
+        margin: '10px 0',
+      },
+      [`& td p`]: {
+        lineHeight: '30px',
+      },
+      [`& td:first-of-type`]: {
+        paddingRight: '20px',
+      },
+      [`& td:last-of-type`]: {
+        paddingLeft: '20px',
+      },
+      [`& td>img`]: {
+        height: '300px',
+        width: '100%',
+      },
+      [`& td>iframe`]: {
+        height: '300px',
+        width: '100%',
+      },
     },
   };
 });
