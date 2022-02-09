@@ -2,7 +2,7 @@
 # To contribute improvements to CI/CD templates, please follow the Development guide at:
 # This template uses one generic job with conditional builds
 # for the default branch and all other (MR) branches.
-include: '/deploy/values.yaml'
+include: '/deploy/version.yaml'
 docker-build:
   # Use the official docker image.
   image: docker:latest
@@ -11,6 +11,7 @@ docker-build:
     - docker:dind
   before_script:
     - docker login $imageRepository -u "kalyan" -p "kalyan"
+  #  - docker login $CI_FROG_REGISTRY -u "$CI_FROG_REGISTRY_USER" -p "$CI_FROG_REGISTRY_PASSWORD"
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
@@ -18,54 +19,54 @@ docker-build:
       echo  "Info============"
       echo "development branch: $GIT_DEVELOPMENT_BRANCH"
       echo "Production branch: $GIT_PRODUCTION_BRANCH"
-      echo "Build Repo: $imageRepository"
 
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=":$imageAppVersion"
+      if [[ "$imageAdminRelease" == true ]]; then
+        tag=":$imageAdminAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = $imageAppVersion"
-      else
-        tag=":$imageAppVersion"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+        docker build --pull -t "$imageAdminRepository${tag}" -f DockerYouth .
+        docker push "$imageAdminRepository${tag}"
       fi
-    - docker build --pull -t "$imageRepository${tag}" .
-    - docker push "$imageRepository${tag}"
-  only:
-   - develop
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always
 
 codestyle:
   stage: test
   dependencies: []
   script:
     - echo "Code quality check will be added later"
-  only:
-   - develop
-    
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always
+
 phpunit:
   stage: test
   dependencies:
     - docker-build
   script:
     - echo "unit test will be added later."
-  only:
-   - develop
-  
+  when: manual
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always
+
 staging:
   stage: deploy
   dependencies:
     - docker-build
   script:
     #- curl https://cd.bus.softbd.xyz/api/webhook
-    - echo "wait untill site go live"
-  only:
-    - develop
-  
+    - echo "wait untill server go online"
+  when: manual
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always
+
 production:
   stage: deploy
   script:
    - echo "production is not ready yet!"
-  environment:
-    name: production
-    url: "$hostName"
   when: manual
-  only:
-   - develop
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always
