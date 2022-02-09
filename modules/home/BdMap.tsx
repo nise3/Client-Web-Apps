@@ -15,7 +15,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
+  marginTop: '40px',
 
   [`& .${classes.mapButtonGroup}`]: {
     border: '1px solid #eee',
@@ -24,6 +24,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     marginBottom: '29px',
     width: '100%',
     maxWidth: '610px',
+    marginTop: '0px',
   },
 
   [`& .${classes.skillButton}`]: {
