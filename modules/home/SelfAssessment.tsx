@@ -67,16 +67,17 @@ const SelfAssessment = () => {
     <>
       {blockData ? (
         <StyledContainer maxWidth={'lg'}>
-          <Grid
-            container
-            spacing={4}
-            sx={{marginTop: '114px'}}
-            alignItems={'center'}>
+          <Grid container sx={{marginTop: '40px'}} alignItems={'center'}>
             <Grid
               item
               xs={12}
               md={8}
-              order={{xs: templateConfig.textLeft ? 1 : 2}}>
+              order={{xs: templateConfig.textLeft ? 1 : 2}}
+              sx={
+                templateConfig.textLeft
+                  ? {paddingRight: '20px'}
+                  : {paddingLeft: '20px'}
+              }>
               <H1 style={{fontSize: '2.75rem', fontWeight: 'bold'}}>
                 {blockData?.title}
               </H1>
@@ -109,6 +110,7 @@ const SelfAssessment = () => {
                   blockData.image_path && (
                     <Zoom>
                       <CardMedia
+                        sx={{maxHeight: '265px', objectFit: 'unset'}}
                         component={'img'}
                         image={blockData.image_path}
                         alt={blockData?.image_alt_title}

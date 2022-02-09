@@ -250,7 +250,11 @@ const Publications = () => {
                 <Body2 gutterBottom sx={{fontWeight: 'bold'}}>
                   {messages['total_result.institute']}{' '}
                   <Chip
-                    label={formatNumber(publications?.length)}
+                    label={
+                      publications && publications?.length
+                        ? formatNumber(publications?.length)
+                        : formatNumber(0)
+                    }
                     className={classes.chipStyle}
                   />
                 </Body2>

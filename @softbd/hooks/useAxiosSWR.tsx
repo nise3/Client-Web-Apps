@@ -77,7 +77,7 @@ const swapLocalText = (dataObject: any) => {
       const s = k.substr(0, k.length - 3);
 
       let temp = dataObject[s];
-      dataObject[s] = dataObject[k] ? dataObject[k] : temp;
+      dataObject[s] = dataObject[k] ? dataObject[k] : '';
       dataObject[k] = temp;
     }
   }

@@ -2,6 +2,12 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
+export const API_PUBLIC_BACK_CHANNEL = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+  ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+  : 'https://core.bus-staging.softbdltd.com';
+
+export const API_SSO_AUTHORIZE_CODE_GRANT = API_PUBLIC_BACK_CHANNEL + '/sso-authorize-code-grant';
+
 /*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
@@ -427,5 +433,7 @@ export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
 export const API_PUBLIC_VISITOR_FEEDBACKS =
   CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
+export const API_PUBLIC_NISE_STATICS =
+  CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
 
 /** CMS service public routes section end */

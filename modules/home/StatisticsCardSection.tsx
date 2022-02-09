@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
@@ -6,6 +6,7 @@ import InfoCard from './infoCard';
 import {H3, Text} from '../../@softbd/elements/common';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
+import {useFetchNiseStatics} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'StatisticsCardSection';
 
@@ -25,6 +26,7 @@ const classes = {
 const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.cardColors}`]: {
     position: 'relative',
+    height: '100%',
     '&::before, &::after': {
       content: "''",
       display: 'block',
@@ -111,14 +113,77 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const StatisticsCardSection = () => {
   const {messages, formatNumber} = useIntl();
 
+  const {data: niseStatics} = useFetchNiseStatics();
+
+  console.log('niseastaet->', niseStatics);
+
+  const [totalJobProvider, setTotalJobProvider] = useState<any>([]);
+  useEffect(() => {
+    const a = niseStatics?.total_job_provider
+      ? niseStatics?.total_job_provider.map((data: any, index: number) => {
+          return {
+            id: index,
+            name: data.industry_associations_title,
+            count: formatNumber(data.total_job_provided),
+          };
+        })
+      : [];
+    setTotalJobProvider(a);
+  }, [niseStatics?.total_job_provider]);
+
+  const [totalSkillDevelopmentCenter, setTotalSkillDevelopmentCenter] =
+    useState<any>([]);
+  useEffect(() => {
+    const a = niseStatics?.total_skill_development_center
+      ? niseStatics?.total_skill_development_center.map(
+          (data: any, index: number) => {
+            return {
+              id: index,
+              name: data.training_center_title,
+              count: formatNumber(data.total_trained),
+            };
+          },
+        )
+      : [];
+    setTotalSkillDevelopmentCenter(a);
+  }, [niseStatics?.total_skill_development_center]);
+
+  const [totalPopularCourses, setTotalPopularCourses] = useState<any>([]);
+  useEffect(() => {
+    const a = niseStatics?.total_popular_courses
+      ? niseStatics?.total_popular_courses.map((data: any, index: number) => {
+          return {
+            id: index,
+            name: data.course_title,
+            count: formatNumber(data.total_enrollments),
+          };
+        })
+      : [];
+    setTotalPopularCourses(a);
+  }, [niseStatics?.total_popular_courses]);
+
+  const [totalPopularJob, setTotalPopularJob] = useState<any>([]);
+  useEffect(() => {
+    const a = niseStatics?.total_popular_job
+      ? niseStatics?.total_popular_job.map((data: any, index: number) => {
+          return {
+            id: index,
+            name: data.job_title,
+            count: '',
+          };
+        })
+      : [];
+    setTotalPopularJob(a);
+  }, [niseStatics?.total_popular_job]);
+
   return (
     <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
       <Fade direction='down'>
-        <Grid container spacing={2} style={{marginTop: '65px'}}>
+        <Grid container spacing={2} style={{marginTop: '60px'}}>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(23)}
+                {formatNumber(niseStatics?.total_ministry)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.ministry']}
@@ -128,7 +193,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor2)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(32)}
+                {formatNumber(niseStatics?.total_department)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.departments']}
@@ -148,7 +213,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(11)}
+                {formatNumber(niseStatics?.total_industrial_skills_council)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_skills_council']}
@@ -158,7 +223,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(64)}
+                {formatNumber(niseStatics?.total_deputy_commissioner_office)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.dc_offices']}
@@ -168,7 +233,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(3500000)}
+                {formatNumber(niseStatics?.total_youth)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.youth_2']}
@@ -178,7 +243,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor5)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(50)}
+                {formatNumber(niseStatics?.total_4_ir_project)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.4IR_projects']}
@@ -188,7 +253,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(266)}
+                {formatNumber(niseStatics?.total_rto)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.rto']}
@@ -198,7 +263,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(1164)}
+                {formatNumber(niseStatics?.total_industry)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industries']}
@@ -214,27 +279,7 @@ const StatisticsCardSection = () => {
               className={classes.triangleDown}
               sx={{color: '#661687'}}
             />
-            <InfoCard
-              color={'#661687'}
-              infos={[
-                {
-                  id: 1,
-                  name: 'সফ্ট বিডি',
-                  count: formatNumber(45),
-                },
-                {
-                  id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
-                  count: formatNumber(30),
-                },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
-                {
-                  id: 4,
-                  name: 'ইভ্যালি',
-                  count: formatNumber(70),
-                },
-              ]}
-            />
+            <InfoCard color={'#661687'} infos={totalJobProvider} />
           </Grid>
           <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
             <Card className={classes.cardColor2} style={{padding: '20px'}}>
@@ -248,24 +293,7 @@ const StatisticsCardSection = () => {
             <InfoCard
               label={messages['common.trained'] as string}
               color={'#0069BC'}
-              infos={[
-                {
-                  id: 1,
-                  name: 'সফ্ট বিডি',
-                  count: formatNumber(45),
-                },
-                {
-                  id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
-                  count: formatNumber(30),
-                },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
-                {
-                  id: 4,
-                  name: 'ইভ্যালি',
-                  count: formatNumber(70),
-                },
-              ]}
+              infos={totalSkillDevelopmentCenter}
             />
           </Grid>
           <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
@@ -280,27 +308,10 @@ const StatisticsCardSection = () => {
             <InfoCard
               label={messages['common.enrolled'] as string}
               color={'#305DF7'}
-              infos={[
-                {
-                  id: 1,
-                  name: 'সফ্ট বিডি',
-                  count: formatNumber(45),
-                },
-                {
-                  id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
-                  count: formatNumber(30),
-                },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
-                {
-                  id: 4,
-                  name: 'ইভ্যালি',
-                  count: formatNumber(70),
-                },
-              ]}
+              infos={totalPopularCourses}
             />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
             <Card className={classes.cardColor7} style={{padding: '20px'}}>
               {messages['common.popular_job']}
             </Card>
@@ -309,15 +320,7 @@ const StatisticsCardSection = () => {
               className={classes.triangleDown}
               sx={{color: '#22BB33'}}
             />
-            <InfoCard
-              color={'#22BB33'}
-              infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: ''},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: ''},
-                {id: 3, name: 'পাঠাও', count: ''},
-                {id: 4, name: 'ইভ্যালি', count: ''},
-              ]}
-            />
+            <InfoCard color={'#22BB33'} infos={totalPopularJob} />
           </Grid>
         </Grid>
       </Fade>

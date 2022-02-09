@@ -27,9 +27,10 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import InstituteAssingnPermissionPopup from './InstituteAssingnPermissionPopup';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import ApproveButton from '../industry-associations/ApproveButton';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const InstitutePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -128,11 +129,12 @@ const InstitutePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.code'],

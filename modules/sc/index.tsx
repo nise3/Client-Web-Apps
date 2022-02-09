@@ -19,6 +19,7 @@ const classes = {
 
 const StyledContainer = styled(Container)(() => {
   return {
+    marginBottom: '40px',
     [`& .${classes.icon}`]: {
       color: '#ffff',
       padding: '2px',

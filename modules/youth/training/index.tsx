@@ -60,7 +60,7 @@ const CourseListPage = () => {
             <TrendingCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
           <Grid item xs={12}>
-            <NearbyTrainingCenterSection />
+            <NearbyTrainingCenterSection showAllNearbyTrainingCenter={false} />
           </Grid>
         </Grid>
       </Container>

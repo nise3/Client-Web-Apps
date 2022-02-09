@@ -40,6 +40,7 @@ export interface CommonAuthUser extends AuthUser {
   name?: string;
   industry_association_id?: string | number | undefined;
   industry_association?: any;
+  domain?: string;
 }
 
 export interface YouthAuthUser extends AuthUser {
