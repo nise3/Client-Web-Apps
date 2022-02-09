@@ -12,13 +12,13 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_JOB_REQUIREMENTS} from '../../../@softbd/common/apiRoutes';
 import JobRequirementDetailsPopup from './JobRequirementDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import HumanResourceDemandAddEditPop from './JobRequirementAddEditPop';
+import JobRequirementAddPopup from './JobRequirementAddPopup';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteHRDemand} from '../../../services/IndustryManagement/HrDemandService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import HumanResourceDemandEditPop from './JobRequirementDemandEditPopUp';
+import JobRequirementEditPop from './JobRequirementEditPopUp';
 import Link from 'next/link';
 import {Button} from '@mui/material';
 import {ManageAccounts} from '@mui/icons-material';
@@ -175,15 +175,14 @@ const JobRequirementPage = () => {
           toggleResetTable={isToggleTable}
         />
         {!selectedItemId && isOpenAddEditModal && (
-          <HumanResourceDemandAddEditPop
+          <JobRequirementAddPopup
             key={1}
             onClose={closeAddEditModal}
-            itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
         {selectedItemId && isOpenAddEditModal && (
-          <HumanResourceDemandEditPop
+          <JobRequirementEditPop
             key={1}
             itemId={selectedItemId}
             onClose={closeAddEditModal}
