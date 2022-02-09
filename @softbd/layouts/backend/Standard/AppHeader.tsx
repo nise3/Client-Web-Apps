@@ -75,8 +75,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           <SearchBar borderLight placeholder='Search…' />
           <Box className={classes.sectionDesktop}>
             <LanguageSwitcher />
-            <HeaderMessages />
-            <Notifications />
+            {/*   <HeaderMessages />
+            <Notifications />*/}
           </Box>
           <Box className={classes.sectionMobile}>
             <IconButton

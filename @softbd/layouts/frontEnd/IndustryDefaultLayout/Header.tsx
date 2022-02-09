@@ -126,13 +126,13 @@ const Header: React.FC<AppHeaderProps> = () => {
                 />
               </Box>
             )}
-            <Box>
+            {/* <Box>
               <img
                 className={classes.logoInstitute}
                 src='/images/gov-logo.png'
                 alt='bd-gov logo'
               />
-            </Box>
+            </Box>*/}
           </Link>
           <Grid item md={4} className={classes.instituteName}>
             <Text
