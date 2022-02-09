@@ -1362,5 +1362,6 @@
   "common.see_cv": "See CV",
   "common.cv_approve": "CV Approve",
   "assign_permission.label": "Assign Permission",
-  "common.applied": "Applied"
+  "common.applied": "Applied",
+  "beneficiaries_of_NISE.label": "Beneficiaries of NISE"
 }
