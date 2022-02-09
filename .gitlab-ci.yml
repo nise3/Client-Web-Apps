@@ -23,7 +23,7 @@ docker-build:
       if [[ "$imageAdminRelease" == true ]]; then
         tag=":$imageAdminAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = $imageAppVersion"
-        docker build --pull -t "$imageAdminRepository${tag}" -f DockerYouth .
+        docker build --pull -t "$imageAdminRepository${tag}" -f DockerAdmin .
         docker push "$imageAdminRepository${tag}"
       fi
   rules:
