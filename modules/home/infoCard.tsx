@@ -17,7 +17,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   padding: '30px 5px 5px 5px',
   boxShadow: '1px 1px 10px #dfdfdf',
   position: 'relative',
-  height: '85%',
+  height: 'calc(100% - 60px)',
 
   [`& .${classes.logo}`]: {
     height: '20px',
