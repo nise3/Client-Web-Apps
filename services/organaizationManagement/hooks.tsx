@@ -12,6 +12,7 @@ import {
   API_ORGANIZATION_UNITS,
   API_ORGANIZATIONS,
   API_PUBLIC_JOB_SECTORS,
+  API_PUBLIC_ORGANIZATION_TYPES,
   API_RANK_TYPES,
   API_RANKS,
 } from '../../@softbd/common/apiRoutes';
@@ -44,6 +45,10 @@ export function useFetchOrganizationType(organizationTypeId: number | null) {
 
 export function useFetchOrganizationTypes(params: any) {
   return useAxiosSWR([API_ORGANIZATION_TYPES, params]);
+}
+
+export function useFetchPublicOrganizationTypes(params: any) {
+  return useAxiosSWR([API_PUBLIC_ORGANIZATION_TYPES, params]);
 }
 
 export function useFetchAssociationTrades(params: any) {
