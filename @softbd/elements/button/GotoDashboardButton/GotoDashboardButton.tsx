@@ -1,18 +1,19 @@
 import React, {useCallback} from 'react';
-import Button from '@mui/material/Button';
 import {ButtonProps} from '@mui/material/Button/Button';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import Router from 'next/router';
-import {Dashboard} from '@mui/icons-material';
+import {Dashboard, Person} from '@mui/icons-material';
 import {adminDomain, niseDomain, youthDomain} from '../../../common/constants';
 import {LINK_FRONTEND_YOUTH_FEED} from '../../../common/appLinks';
+import GotoProfileMenu from '../GotoProfileMenu/GotoProfileMenu';
+import {useIntl} from 'react-intl';
 
 interface Props extends ButtonProps {}
 
 const GotoDashboardButton = ({className, ...extra}: Props) => {
   const authUser = useAuthUser();
+  const {messages} = useIntl();
 
   const onClickButton = useCallback(() => {
     if (authUser && authUser.isYouthUser) {
@@ -32,15 +33,18 @@ const GotoDashboardButton = ({className, ...extra}: Props) => {
 
   return !authUser ? (
     <ButtonSkeleton />
-  ) : (
-    <Button
-      startIcon={<Dashboard />}
+  ) : authUser?.isYouthUser ? (
+    <GotoProfileMenu
       onClick={onClickButton}
-      variant={'contained'}
-      color={'primary'}
-      {...extra}>
-      <IntlMessages id='menu.dashboard' />
-    </Button>
+      buttonText={messages['menu.my_life'] as string}
+      icon={<Person />}
+    />
+  ) : (
+    <GotoProfileMenu
+      onClick={onClickButton}
+      buttonText={messages['menu.dashboard'] as string}
+      icon={<Dashboard />}
+    />
   );
 };
 
