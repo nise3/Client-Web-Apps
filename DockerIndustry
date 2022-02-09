@@ -20,4 +20,4 @@ RUN cd /usr/src/app && rm -rf industry/public
 RUN cd /usr/src/app && cp public -R industry/public
 RUN cd /usr/src/app && yarn build:industry-prod
 EXPOSE 3004
-CMD ["npm", "start:industry"]
+CMD ["yarn", "start:industry"]

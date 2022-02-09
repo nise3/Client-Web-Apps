@@ -20,4 +20,4 @@ RUN cd /usr/src/app && rm -rf institute/public
 RUN cd /usr/src/app && cp public -R institute/public
 RUN cd /usr/src/app && yarn build:institute-prod
 EXPOSE 3003
-CMD ["npm", "start:institute"]
+CMD ["yarn", "start:institute"]
