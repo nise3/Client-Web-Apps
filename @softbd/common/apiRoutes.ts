@@ -9,10 +9,10 @@ export const API_PUBLIC_BACK_CHANNEL = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
 export const API_SSO_AUTHORIZE_CODE_GRANT =
   API_PUBLIC_BACK_CHANNEL + '/sso-authorize-code-grant';
 
-/*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
+export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
-  : 'https://file.nise3.xyz/test';*/
+  : 'https://file.nise3.xyz/test';
 
 export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT

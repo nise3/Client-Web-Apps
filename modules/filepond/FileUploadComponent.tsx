@@ -13,6 +13,10 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import FilepondCSS from './FilepondCSS';
+import {
+  FILE_SERVER_FILE_VIEW_ENDPOINT,
+  FILE_SERVER_UPLOAD_ENDPOINT,
+} from '../../@softbd/common/apiRoutes';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -63,17 +67,14 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
     if (defaultFileUrl && defaultFileUrl.length) {
       if (Array.isArray(defaultFileUrl)) {
         let initFile = defaultFileUrl.map((url) => ({
-          source: url.replace('https://file.nise3.xyz/uploads/', ''),
+          source: url.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, ''),
           options: {
             type: 'local',
           },
         }));
         setFiles(initFile);
       } else {
-        let source = defaultFileUrl.replace(
-          'https://file.nise3.xyz/uploads/',
-          '',
-        );
+        let source = defaultFileUrl.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, '');
         let initFile = [
           {
             source: source,
@@ -120,7 +121,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           // allowRemove={false} // prop does not exist
           server={{
             process: {
-              url: 'https://file.nise3.xyz/test',
+              url: FILE_SERVER_UPLOAD_ENDPOINT,
               onload: (response: any) => {
                 let res = JSON.parse(response);
                 console.log('res?.filePath', res?.url);
@@ -133,7 +134,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
               },
             },
             load: {
-              url: 'https://file.nise3.xyz/uploads/',
+              url: FILE_SERVER_FILE_VIEW_ENDPOINT,
             },
           }}
           styleProgressIndicatorPosition={'center'}
