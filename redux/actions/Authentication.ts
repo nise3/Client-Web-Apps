@@ -22,26 +22,26 @@ import {
   removeBrowserCookie,
   setBrowserCookie,
 } from '../../@softbd/libs/cookieInstance';
-import {Gender} from '../../@softbd/utilities/Genders';
-import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
-import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
-import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
-import {Religion} from '../../@softbd/utilities/Religions';
-import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
+// import {Gender} from '../../@softbd/utilities/Genders';
+// import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
+// import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
+// import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
+// import {Religion} from '../../@softbd/utilities/Religions';
+// import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
 import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
-import {IOrganization} from '../../shared/Interface/organization.interface';
-import {IInstitute} from '../../shared/Interface/institute.interface';
-import {IRole} from '../../shared/Interface/userManagement.interface';
+import {
+  TAuthUserSSOResponse,
+  TOnSSOSignInCallback,
+  TYouthAuthUserSSOResponse,
+} from '../../shared/Interface/IAuthentication';
+import {API_SSO_AUTHORIZE_CODE_GRANT} from '../../@softbd/common/apiRoutes';
+// import {IOrganization} from '../../shared/Interface/organization.interface';
+// import {IInstitute} from '../../shared/Interface/institute.interface';
+// import {IRole} from '../../shared/Interface/userManagement.interface';
 
-type TOnSSOSignInCallback = {
-  access_token: string; // Inorder to consume api, use access token to authorize.
-  expires_in: string | number; // token lifetime in second
-  id_token: string; // {Header, payload, signature}
-  session_state: string; // I don't know.
-  refresh_token: string;
-};
+
 
 type TOnSSOSignInCallbackCode = string;
 
@@ -56,18 +56,19 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-      : 'https://core.bus-staging.softbdltd.com';
+    // let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+    //   ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+    //   : 'https://core.bus-staging.softbdltd.com';
     const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       : null;
 
-    console.log('urlHost', urlHost);
+    console.log('urlHost', API_SSO_AUTHORIZE_CODE_GRANT);
 
     try {
       const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
-        urlHost + '/sso-authorize-code-grant',
+        // urlHost + '/sso-authorize-code-grant',
+        API_SSO_AUTHORIZE_CODE_GRANT,
         {
           code,
           redirect_uri: redirectUrl.toString(),
@@ -179,95 +180,6 @@ export const setAuthAccessTokenData = (
   payload: data,
 });
 
-type TAuthUserSSOResponse = {
-  sub: string;
-  upn: string;
-  user_id: string | number;
-  given_name: string;
-  family_name: string;
-  userType: 'system' | 'institute' | 'organization' | 'youth';
-  isSystemUser: boolean;
-  isInstituteUser: boolean;
-  isOrganizationUser: boolean;
-  isIndustryAssociationUser: boolean;
-  institute_id?: string | number;
-  organization_id?: string | number;
-  institute?: IInstitute;
-  organization?: IOrganization;
-  role?: IRole;
-  displayName?: string;
-  email?: string;
-  username: string;
-  permissions: string[];
-  profile_pic?: string;
-  name?: string;
-  institute_user_type?: string;
-  training_center_id?: number;
-  branch_id?: number;
-  industry_association_id?: number;
-  industry_association?: any;
-};
-
-type TYouthAuthUserSSOResponse = {
-  id: number | string;
-  sub: string;
-  upn: string;
-  given_name: string;
-  family_name: string;
-  userType: 'youth';
-  displayName?: string;
-  code?: string;
-  email?: string;
-  username: string;
-  permissions: string[];
-  photoURL?: string;
-  date_of_birth: string;
-  first_name: string;
-  gender: Gender;
-  last_name: string;
-  last_name_en?: string;
-  mobile: string;
-  user_name_type: number;
-  freedom_fighter_status: FreedomFighterStatusType;
-  identity_number_type: IdentityNumberType;
-  identity_number?: string;
-  marital_status: MaritalStatusType;
-  religion: Religion;
-  nationality?: string;
-  does_belong_to_ethnic_group: EthnicGroupStatusType;
-  is_freelance_profile: number;
-  first_name_en?: string;
-  physical_disability_status: number;
-  loc_division_id?: string;
-  division_title_en?: string;
-  division_title?: string;
-  loc_district_id?: string;
-  district_title_en?: string;
-  district_title?: string;
-  loc_upazila_id?: string;
-  upazila_title_en?: string;
-  upazila_title?: string;
-  village_or_area?: string;
-  village_or_area_en?: string;
-  house_n_road?: string;
-  house_n_road_en?: string;
-  zip_or_postal_code?: string;
-  bio?: string;
-  bio_en?: string;
-  photo?: string;
-  cv_path?: string;
-  signature_image_path?: string;
-  physical_disabilities?: any[];
-  skills?: any[];
-  youth_certifications?: any[];
-  youth_educations?: any[];
-  youth_languages_proficiencies?: any[];
-  youth_portfolios?: any[];
-  youth_addresses?: any[];
-  profile_completed?: any;
-  total_job_experience?: any;
-};
-
 export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
@@ -366,10 +278,7 @@ export const getYouthAuthUserObject = (
   };
 };
 
-/**
- * @deprecated
- */
-export const onJWTAuthSignout = () => {
+export const Signout = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
@@ -378,4 +287,22 @@ export const onJWTAuthSignout = () => {
     dispatch(fetchSuccess());
     console.log('logged out.');
   };
+};
+
+// export const onJWTAuthSignout = () => {
+//   return (dispatch: Dispatch<AppActions | any>) => {
+//     dispatch(fetchStart());
+//     dispatch({type: SIGNOUT_AUTH_SUCCESS});
+//     removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+//     removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+//     dispatch(fetchSuccess());
+//     console.log('logged out.');
+//   };
+// };
+
+/**
+ * @deprecated use Signout() instead
+ */
+export const onJWTAuthSignout = () => {
+  return Signout();
 };
