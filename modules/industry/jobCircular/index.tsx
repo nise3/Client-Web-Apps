@@ -67,6 +67,7 @@ const JobCircular = () => {
     data: jobCircularList,
     isLoading: isLoadingJobCirculars,
     metaData: jobsMetaData,
+    mutate: mutateJobs,
   } = useFetchPublicJobs(jobFilters);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
@@ -76,6 +77,9 @@ const JobCircular = () => {
     });
   }, []);
 
+  const onPopupClose = () => {
+    mutateJobs();
+  };
   const filterJobList = useCallback((filterKey: any, filterValue: any) => {
     const newFilter: any = {};
     newFilter[filterKey] = filterValue;
@@ -146,6 +150,7 @@ const JobCircular = () => {
                       md={viewType == 1 ? 3 : 12}
                       key={jobCircular.id}>
                       <JobCardComponent
+                        onPopupClose={onPopupClose}
                         job={jobCircular}
                         isGridView={viewType == 1}
                       />
