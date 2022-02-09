@@ -11,10 +11,9 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
+import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+import {useFetchPublicInstitutes} from '../../../services/instituteManagement/hooks';
 import JobRequirementFields from './JobRequirementFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
@@ -25,8 +24,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import _ from 'lodash';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 
-interface HumanResourceDemandAddEditPopupProps {
-  itemId: number | null;
+interface JobRequirementAddEditPopupProps {
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -36,28 +34,30 @@ const initialValues = {
   hr_demands: [{mandatory_skill_ids: [], optional_skill_ids: []}],
 };
 
-const HumanResourceDemandAddEditPopup: FC<
-  HumanResourceDemandAddEditPopupProps
-> = ({itemId, refreshDataTable, ...props}) => {
+const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
+  refreshDataTable,
+  ...props
+}) => {
   const authUser = useAuthUser<CommonAuthUser>();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
-  const isEdit = itemId != null;
-  const {data: itemData, isLoading} = useFetchHumanResourceDemand(itemId);
 
-  const [organizationFilter] = useState({});
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilter);
+  const [industryAssociationMembersFilter] = useState({});
+  const {
+    data: industryAssociationMembers,
+    isLoading: isLoadingIndustryAssocMembers,
+  } = useFetchIndustryMembers(industryAssociationMembersFilter);
 
-  const [industryAssociationFilter] = useState<any>({});
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
     useFetchIndustryAssociations(industryAssociationFilter);
 
   const [instituteFilter] = useState({});
   const {data: institutes, isLoading: isLoadingInstitute} =
-    useFetchAllInstitutes(instituteFilter);
+    useFetchPublicInstitutes(instituteFilter);
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
@@ -144,38 +144,14 @@ const HumanResourceDemandAddEditPopup: FC<
   });
 
   useEffect(() => {
-    if (itemData) {
-      let institutes = [itemData?.all_institutes];
+    reset(initialValues);
+  }, []);
 
-      let hrDemands = {
-        institute_id: institutes,
-        skill_id: itemData?.skill_id,
-        end_date: itemData?.end_date,
-        vacancy: itemData?.vacancy,
-        requirement: itemData?.remaining_vacancy,
-      };
-      let hrDemandsArr = [];
-      hrDemandsArr[0] = hrDemands;
-
-      let data = {
-        organization_id: itemData?.organization_id,
-        industry_association_id: itemData?.industry_association_id,
-        hr_demands: hrDemandsArr,
-      };
-
-      if (itemData?.hr_demands) {
-        let array = [];
-        for (let i = 1; i < itemData?.hr_demands.length; i++) {
-          array.push(i);
-        }
-        setHrDemandFields(array);
-      }
-
-      reset(data);
-    } else {
-      reset(initialValues);
+  useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIndustryAssociationFilter({});
     }
-  }, [itemData]);
+  }, [authUser]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     const formData = _.cloneDeep(data);
@@ -219,24 +195,19 @@ const HumanResourceDemandAddEditPopup: FC<
       title={
         <>
           <IconHumanResourceDemand />
-          {isEdit ? (
-            <IntlMessages
-              id='common.edit'
-              values={{subject: <IntlMessages id='job_requirement.label' />}}
-            />
-          ) : (
+          {
             <IntlMessages
               id='common.add_new'
               values={{subject: <IntlMessages id='job_requirement.label' />}}
             />
-          )}
+          }
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={isLoading} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <CancelButton onClick={props.onClose} />
+          <SubmitButton isSubmitting={isSubmitting} />
         </>
       }>
       <Grid container spacing={5}>
@@ -260,8 +231,8 @@ const HumanResourceDemandAddEditPopup: FC<
             required
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoadingOrganizations}
-            options={organizations}
+            isLoading={isLoadingIndustryAssocMembers}
+            options={industryAssociationMembers}
             optionValueProp={'id'}
             optionTitleProp={['title', 'title_en']}
             control={control}
@@ -284,27 +255,25 @@ const HumanResourceDemandAddEditPopup: FC<
             </React.Fragment>
           );
         })}
-        {!itemId && (
-          <Grid item xs={12}>
-            <Box display={'flex'} justifyContent={'flex-end'}>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                sx={{marginRight: '10px'}}
-                onClick={onAddHrDemand}>
-                Add
-              </Button>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                onClick={onRemoveHrDemand}>
-                Remove
-              </Button>
-            </Box>
-          </Grid>
-        )}
+        <Grid item xs={12}>
+          <Box display={'flex'} justifyContent={'flex-end'}>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              sx={{marginRight: '10px'}}
+              onClick={onAddHrDemand}>
+              Add
+            </Button>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              onClick={onRemoveHrDemand}>
+              Remove
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );
 };
-export default HumanResourceDemandAddEditPopup;
+export default JobRequirementAddEditPopup;

@@ -11,10 +11,12 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchHumanResourceDemand} from '../../../services/IndustryManagement/hooks';
+import {
+  useFetchHumanResourceDemand,
+  useFetchIndustryMembers,
+} from '../../../services/IndustryManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
-import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+import {useFetchPublicInstitutes} from '../../../services/instituteManagement/hooks';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
 import {updateHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
@@ -27,7 +29,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import _ from 'lodash';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 
-interface HumanResourceDemandEditPopupProps {
+interface JobRequirementEditPopupProps {
   itemId: number;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -40,7 +42,7 @@ const initialValues = {
   optional_skill_ids: [],
 };
 
-const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
+const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -57,17 +59,18 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
     mutate: mutateHumanResourceDemand,
   } = useFetchHumanResourceDemand(itemId);
 
-  const [organizationFilter] = useState({});
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilter);
+  const [industryAssocMembersFilter] = useState({});
+  const {data: industryAssocMembers, isLoading: isLoadingIndustryAssocMembers} =
+    useFetchIndustryMembers(industryAssocMembersFilter);
 
-  const [industryAssociationFilter] = useState<any>({});
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
     useFetchIndustryAssociations(industryAssociationFilter);
 
   const [instituteFilter] = useState({});
   const {data: institutes, isLoading: isLoadingInstitute} =
-    useFetchAllInstitutes(instituteFilter);
+    useFetchPublicInstitutes(instituteFilter);
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
@@ -213,6 +216,12 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
     }
   }, [itemData, institutes]);
 
+  useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIndustryAssociationFilter({});
+    }
+  }, [authUser]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     const formData = _.cloneDeep(data);
 
@@ -292,8 +301,8 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
             required
             id='organization_id'
             label={messages['organization.label']}
-            isLoading={isLoadingOrganizations}
-            options={organizations}
+            isLoading={isLoadingIndustryAssocMembers}
+            options={industryAssocMembers}
             optionValueProp={'id'}
             optionTitleProp={['title', 'title_en']}
             control={control}
@@ -391,4 +400,4 @@ const HumanResourceDemandEditPopup: FC<HumanResourceDemandEditPopupProps> = ({
   );
 };
 
-export default HumanResourceDemandEditPopup;
+export default JobRequirementEditPopup;
