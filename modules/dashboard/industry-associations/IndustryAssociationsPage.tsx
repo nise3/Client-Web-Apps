@@ -27,9 +27,10 @@ import AssignPermissionSubGroupPopup from './AssignPermissionSubGroupPopup';
 import ApproveButton from './ApproveButton';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const IndustryAssociationsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -149,11 +150,12 @@ const IndustryAssociationsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {

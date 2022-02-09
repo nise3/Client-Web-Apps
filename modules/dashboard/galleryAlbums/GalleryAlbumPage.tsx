@@ -18,9 +18,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import AlbumTypes from './AlbumTypes';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const GalleryAlbumPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -91,6 +92,12 @@ const GalleryAlbumPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['gallery_album.album_type'],

@@ -17,9 +17,10 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const IndustryAssociationContactInfoPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -77,10 +78,12 @@ const IndustryAssociationContactInfoPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.phone'],

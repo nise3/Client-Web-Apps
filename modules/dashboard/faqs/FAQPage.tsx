@@ -17,9 +17,10 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const FAQPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -81,8 +82,14 @@ const FAQPage = () => {
         accessor: 'show_in_label',
       },
       {
-        Header: messages['common.name'],
-        accessor: 'name',
+        Header: messages['common.institute'],
+        accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['institute.name_en'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['faq.question'],

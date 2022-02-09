@@ -18,9 +18,10 @@ import {rejectEnrollment} from '../../../services/instituteManagement/Registrati
 import AssignBatchPopup from './AssignBatchPopup';
 import {FiUserCheck} from 'react-icons/fi';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const ApplicationManagementPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -84,20 +85,43 @@ const ApplicationManagementPage = () => {
       {
         Header: messages['applicationManagement.programTitle'],
         accessor: 'program_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['applicationManagement.programTitle_en'],
+        accessor: 'program_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['applicationManagement.courseTitle'],
         accessor: 'course_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['applicationManagement.courseTitle_en'],
+        accessor: 'course_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['menu.batch'],
         accessor: 'batch_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['menu.batch_en'],
+        accessor: 'batch_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['applicationManagement.applicantFullName_en'],
+        accessor: 'full_name_en',
+        isVisible: locale == LocaleLanguage.EN,
+        disableFilters: true,
       },
       {
         Header: messages['applicationManagement.applicantFullName'],
         accessor: 'full_name',
-        isVisible: true,
+        isVisible: locale == LocaleLanguage.BN,
         disableFilters: true,
       },
       {

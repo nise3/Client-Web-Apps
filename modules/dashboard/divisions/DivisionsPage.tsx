@@ -16,6 +16,7 @@ import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 import {styled} from '@mui/material/styles';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'DivisionPage';
 const classes = {root: `${PREFIX}-root`};
@@ -29,7 +30,7 @@ const DivisionsPage = () => {
   // console.log('hasPermission', hasPermission);
 
   const [filters] = useState({});
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const {
     data,
@@ -99,11 +100,12 @@ const DivisionsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.bbs_code'],
