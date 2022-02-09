@@ -19,7 +19,7 @@
     "build:nise-dev": "env-cmd -f .\\env.development next build nise",
     "build:nise-prod": "env-cmd -f .\\env.production next build nise",
     "build:youth-dev": "env-cmd -f .\\env.development next build youth",
-    "build:youth-prod": "env-cmd -f .\\env.production next build youth",
+    "build:youth-prod": "env-cmd -f env.production next build youth",
     "build:institute-dev": "env-cmd -f .\\env.development next build institute",
     "build:institute-prod": "env-cmd -f .\\env.production next build institute",
     "build:industry-dev": "env-cmd -f .\\env.development next build industry",
