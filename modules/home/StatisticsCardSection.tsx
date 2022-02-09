@@ -23,7 +23,7 @@ const classes = {
   infoCardWrapper: `${PREFIX}-infoCardWrapper`,
 };
 
-const StyledContainer = styled(Container)(({theme}) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.cardColors}`]: {
     position: 'relative',
     height: '100%',
@@ -175,218 +175,210 @@ const StatisticsCardSection = () => {
   }, [niseStatics?.total_popular_job]);
 
   return (
-    <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
-      <Fade direction='down'>
-        <Grid container spacing={2} style={{marginTop: '60px'}}>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor1)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_ministry ? (
-                    niseStatics?.total_ministry
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.ministry']}
-              </Text>
-            </Card>
+    <StyledBox style={{background: '#f9fdfe'}}>
+      <Container maxWidth='lg' style={{background: '#f9fdfe'}}>
+        <Fade direction='down'>
+          <Grid container spacing={2} style={{marginTop: '60px'}}>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor1)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_ministry ? (
+                      niseStatics?.total_ministry
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.ministry']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor2)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_department ? (
+                      niseStatics?.total_department
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.departments']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor4)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_industrial_skills_council ? (
+                      niseStatics?.total_industrial_skills_council
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.industry_skills_council']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor4)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_deputy_commissioner_office ? (
+                      niseStatics?.total_deputy_commissioner_office
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.dc_offices']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor3)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_youth ? (
+                      niseStatics?.total_youth
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.youth_2']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor5)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_4_ir_project ? (
+                      niseStatics?.total_4_ir_project
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.4IR_projects']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor6)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_rto ? (
+                      niseStatics?.total_rto
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.rto']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Card className={clsx(classes.cardColors, classes.cardColor6)}>
+                <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+                  {formatNumber(
+                    isLoading ? (
+                      <Skeleton variant='circular' width={40} height={40} />
+                    ) : niseStatics?.total_industry ? (
+                      niseStatics?.total_industry
+                    ) : (
+                      0
+                    ),
+                  )}
+                </H3>
+                <Text style={{fontSize: '1.563rem'}}>
+                  {messages['common.industries']}
+                </Text>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor1} style={{padding: '20px'}}>
+                {messages['common.job_provider']}
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#661687'}}
+              />
+              <InfoCard color={'#661687'} infos={totalJobProvider} />
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor2} style={{padding: '20px'}}>
+                {messages['common.nise_landing_training_center']}
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#0069BC'}}
+              />
+              <InfoCard
+                label={messages['common.trained'] as string}
+                color={'#0069BC'}
+                infos={totalSkillDevelopmentCenter}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor3} style={{padding: '20px'}}>
+                {messages['common.popular_courses']}
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#305DF7'}}
+              />
+              <InfoCard
+                label={messages['common.enrolled'] as string}
+                color={'#305DF7'}
+                infos={totalPopularCourses}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+              <Card className={classes.cardColor7} style={{padding: '20px'}}>
+                {messages['common.popular_job']}
+              </Card>
+              <Box
+                mx={'auto'}
+                className={classes.triangleDown}
+                sx={{color: '#22BB33'}}
+              />
+              <InfoCard color={'#22BB33'} infos={totalPopularJob} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor2)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_department ? (
-                    niseStatics?.total_department
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.departments']}
-              </Text>
-            </Card>
-          </Grid>
-          {/*<Grid item xs={12} md={3}>*/}
-          {/*  <Card className={clsx(classes.cardColors, classes.cardColor3)}>*/}
-          {/*    <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>*/}
-          {/*      {formatNumber(36)}*/}
-          {/*    </H3>*/}
-          {/*    <Text style={{fontSize: '1.563rem'}}>*/}
-          {/*      {messages['common.industry_associations']}*/}
-          {/*    </Text>*/}
-          {/*  </Card>*/}
-          {/*</Grid>*/}
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_industrial_skills_council ? (
-                    niseStatics?.total_industrial_skills_council
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.industry_skills_council']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor4)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_deputy_commissioner_office ? (
-                    niseStatics?.total_deputy_commissioner_office
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.dc_offices']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor3)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_youth ? (
-                    niseStatics?.total_youth
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.youth_2']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor5)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_4_ir_project ? (
-                    niseStatics?.total_4_ir_project
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.4IR_projects']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor6)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_rto ? (
-                    niseStatics?.total_rto
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.rto']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={clsx(classes.cardColors, classes.cardColor6)}>
-              <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(
-                  isLoading ? (
-                    <Skeleton variant='circular' width={40} height={40} />
-                  ) : niseStatics?.total_industry ? (
-                    niseStatics?.total_industry
-                  ) : (
-                    0
-                  ),
-                )}
-              </H3>
-              <Text style={{fontSize: '1.563rem'}}>
-                {messages['common.industries']}
-              </Text>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor1} style={{padding: '20px'}}>
-              {messages['common.job_provider']}
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#661687'}}
-            />
-            <InfoCard color={'#661687'} infos={totalJobProvider} />
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor2} style={{padding: '20px'}}>
-              {messages['common.nise_landing_training_center']}
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#0069BC'}}
-            />
-            <InfoCard
-              label={messages['common.trained'] as string}
-              color={'#0069BC'}
-              infos={totalSkillDevelopmentCenter}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor3} style={{padding: '20px'}}>
-              {messages['common.popular_courses']}
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#305DF7'}}
-            />
-            <InfoCard
-              label={messages['common.enrolled'] as string}
-              color={'#305DF7'}
-              infos={totalPopularCourses}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
-            <Card className={classes.cardColor7} style={{padding: '20px'}}>
-              {messages['common.popular_job']}
-            </Card>
-            <Box
-              mx={'auto'}
-              className={classes.triangleDown}
-              sx={{color: '#22BB33'}}
-            />
-            <InfoCard color={'#22BB33'} infos={totalPopularJob} />
-          </Grid>
-        </Grid>
-      </Fade>
-    </StyledContainer>
+        </Fade>
+      </Container>
+    </StyledBox>
   );
 };
 export default StatisticsCardSection;
