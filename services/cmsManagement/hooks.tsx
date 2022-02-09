@@ -1,5 +1,6 @@
 import {
   useAxiosSWR,
+  useDataLocalizationAxiosSWR,
   useLocalizedAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
@@ -184,5 +185,5 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
 }
 
 export function useFetchNiseStatics() {
-  return useAxiosSWR(API_PUBLIC_NISE_STATICS);
+  return useDataLocalizationAxiosSWR(API_PUBLIC_NISE_STATICS);
 }
