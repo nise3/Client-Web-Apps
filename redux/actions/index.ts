@@ -1,3 +1,3 @@
 export * from './Common';
-export * from './JWTAuth';
+export * from './Authentication';
 export * from './Setting';
