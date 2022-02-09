@@ -114,7 +114,6 @@ const StatisticsCardSection = () => {
   const {messages, formatNumber} = useIntl();
 
   const {data: niseStatics, isLoading} = useFetchNiseStatics();
-  console.log('data->', niseStatics);
 
   return (
     <StyledBox style={{background: '#f9fdfe'}}>
