@@ -3,9 +3,7 @@ import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
-import {H2} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import VerticalBar from './components/VerticalBar';
 import {useFetchPublicJobs} from '../../services/IndustryManagement/hooks';
 import JobCardComponent from '../../@softbd/elements/JobCardComponent';
 import BoxContentSkeleton from '../youth/profile/component/BoxContentSkeleton';
@@ -14,24 +12,18 @@ import JobCategory from '../../@softbd/utilities/JobCategorie';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import Link from 'next/link';
 import {LINK_FRONTEND_JOBS} from '../../@softbd/common/appLinks';
+import SectionTitle from './SectionTitle';
 
 const PREFIX = 'NisePopularJobs';
 
 const classes = {
-  title: `${PREFIX}-title`,
   courseItem: `${PREFIX}-courseItem`,
   image: `${PREFIX}-image`,
   timeDetails: `${PREFIX}-timeDetails`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
-
-  [`& .${classes.title}`]: {
-    color: '#682988',
-    display: 'flex',
-    alignItems: 'center',
-  },
+  marginTop: '40px',
 
   [`& .${classes.courseItem}`]: {
     position: 'relative',
@@ -64,20 +56,12 @@ const PopularJobs = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <Box
-          style={{
-            fontSize: '2.063rem',
-            marginBottom: '50px',
-            marginTop: '10px',
-          }}
-          className={classes.title}
-          justifyContent={'center'}>
-          <VerticalBar />
-          <H2 style={{fontSize: '2rem', fontWeight: 'bold'}}>
-            {messages['nise.popular_jobs']}
-          </H2>
-        </Box>
-        <Box mb={2}>
+        <SectionTitle
+          title={messages['nise.popular_jobs'] as string}
+          center={true}
+        />
+
+        <Box mb={2} sx={{marginTop: '-16px'}}>
           {isLoading ? (
             <BoxContentSkeleton />
           ) : jobs && jobs.length > 0 ? (

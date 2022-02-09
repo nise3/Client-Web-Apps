@@ -16,22 +16,16 @@ const classes = {
   boxItem: `${PREFIX}-boxItem`,
   icon: `${PREFIX}-icon`,
   desc: `${PREFIX}-desc`,
-  rootMobileView: `${PREFIX}-rootMobileView`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`&.${classes.root}`]: {
-    [theme.breakpoints.up('md')]: {
-      marginTop: '50px',
-    },
-    [theme.breakpoints.down('xl')]: {
-      // marginTop: '200px',
-    },
+    marginTop: '60px',
   },
 
   [`& .${classes.subheading}`]: {
     textAlign: 'center',
-    marginBottom: 48,
+    marginBottom: 30,
   },
 
   [`& .${classes.boxItem}`]: {
@@ -56,12 +50,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     color: '#014E84', // theme.palette.secondary.main,
     padding: '0px 6px',
   },
-
-  [`& .${classes.rootMobileView}`]: {
-    [theme.breakpoints.down('xl')]: {
-      marginTop: '80px',
-    },
-  },
 }));
 
 const InfoCardSection = () => {
@@ -70,7 +58,7 @@ const InfoCardSection = () => {
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
-      <Container maxWidth='lg' className={classes.rootMobileView}>
+      <Container maxWidth='lg'>
         <Fade direction='up'>
           <UnderlinedHeading>
             {messages['institute_home.at_a_glance']}
