@@ -184,8 +184,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_ministry ? (
                     niseStatics?.total_ministry
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -200,8 +202,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_department ? (
                     niseStatics?.total_department
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -226,8 +230,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_industrial_skills_council ? (
                     niseStatics?.total_industrial_skills_council
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -242,8 +248,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_deputy_commissioner_office ? (
                     niseStatics?.total_deputy_commissioner_office
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -258,8 +266,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_youth ? (
                     niseStatics?.total_youth
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -274,8 +284,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_4_ir_project ? (
                     niseStatics?.total_4_ir_project
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -290,8 +302,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_rto ? (
                     niseStatics?.total_rto
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
@@ -306,8 +320,10 @@ const StatisticsCardSection = () => {
                 {formatNumber(
                   isLoading ? (
                     <Skeleton variant='circular' width={40} height={40} />
-                  ) : (
+                  ) : niseStatics?.total_industry ? (
                     niseStatics?.total_industry
+                  ) : (
+                    0
                   ),
                 )}
               </H3>
