@@ -12,7 +12,7 @@ import {useFetchPublicJobs} from '../../services/IndustryManagement/hooks';
 import BoxContentSkeleton from '../youth/profile/component/BoxContentSkeleton';
 import JobCardComponent from '../../@softbd/elements/JobCardComponent';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
-import UnderlinedHeadingH1 from '../../@softbd/elements/common/UnderlinedHeadingH1';
+import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 
 const PREFIX = 'JobCircularSection';
 
@@ -24,7 +24,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
+  marginTop: '60px',
 
   [`& .${classes.title}`]: {
     color: '#682988',
@@ -62,10 +62,8 @@ const JobCircularSection = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <UnderlinedHeadingH1>
-          {messages['menu.job_circular']}
-        </UnderlinedHeadingH1>
-        <Box mb={2}>
+        <UnderlinedHeading>{messages['menu.job_circular']}</UnderlinedHeading>
+        <Box mb={2} sx={{marginTop: '-16px'}}>
           {isLoading ? (
             <BoxContentSkeleton />
           ) : jobs && jobs.length > 0 ? (
