@@ -10,7 +10,8 @@ import {Loader} from '../../@crema';
 import {removeBrowserCookie} from '../../@softbd/libs/cookieInstance';
 import {
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
-  COOKIE_KEY_AUTH_ID_TOKEN, COOKIE_KEY_SSO_SESSION_STATE,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_SSO_SESSION_STATE,
 } from '../../shared/constants/AppConst';
 
 export default NiseFrontPage(() => {
@@ -28,10 +29,10 @@ export default NiseFrontPage(() => {
       dispatch(onJWTAuthSignout());
       setStaleAuthUser(authUser);
     } else {
-      if (staleAuthUser?.institute?.domain) {
-        const logoutUrl = new URL(staleAuthUser?.institute?.domain);
-        logoutUrl.pathname = '/logout';
-        window.location.href = logoutUrl.toString();
+      if (staleAuthUser?.domain) {
+        const protocol = window.location.protocol;
+        window.location.href =
+          protocol + '//' + staleAuthUser?.domain + '/logout';
       } else {
         router.push(niseDomain());
       }
