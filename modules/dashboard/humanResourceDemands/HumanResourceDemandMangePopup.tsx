@@ -82,6 +82,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
             values={{subject: <IntlMessages id='hr_demand.label' />}}
           />,
         );
+        setCvLinks([]);
         onClose();
         mutateHrDemand();
       }
