@@ -1373,5 +1373,6 @@
   "common.cv_approve": "সিভি অনুমোদন",
   "common.candidates_list": "প্রার্থী তালিকা",
   "assign_permission.label": "পারমিশন প্রদান",
-  "common.applied": "এপ্লাইড"
+  "common.applied": "এপ্লাইড",
+  "beneficiaries_of_NISE.label": "উপকারভোগী"
 }

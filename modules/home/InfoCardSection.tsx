@@ -1,9 +1,10 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Card, Container, Grid} from '@mui/material';
+import {Box, Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import VerticalBar from './components/VerticalBar';
 
 const PREFIX = 'InfoCardSection';
 
@@ -11,9 +12,17 @@ const classes = {
   youthBoxItem: `${PREFIX}-youthBoxItem`,
   skillBoxItem: `${PREFIX}-skillBoxItem`,
   industryBoxItem: `${PREFIX}-industryBoxItem`,
+  titleTypography: `${PREFIX}-titleTypography`,
 };
 
 const StyledFade = styled(Fade)(({theme}) => ({
+  [`& .${classes.titleTypography}`]: {
+    color: theme.palette.primary.dark,
+    display: 'flex',
+    fontSize: '33px',
+    fontWeight: 'bold',
+    marginBottom: '38px',
+  },
   [`& .${classes.youthBoxItem}`]: {
     background: '#1B69BC',
     textAlign: 'center',
@@ -75,11 +84,11 @@ const InfoCardSection = () => {
   return (
     <StyledFade direction='up'>
       <Container maxWidth='lg'>
-        <Grid
-          container
-          spacing={4}
-          mb={{xs: 2, md: 5}}
-          sx={{marginTop: '115px'}}>
+        <H3 className={classes.titleTypography} sx={{marginTop: '50px'}}>
+          <VerticalBar />
+          <Box>{messages['beneficiaries_of_NISE.label']}</Box>
+        </H3>
+        <Grid container spacing={4} mb={{xs: 2, md: 5}}>
           <Grid item xs={12} md={4}>
             <Card className={classes.youthBoxItem}>
               <img src={'/images/home-page/man-n-woman.png'} />

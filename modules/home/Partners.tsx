@@ -50,25 +50,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 }));
 
-/*let items = [
-  {
-    img: '/images/partner1.png',
-    title: 'partner1',
-  },
-  {
-    img: '/images/partner2.png',
-    title: 'partner2',
-  },
-  {
-    img: '/images/partner1.png',
-    title: 'partner3',
-  },
-  {
-    img: '/images/partner2.png',
-    title: 'partner4',
-  },
-];*/
-
 const Partners = () => {
   const {messages} = useIntl();
   const [partnerFilters] = useState({});
@@ -80,7 +61,11 @@ const Partners = () => {
           <Box className={classes.imageAlt}>
             <img
               className={classes.image}
-              src={partner?.main_image_path}
+              src={
+                partner?.main_image_path
+                  ? partner?.main_image_path
+                  : '/images/blank_image.png'
+              }
               alt={partner?.image_alt_title}
               title={partner?.title}
             />
