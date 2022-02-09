@@ -63,6 +63,7 @@ const TrendingCoursesSection = ({
       return {...params, ...{page: currentPage}};
     });
   }, []);
+
   useEffect(() => {
     page.current = 1;
     setCourseFilters((prev: any) => {
