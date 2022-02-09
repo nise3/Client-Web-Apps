@@ -20,4 +20,4 @@ RUN cd /usr/src/app && rm -rf dashboard/public
 RUN cd /usr/src/app && cp public -R dashboard/public
 RUN cd /usr/src/app && yarn build:admin-prod
 EXPOSE 3000
-CMD ["npm", "start:admin"]
+CMD ["yarn", "start:admin"]

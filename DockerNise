@@ -20,4 +20,4 @@ RUN cd /usr/src/app && rm -rf nise/public
 RUN cd /usr/src/app && cp public -R nise/public
 RUN cd /usr/src/app && yarn build:nise-prod
 EXPOSE 3001
-CMD ["npm", "start:nise"]
+CMD ["yarn", "start:nise"]
