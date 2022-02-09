@@ -87,11 +87,6 @@ const Footer = () => {
                 </Link>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  {messages['footer.partner']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
                 <Link
                   href={
                     LINK_NICE3_FRONTEND_STATIC_CONTENT +
@@ -101,11 +96,6 @@ const Footer = () => {
                   mt={2}>
                   {messages['footer.privacy_policy']}
                 </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  {messages['common.contact']}
-                </Box>
               </Typography>
               <Typography gutterBottom={true}>
                 <Link
@@ -123,11 +113,6 @@ const Footer = () => {
                 </Box>
               </Typography>
               <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  {messages['footer.bio_edit']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
                 <Link
                   href={
                     LINK_NICE3_FRONTEND_STATIC_CONTENT +
@@ -137,11 +122,6 @@ const Footer = () => {
                   mt={2}>
                   {messages['footer.career_advice']}
                 </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  {messages['footer.my_jobs']}
-                </Box>
               </Typography>
               <Typography gutterBottom={true}>
                 <Link href={LINK_FRONTEND_FAQ} component={'span'} mt={2}>

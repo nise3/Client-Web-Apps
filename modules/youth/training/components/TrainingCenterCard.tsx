@@ -12,7 +12,12 @@ const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
         <Grid container sx={{alignItems: 'center', flexDirection: 'column'}}>
           <Grid item xs={12}>
             <Typography mt={3} mb={3} variant={'h5'}>
-              {trainingCenter.title}
+              {trainingCenter?.title}
+              {trainingCenter?.district_title ? (
+                <>,{trainingCenter?.district_title}</>
+              ) : (
+                <></>
+              )}
             </Typography>
           </Grid>
         </Grid>

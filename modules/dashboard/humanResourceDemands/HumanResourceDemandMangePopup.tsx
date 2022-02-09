@@ -64,6 +64,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     handleSubmit,
     reset,
     control,
+    getValues,
     watch,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -81,6 +82,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
             values={{subject: <IntlMessages id='hr_demand.label' />}}
           />,
         );
+        setCvLinks([]);
         onClose();
         mutateHrDemand();
       }
@@ -124,12 +126,11 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log('data: ', data);
+    console.log('getValues: ', getValues('youth_ids'));
+
     if (
-      (data?.cv_links &&
-        data?.cv_links.length == 0 &&
-        data?.youth_ids &&
-        data?.youth_ids.length == 0) ||
-      data.youth_ids == undefined
+      !Object.keys(getValues('cv_links')).length &&
+      getValues('youth_ids') == undefined
     ) {
       setValidationMessage('You must select at least one field!');
     } else {

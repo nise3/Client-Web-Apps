@@ -1,4 +1,7 @@
-import {useAxiosSWR, useDataLocalizationAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
@@ -185,9 +188,16 @@ export function useFetchExamDegrees() {
   return useAxiosSWR(API_GET_EXAM_DEGREES);
 }
 
-export function useFetchIndustryMembers(params: any) {
+export function useFetchPublicIndustryMembers(params: any) {
   return useDataLocalizationAxiosSWR([
     API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
+    params,
+  ]);
+}
+
+export function useFetchIndustryMembers(params: any) {
+  return useDataLocalizationAxiosSWR([
+    API_INDUSTRY_ASSOCIATION_MEMBERS,
     params,
   ]);
 }

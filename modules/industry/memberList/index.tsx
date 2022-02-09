@@ -11,7 +11,7 @@ import {
 import {H1, H2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
-import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicIndustryMembers} from '../../../services/IndustryManagement/hooks';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
@@ -70,7 +70,7 @@ const MemberListPage = () => {
   });
 
   const {data, isLoading, metaData} =
-    useFetchIndustryMembers(industryMemberFilter);
+    useFetchPublicIndustryMembers(industryMemberFilter);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
