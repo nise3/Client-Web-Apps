@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Button, Grid} from '@mui/material';
+import React, {useCallback, useRef, useState} from 'react';
+import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
@@ -8,7 +8,7 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {styled} from '@mui/material/styles';
-import {H2} from '../../../@softbd/elements/common';
+import {H2, Link} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
 
@@ -26,23 +26,36 @@ export const StyledGrid = styled(Grid)(({theme}) => ({
   },
 }));
 
-interface NearbyTrainingCenterSectionProps {}
+interface NearbyTrainingCenterSectionProps {
+  showAllNearbyTrainingCenter: boolean;
+}
 
-const NearbyTrainingCenterSection = ({}: NearbyTrainingCenterSectionProps) => {
+const NearbyTrainingCenterSection = ({
+  showAllNearbyTrainingCenter,
+}: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
 
-  const [nearbyTrainingCenterFilters] = useState<any>({
-    district_id: authUser?.loc_district_id,
-    upazila_id: authUser?.loc_upazila_id,
-    page_size: PageSizes.FOUR,
-  });
+  const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
+    useState<any>({
+      district_id: authUser?.loc_district_id,
+      upazila_id: authUser?.loc_upazila_id,
+      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
+    });
 
   const {
     data: nearbyTrainingCenters,
     isLoading: isLoadingNearbyTrainingCenter,
+    metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
+  const page = useRef<any>(1);
+  const onPaginationChange = useCallback((event: any, currentPage: number) => {
+    page.current = currentPage;
+    setNearbyTrainingCenterFilters((params: any) => {
+      return {...params, ...{page: currentPage}};
+    });
+  }, []);
   return (
     <StyledGrid container spacing={3}>
       <Grid item xs={12} sm={12} md={12}>
@@ -53,10 +66,21 @@ const NearbyTrainingCenterSection = ({}: NearbyTrainingCenterSectionProps) => {
             </H2>
           </Grid>
           <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              {messages['common.see_all']}
-              <ChevronRight />
-            </Button>
+            {!showAllNearbyTrainingCenter && (
+              <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
+                <Link
+                  href={'/training/nearby-training-centers'}
+                  style={{display: 'inline-block'}}>
+                  <Button
+                    variant={'outlined'}
+                    size={'medium'}
+                    color={'primary'}>
+                    {messages['common.see_all']}
+                    <ChevronRight />
+                  </Button>
+                </Link>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -75,6 +99,25 @@ const NearbyTrainingCenterSection = ({}: NearbyTrainingCenterSectionProps) => {
                   </Grid>
                 );
               })}
+              {showAllNearbyTrainingCenter &&
+                trainingCentersMetaData.total_page > 1 && (
+                  <Grid
+                    item
+                    md={12}
+                    mt={4}
+                    display={'flex'}
+                    justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <Pagination
+                        page={page.current}
+                        count={trainingCentersMetaData.total_page}
+                        color={'primary'}
+                        shape='rounded'
+                        onChange={onPaginationChange}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
             </>
           ) : (
             <NoDataFoundComponent />
