@@ -5,11 +5,11 @@
 
 variables:
 
-  hostName: main.softbd.xyz
+  hostName: dashboard-dev.nise3.xyz
 
   # app version, changing version will auto deploy the app to current version
 
-  imageAppVersion: "2.0.29"
+  imageAppVersion: "2.0.0"
 
   # increase this when you need scale up
   replicaCount: 1
@@ -25,7 +25,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.bus-staging.softbdltd.com/nise3-client-next
+  imageRepository: registry.nise3.xyz/nise3-cube-client-web-admin
 
 
   #auto scaling config
