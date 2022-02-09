@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
 import {H6} from '../../@softbd/elements/common';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'InfoCard';
 
@@ -46,49 +47,53 @@ const InfoCard = ({color, infos, label}: Props) => {
   return (
     <StyledBox>
       <H6 className={classes.label}>{label}</H6>
-      <Grid container>
-        {infos &&
-          infos.map((infoItem) => {
-            return (
-              <Fragment key={infoItem.id.toString()}>
-                <Grid item xs={10}>
-                  <Grid item container>
-                    <Grid item xs={2}>
-                      <img
-                        alt='logo'
-                        className={classes.logo}
-                        src='/images/logo1.png'
-                      />
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Box
-                        style={{
-                          fontSize: '1.125rem',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}>
-                        {' '}
-                        {infoItem.name}
-                      </Box>
+      {infos && infos.length >= 0 ? (
+        <NoDataFoundComponent messageTextType={'body2'} />
+      ) : (
+        <Grid container>
+          {infos &&
+            infos.map((infoItem) => {
+              return (
+                <Fragment key={infoItem.id.toString()}>
+                  <Grid item xs={10}>
+                    <Grid item container>
+                      <Grid item xs={2}>
+                        <img
+                          alt='logo'
+                          className={classes.logo}
+                          src='/images/logo1.png'
+                        />
+                      </Grid>
+                      <Grid item xs={10}>
+                        <Box
+                          style={{
+                            fontSize: '1.125rem',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}>
+                          {' '}
+                          {infoItem.name}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-                <Grid item md={2} xs={2}>
-                  <Box
-                    sx={{
-                      color: color,
-                      fontSize: '1.563rem',
-                      fontWeight: 'bold',
-                      minHeight: '40px',
-                    }}>
-                    {infoItem.count}
-                  </Box>
-                </Grid>
-              </Fragment>
-            );
-          })}
-      </Grid>
+                  <Grid item md={2} xs={2}>
+                    <Box
+                      sx={{
+                        color: color,
+                        fontSize: '1.563rem',
+                        fontWeight: 'bold',
+                        minHeight: '40px',
+                      }}>
+                      {infoItem.count}
+                    </Box>
+                  </Grid>
+                </Fragment>
+              );
+            })}
+        </Grid>
+      )}
     </StyledBox>
   );
 };

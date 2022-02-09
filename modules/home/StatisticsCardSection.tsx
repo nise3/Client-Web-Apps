@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Card, Container, Grid} from '@mui/material';
+import {Box, Card, Container, Grid, Skeleton} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import InfoCard from './infoCard';
 import {H3, Text} from '../../@softbd/elements/common';
@@ -113,9 +113,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const StatisticsCardSection = () => {
   const {messages, formatNumber} = useIntl();
 
-  const {data: niseStatics} = useFetchNiseStatics();
-
-  console.log('niseastaet->', niseStatics);
+  const {data: niseStatics, isLoading} = useFetchNiseStatics();
 
   const [totalJobProvider, setTotalJobProvider] = useState<any>([]);
   useEffect(() => {
@@ -183,7 +181,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_ministry)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_ministry
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.ministry']}
@@ -193,7 +197,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor2)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_department)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_department
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.departments']}
@@ -213,7 +223,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_industrial_skills_council)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_industrial_skills_council
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_skills_council']}
@@ -223,7 +239,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_deputy_commissioner_office)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_deputy_commissioner_office
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.dc_offices']}
@@ -233,7 +255,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor3)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_youth)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_youth
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.youth_2']}
@@ -243,7 +271,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor5)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_4_ir_project)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_4_ir_project
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.4IR_projects']}
@@ -253,7 +287,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_rto)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_rto
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.rto']}
@@ -263,7 +303,13 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(niseStatics?.total_industry)}
+                {formatNumber(
+                  isLoading ? (
+                    <Skeleton variant='circular' width={40} height={40} />
+                  ) : (
+                    niseStatics?.total_industry
+                  ),
+                )}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industries']}
