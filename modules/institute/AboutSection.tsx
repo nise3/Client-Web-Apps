@@ -36,11 +36,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     padding: '50px',
     background: theme.palette.grey[200],
     color: theme.palette.text.primary,
+    marginTop: '60px',
     [theme.breakpoints.up('md')]: {
-      marginTop: '120px',
-    },
-    [theme.breakpoints.down('xl')]: {
-      // marginTop: '120px',
+      marginTop: '150px',
     },
   },
 

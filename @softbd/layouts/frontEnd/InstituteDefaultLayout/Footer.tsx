@@ -44,7 +44,7 @@ const classes = {
 };
 
 const StyledContainer = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
+  marginTop: '120px',
   background: theme.palette.grey.A100,
   padding: '20px',
 

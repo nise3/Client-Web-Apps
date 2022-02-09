@@ -102,9 +102,7 @@ const InstituteFAQ = () => {
                     id='panel1bh-header'>
                     <Typography
                       sx={{
-                        width: '33%',
-                        flexShrink: 0,
-                        whiteSpace: 'nowrap',
+                        width: '100%',
                         color: expandedState == item.id ? 'primary.main' : '',
                       }}>
                       {item.question}

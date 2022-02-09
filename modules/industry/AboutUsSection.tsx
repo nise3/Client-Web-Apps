@@ -31,9 +31,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
     },
     [`& td:first-of-type`]: {
       paddingRight: '20px',
+      [theme.breakpoints.down('sm')]: {
+        paddingRight: '0',
+      },
     },
     [`& td:last-of-type`]: {
       paddingLeft: '20px',
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: '0',
+      },
     },
     [`& td>img`]: {
       height: '300px',
@@ -90,7 +96,7 @@ const AboutUsSection = () => {
   );
 
   return (
-    <StyledContainer maxWidth='lg' sx={{marginTop: '50px'}}>
+    <StyledContainer maxWidth='lg' sx={{marginTop: '60px'}}>
       <UnderlinedHeading>{messages['footer.about_us']}</UnderlinedHeading>
 
       {isLoading ? (
