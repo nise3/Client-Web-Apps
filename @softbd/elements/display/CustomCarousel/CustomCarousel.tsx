@@ -1,5 +1,4 @@
 import Carousel from 'react-multi-carousel';
-// import 'react-multi-carousel/lib/styles.css';// DO NOT USE
 import React, {ReactNode} from 'react';
 import {styled} from '@mui/material/styles';
 import CarouselStyles from './CarouselStyles';

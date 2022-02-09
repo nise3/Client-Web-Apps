@@ -11,6 +11,7 @@ import {styled} from '@mui/material/styles';
 import {Link} from '../../../@softbd/elements/common';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
+import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'RecentActivityMasonryGroupView';
 
@@ -33,14 +34,21 @@ const StyledImageList = styled(ImageList)(({theme}) => {
       bottom: '55px',
       left: '5px',
       position: 'absolute',
-      // [theme.breakpoints.down('lg')]: {
-      //   bottom: '10vh',
-      // },
     },
     [`&.${classes.image}`]: {
       overflow: 'hidden',
+      margin: 0,
       '& img': {
         objectFit: 'unset',
+        width: '100%',
+        height: '100%',
+      },
+      [theme.breakpoints.down('sm')]: {
+        display: 'block',
+        ['& .MuiImageListItem-root']: {
+          width: '100%',
+          height: '250px !important',
+        },
       },
     },
     [`& .${classes.imageTexts}`]: {
@@ -94,31 +102,34 @@ function RecentActivityMasonryGroupView({items}: any) {
             cols={masonryPositions[item.collage_position - 1]?.cols || 1}
             rows={masonryPositions[item.collage_position - 1]?.rows || 1}
             style={{position: 'relative'}}>
-            <img
-              {...srcset(
-                item.collage_image_path,
-                25,
-                masonryPositions[item.collage_position - 1]?.rows,
-                masonryPositions[item.collage_position - 1]?.cols,
-              )}
-              alt={item.image_alt_title}
-              loading='lazy'
-            />
-            <Box className={classes.imageTexts}>
-              {item.published_at && (
-                <Box className={classes.dateInfo}>
-                  <DateRangeOutlined />
-                  <Typography ml={1}>
-                    {getIntlDateFromString(formatDate, item.published_at)}
-                  </Typography>
-                </Box>
-              )}
-              {item.title && (
-                <Link href={`/recent-activities/${item.id}`}>
-                  <ImageListItemBar title={item.title} />
-                </Link>
-              )}
-            </Box>
+            <Link
+              href={
+                item.id
+                  ? `${LINK_FRONTEND_NISE_RECENT_ACTIVITIES}/${item.id}`
+                  : ''
+              }>
+              <img
+                {...srcset(
+                  item.collage_image_path,
+                  25,
+                  masonryPositions[item.collage_position - 1]?.rows,
+                  masonryPositions[item.collage_position - 1]?.cols,
+                )}
+                alt={item.image_alt_title}
+                loading='lazy'
+              />
+              <Box className={classes.imageTexts}>
+                {item.published_at && (
+                  <Box className={classes.dateInfo}>
+                    <DateRangeOutlined />
+                    <Typography ml={1}>
+                      {getIntlDateFromString(formatDate, item.published_at)}
+                    </Typography>
+                  </Box>
+                )}
+                {item.title && <ImageListItemBar title={item.title} />}
+              </Box>
+            </Link>
           </ImageListItem>
         ))}
     </StyledImageList>
