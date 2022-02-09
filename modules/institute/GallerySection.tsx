@@ -25,7 +25,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-    padding: '20px 15px 30px 15px',
+    padding: '15px 10px 35px',
     margin: 0,
     [theme.breakpoints.down('xl')]: {
       padding: '20px 10px 30px 10px',
@@ -61,7 +61,7 @@ const GallerySection = () => {
 
   return (
     <StyledContainer maxWidth='lg'>
-      <Grid container mt={{xs: 5}}>
+      <Grid container sx={{marginTop: '60px'}}>
         <Grid item xs={12}>
           <Fade direction='up'>
             <UnderlinedHeading>
