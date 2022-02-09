@@ -23,6 +23,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [theme.breakpoints.down('sm')]: {
     height: 150,
   },
+  [theme.breakpoints.only('sm')]: {
+    height: 300,
+  },
 
   [`& .${classes.image}`]: {
     objectFit: 'unset',

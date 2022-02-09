@@ -27,7 +27,7 @@ const TabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}>
-      {value === index && <Box sx={{pt: 3}}>{children}</Box>}
+      {value === index && <Box sx={{paddingTop: '10px'}}>{children}</Box>}
     </div>
   );
 };
@@ -76,7 +76,7 @@ const CoursesSection = () => {
 
   return (
     <Container maxWidth='lg'>
-      <Grid container mt={14}>
+      <Grid container sx={{marginTop: '60px'}}>
         <Grid item xs={12}>
           <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
           <Box sx={{width: '100%'}}>
