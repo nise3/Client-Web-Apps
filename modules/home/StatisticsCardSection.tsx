@@ -25,6 +25,7 @@ const classes = {
 const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.cardColors}`]: {
     position: 'relative',
+    height: '100%',
     '&::before, &::after': {
       content: "''",
       display: 'block',
@@ -114,7 +115,7 @@ const StatisticsCardSection = () => {
   return (
     <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
       <Fade direction='down'>
-        <Grid container spacing={2} style={{marginTop: '65px'}}>
+        <Grid container spacing={2} style={{marginTop: '50px'}}>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
@@ -148,7 +149,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(11)}
+                {formatNumber(42)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_skills_council']}
@@ -188,7 +189,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor6)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(266)}
+                {formatNumber(13000)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.rto']}
@@ -205,7 +206,7 @@ const StatisticsCardSection = () => {
               </Text>
             </Card>
           </Grid>
-          <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
+          <Grid item xs={12} md={3} className={classes.infoCardWrapper} >
             <Card className={classes.cardColor1} style={{padding: '20px'}}>
               {messages['common.job_provider']}
             </Card>
@@ -224,13 +225,13 @@ const StatisticsCardSection = () => {
                 },
                 {
                   id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
+                  name: 'ক্রিয়েটিভ আইটি',
                   count: formatNumber(30),
                 },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {id: 3, name: 'স্কয়ার', count: formatNumber(25)},
                 {
                   id: 4,
-                  name: 'ইভ্যালি',
+                  name: 'প্রান আর এফ এল',
                   count: formatNumber(70),
                 },
               ]}
@@ -251,18 +252,18 @@ const StatisticsCardSection = () => {
               infos={[
                 {
                   id: 1,
-                  name: 'সফ্ট বিডি',
+                  name: 'বিটাক',
                   count: formatNumber(45),
                 },
                 {
                   id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
+                  name: 'বি টি ই বি',
                   count: formatNumber(30),
                 },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {id: 3, name: 'ডি ওয়াই ডি', count: formatNumber(25)},
                 {
                   id: 4,
-                  name: 'ইভ্যালি',
+                  name: 'ডি এস এস',
                   count: formatNumber(70),
                 },
               ]}
@@ -283,18 +284,18 @@ const StatisticsCardSection = () => {
               infos={[
                 {
                   id: 1,
-                  name: 'সফ্ট বিডি',
+                  name: 'ওরাকল',
                   count: formatNumber(45),
                 },
                 {
                   id: 2,
-                  name: 'ক্রিয়েটিভ বিডি',
+                  name: 'মাইএসকিউএল',
                   count: formatNumber(30),
                 },
-                {id: 3, name: 'পাঠাও', count: formatNumber(25)},
+                {id: 3, name: 'সেলাই', count: formatNumber(25)},
                 {
                   id: 4,
-                  name: 'ইভ্যালি',
+                  name: 'দর্জি',
                   count: formatNumber(70),
                 },
               ]}
@@ -312,10 +313,10 @@ const StatisticsCardSection = () => {
             <InfoCard
               color={'#22BB33'}
               infos={[
-                {id: 1, name: 'সফ্ট বিডি', count: ''},
-                {id: 2, name: 'ক্রিয়েটিভ বিডি', count: ''},
-                {id: 3, name: 'পাঠাও', count: ''},
-                {id: 4, name: 'ইভ্যালি', count: ''},
+                {id: 1, name: 'সফটওয়্যার ডেভেলপার', count: ''},
+                {id: 2, name: 'উক্স ডিজাইনার', count: ''},
+                {id: 3, name: 'অ্যাপ ডেভেলপার', count: ''},
+                {id: 4, name: 'মেশিন অপারেটর', count: ''},
               ]}
             />
           </Grid>
