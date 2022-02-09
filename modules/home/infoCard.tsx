@@ -16,6 +16,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   padding: '30px 5px 5px 5px',
   boxShadow: '1px 1px 10px #dfdfdf',
   position: 'relative',
+  height: '85%',
 
   [`& .${classes.logo}`]: {
     height: '20px',
@@ -60,7 +61,16 @@ const InfoCard = ({color, infos, label}: Props) => {
                       />
                     </Grid>
                     <Grid item xs={10}>
-                      <Box style={{fontSize: '1.125rem'}}> {infoItem.name}</Box>
+                      <Box
+                        style={{
+                          fontSize: '1.125rem',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}>
+                        {' '}
+                        {infoItem.name}
+                      </Box>
                     </Grid>
                   </Grid>
                 </Grid>
