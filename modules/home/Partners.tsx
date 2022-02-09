@@ -2,15 +2,14 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {H2, H6} from '../../@softbd/elements/common';
+import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
-import VerticalBar from './components/VerticalBar';
+import SectionTitle from './SectionTitle';
 
 const PREFIX = 'Partners';
 
 const classes = {
-  title: `${PREFIX}-title`,
   vBar: `${PREFIX}-vBar`,
   cardItem: `${PREFIX}-courseItem`,
   image: `${PREFIX}-image`,
@@ -18,13 +17,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
-
-  [`& .${classes.title}`]: {
-    color: theme.palette.primary.main,
-    display: 'flex',
-    alignItems: 'center',
-  },
+  marginTop: '60px',
 
   [`& .${classes.cardItem}`]: {
     position: 'relative',
@@ -77,16 +70,11 @@ const Partners = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <Box
-          style={{marginBottom: '50px', marginTop: '10px'}}
-          className={classes.title}
-          justifyContent={'center'}>
-          <VerticalBar />
-          <H2 style={{fontSize: '2.063rem', fontWeight: 'bold'}}>
-            {messages['nise.partners']}
-          </H2>
-        </Box>
-        <Box mb={2}>
+        <SectionTitle
+          title={messages['nise.partners'] as string}
+          center={true}
+        />
+        <Box mb={2} sx={{marginTop: '-16px'}}>
           {partners && partners.length > 0 ? (
             <CustomCarousel>
               {partners.map((partner: any, key: number) =>
