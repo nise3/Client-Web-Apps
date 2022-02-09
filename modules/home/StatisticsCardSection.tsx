@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Card, Container, Grid, Skeleton} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
@@ -114,65 +114,7 @@ const StatisticsCardSection = () => {
   const {messages, formatNumber} = useIntl();
 
   const {data: niseStatics, isLoading} = useFetchNiseStatics();
-
-  const [totalJobProvider, setTotalJobProvider] = useState<any>([]);
-  useEffect(() => {
-    const a = niseStatics?.total_job_provider
-      ? niseStatics?.total_job_provider.map((data: any, index: number) => {
-          return {
-            id: index,
-            name: data.industry_associations_title,
-            count: formatNumber(data.total_job_provided),
-          };
-        })
-      : [];
-    setTotalJobProvider(a);
-  }, [niseStatics?.total_job_provider]);
-
-  const [totalSkillDevelopmentCenter, setTotalSkillDevelopmentCenter] =
-    useState<any>([]);
-  useEffect(() => {
-    const a = niseStatics?.total_skill_development_center
-      ? niseStatics?.total_skill_development_center.map(
-          (data: any, index: number) => {
-            return {
-              id: index,
-              name: data.training_center_title,
-              count: formatNumber(data.total_trained),
-            };
-          },
-        )
-      : [];
-    setTotalSkillDevelopmentCenter(a);
-  }, [niseStatics?.total_skill_development_center]);
-
-  const [totalPopularCourses, setTotalPopularCourses] = useState<any>([]);
-  useEffect(() => {
-    const a = niseStatics?.total_popular_courses
-      ? niseStatics?.total_popular_courses.map((data: any, index: number) => {
-          return {
-            id: index,
-            name: data.course_title,
-            count: formatNumber(data.total_enrollments),
-          };
-        })
-      : [];
-    setTotalPopularCourses(a);
-  }, [niseStatics?.total_popular_courses]);
-
-  const [totalPopularJob, setTotalPopularJob] = useState<any>([]);
-  useEffect(() => {
-    const a = niseStatics?.total_popular_job
-      ? niseStatics?.total_popular_job.map((data: any, index: number) => {
-          return {
-            id: index,
-            name: data.job_title,
-            count: '',
-          };
-        })
-      : [];
-    setTotalPopularJob(a);
-  }, [niseStatics?.total_popular_job]);
+  console.log('data->', niseStatics);
 
   return (
     <StyledBox style={{background: '#f9fdfe'}}>
@@ -332,7 +274,18 @@ const StatisticsCardSection = () => {
                 className={classes.triangleDown}
                 sx={{color: '#661687'}}
               />
-              <InfoCard color={'#661687'} infos={totalJobProvider} />
+              <InfoCard
+                color={'#661687'}
+                infos={(niseStatics?.total_job_provider || []).map(
+                  (data: any, index: number) => {
+                    return {
+                      id: index,
+                      name: data.industry_associations_title,
+                      count: formatNumber(data.total_job_provided),
+                    };
+                  },
+                )}
+              />
             </Grid>
             <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
               <Card className={classes.cardColor2} style={{padding: '20px'}}>
@@ -346,7 +299,15 @@ const StatisticsCardSection = () => {
               <InfoCard
                 label={messages['common.trained'] as string}
                 color={'#0069BC'}
-                infos={totalSkillDevelopmentCenter}
+                infos={(niseStatics?.total_skill_development_center || []).map(
+                  (data: any, index: number) => {
+                    return {
+                      id: index,
+                      name: data.training_center_title,
+                      count: formatNumber(data.total_trained),
+                    };
+                  },
+                )}
               />
             </Grid>
             <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
@@ -361,7 +322,15 @@ const StatisticsCardSection = () => {
               <InfoCard
                 label={messages['common.enrolled'] as string}
                 color={'#305DF7'}
-                infos={totalPopularCourses}
+                infos={(niseStatics?.total_popular_courses || []).map(
+                  (data: any, index: number) => {
+                    return {
+                      id: index,
+                      name: data.course_title,
+                      count: formatNumber(data.total_enrollments),
+                    };
+                  },
+                )}
               />
             </Grid>
             <Grid item xs={12} md={3} className={classes.infoCardWrapper}>
@@ -373,7 +342,18 @@ const StatisticsCardSection = () => {
                 className={classes.triangleDown}
                 sx={{color: '#22BB33'}}
               />
-              <InfoCard color={'#22BB33'} infos={totalPopularJob} />
+              <InfoCard
+                color={'#22BB33'}
+                infos={(niseStatics?.total_popular_job || []).map(
+                  (data: any, index: number) => {
+                    return {
+                      id: index,
+                      name: data.job_title,
+                      count: '',
+                    };
+                  },
+                )}
+              />
             </Grid>
           </Grid>
         </Fade>
