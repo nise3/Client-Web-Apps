@@ -114,7 +114,7 @@ const StatisticsCardSection = () => {
   return (
     <StyledContainer maxWidth='lg' style={{background: '#f9fdfe'}}>
       <Fade direction='down'>
-        <Grid container spacing={2} style={{marginTop: '65px'}}>
+        <Grid container spacing={2} style={{marginTop: '50px'}}>
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor1)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
@@ -148,7 +148,7 @@ const StatisticsCardSection = () => {
           <Grid item xs={12} md={3}>
             <Card className={clsx(classes.cardColors, classes.cardColor4)}>
               <H3 style={{fontSize: '2.5rem', fontWeight: 'bold'}}>
-                {formatNumber(11)}
+                {formatNumber(42)}
               </H3>
               <Text style={{fontSize: '1.563rem'}}>
                 {messages['common.industry_skills_council']}
