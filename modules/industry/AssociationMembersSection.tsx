@@ -19,7 +19,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
+  marginTop: '60px',
 
   [`& .${classes.title}`]: {
     color: theme.palette.primary.main,
@@ -84,7 +84,7 @@ const AssociationMembersSection = () => {
         <UnderlinedHeading>
           {messages['industry_association.members']}
         </UnderlinedHeading>
-        <Box mb={2}>
+        <Box mb={2} sx={{marginTop: '-16px'}}>
           {members && members.length > 0 ? (
             <CustomCarousel>
               {members.map((partner: any, key: number) =>

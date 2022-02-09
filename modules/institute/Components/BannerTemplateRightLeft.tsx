@@ -32,7 +32,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.heading}`]: {
     color: theme.palette.primary.dark,
-    margin: '20px 40px',
+    margin: '20px 20px 20px 0px',
     flex: 1,
   },
 }));
