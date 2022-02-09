@@ -67,7 +67,7 @@ const InfoCard = ({color, infos, label}: Props) => {
                       <Grid item xs={10}>
                         <Box
                           style={{
-                            fontSize: '1.125rem',
+                            fontSize: '0.85rem',
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
@@ -82,7 +82,7 @@ const InfoCard = ({color, infos, label}: Props) => {
                     <Box
                       sx={{
                         color: color,
-                        fontSize: '1.563rem',
+                        fontSize: '0.85rem',
                         fontWeight: 'bold',
                         minHeight: '40px',
                         textAlign: 'center',
