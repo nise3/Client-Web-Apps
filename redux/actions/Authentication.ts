@@ -187,6 +187,7 @@ export const getCommonAuthUserObject = (
     isIndustryAssociationUser: authUser.isIndustryAssociationUser,
     userId: authUser?.user_id,
     isYouthUser: false,
+    domain: authUser?.domain,
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
     isSystemUser: authUser?.isSystemUser,

@@ -43,6 +43,7 @@ export interface TAuthUserSSOResponse {
   branch_id?: number;
   industry_association_id?: number;
   industry_association?: any;
+  domain?: string;
 }
 
 export interface TYouthAuthUserSSOResponse {
