@@ -18,7 +18,7 @@
     "build:admin-dev": "env-cmd -f .\\env.development next build dashboard",
     "build:admin-prod": "env-cmd -f env.production next build dashboard",
     "build:nise-dev": "env-cmd -f .\\env.development next build nise",
-    "build:nise-prod": "env-cmd -f .\\env.production next build nise",
+    "build:nise-prod": "env-cmd -f env.production next build nise",
     "build:nise-local": "env-cmd -f .\\env.local next build nise",
     "build:youth-dev": "env-cmd -f .\\env.development next build youth",
     "build:youth-prod": "env-cmd -f env.production next build youth",
