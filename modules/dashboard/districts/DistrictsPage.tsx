@@ -15,9 +15,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDistricts} from '../../../services/locationManagement/hooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const DistrictsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -79,19 +80,26 @@ const DistrictsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.bbs_code'],
         accessor: 'bbs_code',
       },
       {
-        Header: messages['divisions.label'],
+        Header: messages['divisions.label_en'],
         accessor: 'division_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['divisions.label'],
+        accessor: 'division_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.actions'],

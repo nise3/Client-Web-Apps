@@ -18,9 +18,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteCourse} from '../../../services/instituteManagement/CourseService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const CoursePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -81,15 +82,22 @@ const CoursePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['institute.label_en'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['course.fee'],

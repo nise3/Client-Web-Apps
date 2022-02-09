@@ -14,9 +14,10 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import Link from 'next/link';
 import {LINK_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/appLinks';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const HumanResourceDemandPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -45,6 +46,12 @@ const HumanResourceDemandPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.approval_status'],
