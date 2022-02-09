@@ -2,6 +2,12 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
 
+export const API_PUBLIC_BACK_CHANNEL = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+  ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
+  : 'https://core.bus-staging.softbdltd.com';
+
+export const API_SSO_AUTHORIZE_CODE_GRANT = API_PUBLIC_BACK_CHANNEL + '/sso-authorize-code-grant';
+
 /*export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
