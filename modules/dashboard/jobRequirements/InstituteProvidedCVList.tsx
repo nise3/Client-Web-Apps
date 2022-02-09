@@ -23,7 +23,7 @@ import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
+import {ApprovalStatus} from './Constants/ApprovalStatusEnums';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const InstituteProvidedCVList = () => {
