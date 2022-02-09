@@ -433,5 +433,7 @@ export const API_PUBLIC_STATIC_PAGE_BLOCKS =
   CMS_SERVICE_PUBLIC_PATH + '/static-page-blocks/';
 export const API_PUBLIC_VISITOR_FEEDBACKS =
   CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
+export const API_PUBLIC_NISE_STATICS =
+  CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
 
 /** CMS service public routes section end */

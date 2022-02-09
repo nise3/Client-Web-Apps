@@ -24,6 +24,7 @@ import {
   API_VISITOR_FEEDBACKS,
   API_FAQS,
   API_PUBLIC_RECENT_ACTIVITIES,
+  API_PUBLIC_NISE_STATICS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSliders(params: any) {
@@ -180,4 +181,8 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
   return useAxiosSWR(
     visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
   );
+}
+
+export function useFetchNiseStatics() {
+  return useAxiosSWR(API_PUBLIC_NISE_STATICS);
 }
