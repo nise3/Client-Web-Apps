@@ -39,7 +39,7 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
-  marginTop: '40px',
+  marginTop: '60px',
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
@@ -59,8 +59,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.gridContainer}`]: {
     borderRadius: 8,
     padding: '24px',
-    marginTop: '24px',
-    // boxShadow: '0 0 1px #888 inset',
   },
   [`& .${classes.dateHeader}`]: {
     borderRadius: 8,

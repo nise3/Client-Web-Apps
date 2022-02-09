@@ -10,6 +10,7 @@ import {
 } from '../../../common/appLinks';
 import {
   CONTENT_ID_ABOUT_US,
+  CONTENT_ID_GUIDELINES,
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
@@ -44,7 +45,7 @@ const Footer = () => {
     <StyledGrid container>
       <Container maxWidth='lg'>
         <Grid item container>
-          <Grid item md={2}>
+          <Grid item xs={6} md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['footer.about_us']}
@@ -97,18 +98,13 @@ const Footer = () => {
             </Typography>
           </Grid>
 
-          <Grid item md={2}>
+          <Grid item xs={6} md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['footer.job_provider']}
               </Box>
             </Typography>
 
-            <Typography gutterBottom={true}>
-              <Box component={'span'} mt={2}>
-                {messages['footer.service_or_products']}
-              </Box>
-            </Typography>
             <Typography gutterBottom={true}>
               <Link href={LINK_FRONTEND_JOBS} component={'span'} mt={2}>
                 {messages['job_post.label']}
@@ -120,6 +116,16 @@ const Footer = () => {
                 component={'span'}
                 mt={2}>
                 {messages['footer.faq']}
+              </Link>
+            </Typography>
+            <Typography gutterBottom={true}>
+              <Link
+                href={
+                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
+                }
+                component={'span'}
+                mt={2}>
+                {messages['footer.guideline']}
               </Link>
             </Typography>
           </Grid>
