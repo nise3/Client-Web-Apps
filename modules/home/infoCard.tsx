@@ -47,12 +47,12 @@ const InfoCard = ({color, infos, label}: Props) => {
   return (
     <StyledBox>
       <H6 className={classes.label}>{label}</H6>
-      {infos && infos.length >= 0 ? (
-        <NoDataFoundComponent messageTextType={'body2'} />
-      ) : (
-        <Grid container>
-          {infos &&
-            infos.map((infoItem) => {
+      {infos ? (
+        infos.length == 0 ? (
+          <NoDataFoundComponent messageTextType={'body2'} />
+        ) : (
+          <Grid container>
+            {infos.map((infoItem) => {
               return (
                 <Fragment key={infoItem.id.toString()}>
                   <Grid item xs={10}>
@@ -85,6 +85,7 @@ const InfoCard = ({color, infos, label}: Props) => {
                         fontSize: '1.563rem',
                         fontWeight: 'bold',
                         minHeight: '40px',
+                        textAlign: 'center',
                       }}>
                       {infoItem.count}
                     </Box>
@@ -92,7 +93,10 @@ const InfoCard = ({color, infos, label}: Props) => {
                 </Fragment>
               );
             })}
-        </Grid>
+          </Grid>
+        )
+      ) : (
+        <></>
       )}
     </StyledBox>
   );
