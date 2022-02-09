@@ -25,7 +25,7 @@ import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectBu
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
+import {ApprovalStatus} from './Constants/ApprovalStatusEnums';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();

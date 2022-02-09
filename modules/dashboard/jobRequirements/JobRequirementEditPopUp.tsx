@@ -20,7 +20,6 @@ import {useFetchPublicInstitutes} from '../../../services/instituteManagement/ho
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
 import {updateHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
-import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
@@ -66,7 +65,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
   const [industryAssociationFilter, setIndustryAssociationFilter] =
     useState<any>(null);
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
-    useFetchIndustryAssociations(industryAssociationFilter);
+    useFetchIndustryMembers(industryAssociationFilter);
 
   const [instituteFilter] = useState({});
   const {data: institutes, isLoading: isLoadingInstitute} =
