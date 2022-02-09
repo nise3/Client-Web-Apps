@@ -179,7 +179,7 @@ export const setAuthAccessTokenData = (
   payload: data,
 });
 
-type TAuthUserSSOResponse = {
+interface TAuthUserSSOResponse {
   sub: string;
   upn: string;
   user_id: string | number;
