@@ -197,7 +197,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.religion']}
-              value={religions[itemData?.religion]?.label}
+              value={religions[itemData?.religion - 1]?.label}
               isLoading={isLoading}
             />
           </Grid>
