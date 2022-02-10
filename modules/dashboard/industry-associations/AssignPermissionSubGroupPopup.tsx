@@ -15,8 +15,12 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
 import {IPermissionSubGroupAssign} from '../../../shared/Interface/industryAssociation.interface';
 import {approveIndustryAssociationRegistration} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
-import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
+import {
+  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
+} from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY} from '../../../@softbd/common/constants';
 
 interface AssignPermissionSubGroupPopup {
   itemId: number | null;
@@ -28,9 +32,6 @@ const initialValues = {
   permission_sub_group_id: '',
 };
 
-enum PermissionGroup {
-  INDUSTRY_ASSOCIATION = 4,
-}
 const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   itemId,
   refreshDataTable,
@@ -46,15 +47,26 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
       row_status: RowStatus.ACTIVE,
     });
 
+  const [permissionGroupFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+    key: PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY,
+  });
+
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   useEffect(() => {
-    setPermissionSubGroupFilters({
-      permission_group_id: PermissionGroup.INDUSTRY_ASSOCIATION,
-      row_status: RowStatus.ACTIVE,
-    });
-  }, []);
+    if (permissionGroups && permissionGroups.length > 0) {
+      setPermissionSubGroupFilters({
+        permission_group_id: permissionGroups[0]?.id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [permissionGroups]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

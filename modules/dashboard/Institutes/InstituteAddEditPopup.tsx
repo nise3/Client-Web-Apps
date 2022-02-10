@@ -62,7 +62,7 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  domain: '',
+  // domain: '',
   institute_type_id: '0',
   code: '',
   address: '',
@@ -285,7 +285,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        domain: itemData?.domain,
+        // domain: itemData?.domain,
         institute_type_id: itemData?.institute_type_id,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
@@ -560,16 +560,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='domain'
-                label={messages['common.domain']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='https://example.xyz'
-              />
-            </Grid>
+            {/*<Grid item xs={12}>*/}
+            {/*  <CustomTextInput*/}
+            {/*    id='domain'*/}
+            {/*    label={messages['common.domain']}*/}
+            {/*    register={register}*/}
+            {/*    errorInstance={errors}*/}
+            {/*    isLoading={isLoading}*/}
+            {/*    placeholder='https://example.xyz'*/}
+            {/*  />*/}
+            {/*</Grid>*/}
             <Grid item xs={12}>
               <FormRadioButtons
                 id='institute_type_id'

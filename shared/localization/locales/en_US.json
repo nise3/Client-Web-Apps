@@ -1374,5 +1374,6 @@
   "common.cv_approve": "CV Approve",
   "assign_permission.label": "Assign Permission",
   "common.applied": "Applied",
-  "beneficiaries_of_NISE.label": "Beneficiaries of NISE"
+  "beneficiaries_of_NISE.label": "Beneficiaries of NISE",
+  "common.give_publish_date": "* Please input publish date to show on pages"
 }

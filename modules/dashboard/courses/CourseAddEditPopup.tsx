@@ -47,7 +47,7 @@ const initialValues = {
   program_id: '',
   level: '',
   language_medium: '',
-  code: '',
+  // code: '',
   course_fee: '',
   duration: '',
   skills: [],
@@ -122,11 +122,11 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             .required()
             .label(messages['institute.label'] as string)
         : yup.string(),
-      code: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.code'] as string),
+      // code: yup
+      //   .string()
+      //   .trim()
+      //   .required()
+      //   .label(messages['common.code'] as string),
       course_fee: yup
         .number()
         .required()
@@ -279,7 +279,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        code: itemData?.code,
+        // code: itemData?.code,
         institute_id: itemData?.institute_id,
         branch_id: itemData?.branch_id,
         program_id: itemData?.program_id,
@@ -430,16 +430,17 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomTextInput
-            required
-            id='code'
-            label={messages['common.code']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {/*Todo: this section is hide because backend is generating code need discussion*/}
+        {/*<Grid item xs={12} sm={6} md={6}>*/}
+        {/*  <CustomTextInput*/}
+        {/*    required*/}
+        {/*    id='code'*/}
+        {/*    label={messages['common.code']}*/}
+        {/*    register={register}*/}
+        {/*    errorInstance={errors}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
         <Grid item xs={6} sm={3} md={3}>
           <CustomTextInput
             required
@@ -475,7 +476,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             />
           </Grid>
         )}
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='program_id'
@@ -488,7 +488,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             required
@@ -504,7 +503,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             defaultValue={[]}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             required
@@ -518,7 +516,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             required
@@ -532,7 +529,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='overview'
@@ -555,7 +551,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='target_group'
@@ -578,7 +573,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='objectives'
@@ -590,7 +584,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='objectives_en'
@@ -602,7 +595,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='training_methodology'
@@ -614,7 +606,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='training_methodology_en'
@@ -626,7 +617,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='evaluation_system'
@@ -638,7 +628,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='evaluation_system_en'
@@ -650,7 +639,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='prerequisite'
@@ -662,7 +650,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='prerequisite_en'
@@ -674,7 +661,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='eligibility'
@@ -686,7 +672,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='eligibility_en'
@@ -698,7 +683,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='cover_image'
