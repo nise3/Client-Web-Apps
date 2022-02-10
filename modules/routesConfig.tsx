@@ -370,7 +370,7 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/contact-info',
           },
-          {
+          /*{
             id: 'job-requirement',
             title: 'job-requirement',
             messageId: 'job_requirement.label',
@@ -378,7 +378,7 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'timeline',
             url: '/job-requirement',
-          },
+          },*/
         ],
       },
       {
@@ -532,15 +532,6 @@ const routesConfig: NavItemProps[] = [
         type: 'collapse',
         icon: 'room',
         children: [
-          /*   {
-            id: 'hr_demand_list',
-            title: 'HR Demand',
-            messageId: 'common.human_resource',
-            permissionKey: 'view_any_hr_demand',
-            type: 'item',
-            icon: 'person',
-            url: '/hr-demand',
-          },*/
           {
             id: 'job_requirements',
             title: 'Job requirement',
