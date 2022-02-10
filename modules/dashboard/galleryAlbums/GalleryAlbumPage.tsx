@@ -145,7 +145,7 @@ const GalleryAlbumPage = () => {
         sortable: false,
       },
     ];
-  }, [messages]);
+  }, [messages, locale]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({

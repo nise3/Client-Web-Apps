@@ -119,7 +119,7 @@ const DistrictsPage = () => {
         sortable: false,
       },
     ],
-    [],
+    [messages, locale],
   );
 
   return (

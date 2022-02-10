@@ -16,9 +16,10 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const RankTypePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -85,16 +86,23 @@ const RankTypePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
-        Header: messages['organization.label'],
+        Header: messages['organization.label_en'],
         accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
@@ -123,7 +131,7 @@ const RankTypePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (
