@@ -18,7 +18,6 @@ import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {Close as CloseIcon} from '@mui/icons-material';
-import {useFetchGuardians} from '../../../../services/youthManagement/hooks';
 import ContentLayout from '../component/ContentLayout';
 import {deleteGuardian} from '../../../../services/youthManagement/GuardianService';
 import {Guardian} from '../../../../services/youthManagement/typing';
@@ -26,16 +25,18 @@ import {Guardian} from '../../../../services/youthManagement/typing';
 type GuardianViewPageProps = {
   onEdit: (itemId: number) => void;
   onClose: () => void;
+  guardians: any;
+  mutateGuardians: () => void;
 };
 
-const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
+const GuardianViewPage = ({
+  onEdit,
+  onClose,
+  guardians,
+  mutateGuardians,
+}: GuardianViewPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const {
-    data: guardians,
-    isLoading,
-    mutate: mutateGuardians,
-  } = useFetchGuardians();
 
   const deleteGuardianItem = useCallback(async (itemId: number) => {
     let response = await deleteGuardian(itemId);
@@ -55,7 +56,7 @@ const GuardianViewPage = ({onEdit, onClose}: GuardianViewPageProps) => {
       <Box>
         <ContentLayout
           title={messages['guardian.title']}
-          isLoading={isLoading}
+          isLoading={false}
           actions={
             <IconButton aria-label='close' onClick={onClose} size='large'>
               <CloseIcon />
