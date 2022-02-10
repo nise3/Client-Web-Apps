@@ -63,13 +63,13 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {/*<Grid item xs={6}>*/}
+          {/*  <DetailsInputView*/}
+          {/*    label={messages['common.domain']}*/}
+          {/*    value={itemData?.domain}*/}
+          {/*    isLoading={isLoading}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.email']}
