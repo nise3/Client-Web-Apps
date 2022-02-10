@@ -40,6 +40,7 @@
   "association.association_address": "Association Address",
   "association.association_address_en": "Association Address (En)",
   "association.association_information": "Association information",
+  "association.association_profile": "Association Profile",
   "common.paymentStatus": "Payment Status",
   "common.emailVerification": "Email Verification",
   "common.verificationMessage": "Enter your verification code sent on your email",
