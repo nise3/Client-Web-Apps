@@ -10,6 +10,8 @@ import {
 import {H1, Link} from '../../../@softbd/elements/common';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION,
   LINK_YOUTH_SIGNUP,
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -119,10 +121,40 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
               )
             ) : (
               <Box mt={4}>
-                <CustomChip
-                  label={messages['common.already_enrolled']}
-                  color={'primary'}
-                />
+                {!course?.verified ? (
+                  <Link
+                    href={
+                      authUser
+                        ? youthDomain() +
+                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION +
+                          course?.id +
+                          `?enrollment_id=${course?.enrollment_id}`
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button variant={'contained'} color={'primary'}>
+                      {messages['common.verify_enrollment']}
+                    </Button>
+                  </Link>
+                ) : !course?.payment_status ? (
+                  <Link
+                    href={
+                      authUser
+                        ? youthDomain() +
+                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+                          course?.id +
+                          `?enrollment_id=${course?.enrollment_id}`
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button variant={'contained'} color={'primary'}>
+                      {messages['common.pay_now']}
+                    </Button>
+                  </Link>
+                ) : (
+                  <CustomChip
+                    label={messages['common.already_enrolled']}
+                    color={'primary'}
+                  />
+                )}
               </Box>
             )}
           </Box>
