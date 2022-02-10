@@ -11,6 +11,7 @@ import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 import CourseListHeaderSection from '../training/CourseListHeaderSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'CourseList';
 
@@ -42,7 +43,7 @@ const CourseList = () => {
 
   const [courseFilters, setCourseFilters] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(1);
+  const [pageSize] = useState(PageSizes.EIGHT);
   const {data: courseList, metaData} = useFetchCourseList(
     courseCategory,
     courseFilters,
