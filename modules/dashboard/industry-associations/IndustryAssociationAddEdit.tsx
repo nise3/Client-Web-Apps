@@ -4,10 +4,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  DOMAIN_REGEX,
-  MOBILE_NUMBER_REGEX,
-} from '../../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -54,7 +51,7 @@ interface IndustryAssociationAddEditPopup {
 const initialValues = {
   title_en: '',
   title: '',
-  domain: '',
+  // domain: '',
   trade_id: '',
   address: '',
   mobile: '',
@@ -214,14 +211,14 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .matches(MOBILE_NUMBER_REGEX)
         .required()
         .label(messages['common.contact_person_mobile'] as string),
-      domain: yup
-        .string()
-        .trim()
-        .test(
-          'domain_validation',
-          messages['common.invalid_domain'] as string,
-          (value) => !value || Boolean(value.match(DOMAIN_REGEX)),
-        ),
+      // domain: yup
+      //   .string()
+      //   .trim()
+      //   .test(
+      //     'domain_validation',
+      //     messages['common.invalid_domain'] as string,
+      //     (value) => !value || Boolean(value.match(DOMAIN_REGEX)),
+      //   ),
     });
   }, [messages]);
 
@@ -251,7 +248,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        domain: itemData?.domain,
+        // domain: itemData?.domain,
         trade_id: itemData?.trade_id,
         permission_sub_group_id: itemData?.permission_sub_group_id,
         mobile: itemData?.mobile,
@@ -519,16 +516,16 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='domain'
-                label={messages['common.domain']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='https://example.xyz'
-              />
-            </Grid>
+            {/*<Grid item xs={12}>*/}
+            {/*  <CustomTextInput*/}
+            {/*    id='domain'*/}
+            {/*    label={messages['common.domain']}*/}
+            {/*    register={register}*/}
+            {/*    errorInstance={errors}*/}
+            {/*    isLoading={isLoading}*/}
+            {/*    placeholder='https://example.xyz'*/}
+            {/*  />*/}
+            {/*</Grid>*/}
             <Grid item xs={12}>
               <CustomTextInput
                 required

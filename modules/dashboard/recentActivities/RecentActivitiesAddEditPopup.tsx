@@ -711,6 +711,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+          <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+            {messages['common.give_publish_date']}
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
