@@ -148,7 +148,7 @@ const AssociationProfile = () => {
         <Grid item xs={7}>
           <Grid container className={classes.form} spacing={3}>
             <Grid item xs={12} sx={{textAlign: 'center'}}>
-              <H4>{messages['association_information']}</H4>
+              <H4>{messages['association.association_profile']}</H4>
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
@@ -284,6 +284,15 @@ const AssociationProfile = () => {
               <DetailsInputView
                 label={messages['common.country']}
                 value={userData?.country}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.country']}
+                value={(userData?.skills || [])
+                  .map((data: any) => data.title)
+                  .join(', ')}
                 isLoading={false}
               />
             </Grid>
