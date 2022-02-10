@@ -22,9 +22,10 @@ import JobRequirementEditPop from './JobRequirementEditPopUp';
 import Link from 'next/link';
 import {Button} from '@mui/material';
 import {ManageAccounts} from '@mui/icons-material';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const JobRequirementPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -89,8 +90,13 @@ const JobRequirementPage = () => {
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
-
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
       {
         Header: messages['common.vacancy'],
         accessor: 'vacancy',
@@ -135,7 +141,7 @@ const JobRequirementPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

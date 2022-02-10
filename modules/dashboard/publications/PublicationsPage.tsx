@@ -18,9 +18,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PublicationsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -81,36 +82,38 @@ const PublicationsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['publication.author'],
         accessor: 'author',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['publication.author_en'],
         accessor: 'author_en',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.description'],
         accessor: 'description',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.description_en'],
         accessor: 'description_en',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.status'],
@@ -139,7 +142,7 @@ const PublicationsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

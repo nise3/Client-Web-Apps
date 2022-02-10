@@ -17,9 +17,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const NoticeOrNewsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -98,12 +99,22 @@ const NoticeOrNewsPage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['institute.label_en'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.details'],
@@ -141,7 +152,7 @@ const NoticeOrNewsPage = () => {
         sortable: false,
       },
     ];
-  }, [messages]);
+  }, [messages, locale]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
