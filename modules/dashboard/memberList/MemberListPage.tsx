@@ -21,9 +21,10 @@ import {
   rejectOrgMemberShip,
 } from '../../../services/organaizationManagement/OrganizationService';
 import CustomChipStatus from './CustomChipStatus';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const MemberListPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -97,6 +98,12 @@ const MemberListPage = () => {
       {
         Header: messages['common.name'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.name_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.memberId'],
@@ -135,7 +142,7 @@ const MemberListPage = () => {
         },
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (
