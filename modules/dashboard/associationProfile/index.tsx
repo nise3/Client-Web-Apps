@@ -287,13 +287,13 @@ const AssociationProfile = () => {
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.domain']}
-                value={userData?.domain}
-                isLoading={false}
-              />
-            </Grid>
+            {/*<Grid item xs={6}>*/}
+            {/*  <DetailsInputView*/}
+            {/*    label={messages['common.domain']}*/}
+            {/*    value={userData?.domain}*/}
+            {/*    isLoading={false}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['common.location_latitude']}

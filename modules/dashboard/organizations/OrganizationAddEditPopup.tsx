@@ -61,7 +61,7 @@ interface OrganizationAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  domain: '',
+  // domain: '',
   email: '',
   mobile: '',
   fax_no: '',
@@ -298,7 +298,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        domain: itemData?.domain,
+        // domain: itemData?.domain,
         email: itemData?.email,
         mobile: itemData?.mobile,
         fax_no: itemData?.fax_no,
@@ -613,15 +613,15 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='domain'
-            label={messages['common.domain']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {/*<Grid item xs={12} md={6}>*/}
+        {/*  <CustomTextInput*/}
+        {/*    id='domain'*/}
+        {/*    label={messages['common.domain']}*/}
+        {/*    register={register}*/}
+        {/*    errorInstance={errors}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
