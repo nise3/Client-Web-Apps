@@ -187,7 +187,7 @@ const ApplicationManagementPage = () => {
         },
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
