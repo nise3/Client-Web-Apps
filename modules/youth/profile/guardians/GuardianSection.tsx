@@ -73,6 +73,8 @@ const GuardianSection = () => {
         <GuardianViewPage
           onEdit={openGuardianAddEditForm}
           onClose={closeGuardianView}
+          guardians={guardians}
+          mutateGuardians={mutateGuardians}
         />
       )}
       {isOpenGuardianAddEditForm && (
