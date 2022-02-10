@@ -162,7 +162,7 @@ const CourseRegistrationVerification = () => {
         );
         setIsSuccessSubmit(true);
 
-        if (response?.data?.freeCourse === 1) {
+        if (response?.data?.free_course === 1) {
           let expireDate = new Date();
           expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
           setBrowserCookie(COOKIE_KEY_COURSE_ID, courseId, {
