@@ -399,6 +399,7 @@
   "ranks.grade": "Grade",
   "ranks.label": "Rank",
   "rank_types.label": "Rank type",
+  "rank_types.label_en": "Rank type(EN)",
   "rank.label": "Rank",
   "skill.label": "Skill",
   "service.label": "Service",

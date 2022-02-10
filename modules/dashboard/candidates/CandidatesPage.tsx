@@ -63,7 +63,7 @@ const CandidatesPage = () => {
       //   sortable: false,
       // },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (
