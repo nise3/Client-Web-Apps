@@ -5,7 +5,7 @@
 
 variables:
 
-  hostName: dashboard-dev.nise3.xyz
+  hostName: dev.nise3.xyz
 
   # app version, changing version will auto deploy the app to current version
 
@@ -25,7 +25,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.nise3.xyz/nise3-cube-client-web-admin
+  imageRepository: registry.nise3.xyz/nise3-cube-client-web-nise
 
 
   #auto scaling config
