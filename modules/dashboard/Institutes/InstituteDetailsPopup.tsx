@@ -151,13 +151,13 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 </Grid>
               );
             })}
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {/*<Grid item xs={12} md={6}>*/}
+          {/*  <DetailsInputView*/}
+          {/*    label={messages['common.domain']}*/}
+          {/*    value={itemData?.domain}*/}
+          {/*    isLoading={isLoading}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['districts.label']}

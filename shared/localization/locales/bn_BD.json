@@ -665,7 +665,7 @@
   "common.nearby_courses": "নিকটবর্তী কোর্স",
   "common.recent_courses": "সাম্প্রতিক কোর্স",
   "common.skill_courses": "দক্ষতার কোর্স",
-  "common.course_fee": "প্রশিক্ষণ খরচ",
+  "common.course_fee": "কোর্স ফি",
   "common.trending_courses": "ট্রেন্ডিং কোর্স",
   "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র",
   "common.enroll_now": "তালিকাভুক্ত",
@@ -1384,5 +1384,6 @@
   "common.candidates_list": "প্রার্থী তালিকা",
   "assign_permission.label": "পারমিশন প্রদান",
   "common.applied": "এপ্লাইড",
-  "beneficiaries_of_NISE.label": "উপকারভোগী"
+  "beneficiaries_of_NISE.label": "উপকারভোগী",
+  "common.give_publish_date": "* পেজে দেখানোর জন্য প্রকাশের তারিখ দিন"
 }
