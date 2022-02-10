@@ -7,6 +7,15 @@ variables:
 
   hostName: dev.nise3.xyz
 
+  # if values is false, then creating ingress will be escape
+  enableEngress: true
+
+  # ingress cluster-issuer class
+  ingressClusterIssuer: "k-issuer"
+
+    # is lts acme, value is boolean
+  ltsAcme: false
+
   # app version, changing version will auto deploy the app to current version
 
   imageAppVersion: "2.0.0"
