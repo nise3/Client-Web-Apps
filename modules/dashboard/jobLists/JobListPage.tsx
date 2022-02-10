@@ -32,9 +32,10 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUser} from 'react-icons/fi';
 import {Link} from '../../../@softbd/elements/common';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const JobListPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
 
@@ -136,6 +137,12 @@ const JobListPage = () => {
       {
         Header: messages['common.post'],
         accessor: 'job_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.post_en'],
+        accessor: 'job_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.publish_at'],
@@ -213,7 +220,7 @@ const JobListPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

@@ -17,10 +17,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const OrganizationPage = () => {
   const {successStack} = useNotiStack();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
   const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -98,18 +99,26 @@ const OrganizationPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
-
       {
-        Header: messages['menu.organization_type'],
+        Header: messages['organization_type.label_en'],
         accessor: 'organization_type_title_en',
         disableFilters: true,
         disableSortBy: true,
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization_type.label'],
+        accessor: 'organization_type_title',
+        disableFilters: true,
+        disableSortBy: true,
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
@@ -151,7 +160,7 @@ const OrganizationPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

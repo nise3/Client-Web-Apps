@@ -20,31 +20,38 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import HumanResourceAddEditPopup from '../humanResources/HumanResourceAddEditPopup';
 import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
 import ChartCSS from '../organizationUnitTypes/ChartCSS';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const getIdFromNodeId = (nodeId: string) => {
   return Number(nodeId.toString().replace(HIERARCHY_NODE_ID_PREFIX_STRING, ''));
 };
 
-const makeHierarchyData = (item: any) => {
+const isPrependedM = (item: any) =>
+  typeof item.id == 'string' &&
+  item.id.indexOf(HIERARCHY_NODE_ID_PREFIX_STRING) > -1;
+
+const makeHierarchyData = (item: any, titleField: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
-  item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
-  // item.title = item.title_en;
-  item.name = item.title_en;
+  item.id = isPrependedM(item.id)
+    ? item.id
+    : HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
+  item.name = item[titleField];
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {
-      makeHierarchyData(node);
+      makeHierarchyData(node, titleField);
     });
   } else {
     return item;
   }
+
   return item;
 };
 
 const StyledWrapper = styled('div')(() => ({...ChartCSS}));
 
 const OrganizationUnitHierarchyPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [HierarchyData, setHierarchyData] = useState<object>({});
@@ -65,15 +72,17 @@ const OrganizationUnitHierarchyPage = () => {
   } = useOrganizationUnitHierarchy(Number(organizationUnitId));
 
   useEffect(() => {
+    const titleField = locale == LocaleLanguage.EN ? 'title_en' : 'title';
+
     if (data) {
-      const HierarchyData = makeHierarchyData(data);
+      const HierarchyData = makeHierarchyData(data, titleField);
       setHierarchyData(HierarchyData);
     }
 
     if (metaData._response_status && !data && organizationUnitId) {
       openAddEditModal();
     }
-  }, [data, organizationUnitId]);
+  }, [data, organizationUnitId, locale]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -183,7 +192,7 @@ const OrganizationUnitHierarchyPage = () => {
       trigger.addEventListener('drop', handleDrop);
     });
 
-    //detaching drag&drop event listener to every hierarchy node.
+    //detaching drag&drop event listener to every hierarchy node during unmount.
     return () => {
       node.map((trigger) => {
         trigger.removeEventListener('drop', handleDrop);

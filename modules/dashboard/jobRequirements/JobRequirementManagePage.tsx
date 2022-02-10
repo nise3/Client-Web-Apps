@@ -19,10 +19,11 @@ import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectBu
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {rejectInstituteJobRequirement} from '../../../services/IndustryManagement/JobRequirementService';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const JobRequirementManagePage = () => {
   const {successStack} = useNotiStack();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const router = useRouter();
   const {jobRequirementId} = router.query;
   const [
@@ -77,6 +78,12 @@ const JobRequirementManagePage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['institute.label_en'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['job_requirement.institute_step'],
@@ -179,7 +186,7 @@ const JobRequirementManagePage = () => {
         sortable: false,
       },
     ],
-    [messages, HRDemandInstitutes],
+    [messages, HRDemandInstitutes, locale],
   );
 
   return (

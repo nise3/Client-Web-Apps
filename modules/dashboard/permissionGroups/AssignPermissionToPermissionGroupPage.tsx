@@ -22,10 +22,11 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
 import BackButton from '../../../@softbd/elements/button/BackButton';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const AssignPermissionToPermissionGroupPage = () => {
   const router = useRouter();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
   const {permissionGroupId} = router.query;
@@ -204,7 +205,11 @@ const AssignPermissionToPermissionGroupPage = () => {
                           handlePermissionCheck(permission.id, module)
                         }
                       />
-                      {lodashStartCase(permission.title)}
+                      {lodashStartCase(
+                        locale == LocaleLanguage.BN
+                          ? permission.title
+                          : permission.title_en,
+                      )}
                     </label>
                   );
                 })}
