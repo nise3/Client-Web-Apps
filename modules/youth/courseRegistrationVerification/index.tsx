@@ -16,9 +16,17 @@ import {
   courseEnrollmentResendVerificationCode,
   courseEnrollmentVerification,
 } from '../../../services/youthManagement/YouthService';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_SEND_TIME} from '../../../shared/constants/AppConst';
-import {RESEND_CODE_RETRY_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
+import cookieInstance, {
+  setBrowserCookie,
+} from '../../../@softbd/libs/cookieInstance';
+import {
+  COOKIE_KEY_COURSE_ID,
+  COOKIE_KEY_SEND_TIME,
+} from '../../../shared/constants/AppConst';
+import {
+  RESEND_CODE_RETRY_TIME_IN_MILLIS,
+  youthDomain,
+} from '../../../@softbd/common/constants';
 
 const inputProps = {
   maxLength: 1,
@@ -148,17 +156,33 @@ const CourseRegistrationVerification = () => {
         data.code1 + data.code2 + data.code3 + data.code4;
 
       if (enrollment_id) {
-        await courseEnrollmentVerification(enrollment_id, requestData);
+        const response = await courseEnrollmentVerification(
+          enrollment_id,
+          requestData,
+        );
         setIsSuccessSubmit(true);
 
-        router
-          .push({
-            pathname:
-              LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
-              courseId,
-            query: {enrollment_id: enrollment_id},
-          })
-          .then((r) => {});
+        if (response?.data?.freeCourse === 1) {
+          let expireDate = new Date();
+          expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
+          setBrowserCookie(COOKIE_KEY_COURSE_ID, courseId, {
+            expires: expireDate,
+          });
+          router
+            .push({
+              pathname: youthDomain() + '/course-enroll-payment/success',
+            })
+            .then((r) => {});
+        } else {
+          router
+            .push({
+              pathname:
+                LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+                courseId,
+              query: {enrollment_id: enrollment_id},
+            })
+            .then((r) => {});
+        }
       } else {
         errorStack(<IntlMessages id={'common.missing_enrollment_id'} />);
       }
