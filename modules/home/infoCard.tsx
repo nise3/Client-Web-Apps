@@ -71,9 +71,10 @@ const InfoCard = ({color, infos, label}: Props) => {
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                          }}>
+                          }}
+                          title={infoItem?.name}>
                           {' '}
-                          {infoItem.name}
+                          {infoItem?.name}
                         </Box>
                       </Grid>
                     </Grid>
