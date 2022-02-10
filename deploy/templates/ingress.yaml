@@ -14,26 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        {{ if eq .Values.variables.APP_ENV "LOCAL" }}
-        - "{{ .Values.variables.DEV.APP_URL }}"
-        {{end}}
-        {{ if eq .Values.variables.APP_ENV "STAGING" }}
-        - "{{ .Values.variables.STAGING.APP_URL }}"
-        {{end}}
-        {{ if eq .Values.variables.APP_ENV "PRODUCTION" }}
-        - "{{ .Values.variables.PRODUCTION.APP_URL }}"
-        {{end}}
+        - "{{ .Values.variables.hostName }}"
       secretName: "{{ .Chart.Name }}-secret"
   rules:
-        {{ if eq .Values.variables.APP_ENV "LOCAL" }}
-    - host: "{{ .Values.variables.DEV.APP_URL }}"
-        {{end}}
-        {{ if eq .Values.variables.APP_ENV "STAGING" }}
-    - host: "{{ .Values.variables.STAGING.APP_URL }}"
-        {{end}}
-        {{ if eq .Values.variables.APP_ENV "PRODUCTION" }}
-    - host: "{{ .Values.variables.PRODUCTION.APP_URL }}"
-        {{end}}
+    - host: "{{ .Values.variables.hostName }}"
       http:
         paths:
           - path: /
