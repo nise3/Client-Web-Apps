@@ -36,7 +36,7 @@ export function useDataLocalizationAxiosSWR<T = any>(
   const [newDataObject, setNewDataObject] = useState<any>(data);
   const [loc, setLoc] = useState<any>(locale);
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
-  const locRef = useRef<number>(0);
+  const locRef = useRef<string>('bn');
 
   useEffect(() => {
     if (
@@ -45,8 +45,12 @@ export function useDataLocalizationAxiosSWR<T = any>(
       loc != locale
     ) {
       const objIN = {...data};
-      if (locale != loc || (locRef.current == 0 && language != 'bn')) {
-        locRef.current = 1;
+      if (
+        locale != loc ||
+        locRef.current != 'bn' ||
+        locRef.current != language
+      ) {
+        locRef.current = language;
         objIN.data = changeLocalData(objIN.data);
       }
       setLoc(locale);
