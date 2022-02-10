@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Skeleton} from '@mui/material';
-import {H1, H2, H3, H5, Text} from '../../../@softbd/elements/common';
+import {H1, H2, H3, H6, Text} from '../../../@softbd/elements/common';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import GoogleMapReact from 'google-map-react';
 import {styled} from '@mui/material/styles';
@@ -343,7 +343,12 @@ const ContactPage = () => {
                   {contactInfoData?.map((contact: any) => (
                     <Grid item xs={12} sm={2} md={3} key={contact.id}>
                       <Box className={classes.contactBox}>
-                        <H5 sx={{color: 'primary.main'}}>{contact?.title}</H5>
+                        <H6 sx={{
+                          color: 'primary.main',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }} title={contact?.title}>{contact?.title}</H6>
                         <Text className={classes.contactBoxItem}>
                           <Call className={classes.contactBoxItemIcon} />
                           {contact?.mobile}
