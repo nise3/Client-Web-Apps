@@ -114,7 +114,7 @@ export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
-  INSTITUTE_SERVICE_PATH + '/payment/pay-now';
+  INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
