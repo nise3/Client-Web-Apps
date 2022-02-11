@@ -51,7 +51,7 @@ docker-build:
       if [[ "$imageYouthRelease" == true ]]; then
         tag=":$imageYouthAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageYouthRepository${tag}" -f DockerSSP .
+        docker build --pull -t "$imageYouthRepository${tag}" -f DockerYouth .
         docker push "$imageYouthRepository${tag}"
       fi
   rules:

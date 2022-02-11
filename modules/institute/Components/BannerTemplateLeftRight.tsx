@@ -44,15 +44,6 @@ interface BannerProps {
 const BannerTemplateLeftRight = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
-      <Grid item xs={6} sx={{height: '100%'}}>
-        <CardMedia
-          component='img'
-          image={banner?.banner_image_path}
-          className={classes.image}
-          alt={banner?.alt_image_title}
-          title={banner?.title}
-        />
-      </Grid>
       <Grid
         item
         xs={6}
@@ -84,6 +75,15 @@ const BannerTemplateLeftRight = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
+      </Grid>
+      <Grid item xs={6} sx={{height: '100%'}}>
+        <CardMedia
+          component='img'
+          image={banner?.banner_image_path}
+          className={classes.image}
+          alt={banner?.alt_image_title}
+          title={banner?.title}
+        />
       </Grid>
     </StyledGrid>
   );

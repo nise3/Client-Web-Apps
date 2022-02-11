@@ -94,6 +94,8 @@ const LanguageSection = () => {
         <LanguageProficiencyViewPage
           onEdit={openLanguageAddEditForm}
           onClose={closeLanguageProficiencyView}
+          languageProficiencies={languageProficiencies}
+          mutateLanguageProficiencies={mutateLanguageProficiencies}
         />
       )}
       {isOpenLanguageAddEditForm && (
