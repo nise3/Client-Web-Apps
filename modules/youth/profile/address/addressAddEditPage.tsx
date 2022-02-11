@@ -145,7 +145,7 @@ const AddressAddEditPage = ({
   const onSubmit: SubmitHandler<IAddressAddEdit> = async (data) => {
     try {
       if (itemId) {
-        await updateAddress(itemData, data);
+        await updateAddress(itemId, data);
         updateSuccessMessage('common.address');
       } else {
         await createAddress(data);
