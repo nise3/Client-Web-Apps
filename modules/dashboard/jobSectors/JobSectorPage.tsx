@@ -16,9 +16,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const JobSectorPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [jobSectorFilters] = useState({});
@@ -88,11 +89,12 @@ const JobSectorPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.status'],
@@ -121,7 +123,7 @@ const JobSectorPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

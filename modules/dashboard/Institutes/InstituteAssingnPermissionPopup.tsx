@@ -13,10 +13,14 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
-import {useFetchPermissionSubGroups} from '../../../services/userManagement/hooks';
+import {
+  useFetchPermissionGroups,
+  useFetchPermissionSubGroups,
+} from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {ApproveInstitute} from '../../../services/instituteManagement/InstituteService';
 import {IPermissionSubGroupAssignInstitute} from '../../../shared/Interface/institute.interface';
+import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 
 interface AssignPermissionSubGroupPopup {
   itemId: number | null;
@@ -28,9 +32,6 @@ const initialValues = {
   permission_sub_group_id: '',
 };
 
-enum PermissionGroup {
-  INSTITUTE = 3,
-}
 const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   itemId,
   refreshDataTable,
@@ -41,6 +42,14 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
   const isEdit = itemId != null;
   const {data: itemData, isLoading} = useFetchIndustryAssociation(itemId);
 
+  const [permissionGroupFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+    key: PERMISSION_GROUP_INSTITUTE_KEY,
+  });
+  const {data: permissionGroups} = useFetchPermissionGroups(
+    permissionGroupFilters,
+  );
+
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
     useState<any>({
       row_status: RowStatus.ACTIVE,
@@ -50,11 +59,13 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
   useEffect(() => {
-    setPermissionSubGroupFilters({
-      permission_group_id: PermissionGroup.INSTITUTE,
-      row_status: RowStatus.ACTIVE,
-    });
-  }, []);
+    if (permissionGroups && permissionGroups.length > 0) {
+      setPermissionSubGroupFilters({
+        permission_group_id: permissionGroups[0]?.id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [permissionGroups]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

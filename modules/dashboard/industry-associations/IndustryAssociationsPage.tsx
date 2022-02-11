@@ -157,12 +157,11 @@ const IndustryAssociationsPage = () => {
         accessor: 'title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
-
-      {
-        Header: messages['common.domain'],
-        accessor: 'domain',
-        isVisible: false,
-      },
+      // {
+      //   Header: messages['common.domain'],
+      //   accessor: 'domain',
+      //   isVisible: false,
+      // },
       {
         Header: messages['association.association_trades'],
         accessor: 'industry_association_trade_title',

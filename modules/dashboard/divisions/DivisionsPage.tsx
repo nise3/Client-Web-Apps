@@ -129,7 +129,7 @@ const DivisionsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

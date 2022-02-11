@@ -99,7 +99,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
           institute_id: yup
             .array()
             .of(yup.object())
-            .min(1)
+            .nullable()
             .label(messages['common.institute'] as string),
           mandatory_skill_ids: yup
             .array()

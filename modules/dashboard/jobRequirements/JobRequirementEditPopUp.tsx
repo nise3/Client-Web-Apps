@@ -198,7 +198,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
         optional_skill_ids: optionalSkillIds,
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
-        requirement: itemData?.remaining_vacancy,
+        requirement: itemData?.requirement,
       };
 
       if (itemData?.hr_demands) {

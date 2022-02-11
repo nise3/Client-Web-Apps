@@ -172,13 +172,13 @@ const InstituteProfile = () => {
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['common.domain']}
-                value={profileData?.domain}
-                isLoading={false}
-              />
-            </Grid>
+            {/*<Grid item xs={12} md={6}>*/}
+            {/*  <DetailsInputView*/}
+            {/*    label={messages['common.domain']}*/}
+            {/*    value={profileData?.domain}*/}
+            {/*    isLoading={false}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
             <Grid item xs={6}>
               <DetailsInputView
                 label={messages['divisions.label']}

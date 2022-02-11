@@ -53,7 +53,7 @@ const InstituteRegistration = () => {
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
 
   const instituteType = {
-    NON_GOVT: '0',
+    NON_GOVT: '2',
     GOVT: '1',
   };
 

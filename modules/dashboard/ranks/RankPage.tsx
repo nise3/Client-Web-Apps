@@ -17,9 +17,10 @@ import {deleteRank} from '../../../services/organaizationManagement/RankService'
 import IconRank from '../../../@softbd/icons/IconRank';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const RankPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -85,21 +86,33 @@ const RankPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
         Header: messages['rank_types.label'],
+        accessor: 'rank_type_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['rank_types.label_en'],
         accessor: 'rank_type_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
-        accessor: 'organization_title_en',
-        isVisible: false,
+        accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['ranks.display_order'],
@@ -138,7 +151,7 @@ const RankPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

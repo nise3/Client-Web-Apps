@@ -5,25 +5,25 @@ variables:
 
   #admin frontend
   imageAdminRelease: "true"
-  imageAdminAppVersion: "2.0.0"
+  imageAdminAppVersion: "2.0.2"
   imageAdminRepository: "registry.nise3.xyz/nise3-cube-client-web-admin"
 
   #Industry frontend
   imagIndustryeRelease: "true"
-  imageIndustryAppVersion: "2.0.0"
+  imageIndustryAppVersion: "2.0.2"
   imageIndustryRepository: "registry.nise3.xyz/nise3-cube-client-web-industry"
 
   #nise frontend
   imageNiseRelease: "true"
-  imageNiseAppVersion: "2.0.0"
+  imageNiseAppVersion: "2.0.2"
   imageNiseRepository: "registry.nise3.xyz/nise3-cube-client-web-nise"
 
   #ssp frontend
   imageSSPRelease: "true"
-  imageSSPAppVersion: "2.0.0"
+  imageSSPAppVersion: "2.0.2"
   imageSSPRepository: "registry.nise3.xyz/nise3-cube-client-web-ssp"
 
   #youth frontend
   imageYouthRelease: "true"
-  imageYouthAppVersion: "2.0.0"
+  imageYouthAppVersion: "2.0.2"
   imageYouthRepository: "registry.nise3.xyz/nise3-cube-client-web-youth"

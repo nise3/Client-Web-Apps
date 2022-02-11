@@ -19,10 +19,11 @@ import {getPermissionGroupWithPermissions} from '../../../services/userManagemen
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import Card from '@mui/material/Card';
 import BackButton from '../../../@softbd/elements/button/BackButton';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const AssignPermissionToPermissionSubGroupPage = () => {
   const router = useRouter();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const {permissionSubGroupId} = router.query;
 
@@ -205,7 +206,11 @@ const AssignPermissionToPermissionSubGroupPage = () => {
                             handlePermissionCheck(permission.id, module)
                           }
                         />
-                        {lodashStartCase(permission.title)}
+                        {lodashStartCase(
+                          locale == LocaleLanguage.BN
+                            ? permission.title
+                            : permission.title_en,
+                        )}
                       </label>
                     </>
                   );

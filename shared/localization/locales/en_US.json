@@ -40,6 +40,7 @@
   "association.association_address": "Association Address",
   "association.association_address_en": "Association Address (En)",
   "association.association_information": "Association information",
+  "association.association_profile": "Association Profile",
   "common.paymentStatus": "Payment Status",
   "common.emailVerification": "Email Verification",
   "common.verificationMessage": "Enter your verification code sent on your email",
@@ -128,6 +129,7 @@
   "menu.user": "User",
   "menu.slider_banners": "Banners",
   "permission_group.label": "Permission group",
+  "permission_group.label_en": "Permission group(EN)",
   "permission_group.unique_value": "Unique value",
   "customizer.modern": "Modern",
   "customizer.standard": "Standard",
@@ -390,12 +392,14 @@
   "trainers.label": "Trainer",
   "trainers.assign_success": "Trainer assign successful",
   "organization_unit_type.label": "Organization unit type",
+  "organization_unit_type.label_en": "Organization unit type(EN)",
   "organization_unit.label": "Organization unit",
   "organization_unit.employee_size": "Employee size",
   "ranks.display_order": "Display order",
   "ranks.grade": "Grade",
   "ranks.label": "Rank",
   "rank_types.label": "Rank type",
+  "rank_types.label_en": "Rank type(EN)",
   "rank.label": "Rank",
   "skill.label": "Skill",
   "service.label": "Service",
@@ -1375,5 +1379,6 @@
   "common.cv_approve": "CV Approve",
   "assign_permission.label": "Assign Permission",
   "common.applied": "Applied",
-  "beneficiaries_of_NISE.label": "Beneficiaries of NISE"
+  "beneficiaries_of_NISE.label": "Beneficiaries of NISE",
+  "common.give_publish_date": "* Please input publish date to show on pages"
 }
