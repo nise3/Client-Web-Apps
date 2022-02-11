@@ -348,6 +348,8 @@
   "common.verify_method": "Verify method",
   "common.verify_text": "   Enter your email adderss or number below and we will send you verification code for verify your account",
   "common.send_code_text": "Send code again",
+  "common.post_bn": "Position",
+  "common.post_en": "Position (English)",
   "signup.label": "Sign up as",
   "common.youth": "Youth",
   "common.industry": "Industry",
