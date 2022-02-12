@@ -106,7 +106,7 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
                 variant={'contained'}
                 color={'primary'}
                 size={'small'}
-                sx={{marginLeft: '15px'}}
+                sx={{marginLeft: '10px'}}
                 onClick={onJobApply}>
                 {messages['common.apply_now']}
               </Button>
