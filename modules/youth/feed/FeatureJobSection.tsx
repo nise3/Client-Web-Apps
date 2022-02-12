@@ -26,22 +26,22 @@ const FeatureJobSection = () => {
     {
       imageUrl: '/images/skill-matching-job1.jpg',
       jobTitle: 'Article Writer',
-      jobProviderName: 'Ispahani',
+      jobProviderName: 'SOFT BD LTD',
     },
     {
       imageUrl: '/images/skill-matching-job1.jpg',
       jobTitle: 'Sales Executive',
-      jobProviderName: 'Ajker Deal',
+      jobProviderName: 'Dream71 Bangladesh',
     },
     {
       imageUrl: '/images/skill-matching-job1.jpg',
       jobTitle: 'Senior UX Designer',
-      jobProviderName: 'Pathao',
+      jobProviderName: 'Tiger IT Bangladesh',
     },
     {
       imageUrl: '/images/skill-matching-job1.jpg',
       jobTitle: 'Data Engineer',
-      jobProviderName: 'Evaly',
+      jobProviderName: 'Brain Station 23 Limited',
     },
   ];
 
