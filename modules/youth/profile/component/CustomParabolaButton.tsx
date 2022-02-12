@@ -26,19 +26,22 @@ type CustomParabolaButtonProps = {
   color?: string;
   buttonVariant?: 'text' | 'contained' | 'outlined';
   onClick?: () => void;
+  disabled?: boolean;
 };
 const CustomParabolaButton = ({
   buttonVariant,
   icon,
   title,
   onClick,
+  disabled = false,
 }: CustomParabolaButtonProps) => {
   return (
     <StyledButton
       variant={buttonVariant ? buttonVariant : 'contained'}
       startIcon={icon}
       color={'primary'}
-      onClick={onClick}>
+      onClick={onClick}
+      disabled={disabled}>
       <span className={classes.shrinking}>{title}</span>
     </StyledButton>
   );
