@@ -11,10 +11,13 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {Body1, S2} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
-import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {useFetchJobCandidates} from '../../../services/IndustryManagement/hooks';
+import {yupResolver} from '@hookform/resolvers/yup';
+import yup from '../../../@softbd/libs/yup';
+import {createRecruitmentStep} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -69,18 +72,39 @@ const RecruitmentStepsViewSection = ({
   jobId,
   onClickStep,
 }: RecruitmentStepsViewSectionProps) => {
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {messages} = useIntl();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [stepList, setStepList] = useState<any>([]);
 
   const {data: candidates} = useFetchJobCandidates(jobId);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      title: yup
+        .string()
+        .title()
+        .required()
+        .label(messages['common.title'] as string),
+      step_type: yup
+        .string()
+        .required()
+        .label(messages['step.type'] as string),
+      is_interview_reschedule_allowed: yup
+        .string()
+        .required()
+        .label(messages['common.applicants_cat_reschedule'] as string),
+    });
+  }, [messages]);
+
   const {
     control,
     register,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IOrganization>();
+  } = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
 
   const handleModalOpenClose = () => {
     setOpenModal((prev: boolean) => !prev);
@@ -97,15 +121,15 @@ const RecruitmentStepsViewSection = ({
       },
       {
         key: '2',
-        label: messages['common.short_list_live_interview'],
-      },
-      {
-        key: '3',
         label: messages['common.short_list_written'],
       },
       {
-        key: '4',
+        key: '3',
         label: messages['common.short_list_face_to_face'],
+      },
+      {
+        key: '4',
+        label: messages['common.short_list_live_interview'],
       },
       {
         key: '5',
@@ -131,9 +155,14 @@ const RecruitmentStepsViewSection = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      formData.job_id = jobId;
+
       let arr: any = [];
       arr = [...stepList, formData];
       setStepList(arr);
+
+      await createRecruitmentStep(formData);
+      createSuccessMessage('common.recruitment_step');
 
       handleModalOpenClose();
     } catch (error: any) {
@@ -223,7 +252,9 @@ const RecruitmentStepsViewSection = ({
               <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <FormRadioButtons
-                    id='step_list'
+                    label={'step.type'}
+                    required
+                    id='step_type'
                     radios={shortLists}
                     control={control}
                     isLoading={isLoading}
@@ -237,7 +268,8 @@ const RecruitmentStepsViewSection = ({
                 </Grid>
                 <Grid item xs={6}>
                   <CustomTextInput
-                    id='step_name'
+                    required
+                    id='title'
                     label={messages['common.step_name']}
                     register={register}
                     errorInstance={errors}
@@ -247,7 +279,17 @@ const RecruitmentStepsViewSection = ({
                 </Grid>
                 <Grid item xs={6}>
                   <CustomTextInput
-                    id='contact_no'
+                    id='title_en'
+                    label={messages['common.step_name_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='Type a test name'
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='interview_contact'
                     label={messages['common.phone']}
                     register={register}
                     errorInstance={errors}
@@ -257,7 +299,7 @@ const RecruitmentStepsViewSection = ({
                 </Grid>
                 <Grid item xs={12}>
                   <FormRadioButtons
-                    id='reschedule'
+                    id='is_interview_reschedule_allowed'
                     label={'common.applicants_cat_reschedule'}
                     required={true}
                     radios={applicantCanReschedule}

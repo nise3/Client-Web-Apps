@@ -57,6 +57,7 @@
   "common.writeComment": "Write a comment...",
   "common.reference": "Reference",
   "common.title_en": "Title (En)",
+  "step.type": "Step type",
   "common.paid": "Paid",
   "common.unpaid": "Unpaid",
   "common.title": "Title",
@@ -1389,5 +1390,6 @@
   "common.short_list_face_to_face": "Short List for Face to Face",
   "common.short_list_other": "Only SList for Other",
   "common.step_name": "Step Name",
+  "common.step_name_en": "Step Name (English)",
   "common.applicants_cat_reschedule": "Applicants can request for reschedule through system"
 }
