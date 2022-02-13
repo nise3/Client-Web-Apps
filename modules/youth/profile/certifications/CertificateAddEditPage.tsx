@@ -245,6 +245,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <FileUploadComponent
                 id='certificate_file_path'
                 defaultFileUrl={itemData?.certificate_file_path}
+                acceptedFileTypes={['application/pdf']}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}
