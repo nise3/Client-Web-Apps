@@ -42,6 +42,10 @@ const addressType = [
     id: 2,
     label: 'Permanent Address',
   },
+  {
+    id: 3,
+    label: 'Other Address',
+  },
 ];
 
 interface Porps {
@@ -140,7 +144,7 @@ const AddressAddEditPage = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
   const onSubmit: SubmitHandler<IAddressAddEdit> = async (data) => {
     try {

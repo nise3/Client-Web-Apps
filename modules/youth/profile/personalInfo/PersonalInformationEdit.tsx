@@ -121,8 +121,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     string | undefined
   >(IdentityNumberTypes.NID);
 
-  const getIdentityNumberFieldCaption = () => {
-    switch (identityNumberType) {
+  const getIdentityNumberFieldCaption = useCallback(() => {
+    switch (String(identityNumberType)) {
       case IdentityNumberTypes.NID:
         return messages['common.identity_type_nid'];
       case IdentityNumberTypes.BIRTH_CERT:
@@ -132,7 +132,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       default:
         return messages['common.identity_type_nid'];
     }
-  };
+  }, [identityNumberType]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -154,7 +154,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .array()
         .of(yup.number())
         .min(1)
-        .max(10)
+        .max(15)
         .label(messages['common.skills'] as string),
       physical_disability_status: yup
         .string()
@@ -374,6 +374,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         districts,
         authUser?.loc_division_id,
       );
+      setIdentityNumberType(authUser?.identity_number_type);
       setDistrictList(filteredDistricts);
       console.log(
         'authUser?.signature_image_path-',
