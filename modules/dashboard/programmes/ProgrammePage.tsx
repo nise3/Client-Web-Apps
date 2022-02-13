@@ -90,13 +90,13 @@ const ProgrammePage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['institute.label'],
+        Header: messages['institute.label_en'],
         accessor: 'institute_title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['institute.label'],
-        accessor: 'institute_title_en',
+        accessor: 'institute_title',
         isVisible: locale == LocaleLanguage.BN,
       },
       {
