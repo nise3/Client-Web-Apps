@@ -33,7 +33,6 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
-        s
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
