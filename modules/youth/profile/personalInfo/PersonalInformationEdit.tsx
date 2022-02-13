@@ -154,6 +154,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .array()
         .of(yup.number())
         .min(1)
+        .max(10)
         .label(messages['common.skills'] as string),
       physical_disability_status: yup
         .string()
