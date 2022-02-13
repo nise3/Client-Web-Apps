@@ -37,7 +37,6 @@ const PermissionSubGroupDetailsPopup = ({
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
-        s
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
