@@ -5,7 +5,7 @@ import PageMeta from '../../../../@crema/core/PageMeta';
 import React from 'react';
 
 const JobCandidatesPage = asyncComponent(
-  () => import('../../../../modules/dashboard/candidates/CandidatesPage'),
+  () => import('../../../../modules/dashboard/candidates/CandidatePageV1'),
 );
 
 export default DashboardPage(() => {
