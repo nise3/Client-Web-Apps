@@ -3,6 +3,7 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_GET_JOB_CANDIDATES_APPLIED_LIST,
   API_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS,
   API_INDUSTRY_ASSOCIATION_PROFILE,
@@ -48,4 +49,10 @@ export function useFetchPublicJob(jobId: any, params?: any) {
 
 export function useFetchIndustryAssociationDashboardStatics() {
   return useAxiosSWR(API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS);
+}
+
+export function useFetchJobCandidatesAppliedList(jobId: any) {
+  return useAxiosSWR(
+    jobId ? API_GET_JOB_CANDIDATES_APPLIED_LIST + '/' + jobId : null,
+  );
 }
