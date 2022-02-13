@@ -777,15 +777,13 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             {messages['job_preview.apply_procedure']}
           </S2>
 
-          {jobData?.primary_job_information?.is_apply_online == 1 && (
-            <Button
-              color={'primary'}
-              size={'medium'}
-              variant={'contained'}
-              sx={{marginTop: '15px'}}>
-              {messages['common.apply_online']}
-            </Button>
-          )}
+          <Button
+            color={'primary'}
+            size={'medium'}
+            variant={'contained'}
+            sx={{marginTop: '15px'}}>
+            {messages['common.apply_online']}
+          </Button>
 
           {jobData?.primary_job_information?.resume_receiving_option ==
             ResumeReceivingOptions.EMAIL && (
