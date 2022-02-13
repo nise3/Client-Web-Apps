@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {Body1, Body2, H3, Link, S1, S2} from '../../../@softbd/elements/common';
+import {Body1, Body2, H3, S1, S2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import JobPreviewSubComponent from '../../dashboard/jobLists/jobPost/steps/components/JobPreviewSubComponent';
 import {
@@ -20,7 +20,6 @@ import {
   ResumeReceivingOptions,
   SalaryReviewType,
   SalaryShowOption,
-  SHOW,
   WorkPlaceTypes,
 } from '../../dashboard/jobLists/jobPost/enums/JobPostEnums';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -571,10 +570,10 @@ const JobCircularDetails = () => {
     return '';
   };
 
-  const getCompanyAddress = () => {
+  /*const getCompanyAddress = () => {
     let address: string = '';
     let domain: string = '';
-    /* if (authUser?.isIndustryAssociationUser) {
+    /!* if (authUser?.isIndustryAssociationUser) {
       if (authUser?.industry_association) {
         let addressArr: any = [];
         if (authUser?.industry_association?.address)
@@ -597,7 +596,7 @@ const JobCircularDetails = () => {
         address = authUser?.organization?.address;
         domain = authUser?.organization?.domain;
       }
-    }*/
+    }*!/
 
     return (
       <React.Fragment>
@@ -610,11 +609,11 @@ const JobCircularDetails = () => {
         </Body2>
       </React.Fragment>
     );
-  };
+  };*/
 
-  const getCompanyBusiness = () => {
+  /*  const getCompanyBusiness = () => {
     return <Body2>Business: Web Development and IT Services</Body2>;
-  };
+  };*/
 
   return (
     <StyledContainer>
@@ -860,7 +859,7 @@ const JobCircularDetails = () => {
             </S2>
 
             {(!authUser || authUser?.isYouthUser) &&
-              (jobData?.has_applied == '1' ? (
+              (jobData?.candidate_information?.has_applied == '1' ? (
                 <CustomChip
                   label={messages['common.applied']}
                   color={'primary'}
@@ -963,7 +962,7 @@ const JobCircularDetails = () => {
                 : ''}
             </Body1>
           </Grid>
-          <Grid
+          {/*<Grid
             item
             xs={12}
             mt={4}
@@ -980,7 +979,7 @@ const JobCircularDetails = () => {
               {jobData?.company_info_visibility?.is_company_business_visible ==
                 SHOW && <Body2>{getCompanyBusiness()}</Body2>}
             </Box>
-          </Grid>
+          </Grid>*/}
         </Grid>
       </Box>
       {isOpenJobApplyModal && (

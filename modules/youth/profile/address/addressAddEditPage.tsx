@@ -234,6 +234,7 @@ const AddressAddEditPage = ({
             </Grid>
             <Grid item xs={6}>
               <CustomFilterableFormSelect
+                required
                 id='address_type'
                 label={messages['label.address_type']}
                 isLoading={false}

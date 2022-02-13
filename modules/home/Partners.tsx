@@ -2,7 +2,7 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {H6} from '../../@softbd/elements/common';
+import {H6, Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
@@ -48,7 +48,26 @@ const Partners = () => {
   const [partnerFilters] = useState({});
   const {data: partners} = useFetchPublicPartners(partnerFilters);
   const cardItem = (partner: any, key: number) => {
-    return (
+    return partner?.domain ? (
+      <Link href={partner?.domain} target='_blank' passHref key={key}>
+        <Box mr={1} ml={1}>
+          <Card className={classes.cardItem}>
+            <Box className={classes.imageAlt}>
+              <img
+                className={classes.image}
+                src={
+                  partner?.main_image_path
+                    ? partner?.main_image_path
+                    : '/images/blank_image.png'
+                }
+                alt={partner?.image_alt_title}
+                title={partner?.title}
+              />
+            </Box>
+          </Card>
+        </Box>
+      </Link>
+    ) : (
       <Box mr={1} ml={1} key={key}>
         <Card className={classes.cardItem}>
           <Box className={classes.imageAlt}>
