@@ -94,6 +94,7 @@ const JobList = () => {
     data: jobs,
     metaData: jobsMetaData,
     isLoading,
+    mutate: mutateJobs,
   } = useFetchPublicJobs(jobFilters);
 
   useEffect(() => {
@@ -144,6 +145,9 @@ const JobList = () => {
     });
   }, []);
 
+  const onPopupClose = () => {
+    mutateJobs();
+  };
   const filterJobList = useCallback((filterKey: any, filterValue: any) => {
     const newFilter: any = {};
     newFilter[filterKey] = filterValue;
@@ -211,7 +215,11 @@ const JobList = () => {
                       sm={viewType == 1 ? 6 : 12}
                       md={viewType == 1 ? 3 : 12}
                       key={job.id}>
-                      <JobCardComponent job={job} isGridView={viewType == 1} />
+                      <JobCardComponent
+                        job={job}
+                        onPopupClose={onPopupClose}
+                        isGridView={viewType == 1}
+                      />
                     </Grid>
                   );
                 })
