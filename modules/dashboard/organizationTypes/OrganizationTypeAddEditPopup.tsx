@@ -127,7 +127,6 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

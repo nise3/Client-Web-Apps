@@ -165,7 +165,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
