@@ -367,6 +367,9 @@ export const API_PUBLIC_JOB_DETAILS =
 export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
 
+export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
+  ORGANIZATION_SERVICE_PATH + '/recruitment-step-candidate-list';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
