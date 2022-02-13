@@ -40,6 +40,7 @@ import {getAllInstitutes} from '../../../services/instituteManagement/InstituteS
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -447,6 +448,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

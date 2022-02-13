@@ -40,6 +40,7 @@ import {getAllOrganizations} from '../../../services/organaizationManagement/Org
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -509,6 +510,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

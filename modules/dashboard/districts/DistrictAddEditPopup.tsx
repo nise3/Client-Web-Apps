@@ -23,6 +23,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {District} from '../../../shared/Interface/location.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
@@ -136,7 +137,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

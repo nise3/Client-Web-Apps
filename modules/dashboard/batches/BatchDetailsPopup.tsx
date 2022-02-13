@@ -11,6 +11,7 @@ import IconBatch from '../../../@softbd/icons/IconBatch';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 import {ITrainer} from '../../../shared/Interface/institute.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -38,6 +39,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='batches.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

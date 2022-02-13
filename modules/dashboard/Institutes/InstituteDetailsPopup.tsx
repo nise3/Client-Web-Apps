@@ -10,6 +10,7 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {InstituteType} from './InstituteAddEditPopup';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -32,6 +33,7 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='institute.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

@@ -17,6 +17,7 @@ import SliderTemplateShowTypes from './SliderTemplateShowTypes';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -45,7 +46,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

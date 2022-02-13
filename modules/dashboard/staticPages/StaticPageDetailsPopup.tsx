@@ -20,6 +20,7 @@ import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplate
 import ContentTypes from '../recentActivities/ContentTypes';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   pageCode: string;
@@ -131,7 +132,7 @@ const StaticPageDetailsPopup = ({
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

@@ -26,6 +26,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IRankType} from '../../../shared/Interface/rankType.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface RankTypeAddEditPopupProps {
   itemId: number | null;
@@ -173,7 +174,7 @@ const RankTypeAddEditPopup: FC<RankTypeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

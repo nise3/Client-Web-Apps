@@ -31,6 +31,7 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SliderBannerAddEditPopupProps {
   itemId: number | null;
@@ -380,7 +381,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

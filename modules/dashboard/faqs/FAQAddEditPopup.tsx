@@ -31,6 +31,7 @@ import {getAllIndustryAssociations} from '../../../services/IndustryAssociationM
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -391,6 +392,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconInstitute />

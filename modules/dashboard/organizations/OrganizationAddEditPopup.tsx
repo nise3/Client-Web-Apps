@@ -51,6 +51,7 @@ import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoC
 import {Box} from '@mui/system';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -487,6 +488,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
