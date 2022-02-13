@@ -557,7 +557,6 @@
   "common.post": "পদ",
   "common.qualification": "যোগ্যতা",
   "common.post_en": "পদ (ইংরেজি)",
-  "common.type_of_employee": "চাকরির ধরন",
   "common.type_of_identity_card": "পরিচয় পত্রের ধরন",
   "common.country": "দেশ",
   "common.phone_code": "ফোন কোড",
@@ -1389,5 +1388,9 @@
   "common.short_list_face_to_face": "সরাসরি জন্য সংক্ষিপ্ত তালিকা",
   "common.short_list_other": "অন্যদের জন্য শুধুমাত্র সংক্ষিপ্ত তালিকা",
   "common.step_name": "স্টেপ নাম",
-  "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন"
+  "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন",
+  "common.published_on": "প্রকাশিত",
+  "common.job_status_live": "লাইভ",
+  "common.job_status_pending": "অনুমোদন অপেক্ষারত",
+  "common.job_status_expired": "মেয়াদ শেষ"
 }
