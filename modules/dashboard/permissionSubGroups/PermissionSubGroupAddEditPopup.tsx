@@ -157,7 +157,6 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
