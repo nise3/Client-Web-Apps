@@ -10,6 +10,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {useFetchPublication} from '../../../services/instituteManagement/hooks';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -32,7 +33,7 @@ const PublicationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='publication.label' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

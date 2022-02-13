@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {useFetchBranch} from '../../../services/instituteManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -31,7 +32,7 @@ const BranchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='branch.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

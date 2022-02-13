@@ -10,6 +10,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {useFetchOrganizationUnit} from '../../../services/organaizationManagement/hooks';
 import {IService} from '../../../shared/Interface/services.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -44,6 +45,7 @@ const OrganizationUnitDetailsPopup = ({
             <IntlMessages id='organization_unit.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

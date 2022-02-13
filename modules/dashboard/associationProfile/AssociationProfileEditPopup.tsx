@@ -29,6 +29,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
@@ -214,6 +215,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
           />
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

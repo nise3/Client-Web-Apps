@@ -10,6 +10,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -31,7 +32,7 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
             <IntlMessages id='common.industry_details' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <Button

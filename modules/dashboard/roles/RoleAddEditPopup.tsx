@@ -29,6 +29,7 @@ import IconRole from '../../../@softbd/icons/IconRole';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IRole} from '../../../shared/Interface/userManagement.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface RoleAddEditPopupProps {
   itemId: number | null;
@@ -188,7 +189,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

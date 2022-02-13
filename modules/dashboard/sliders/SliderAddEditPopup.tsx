@@ -31,6 +31,7 @@ import {getAllInstitutes} from '../../../services/instituteManagement/InstituteS
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -253,7 +254,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

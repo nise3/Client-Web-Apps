@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -47,6 +48,7 @@ const IndustryAssociationDetailsPopup = ({
             <IntlMessages id='common.industry_association' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

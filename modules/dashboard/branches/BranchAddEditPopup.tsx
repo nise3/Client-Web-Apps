@@ -35,6 +35,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {IBranch} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -215,7 +216,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

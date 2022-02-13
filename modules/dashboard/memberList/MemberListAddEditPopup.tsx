@@ -51,6 +51,7 @@ import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoC
 import {Box} from '@mui/system';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface MemberAddEditPopupProps {
   itemId: number | null;
@@ -486,6 +487,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />

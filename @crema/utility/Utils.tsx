@@ -1,4 +1,4 @@
-import { createTheme, useTheme, Breakpoint } from '@mui/material/styles';
+import {createTheme, useTheme, Breakpoint} from '@mui/material/styles';
 import {useMediaQuery} from '@mui/material';
 import {CremaTheme} from '../../redux/types/AppContextPropsType';
 import moment from 'moment';
@@ -8,7 +8,12 @@ type BreakpointOrNull = Breakpoint | null;
 
 export const isBreakPointDown = (key: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
   const defaultTheme = createTheme();
-  return defaultTheme.breakpoints.values[key] > window.innerWidth;
+  return window.innerWidth < defaultTheme.breakpoints.values[key];
+};
+
+export const isBreakPointUp = (key: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
+  const defaultTheme = createTheme();
+  return window.innerWidth > defaultTheme.breakpoints.values[key];
 };
 
 export const useDownBreakPointChecker = (

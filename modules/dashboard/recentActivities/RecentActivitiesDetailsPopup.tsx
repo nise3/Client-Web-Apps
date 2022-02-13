@@ -19,6 +19,7 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ContentTypes from './ContentTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface RecentActivitiesDetailsPopupProps {
   itemId: number | null;
@@ -58,6 +59,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
             <IntlMessages id='recent_activities.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

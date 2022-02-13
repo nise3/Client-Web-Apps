@@ -41,6 +41,7 @@ import {
   updateIndustryAssociation,
 } from '../../../services/IndustryManagement/IndustryAssociationService';
 import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IndustryAssociationAddEditPopup {
   itemId: number | null;
@@ -343,6 +344,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

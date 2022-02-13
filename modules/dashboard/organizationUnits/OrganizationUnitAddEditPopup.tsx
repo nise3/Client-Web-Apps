@@ -42,6 +42,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {IOrganizationUnit} from '../../../shared/Interface/organizationUnits.interface';
 import {IService} from '../../../shared/Interface/services.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -271,6 +272,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconOrganization />

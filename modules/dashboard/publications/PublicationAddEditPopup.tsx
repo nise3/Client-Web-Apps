@@ -27,6 +27,7 @@ import {
   updatePublication,
 } from '../../../services/IndustryManagement/PublicationService';
 import {IPublication} from '../../../shared/Interface/publication.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface PublicationAddEditPopupProps {
   itemId: number | null;
@@ -171,7 +172,7 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
