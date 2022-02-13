@@ -1,23 +1,22 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Box from '@mui/material/Box';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {Fab, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {RiEditBoxFill} from 'react-icons/ri';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Body1, S2} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
-import AddIcon from '@mui/icons-material/Add';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
-import {useFetchJobCandidates} from '../../../services/IndustryManagement/hooks';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import {createRecruitmentStep} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import RecruitmentStepComponent from './RecruitmentStepComponent';
+import {S2} from '../../../@softbd/elements/common';
+import {Add} from '@mui/icons-material';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -61,6 +60,13 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.modal}`]: {
     color: 'red',
   },
+
+  [`& .RecruitmentStepComponent-root:not(:first-of-type)`]: {
+    marginLeft: '15px',
+  },
+  [`& .RecruitmentStepComponent-root:last-of-type`]: {
+    float: 'right',
+  },
 }));
 
 interface RecruitmentStepsViewSectionProps {
@@ -72,12 +78,36 @@ const RecruitmentStepsViewSection = ({
   jobId,
   onClickStep,
 }: RecruitmentStepsViewSectionProps) => {
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage} = useSuccessMessage();
   const {messages} = useIntl();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [stepList, setStepList] = useState<any>([]);
 
-  const {data: candidates} = useFetchJobCandidates(jobId);
+  const [recruitmentSteps, setRecruitmentSteps] = useState<any>([]);
+
+  //const [recruitmentStepFilters] = useState<any>({});
+  //const {data} = useFetchRecruitmentSteps(recruitmentStepFilters);
+  const [data] = useState<any>({
+    steps: [
+      {
+        id: 1,
+        job_id: '1',
+        title: 'Call for first interview',
+        title_en: null,
+        step_type: 1,
+        is_interview_reschedule_allowed: null,
+        interview_contact: null,
+        created_at: null,
+        updated_at: null,
+        total_candidate: 0,
+        shortlisted: 0,
+        rejected: 0,
+        qualified: 0,
+      },
+    ],
+  });
+
+  //const {data: candidates} = useFetchJobCandidates(jobId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -170,9 +200,45 @@ const RecruitmentStepsViewSection = ({
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      let stepNo: number = 1;
+      let steps: any = [
+        {
+          title: 'All Applicants',
+          stepNo: stepNo,
+          active: true,
+          isNotEditable: true,
+          total_candidate: data?.all_applications?.total_candidate,
+          all: data?.all_applications?.all,
+          viewed: data?.all_applications?.viewed,
+          not_viewed: data?.all_applications?.not_viewed,
+          rejected: data?.all_applications?.rejected,
+          qualified: data?.all_applications?.qualified,
+        },
+      ];
+
+      (data?.steps || []).map((step: any, index: number) => {
+        steps.push({...step, stepNo: stepNo++});
+      });
+
+      steps.push({
+        title: 'Final Hiring List',
+        stepNo: stepNo,
+        active: true,
+        isNotEditable: true,
+        total_candidate: data?.final_hiring_list?.total_candidate,
+      });
+
+      setRecruitmentSteps(steps);
+    }
+  }, [data]);
+
+  const onEditClick = (stepId: any) => {};
+
   return (
     <StyledBox>
-      <Grid container sx={{color: '#fff'}}>
+      {/*<Grid container sx={{color: '#fff'}}>
         <Grid
           item
           xs={12}
@@ -212,106 +278,122 @@ const RecruitmentStepsViewSection = ({
             </Grid>
           </Grid>
         </Grid>
-        {openModal && (
-          <Grid item>
-            <HookFormMuiModal
-              open={true}
-              title={
-                <>
-                  {isEdit ? (
-                    <IntlMessages
-                      id='common.edit'
-                      values={{
-                        subject: <IntlMessages id='common.recruitment_step' />,
-                      }}
-                    />
-                  ) : (
-                    <IntlMessages
-                      id='common.add_new'
-                      values={{
-                        subject: <IntlMessages id='common.recruitment_step' />,
-                      }}
-                    />
-                  )}
-                </>
-              }
-              handleSubmit={handleSubmit(onSubmit)}
-              actions={
-                <>
-                  <CancelButton
-                    onClick={handleModalOpenClose}
-                    isLoading={false}
-                  />
-                  <SubmitButton
-                    isSubmitting={isSubmitting}
-                    isLoading={isLoading}
-                  />
-                </>
-              }
-              onClose={handleModalOpenClose}>
-              <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <FormRadioButtons
-                    label={'step.type'}
-                    required
-                    id='step_type'
-                    radios={shortLists}
-                    control={control}
-                    isLoading={isLoading}
-                    styles={{
-                      border: '1px solid gray',
-                      padding: '10px',
-                      margin: '5px',
-                      borderRadius: '5px',
+
+      </Grid>*/}
+
+      {(recruitmentSteps || []).map((step: any, index: number) => {
+        return (
+          <RecruitmentStepComponent
+            stepData={step}
+            onEditClick={() => onEditClick(step?.id)}
+            key={index}
+          />
+        );
+      })}
+
+      <S2 className={classes.buttonChild} onClick={handleModalOpenClose}>
+        <Add /> Add Requirement Step
+      </S2>
+
+      {openModal && (
+        <Grid item>
+          <HookFormMuiModal
+            open={true}
+            title={
+              <>
+                {isEdit ? (
+                  <IntlMessages
+                    id='common.edit'
+                    values={{
+                      subject: <IntlMessages id='common.recruitment_step' />,
                     }}
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='title'
-                    label={messages['common.step_name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    placeholder='Type a test name'
+                ) : (
+                  <IntlMessages
+                    id='common.add_new'
+                    values={{
+                      subject: <IntlMessages id='common.recruitment_step' />,
+                    }}
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='title_en'
-                    label={messages['common.step_name_en']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    placeholder='Type a test name'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='interview_contact'
-                    label={messages['common.phone']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    placeholder='Write a Contact Number'
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormRadioButtons
-                    id='is_interview_reschedule_allowed'
-                    label={'common.applicants_cat_reschedule'}
-                    required={true}
-                    radios={applicantCanReschedule}
-                    control={control}
-                    isLoading={isLoading}
-                  />
-                </Grid>
+                )}
+              </>
+            }
+            handleSubmit={handleSubmit(onSubmit)}
+            actions={
+              <>
+                <CancelButton
+                  onClick={handleModalOpenClose}
+                  isLoading={false}
+                />
+                <SubmitButton
+                  isSubmitting={isSubmitting}
+                  isLoading={isLoading}
+                />
+              </>
+            }
+            onClose={handleModalOpenClose}>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <FormRadioButtons
+                  label={'step.type'}
+                  required
+                  id='step_type'
+                  radios={shortLists}
+                  control={control}
+                  isLoading={isLoading}
+                  styles={{
+                    border: '1px solid gray',
+                    padding: '10px',
+                    margin: '5px',
+                    borderRadius: '5px',
+                  }}
+                />
               </Grid>
-            </HookFormMuiModal>
-          </Grid>
-        )}
-      </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='title'
+                  label={messages['common.step_name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  placeholder='Type a test name'
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id='title_en'
+                  label={messages['common.step_name_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  placeholder='Type a test name'
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id='interview_contact'
+                  label={messages['common.phone']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                  placeholder='Write a Contact Number'
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormRadioButtons
+                  id='is_interview_reschedule_allowed'
+                  label={'common.applicants_cat_reschedule'}
+                  required={true}
+                  radios={applicantCanReschedule}
+                  control={control}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </Grid>
+          </HookFormMuiModal>
+        </Grid>
+      )}
     </StyledBox>
   );
 };
