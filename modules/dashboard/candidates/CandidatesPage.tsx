@@ -1,384 +1,110 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IconJobSector from '../../../@softbd/icons/IconJobSector';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_GET_JOB_CANDIDATES} from '../../../@softbd/common/apiRoutes';
 import {useRouter} from 'next/router';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {Fab, Grid} from '@mui/material';
+import {Chip, Tab} from '@mui/material';
 import {useFetchJobPreview} from '../../../services/IndustryManagement/hooks';
-import {Body1, H3, S1, S2} from '../../../@softbd/elements/common';
-import AddIcon from '@mui/icons-material/Add';
 import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import {RiEditBoxFill} from 'react-icons/ri';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {IOrganization} from '../../../shared/Interface/organization.interface';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {TabContext, TabList, TabPanel} from '@mui/lab';
+import {JobInterviewTabs} from './JobInterviewTabs';
+import {Body1, H4} from '../../../@softbd/elements/common';
+import InterviewManagementPage from './InterviewManagementPage';
+import JobPreviewPage from './JobPreviewPage';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'CandidatesPage';
 
 const classes = {
-  fab: `${PREFIX}-fab`,
-  applicants: `${PREFIX}-applicants`,
-  button: `${PREFIX}-button`,
-  buttonChild: `${PREFIX}-buttonChild`,
-  edit: `${PREFIX}-edit`,
-  modal: `${PREFIX}-modal`,
+  tabBox: `${PREFIX}-tabBox`,
+  tabList: `${PREFIX}-tabList`,
+  tabPanel: `${PREFIX}-tabPanel`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
-  [`& .${classes.button}`]: {
+  [`& .${classes.tabBox}`]: {
+    borderBottom: '1px solid',
+    borderBottomColor: theme.palette.divider,
     display: 'flex',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
+    justifyContent: 'space-between',
   },
-  [`& .${classes.buttonChild}`]: {
-    display: 'flex',
-    backgroundColor: '#4806487d',
-    borderRadius: 5,
-    padding: 8,
-    fontSize: '1rem',
+  [`& .${classes.tabList}`]: {
+    width: 'fit-content',
+    maxWidth: '100%',
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '10px 10px 0px 0px',
   },
-  [`& .${classes.fab}`]: {
-    backgroundColor: '#fff',
-    marginTop: '10px',
-  },
-  [`& .${classes.applicants}`]: {
-    backgroundColor: 'purple',
-    padding: '10px',
-    borderBottom: '1px solid #301f30',
-    borderRadius: '5px 5px 0 0 ',
-  },
-  [`& .${classes.edit}`]: {
-    cursor: 'pointer',
-  },
-  [`& .${classes.modal}`]: {
-    color: 'red',
+  [`& .${classes.tabPanel}`]: {
+    padding: '15px',
+    background: theme.palette.common.white,
   },
 }));
 
 const CandidatesPage = () => {
-  const {messages, locale} = useIntl();
+  const {messages, formatDate} = useIntl();
 
   const router = useRouter();
-  const {jobIdCandidates} = router.query;
+  const {jobId} = router.query;
+  const [value, setValue] = useState<string>(JobInterviewTabs.APPLICANTS);
 
-  const {data: jobDetails} = useFetchJobPreview(String(jobIdCandidates));
+  const {data: job} = useFetchJobPreview(String(jobId));
 
-
-  const [isToggleTable] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [stepList, setStepList] = useState<any>([]);
-
-  const {
-    onFetchData,
-    data: candidates,
-    loading,
-    pageCount,
-    totalCount,
-  } = useReactTableFetchData({
-    urlPath: API_GET_JOB_CANDIDATES + `/${jobIdCandidates}`,
-  });
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: '#',
-        disableFilters: true,
-        disableSortBy: true,
-        Cell: (props: any) => {
-          return props.row.index + 1;
-        },
-      },
-      {
-        Header: messages['common.name'],
-        accessor: 'youth_profile.first_name',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['common.name_en'],
-        accessor: 'youth_profile.first_name_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['youth.mobile'],
-        accessor: 'youth_profile.mobile',
-      },
-      {
-        Header: messages['youth.email'],
-        accessor: 'youth_profile.email',
-      },
-      {
-        Header: messages['common.expected_salary'],
-        accessor: 'expected_salary',
-      },
-      // {
-      //   Header: messages['common.actions'],
-      //   Cell: (props: any) => {
-      //     let data = props.row.original;
-      //     return <DatatableButtonGroup></DatatableButtonGroup>;
-      //   },
-      //   sortable: false,
-      // },
-    ],
-    [messages, locale],
-  );
-
-  const {
-    control,
-    register,
-    // reset,
-    // getValues,
-    handleSubmit,
-    // setError,
-    // setValue,
-    formState: {errors, isSubmitting},
-  } = useForm<IOrganization>();
-
-  const handleModalOpenClose = () => {
-    setOpenModal((prev: boolean) => !prev);
-  };
-
-  let isEdit = false;
-  let isLoading = false;
-
-  const shortLists = useMemo(
-    () => [
-      {
-        key: '1',
-        label: messages['common.only_short_list'],
-      },
-      {
-        key: '2',
-        label: messages['common.short_list_live_interview'],
-      },
-      {
-        key: '3',
-        label: messages['common.short_list_written'],
-      },
-      {
-        key: '4',
-        label: messages['common.short_list_face_to_face'],
-      },
-      {
-        key: '5',
-        label: messages['common.short_list_other'],
-      },
-    ],
-    [messages],
-  );
-
-  const applicantCanReschedule = useMemo(
-    () => [
-      {
-        key: '1',
-        label: messages['common.yes'],
-      },
-      {
-        key: '2',
-        label: messages['common.no'],
-      },
-    ],
-    [messages],
-  );
-
-  const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    try {
-      // console.log('formData->', formData);
-
-      let arr: any = [];
-      arr = [...stepList, formData];
-      setStepList(arr);
-
-      handleModalOpenClose();
-    } catch (error: any) {
-      console.log(error);
-    }
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
   };
 
   return (
     <StyledBox>
-      <Grid container sx={{color: '#fff'}}>
-        <Grid item xs={12}>
-          <H3 sx={{color: '#130f0f'}}>
-            {jobDetails?.primary_job_information?.job_title}
-          </H3>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={2} className={classes.applicants}>
-              <S1>Applicants ({candidates.length})</S1>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            backgroundColor: 'purple',
-            padding: '10px',
-            borderRadius: '0 5px 5px 5px ',
-          }}>
-          <Grid container spacing={3} sx={{marginTop: 0, marginBottom: '10px'}}>
-            <Grid item xs={2} sx={{textAlign: 'center'}}>
-              <Body1>All Applicants</Body1>
-              <Fab className={classes.fab}>{candidates.length}</Fab>
-            </Grid>
-            {stepList.map((step: any, index: any) => (
-              <Grid key={index} item xs={2} sx={{textAlign: 'center'}}>
-                <Body1>
-                  1st Step{' '}
-                  <RiEditBoxFill
-                    onClick={handleModalOpenClose}
-                    className={classes.edit}
-                  />
-                </Body1>
-                <Fab className={classes.fab}>{candidates.length}</Fab>
-              </Grid>
-            ))}
+      <Box>
+        <H4>{job?.primary_job_information?.job_title}</H4>
+        <Box display={'flex'}>
+          <Box>
+            <Body1>Job Status</Body1>
+            <Chip label={'Expired'} />
+          </Box>
+          <Box ml={2}>
+            <Body1>Job Type</Body1>
+            Basic listing
+          </Box>
+          <Box ml={2}>
+            <Body1>Published on</Body1>
+            {job?.primary_job_information?.published_at
+              ? getIntlDateFromString(
+                  formatDate,
+                  job?.primary_job_information?.published_at,
+                )
+              : ''}
+          </Box>
+        </Box>
+      </Box>
 
-            <Grid item xs={3} className={classes.button}>
-              <S2
-                className={classes.buttonChild}
-                onClick={handleModalOpenClose}>
-                <AddIcon /> Add Requirement Step
-              </S2>
-            </Grid>
-            <Grid item xs={2} sx={{textAlign: 'center'}}>
-              <Body1>Final Hiring List</Body1>
-              <Fab className={classes.fab}>{candidates.length}</Fab>
-            </Grid>
-          </Grid>
-        </Grid>
-        {openModal && (
-          <Grid item>
-            <HookFormMuiModal
-              open={true}
-              title={
-                <>
-                  {isEdit ? (
-                    <IntlMessages
-                      id='common.edit'
-                      values={{
-                        subject: <IntlMessages id='common.recruitment_step' />,
-                      }}
-                    />
-                  ) : (
-                    <IntlMessages
-                      id='common.add_new'
-                      values={{
-                        subject: <IntlMessages id='common.recruitment_step' />,
-                      }}
-                    />
-                  )}
-                </>
-              }
-              handleSubmit={handleSubmit(onSubmit)}
-              actions={
-                <>
-                  <CancelButton
-                    onClick={handleModalOpenClose}
-                    isLoading={false}
-                  />
-                  <SubmitButton
-                    isSubmitting={isSubmitting}
-                    isLoading={isLoading}
-                  />
-                </>
-              }
-              onClose={handleModalOpenClose}>
-              <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <FormRadioButtons
-                    id='step_list'
-                    radios={shortLists}
-                    control={control}
-                    isLoading={isLoading}
-                    styles={{
-                      border: '1px solid gray',
-                      padding: '10px',
-                      margin: '5px',
-                      borderRadius: '5px',
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='step_name'
-                    label={messages['common.step_name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    placeholder='Type a test name'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='contact_no'
-                    label={messages['common.phone']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    placeholder='Write a Contact Number'
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormRadioButtons
-                    id='reschedule'
-                    label={'common.applicants_cat_reschedule'}
-                    required={true}
-                    radios={applicantCanReschedule}
-                    control={control}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              </Grid>
-            </HookFormMuiModal>
-          </Grid>
-        )}
-      </Grid>
-      <PageBlock
-        title={
-          <>
-            <IconJobSector /> <IntlMessages id='common.candidates_list' />
-          </>
-        }
-        // extra={[
-        //   <AddButton
-        //       key={1}
-        //       onClick={() => console.log('dd')}
-        //       isLoading={loading}
-        //       tooltip={
-        //         <IntlMessages
-        //             id={'common.add_new'}
-        //             values={{
-        //               subject: messages['job_lists.label'],
-        //             }}
-        //         />
-        //       }
-        //   />,
-        // ]}
-      >
-        <ReactTable
-          columns={columns}
-          data={candidates}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
-        />
-      </PageBlock>
+      <TabContext value={value}>
+        <Box className={classes.tabBox}>
+          <TabList
+            onChange={handleChange}
+            aria-label='Dashboard Tabs'
+            className={classes.tabList}>
+            <Tab
+              label={messages['common.applicants']}
+              value={JobInterviewTabs.APPLICANTS}
+            />
+            <Tab
+              label={messages['job_posting.preview']}
+              value={JobInterviewTabs.JOB_PREVIEW}
+            />
+          </TabList>
+        </Box>
+
+        <TabPanel
+          className={classes.tabPanel}
+          value={JobInterviewTabs.APPLICANTS}>
+          <InterviewManagementPage jobId={jobId} />
+        </TabPanel>
+        <TabPanel
+          className={classes.tabPanel}
+          value={JobInterviewTabs.JOB_PREVIEW}>
+          <JobPreviewPage job={job} />
+        </TabPanel>
+      </TabContext>
     </StyledBox>
   );
 };
