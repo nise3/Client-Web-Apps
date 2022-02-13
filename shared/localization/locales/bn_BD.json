@@ -139,6 +139,7 @@
   "common.writeComment": "একটি মন্তব্য লিখুন...",
   "common.title_en": "টাইটেল (ইংরেজি)",
   "common.title": "টাইটেল",
+  "step.type": "স্টেপের ধরন",
   "common.name_en": "নাম (ইংরেজি)",
   "common.name_bn": "নাম",
   "common.actions": "পদক্ষেপ",
@@ -1389,5 +1390,6 @@
   "common.short_list_face_to_face": "সরাসরি জন্য সংক্ষিপ্ত তালিকা",
   "common.short_list_other": "অন্যদের জন্য শুধুমাত্র সংক্ষিপ্ত তালিকা",
   "common.step_name": "স্টেপ নাম",
+  "common.step_name_en": "স্টেপ নাম (ইংরেজী)",
   "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন"
 }
