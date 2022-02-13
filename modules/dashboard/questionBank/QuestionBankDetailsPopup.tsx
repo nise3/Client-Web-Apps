@@ -8,6 +8,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IProps {
   itemId: number;
@@ -34,7 +35,7 @@ const QuestionBankDetailsPopup = ({
         }
         open={true}
         {...props}
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

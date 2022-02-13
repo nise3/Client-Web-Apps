@@ -20,6 +20,7 @@ import {useFetchOrganizationService} from '../../../services/organaizationManage
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IService} from '../../../shared/Interface/services.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
@@ -117,7 +118,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

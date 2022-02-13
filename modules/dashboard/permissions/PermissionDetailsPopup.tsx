@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchPermission} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -30,7 +31,7 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='permission.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

@@ -51,6 +51,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -409,6 +410,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

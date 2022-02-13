@@ -10,6 +10,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import {useFetchSlider} from '../../../services/cmsManagement/hooks';
 import IconSlider from '../../../@softbd/icons/IconSlider';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -24,7 +25,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

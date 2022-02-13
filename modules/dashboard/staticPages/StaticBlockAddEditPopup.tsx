@@ -36,6 +36,7 @@ import {
   IStaticPageContent,
 } from '../../../shared/Interface/common.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 const initialValues: Partial<IStaticPageContent> = {
   title: '',
@@ -89,7 +90,8 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       {
         code: PageBlockTemplateTypes.PBT_RL,
         title: messages['page_block.template_code_pbt_rl'],
-      }, {
+      },
+      {
         code: PageBlockTemplateTypes.PBT_SHOW_EDITOR_CONTENT,
         title: messages['page_block.template_code_pbt_show_editor_content'],
       },
@@ -447,7 +449,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
           />
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

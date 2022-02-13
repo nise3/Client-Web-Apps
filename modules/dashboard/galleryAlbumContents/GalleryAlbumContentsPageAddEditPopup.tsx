@@ -35,6 +35,7 @@ import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
 import AlbumTypes from '../galleryAlbums/AlbumTypes';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface GalleryAlbumContentsPageAddEditPopupProps {
   itemId: number | null;
@@ -437,6 +438,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

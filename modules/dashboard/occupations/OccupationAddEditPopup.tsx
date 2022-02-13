@@ -25,6 +25,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOccupation} from '../../../shared/Interface/occupation.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -135,7 +136,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

@@ -26,6 +26,7 @@ import {updateInstituteProfile} from '../../../services/instituteManagement/Inst
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface InstituteProfileEditPopupProps {
   onClose: () => void;
@@ -184,6 +185,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={false} />

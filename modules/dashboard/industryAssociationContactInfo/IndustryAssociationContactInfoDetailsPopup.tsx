@@ -9,6 +9,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IContactInfoDetails {
   contactInfoId: number;
@@ -35,6 +36,7 @@ const IndustryAssociationContactInfoDetailsPopup = ({
           <IntlMessages id='common.contact_office' />
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />

@@ -11,6 +11,7 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IProps {
   itemId: number | null;
@@ -101,7 +102,7 @@ const QuestionBankAddEditPopup = ({
             )}
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         handleSubmit={handleSubmit(onSubmit)}
         actions={
           <>
