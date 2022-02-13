@@ -93,7 +93,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       employment_type_id: yup
         .string()
         .required()
-        .label(messages['common.type_of_employee'] as string),
+        .label(messages['common.job_type'] as string),
       location: yup
         .string()
         .required()
@@ -323,7 +323,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 <CustomFilterableFormSelect
                   required
                   id={'employment_type_id'}
-                  label={messages['common.type_of_employee']}
+                  label={messages['common.job_type']}
                   isLoading={isLoading}
                   control={control}
                   options={employmentTypes}
