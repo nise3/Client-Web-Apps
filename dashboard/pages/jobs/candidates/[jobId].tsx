@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import React from 'react';
 
-const JobIdCandidates = asyncComponent(
+const JobCandidatesPage = asyncComponent(
   () => import('../../../../modules/dashboard/candidates/CandidatesPage'),
 );
 
@@ -13,7 +13,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['common.candidates'] as string} />
-      <JobIdCandidates />
+      <JobCandidatesPage />
     </>
   );
 });
