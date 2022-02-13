@@ -4,8 +4,12 @@ import {useIntl} from 'react-intl';
 import PageMeta from '../../../../@crema/core/PageMeta';
 import React from 'react';
 
-const JobCandidatesPage = asyncComponent(
+/*const JobCandidatesPage = asyncComponent(
   () => import('../../../../modules/dashboard/candidates/CandidatePageV1'),
+);*/
+
+const JobCandidatesPage = asyncComponent(
+  () => import('../../../../modules/dashboard/candidates/CandidatesPage'),
 );
 
 export default DashboardPage(() => {
