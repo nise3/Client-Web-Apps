@@ -4,7 +4,7 @@ import {styled} from '@mui/material/styles';
 import {Body1} from '../../../@softbd/elements/common';
 import RecruitmentStepsViewSection from './RecruitmentStepsViewSection';
 
-const PREFIX = 'InterviewManagementPage';
+/*const PREFIX = 'InterviewManagementPage';*/
 const StyledBox = styled(Box)(({theme}) => ({}));
 
 interface InterviewManagementPageProps {
