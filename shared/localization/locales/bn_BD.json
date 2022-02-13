@@ -321,6 +321,7 @@
   "divisions.label": "বিভাগ",
   "organization.label": "সংস্থা",
   "organization_type.label": "সংস্থার ধরন",
+  "organization_type.label_en": "সংস্থার ধরন (ইংরেজি)",
   "districts.label": "জেলা",
   "upazilas.label": "উপজেলা",
   "services.label": "সার্ভিস",
@@ -558,6 +559,7 @@
   "common.post": "পদ",
   "common.qualification": "যোগ্যতা",
   "common.post_en": "পদ (ইংরেজি)",
+  "common.type_of_employee": "চাকরির ধরন",
   "common.type_of_identity_card": "পরিচয় পত্রের ধরন",
   "common.country": "দেশ",
   "common.phone_code": "ফোন কোড",
@@ -1394,5 +1396,15 @@
   "common.job_status_live": "লাইভ",
   "common.job_status_pending": "অনুমোদন অপেক্ষারত",
   "common.job_status_expired": "মেয়াদ শেষ",
-  "common.step_name_en": "স্টেপ নাম (ইংরেজী)"
+  "common.step_name_en": "স্টেপ নাম (ইংরেজী)",
+  "menu.batch_en": "ব্যাচ (ইংরেজী)",
+  "permission_group.label_en": "পারমিশন গ্রুপ (ইংরেজি)",
+  "divisions.label_en": "বিভাগ ",
+  "organization.label_en": "সংস্থা (ইংরেজী)",
+  "organization_unit_type.label_en": "সংস্থা ইউনিটের ধরন ",
+  "rank_types.label_en": "র‍্যাঙ্ক টাইপ (ইংরেজী)",
+  "institute.label_en": "প্রতিষ্ঠান (ইংরেজি)",
+  "common.first_name": "নামের প্রথম অংশ",
+  "common.last_name": "নামের শেষ অংশ",
+  "youth.fullName_en": "পুরো নাম (ইংরেজি)"
 }
