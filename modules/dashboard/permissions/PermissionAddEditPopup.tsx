@@ -18,7 +18,8 @@ import {
 import IconPermission from '../../../@softbd/icons/IconPermission';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IPermission } from '../../../shared/Interface/userManagement.interface';
+import {IPermission} from '../../../shared/Interface/userManagement.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -150,7 +151,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

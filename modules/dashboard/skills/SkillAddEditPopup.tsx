@@ -19,6 +19,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ISkill} from '../../../shared/Interface/organization.interface';
 import {useFetchSkill} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -119,7 +120,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

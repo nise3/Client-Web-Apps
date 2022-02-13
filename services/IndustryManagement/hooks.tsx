@@ -10,6 +10,7 @@ import {
   API_GET_EXPERIENCE_AREAS,
   API_GET_JOB_ADDITIONAL_INFORMATION,
   API_GET_JOB_CANDIDATE_REQUIREMENTS,
+  API_GET_JOB_CANDIDATES,
   API_GET_JOB_COMPANY_INFO_VISIBILITY,
   API_GET_JOB_CONTACT_INFORMATION,
   API_GET_JOB_LOCATIONS,
@@ -38,6 +39,10 @@ export function useFetchPublications(params: any) {
     API_PUBLIC_INDUSTRY_PUBLICATIONS,
     params,
   ]);
+}
+
+export function useFetchJobCandidates(jobId: any) {
+  return useDataLocalizationAxiosSWR([API_GET_JOB_CANDIDATES + `/${jobId}`]);
 }
 
 export function useFetchPublicPublication(publicationId: number | null) {

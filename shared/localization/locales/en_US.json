@@ -57,6 +57,7 @@
   "common.writeComment": "Write a comment...",
   "common.reference": "Reference",
   "common.title_en": "Title (En)",
+  "step.type": "Step type",
   "common.paid": "Paid",
   "common.unpaid": "Unpaid",
   "common.title": "Title",
@@ -1392,5 +1393,6 @@
   "common.published_on": "Published on",
   "common.job_status_live": "Live",
   "common.job_status_pending": "Pending approval",
-  "common.job_status_expired": "Expired"
+  "common.job_status_expired": "Expired",
+  "common.step_name_en": "Step Name (English)"
 }

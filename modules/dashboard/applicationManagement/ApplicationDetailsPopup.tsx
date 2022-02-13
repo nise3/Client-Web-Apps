@@ -14,6 +14,7 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {nationalities} from '../../../@softbd/utilities/Nationalities';
 import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -115,7 +116,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <IntlMessages id='applicationManagement.details' />
           </>
         }
-        maxWidth={'xl'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

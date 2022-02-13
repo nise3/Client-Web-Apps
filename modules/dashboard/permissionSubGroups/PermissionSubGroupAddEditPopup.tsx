@@ -24,7 +24,8 @@ import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGrou
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IPermissionSubGroup } from '../../../shared/Interface/userManagement.interface';
+import {IPermissionSubGroup} from '../../../shared/Interface/userManagement.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -135,6 +136,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     <HookFormMuiModal
       open={true}
       {...props}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconPermissionSubGroup />

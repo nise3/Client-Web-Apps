@@ -9,6 +9,7 @@ import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchJobSector} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -23,7 +24,7 @@ const JobSectorDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

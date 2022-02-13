@@ -10,6 +10,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchUser} from '../../../services/userManagement/hooks';
 import UserTypes from '../../../@softbd/utilities/UserTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -47,6 +48,7 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='user.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

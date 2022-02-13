@@ -47,6 +47,7 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 export enum InstituteType {
   GOVERNMENT = '1',
@@ -380,6 +381,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
