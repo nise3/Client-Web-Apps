@@ -316,6 +316,7 @@
   "organization_type.is_government": "সরকারী?",
   "occupations.label": "পেশা",
   "job_sectors.label": "চাকরির খাত",
+  "job_sectors.label_en": "চাকরির খাত",
   "job_requirement.label": "চাকরির প্রয়োজনীয়তা",
   "common.job_apply": "চাকরির আবেদন",
   "divisions.label": "বিভাগ",
