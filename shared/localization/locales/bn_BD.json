@@ -320,6 +320,7 @@
   "divisions.label": "বিভাগ",
   "organization.label": "সংস্থা",
   "organization_type.label": "সংস্থার ধরন",
+  "organization_type.label_en": "সংস্থার ধরন (ইংরেজি)",
   "districts.label": "জেলা",
   "upazilas.label": "উপজেলা",
   "services.label": "সার্ভিস",
@@ -1389,5 +1390,15 @@
   "common.short_list_face_to_face": "সরাসরি জন্য সংক্ষিপ্ত তালিকা",
   "common.short_list_other": "অন্যদের জন্য শুধুমাত্র সংক্ষিপ্ত তালিকা",
   "common.step_name": "স্টেপ নাম",
-  "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন"
+  "common.applicants_cat_reschedule": "আবেদনকারীরা সিস্টেমের মাধ্যমে পুনঃনির্ধারণের জন্য অনুরোধ করতে পারেন",
+  "menu.batch_en": "ব্যাচ (ইংরেজী)",
+  "permission_group.label_en": "পারমিশন গ্রুপ (ইংরেজি)",
+  "divisions.label_en": "বিভাগ ",
+  "organization.label_en": "সংস্থা (ইংরেজী)",
+  "organization_unit_type.label_en": "সংস্থা ইউনিটের ধরন ",
+  "rank_types.label_en": "র‍্যাঙ্ক টাইপ (ইংরেজী)",
+  "institute.label_en": "প্রতিষ্ঠান (ইংরেজি)",
+  "common.first_name": "নামের প্রথম অংশ",
+  "common.last_name": "নামের শেষ অংশ",
+  "youth.fullName_en": "পুরো নাম (ইংরেজি)"
 }
