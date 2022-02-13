@@ -387,6 +387,7 @@
   "customizer.layoutTypes": "Layout type",
   "organization_type.is_government": "Is government?",
   "job_sectors.label": "Job sector",
+  "job_sectors.label_en": "Job sector",
   "common.job": "Job",
   "common.publish": "Publish",
   "organization.label": "Organization",
