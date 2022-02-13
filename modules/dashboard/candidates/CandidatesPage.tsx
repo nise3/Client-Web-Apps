@@ -7,10 +7,12 @@ import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {JobInterviewTabs} from './JobInterviewTabs';
-import {Body1, H4} from '../../../@softbd/elements/common';
+import {Body1, Body2, H4} from '../../../@softbd/elements/common';
 import InterviewManagementPage from './InterviewManagementPage';
 import JobPreviewPage from './JobPreviewPage';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import {ServiceTypes} from '../jobLists/jobPost/enums/JobPostEnums';
+import {JobStatus} from '../../../@softbd/utilities/JobStatus';
 
 const PREFIX = 'CandidatesPage';
 
@@ -52,27 +54,73 @@ const CandidatesPage = () => {
     setValue(newValue);
   };
 
+  const getServiceTypeName = () => {
+    switch (job?.primary_job_information?.service_type) {
+      case ServiceTypes.BASIC_LISTING:
+        return messages['job_posting.service_type_basic'];
+      case ServiceTypes.STAND_OUT_LISTING:
+        return messages['job_posting.service_type_st_out_listing'];
+      case ServiceTypes.STAND_OUT_PREMIUM:
+        return messages['job_posting.service_type_st_out_premium'];
+      default:
+        return '';
+    }
+  };
+
+  const getJobStatus = () => {
+    switch (job?.primary_job_information?.job_status) {
+      case JobStatus.LIVE:
+        return messages['common.job_status_live'];
+      case JobStatus.PENDING:
+        return messages['common.job_status_pending'];
+      case JobStatus.EXPIRED:
+        return messages['common.job_status_expired'];
+      default:
+        return '';
+    }
+  };
+  const getColorByStatus = () => {
+    switch (job?.primary_job_information?.job_status) {
+      case JobStatus.LIVE:
+        return 'success';
+      case JobStatus.PENDING:
+        return 'warning';
+      case JobStatus.EXPIRED:
+        return 'error';
+      default:
+        return 'success';
+    }
+  };
+
   return (
     <StyledBox>
       <Box>
         <H4>{job?.primary_job_information?.job_title}</H4>
-        <Box display={'flex'}>
+        <Box display={'flex'} mt={2} mb={2}>
           <Box>
-            <Body1>Job Status</Body1>
-            <Chip label={'Expired'} />
+            <Body1 fontWeight={'bold'}>{messages['common.job_status']}</Body1>
+            {job?.primary_job_information?.job_status && (
+              <Chip
+                size={'small'}
+                color={getColorByStatus()}
+                label={getJobStatus()}
+              />
+            )}
           </Box>
-          <Box ml={2}>
-            <Body1>Job Type</Body1>
-            Basic listing
+          <Box ml={3}>
+            <Body1 fontWeight={'bold'}>{messages['common.job_type']}</Body1>
+            <Body2>{getServiceTypeName()}</Body2>
           </Box>
-          <Box ml={2}>
-            <Body1>Published on</Body1>
-            {job?.primary_job_information?.published_at
-              ? getIntlDateFromString(
-                  formatDate,
-                  job?.primary_job_information?.published_at,
-                )
-              : ''}
+          <Box ml={3}>
+            <Body1 fontWeight={'bold'}>{messages['common.published_on']}</Body1>
+            <Body2>
+              {job?.primary_job_information?.published_at
+                ? getIntlDateFromString(
+                    formatDate,
+                    job?.primary_job_information?.published_at,
+                  )
+                : ''}
+            </Body2>
           </Box>
         </Box>
       </Box>
