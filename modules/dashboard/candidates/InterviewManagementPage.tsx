@@ -65,10 +65,8 @@ interface InterviewManagementPageProps {
 }
 
 const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
-  console.log('InterviewManagementPage: ', jobId);
-
+  const {messages} = useIntl();
   const [candidatesFilter] = useState({});
-
   const {data: candidateList} =
     useFetchIndustryAssociationRecruitmentStepCandidateList(
       jobId,
@@ -76,8 +74,6 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
     );
 
   console.log('candidateList->', candidateList);
-
-  const {messages} = useIntl();
 
   const onRecruitmentStepChange = (filters: any) => {};
 
