@@ -26,6 +26,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -147,6 +148,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     <HookFormMuiModal
       open={true}
       {...props}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconProgramme />

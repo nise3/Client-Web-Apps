@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconService from '../../../@softbd/icons/IconService';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchOrganizationService} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -23,7 +24,7 @@ const ServiceDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

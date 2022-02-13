@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {getBranch} from '../../../services/instituteManagement/BranchService';
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number | null;
@@ -51,7 +52,7 @@ const HumanResourceTemplateDetailsPopup = ({
             <IntlMessages id='branch.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

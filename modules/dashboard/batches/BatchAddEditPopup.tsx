@@ -34,6 +34,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ITrainer, IBatch} from '../../../shared/Interface/institute.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -347,6 +348,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />

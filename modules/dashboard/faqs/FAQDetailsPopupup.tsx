@@ -15,6 +15,7 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -39,6 +40,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='menu.faq' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

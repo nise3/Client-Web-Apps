@@ -7,6 +7,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useFetchVisitorFeedback} from '../../../services/cmsManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -22,6 +23,7 @@ const VisitorDetailsPopup = ({itemId, ...props}: Props) => {
       <CustomDetailsViewMuiModal
         {...props}
         open={true}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         title={
           <>
             <IconInstitute />

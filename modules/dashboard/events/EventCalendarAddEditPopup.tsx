@@ -26,6 +26,7 @@ import {
   ICalendar,
   ICalendarDto,
 } from '../../../shared/Interface/common.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null | undefined;
@@ -159,7 +160,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

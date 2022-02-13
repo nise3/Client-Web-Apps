@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import {useFetchSkill} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -28,7 +29,7 @@ const ApplicantDetailsPopup = ({itemId, ...props}: Props) => {
             <IntlMessages id='skill.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

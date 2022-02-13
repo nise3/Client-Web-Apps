@@ -29,6 +29,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import {IStaticPageContent} from '../../../shared/Interface/common.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 // import {IStaticPage} from '../../../shared/Interface/common.interface';
 
@@ -329,7 +330,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           />
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

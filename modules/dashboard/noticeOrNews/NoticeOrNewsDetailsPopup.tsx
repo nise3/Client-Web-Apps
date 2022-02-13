@@ -19,6 +19,7 @@ import {
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface NoticeOrNewsDetailsPopupProps {
   itemId: number | null;
@@ -56,6 +57,7 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
             <IntlMessages id='common.notice_or_news' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

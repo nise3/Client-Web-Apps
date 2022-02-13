@@ -46,6 +46,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -500,6 +501,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

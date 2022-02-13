@@ -12,6 +12,7 @@ import {useFetchOrganizationTypes} from '../../../services/organaizationManageme
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationProfileEditPopupProps {
   onClose: () => void;
@@ -104,6 +105,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={false} />
