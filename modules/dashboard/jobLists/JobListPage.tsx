@@ -207,7 +207,7 @@ const JobListPage = () => {
               ) : (
                 <></>
               )}
-              <Link href={`${'candidates'}/${data?.job_id}`}>
+              <Link href={`${'jobs/candidates'}/${data?.job_id}`}>
                 <CommonButton
                   btnText='common.candidates'
                   startIcon={<FiUser style={{marginLeft: '5px'}} />}
