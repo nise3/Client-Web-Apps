@@ -7,6 +7,7 @@ import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import React, {useEffect, useState} from 'react';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -78,7 +79,7 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
             <IntlMessages id='common.human_resource' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
         }>

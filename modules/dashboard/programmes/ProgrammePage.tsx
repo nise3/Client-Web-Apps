@@ -90,7 +90,7 @@ const ProgrammePage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['institute.label_en'],
+        Header: messages['institute.label'],
         accessor: 'institute_title_en',
         isVisible: locale == LocaleLanguage.EN,
       },

@@ -20,6 +20,7 @@ import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IJobSector} from '../../../shared/Interface/jobSectors.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface JobSectorAddEditPopupProps {
   itemId: number | null;
@@ -117,7 +118,7 @@ const JobSectorAddEditPopup: FC<JobSectorAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

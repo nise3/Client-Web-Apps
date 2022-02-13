@@ -23,6 +23,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import _ from 'lodash';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface JobRequirementAddEditPopupProps {
   onClose: () => void;
@@ -203,6 +204,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
           }
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

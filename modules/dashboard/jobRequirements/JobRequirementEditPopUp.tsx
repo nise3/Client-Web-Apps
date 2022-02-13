@@ -27,6 +27,7 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import _ from 'lodash';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface JobRequirementEditPopupProps {
   itemId: number;
@@ -272,6 +273,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

@@ -12,6 +12,7 @@ import {genders} from '../../../@softbd/utilities/helpers';
 import {religions} from '../../../@softbd/utilities/helpers';
 import {marital_status} from '../../../@softbd/utilities/helpers';
 import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -34,6 +35,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='trainers.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

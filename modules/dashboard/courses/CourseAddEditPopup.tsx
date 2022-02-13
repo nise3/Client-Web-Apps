@@ -33,6 +33,7 @@ import {getAllInstitutes} from '../../../services/instituteManagement/InstituteS
 import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -403,6 +404,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

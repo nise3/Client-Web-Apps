@@ -23,6 +23,7 @@ import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {BusinessCenter} from '@mui/icons-material';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IAddEditPopupProps {
   contactInfoId: number | null;
@@ -142,6 +143,7 @@ const IndustryAssociationContactInfoAddEditPopup = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

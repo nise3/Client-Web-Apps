@@ -38,6 +38,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -258,6 +259,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

@@ -21,6 +21,7 @@ import {useFetchOrganizationType} from '../../../services/organaizationManagemen
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganizationType} from '../../../shared/Interface/organizationType.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -109,6 +110,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconOrganizationType />

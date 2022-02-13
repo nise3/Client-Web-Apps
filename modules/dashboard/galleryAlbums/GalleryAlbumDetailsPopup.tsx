@@ -20,6 +20,7 @@ import {
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -56,7 +57,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='galleries.institute' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
