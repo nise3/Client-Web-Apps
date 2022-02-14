@@ -75,7 +75,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 interface RecruitmentStepsViewSectionProps {
   jobId: string;
-  onClickStep: (filters: any) => void;
+  onClickStep: (filters: any, currentStep: any, nextStep: any) => void;
 }
 
 const RecruitmentStepsViewSection = ({
@@ -133,7 +133,11 @@ const RecruitmentStepsViewSection = ({
     setOpenRecruitmentAddEditPopup(true);
   };
 
-  const onStatusChange = (statusKey: string, step: any) => {
+  const onStatusChange = (
+    statusKey: string,
+    step: any,
+    nextStep?: any = null,
+  ) => {
     setActiveStep(step?.step_no ? step?.step_no : 1);
     let params: any = {};
     if (step?.id) {
@@ -141,7 +145,7 @@ const RecruitmentStepsViewSection = ({
     }
     params.type = statusKey;
     console.log('filters: ', params);
-    onClickStep(params);
+    onClickStep(params, step, nextStep);
   };
 
   const closeRecruitmentAddEditPopup = () => {
@@ -171,7 +175,11 @@ const RecruitmentStepsViewSection = ({
           <RecruitmentStepComponent
             activeStep={activeStep}
             onStatusChange={(statusKey) =>
-              onStatusChange(statusKey, firstAndLastStepData[0])
+              onStatusChange(
+                statusKey,
+                firstAndLastStepData[0],
+                recruitmentSteps.length > 0 ? recruitmentSteps[0] : null,
+              )
             }
             stepData={firstAndLastStepData ? firstAndLastStepData[0] : {}}
           />
@@ -181,7 +189,15 @@ const RecruitmentStepsViewSection = ({
                 activeStep={activeStep}
                 stepData={step}
                 onEditClick={() => onEditClick(step?.id)}
-                onStatusChange={(statusKey) => onStatusChange(statusKey, step)}
+                onStatusChange={(statusKey) =>
+                  onStatusChange(
+                    statusKey,
+                    step,
+                    index < recruitmentSteps.length
+                      ? recruitmentSteps[index + 1]
+                      : null,
+                  )
+                }
                 key={index}
               />
             );
