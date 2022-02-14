@@ -4,13 +4,9 @@ import React, {FC} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {getValuesFromObjectArray} from '../../../@softbd/utilities/helpers';
-import {createInstitute, updateInstitute} from '../../../services/instituteManagement/InstituteService';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
 
 interface MemberImportPopupProps {
@@ -24,20 +20,13 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  // const authUser = useAuthUser();
-  const {messages} = useIntl();
   const {
-    // control,
-    register,
-    // reset,
-    // getValues,
     handleSubmit,
-    setError,
-    setValue,
-    formState: {errors, isSubmitting},
+    formState: {isSubmitting},
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+
         await createExcelImport(data);
         props.onClose();
         refreshDataTable();
@@ -88,7 +77,7 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
             Upload excel file
           </Typography>
           <label htmlFor="contained-button-file">
-            <Input accept="image/*" id={'fileinput'} name={'file'} multiple type="file" />
+            <Input id={'fileinput'} name={'file'} type="file" />
             {/*<Button variant="contained" component="span">*/}
             {/*  Upload*/}
             {/*</Button>*/}

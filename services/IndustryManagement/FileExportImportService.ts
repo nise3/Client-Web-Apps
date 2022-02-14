@@ -6,7 +6,13 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 export const createExcelImport = async (data: any) => {
   try {
-    let response: any = await apiPost(API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT, data);
+    let formData = new FormData();
+    formData.append("file", data);
+    let response: any = await apiPost(API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
