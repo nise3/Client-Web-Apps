@@ -75,7 +75,12 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
       candidatesFilter,
     );
 
-  const onRecruitmentStepChange = (filters: any) => {
+  const onRecruitmentStepOrFilterChange = (
+    filters: any,
+    currentStep: any,
+    nextStep: any,
+  ) => {
+    console.log('filters : ', filters, currentStep, nextStep);
     setCandidatesFilter(filters);
   };
 
@@ -83,7 +88,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
     <StyledBox>
       <RecruitmentStepsViewSection
         jobId={jobId}
-        onClickStep={onRecruitmentStepChange}
+        onChangeStepOrFilters={onRecruitmentStepOrFilterChange}
       />
 
       <Body1>{(candidateList || []).length} candidates </Body1>
