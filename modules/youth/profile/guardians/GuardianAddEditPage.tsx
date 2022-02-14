@@ -86,8 +86,12 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
       nid: yup
         .string()
         .nullable()
-        .matches(NID_REGEX)
-        .label(messages['common.nid'] as string),
+        .label(messages['common.nid'] as string)
+        .test(
+          'nid_validation',
+          messages['common.nid_validation'] as string,
+          (value) => !value || Boolean(value.match(NID_REGEX)),
+        ),
     });
   }, [messages, showOther]);
 

@@ -36,3 +36,18 @@ export const createRecruitmentStep = async (data: IRecruitmentStep) => {
     catchBlockHandler(error);
   }
 };
+
+export const updateRecruitmentStep = async (
+  recruitmentId: number,
+  data: IRecruitmentStep,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_RECRUITMENT_STEPS + '/' + recruitmentId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};

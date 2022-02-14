@@ -10,6 +10,7 @@ const ERRORS: any = {
   22000: 'yup_validation_email',
   39003: 'yup_validation_text_length',
   42003: 'yup_validation_digit_length',
+  3000: 'yup_validation_date',
 };
 
 interface TProcessServerSideErrors {
