@@ -5,7 +5,7 @@ import {
   useFetchRoles,
   useFetchUser,
 } from '../../../services/userManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+import RowStatus from './RowStatus';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -16,7 +16,6 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
   createUser,
   updateUser,
@@ -131,15 +130,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       name_en: yup
         .string()
         .title('en')
+        .min(2)
         .label(messages['common.name_en'] as string),
       name: yup
         .string()
         .title()
+        .min(2)
         .label(messages['common.name'] as string),
       username: yup
         .string()
         .trim()
         .required()
+        .min(3)
         .label(messages['user.username'] as string),
       email: yup
         .string()
@@ -536,11 +538,25 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           </>
         )}
         <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
+          <FormRadioButtons
+            id={'row_status'}
+            label={'common.status'}
+            radios={[
+              {
+                key: RowStatus.PENDING,
+                label: messages['common.pending'],
+              },
+              {
+                key: RowStatus.ACTIVE,
+                label: messages['common.active'],
+              },
+              {
+                key: RowStatus.INACTIVE,
+                label: messages['common.inactive'],
+              },
+            ]}
             control={control}
-            defaultValue={initialValues.row_status}
-            isLoading={isLoading}
+            defaultValue={RowStatus.ACTIVE}
           />
         </Grid>
 
