@@ -5,7 +5,7 @@ import {useFetchIndustryMembers} from '../../../services/IndustryManagement/hook
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const IndustryListView = () => {
-  const {messages, locale} = useIntl();
+  const {messages, locale, formatNumber} = useIntl();
   const [industryAssociationMembersFilter] = useState<any>({page_size: 5});
   const {data: memberList, isLoading} = useFetchIndustryMembers(
     industryAssociationMembersFilter,
@@ -16,7 +16,9 @@ const IndustryListView = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return locale == LocaleLanguage.EN
+            ? props.row.index + 1
+            : formatNumber(props.row.index + 1);
         },
         disableFilters: true,
         disableSortBy: true,
@@ -26,11 +28,11 @@ const IndustryListView = () => {
         accessor: 'title',
         isVisible: locale == LocaleLanguage.BN,
       },
-      // {
-      //   Header: messages['common.company_name_bn'],
-      //   accessor: 'title_en',
-      //   isVisible: locale == LocaleLanguage.EN,
-      // },
+      {
+        Header: messages['common.company_name_bn'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
       // {
       //   Header: messages['common.contact_person_name'],
       //   accessor: 'contact_person_name',
