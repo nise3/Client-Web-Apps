@@ -11,6 +11,8 @@ import {
   API_INDUSTRY_ASSOCIATION_TRADES,
   API_INDUSTRY_ASSOCIATIONS,
   API_PUBLIC_JOB_DETAILS,
+  API_RECRUITMENT_STEP_LISTS,
+  API_RECRUITMENT_STEPS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchIndustryAssociations(params: any) {
@@ -55,4 +57,12 @@ export function useFetchJobCandidatesAppliedList(jobId: any) {
   return useAxiosSWR(
     jobId ? API_GET_JOB_CANDIDATES_APPLIED_LIST + '/' + jobId : null,
   );
+}
+
+export function useFetchJobRecruitmentStep(stepId: any) {
+  return useAxiosSWR(stepId ? API_RECRUITMENT_STEPS + '/' + stepId : null);
+}
+
+export function useFetchJobRecruitmentSteps(jobId: string) {
+  return useAxiosSWR(jobId ? API_RECRUITMENT_STEP_LISTS + jobId : null);
 }
