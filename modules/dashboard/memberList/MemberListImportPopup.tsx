@@ -43,9 +43,9 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
       title={
         <>
           <IntlMessages
-            id='common.edit'
+            id='common.add_new'
             values={{
-              subject: <IntlMessages id='common.profile' />,
+              subject: <IntlMessages id='common.import' />,
             }}
           />
         </>
@@ -72,7 +72,7 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
-            label={messages['common.image_path']}
+            label={messages['common.file_path']}
             required={false}
           />
         </Grid>
