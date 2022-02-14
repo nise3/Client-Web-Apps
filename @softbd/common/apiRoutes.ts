@@ -368,7 +368,10 @@ export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
 
 export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
-  ORGANIZATION_SERVICE_PATH + '/recruitment-step-candidate-list';
+  API_JOBS + '/recruitment-step-candidate-list';
+
+export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
+export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
 
 //Industry Association section end
 
@@ -388,7 +391,6 @@ export const API_PUBLIC_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/organization-types';
 
 export const API_PUBLIC_JOBS = ORGANIZATION_SERVICE_PUBLIC_PATH + '/jobs';
-export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
 
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';
