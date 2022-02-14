@@ -20,6 +20,7 @@ import {useFetchJobRecruitmentStep} from '../../../services/IndustryAssociationM
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {RecruitmentSteps} from './RecruitmentSteps';
 
 interface RecruitmentStepAddEditPopupProps {
   jobId: string;
@@ -82,23 +83,23 @@ const RecruitmentStepAddEditPopup: FC<RecruitmentStepAddEditPopupProps> = ({
   const shortLists = useMemo(
     () => [
       {
-        key: '1',
+        key: RecruitmentSteps.STEP_TYPE_SHORTLIST,
         label: messages['common.only_short_list'],
       },
       {
-        key: '2',
+        key: RecruitmentSteps.STEP_TYPE_WRITTEN,
         label: messages['common.short_list_written'],
       },
       {
-        key: '3',
+        key: RecruitmentSteps.STEP_TYPE_INTERVIEW,
         label: messages['common.short_list_face_to_face'],
       },
       {
-        key: '4',
+        key: RecruitmentSteps.STEP_TYPE_ONLINE_INTERVIEW,
         label: messages['common.short_list_live_interview'],
       },
       {
-        key: '5',
+        key: RecruitmentSteps.STEP_TYPE_OTHERS,
         label: messages['common.short_list_other'],
       },
     ],

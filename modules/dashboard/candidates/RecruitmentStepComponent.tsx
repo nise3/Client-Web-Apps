@@ -99,15 +99,13 @@ interface RecruitmentStepComponentProps {
   activeStep: any;
   stepData: any;
   onEditClick?: () => void;
-  onStepClick: () => void;
-  onStatusChange?: (statusKey: string) => void;
+  onStatusChange: (statusKey: string) => void;
 }
 
 const RecruitmentStepComponent = ({
   activeStep,
   stepData,
   onEditClick,
-  onStepClick,
   onStatusChange,
 }: RecruitmentStepComponentProps) => {
   const [statuses, setStatuses] = useState<any>([]);
@@ -239,9 +237,7 @@ const RecruitmentStepComponent = ({
         return status;
       });
       setStatuses(statusList);
-      if (onStatusChange) {
-        onStatusChange(statusKey);
-      }
+      onStatusChange(statusKey);
     },
     [statuses],
   );
@@ -279,7 +275,17 @@ const RecruitmentStepComponent = ({
           <Fab
             color='primary'
             aria-label='applicants'
-            onClick={() => onStepClick()}>
+            onClick={() => {
+              if (stepData?.id) {
+                onStatusClick(CandidateFilterTypes.SHORTLISTED);
+              } else {
+                if (stepData?.step_no == 1) {
+                  onStatusClick(CandidateFilterTypes.ALL);
+                } else {
+                  onStatusClick(CandidateFilterTypes.HIRE_SELECTED);
+                }
+              }
+            }}>
             {stepData?.total_candidate ? stepData?.total_candidate : '0'}
           </Fab>
         </Box>

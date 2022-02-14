@@ -7,7 +7,6 @@ import {Add} from '@mui/icons-material';
 import RecruitmentStepAddEditPopup from './RecruitmentStepAddEditPopup';
 import {useFetchJobRecruitmentSteps} from '../../../services/IndustryAssociationManagement/hooks';
 import Tooltip from '@mui/material/Tooltip';
-import {CandidateFilterTypes} from './CandidateFilterTypes';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -133,25 +132,9 @@ const RecruitmentStepsViewSection = ({
     setSelectedStep(stepId);
     setOpenRecruitmentAddEditPopup(true);
   };
-  const onStepClick = (step: any) => {
-    setActiveStep(step?.step_no ? step?.step_no : 1);
-    let params: any = {};
-    if (step?.id) {
-      params.step_id = step.id;
-      params.type = CandidateFilterTypes.SHORTLISTED;
-    } else {
-      if (step?.step_no == 1) {
-        params.type = CandidateFilterTypes.ALL;
-      } else {
-        params.type = CandidateFilterTypes.HIRE_SELECTED;
-      }
-    }
-
-    console.log('filters: ', params);
-    onClickStep(params);
-  };
 
   const onStatusChange = (statusKey: string, step: any) => {
+    setActiveStep(step?.step_no ? step?.step_no : 1);
     let params: any = {};
     if (step?.id) {
       params.step_id = step.id;
@@ -187,7 +170,6 @@ const RecruitmentStepsViewSection = ({
         <Box className={classes.recruitmentStepWrapper}>
           <RecruitmentStepComponent
             activeStep={activeStep}
-            onStepClick={() => onStepClick(firstAndLastStepData[0])}
             onStatusChange={(statusKey) =>
               onStatusChange(statusKey, firstAndLastStepData[0])
             }
@@ -199,7 +181,6 @@ const RecruitmentStepsViewSection = ({
                 activeStep={activeStep}
                 stepData={step}
                 onEditClick={() => onEditClick(step?.id)}
-                onStepClick={() => onStepClick(step)}
                 onStatusChange={(statusKey) => onStatusChange(statusKey, step)}
                 key={index}
               />
@@ -221,7 +202,6 @@ const RecruitmentStepsViewSection = ({
 
           <RecruitmentStepComponent
             activeStep={activeStep}
-            onStepClick={() => onStepClick(firstAndLastStepData[1])}
             onStatusChange={(statusKey) =>
               onStatusChange(statusKey, firstAndLastStepData[1])
             }
