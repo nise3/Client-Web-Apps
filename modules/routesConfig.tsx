@@ -305,7 +305,7 @@ const routesConfig: NavItemProps[] = [
         title: 'Industry Association Management',
         messageId: 'menu.industry_association_management',
         type: 'collapse',
-        icon: 'room',
+        icon: 'construction',
         children: [
           {
             id: 'association-profile',
@@ -322,7 +322,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.industry_associations',
             permissionKey: 'view_any_industry_association',
             type: 'item',
-            icon: 'timeline',
+            icon: 'list',
             url: '/industry-association',
           },
           {
@@ -331,7 +331,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.member_list',
             permissionKey: 'view_any_industry_association_member',
             type: 'item',
-            icon: 'timeline',
+            icon: 'list',
             url: '/member-management',
           },
           {
@@ -340,7 +340,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.publications',
             permissionKey: 'view_any_publication',
             type: 'item',
-            icon: 'timeline',
+            icon: 'book',
             url: '/publications',
           },
           {
@@ -349,7 +349,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'applicant.label',
             permissionKey: 'view_any_job_applicant',
             type: 'item',
-            icon: 'timeline',
+            icon: 'person',
             url: '/applicant-list',
           },
           {
@@ -358,7 +358,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.jobs',
             permissionKey: 'view_any_job',
             type: 'item',
-            icon: 'timeline',
+            icon: 'work',
             url: '/jobs',
           },
           {
@@ -367,7 +367,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.contact_office',
             permissionKey: 'view_any_contact_info',
             type: 'item',
-            icon: 'timeline',
+            icon: 'apartment',
             url: '/contact-info',
           },
           /*{
@@ -422,7 +422,7 @@ const routesConfig: NavItemProps[] = [
         title: 'CMS',
         messageId: 'cms.label',
         type: 'collapse',
-        icon: 'room',
+        icon: 'source',
         children: [
           {
             id: 'faqs',
@@ -430,7 +430,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.faq',
             permissionKey: 'view_any_faq',
             type: 'item',
-            icon: 'room',
+            icon: 'help',
             url: '/faqs',
           },
           {
@@ -448,7 +448,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.gallery_album',
             permissionKey: 'view_any_gallery_album',
             type: 'item',
-            icon: 'room',
+            icon: 'collections',
             url: '/gallery-albums',
           },
           {
@@ -457,7 +457,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.gallery_album_content',
             permissionKey: 'view_any_gallery_image_video',
             type: 'item',
-            icon: 'room',
+            icon: 'collections',
             url: '/gallery-album-contents',
           },
           {
@@ -466,7 +466,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.visitor_feedback',
             permissionKey: 'view_any_visitor_feedback_suggestion',
             type: 'item',
-            icon: 'room',
+            icon: 'feedback',
             url: '/visitor-feedbacks',
           },
           {
@@ -475,7 +475,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.notices_and_news',
             permissionKey: 'view_any_notice_or_news',
             type: 'item',
-            icon: 'room',
+            icon: 'feed',
             url: '/notices-news',
           },
           {
@@ -484,7 +484,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.nise3_partners',
             permissionKey: 'view_any_nise3_partner',
             type: 'item',
-            icon: 'room',
+            icon: 'person',
             url: '/nise3-partners',
           },
           {
@@ -493,7 +493,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.recent_activities',
             permissionKey: 'view_any_recent_activity',
             type: 'item',
-            icon: 'room',
+            icon: 'collections',
             url: '/recent-activities',
           },
           {
@@ -502,7 +502,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.sliders',
             permissionKey: 'view_any_slider',
             type: 'item',
-            icon: 'room',
+            icon: 'collections',
             url: '/sliders',
           },
           {
@@ -511,7 +511,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.slider_banners',
             permissionKey: 'view_any_banner',
             type: 'item',
-            icon: 'room',
+            icon: 'collections',
             url: '/slider-banners',
           },
           {
@@ -520,7 +520,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.calendar',
             permissionKey: 'view_any_calender_event',
             type: 'item',
-            icon: 'room',
+            icon: 'event',
             url: '/events',
           },
         ],
@@ -530,7 +530,7 @@ const routesConfig: NavItemProps[] = [
         title: 'HR Demand',
         messageId: 'common.human_resource',
         type: 'collapse',
-        icon: 'room',
+        icon: 'person',
         children: [
           {
             id: 'job_requirements',
@@ -538,7 +538,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'job_requirement.label',
             permissionKey: 'view_any_industry_association_hr_demand',
             type: 'item',
-            icon: 'timeline',
+            icon: 'work',
             url: '/job-requirement',
           },
         ],
@@ -549,7 +549,7 @@ const routesConfig: NavItemProps[] = [
         messageId: 'common.cv_bank',
         permissionKey: 'view_any_cv_bank',
         type: 'item',
-        icon: 'room',
+        icon: 'feed',
         url: '/cv-bank',
       },
     ],
