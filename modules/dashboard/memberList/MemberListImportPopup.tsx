@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
 interface MemberImportPopupProps {
   onClose: () => void;
@@ -63,6 +64,17 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
           <Typography variant={'h6'}>
             {messages['association.association_information']}
           </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant={'h6'}>
+            Downlod sample excel file
+          </Typography>
+          <CommonButton
+            key={1}
+            onClick={() => console.log('download file')}
+            btnText={"Import"}
+          />
         </Grid>
 
         <Grid item xs={12}>
