@@ -240,6 +240,8 @@ export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
   ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
 
+export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT = INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
+
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
 

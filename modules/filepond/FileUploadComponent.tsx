@@ -50,7 +50,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   label,
   defaultFileUrl,
   allowMultiple,
-  acceptedFileTypes = ['image/*', 'application/pdf'],
+  acceptedFileTypes = ['image/*', 'application/pdf', 'application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
   uploadedUrls,
   height,
   width,
