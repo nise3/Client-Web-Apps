@@ -230,7 +230,7 @@ export function useFetchIndustryAssociationRecruitmentStepCandidateList(
   params: any,
 ) {
   return useAxiosSWR(
-    jobId
+    jobId && params
       ? [
           API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST +
             '/' +
