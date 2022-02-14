@@ -244,12 +244,10 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         </Button>
                       </Link>
                     ) : (
-                      <Grid item xs={4}>
-                        <CustomChip
-                          label={messages['common.already_enrolled']}
-                          color={'primary'}
-                        />
-                      </Grid>
+                      <CustomChip
+                        label={messages['common.already_enrolled']}
+                        color={'primary'}
+                      />
                     )}
                   </Grid>
                 )}
