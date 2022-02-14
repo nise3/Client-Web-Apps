@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {Body1} from '../../../@softbd/elements/common';
 import {Edit, KeyboardDoubleArrowRight} from '@mui/icons-material';
 import {Fab} from '@mui/material';
 import {RecruitmentSteps} from './RecruitmentSteps';
+import {CandidateFilterTypes} from './CandidateFilterTypes';
 
 const PREFIX = 'RecruitmentStepComponent';
 
@@ -31,6 +32,12 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.title}`]: {
     width: '100px',
     fontSize: '1rem',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitLineClamp: '2',
+    lineClamp: '2',
+    WebkitBoxOrient: 'vertical',
   },
   [`& .${classes.editIcon}`]: {
     alignSelf: 'center',
@@ -60,6 +67,14 @@ const StyledBox = styled(Box)(({theme}) => ({
     '& .status-item': {
       whiteSpace: 'nowrap',
       display: 'flex',
+      userSelect: 'none',
+      cursor: 'pointer',
+      '&.active': {
+        color: theme.palette.secondary.main,
+      },
+      '&:hover': {
+        color: theme.palette.secondary.main,
+      },
       '&:not(:first-of-type)': {
         marginLeft: '6px',
         paddingLeft: '6px',
@@ -85,6 +100,7 @@ interface RecruitmentStepComponentProps {
   stepData: any;
   onEditClick?: () => void;
   onStepClick: () => void;
+  onStatusChange?: (statusKey: string) => void;
 }
 
 const RecruitmentStepComponent = ({
@@ -92,75 +108,164 @@ const RecruitmentStepComponent = ({
   stepData,
   onEditClick,
   onStepClick,
+  onStatusChange,
 }: RecruitmentStepComponentProps) => {
-  const getCriteriaItem = (label: string, value: any) => {
+  const [statuses, setStatuses] = useState<any>([]);
+
+  useEffect(() => {
+    if (stepData) {
+      let statusList: any = [];
+      if (stepData?.step_no == 1) {
+        statusList = [
+          {
+            key: CandidateFilterTypes.ALL,
+            label: 'All',
+            value: stepData?.all ? stepData?.all : '0',
+            active: true,
+          },
+          {
+            key: CandidateFilterTypes.NOT_VIEWED,
+            label: 'Not Viewed',
+            value: stepData?.not_viewed ? stepData?.not_viewed : '0',
+            active: false,
+          },
+          {
+            key: CandidateFilterTypes.VIEWED,
+            label: 'Viewed',
+            value: stepData?.viewed ? stepData?.viewed : '0',
+            active: false,
+          },
+          {
+            key: CandidateFilterTypes.REJECTED,
+            label: 'Rejected',
+            value: stepData?.rejected ? stepData?.rejected : '0',
+            active: false,
+          },
+          {
+            key: CandidateFilterTypes.QUALIFIED,
+            label: 'Qualified',
+            value: stepData?.qualified ? stepData?.qualified : '0',
+            active: false,
+          },
+        ];
+      } else if (stepData?.step_no == 99) {
+        statusList = [
+          {
+            key: CandidateFilterTypes.HIRE_SELECTED,
+            label: 'Selected',
+            value: stepData?.hire_selected ? stepData?.hire_selected : '0',
+            active: true,
+          },
+          {
+            key: CandidateFilterTypes.HIRE_INVITED,
+            label: 'Invited',
+            value: stepData?.hire_invited ? stepData?.hire_invited : '0',
+            active: false,
+          },
+          {
+            key: CandidateFilterTypes.HIRED,
+            label: 'Hired',
+            value: stepData?.hired ? stepData?.hired : '0',
+            active: false,
+          },
+        ];
+      } else {
+        switch (stepData?.step_type) {
+          case RecruitmentSteps.STEP_TYPE_SHORTLIST:
+            statusList = [
+              {
+                key: CandidateFilterTypes.SHORTLISTED,
+                label: 'Shortlisted',
+                value: stepData?.shortlisted ? stepData?.shortlisted : '0',
+                active: true,
+              },
+              {
+                key: CandidateFilterTypes.QUALIFIED,
+                label: 'Qualified',
+                value: stepData?.qualified ? stepData?.qualified : '0',
+                active: false,
+              },
+            ];
+            break;
+          case RecruitmentSteps.STEP_TYPE_WRITTEN:
+          case RecruitmentSteps.STEP_TYPE_INTERVIEW:
+          case RecruitmentSteps.STEP_TYPE_ONLINE_INTERVIEW:
+          case RecruitmentSteps.STEP_TYPE_OTHERS:
+            statusList = [
+              {
+                key: CandidateFilterTypes.SHORTLISTED,
+                label: 'Shortlisted',
+                value: stepData?.shortlisted ? stepData?.shortlisted : '0',
+                active: true,
+              },
+
+              {
+                key: CandidateFilterTypes.SCHEDULED,
+                label: 'Scheduled',
+                value: stepData?.interview_scheduled
+                  ? stepData?.interview_scheduled
+                  : '0',
+                active: false,
+              },
+              {
+                key: CandidateFilterTypes.REJECTED,
+                label: 'Rejected',
+                value: stepData?.rejected ? stepData?.rejected : '0',
+                active: false,
+              },
+              {
+                key: CandidateFilterTypes.QUALIFIED,
+                label: 'Qualified',
+                value: stepData?.qualified ? stepData?.qualified : '0',
+                active: false,
+              },
+            ];
+            break;
+          default:
+            statusList = [];
+            break;
+        }
+      }
+
+      setStatuses(statusList);
+    }
+  }, [stepData]);
+
+  const onStatusClick = useCallback(
+    (statusKey: string) => {
+      let statusList = [...statuses];
+      statusList = statusList.map((status: any) => {
+        status.active = status.key == statusKey;
+        return status;
+      });
+      setStatuses(statusList);
+      if (onStatusChange) {
+        onStatusChange(statusKey);
+      }
+    },
+    [statuses],
+  );
+
+  const CriteriaItem = ({status}: any) => {
     return (
-      <Box className={'status-item'}>
-        <Body1>{label}</Body1>
+      <Box
+        className={`status-item ${status.active ? 'active' : ''}`}
+        onClick={() => onStatusClick(status.key)}>
+        <Body1>{status.label}</Body1>
         <Body1 fontWeight={'bold'} sx={{marginLeft: '8px'}}>
-          {value}
+          {status.value}
         </Body1>
       </Box>
     );
-  };
-  const getCandidateStatuses = () => {
-    switch (stepData?.step_type) {
-      case RecruitmentSteps.STEP_TYPE_SHORTLIST:
-        return (
-          <Box className={classes.candidateStatus}>
-            {getCriteriaItem(
-              'Shortlisted',
-              stepData?.short_listed ? stepData?.short_listed : '0',
-            )}{' '}
-            {getCriteriaItem(
-              'Qualified',
-              stepData?.qualified ? stepData?.qualified : '0',
-            )}
-          </Box>
-        );
-      case RecruitmentSteps.STEP_TYPE_WRITTEN:
-        return <Box className={classes.candidateStatus}>ShortList</Box>;
-      case RecruitmentSteps.STEP_TYPE_INTERVIEW:
-        return <Box className={classes.candidateStatus}>ShortList</Box>;
-      case RecruitmentSteps.STEP_TYPE_ONLINE_INTERVIEW:
-        return <Box className={classes.candidateStatus}>ShortList</Box>;
-      case RecruitmentSteps.STEP_TYPE_OTHERS:
-        return <Box className={classes.candidateStatus}>ShortList</Box>;
-      default: {
-        if (stepData?.step_no == 1)
-          return (
-            <Box className={classes.candidateStatus}>
-              {getCriteriaItem('All', stepData?.all ? stepData?.all : '0')}
-              {getCriteriaItem(
-                'Not Viewed',
-                stepData?.not_viewed ? stepData?.not_viewed : '0',
-              )}
-              {getCriteriaItem(
-                'Viewed',
-                stepData?.viewed ? stepData?.viewed : '0',
-              )}
-              {getCriteriaItem(
-                'Rejected',
-                stepData?.rejected ? stepData?.rejected : '0',
-              )}
-              {getCriteriaItem(
-                'Qualified',
-                stepData?.qualified ? stepData?.qualified : '0',
-              )}
-            </Box>
-          );
-        else {
-          return <Box className={classes.candidateStatus} />;
-        }
-      }
-    }
   };
 
   return (
     <StyledBox className={classes.root}>
       <Box className={classes.topWrapper}>
         <Box display={'flex'}>
-          <Body1 className={classes.title}>{stepData?.title}</Body1>
+          <Body1 className={classes.title} title={stepData?.title}>
+            {stepData?.title}
+          </Body1>
           {!stepData?.is_not_editable && onEditClick && (
             <Edit className={classes.editIcon} onClick={() => onEditClick()} />
           )}
@@ -179,11 +284,17 @@ const RecruitmentStepComponent = ({
           </Fab>
         </Box>
       </Box>
-      <Box
-        display={stepData?.step_no == activeStep ? 'block' : 'none'}
-        className={classes.candidateStatusWrapper}>
-        {getCandidateStatuses()}
-      </Box>
+      {statuses && statuses.length > 0 && (
+        <Box
+          display={stepData?.step_no == activeStep ? 'block' : 'none'}
+          className={classes.candidateStatusWrapper}>
+          <Box className={classes.candidateStatus}>
+            {statuses.map((status: any, index: number) => (
+              <CriteriaItem status={status} key={index} />
+            ))}
+          </Box>
+        </Box>
+      )}
     </StyledBox>
   );
 };

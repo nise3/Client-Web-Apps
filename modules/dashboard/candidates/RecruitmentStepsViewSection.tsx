@@ -7,6 +7,7 @@ import {Add} from '@mui/icons-material';
 import RecruitmentStepAddEditPopup from './RecruitmentStepAddEditPopup';
 import {useFetchJobRecruitmentSteps} from '../../../services/IndustryAssociationManagement/hooks';
 import Tooltip from '@mui/material/Tooltip';
+import {CandidateFilterTypes} from './CandidateFilterTypes';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -95,41 +96,6 @@ const RecruitmentStepsViewSection = ({
     mutate: mutateRecruitmentSteps,
   } = useFetchJobRecruitmentSteps(jobId);
 
-  /*const [recruitmentData] = useState<any>({
-    steps: [
-      {
-        id: 1,
-        job_id: '1',
-        title: 'Call for first interview',
-        title_en: null,
-        step_type: 1,
-        is_interview_reschedule_allowed: null,
-        interview_contact: null,
-        created_at: null,
-        updated_at: null,
-        total_candidate: 0,
-        shortlisted: 0,
-        rejected: 0,
-        qualified: 0,
-      },
-      {
-        id: 1,
-        job_id: '1',
-        title: 'Call for first interview',
-        title_en: null,
-        step_type: 2,
-        is_interview_reschedule_allowed: null,
-        interview_contact: null,
-        created_at: null,
-        updated_at: null,
-        total_candidate: 0,
-        shortlisted: 0,
-        rejected: 0,
-        qualified: 0,
-      },
-    ],
-  });*/
-
   useEffect(() => {
     if (recruitmentData) {
       let firstAndLastStep = [
@@ -146,7 +112,7 @@ const RecruitmentStepsViewSection = ({
         },
         {
           title: 'Final Hiring List',
-          step_no: (recruitmentData?.steps || []).length + 2,
+          step_no: 99,
           is_not_editable: true,
           total_candidate: recruitmentData?.final_hiring_list?.total_candidate,
         },
@@ -168,8 +134,31 @@ const RecruitmentStepsViewSection = ({
     setOpenRecruitmentAddEditPopup(true);
   };
   const onStepClick = (step: any) => {
-    console.log('step: ', step);
     setActiveStep(step?.step_no ? step?.step_no : 1);
+    let params: any = {};
+    if (step?.id) {
+      params.step_id = step.id;
+      params.type = CandidateFilterTypes.SHORTLISTED;
+    } else {
+      if (step?.step_no == 1) {
+        params.type = CandidateFilterTypes.ALL;
+      } else {
+        params.type = CandidateFilterTypes.HIRE_SELECTED;
+      }
+    }
+
+    console.log('filters: ', params);
+    onClickStep(params);
+  };
+
+  const onStatusChange = (statusKey: string, step: any) => {
+    let params: any = {};
+    if (step?.id) {
+      params.step_id = step.id;
+    }
+    params.type = statusKey;
+    console.log('filters: ', params);
+    onClickStep(params);
   };
 
   const closeRecruitmentAddEditPopup = () => {
@@ -199,6 +188,9 @@ const RecruitmentStepsViewSection = ({
           <RecruitmentStepComponent
             activeStep={activeStep}
             onStepClick={() => onStepClick(firstAndLastStepData[0])}
+            onStatusChange={(statusKey) =>
+              onStatusChange(statusKey, firstAndLastStepData[0])
+            }
             stepData={firstAndLastStepData ? firstAndLastStepData[0] : {}}
           />
           {(recruitmentSteps || []).map((step: any, index: number) => {
@@ -208,6 +200,7 @@ const RecruitmentStepsViewSection = ({
                 stepData={step}
                 onEditClick={() => onEditClick(step?.id)}
                 onStepClick={() => onStepClick(step)}
+                onStatusChange={(statusKey) => onStatusChange(statusKey, step)}
                 key={index}
               />
             );
@@ -229,6 +222,9 @@ const RecruitmentStepsViewSection = ({
           <RecruitmentStepComponent
             activeStep={activeStep}
             onStepClick={() => onStepClick(firstAndLastStepData[1])}
+            onStatusChange={(statusKey) =>
+              onStatusChange(statusKey, firstAndLastStepData[1])
+            }
             stepData={firstAndLastStepData ? firstAndLastStepData[1] : {}}
           />
         </Box>
