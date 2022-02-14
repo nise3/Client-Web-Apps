@@ -327,6 +327,7 @@
   "organization_type.label_en": "সংস্থার ধরন (ইংরেজি)",
   "districts.label": "জেলা",
   "upazilas.label": "উপজেলা",
+  "union.label": "ইউনিয়ন",
   "services.label": "সার্ভিস",
   "trainers.label": "প্রশিক্ষক",
   "trainers.assign_success": "প্রশিক্ষক বরাদ্দ সফল",
@@ -496,6 +497,7 @@
   "permission.uri": "ইউ.আর.আই",
   "permission.method": "মেথড",
   "user.label": "ইউজার",
+  "user.academic_qualification": "শিক্ষাগত যোগ্যতা",
   "user.username": "ব্যবহারকারীর নাম",
   "user.user_type": "ব্যবহারকারীর ধরন",
   "user.type.system": "সিস্টেম",
@@ -790,6 +792,7 @@
   "common.marital_status_widowed": "বিধবা",
   "common.marital_status_divorced": "তালাকপ্রাপ্ত",
   "common.identity_type_nid": "জাতীয় পরিচয় নম্বর",
+  "common.national_identity": "জাতীয় পরিচয়পত্র",
   "common.identity_type_birth_cert": "জন্ম সনদ নম্বর",
   "common.identity_type_passport": "পাসপোর্ট নম্বর",
   "youth.edit_education": "শিক্ষা সম্পাদনা",
@@ -1410,5 +1413,8 @@
   "institute.label_en": "প্রতিষ্ঠান (ইংরেজি)",
   "common.first_name": "নামের প্রথম অংশ",
   "common.last_name": "নামের শেষ অংশ",
-  "youth.fullName_en": "পুরো নাম (ইংরেজি)"
+  "youth.fullName_en": "পুরো নাম (ইংরেজি)",
+  "form_filler" : "ফর্ম পূরণকারী",
+  "common.entrepreneur_pic":  "উদ্যোক্তার  ছবি",
+  "institute.trade_licence_number": "প্রতিষ্ঠানের ট্রেড লাইসেন্স নম্বর"
 }

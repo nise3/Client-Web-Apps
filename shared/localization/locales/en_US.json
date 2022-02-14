@@ -170,6 +170,7 @@
   "divisions.label_en": "Division(EN)",
   "districts.label": "District",
   "upazilas.label": "Upazila",
+  "union.label": "Union",
   "services.label": "Services",
   "trainer.about": "About me",
   "trainer.title_en": "Trainer Name (English)",
@@ -506,6 +507,7 @@
   "my_account.label": "My Account",
   "role.unique_value": "Unique value",
   "user.label": "User",
+  "user.academic_qualification": "Academic Qualification",
   "user.username": "User name",
   "user.user_type": "User type",
   "user.type.system": "System",
@@ -829,6 +831,7 @@
   "common.marital_status_widowed": "Widowed",
   "common.marital_status_divorced": "Divorced",
   "common.identity_type_nid": "National Identity No",
+  "common.national_identity": "National Identity",
   "common.identity_type_birth_cert": "Birth Certificate No",
   "common.identity_type_passport": "Passport No",
   "galleries.institute": "Galleries",
@@ -1401,5 +1404,8 @@
   "common.job_status_live": "Live",
   "common.job_status_pending": "Pending approval",
   "common.job_status_expired": "Expired",
-  "common.step_name_en": "Step Name (English)"
+  "common.step_name_en": "Step Name (English)",
+  "form_filler" : "Form Filler",
+  "common.entrepreneur_pic":  "Entrepreneur Picture",
+  "institute.trade_licence_number": "Institute Trade License Number"
 }
