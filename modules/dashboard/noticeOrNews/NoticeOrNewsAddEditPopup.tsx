@@ -31,10 +31,7 @@ import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {
-  getMomentDateFormat,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
@@ -378,15 +375,14 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       }
 
       if (formData.show_in != ShowInTypes.TSP) {
-        formData.institute_id = '';
+        delete formData.institute_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
-        formData.organization_id = '';
+        delete formData.organization_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
-        formData.industry_association_id = '';
+        delete formData.industry_association_id;
       }
-      objectFilter(formData);
 
       let data = {...formData};
 

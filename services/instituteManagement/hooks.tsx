@@ -59,7 +59,7 @@ export function useFetchBranch(branchId: number | null) {
 }
 
 export function useFetchBranches(params: any) {
-  return useAxiosSWR([API_BRANCHES, params]);
+  return useAxiosSWR(params ? [API_BRANCHES, params] : null);
 }
 
 export function useFetchProgramme(programmeId: number | null) {
@@ -87,7 +87,7 @@ export function useFetchTrainingCenter(trainingCenterId: number | null) {
 }
 
 export function useFetchTrainingCenters(params: any) {
-  return useAxiosSWR([API_TRAINING_CENTERS, params]);
+  return useAxiosSWR(params ? [API_TRAINING_CENTERS, params] : null);
 }
 
 export function useFetchCourse(courseId: number | null) {

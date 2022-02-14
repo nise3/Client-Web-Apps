@@ -104,15 +104,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const [branchFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
+  const [branchFilters, setBranchFilters] = useState<any>(null);
 
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
 
   const {data: branchList, isLoading: isBranchListLoading} =
     useFetchBranches(branchFilters);
@@ -124,6 +118,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
 
   const [filterUserSelection, setFilterUserSelection] = useState<string>('');
+  useEffect(() => {
+    if (authUser?.isInstituteUser) {
+      setBranchFilters({
+        institute_id: authUser?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+      setTrainingCenterFilters({
+        institute_id: authUser?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

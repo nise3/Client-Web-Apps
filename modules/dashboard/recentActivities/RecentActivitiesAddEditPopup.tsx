@@ -31,10 +31,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import {
-  getMomentDateFormat,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
@@ -437,15 +434,14 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       }
 
       if (formData.show_in != ShowInTypes.TSP) {
-        formData.institute_id = '';
+        delete formData.institute_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
-        formData.organization_id = '';
+        delete formData.organization_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
-        formData.industry_association_id = '';
+        delete formData.industry_association_id;
       }
-      objectFilter(formData);
 
       formData.other_language_fields = '';
 
@@ -471,6 +467,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
 
+      if (!data.archived_at) {
+        data.archived_at = '';
+      }
       if (itemId) {
         await updateRecentActivity(itemId, data);
         updateSuccessMessage('recent_activities.label');
