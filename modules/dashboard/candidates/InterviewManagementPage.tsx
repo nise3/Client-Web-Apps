@@ -16,6 +16,7 @@ import {useIntl} from 'react-intl';
 import {useFetchIndustryAssociationRecruitmentStepCandidateList} from '../../../services/IndustryManagement/hooks';
 import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import RejectButton from '../applicationManagement/RejectButton';
+import moment from 'moment/moment';
 
 const PREFIX = 'InterviewManagementPage';
 
@@ -39,6 +40,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     border: '1px solid black',
     padding: '2px',
     borderRadius: '5px',
+    paddingBottom: '0px',
   },
   [`& .${classes.approveButton}`]: {
     color: theme.palette.primary.main,
@@ -86,54 +88,112 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
 
       <Body1>57 candidates </Body1>
 
-      {[1, 2, 3].map((data: any) => (
-        <Box className={classes.cardHeader} key={data}>
+      {(candidateList || []).map((candidate: any) => (
+        <Box className={classes.cardHeader} key={candidate.id}>
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Grid container>
                 <Grid item xs={3}>
-                  <Avatar
-                    src={
-                      'https://img.freepik.com/free-psd/metal-sign-logo-mockup_1389-1345.jpg'
-                    }
-                  />
+                  <Avatar src={candidate?.youth_profile?.photo} />
                 </Grid>
                 <Grid item xs={9}>
                   <H5>
-                    Super Man{' '}
-                    <Caption className={classes.age}>Age: 28.5</Caption>
+                    {candidate?.youth_profile?.first_name}{' '}
+                    {candidate?.youth_profile?.last_name}
+                    <Caption className={classes.age}>
+                      {moment().diff(
+                        candidate?.youth_profile?.date_of_birth.slice(0, 10),
+                        'years',
+                      )}
+                    </Caption>
                   </H5>
                   <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                    <FmdGoodIcon /> Daraus, Dhaka
+                    <FmdGoodIcon />
+                    {candidate?.youth_profile?.upazila_title}
+                    {', '}
+                    {candidate?.youth_profile?.district_title}
+                    {', '} {candidate?.youth_profile?.division_title}
                   </Body2>
-                  <Body2>BUET</Body2>
-                  <Body2>Bachelor of science(BSc)</Body2>
+                  <Body2>
+                    {
+                      candidate?.youth_profile?.youth_educations[
+                        Math.max(
+                          ...candidate?.youth_profile?.youth_educations.map(
+                            (o: any, index: number) => {
+                              o.education_level_id;
+                              return index;
+                            },
+                          ),
+                        )
+                      ].institute_name
+                    }
+                  </Body2>
+                  <Body2>
+                    {
+                      candidate?.youth_profile?.youth_educations[
+                        Math.max(
+                          ...candidate?.youth_profile?.youth_educations.map(
+                            (o: any, index: number) => {
+                              o.education_level_id;
+                              return index;
+                            },
+                          ),
+                        )
+                      ].exam_degree_title
+                    }
+                  </Body2>
                   <Box display={'flex'} alignItems={'center'}>
-                    <BorderLinearProgress variant='determinate' value={10} />
+                    <BorderLinearProgress
+                      variant='determinate'
+                      value={candidate?.youth_profile?.profile_completed}
+                    />
                     <Typography fontWeight={'bold'} color={'primary.main'}>
-                      10%
+                      {candidate?.youth_profile?.profile_completed}%
                     </Typography>
                   </Box>
                   <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                    <CallIcon /> 01918819191
+                    <CallIcon /> {candidate?.youth_profile?.mobile}
                   </Body2>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={3}>
-              <Box>
-                <Body2 sx={{fontWeight: 'bold'}}>SoftBd Ltd.</Body2>
-                <Caption>Software Engineer (2+ years)</Caption>
-              </Box>
-              <Box>
-                <Body2 sx={{fontWeight: 'bold'}}>SoftBd Ltd.</Body2>
-                <Caption>Software Engineer (2+ years)</Caption>
-              </Box>
+              {(candidate?.youth_profile?.youth_job_experiences || []).map(
+                (data: any) => (
+                  <Box key={data.id}>
+                    <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
+                    <Body2>
+                      {data.position} (
+                      {moment
+                        .duration(
+                          data.start_date
+                            ? data.start_date.slice(0, 10)
+                            : moment(new Date()).diff(
+                                data.start_date
+                                  ? data.start_date.slice(0, 10)
+                                  : moment(new Date()),
+                              ),
+                        )
+                        .asYears()}
+                      )
+                    </Body2>
+                  </Box>
+                ),
+              )}
             </Grid>
             <Grid item xs={2}>
               <Box>
-                <Body2>2+ years</Body2>
-                <Body2>&#2547; 30,000</Body2>
+                <Body2>
+                  {candidate?.youth_profile?.total_job_experience.year}
+                  {'.'}
+                  {candidate?.youth_profile?.total_job_experience.month} years
+                </Body2>
+                <Body2>
+                  &#2547;{' '}
+                  {candidate?.youth_profile?.expected_salary
+                    ? candidate?.youth_profile?.expected_salary
+                    : 'N/A'}
+                </Body2>
               </Box>
             </Grid>
             <Grid item xs={3}>
