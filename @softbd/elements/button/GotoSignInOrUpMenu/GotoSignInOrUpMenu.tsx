@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from 'react';
+import Box from '@mui/material/Box';
 import {
   Button,
   Divider,
@@ -10,11 +11,10 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {Link} from '../../common';
-import {KeyboardArrowDown, Logout} from '@mui/icons-material';
+import {KeyboardArrowDown, Login} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {getSSOLogoutUrl} from '../../../common/SSOConfig';
+import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
-import Box from '@mui/material/Box';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -52,7 +52,7 @@ interface Props extends ButtonProps {
   icon: React.ReactNode;
 }
 
-const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
+const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
   const {messages} = useIntl();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -77,7 +77,7 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
         disableElevation
         onClick={handleClick}
         endIcon={<KeyboardArrowDown />}>
-        {buttonText}
+        {messages['common.registration_login'] as string}
       </Button>
       <StyledMenu
         id='my-profile-menu'
@@ -94,12 +94,12 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
           </MenuItem>
         </Link>
         <Divider />
-        <Link href={getSSOLogoutUrl()}>
+        <Link href={getSSOLoginUrl()}>
           <MenuItem>
             <ListItemIcon>
-              <Logout />
+              <Login />
             </ListItemIcon>
-            <ListItemText>{messages['common.logout']}</ListItemText>
+            <ListItemText>{messages['common.login']}</ListItemText>
           </MenuItem>
         </Link>
       </StyledMenu>
@@ -107,4 +107,4 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
   );
 };
 
-export default GotoProfileMenu;
+export default GotoSignInOrUpMenu;

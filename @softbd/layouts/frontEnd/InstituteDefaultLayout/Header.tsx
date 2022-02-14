@@ -26,6 +26,7 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
+import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
 interface AppHeaderProps {}
 
@@ -234,12 +235,13 @@ const Header: React.FC<AppHeaderProps> = () => {
               {authUser ? (
                 <GotoDashboardButton />
               ) : (
-                <Link
-                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                  className={classes.menuItemRegOrLogin}>
-                  <Login className={classes.menuIcons} />
-                  {messages['common.registration_login']}
-                </Link>
+                /*<Link
+                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
+                                                  className={classes.menuItemRegOrLogin}>
+                                                  <Login className={classes.menuIcons} />
+                                                  {messages['common.registration_login']}
+                                                </Link>*/
+                <GotoSignInOrUpButton />
               )}
             </Box>
 

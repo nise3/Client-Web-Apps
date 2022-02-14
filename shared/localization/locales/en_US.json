@@ -514,6 +514,7 @@
   "common.type_of_identity_card": "Type of Identity card",
   "common.registration_number": "Registration number",
   "common.registration": "Registration",
+  "common.youth_registration": "Youth Registration",
   "permission_group.key": "Unique Key",
   "common.root_cant_be_drag_and_drop": "Sorry! Drag and drop is not allowed",
   "common.hierarchy": "Hierarchy",
