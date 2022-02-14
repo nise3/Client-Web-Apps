@@ -10,7 +10,7 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
 import {useRouter} from 'next/router';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {FiDownload, FiMessageCircle, FiUser, FiUserCheck} from 'react-icons/fi';
+import {FiUser} from 'react-icons/fi';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
@@ -128,23 +128,23 @@ const CVBankPage = () => {
                   variant={'text'}
                 />
               </Link>
-              <CommonButton
-                onClick={() => {}}
-                btnText='common.interview'
-                startIcon={<FiMessageCircle style={{marginLeft: '5px'}} />}
-                color='primary'
-              />
-              <CommonButton
-                onClick={() => {}}
-                btnText='common.hire'
-                startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
-              <CommonButton
-                btnText='common.download'
-                startIcon={<FiDownload style={{marginLeft: '5px'}} />}
-                color='inherit'
-              />
+              {/*<CommonButton*/}
+              {/*  onClick={() => {}}*/}
+              {/*  btnText='common.interview'*/}
+              {/*  startIcon={<FiMessageCircle style={{marginLeft: '5px'}} />}*/}
+              {/*  color='primary'*/}
+              {/*/>*/}
+              {/*<CommonButton*/}
+              {/*  onClick={() => {}}*/}
+              {/*  btnText='common.hire'*/}
+              {/*  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}*/}
+              {/*  color='secondary'*/}
+              {/*/>*/}
+              {/*<CommonButton*/}
+              {/*  btnText='common.download'*/}
+              {/*  startIcon={<FiDownload style={{marginLeft: '5px'}} />}*/}
+              {/*  color='inherit'*/}
+              {/*/>*/}
             </DatatableButtonGroup>
           );
         },
