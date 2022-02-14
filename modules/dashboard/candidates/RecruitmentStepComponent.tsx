@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {Body1} from '../../../@softbd/elements/common';
-import {Edit, KeyboardDoubleArrowRight} from '@mui/icons-material';
+import {Close, Edit, KeyboardDoubleArrowRight} from '@mui/icons-material';
 import {Fab} from '@mui/material';
 import {RecruitmentSteps} from './RecruitmentSteps';
 import {CandidateFilterTypes} from './CandidateFilterTypes';
@@ -16,6 +16,8 @@ const classes = {
   candidateStatusWrapper: `${PREFIX}-candidateStatusWrapper`,
   candidateStatus: `${PREFIX}-candidateStatus`,
   topWrapper: `${PREFIX}-topWrapper`,
+  stepCircle: `${PREFIX}-stepCircle`,
+  deleteIcon: `${PREFIX}-deleteIcon`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -93,12 +95,33 @@ const StyledBox = styled(Box)(({theme}) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  [`& .${classes.stepCircle}`]: {
+    position: 'relative',
+    '&:hover': {
+      [`& .${classes.deleteIcon}`]: {
+        display: 'block',
+        position: 'absolute',
+        top: '-4px',
+        right: '-5px',
+        background: 'red',
+        borderRadius: '50%',
+        height: '20px',
+        width: '20px',
+        cursor: 'pointer',
+        paddingTop: '2px',
+      },
+    },
+    [`& .${classes.deleteIcon}`]: {
+      display: 'none',
+    },
+  },
 }));
 
 interface RecruitmentStepComponentProps {
   activeStep: any;
   stepData: any;
   onEditClick?: () => void;
+  onStepDelete?: () => void;
   onStatusChange: (statusKey: string) => void;
 }
 
@@ -106,6 +129,7 @@ const RecruitmentStepComponent = ({
   activeStep,
   stepData,
   onEditClick,
+  onStepDelete,
   onStatusChange,
 }: RecruitmentStepComponentProps) => {
   const [statuses, setStatuses] = useState<any>([]);
@@ -266,10 +290,13 @@ const RecruitmentStepComponent = ({
             <Edit className={classes.editIcon} onClick={() => onEditClick()} />
           )}
         </Box>
-        <Box display={'flex'} alignItems={'center'}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          className={classes.stepCircle}>
           {stepData?.id && (
             <KeyboardDoubleArrowRight
-              sx={{position: 'absolute', left: '-15px'}}
+              sx={{position: 'absolute', left: '-50px'}}
             />
           )}
           <Fab
@@ -288,6 +315,14 @@ const RecruitmentStepComponent = ({
             }}>
             {stepData?.total_candidate ? stepData?.total_candidate : '0'}
           </Fab>
+          {stepData?.is_deletable && (
+            <Box
+              color={'error'}
+              className={classes.deleteIcon}
+              onClick={onStepDelete}>
+              <Close sx={{fontSize: '1rem', color: 'common.white'}} />
+            </Box>
+          )}
         </Box>
       </Box>
       {statuses && statuses.length > 0 && (

@@ -1401,5 +1401,6 @@
   "common.job_status_live": "Live",
   "common.job_status_pending": "Pending approval",
   "common.job_status_expired": "Expired",
-  "common.step_name_en": "Step Name (English)"
+  "common.step_name_en": "Step Name (English)",
+  "common.remove": "Remove"
 }
