@@ -4,6 +4,7 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
+  API_BATCHES_TO_ASSIGN,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
@@ -160,9 +161,7 @@ export function useFetchApplicationDetails(applicationId: number | null) {
 /** Fetches the batches available for a course */
 export function useFetchBatchesToAssign(courseId: number | null) {
   return useAxiosSWR(
-    courseId
-      ? API_COURSES + '/' + courseId + '/' + 'training-centers/batches'
-      : null,
+    courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
   );
 }
 
