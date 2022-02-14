@@ -86,7 +86,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
         onClickStep={onRecruitmentStepChange}
       />
 
-      <Body1>57 candidates </Body1>
+      <Body1>{(candidateList || []).length} candidates </Body1>
 
       {(candidateList || []).map((candidate: any) => (
         <Box className={classes.cardHeader} key={candidate.id}>
