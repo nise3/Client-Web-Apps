@@ -65,23 +65,18 @@ const NearbyTrainingCenterSection = ({
               {messages['common.nearby_training_center']}
             </H2>
           </Grid>
-          <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-            {!showAllNearbyTrainingCenter && (
-              <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-                <Link
-                  href={'/training/nearby-training-centers'}
-                  style={{display: 'inline-block'}}>
-                  <Button
-                    variant={'outlined'}
-                    size={'medium'}
-                    color={'primary'}>
-                    {messages['common.see_all']}
-                    <ChevronRight />
-                  </Button>
-                </Link>
-              </Grid>
-            )}
-          </Grid>
+          {!showAllNearbyTrainingCenter && (
+            <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
+              <Link
+                href={'/training/nearby-training-centers'}
+                style={{display: 'inline-block'}}>
+                <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                  {messages['common.see_all']}
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
