@@ -160,11 +160,14 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           )}
         </FormHelperText>
       </FormControl>
-      {height && width && (
+      {
         <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
-          {`Please  upload Image with size ${width} px * ${height} px`}
+          {`Maximum allowed file size 1MB`}
+          {height &&
+            width &&
+            ` and required image size ${width} px * ${height} px`}
         </Box>
-      )}
+      }
     </StyledWrapper>
   );
 };
