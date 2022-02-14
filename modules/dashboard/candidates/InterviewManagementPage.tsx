@@ -68,16 +68,16 @@ interface InterviewManagementPageProps {
 
 const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   const {messages} = useIntl();
-  const [candidatesFilter] = useState({});
+  const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
   const {data: candidateList} =
     useFetchIndustryAssociationRecruitmentStepCandidateList(
       jobId,
       candidatesFilter,
     );
 
-  console.log('candidateList->', candidateList);
-
-  const onRecruitmentStepChange = (filters: any) => {};
+  const onRecruitmentStepChange = (filters: any) => {
+    setCandidatesFilter(filters);
+  };
 
   return (
     <StyledBox>
@@ -145,10 +145,10 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                   <Box display={'flex'} alignItems={'center'}>
                     <BorderLinearProgress
                       variant='determinate'
-                      value={candidate?.youth_profile?.profile_completed}
+                      value={candidate?.match_rate}
                     />
                     <Typography fontWeight={'bold'} color={'primary.main'}>
-                      {candidate?.youth_profile?.profile_completed}%
+                      {candidate?.match_rate}%
                     </Typography>
                   </Box>
                   <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
@@ -174,8 +174,8 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                                   : moment(new Date()),
                               ),
                         )
-                        .asYears()}
-                      )
+                        .asYears()}{' '}
+                      {'years'})
                     </Body2>
                   </Box>
                 ),
@@ -190,7 +190,9 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                 </Body2>
                 <Body2>
                   &#2547;{' '}
-                  {candidate?.youth_profile?.expected_salary
+                  {candidate?.expected_salary
+                    ? candidate?.expected_salary
+                    : candidate?.youth_profile?.expected_salary
                     ? candidate?.youth_profile?.expected_salary
                     : 'N/A'}
                 </Body2>
