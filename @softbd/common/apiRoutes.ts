@@ -240,6 +240,8 @@ export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
   ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
 
+export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT = INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
+
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
 
@@ -367,6 +369,12 @@ export const API_PUBLIC_JOB_DETAILS =
 export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
 
+export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
+  API_JOBS + '/recruitment-step-candidate-list';
+
+export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
+export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
@@ -385,7 +393,6 @@ export const API_PUBLIC_ORGANIZATION_TYPES =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/organization-types';
 
 export const API_PUBLIC_JOBS = ORGANIZATION_SERVICE_PUBLIC_PATH + '/jobs';
-export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
 
 export const API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST =
   ORGANIZATION_SERVICE_PUBLIC_PATH + '/industry-association-members';

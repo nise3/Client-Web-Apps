@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {FilePond, registerPlugin} from 'react-filepond';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -50,7 +50,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   label,
   defaultFileUrl,
   allowMultiple,
-  acceptedFileTypes = ['image/*', 'application/pdf'],
+  acceptedFileTypes = ['image/*', 'application/pdf', 'application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
   uploadedUrls,
   height,
   width,
@@ -88,13 +88,11 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
     }
   }, [defaultFileUrl]);
 
-  /*  const handleRemoveFile = useCallback((errorResponse, file) => {
-    if (allowMultiple) {
-      setValue(id, []);
-    } else {
+  const handleRemoveFile = useCallback((errorResponse, file) => {
+    if (!allowMultiple) {
       setValue(id, '');
     }
-  }, []);*/
+  }, []);
   const filePondRef = useRef<any>(null);
 
   return (
@@ -112,9 +110,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           }}
           ref={filePondRef}
           allowMultiple={allowMultiple}
-          // onremovefile={(...a) => {
-          //   handleRemoveFile(...a);
-          // }}
+          onremovefile={handleRemoveFile}
           acceptedFileTypes={acceptedFileTypes}
           maxParallelUploads={1}
           maxFiles={50}
