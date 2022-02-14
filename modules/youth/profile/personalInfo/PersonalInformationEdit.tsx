@@ -51,7 +51,7 @@ import {
   Upazila,
 } from '../../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../../filepond/FileUploadComponent';
-
+import moment from 'moment';
 interface PersonalInformationEditProps {
   onClose: () => void;
 }
@@ -149,7 +149,14 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.date_of_birth'] as string),
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) => {
+            return moment().diff(moment(value), 'days') >= 1;
+          },
+        ),
       skills: yup
         .array()
         .of(yup.number())

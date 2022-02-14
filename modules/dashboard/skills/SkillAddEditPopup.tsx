@@ -129,7 +129,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
             id='title'
@@ -139,7 +139,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
             id='title_en'

@@ -29,6 +29,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -90,7 +91,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
-  const {messages, formatNumber} = useIntl();
+  const {messages, formatNumber, locale} = useIntl();
   const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
@@ -144,7 +145,9 @@ const PersonalInfoSection = () => {
                     ...result.h5,
                   }}
                   className={classes.textColor}>
-                  {authUser?.first_name} {authUser?.last_name}
+                  {locale == LocaleLanguage.BN
+                    ? `${authUser?.first_name}  ${authUser?.last_name}`
+                    : `${authUser?.first_name_en}  ${authUser?.last_name_en}`}
                 </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}

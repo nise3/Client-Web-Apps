@@ -161,7 +161,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           ? yup
               .number()
               .required()
-              .lessThan(6)
+              .max(5)
               .label(messages['education.cgpa'] as string)
           : yup.string().nullable(),
       year_of_passing:
