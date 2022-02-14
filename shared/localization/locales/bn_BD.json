@@ -1410,5 +1410,6 @@
   "institute.label_en": "প্রতিষ্ঠান (ইংরেজি)",
   "common.first_name": "নামের প্রথম অংশ",
   "common.last_name": "নামের শেষ অংশ",
-  "youth.fullName_en": "পুরো নাম (ইংরেজি)"
+  "youth.fullName_en": "পুরো নাম (ইংরেজি)",
+  "common.remove": "Remove"
 }

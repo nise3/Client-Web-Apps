@@ -14,9 +14,14 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CallIcon from '@mui/icons-material/Call';
 import {useIntl} from 'react-intl';
 import {useFetchIndustryAssociationRecruitmentStepCandidateList} from '../../../services/IndustryManagement/hooks';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import RejectButton from '../applicationManagement/RejectButton';
 import moment from 'moment/moment';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import Tooltip from '@mui/material/Tooltip';
+import DoneIcon from '@mui/icons-material/Done';
+import Button from '@mui/material/Button';
 
 const PREFIX = 'InterviewManagementPage';
 
@@ -68,7 +73,10 @@ interface InterviewManagementPageProps {
 
 const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   const {messages} = useIntl();
+  const [currentStep, setCurrentStep] = useState<any>(null);
+  const [nextStep, setNextStep] = useState<any>(null);
   const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
+
   const {data: candidateList} =
     useFetchIndustryAssociationRecruitmentStepCandidateList(
       jobId,
@@ -80,8 +88,12 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
     currentStep: any,
     nextStep: any,
   ) => {
-    console.log('filters : ', filters, currentStep, nextStep);
+    // console.log('filters : ', filters, currentStep, nextStep);
+    console.log('currentStep : ', currentStep);
+    console.log('nextStep : ', nextStep);
     setCandidatesFilter(filters);
+    setCurrentStep(currentStep);
+    setNextStep(nextStep);
   };
 
   return (
@@ -204,14 +216,47 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
               </Box>
             </Grid>
             <Grid item xs={3}>
-              <ApproveButton
-                className={classes.approveButton}
-                onClick={() => console.log('dfad')}
-              />
-              <RejectButton
-                rejectAction={() => console.log('dfad')}
-                rejectTitle={messages['common.delete_confirm'] as string}
-              />
+              {nextStep && nextStep?.step_type != 1 && (
+                <>
+                  <CommonButton
+                    onClick={() => console.log('common')}
+                    btnText='calendar.schedule'
+                    startIcon={
+                      <CalendarTodayIcon style={{marginLeft: '5px'}} />
+                    }
+                    color='primary'
+                  />
+                  <CommonButton
+                    onClick={() => console.log('common')}
+                    btnText='common.remove'
+                    startIcon={<GroupRemoveIcon style={{marginLeft: '5px'}} />}
+                    color='secondary'
+                  />
+                </>
+              )}
+              {nextStep && currentStep.step_no === 1 && (
+                <>
+                  <Tooltip title={nextStep.title}>
+                    <CommonButton
+                      onClick={() => console.log('common')}
+                      btnText='common.approve'
+                      startIcon={<DoneIcon style={{marginLeft: '5px'}} />}
+                      color='primary'
+                    />
+                  </Tooltip>
+                  <RejectButton
+                    rejectAction={() => console.log('dfad')}
+                    rejectTitle={messages['common.delete_confirm'] as string}
+                  />
+                </>
+              )}
+              {!nextStep && currentStep.step_no !== 99 && (
+                <Tooltip title={'Call for final hiring'} arrow>
+                  <Button onClick={() => console.log('common')}>
+                    adsfadsfsd
+                  </Button>
+                </Tooltip>
+              )}
             </Grid>
           </Grid>
         </Box>
