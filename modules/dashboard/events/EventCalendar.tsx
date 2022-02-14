@@ -105,7 +105,7 @@ const EventCalendar = () => {
     setSelectedStartDate(slotInfo.start as string);
     setSelectedEndDate(slotInfo.end as string);
     openAddEditModal(slotInfo.id);
-    // console.log(slotInfo)
+    console.log(slotInfo)
   };
   const onSelectEvent = (e: any) => {
     openDetailsModal(e.id as number);
