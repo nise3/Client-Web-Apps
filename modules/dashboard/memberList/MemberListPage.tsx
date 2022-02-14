@@ -22,6 +22,8 @@ import {
 } from '../../../services/organaizationManagement/OrganizationService';
 import CustomChipStatus from './CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import MemberImportPopup from './MemberListImportPopup';
 
 const MemberListPage = () => {
   const {messages, locale} = useIntl();
@@ -31,6 +33,7 @@ const MemberListPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenImportModal, setIsOpenImportModal] = useState(false);
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -58,6 +61,13 @@ const MemberListPage = () => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
+  }, []);
+
+  const openImportModal = useCallback((itemId: number | null = null) => {
+    setIsOpenImportModal(true);
+  }, []);
+  const closeImportModal = useCallback(() => {
+    setIsOpenImportModal(false);
   }, []);
 
   const onClickApprove = async (memberId: number) => {
@@ -167,6 +177,11 @@ const MemberListPage = () => {
               />
             }
           />,
+          <CommonButton
+            key={2}
+            onClick={() => openImportModal()}
+            btnText={"Import"}
+          />
         ]}>
         <ReactTable
           columns={columns}
@@ -182,6 +197,14 @@ const MemberListPage = () => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
+        {isOpenImportModal && (
+          <MemberImportPopup
+            key={2}
+            onClose={closeImportModal}
+            userData={null}
             refreshDataTable={refreshDataTable}
           />
         )}
