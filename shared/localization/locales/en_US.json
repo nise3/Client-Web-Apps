@@ -1475,5 +1475,6 @@
   "youth.fullName_en": "Full Name(EN)",
   "common.self" : "Self",
   "common.chamber_association": "Chamber Association",
-  "institutional_investment.label": "Institutional Investment"
+  "institutional_investment.label": "Institutional Investment",
+  "institute.chamber_association_information": "Chamber Association Information"
 }
