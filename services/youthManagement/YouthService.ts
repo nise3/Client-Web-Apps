@@ -7,6 +7,7 @@ import {
   API_YOUTH_PROFILE,
   COURSE_ENROLL_RESEND_VERIFICATION,
   API_COURSE_ENROLL_PAYMENT_PAY,
+  API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {YouthPersonalInfo} from './typing';
@@ -23,6 +24,17 @@ export const getYouthProfile = async () => {
 export const updateYouthPersonalInfo = async (data: YouthPersonalInfo) => {
   try {
     let response: any = await apiPut(API_YOUTH_PERSONAL_INFO_UPDATE, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+export const updateJobApplicationInfo = async (data: any) => {
+  try {
+    let response: any = await apiPut(
+      API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE,
+      data,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
