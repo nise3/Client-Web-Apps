@@ -1,10 +1,7 @@
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  useFetchRoles,
-  useFetchUser,
-} from '../../../services/userManagement/hooks';
+import {useFetchUser} from '../../../services/userManagement/hooks';
 import RowStatus from './RowStatus';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -13,7 +10,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {Grid} from '@mui/material';
+import {FormLabel, Grid, Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
@@ -30,7 +27,6 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   useFetchDistricts,
-  useFetchDivisions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
@@ -40,17 +36,13 @@ import {
 import {IUser} from '../../../shared/Interface/userManagement.interface';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {getUserType} from '../../../@softbd/utilities/helpers';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {
-  useFetchBranches,
-  useFetchTrainingCenters,
-} from '../../../services/instituteManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {styled} from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import {Gender} from '../jobLists/jobPost/enums/JobPostEnums';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import CustomChipTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomChipTextInput';
+import {DynamicForm} from '@mui/icons-material';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -68,7 +60,7 @@ const StyledHeader = styled(Grid)(({theme}) => ({
   background: theme.palette.primary.main,
   padding: '10px !important',
   color: '#fff',
-  margin: '25px 0px 10px 0px',
+  margin: '25px 0 0 0',
 
   [`& .${classes.headerText}`]: {
     margin: '0 0 0 28px',
@@ -104,7 +96,7 @@ const initialValues = {
   trade_license_file: '',
   trade_license_renewal_year: '',
   is_TIN: '',
-  InstitutionalInvestment: '',
+  institutional_investment: '',
   institute_total_asset: '',
   is_institute_registered_by_authority: '',
   is_institute_have_approved_authority: '',
@@ -142,41 +134,19 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
 
-  const [roleFilters, setRoleFilters] = useState<any>({
+  const [setRoleFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
 
-  const {data: roles, isLoading: isLoadingRoles} = useFetchRoles(roleFilters);
-  const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const [branchFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
-
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
-
-  const {data: branchList, isLoading: isBranchListLoading} =
-    useFetchBranches(branchFilters);
-
-  const {data: trainingCenterList, isLoading: isTrainingCenterLoading} =
-    useFetchTrainingCenters(trainingCenterFilters);
-
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
-
-  const [filterUserSelection, setFilterUserSelection] = useState<string>('');
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -258,6 +228,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  console.log('register', JSON.stringify(register));
+
   useEffect(() => {
     if (authUser) {
       if (authUser?.isInstituteUser && authUser.institute_id) {
@@ -303,14 +275,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     }
   }, [itemData, districts, upazilas]);
 
-  const changeDivisionAction = useCallback(
-    (divisionId: number) => {
-      setDistrictsList(filterDistrictsByDivisionId(districts, divisionId));
-      setUpazilasList([]);
-    },
-    [districts],
-  );
-
   const changeDistrictAction = useCallback(
     (districtId: number) => {
       setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
@@ -318,46 +282,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const changeUserTypes = useCallback(
-    (userSection: string) => {
-      if (userSection == 'institute') {
-        setFilterUserSelection(userSection);
-        setValue('branch_id', '');
-        setValue('training_center_id', '');
-      }
-
-      if (userSection == 'branch') {
-        setFilterUserSelection(userSection);
-        setValue('training_center_id', '');
-        setTrainingCenterFilters({
-          institute_id: authUser?.institute_id,
-          row_status: RowStatus.ACTIVE,
-        });
-      }
-
-      if (userSection == 'training center') {
-        setTrainingCenterFilters({
-          institute_id: authUser?.institute_id,
-          row_status: RowStatus.ACTIVE,
-        });
-        setFilterUserSelection(userSection);
-      }
-    },
-    [filterUserSelection],
-  );
-
-  const changeBranch = useCallback((branchId: any) => {
-    setTrainingCenterFilters({
-      institute_id: authUser?.institute_id,
-      row_status: RowStatus.ACTIVE,
-      branch_id: branchId,
-    });
-  }, []);
-
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
-    /**Todo
-     * this if else section will be removed after backend refactor user creation
-     */
     if (authUser?.isInstituteUser) {
       data.user_type = String(getUserType(authUser));
       data.institute_id = authUser?.institute_id;
@@ -413,7 +338,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <StyledHeader item xs={12}>
-          <p className={classes.headerText}>Form Filler</p>
+          <Typography variant={'body1'} className={classes.headerText}>
+            <DynamicForm />
+            {messages['common.who_will_fill_form']}
+          </Typography>
         </StyledHeader>
 
         <Grid item xs={12}>
@@ -423,11 +351,11 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             radios={[
               {
                 key: '1',
-                label: 'self',
+                label: messages['common.self'],
               },
               {
                 key: '2',
-                label: 'chamber association',
+                label: messages['common.chamber_association'],
               },
               {
                 key: '3',
@@ -439,7 +367,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <StyledHeader item xs={12}>
-          <p className={classes.headerText}>Nascib cluster information</p>
+          <p className={classes.headerText}>
+            {messages['institute.nascib_cluster_information']}
+          </p>
         </StyledHeader>
 
         <Grid item xs={6}>
@@ -489,7 +419,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <StyledHeader item xs={12}>
-          <p className={classes.headerText}>Entrepreneur Introduction</p>
+          <p className={classes.headerText}>
+            {messages['entrepreneur_introduction.label']}
+          </p>
         </StyledHeader>
         <Grid item xs={6}>
           <CustomTextInput
@@ -518,15 +450,15 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             radios={[
               {
                 key: Gender.MALE,
-                label: 'Male',
+                label: messages['common.male'],
               },
               {
                 key: Gender.FEMALE,
-                label: 'Female',
+                label: messages['common.female'],
               },
               {
                 key: Gender.OTHERS,
-                label: 'Others',
+                label: messages['common.others'],
               },
             ]}
             control={control}
@@ -606,7 +538,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <StyledHeader item xs={12}>
-          <p className={classes.headerText}>Institute Information</p>
+          <p className={classes.headerText}>
+            {messages['common.institute_information']}
+          </p>
         </StyledHeader>
 
         <Grid item xs={6}>
@@ -666,7 +600,510 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           />
         </Grid>
 
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='institute_website'
+            label={messages['common.website']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'institute_warehouse'}
+            label={'common.workshop'}
+            radios={[
+              {key: '1', label: messages['common.yes']},
+              {key: '2', label: messages['common.no']},
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <StyledHeader item xs={12}>
+          <Typography variant={'body1'} className={classes.headerText}>
+            {messages['common.institute_others_information']}
+          </Typography>
+        </StyledHeader>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'business_ownership'}
+            radios={[
+              {
+                key: '1',
+                label: messages['business_ownership.single'],
+              },
+              {
+                key: '2',
+                label: messages['business_ownership.partnership'],
+              },
+              {
+                key: '3',
+                label: messages['business_ownership.joint'],
+              },
+            ]}
+            control={control}
+            label={'common.business_ownership'}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'trade_license_provide_authority'}
+            label={'institute.trade_license_provider_authority'}
+            radios={[
+              {
+                key: '1',
+                label: messages['municipality.label'],
+              },
+              {
+                key: '2',
+                label: messages['union_council.label'],
+              },
+              {
+                key: '3',
+                label: messages['city_corporation.label'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id={'institute_establish_year'}
+            label={messages['institute.establish_year']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FileUploadComponent
+            id={'trade_license'}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['trade_license.upload']}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id={'last_renewal_year'}
+            label={messages['institute.last_renewal_year']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_tin'}
+            radios={[
+              {key: '1', label: messages['common.yes']},
+              {key: '2', label: messages['common.no']},
+            ]}
+            control={control}
+            label={'institute.is_tin'}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='invested_amount_in_institute'
+            label={messages['invested_amount_in_institute.label']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='total_asset_amount'
+            label={messages['institute.total_asset_amount']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_registered_under_authority'}
+            label={'institute.is_registered_under_authority'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_under_any_approved_authority'}
+            label={'institute.is_under_any_approved_authority'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_under_any_special_region'}
+            label={'institute.is_under_any_special_region'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_under_any_sme_cluster'}
+            label={'institute.is_under_any_sme_cluster'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_association_member'}
+            label={'institute.is_association_member'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='institute_sector_id'
+            label={messages['institute.sector']}
+            isLoading={isLoading}
+            control={control}
+            options={[{id: 1, title: 'cloths'}]}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'business_type'}
+            label={'business_type.label'}
+            radios={[
+              {
+                key: 1,
+                label: messages['business_type.manufacturing'],
+              },
+              {
+                key: 2,
+                label: messages['business_type.service'],
+              },
+              {
+                key: 3,
+                label: messages['business_type.trading'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='institute_main_product'
+            label={messages['institute.main_product']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
+          <CustomTextInput
+            multiline={true}
+            rows={3}
+            id='raw_materials_details'
+            label={messages['institute.raw_materials_details']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_export_product'}
+            label={'institute.is_export_product'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_import_product'}
+            label={'institute.is_import_product'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <FormLabel>{messages['institute.total_employee']}</FormLabel>
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomChipTextInput
+            fields={[
+              {
+                id: 'temporary.male',
+                label: messages['common.male'],
+              },
+              {
+                id: 'temporary.female',
+                label: messages['common.female'],
+              },
+            ]}
+            chipLabel={messages['total_employee.temporary']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomChipTextInput
+            fields={[
+              {
+                id: 'permanent_employee.male',
+                label: messages['common.male'],
+              },
+              {
+                id: 'permanent_employee.female',
+                label: messages['common.female'],
+              },
+            ]}
+            chipLabel={messages['total_employee.permanent']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <CustomChipTextInput
+            fields={[
+              {
+                id: 'seasonal.male',
+                label: messages['common.male'],
+              },
+              {
+                id: 'seasonal.female',
+                label: messages['common.female'],
+              },
+            ]}
+            chipLabel={messages['total_employee.seasonal']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'has_bank_account'}
+            label={'institute.has_bank_account'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_keep_daily_debit_credit'}
+            label={'institute.is_keep_daily_debit_credit'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'is_use_computer'}
+            label={'institute.is_use_computer'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'has_internet_connection'}
+            label={'institute.has_internet_connection'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'has_online_business'}
+            label={'institute.has_online_business'}
+            radios={[
+              {
+                key: 1,
+                label: messages['common.yes'],
+              },
+              {
+                key: 2,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='info_provider_name'
+            label={messages['institute.info_provider_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='info_provider_mobile'
+            label={messages['institute.info_provider_mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='info_collector_name'
+            label={messages['institute.info_collector_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='info_collector_mobile'
+            label={messages['institute.info_collector_mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <FormRadioButtons
             id={'row_status'}
             label={'common.status'}
@@ -688,47 +1125,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             defaultValue={RowStatus.ACTIVE}
           />
         </Grid>
-
-        {authUser &&
-          authUser.isInstituteUser &&
-          itemData?.branch_id == null &&
-          itemData?.training_center_id == null &&
-          isEdit && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.institute_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-        {authUser &&
-          authUser.isInstituteUser &&
-          isEdit &&
-          itemData &&
-          itemData?.branch_id != null &&
-          !itemData?.training_center_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.branch_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-        {authUser &&
-          authUser.isInstituteUser &&
-          isEdit &&
-          itemData &&
-          itemData?.training_center_id != null && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.training_center_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
       </Grid>
     </HookFormMuiModal>
   );
