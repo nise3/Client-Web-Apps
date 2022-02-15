@@ -43,7 +43,7 @@ const StyledTextField = styled(TextField)(() => ({
   },
 }));
 
-const CustomTextInput = ({
+const CustomChipTextInput = ({
   fields,
   chipLabel,
   className,
@@ -78,7 +78,7 @@ const CustomTextInput = ({
         let errorObj = getErrorObject(field.id, errorInstance);
 
         return (
-          <>
+          <React.Fragment key={field.id}>
             <StyledTextField
               variant={variant ? variant : 'outlined'}
               size={size ? size : 'small'}
@@ -113,11 +113,11 @@ const CustomTextInput = ({
                 {field.helperText}
               </FormHelperText>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </Box>
   );
 };
 
-export default CustomTextInput;
+export default CustomChipTextInput;

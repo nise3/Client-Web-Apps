@@ -29,10 +29,7 @@ import {
   useFetchDistricts,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
-import {
-  filterDistrictsByDivisionId,
-  filterUpazilasByDistrictId,
-} from '../../../services/locationManagement/locationUtils';
+import {filterUpazilasByDistrictId} from '../../../services/locationManagement/locationUtils';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {getUserType} from '../../../@softbd/utilities/helpers';
@@ -43,6 +40,7 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomChipTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomChipTextInput';
 import {DynamicForm} from '@mui/icons-material';
+import FormFiller from './FormFiller';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -145,8 +143,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
+  const [formFiller, setFormFiller] = useState<any>(null);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -228,8 +226,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  console.log('register', JSON.stringify(register));
-
   useEffect(() => {
     if (authUser) {
       if (authUser?.isInstituteUser && authUser.institute_id) {
@@ -264,9 +260,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         training_center_id: itemData?.training_center_id,
       });
 
-      setDistrictsList(
-        filterDistrictsByDivisionId(districts, itemData?.loc_division_id),
-      );
       setUpazilasList(
         filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
       );
@@ -280,6 +273,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       setUpazilasList(filterUpazilasByDistrictId(upazilas, districtId));
     },
     [upazilas],
+  );
+
+  const onChangeFormFiller = useCallback(
+    (key: number) => {
+      setFormFiller(key);
+    },
+    [formFiller],
   );
 
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
@@ -350,73 +350,86 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             label={'form_filler'}
             radios={[
               {
-                key: '1',
+                key: FormFiller.SELF,
                 label: messages['common.self'],
               },
               {
-                key: '2',
+                key: FormFiller.CHAMBER_ASSOCIATION,
                 label: messages['common.chamber_association'],
               },
               {
-                key: '3',
-                label: 'smef cluster',
+                key: FormFiller.NASCIB_CLUSTER,
+                label: 'Nascib cluster',
               },
             ]}
             control={control}
+            onChange={onChangeFormFiller}
           />
         </Grid>
 
-        <StyledHeader item xs={12}>
-          <p className={classes.headerText}>
-            {messages['institute.nascib_cluster_information']}
-          </p>
-        </StyledHeader>
+        {formFiller == FormFiller.NASCIB_CLUSTER && (
+          <StyledHeader item xs={12}>
+            <p className={classes.headerText}>
+              {messages['institute.nascib_cluster_information']}
+            </p>
+          </StyledHeader>
+        )}
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='cluster_name'
-            label={messages['common.name']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='loc_district_id'
-            label={messages['districts.label']}
-            isLoading={isLoadingDistricts}
-            control={control}
-            options={districtsList}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={changeDistrictAction}
-          />
-        </Grid>
+        {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
+          <StyledHeader item xs={12}>
+            <p className={classes.headerText}>
+              {messages['institute.chamber_association_information']}
+            </p>
+          </StyledHeader>
+        )}
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='union_name'
-            label={messages['union.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='cluster_code'
-            label={messages['common.code']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {formFiller != FormFiller.SELF && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='cluster_name'
+                label={messages['common.name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_district_id'
+                label={messages['districts.label']}
+                isLoading={isLoadingDistricts}
+                control={control}
+                options={districts}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={changeDistrictAction}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='union_name'
+                label={messages['union.label']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='cluster_code'
+                label={messages['common.code']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
 
         <StyledHeader item xs={12}>
           <p className={classes.headerText}>
@@ -580,7 +593,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             label={messages['districts.label']}
             isLoading={isLoadingDistricts}
             control={control}
-            options={districtsList}
+            options={districts}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
