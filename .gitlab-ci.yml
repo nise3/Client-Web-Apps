@@ -30,7 +30,6 @@ docker-build:
 
       if [[ "$imageAdminRelease" == true ]]; then
         tag=":$imageAdminAppVersion"
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
         docker pull "$imageAdminRepository${tag}" || true
         docker build --cache-from "$imageAdminRepository${tag}" --cache-from ${frontStateImage} -t "$imageAdminRepository${tag}" -f DockerAdmin .
         docker push "$imageAdminRepository${tag}"
