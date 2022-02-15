@@ -12,7 +12,6 @@ import InterviewManagementPage from './InterviewManagementPage';
 import JobPreviewPage from './JobPreviewPage';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {ServiceTypes} from '../jobLists/jobPost/enums/JobPostEnums';
-import {JobStatus} from '../../../@softbd/utilities/JobStatus';
 
 const PREFIX = 'CandidatesPage';
 
@@ -68,24 +67,24 @@ const CandidatesPage = () => {
   };
 
   const getJobStatus = () => {
-    switch (job?.primary_job_information?.job_status) {
-      case JobStatus.LIVE:
+    switch (job?.job_status) {
+      case 'live':
         return messages['common.job_status_live'];
-      case JobStatus.PENDING:
+      case 'pending':
         return messages['common.job_status_pending'];
-      case JobStatus.EXPIRED:
+      case 'expired':
         return messages['common.job_status_expired'];
       default:
         return '';
     }
   };
   const getColorByStatus = () => {
-    switch (job?.primary_job_information?.job_status) {
-      case JobStatus.LIVE:
+    switch (job?.job_status) {
+      case 'live':
         return 'success';
-      case JobStatus.PENDING:
+      case 'pending':
         return 'warning';
-      case JobStatus.EXPIRED:
+      case 'expired':
         return 'error';
       default:
         return 'success';
@@ -99,7 +98,7 @@ const CandidatesPage = () => {
         <Box display={'flex'} mt={2} mb={2}>
           <Box>
             <Body1 fontWeight={'bold'}>{messages['common.job_status']}</Body1>
-            {job?.primary_job_information?.job_status && (
+            {job?.job_status && (
               <Chip
                 size={'small'}
                 color={getColorByStatus()}
