@@ -8,7 +8,6 @@ import {
   API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE,
   COURSE_ENROLL_RESEND_VERIFICATION,
   COURSE_ENROLL_VERIFICATION,
-  API_COURSE_ENROLL_PAYMENT_PAY,
   API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
