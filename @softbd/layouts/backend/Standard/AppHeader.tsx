@@ -18,7 +18,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 import { Link } from '@mui/material';
 import { useAuthUser } from '../../../../@crema/utility/AppHooks';
-import { YouthAuthUser } from '../../../../redux/types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 
