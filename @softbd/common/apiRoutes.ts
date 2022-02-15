@@ -117,6 +117,8 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
+export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
+
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
@@ -170,6 +172,9 @@ export const API_YOUTH_FEED_STATISTICS =
 
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-personal-info-update';
+export const API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE =
+  YOUTH_SERVICE_PATH + '/youth-career-info';
+export const API_YOUTH_MY_JOBS = YOUTH_SERVICE_PATH + '/my-jobs';
 export const API_YOUTH_EDUCATION = YOUTH_SERVICE_PATH + '/youth-educations';
 export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';
