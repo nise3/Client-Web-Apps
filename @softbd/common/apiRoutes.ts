@@ -172,6 +172,9 @@ export const API_YOUTH_FEED_STATISTICS =
 
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-personal-info-update';
+export const API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE =
+  YOUTH_SERVICE_PATH + '/youth-career-info';
+export const API_YOUTH_MY_JOBS = YOUTH_SERVICE_PATH + '/my-jobs';
 export const API_YOUTH_EDUCATION = YOUTH_SERVICE_PATH + '/youth-educations';
 export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';

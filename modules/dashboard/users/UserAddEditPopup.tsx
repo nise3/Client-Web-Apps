@@ -458,7 +458,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               control={control}
               defaultValue={initialValues.institute_user_type}
               isLoading={false}
-              label={'common.institute_user_type'}
+              label={'user.user_type'}
               radios={userTypes}
               onChange={changeUserTypes}
             />
@@ -469,6 +469,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             filterUserSelection == 'training center') && (
             <Grid item xs={6}>
               <CustomFormSelect
+                required={filterUserSelection == 'branch'}
                 id='branch_id'
                 label={messages['branch.label']}
                 isLoading={isBranchListLoading}
@@ -485,6 +486,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         {filterUserSelection && filterUserSelection == 'training center' && (
           <Grid item xs={6}>
             <CustomFormSelect
+              required
               id='training_center_id'
               label={messages['common.training_center']}
               isLoading={isTrainingCenterLoading}
@@ -567,7 +569,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           isEdit && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.institute_user']}
                 isLoading={isLoading}
               />
@@ -581,7 +583,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           !itemData?.training_center_id && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.branch_user']}
                 isLoading={isLoading}
               />
@@ -594,7 +596,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           itemData?.training_center_id != null && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.training_center_user']}
                 isLoading={isLoading}
               />

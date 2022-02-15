@@ -12,6 +12,7 @@ import ProfileCompleteSignatureMenu from './ProfileCompleteSignatureMenu';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import MyCVSection from './MyCVSection';
 import AddressSection from './address/addressSection';
+import CareerInfoSection from './careerInfo/CareerInfoSection';
 
 const YouthProfile = () => {
   return (
@@ -22,6 +23,9 @@ const YouthProfile = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>
                 <PersonalInfoSection />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <CareerInfoSection />
               </Grid>
               <Grid item xs={12} md={12}>
                 <JobExperienceSection />

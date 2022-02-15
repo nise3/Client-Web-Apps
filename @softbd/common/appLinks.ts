@@ -76,6 +76,7 @@ export const LINK_FRONTEND_YOUTH_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_YOUTH_CALENDAR = '/events';
 export const LINK_FRONTEND_YOUTH_MY_CV = '/my-cv';
 export const LINK_FRONTEND_YOUTH_MY_COURSES = '/my-courses';
+export const LINK_FRONTEND_YOUTH_MY_JOBS = '/my-jobs';
 export const LINK_FRONTEND_YOUTH_SETTINGS = '/settings';
 export const LINK_FRONTEND_YOUTH_FREELANCE_CORNER = '/freelance-corner';
 export const LINK_FRONTEND_YOUTH_COURSE_DETAILS = '/course-details/';
