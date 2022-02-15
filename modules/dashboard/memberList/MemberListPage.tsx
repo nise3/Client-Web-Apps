@@ -172,7 +172,7 @@ const MemberListPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['institute.label'],
+                  subject: messages['common.member_list'],
                 }}
               />
             }
@@ -180,7 +180,7 @@ const MemberListPage = () => {
           <CommonButton
             key={2}
             onClick={() => openImportModal()}
-            btnText={'Import'}
+            btnText={messages['common.import'] as string}
             variant={'outlined'}
             color={'primary'}
             style={{marginLeft: '5px'}}
