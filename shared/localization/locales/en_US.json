@@ -1404,5 +1404,10 @@
   "common.job_status_pending": "Pending approval",
   "common.job_status_expired": "Expired",
   "common.step_name_en": "Step Name (English)",
-  "common.remove": "Remove"
+  "common.remove": "Remove",
+  "common.reject_candidates": "Reject candidate",
+  "common.remove_candidates": "Remove candidate",
+  "common.hire_invite_candidates": "Invite for hire",
+  "common.short_list_candidates": "Short list candidate",
+  "common.hired_candidates": "Hire"
 }
