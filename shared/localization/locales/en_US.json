@@ -503,7 +503,6 @@
   "yup_validation_date": "{path} must be a date after start date",
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
-  "common.download_excel_file": "Download sample excel file",
   "role.label": "Role",
   "my_account.label": "My Account",
   "role.unique_value": "Unique value",

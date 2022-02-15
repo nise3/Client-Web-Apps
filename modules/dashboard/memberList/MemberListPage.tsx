@@ -24,7 +24,7 @@ import CustomChipStatus from './CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import MemberImportPopup from './MemberListImportPopup';
-import DownloadIcon from '@mui/icons-material/Download';
+
 const MemberListPage = () => {
   const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
@@ -180,12 +180,8 @@ const MemberListPage = () => {
           <CommonButton
             key={2}
             onClick={() => openImportModal()}
-            btnText={'Import'}
-            variant={'outlined'}
-            color={'primary'}
-            style={{marginLeft: '5px'}}
-            startIcon={<DownloadIcon />}
-          />,
+            btnText={"Import"}
+          />
         ]}>
         <ReactTable
           columns={columns}
