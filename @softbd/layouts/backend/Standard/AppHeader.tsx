@@ -16,6 +16,9 @@ import AppLogo from '../../../../shared/components/AppLogo';
 import clsx from 'clsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
+import { Link } from '@mui/material';
+import { useAuthUser } from '../../../../@crema/utility/AppHooks';
+import { YouthAuthUser } from '../../../../redux/types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 
@@ -23,6 +26,9 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   const dispatch = useDispatch();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
+  const authUser = useAuthUser<any>();
+  const homePageUrl = `http://${authUser?.domain}`;
+  console.log('authUser 4', authUser)
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
@@ -70,7 +76,12 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <MenuIcon className={classes.menuIcon} />
             </IconButton>
           )}
-          <AppLogo />
+          {/* <AppNavLink to='http://nise.asm'>
+            <AppLogo />
+          </AppNavLink> */}
+          <Link href={homePageUrl}>
+          < AppLogo />
+          </Link>
           <Box className={classes.grow} />
           <SearchBar borderLight placeholder='Search…' />
           <Box className={classes.sectionDesktop}>
