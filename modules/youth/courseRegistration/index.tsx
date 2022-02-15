@@ -91,6 +91,7 @@ const initialValues = {
   freedom_fighter_status: FreedomFighterStatus.NO,
   religion: Religions.ISLAM,
   nationality: '',
+  training_center_id: '',
   does_belong_to_ethnic_group: false,
   present_address: {
     loc_division_id: '',
@@ -1430,6 +1431,7 @@ const YouthCourseRegistrationPage = () => {
             getValues={getValues}
             setValue={setValue}
             visibleFieldKeys={visibleFormConfigKeys}
+            courseId={courseId}
           />
         );
       case CourseConfigKeys.ADDRESS_KEY:
