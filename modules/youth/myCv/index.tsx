@@ -167,6 +167,7 @@ const MyCVPage = () => {
   useEffect(() => {
     if (youthData) {
       setDefaultTemplate(youthData?.default_cv_template);
+      setSelectedTemplateKey(youthData?.default_cv_template);
     }
   }, [youthData]);
 
