@@ -129,32 +129,35 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {itemData && itemData.institute_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.institute_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-          {itemData && itemData.institute_id && itemData?.branch_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.branch_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-          {itemData && itemData.institute_id && itemData?.training_center_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.training_center_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
+
+          {itemData && itemData.institute_id ? (
+            itemData?.training_center_id ? (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.training_center_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : itemData?.branch_id ? (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.branch_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.institute_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )
+          ) : (
+            <></>
           )}
         </Grid>
       </CustomDetailsViewMuiModal>

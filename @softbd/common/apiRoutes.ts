@@ -117,6 +117,8 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
+export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
+
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
@@ -170,6 +172,9 @@ export const API_YOUTH_FEED_STATISTICS =
 
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-personal-info-update';
+export const API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE =
+  YOUTH_SERVICE_PATH + '/youth-career-info';
+export const API_YOUTH_MY_JOBS = YOUTH_SERVICE_PATH + '/my-jobs';
 export const API_YOUTH_EDUCATION = YOUTH_SERVICE_PATH + '/youth-educations';
 export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';
@@ -374,6 +379,16 @@ export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
 
 export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
 export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
+
+export const API_CANDIDATE_UPDATE_REJECT =
+  API_JOBS + '/candidate-update/reject';
+export const API_CANDIDATE_UPDATE_REMOVE =
+  API_JOBS + '/candidate-update/remove';
+export const API_CANDIDATE_UPDATE_HIRE_INVITE =
+  API_JOBS + '/candidate-update/hire-invite';
+export const API_CANDIDATE_UPDATE_SHORT_LIST =
+  API_JOBS + '/candidate-update/shortlist';
+export const API_CANDIDATE_UPDATE_HIRED = API_JOBS + '/candidate-update/hired';
 
 //Industry Association section end
 

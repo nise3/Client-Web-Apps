@@ -33,7 +33,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.softbdImage}`]: {
-    width: '147px',
+    //width: '147px',
   },
 }));
 

@@ -1,4 +1,4 @@
-import {Grid, Input, Link, Typography} from '@mui/material';
+import {Grid, Link, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
@@ -8,6 +8,9 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface MemberImportPopupProps {
   onClose: () => void;
@@ -20,18 +23,21 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
+  const {errorStack} = useNotiStack();
   const {
+    register,
     handleSubmit,
+    // errors,
+    setError,
     formState: {isSubmitting},
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-
-        await createExcelImport(data);
+        await createExcelImport(data.file[0]);
         props.onClose();
         refreshDataTable();
     } catch (error: any) {
-      // processServerSideErrors({error, setError});
+      processServerSideErrors({error, setError, errorStack});
     }
   };
 
@@ -76,12 +82,16 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
           <Typography variant={'h6'}>
             Upload excel file
           </Typography>
-          <label htmlFor="contained-button-file">
+          <CustomTextInput
+            id="file"
+            name="file"
+            label={'File'}
+            register={register}
+            type={'file'}
+          />
+          {/* <label htmlFor="contained-button-file">
             <Input id={'fileinput'} name={'file'} type="file" />
-            {/*<Button variant="contained" component="span">*/}
-            {/*  Upload*/}
-            {/*</Button>*/}
-          </label>
+          </label> */}
         </Grid>
 
 
