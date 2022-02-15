@@ -36,28 +36,37 @@ docker-build:
         #docker push "$imageIndustryRepository${tag}"
 
         docker pull "$imageIndustryRepository${tag}" || true
-        docker build --cache-from "$imageIndustryRepository${tag}" --cache-from ${frontStateImage} -t "$imageIndustryRepository${tag}" -f DockerAdmin .
+        docker build --cache-from "$imageIndustryRepository${tag}" --cache-from ${frontStateImage} -t "$imageIndustryRepository${tag}" -f DockerIndustry .
         docker push "$imageIndustryRepository${tag}"
       fi
 
       if [[ "$imageNiseRelease" == true ]]; then
         tag=":$imageNiseAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageNiseRepository${tag}" -f DockerNise .
+        #docker build --pull -t "$imageNiseRepository${tag}" -f DockerNise .
+        #docker push "$imageNiseRepository${tag}"
+        docker pull "$imageNiseRepository${tag}" || true
+        docker build --cache-from "$imageNiseRepository${tag}" --cache-from ${frontStateImage} -t "$imageNiseRepository${tag}" -f DockerNise .
         docker push "$imageNiseRepository${tag}"
       fi
 
       if [[ "$imageSSPRelease" == true ]]; then
         tag=":$imageSSPAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageSSPRepository${tag}" -f DockerSSP .
+        #docker build --pull -t "$imageSSPRepository${tag}" -f DockerSSP .
+        #docker push "$imageSSPRepository${tag}"
+        docker pull "$imageSSPRepository${tag}" || true
+        docker build --cache-from "$imageSSPRepository${tag}" --cache-from ${frontStateImage} -t "$imageSSPRepository${tag}" -f DockerSSP .
         docker push "$imageSSPRepository${tag}"
       fi
 
       if [[ "$imageYouthRelease" == true ]]; then
         tag=":$imageYouthAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageYouthRepository${tag}" -f DockerYouth .
+        #docker build --pull -t "$imageYouthRepository${tag}" -f DockerYouth .
+        #docker push "$imageYouthRepository${tag}"
+        docker pull "$imageYouthRepository${tag}" || true
+        docker build --cache-from "$imageYouthRepository${tag}" --cache-from ${frontStateImage} -t "$imageYouthRepository${tag}" -f DockerYouth .
         docker push "$imageYouthRepository${tag}"
       fi
   rules:
