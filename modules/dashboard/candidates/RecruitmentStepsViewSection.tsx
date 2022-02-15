@@ -76,6 +76,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 interface RecruitmentStepsViewSectionProps {
   jobId: string;
+  reload: boolean;
   onChangeStepOrFilters: (
     filters: any,
     currentStep: any,
@@ -84,6 +85,7 @@ interface RecruitmentStepsViewSectionProps {
 }
 
 const RecruitmentStepsViewSection = ({
+  reload,
   jobId,
   onChangeStepOrFilters,
 }: RecruitmentStepsViewSectionProps) => {
@@ -100,6 +102,12 @@ const RecruitmentStepsViewSection = ({
     mutate: mutateRecruitmentSteps,
   } = useFetchJobRecruitmentSteps(jobId);
   const flag = useRef<number>(1);
+
+  useEffect(() => {
+    if (reload) {
+      mutateRecruitmentSteps();
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (recruitmentData) {
@@ -122,6 +130,9 @@ const RecruitmentStepsViewSection = ({
           is_not_editable: true,
           is_deletable: false,
           total_candidate: recruitmentData?.final_hiring_list?.total_candidate,
+          hire_selected: recruitmentData?.final_hiring_list?.hire_selected,
+          hire_invited: recruitmentData?.final_hiring_list?.hire_invited,
+          hired: recruitmentData?.final_hiring_list?.hired,
         },
       ];
       setFirstAndLastStepData(firstAndLastStep);
