@@ -108,6 +108,7 @@ const RecruitmentStepsViewSection = ({
           title: 'All Applicants',
           step_no: 1,
           is_not_editable: true,
+          is_deletable: false,
           total_candidate: recruitmentData?.all_applications?.total_candidate,
           all: recruitmentData?.all_applications?.all,
           viewed: recruitmentData?.all_applications?.viewed,
@@ -119,6 +120,7 @@ const RecruitmentStepsViewSection = ({
           title: 'Final Hiring List',
           step_no: 99,
           is_not_editable: true,
+          is_deletable: false,
           total_candidate: recruitmentData?.final_hiring_list?.total_candidate,
         },
       ];
@@ -127,8 +129,13 @@ const RecruitmentStepsViewSection = ({
       let stepNo: number = 2;
       let steps: any = [];
       (recruitmentData?.steps || []).map((step: any) => {
-        steps.push({...step, step_no: stepNo++});
+        steps.push({...step, step_no: stepNo++, is_deletable: false});
       });
+
+      if (steps.length > 0) {
+        steps[steps.length - 1].is_deletable =
+          steps[steps.length - 1]?.total_candidate == 0;
+      }
 
       setRecruitmentSteps(steps);
 
@@ -165,6 +172,9 @@ const RecruitmentStepsViewSection = ({
   const closeRecruitmentAddEditPopup = () => {
     setSelectedStep(null);
     setOpenRecruitmentAddEditPopup(false);
+  };
+  const onClickDeleteStep = (stepId: any) => {
+    console.log('onClickDeleteStep: ', stepId);
   };
 
   return (
@@ -203,6 +213,7 @@ const RecruitmentStepsViewSection = ({
                 activeStep={activeStep}
                 stepData={step}
                 onEditClick={() => onEditClick(step?.id)}
+                onStepDelete={() => onClickDeleteStep(step?.id)}
                 onStatusChange={(statusKey) =>
                   onStatusChange(
                     statusKey,
