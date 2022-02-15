@@ -16,6 +16,7 @@ import Religions from '../../../@softbd/utilities/Religions';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {useFetchTrainingCentersWithBatches} from '../../../services/instituteManagement/hooks';
 
 interface PersonalInfoFormProps {
   register: any;
@@ -23,6 +24,7 @@ interface PersonalInfoFormProps {
   control: any;
   getValues: any;
   setValue: any;
+  courseId: any;
   visibleFieldKeys: Array<string>;
 }
 
@@ -32,6 +34,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   control,
   getValues,
   setValue,
+  courseId,
   visibleFieldKeys,
 }) => {
   const {messages} = useIntl();
@@ -47,6 +50,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   const [defaultSignatureImagePath, setDefaultSignatureImagePath] = useState<
     string | null
   >(null);
+
+  const {data: TrainingCentersWithBatches} =
+    useFetchTrainingCentersWithBatches(courseId);
 
   useEffect(() => {
     if (getValues) {
@@ -300,6 +306,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           options={nationalities}
           optionValueProp={'id'}
           optionTitleProp={['title', 'title_en']}
+          errorInstance={errors}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <CustomFilterableFormSelect
+          id='training_center_id'
+          label={messages['common.preferred_training_center']}
+          isLoading={false}
+          control={control}
+          options={TrainingCentersWithBatches}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
           errorInstance={errors}
         />
       </Grid>
