@@ -1,4 +1,4 @@
-FROM node:15.1 as frontend
+FROM node:14 as frontend
 
 # Install Yarn
 #RUN curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -13,7 +13,7 @@ COPY package.json yarn.lock /usr/src/app/
 # Install packages and link to tmp file
 RUN cd /usr/src/app && yarn -g
 
-FROM node:15.1 as app
+FROM node:14 as app
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY --from=frontend /usr/src/app/node_modules /usr/src/app/node_modules
