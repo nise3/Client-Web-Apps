@@ -41,8 +41,6 @@ import {API_SSO_AUTHORIZE_CODE_GRANT} from '../../@softbd/common/apiRoutes';
 // import {IInstitute} from '../../shared/Interface/institute.interface';
 // import {IRole} from '../../shared/Interface/userManagement.interface';
 
-
-
 type TOnSSOSignInCallbackCode = string;
 
 export const onSSOSignInCallback = (
@@ -276,6 +274,9 @@ export const getYouthAuthUserObject = (
     profile_completed: authUser?.profile_completed,
     total_job_experience: authUser?.total_job_experience,
     addresses: authUser?.youth_addresses,
+    expected_salary: authUser?.expected_salary,
+    job_level: authUser?.job_level,
+    default_cv_template: authUser?.default_cv_template,
   };
 };
 
