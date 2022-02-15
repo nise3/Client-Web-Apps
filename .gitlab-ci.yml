@@ -12,7 +12,7 @@ docker-build:
   before_script:
     - docker login $imageRepository -u "kalyan" -p "kalyan"
     - docker pull ${frontStateImage} || true
-    - docker build --target frontend --cache-from ${frontStateImage} --tag ${frontStateImage} -f .
+    - docker build --target frontend --cache-from ${frontStateImage} --tag ${frontStateImage} -f DockerAdmin .
   #  - docker login $CI_FROG_REGISTRY -u "$CI_FROG_REGISTRY_USER" -p "$CI_FROG_REGISTRY_PASSWORD"
   # Default branch leaves tag empty (= latest tag) 
   # All other branches are tagged with the escaped branch name (commit ref slug)
@@ -21,13 +21,7 @@ docker-build:
       echo  "Info============"
       echo "development branch: $GIT_DEVELOPMENT_BRANCH"
       echo "Production branch: $GIT_PRODUCTION_BRANCH"
-
       
-    # final stage
-    - docker pull ${FINAL_IMAGE} || true
-    - docker build --cache-from ${FINAL_IMAGE} --cache-from ${frontStateImage}  --tag ${FINAL_IMAGE} -f .
-    - docker push ${FINAL_IMAGE}
-
       if [[ "$imageAdminRelease" == true ]]; then
         tag=":$imageAdminAppVersion"
         docker pull "$imageAdminRepository${tag}" || true
