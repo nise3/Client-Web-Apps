@@ -34,7 +34,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.softbdImage}`]: {
-    width: '147px',
+    //width: '147px',
   },
 }));
 
@@ -89,11 +89,6 @@ const Footer = () => {
                 component={'span'}
                 mt={2}>
                 {messages['common.contact']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
-                {messages['footer.bd_jobs']}
               </Link>
             </Typography>
           </Grid>
