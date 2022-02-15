@@ -8,7 +8,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy app dependency files
-COPY package.json yarn.lock /usr/src/app
+COPY package.json yarn.lock /usr/src/app/
 
 # Install packages and link to tmp file
 RUN cd /usr/src/app && yarn -g
