@@ -12,7 +12,7 @@ docker-build:
   before_script:
     - docker login $imageRepository -u "kalyan" -p "kalyan"
     - docker pull ${frontStateImage} || true
-    - docker build --target frontend --cache-from ${frontStateImage} --tag ${frontStateImage} -f DockerAdmin .
+    - docker build --target frontend --cache-from ${frontStateImage} --tag ${frontStateImage} -f DockerDependancy .
   #  - docker login $CI_FROG_REGISTRY -u "$CI_FROG_REGISTRY_USER" -p "$CI_FROG_REGISTRY_PASSWORD"
   # Default branch leaves tag empty (= latest tag) 
   # All other branches are tagged with the escaped branch name (commit ref slug)
