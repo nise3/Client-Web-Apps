@@ -132,9 +132,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
 
-  const [setRoleFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
 
@@ -227,46 +224,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser) {
-      if (authUser?.isInstituteUser && authUser.institute_id) {
-        setRoleFilters({
-          institute_id: authUser.institute_id,
-          row_status: RowStatus.ACTIVE,
-        });
-      } else if (authUser?.isOrganizationUser && authUser.organization_id) {
-        setRoleFilters({
-          organization_id: authUser.organization_id,
-          row_status: RowStatus.ACTIVE,
-        });
-      }
-    }
-  }, [authUser]);
-
-  useEffect(() => {
-    if (itemData) {
-      reset({
-        name_en: itemData?.name_en,
-        name: itemData?.name,
-        username: itemData?.username,
-        password: '',
-        email: itemData?.email,
-        mobile: itemData?.mobile,
-        role_id: itemData?.role_id,
-        loc_division_id: itemData?.loc_division_id,
-        loc_district_id: itemData?.loc_district_id,
-        loc_upazila_id: itemData?.loc_upazila_id,
-        row_status: String(itemData?.row_status),
-        branch_id: itemData?.branch_id,
-        training_center_id: itemData?.training_center_id,
-      });
-
-      setUpazilasList(
-        filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
-      );
-    } else {
-      reset(initialValues);
-    }
-  }, [itemData, districts, upazilas]);
+    reset(initialValues);
+  }, [districts, upazilas]);
 
   const changeDistrictAction = useCallback(
     (districtId: number) => {
@@ -346,7 +305,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FormRadioButtons
-            id={'form_filler'}
+            id={'form_fill_up_by'}
             label={'form_filler'}
             radios={[
               {
@@ -383,53 +342,103 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           </StyledHeader>
         )}
 
-        {formFiller != FormFiller.SELF && (
-          <>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='cluster_name'
-                label={messages['common.name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='loc_district_id'
-                label={messages['districts.label']}
-                isLoading={isLoadingDistricts}
-                control={control}
-                options={districts}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={changeDistrictAction}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='union_name'
-                label={messages['union.label']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='cluster_code'
-                label={messages['common.code']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-          </>
-        )}
+        {formFiller != FormFiller.SELF &&
+          formFiller == FormFiller.NASCIB_CLUSTER && (
+            <>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='udc_name'
+                  label={messages['common.name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomFormSelect
+                  id='udc_loc_district'
+                  label={messages['districts.label']}
+                  isLoading={isLoadingDistricts}
+                  control={control}
+                  options={districts}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={changeDistrictAction}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='udc_union'
+                  label={messages['union.label']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='udc_code'
+                  label={messages['common.code']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </>
+          )}
+
+        {formFiller != FormFiller.SELF &&
+          formFiller == FormFiller.CHAMBER_ASSOCIATION && (
+            <>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='chamber_or_association_name'
+                  label={messages['common.name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomFormSelect
+                  id='chamber_or_association_loc_district_id'
+                  label={messages['districts.label']}
+                  isLoading={isLoadingDistricts}
+                  control={control}
+                  options={districts}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={changeDistrictAction}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='chamber_or_association_union'
+                  label={messages['union.label']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='chamber_or_association_code'
+                  label={messages['common.code']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </>
+          )}
 
         <StyledHeader item xs={12}>
           <p className={classes.headerText}>
@@ -439,7 +448,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id='name_en'
+            id='name'
             label={messages['common.name_en']}
             register={register}
             errorInstance={errors}
@@ -542,7 +551,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FileUploadComponent
-            id={'entrepreneur_pic'}
+            id={'entrepreneur_photo'}
             errorInstance={errors}
             setValue={setValue}
             register={register}
@@ -559,7 +568,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id='trade_licence_number'
+            id='organization_trade_license_no'
             label={messages['institute.trade_licence_number']}
             register={register}
             errorInstance={errors}
@@ -569,7 +578,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id='institute'
+            id='organization_identification_no'
+            label={messages['common.organization_identification_number']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            required
+            id='organization_name'
             label={messages['common.institute']}
             register={register}
             errorInstance={errors}
@@ -579,7 +599,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id='institute_address'
+            id='organization_address'
             label={messages['common.address']}
             register={register}
             errorInstance={errors}
@@ -589,7 +609,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFormSelect
-            id='loc_district_id'
+            id='factory_loc_district_id'
             label={messages['districts.label']}
             isLoading={isLoadingDistricts}
             control={control}
@@ -602,7 +622,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
-            id='loc_upazila_id'
+            id='factory_loc_upazila_id'
             label={messages['upazilas.label']}
             isLoading={isLoadingUpazilas}
             control={control}
@@ -615,7 +635,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
-            id='institute_website'
+            id='organization_domain'
             label={messages['common.website']}
             register={register}
             errorInstance={errors}
@@ -625,11 +645,93 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'institute_warehouse'}
-            label={'common.workshop'}
+            id={'factory'}
+            label={'common.has_workshop'}
             radios={[
               {key: '1', label: messages['common.yes']},
               {key: '2', label: messages['common.no']},
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='factory_address'
+            label={messages['common.factory_address']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='organiztion_loc_district_id'
+            label={messages['districts.label']}
+            isLoading={isLoadingDistricts}
+            control={control}
+            options={districts}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeDistrictAction}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomFormSelect
+            id='organization_loc_upazila_id'
+            label={messages['upazilas.label']}
+            isLoading={isLoadingUpazilas}
+            control={control}
+            options={upazilasList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='factory_web_site'
+            label={messages['common.website']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'office_or_showroom'}
+            label={'factory.office_or_showroom'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            id={'factory_land_own_or_rent'}
+            label={'factory.factory_land_own_or_rent'}
+            radios={[
+              {
+                key: '1',
+                label: messages['common.yes'],
+              },
+              {
+                key: '2',
+                label: messages['common.no'],
+              },
             ]}
             control={control}
           />
@@ -643,7 +745,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'business_ownership'}
+            id={'proprietorship'}
             radios={[
               {
                 key: '1',
@@ -665,19 +767,19 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'trade_license_provide_authority'}
+            id={'trade_licensing_authority'}
             label={'institute.trade_license_provider_authority'}
             radios={[
               {
-                key: '1',
+                key: '2',
                 label: messages['municipality.label'],
               },
               {
-                key: '2',
+                key: '3',
                 label: messages['union_council.label'],
               },
               {
-                key: '3',
+                key: '1',
                 label: messages['city_corporation.label'],
               },
             ]}
@@ -687,7 +789,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
-            id={'institute_establish_year'}
+            id={'industry_establishment_year'}
             label={messages['institute.establish_year']}
             register={register}
             errorInstance={errors}
@@ -705,7 +807,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id={'last_renewal_year'}
+            id={'industry_last_renew_year'}
             label={messages['institute.last_renewal_year']}
             register={register}
             errorInstance={errors}
@@ -714,7 +816,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_tin'}
+            id={'tin'}
             radios={[
               {key: '1', label: messages['common.yes']},
               {key: '2', label: messages['common.no']},
@@ -726,7 +828,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
-            id='invested_amount_in_institute'
+            id='investment_amount'
             label={messages['invested_amount_in_institute.label']}
             register={register}
             errorInstance={errors}
@@ -735,7 +837,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id='total_asset_amount'
+            id='current_total_asset'
             label={messages['institute.total_asset_amount']}
             register={register}
             errorInstance={errors}
@@ -745,7 +847,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_registered_under_authority'}
+            id={'registered_under_authority'}
             label={'institute.is_registered_under_authority'}
             radios={[
               {
@@ -763,7 +865,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_under_any_approved_authority'}
+            id={'authorized_under_authority'}
             label={'institute.is_under_any_approved_authority'}
             radios={[
               {
@@ -780,8 +882,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={6}>
+          <CustomTextInput
+            id='authorized_authority'
+            label={messages['institute.authorized_authority']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_under_any_special_region'}
+            id={'specialized_area'}
             label={'institute.is_under_any_special_region'}
             radios={[
               {
@@ -798,8 +910,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={6}>
+          <CustomTextInput
+            id='specialized_area_name'
+            label={messages['institute.specialized_area_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_under_any_sme_cluster'}
+            id={'under_sme_cluster'}
             label={'institute.is_under_any_sme_cluster'}
             radios={[
               {
@@ -814,9 +936,20 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
           />
         </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='under_sme_cluster_name'
+            label={messages['institute.under_sme_cluster_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_association_member'}
+            id={'member_of_association_or_chamber'}
             label={'institute.is_association_member'}
             radios={[
               {
@@ -833,8 +966,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={6}>
+          <CustomTextInput
+            id='member_of_association_or_chamber_name'
+            label={messages['institute.member_of_association_or_chamber_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <CustomFormSelect
-            id='institute_sector_id'
+            id='sector'
             label={messages['institute.sector']}
             isLoading={isLoading}
             control={control}
@@ -842,6 +985,16 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='sector_other_name'
+            label={messages['institute.sector_other_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 
@@ -869,7 +1022,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
-            id='institute_main_product'
+            id='main_product_name'
             label={messages['institute.main_product']}
             register={register}
             errorInstance={errors}
@@ -881,7 +1034,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <CustomTextInput
             multiline={true}
             rows={3}
-            id='raw_materials_details'
+            id='main_material_description'
             label={messages['institute.raw_materials_details']}
             register={register}
             errorInstance={errors}
@@ -891,7 +1044,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_export_product'}
+            id={'export_abroad'}
             label={'institute.is_export_product'}
             radios={[
               {
@@ -908,8 +1061,18 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={6}>
+          <CustomTextInput
+            id='export_abroad_by'
+            label={messages['institute.exporter']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_import_product'}
+            id={'import'}
             label={'institute.is_import_product'}
             radios={[
               {
@@ -925,6 +1088,26 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           />
         </Grid>
 
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='import_by'
+            label={messages['institute.importer']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id='industry_irc_no'
+            label={messages['industry.import_export_irc_no']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <FormLabel>{messages['institute.total_employee']}</FormLabel>
         </Grid>
@@ -933,11 +1116,11 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <CustomChipTextInput
             fields={[
               {
-                id: 'temporary.male',
+                id: 'salaried_manpower.temporary.male',
                 label: messages['common.male'],
               },
               {
-                id: 'temporary.female',
+                id: 'salaried_manpower.temporary.female',
                 label: messages['common.female'],
               },
             ]}
@@ -952,11 +1135,11 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <CustomChipTextInput
             fields={[
               {
-                id: 'permanent_employee.male',
+                id: 'salaried_manpower.permanent_employee.male',
                 label: messages['common.male'],
               },
               {
-                id: 'permanent_employee.female',
+                id: 'salaried_manpower.permanent_employee.female',
                 label: messages['common.female'],
               },
             ]}
@@ -971,11 +1154,11 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <CustomChipTextInput
             fields={[
               {
-                id: 'seasonal.male',
+                id: 'salaried_manpower.seasonal.male',
                 label: messages['common.male'],
               },
               {
-                id: 'seasonal.female',
+                id: 'salaried_manpower.seasonal.female',
                 label: messages['common.female'],
               },
             ]}

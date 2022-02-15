@@ -1421,7 +1421,7 @@
   "common.entrepreneur_pic":  "উদ্যোক্তার  ছবি",
   "institute.trade_licence_number": "প্রতিষ্ঠানের ট্রেড লাইসেন্স নম্বর",
   "common.website": "ওয়েবসাইট",
-  "common.workshop": "কারখানা",
+  "common.has_workshop": "কারখানা?",
   "common.institute_others_information": "ইনস্টিটিউটের অন্যান্য তথ্য",
   "common.business_ownership": "ব্যবসার মালিকানা",
   "business_ownership.single": "একক মালিকানা",
@@ -1467,5 +1467,18 @@
   "institute.info_collector_mobile": "তথ্য সংগ্রহকারীর মোবাইল নম্বর",
   "institute.nascib_cluster_information": "nascib ক্লাস্টার তথ্য",
   "institute.chamber_association_information": "Chamber Association তথ্য",
-  "entrepreneur_introduction.label": "উদ্যোক্তার  পরিচিতি"
+  "entrepreneur_introduction.label": "উদ্যোক্তার  পরিচিতি",
+  "common.organization_identification_number": "প্রতিষ্ঠান সনাক্তকরণ নম্বর",
+  "common.factory_address": "কারখানার ঠিকানা",
+  "factory.office_or_showroom": "অফিস/শোরুম?",
+  "factory.factory_land_own_or_rent": "নিজস্ব জমি আছে?",
+  "common.proprietorship": "মালিকানা?",
+  "institute.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
+  "institute.specialized_area_name": "বিশেষ এলাকার নাম",
+  "institute.under_sme_cluster_name": "এসএমই ক্লাস্টার নাম",
+  "institute.member_of_association_or_chamber_name": "সমিতির সদস্যের নাম",
+  "institute.sector_other_name": "সেক্টরের অন্য নাম",
+  "institute.exporter": "রপ্তানিকারক",
+  "institute.importer": "আমদানিকারক",
+  "industry.import_export_irc_no": "আমদানি রপ্তানি আইআরসি নং"
 }

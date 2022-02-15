@@ -1409,7 +1409,7 @@
   "common.who_will_fill_form" : "Who will fill the form?",
   "common.entrepreneur_pic":  "Entrepreneur Picture",
   "institute.trade_licence_number": "Institute Trade License Number",
-  "common.workshop": "Workshop",
+  "common.has_workshop": "Workshop?",
   "common.institute_others_information": "Institute Others Information",
   "common.business_ownership": "Business Ownership",
   "business_ownership.single": "Single Ownership",
@@ -1476,5 +1476,18 @@
   "common.self" : "Self",
   "common.chamber_association": "Chamber Association",
   "institutional_investment.label": "Institutional Investment",
-  "institute.chamber_association_information": "Chamber Association Information"
+  "institute.chamber_association_information": "Chamber Association Information",
+  "common.organization_identification_number": "Organization Identification Number",
+  "common.factory_address": "Factory Address",
+  "factory.office_or_showroom": "Office/Showroom?",
+  "common.proprietorship": "Proprietorship?",
+  "institute.authorized_authority": "Authorized Authority",
+  "institute.specialized_area_name": "Specialized Area Name",
+  "institute.under_sme_cluster_name": "SME Cluster Name",
+  "institute.member_of_association_or_chamber_name": "Association Member Name",
+  "institute.sector_other_name": "Sector Other Name",
+  "institute.exporter": "Exported By",
+  "institute.importer": "Imported By",
+  "industry.import_export_irc_no": "Import Export IRC Number"
+
 }
