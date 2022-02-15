@@ -1,6 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
+import {
+  Button,
+  Card,
+  CircularProgress,
+  Divider,
+  Grid,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import RecentJobComponent from './components/RecentJobComponent';
 import {ChevronRight} from '@mui/icons-material';
 import clsx from 'clsx';
@@ -79,7 +87,11 @@ const RecentJobSection = () => {
     type: selectedValue,
     page_size: PageSizes.THREE,
   });
-  const {data: jobs, metaData: jobsMetaData} = useFetchPublicJobs(jobFilters);
+  const {
+    data: jobs,
+    metaData: jobsMetaData,
+    isLoading,
+  } = useFetchPublicJobs(jobFilters);
 
   useEffect(() => {
     if (authYouth?.skills) {
@@ -145,7 +157,12 @@ const RecentJobSection = () => {
             </MenuItem>
           </Select>
         </Grid>
-        {jobs &&
+
+        {isLoading ? (
+          <Grid item xs={12} textAlign={'center'} mt={4} mb={4}>
+            <CircularProgress color='primary' size={50} />
+          </Grid>
+        ) : jobs && jobs.length > 0 ? (
           jobs.map((job: any, index: number) => {
             return (
               <Grid
@@ -159,10 +176,11 @@ const RecentJobSection = () => {
                 <RecentJobComponent data={job} />
               </Grid>
             );
-          })}
-        {(!jobs || jobs.length <= 0) && (
+          })
+        ) : (
           <NoDataFoundComponent messageTextType={'inherit'} />
         )}
+
         {jobsMetaData.total_page > jobsMetaData.current_page && (
           <Grid item xs={12} sm={12} md={12} style={{paddingLeft: 15}}>
             <Link href={`${LINK_FRONTEND_JOBS}/${selectedValue}`} passHref>

@@ -23,7 +23,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     fontWeight: 400,
   },
 }));
-const JobTrandsChart = () => {
+const JobTrendsChart = () => {
   const {messages} = useIntl();
   const {
     control,
@@ -143,4 +143,4 @@ const JobTrandsChart = () => {
   );
 };
 
-export default JobTrandsChart;
+export default JobTrendsChart;

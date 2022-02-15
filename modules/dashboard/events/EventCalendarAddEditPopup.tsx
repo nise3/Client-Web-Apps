@@ -93,10 +93,14 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         ...itemData,
         start_date: itemData?.start_date,
         end_date: itemData?.end_date,
+        // start_time: itemData?.start_date,
+        // end_time: itemData?.end_date
       });
     } else {
       (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
         (initialValues.end_date = moment(endDate).format('yyyy-MM-DD')),
+        (initialValues.start_time = moment(startDate).format('HH:mm')),
+        (initialValues.end_time = moment(endDate).format('HH:mm'))
         reset(initialValues);
     }
   }, [itemData]);

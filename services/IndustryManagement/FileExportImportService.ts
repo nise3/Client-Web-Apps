@@ -10,9 +10,11 @@ export const createExcelImport = async (data: any) => {
     formData.append("file", data);
     let response: any = await apiPost(API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Accept': '*/*',
+        'Content-Type': 'multipart/form-data'
       },
     });
+    console.log('file response : ', response)
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

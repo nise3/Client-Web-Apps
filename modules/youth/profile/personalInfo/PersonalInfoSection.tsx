@@ -124,6 +124,20 @@ const PersonalInfoSection = () => {
     })();
   };
 
+  const getName = () => {
+    let firstName = authUser?.first_name;
+    let lastName = authUser?.last_name;
+
+    if (locale != LocaleLanguage.BN) {
+      if (authUser?.first_name_en) {
+        firstName = authUser.first_name_en;
+        lastName = authUser?.last_name_en ? authUser?.last_name_en : '';
+      }
+    }
+
+    return firstName + ' ' + lastName;
+  };
+
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
   ) : (
@@ -145,9 +159,7 @@ const PersonalInfoSection = () => {
                     ...result.h5,
                   }}
                   className={classes.textColor}>
-                  {locale == LocaleLanguage.BN
-                    ? `${authUser?.first_name}  ${authUser?.last_name}`
-                    : `${authUser?.first_name_en}  ${authUser?.last_name_en}`}
+                  {getName()}
                 </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}

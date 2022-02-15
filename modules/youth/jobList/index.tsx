@@ -21,10 +21,6 @@ const PREFIX = 'JobList';
 
 const classes = {
   titleStyle: `${PREFIX}-titleStyle`,
-  gridMargin: `${PREFIX}-gridMargin`,
-  filterBox: `${PREFIX}-filterBox`,
-  chipStyle: `${PREFIX}-chipStyle`,
-  selectStyle: `${PREFIX}-selectStyle`,
   activeStyle: `${PREFIX}-activeStyle`,
   viewIcon: `${PREFIX}-viewIcon`,
 };
@@ -35,36 +31,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
     fontWeight: 'bold',
   },
 
-  [`& .${classes.chipStyle}`]: {
-    color: theme.palette.primary.light,
-    padding: '3px 7px',
-    marginLeft: '10px',
-  },
-
-  [`& .${classes.gridMargin}`]: {
-    marginLeft: '15px',
-    [theme.breakpoints.only('xs')]: {
-      marginLeft: 0,
-      marginTop: '15px',
-    },
-  },
-
-  [`& .${classes.filterBox}`]: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    [theme.breakpoints.only('xs')]: {
-      flexDirection: 'column',
-      alignItems: 'flex-end',
-    },
-  },
-
-  [`& .${classes.selectStyle}`]: {
-    minWidth: '220px',
-    [theme.breakpoints.only('xs')]: {
-      width: '100%',
-    },
-  },
   [`& .${classes.activeStyle}`]: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
