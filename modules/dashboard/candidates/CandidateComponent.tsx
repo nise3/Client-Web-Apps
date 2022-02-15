@@ -398,10 +398,12 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                     'years',
                   ) > 0 && (
                     <Caption className={classes.age}>
+                      Age:{' '}
                       {moment().diff(
                         candidate?.youth_profile?.date_of_birth.slice(0, 10),
                         'years',
-                      )}
+                      )}{' '}
+                      years
                     </Caption>
                   )}
                 </H5>
