@@ -1,6 +1,17 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, CardMedia, Container, Grid, Typography} from '@mui/material';
+import {
+  Button,
+  CardMedia,
+  Container,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@mui/material';
 import {useIntl} from 'react-intl';
 import clsx from 'clsx';
 import ClassicTemplate from './templates/ClassicTemplate';
@@ -10,6 +21,8 @@ import CVTemplateKeys from './CVTemplateKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
+import {updateYouthDefaultCVTemplate} from '../../../services/youthManagement/YouthService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 const PREFIX = 'MyCVPage';
 
@@ -52,10 +65,10 @@ const resumeTemplates = [
     demoImage: '/images/youth/youth-cv-modern.png',
   },
   /*{
-    key: CVTemplateKeys.COLORFUL,
-    name: 'Colorful',
-    demoImage: '/images/youth/youth-cv.jpg',
-  },*/
+            key: CVTemplateKeys.COLORFUL,
+            name: 'Colorful',
+            demoImage: '/images/youth/youth-cv.jpg',
+          },*/
 ];
 
 const userDatax = {
@@ -139,6 +152,8 @@ const MyCVPage = () => {
   const userData = useAuthUser<YouthAuthUser>();
   const youthId = userData?.youthId;
   const {data: youthData} = useFetchYouthDetails(String(youthId));
+  const [defaultTemplate, setDefaultTemplate] = useState('');
+  const {updateSuccessMessage} = useSuccessMessage();
 
   const {messages} = useIntl();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
@@ -148,6 +163,13 @@ const MyCVPage = () => {
   const onTemplateSelect = useCallback((key: string) => {
     setSelectedTemplateKey(key);
   }, []);
+
+  useEffect(() => {
+    if (youthData) {
+      setDefaultTemplate(youthData?.default_cv_template);
+      setSelectedTemplateKey(youthData?.default_cv_template);
+    }
+  }, [youthData]);
 
   const refer = useRef(null);
   const printCB = useCallback(() => {
@@ -189,6 +211,18 @@ const MyCVPage = () => {
         return <ColorfulTemplate userData={userDatax} />;
       default:
         return <ClassicTemplate userData={youthData} />;
+    }
+  };
+
+  const handleChange = async (event: any) => {
+    setDefaultTemplate(event.target.value);
+    const data = {default_cv_template: event.target.value};
+    setSelectedTemplateKey(event.target.value);
+    try {
+      await updateYouthDefaultCVTemplate(data);
+      updateSuccessMessage('cv_view.default_cv_template');
+    } catch (error: any) {
+      console.log('updateYouthDefaultCVTemplate error: ', error);
     }
   };
 
@@ -237,6 +271,27 @@ const MyCVPage = () => {
               );
             })}
           </Grid>
+          <FormControl sx={{marginTop: 5}}>
+            <FormLabel id='demo-controlled-radio-buttons-group'>
+              {messages['cv_view.set_default_cv_template']}
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby='set_default_cv_template'
+              name='set_default_cv_template'
+              value={defaultTemplate}
+              onChange={handleChange}>
+              <FormControlLabel
+                value='CLASSIC'
+                control={<Radio />}
+                label='Classic'
+              />
+              <FormControlLabel
+                value='MODERN'
+                control={<Radio />}
+                label='Modern'
+              />
+            </RadioGroup>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={12} md={8} ref={refer}>
           {youthData && getTemplate()}

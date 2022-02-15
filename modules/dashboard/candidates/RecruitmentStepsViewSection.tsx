@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import {Fab, Skeleton} from '@mui/material';
 import {styled} from '@mui/material/styles';
@@ -7,6 +7,7 @@ import {Add} from '@mui/icons-material';
 import RecruitmentStepAddEditPopup from './RecruitmentStepAddEditPopup';
 import {useFetchJobRecruitmentSteps} from '../../../services/IndustryAssociationManagement/hooks';
 import Tooltip from '@mui/material/Tooltip';
+import {CandidateFilterTypes} from './CandidateFilterTypes';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -75,12 +76,18 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 interface RecruitmentStepsViewSectionProps {
   jobId: string;
-  onClickStep: (filters: any) => void;
+  reload: boolean;
+  onChangeStepOrFilters: (
+    filters: any,
+    currentStep: any,
+    nextStep: any,
+  ) => void;
 }
 
 const RecruitmentStepsViewSection = ({
+  reload,
   jobId,
-  onClickStep,
+  onChangeStepOrFilters,
 }: RecruitmentStepsViewSectionProps) => {
   const [openRecruitmentAddEditPopup, setOpenRecruitmentAddEditPopup] =
     useState<boolean>(false);
@@ -94,41 +101,13 @@ const RecruitmentStepsViewSection = ({
     isLoading,
     mutate: mutateRecruitmentSteps,
   } = useFetchJobRecruitmentSteps(jobId);
+  const flag = useRef<number>(1);
 
-  /*const [recruitmentData] = useState<any>({
-    steps: [
-      {
-        id: 1,
-        job_id: '1',
-        title: 'Call for first interview',
-        title_en: null,
-        step_type: 1,
-        is_interview_reschedule_allowed: null,
-        interview_contact: null,
-        created_at: null,
-        updated_at: null,
-        total_candidate: 0,
-        shortlisted: 0,
-        rejected: 0,
-        qualified: 0,
-      },
-      {
-        id: 1,
-        job_id: '1',
-        title: 'Call for first interview',
-        title_en: null,
-        step_type: 2,
-        is_interview_reschedule_allowed: null,
-        interview_contact: null,
-        created_at: null,
-        updated_at: null,
-        total_candidate: 0,
-        shortlisted: 0,
-        rejected: 0,
-        qualified: 0,
-      },
-    ],
-  });*/
+  useEffect(() => {
+    if (reload) {
+      mutateRecruitmentSteps();
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (recruitmentData) {
@@ -137,6 +116,7 @@ const RecruitmentStepsViewSection = ({
           title: 'All Applicants',
           step_no: 1,
           is_not_editable: true,
+          is_deletable: false,
           total_candidate: recruitmentData?.all_applications?.total_candidate,
           all: recruitmentData?.all_applications?.all,
           viewed: recruitmentData?.all_applications?.viewed,
@@ -146,9 +126,13 @@ const RecruitmentStepsViewSection = ({
         },
         {
           title: 'Final Hiring List',
-          step_no: (recruitmentData?.steps || []).length + 2,
+          step_no: 99,
           is_not_editable: true,
+          is_deletable: false,
           total_candidate: recruitmentData?.final_hiring_list?.total_candidate,
+          hire_selected: recruitmentData?.final_hiring_list?.hire_selected,
+          hire_invited: recruitmentData?.final_hiring_list?.hire_invited,
+          hired: recruitmentData?.final_hiring_list?.hired,
         },
       ];
       setFirstAndLastStepData(firstAndLastStep);
@@ -156,10 +140,24 @@ const RecruitmentStepsViewSection = ({
       let stepNo: number = 2;
       let steps: any = [];
       (recruitmentData?.steps || []).map((step: any) => {
-        steps.push({...step, step_no: stepNo++});
+        steps.push({...step, step_no: stepNo++, is_deletable: false});
       });
 
+      if (steps.length > 0) {
+        steps[steps.length - 1].is_deletable =
+          steps[steps.length - 1]?.total_candidate == 0;
+      }
+
       setRecruitmentSteps(steps);
+
+      if (flag.current == 1) {
+        flag.current = 0;
+        onChangeStepOrFilters(
+          {type: CandidateFilterTypes.ALL},
+          firstAndLastStep[0],
+          steps.length > 0 ? steps[0] : '',
+        );
+      }
     }
   }, [recruitmentData]);
 
@@ -167,14 +165,27 @@ const RecruitmentStepsViewSection = ({
     setSelectedStep(stepId);
     setOpenRecruitmentAddEditPopup(true);
   };
-  const onStepClick = (step: any) => {
-    console.log('step: ', step);
+
+  const onStatusChange = (
+    statusKey: string,
+    step: any,
+    nextStep: any = null,
+  ) => {
     setActiveStep(step?.step_no ? step?.step_no : 1);
+    let params: any = {};
+    if (step?.id) {
+      params.step_id = step.id;
+    }
+    params.type = statusKey;
+    onChangeStepOrFilters(params, step, nextStep);
   };
 
   const closeRecruitmentAddEditPopup = () => {
     setSelectedStep(null);
     setOpenRecruitmentAddEditPopup(false);
+  };
+  const onClickDeleteStep = (stepId: any) => {
+    console.log('onClickDeleteStep: ', stepId);
   };
 
   return (
@@ -198,7 +209,13 @@ const RecruitmentStepsViewSection = ({
         <Box className={classes.recruitmentStepWrapper}>
           <RecruitmentStepComponent
             activeStep={activeStep}
-            onStepClick={() => onStepClick(firstAndLastStepData[0])}
+            onStatusChange={(statusKey) =>
+              onStatusChange(
+                statusKey,
+                firstAndLastStepData[0],
+                recruitmentSteps.length > 0 ? recruitmentSteps[0] : null,
+              )
+            }
             stepData={firstAndLastStepData ? firstAndLastStepData[0] : {}}
           />
           {(recruitmentSteps || []).map((step: any, index: number) => {
@@ -207,7 +224,16 @@ const RecruitmentStepsViewSection = ({
                 activeStep={activeStep}
                 stepData={step}
                 onEditClick={() => onEditClick(step?.id)}
-                onStepClick={() => onStepClick(step)}
+                onStepDelete={() => onClickDeleteStep(step?.id)}
+                onStatusChange={(statusKey) =>
+                  onStatusChange(
+                    statusKey,
+                    step,
+                    index < recruitmentSteps.length
+                      ? recruitmentSteps[index + 1]
+                      : null,
+                  )
+                }
                 key={index}
               />
             );
@@ -228,7 +254,9 @@ const RecruitmentStepsViewSection = ({
 
           <RecruitmentStepComponent
             activeStep={activeStep}
-            onStepClick={() => onStepClick(firstAndLastStepData[1])}
+            onStatusChange={(statusKey) =>
+              onStatusChange(statusKey, firstAndLastStepData[1])
+            }
             stepData={firstAndLastStepData ? firstAndLastStepData[1] : {}}
           />
         </Box>

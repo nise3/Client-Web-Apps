@@ -4,6 +4,7 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
+  API_BATCHES_TO_ASSIGN,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
@@ -59,7 +60,7 @@ export function useFetchBranch(branchId: number | null) {
 }
 
 export function useFetchBranches(params: any) {
-  return useAxiosSWR([API_BRANCHES, params]);
+  return useAxiosSWR(params ? [API_BRANCHES, params] : null);
 }
 
 export function useFetchProgramme(programmeId: number | null) {
@@ -87,7 +88,7 @@ export function useFetchTrainingCenter(trainingCenterId: number | null) {
 }
 
 export function useFetchTrainingCenters(params: any) {
-  return useAxiosSWR([API_TRAINING_CENTERS, params]);
+  return useAxiosSWR(params ? [API_TRAINING_CENTERS, params] : null);
 }
 
 export function useFetchCourse(courseId: number | null) {
@@ -160,9 +161,7 @@ export function useFetchApplicationDetails(applicationId: number | null) {
 /** Fetches the batches available for a course */
 export function useFetchBatchesToAssign(courseId: number | null) {
   return useAxiosSWR(
-    courseId
-      ? API_COURSES + '/' + courseId + '/' + 'training-centers/batches'
-      : null,
+    courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
   );
 }
 
@@ -183,5 +182,13 @@ export function useFetchInstituteTraineeYouths() {
 export const useFetchQuestionBank = (questionId: number | null) => {
   return useAxiosSWR(
     questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
+  );
+};
+
+export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
+  return useAxiosSWR(
+    courseId
+      ? API_PUBLIC_COURSE_DETAILS + '/' + courseId + '/training-centers/batches'
+      : null,
   );
 };

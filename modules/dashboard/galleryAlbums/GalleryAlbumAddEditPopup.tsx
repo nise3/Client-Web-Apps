@@ -38,10 +38,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import AlbumTypes from './AlbumTypes';
-import {
-  getMomentDateFormat,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
@@ -428,6 +425,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      console.log('formData: ', formData);
       if (!authUser?.isSystemUser) {
         delete formData.show_in;
         delete formData.institute_id;
@@ -436,15 +434,14 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       }
 
       if (formData.show_in != ShowInTypes.TSP) {
-        formData.institute_id = '';
+        delete formData.institute_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
-        formData.organization_id = '';
+        delete formData.organization_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
-        formData.industry_association_id = '';
+        delete formData.industry_association_id;
       }
-      objectFilter(formData);
 
       let data = {...formData};
 

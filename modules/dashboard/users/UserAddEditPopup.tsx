@@ -5,7 +5,7 @@ import {
   useFetchRoles,
   useFetchUser,
 } from '../../../services/userManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+import RowStatus from './RowStatus';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -16,7 +16,6 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
   createUser,
   updateUser,
@@ -105,15 +104,9 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const [branchFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
+  const [branchFilters, setBranchFilters] = useState<any>(null);
 
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<object>({
-    institute_id: authUser?.institute_id,
-    row_status: RowStatus.ACTIVE,
-  });
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
 
   const {data: branchList, isLoading: isBranchListLoading} =
     useFetchBranches(branchFilters);
@@ -125,21 +118,36 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
 
   const [filterUserSelection, setFilterUserSelection] = useState<string>('');
+  useEffect(() => {
+    if (authUser?.isInstituteUser) {
+      setBranchFilters({
+        institute_id: authUser?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+      setTrainingCenterFilters({
+        institute_id: authUser?.institute_id,
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       name_en: yup
         .string()
         .title('en')
+        .min(2)
         .label(messages['common.name_en'] as string),
       name: yup
         .string()
         .title()
+        .min(2)
         .label(messages['common.name'] as string),
       username: yup
         .string()
         .trim()
         .required()
+        .min(3)
         .label(messages['user.username'] as string),
       email: yup
         .string()
@@ -456,7 +464,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               control={control}
               defaultValue={initialValues.institute_user_type}
               isLoading={false}
-              label={'common.institute_user_type'}
+              label={'user.user_type'}
               radios={userTypes}
               onChange={changeUserTypes}
             />
@@ -467,6 +475,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             filterUserSelection == 'training center') && (
             <Grid item xs={6}>
               <CustomFormSelect
+                required={filterUserSelection == 'branch'}
                 id='branch_id'
                 label={messages['branch.label']}
                 isLoading={isBranchListLoading}
@@ -483,6 +492,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         {filterUserSelection && filterUserSelection == 'training center' && (
           <Grid item xs={6}>
             <CustomFormSelect
+              required
               id='training_center_id'
               label={messages['common.training_center']}
               isLoading={isTrainingCenterLoading}
@@ -536,11 +546,25 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           </>
         )}
         <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
+          <FormRadioButtons
+            id={'row_status'}
+            label={'common.status'}
+            radios={[
+              {
+                key: RowStatus.PENDING,
+                label: messages['common.pending'],
+              },
+              {
+                key: RowStatus.ACTIVE,
+                label: messages['common.active'],
+              },
+              {
+                key: RowStatus.INACTIVE,
+                label: messages['common.inactive'],
+              },
+            ]}
             control={control}
-            defaultValue={initialValues.row_status}
-            isLoading={isLoading}
+            defaultValue={RowStatus.ACTIVE}
           />
         </Grid>
 
@@ -551,7 +575,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           isEdit && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.institute_user']}
                 isLoading={isLoading}
               />
@@ -565,7 +589,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           !itemData?.training_center_id && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.branch_user']}
                 isLoading={isLoading}
               />
@@ -578,7 +602,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           itemData?.training_center_id != null && (
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.institute_user_type']}
+                label={messages['user.user_type']}
                 value={messages['user.training_center_user']}
                 isLoading={isLoading}
               />

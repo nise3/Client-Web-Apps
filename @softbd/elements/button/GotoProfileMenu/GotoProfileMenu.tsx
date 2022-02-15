@@ -14,6 +14,7 @@ import {KeyboardArrowDown, Logout} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
+import Box from '@mui/material/Box';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -65,8 +66,9 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
   }, []);
 
   return (
-    <div>
+    <Box sx={{whiteSpace: 'nowrap'}}>
       <Button
+        sx={{height: '100%'}}
         id='my-profile-button'
         aria-controls='my-profile-menu'
         aria-haspopup='true'
@@ -101,7 +103,7 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
           </MenuItem>
         </Link>
       </StyledMenu>
-    </div>
+    </Box>
   );
 };
 

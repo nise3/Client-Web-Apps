@@ -80,12 +80,10 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           : yup.string().nullable(),
       mobile: yup
         .string()
-        .nullable()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
       nid: yup
-        .string()
-        .nullable()
+        .mixed()
         .label(messages['common.nid'] as string)
         .test(
           'nid_validation',

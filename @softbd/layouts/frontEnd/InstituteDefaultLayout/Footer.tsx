@@ -74,7 +74,7 @@ const StyledFoot = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.softbdImage}`]: {
-    width: '147px',
+    //width: '147px',
   },
 
   [`& .${classes.primary}`]: {
@@ -180,13 +180,13 @@ const Footer = () => {
               </H6>
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
-                  <Text className={classes.bullet}>
+                  <Link href='/' className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.online_courses']}
-                  </Text>
+                  </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>

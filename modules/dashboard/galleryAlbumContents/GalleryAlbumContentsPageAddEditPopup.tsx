@@ -364,6 +364,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      console.log('formData: ', formData);
       if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
         formData.content_type = GalleryAlbumContentTypes.IMAGE;
       } else if (galleryAlbum.album_type == AlbumTypes.VIDEO) {
