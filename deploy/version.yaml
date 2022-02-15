@@ -1,5 +1,7 @@
 variables:
 
+  frontStateImage: "frontend-kube-web:$CI_COMMIT_SHORT_SHA"
+
   #repository library
   imageRepository: "registry.nise.gov.bd"
 
