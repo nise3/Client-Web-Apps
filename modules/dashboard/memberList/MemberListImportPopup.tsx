@@ -1,4 +1,4 @@
-import {Grid, Link} from '@mui/material';
+import {Grid, Link, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
@@ -11,19 +11,18 @@ import {createExcelImport} from '../../../services/IndustryManagement/FileExport
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useIntl} from 'react-intl';
-import DownloadIcon from '@mui/icons-material/Download';
+
 interface MemberImportPopupProps {
   onClose: () => void;
   userData: any;
   refreshDataTable: () => void;
 }
 
+
 const MemberImportPopup: FC<MemberImportPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {
     register,
@@ -34,9 +33,9 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      await createExcelImport(data.file[0]);
-      props.onClose();
-      refreshDataTable();
+        await createExcelImport(data.file[0]);
+        props.onClose();
+        refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, errorStack});
     }
@@ -48,7 +47,6 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
       {...props}
       title={
         <>
-          <DownloadIcon />
           <IntlMessages
             id='common.add_new'
             values={{
@@ -67,32 +65,36 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
       }>
       <Grid container spacing={3} sx={{overflow: 'hidden'}}>
         <Grid item xs={6}>
-          <Link href='../../../public/template/organization-list.xlsx' download>
+          <Typography variant={'h6'}>
+            Downlod sample excel file
+          </Typography>
+          <Link href="../../../public/template/organization-list.xlsx" download>
             <CommonButton
               key={1}
               onClick={() => console.log('download file')}
-              btnText={messages['common.download_excel_file'] as string}
-              variant={'outlined'}
-              color={'primary'}
+              btnText={"Download"}
             />
           </Link>
+
         </Grid>
 
         <Grid item xs={6}>
+          <Typography variant={'h6'}>
+            Upload excel file
+          </Typography>
           <CustomTextInput
-            id='file'
-            name='file'
-            label={messages['common.file_upload']}
+            id="file"
+            name="file"
+            label={'File'}
             register={register}
             type={'file'}
-            InputLabelProps={{
-              shrink: true,
-            }}
           />
           {/* <label htmlFor="contained-button-file">
             <Input id={'fileinput'} name={'file'} type="file" />
           </label> */}
         </Grid>
+
+
       </Grid>
     </HookFormMuiModal>
   );
