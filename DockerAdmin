@@ -1,18 +1,24 @@
-FROM node:14
+FROM node:15.1 as frontend
 
 # Install Yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+#RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy app dependency files
-ADD package.json yarn.lock /tmp/
+COPY package.json yarn.lock /usr/src/app
 
 # Install packages and link to tmp file
-RUN cd /tmp && yarn -g
-RUN cd /usr/src/app && ln -s /tmp/node_modules
+RUN cd /usr/src/app && yarn -g
+
+FROM node:15.1 as app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY --from=frontend /usr/src/app/node_modules /usr/src/app/node_modules
+
+#RUN cd /usr/src/app && ln -s /tmp/node_modules
 
 # Bundle app source
 COPY . /usr/src/app
