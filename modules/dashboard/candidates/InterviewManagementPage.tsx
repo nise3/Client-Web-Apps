@@ -14,14 +14,23 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CallIcon from '@mui/icons-material/Call';
 import {useIntl} from 'react-intl';
 import {useFetchIndustryAssociationRecruitmentStepCandidateList} from '../../../services/IndustryManagement/hooks';
-import RejectButton from '../applicationManagement/RejectButton';
 import moment from 'moment/moment';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import Tooltip from '@mui/material/Tooltip';
 import DoneIcon from '@mui/icons-material/Done';
 import Button from '@mui/material/Button';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {
+  hiredCandidateUpdate,
+  hireInviteCandidateUpdate,
+  rejectCandidateUpdate,
+  shortlistCandidateUpdate,
+} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const PREFIX = 'InterviewManagementPage';
 
@@ -77,11 +86,15 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   const [nextStep, setNextStep] = useState<any>(null);
   const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
 
-  const {data: candidateList} =
+  const {successStack, errorStack} = useNotiStack();
+
+  const {data: candidateList, metaData} =
     useFetchIndustryAssociationRecruitmentStepCandidateList(
       jobId,
       candidatesFilter,
     );
+
+  console.log('candidateList->', candidateList);
 
   const onRecruitmentStepOrFilterChange = (
     filters: any,
@@ -94,6 +107,97 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
     setCandidatesFilter(filters);
     setCurrentStep(currentStep);
     setNextStep(nextStep);
+  };
+
+  const rejectCandidate = async (itemId: number) => {
+    try {
+      let response = await rejectCandidateUpdate(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='common.reject_candidates' />}}
+          />,
+        );
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const removeCandidate = async (itemId: number) => {
+    try {
+      let response = await removeCandidate(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='common.remove_candidates' />}}
+          />,
+        );
+      }
+    } catch (error: any) {
+      console.log('remove err->', error);
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const hireInviteCandidate = async (itemId: number, params: any) => {
+    try {
+      let response = await hireInviteCandidateUpdate(itemId, params);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{
+              subject: <IntlMessages id='common.hire_invite_candidates' />,
+            }}
+          />,
+        );
+      }
+      metaData();
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const shortlistCandidate = async (itemId: number) => {
+    try {
+      let response = await shortlistCandidateUpdate(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{
+              subject: <IntlMessages id='common.short_list_candidates' />,
+            }}
+          />,
+        );
+      }
+      metaData();
+    } catch (error: any) {
+      console.log('error->', error);
+      processServerSideErrors({error, errorStack});
+    }
+  };
+  const hiredCandidate = async (itemId: number) => {
+    try {
+      let response = await hiredCandidateUpdate(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{
+              subject: <IntlMessages id='common.short_list_candidates' />,
+            }}
+          />,
+        );
+      }
+      metaData();
+    } catch (error: any) {
+      console.log('error->', error);
+      processServerSideErrors({error, errorStack});
+    }
   };
 
   return (
@@ -218,45 +322,85 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
             <Grid item xs={3}>
               {nextStep && nextStep?.step_type != 1 && (
                 <>
-                  <CommonButton
+                  <Button
                     onClick={() => console.log('common')}
-                    btnText='calendar.schedule'
                     startIcon={
                       <CalendarTodayIcon style={{marginLeft: '5px'}} />
                     }
-                    color='primary'
-                  />
-                  <CommonButton
-                    onClick={() => console.log('common')}
-                    btnText='common.remove'
+                    color='primary'>
+                    {messages['calendar.schedule'] as string}
+                  </Button>
+
+                  <Button
+                    onClick={() => removeCandidate(candidate.id)}
                     startIcon={<GroupRemoveIcon style={{marginLeft: '5px'}} />}
-                    color='secondary'
-                  />
+                    color='secondary'>
+                    {messages['common.remove'] as string}
+                  </Button>
                 </>
               )}
               {nextStep && currentStep.step_no === 1 && (
                 <>
                   <Tooltip title={nextStep.title}>
-                    <CommonButton
+                    <Button
                       onClick={() => console.log('common')}
-                      btnText='common.approve'
                       startIcon={<DoneIcon style={{marginLeft: '5px'}} />}
-                      color='primary'
-                    />
+                      color='primary'>
+                      {messages['common.approve'] as string}
+                    </Button>
                   </Tooltip>
-                  <RejectButton
-                    rejectAction={() => console.log('dfad')}
-                    rejectTitle={messages['common.delete_confirm'] as string}
-                  />
+
+                  <Tooltip title={nextStep.title}>
+                    <Button
+                      onClick={() => rejectCandidate(candidate.id)}
+                      startIcon={
+                        <DeleteForeverIcon style={{marginLeft: '5px'}} />
+                      }
+                      color='primary'>
+                      {messages['applicationManagement.reject'] as string}
+                    </Button>
+                  </Tooltip>
                 </>
               )}
-              {!nextStep && currentStep.step_no !== 99 && (
-                <Tooltip title={'Call for final hiring'} arrow>
-                  <Button onClick={() => console.log('common')}>
-                    adsfadsfsd
-                  </Button>
-                </Tooltip>
-              )}
+
+              <Tooltip title={nextStep.title}>
+                <Button
+                  onClick={() => hiredCandidate(candidate.id)}
+                  startIcon={<DoneIcon style={{marginLeft: '5px'}} />}
+                  color='primary'>
+                  {messages['common.hired_candidates'] as string}
+                </Button>
+              </Tooltip>
+
+              {!nextStep &&
+                currentStep.step_no !== 99 &&
+                !candidate.hire_invited_at && (
+                  <Tooltip title={'Short List for Next step'} arrow>
+                    <Button onClick={() => shortlistCandidate(candidate.id)}>
+                      Short List for Next step
+                    </Button>
+                  </Tooltip>
+                )}
+
+              {!nextStep &&
+                currentStep.step_no !== 99 &&
+                candidate.hire_invited_at && (
+                  <Tooltip title={'Short List for final Hiring'} arrow>
+                    <Button
+                      onClick={() =>
+                        hireInviteCandidate(candidate.id, {
+                          hire_invite_type: candidate.hire_invite_type
+                            ? candidate.hire_invite_type
+                            : 2,
+                        })
+                      }>
+                      Short List for final Hiring
+                    </Button>
+                  </Tooltip>
+                )}
+
+              {candidate?.hired_at && <Body2>Hired</Body2>}
+              <Body2>{candidate?.current_recruitment_step_title}</Body2>
             </Grid>
           </Grid>
         </Box>

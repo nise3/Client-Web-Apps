@@ -117,6 +117,8 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
+export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
+
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
@@ -170,6 +172,9 @@ export const API_YOUTH_FEED_STATISTICS =
 
 export const API_YOUTH_PERSONAL_INFO_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-personal-info-update';
+export const API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE =
+  YOUTH_SERVICE_PATH + '/youth-career-info';
+export const API_YOUTH_MY_JOBS = YOUTH_SERVICE_PATH + '/my-jobs';
 export const API_YOUTH_EDUCATION = YOUTH_SERVICE_PATH + '/youth-educations';
 export const API_YOUTH_JOB_EXPERIENCES =
   YOUTH_SERVICE_PATH + '/youth-job-experiences';
@@ -178,6 +183,8 @@ export const API_YOUTH_CERTIFICATES =
 export const API_YOUTH_PORTFOLIOS = YOUTH_SERVICE_PATH + '/youth-portfolios';
 export const API_YOUTH_LANGUAGE_PROFICIENCIES =
   YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
+export const API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE =
+  YOUTH_SERVICE_PATH + '/youth-set-default-cv-template';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
@@ -240,7 +247,8 @@ export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
   ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
 
-export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT = INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
+export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT =
+  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
 
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
@@ -371,6 +379,16 @@ export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
 
 export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
 export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
+
+export const API_CANDIDATE_UPDATE_REJECT =
+  API_JOBS + '/candidate-update/reject';
+export const API_CANDIDATE_UPDATE_REMOVE =
+  API_JOBS + '/candidate-update/remove';
+export const API_CANDIDATE_UPDATE_HIRE_INVITE =
+  API_JOBS + '/candidate-update/hire-invite';
+export const API_CANDIDATE_UPDATE_SHORT_LIST =
+  API_JOBS + '/candidate-update/shortlist';
+export const API_CANDIDATE_UPDATE_HIRED = API_JOBS + '/candidate-update/hired';
 
 //Industry Association section end
 

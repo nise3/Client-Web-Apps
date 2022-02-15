@@ -8,11 +8,12 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
+import {useIntl} from 'react-intl';
+import DownloadIcon from '@mui/icons-material/Download';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useIntl} from 'react-intl';
-import DownloadIcon from '@mui/icons-material/Download';
+
 interface MemberImportPopupProps {
   onClose: () => void;
   userData: any;
@@ -23,8 +24,8 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
-  const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const {messages} = useIntl();
   const {
     register,
     handleSubmit,
@@ -34,6 +35,9 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+        await createExcelImport(data.file[0]);
+        props.onClose();
+        refreshDataTable();
       await createExcelImport(data.file[0]);
       props.onClose();
       refreshDataTable();
@@ -76,6 +80,7 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
               color={'primary'}
             />
           </Link>
+
         </Grid>
 
         <Grid item xs={6}>
@@ -93,6 +98,8 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
             <Input id={'fileinput'} name={'file'} type="file" />
           </label> */}
         </Grid>
+
+
       </Grid>
     </HookFormMuiModal>
   );
