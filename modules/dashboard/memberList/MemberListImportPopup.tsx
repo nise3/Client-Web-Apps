@@ -9,6 +9,8 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface MemberImportPopupProps {
   onClose: () => void;
@@ -21,10 +23,12 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
+  const {errorStack} = useNotiStack();
   const {
     register,
     handleSubmit,
     // errors,
+    setError,
     formState: {isSubmitting},
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data: any) => {
@@ -33,7 +37,7 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
         props.onClose();
         refreshDataTable();
     } catch (error: any) {
-      // processServerSideErrors({error, setError});
+      processServerSideErrors({error, setError, errorStack});
     }
   };
 
