@@ -1301,6 +1301,8 @@ const YouthCourseRegistrationPage = () => {
       const youthData: any = {
         first_name: authUser?.first_name,
         last_name: authUser?.last_name,
+        first_name_en: authUser?.first_name_en,
+        last_name_en: authUser?.last_name_en,
         date_of_birth: getMomentDateFormat(
           authUser?.date_of_birth,
           'YYYY-MM-DD',
