@@ -178,6 +178,8 @@ export const API_YOUTH_CERTIFICATES =
 export const API_YOUTH_PORTFOLIOS = YOUTH_SERVICE_PATH + '/youth-portfolios';
 export const API_YOUTH_LANGUAGE_PROFICIENCIES =
   YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
+export const API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE =
+  YOUTH_SERVICE_PATH + '/youth-set-default-cv-template';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
@@ -240,7 +242,8 @@ export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
   ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
 
-export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT = INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
+export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT =
+  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
 
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
