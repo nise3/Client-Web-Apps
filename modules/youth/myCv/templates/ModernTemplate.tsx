@@ -55,8 +55,9 @@ const ModernTemplate: FC<ModernTemplateProps> = ({userData}) => {
         (userData?.youth_addresses[1]?.village_or_area
           ? userData?.youth_addresses[1]?.village_or_area + ','
           : '&#32') +
-        userData?.youth_addresses[1]?.loc_upazila_title +
-        ',' +
+        (userData?.youth_addresses[1]?.loc_upazila_title
+        ? userData?.youth_addresses[1]?.loc_upazila_title  + ','
+        : '&#32') +
         userData?.youth_addresses[1]?.loc_district_title +
         ',' +
         userData?.youth_addresses[1]?.loc_division_title,
