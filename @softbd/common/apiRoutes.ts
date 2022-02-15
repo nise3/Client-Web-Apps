@@ -380,6 +380,8 @@ export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
 
 export const API_CANDIDATE_UPDATE_REJECT =
   API_JOBS + '/candidate-update/reject';
+export const API_CANDIDATE_UPDATE_RESTORE =
+  API_JOBS + '/candidate-update/restore';
 export const API_CANDIDATE_UPDATE_REMOVE =
   API_JOBS + '/candidate-update/remove';
 export const API_CANDIDATE_UPDATE_HIRE_INVITE =
