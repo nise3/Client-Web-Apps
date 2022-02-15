@@ -11,6 +11,8 @@ docker-build:
     - docker:dind
   before_script:
     - docker login $imageRepository -u "kalyan" -p "kalyan"
+    - docker pull ${frontStateImage} || true
+    - docker build --target frontend --cache-from ${frontStateImage} --tag ${frontStateImage} -f .
   #  - docker login $CI_FROG_REGISTRY -u "$CI_FROG_REGISTRY_USER" -p "$CI_FROG_REGISTRY_PASSWORD"
   # Default branch leaves tag empty (= latest tag) 
   # All other branches are tagged with the escaped branch name (commit ref slug)
@@ -20,17 +22,28 @@ docker-build:
       echo "development branch: $GIT_DEVELOPMENT_BRANCH"
       echo "Production branch: $GIT_PRODUCTION_BRANCH"
 
+      
+    # final stage
+    - docker pull ${FINAL_IMAGE} || true
+    - docker build --cache-from ${FINAL_IMAGE} --cache-from ${frontStateImage}  --tag ${FINAL_IMAGE} -f .
+    - docker push ${FINAL_IMAGE}
+
       if [[ "$imageAdminRelease" == true ]]; then
         tag=":$imageAdminAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageAdminRepository${tag}" -f DockerAdmin .
+        docker pull "$imageAdminRepository${tag}" || true
+        docker build --cache-from "$imageAdminRepository${tag}" --cache-from ${frontStateImage} -t "$imageAdminRepository${tag}" -f DockerAdmin .
         docker push "$imageAdminRepository${tag}"
       fi
 
       if [[ "$imagIndustryeRelease" == true ]]; then
         tag=":$imageIndustryAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageIndustryRepository${tag}" -f DockerIndustry .
+        #docker build --pull -t "$imageIndustryRepository${tag}" -f DockerIndustry .
+        #docker push "$imageIndustryRepository${tag}"
+
+        docker pull "$imageIndustryRepository${tag}" || true
+        docker build --cache-from "$imageIndustryRepository${tag}" --cache-from ${frontStateImage} -t "$imageIndustryRepository${tag}" -f DockerAdmin .
         docker push "$imageIndustryRepository${tag}"
       fi
 
@@ -58,43 +71,3 @@ docker-build:
     - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
       when: always
 
-codestyle:
-  stage: test
-  dependencies: []
-  script:
-    - echo "Code quality check will be added later"
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-phpunit:
-  stage: test
-  dependencies:
-    - docker-build
-  script:
-    - echo "unit test will be added later."
-  when: manual
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-staging:
-  stage: deploy
-  dependencies:
-    - docker-build
-  script:
-    #- curl https://cd.bus.softbd.xyz/api/webhook
-    - echo "wait untill server go online"
-  when: manual
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-production:
-  stage: deploy
-  script:
-   - echo "production is not ready yet!"
-  when: manual
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
