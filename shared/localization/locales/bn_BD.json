@@ -722,6 +722,8 @@
   "common.trainee_cv": "প্রশিক্ষণার্থীর সিভি",
   "common.youth_cv": "ইউথ সিভি",
   "cv_view.template_title": "টেমপ্লেট",
+  "cv_view.set_default_cv_template": "ডিফল্ট সিভি টেমপ্লেট সিলেক্ট করুন",
+  "cv_view.default_cv_template": "ডিফল্ট সিভি টেমপ্লেট",
   "feedback.institution": "পরামর্শ",
   "advice.institute": "মতামত",
   "recipient.institute": "প্রাপক",

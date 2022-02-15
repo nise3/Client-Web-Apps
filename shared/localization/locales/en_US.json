@@ -673,6 +673,8 @@
   "common.trainee_cv": "Trainee CV",
   "common.youth_cv": "Youth CV",
   "cv_view.template_title": "Templates",
+  "cv_view.set_default_cv_template": "Set default CV template",
+  "cv_view.default_cv_template": "Default CV template",
   "freelance_corner.add_location": "Add Location",
   "feedback.institution": "Feedback",
   "advice.institute": "Advice",
