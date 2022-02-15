@@ -48,9 +48,10 @@ const StyledCard = styled(Card)(({theme}) => ({
   },
   [`& .${classes.age}`]: {
     border: '1px solid black',
-    padding: '2px',
+    padding: '5px',
     borderRadius: '5px',
     paddingBottom: '0px',
+    marginLeft: '10px',
   },
   [`& .${classes.shortListButton}`]: {
     backgroundColor: '#1c9f1c',
@@ -392,12 +393,17 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                 <H5>
                   {candidate?.youth_profile?.first_name}{' '}
                   {candidate?.youth_profile?.last_name}
-                  <Caption className={classes.age}>
-                    {moment().diff(
-                      candidate?.youth_profile?.date_of_birth.slice(0, 10),
-                      'years',
-                    )}
-                  </Caption>
+                  {moment().diff(
+                    candidate?.youth_profile?.date_of_birth.slice(0, 10),
+                    'years',
+                  ) > 0 && (
+                    <Caption className={classes.age}>
+                      {moment().diff(
+                        candidate?.youth_profile?.date_of_birth.slice(0, 10),
+                        'years',
+                      )}
+                    </Caption>
+                  )}
                 </H5>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
                   <FmdGoodIcon />
