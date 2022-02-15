@@ -91,11 +91,6 @@ const Footer = () => {
                 {messages['common.contact']}
               </Link>
             </Typography>
-            <Typography gutterBottom={true}>
-              <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
-                {messages['footer.bd_jobs']}
-              </Link>
-            </Typography>
           </Grid>
 
           <Grid item xs={6} md={2}>

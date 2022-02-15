@@ -58,129 +58,98 @@ const Footer = () => {
     <StyledGrid container>
       <Grid item xs={12}>
         <Container maxWidth='lg'>
-          <Grid container>
-            <Grid item xs={6} sm={4} md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  {messages['footer.about_us']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.about_us']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_TERMS_AND_CONDITIONS
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.terms_and_condition']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_PRIVACY_POLICY
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.privacy_policy']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={'https://www.bdjobs.com/'}
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.bd_jobs']}
-                </Link>
-              </Typography>
+          <Grid container spacing={12}>
+            <Grid item xs={12} sm={4} md={8}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Typography variant='subtitle2' gutterBottom={true}>
+                    <Box component={'span'} fontWeight='fontWeightBold'>
+                      {messages['footer.about_nise']}
+                    </Box>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
+                      }
+                      component={'span'}
+                      mt={2}>
+                      {messages['footer.about_us']}
+                    </Link>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_TERMS_AND_CONDITIONS
+                      }
+                      component={'span'}
+                      mt={2}>
+                      {messages['footer.terms_and_condition']}
+                    </Link>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_PRIVACY_POLICY
+                      }
+                      component={'span'}
+                      mt={2}>
+                      {messages['footer.privacy_policy']}
+                    </Link>
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Typography variant='subtitle2' gutterBottom={true}>
+                    <Box component={'span'} fontWeight='fontWeightBold'>
+                      {messages['footer.for_job_seeker']}
+                    </Box>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_CAREER_ADVICE
+                      }
+                      component={'span'}
+                      mt={2}>
+                      {messages['footer.career_advice']}
+                    </Link>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link href={LINK_FRONTEND_FAQ} component={'span'} mt={2}>
+                      {messages['footer.faq']}
+                    </Link>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Link
+                      href={
+                        LINK_NICE3_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_GUIDELINES
+                      }
+                      component={'span'}
+                      mt={2}>
+                      {messages['footer.guideline']}
+                    </Link>
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Typography variant='subtitle2' gutterBottom={true}>
+                    <Box component={'span'} fontWeight='fontWeightBold'>
+                      {messages['common.contact']}
+                    </Box>
+                  </Typography>
+                  <Typography gutterBottom={true}>
+                    <Box component={'span'} mt={2}>
+                      {messages['common.email']}: contactus@nise.gov.bd,
+                      nise@a2i.gov.bd
+                    </Box>
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  {messages['footer.for_job_seeker']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_CAREER_ADVICE
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.career_advice']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link href={LINK_FRONTEND_FAQ} component={'span'} mt={2}>
-                  {messages['footer.faq']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.guideline']}
-                </Link>
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4} md={2}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  {messages['footer.job_provider']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.about_us']}
-                </Link>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Link
-                  href={
-                    LINK_NICE3_FRONTEND_STATIC_CONTENT +
-                    CONTENT_ID_TERMS_AND_CONDITIONS
-                  }
-                  component={'span'}
-                  mt={2}>
-                  {messages['footer.terms_and_condition']}
-                </Link>
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-              <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
-                  {messages['common.contact']}
-                </Box>
-              </Typography>
-              <Typography gutterBottom={true}>
-                <Box component={'span'} mt={2}>
-                  {messages['common.email']}: contactus@nise.gov.bd,
-                  nise@a2i.gov.bd
-                </Box>
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={8} md={3} className={classes.logoSection}>
+            <Grid item xs={12} sm={8} md={4} className={classes.logoSection}>
               <Box>
                 <Typography variant='subtitle2' gutterBottom={true}>
                   <Box component={'span'} fontWeight='fontWeightBold'>
