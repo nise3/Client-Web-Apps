@@ -240,7 +240,8 @@ export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
   ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
 
-export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT = INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
+export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT =
+  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
 
 export const API_APPROVE_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-approval';
@@ -371,6 +372,16 @@ export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
 
 export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
 export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
+
+export const API_CANDIDATE_UPDATE_REJECT =
+  API_JOBS + '/candidate-update/reject';
+export const API_CANDIDATE_UPDATE_REMOVE =
+  API_JOBS + '/candidate-update/remove';
+export const API_CANDIDATE_UPDATE_HIRE_INVITE =
+  API_JOBS + '/candidate-update/hire-invite';
+export const API_CANDIDATE_UPDATE_SHORT_LIST =
+  API_JOBS + '/candidate-update/shortlist';
+export const API_CANDIDATE_UPDATE_HIRED = API_JOBS + '/candidate-update/hired';
 
 //Industry Association section end
 
