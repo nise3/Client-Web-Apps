@@ -1,7 +1,16 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Grid, Paper, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Paper,
+  Typography,
+} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../../@softbd/libs/yup';
@@ -25,18 +34,17 @@ import {
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {Link} from '../../../@softbd/elements/common';
 
 const MemberRegistration = () => {
-  const router = useRouter();
-
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
   const [filters] = useState({});
+  const [isSuccessRegistration, setIsSuccessRegistration] = useState(false);
 
   const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);
@@ -68,6 +76,11 @@ const MemberRegistration = () => {
         .trim()
         .required()
         .label(messages['common.company_type'] as string),
+      membership_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.memberId'] as string),
       email: yup
         .string()
         .trim()
@@ -110,7 +123,6 @@ const MemberRegistration = () => {
         .trim()
         .required()
         .label(messages['common.contact_person_designation'] as string),
-      // member_id: yup.array(),
       contact_person_email: yup
         .string()
         .trim()
@@ -149,20 +161,11 @@ const MemberRegistration = () => {
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  /*useEffect(() => {
-      setValue('array_field', [{member_id: '', association_id: ''}]);
-    }, []);*/
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('data - ', data);
-
     try {
       await organizationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
-      router
-        .push({
-          pathname: '/registration-success',
-        })
-        .then((r) => {});
+      setIsSuccessRegistration(true);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -189,86 +192,120 @@ const MemberRegistration = () => {
 
   return (
     <StyledContainer maxWidth={'md'}>
-      <Paper className={classes.PaperBox}>
-        <Typography
-          align={'center'}
-          variant={'h6'}
-          style={{
-            marginBottom: '10px',
-            fontWeight: 'bold',
-            fontSize: '1.563rem',
-          }}>
-          {messages['common.member_registration']}
-        </Typography>
-        <Typography variant={'h6'} style={{marginBottom: '10px'}}>
-          {messages['common.organizationInfoText']}
-        </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-          <Grid container spacing={4} maxWidth={'md'}>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='title'
-                label={messages['common.organization_name']}
-                register={register}
-                errorInstance={errors}
+      {isSuccessRegistration ? (
+        <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
+          <Card>
+            <CardContent>
+              <CardMedia
+                component='img'
+                alt='registration success'
+                height='350'
+                image='/images/success.png'
               />
-            </Grid>
+              <Typography
+                variant={'h5'}
+                align={'center'}
+                style={{marginTop: '10px', marginBottom: '10px'}}>
+                Thank you for your registration!
+              </Typography>
+              <Link href='/'>
+                <Button color='primary' variant={'contained'}>
+                  Go to Homepage
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </Box>
+      ) : (
+        <Paper className={classes.PaperBox}>
+          <Typography
+            align={'center'}
+            variant={'h6'}
+            style={{
+              marginBottom: '10px',
+              fontWeight: 'bold',
+              fontSize: '1.563rem',
+            }}>
+            {messages['common.member_registration']}
+          </Typography>
+          <Typography variant={'h6'} style={{marginBottom: '10px'}}>
+            {messages['common.organizationInfoText']}
+          </Typography>
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+            <Grid container spacing={4} maxWidth={'md'}>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='title'
+                  label={messages['common.organization_name']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='organization_type_id'
-                isLoading={isLoading}
-                label={messages['common.company_type']}
-                control={control}
-                options={organizationTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id='organization_type_id'
+                  isLoading={isLoading}
+                  label={messages['common.company_type']}
+                  control={control}
+                  options={organizationTypes}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='mobile'
+                  label={messages['common.mobile']}
+                  register={register}
+                  errorInstance={errors}
+                  placeholder='017xxxxxxxx'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='membership_id'
+                  label={messages['common.memberId']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head'
-                label={messages['organization.head_of_office']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='name_of_the_office_head'
+                  label={messages['organization.head_of_office']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='name_of_the_office_head_designation'
-                label={messages['common.designation']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id='name_of_the_office_head_designation'
+                  label={messages['common.designation']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='address'
-                label={messages['common.address']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            {/* <Grid item container xs={12} md={12}>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='address'
+                  label={messages['common.address']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+              {/* <Grid item container xs={12} md={12}>
               <CustomIndustryFieldArray
                 id='array_field'
                 labelLanguageId={[
@@ -282,143 +319,144 @@ const MemberRegistration = () => {
                 options={divisions}
               />
             </Grid>*/}
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='email'
-                label={messages['common.email']}
-                register={register}
-                errorInstance={errors}
-                placeholder='example@gmail.com'
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='loc_division_id'
-                label={messages['divisions.label']}
-                isLoading={isLoadingDivisions}
-                control={control}
-                options={divisions}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={onDivisionChange}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='loc_district_id'
-                label={messages['districts.label']}
-                isLoading={false}
-                control={control}
-                options={districtList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={onDistrictChange}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                id='loc_upazila_id'
-                label={messages['upazilas.label']}
-                isLoading={false}
-                control={control}
-                options={upazilaList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant={'h6'}>
-                {messages['common.userInfoText']}
-                <Typography
-                  sx={{
-                    color: 'red',
-                    marginLeft: '10px',
-                    fontStyle: 'italic',
-                    verticalAlign: 'middle',
-                  }}
-                  variant={'caption'}>
-                  *({messages['common.registration_username_note']})
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='email'
+                  label={messages['common.email']}
+                  register={register}
+                  errorInstance={errors}
+                  placeholder='example@gmail.com'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id='loc_division_id'
+                  label={messages['divisions.label']}
+                  isLoading={isLoadingDivisions}
+                  control={control}
+                  options={divisions}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={onDivisionChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id='loc_district_id'
+                  label={messages['districts.label']}
+                  isLoading={false}
+                  control={control}
+                  options={districtList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={onDistrictChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  id='loc_upazila_id'
+                  label={messages['upazilas.label']}
+                  isLoading={false}
+                  control={control}
+                  options={upazilaList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant={'h6'}>
+                  {messages['common.userInfoText']}
+                  <Typography
+                    sx={{
+                      color: 'red',
+                      marginLeft: '10px',
+                      fontStyle: 'italic',
+                      verticalAlign: 'middle',
+                    }}
+                    variant={'caption'}>
+                    *({messages['common.registration_username_note']})
+                  </Typography>
                 </Typography>
-              </Typography>
-            </Grid>
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='contact_person_name'
-                label={messages['common.contact_person_name_bn']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='contact_person_name'
+                  label={messages['common.contact_person_name_bn']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='contact_person_designation'
-                label={messages['common.contact_person_designation']}
-                register={register}
-                errorInstance={errors}
-              />
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='contact_person_designation'
+                  label={messages['common.contact_person_designation']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='contact_person_email'
+                  label={messages['common.contact_person_email']}
+                  register={register}
+                  errorInstance={errors}
+                  placeholder='example@gmail.com'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='contact_person_mobile'
+                  label={messages['common.contact_person_mobile']}
+                  register={register}
+                  errorInstance={errors}
+                  placeholder='017xxxxxxxx'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='password'
+                  type={'password'}
+                  helperText={messages['common.passwordHint']}
+                  label={messages['common.password']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='password_confirmation'
+                  type={'password'}
+                  label={messages['common.retype_password']}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{display: 'flex', justifyContent: 'end'}}>
+                <SubmitButton
+                  startIcon={false}
+                  isSubmitting={isSubmitting}
+                  label={messages['common.registration'] as string}
+                  size='large'
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='contact_person_email'
-                label={messages['common.contact_person_email']}
-                register={register}
-                errorInstance={errors}
-                placeholder='example@gmail.com'
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='contact_person_mobile'
-                label={messages['common.contact_person_mobile']}
-                register={register}
-                errorInstance={errors}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='password'
-                type={'password'}
-                helperText={messages['common.passwordHint']}
-                label={messages['common.password']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='password_confirmation'
-                type={'password'}
-                label={messages['common.retype_password']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} sx={{display: 'flex', justifyContent: 'end'}}>
-              <SubmitButton
-                startIcon={false}
-                isSubmitting={isSubmitting}
-                label={messages['common.registration'] as string}
-                size='large'
-              />
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+          </form>
+        </Paper>
+      )}
     </StyledContainer>
   );
 };
