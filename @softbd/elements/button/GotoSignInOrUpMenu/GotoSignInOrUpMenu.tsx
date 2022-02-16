@@ -91,7 +91,7 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText>{buttonText}</ListItemText>
         </MenuItem>
-        <Divider />
+        <Divider sx={{margin: '0 !important'}} />
         <Link href={getSSOLoginUrl()}>
           <MenuItem>
             <ListItemIcon>
