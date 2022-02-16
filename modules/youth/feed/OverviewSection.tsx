@@ -87,7 +87,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
         textColor: youthTheme.palette.common?.white,
       },
       {
-        amount: formatNumber(youthStatisticsData?.jobs_apply ?? 0),
+        amount: formatNumber(youthStatisticsData?.applied_jobs ?? 0),
         text: messages['youth_feed.job_apply'],
         color: '#32be7e',
         textColor: youthTheme.palette.common?.white,
