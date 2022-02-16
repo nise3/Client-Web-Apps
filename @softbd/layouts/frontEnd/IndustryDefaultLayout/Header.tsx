@@ -12,6 +12,7 @@ import {
   LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
+  LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
   LINK_FRONTEND_INDUSTRY_ROOT,
   LINK_FRONTEND_JOBS,
@@ -84,6 +85,11 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_FAQ}>{messages['menu.faq']}</Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
+          {messages['common.member_registration']}
+        </Link>
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
@@ -195,6 +201,12 @@ const Header: React.FC<AppHeaderProps> = () => {
                   <Link href={LINK_FRONTEND_FAQ} className={classes.menuItem}>
                     {messages['menu.faq']}
                   </Link>
+
+                  <Link
+                    href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}
+                    className={classes.menuItem}>
+                    {messages['common.member_registration']}
+                  </Link>
                 </Box>
               </Box>
             </Box>
@@ -207,11 +219,11 @@ const Header: React.FC<AppHeaderProps> = () => {
                 <GotoDashboardButton />
               ) : (
                 /*<Link
-                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                                  className={classes.menuItemRegOrLogin}>
-                                  <Login className={classes.menuIcons} />
-                                  {messages['common.registration_login']}
-                                </Link>*/
+                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
+                                                  className={classes.menuItemRegOrLogin}>
+                                                  <Login className={classes.menuIcons} />
+                                                  {messages['common.registration_login']}
+                                                </Link>*/
                 <GotoSignInOrUpButton />
               )}
             </Box>
