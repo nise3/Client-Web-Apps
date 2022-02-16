@@ -8,22 +8,22 @@ const FeaturedFreelanceSection = () => {
 
   const items = [
     {
-      image: '/images/userPageImages/profileImage.jpeg',
+      image: '/images/blank_image.png',
       name: 'Jamal khan',
       designation: 'Graphic Designer',
     },
     {
-      image: '/images/userPageImages/profileImage.jpeg',
+      image: '/images/blank_image.png',
       name: 'Noman khan',
       designation: 'UX Designer',
     },
     {
-      image: '/images/userPageImages/profileImage.jpeg',
+      image: '/images/blank_image.png',
       name: 'Jesmin Rahman',
       designation: 'Graphic Designer',
     },
     {
-      image: '/images/userPageImages/profileImage.jpeg',
+      image: '/images/blank_image.png',
       name: 'Imtiaz Ahmed',
       designation: 'UI Designer',
     },
