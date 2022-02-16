@@ -60,6 +60,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.contact_person_info}`]: {
     background: theme.palette.common.white,
     border: '1px solid #e9e9e9',
+    boxShadow: '0px 0px 7px 4px #e9e9e9',
+    borderRadius: '5px',
   },
   [`& .${classes.divider}`]: {
     width: '100%',
