@@ -178,6 +178,8 @@
   "common.validation_required_error": "This field is required",
   "common.validation_exist_error": "Already exists",
   "common.file_upload": "File Upload",
+  "common.file_upload_first": "Upload File First",
+  "common.only_xlsx_file": "Only .xlsx file is allowed",
   "common.nid": "NID no",
   "common.address_info": "Address",
   "common.personal_info": "Personal information",
