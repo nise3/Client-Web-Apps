@@ -87,12 +87,10 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}>
-        <Link>
-          <MenuItem onClick={onClick}>
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText>{buttonText}</ListItemText>
-          </MenuItem>
-        </Link>
+        <MenuItem onClick={onClick}>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText>{buttonText}</ListItemText>
+        </MenuItem>
         <Divider />
         <Link href={getSSOLoginUrl()}>
           <MenuItem>
