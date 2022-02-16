@@ -1429,5 +1429,6 @@
   "common.hire_invite_candidates": "গ্রহন জন্য আমন্ত্রণ",
   "common.short_list_candidates": "প্রার্থীর সংক্ষিপ্ত তালিকার",
   "common.hired_candidates": "গ্রহন",
-  "common.preferred_training_center": "পছন্দের প্রশিক্ষণ কেন্দ্র"
+  "common.preferred_training_center": "পছন্দের প্রশিক্ষণ কেন্দ্র",
+  "course.enrollment_form_config": "তালিকাভুক্তি ফর্ম কনফিগারেশন"
 }
