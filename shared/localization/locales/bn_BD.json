@@ -1422,6 +1422,7 @@
   "institute.trade_licence_number": "প্রতিষ্ঠানের ট্রেড লাইসেন্স নম্বর",
   "common.website": "ওয়েবসাইট",
   "common.has_workshop": "কারখানা?",
+  "common.workshop": "কারখানা",
   "common.institute_others_information": "ইনস্টিটিউটের অন্যান্য তথ্য",
   "common.business_ownership": "ব্যবসার মালিকানা",
   "business_ownership.single": "একক মালিকানা",
@@ -1480,5 +1481,8 @@
   "institute.sector_other_name": "সেক্টরের অন্য নাম",
   "institute.exporter": "রপ্তানিকারক",
   "institute.importer": "আমদানিকারক",
-  "industry.import_export_irc_no": "আমদানি রপ্তানি আইআরসি নং"
+  "industry.import_export_irc_no": "আমদানি রপ্তানি আইআরসি নং",
+  "industry.registered_authority": "নিবন্ধিত কর্তৃপক্ষ",
+  "industry.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
+  "industry.specialized_areas": "বিশেষায়িত অঞ্চলসমূহ"
 }

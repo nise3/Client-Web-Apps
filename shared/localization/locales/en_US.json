@@ -1410,6 +1410,7 @@
   "common.entrepreneur_pic":  "Entrepreneur Picture",
   "institute.trade_licence_number": "Institute Trade License Number",
   "common.has_workshop": "Workshop?",
+  "common.workshop": "Workshop",
   "common.institute_others_information": "Institute Others Information",
   "common.business_ownership": "Business Ownership",
   "business_ownership.single": "Single Ownership",
@@ -1488,6 +1489,8 @@
   "institute.sector_other_name": "Sector Other Name",
   "institute.exporter": "Exported By",
   "institute.importer": "Imported By",
-  "industry.import_export_irc_no": "Import Export IRC Number"
-
+  "industry.import_export_irc_no": "Import Export IRC Number",
+  "industry.registered_authority": "Registered Authority",
+  "industry.authorized_authority": "Authorized Authority",
+  "industry.specialized_areas": "Specialized Areas"
 }
