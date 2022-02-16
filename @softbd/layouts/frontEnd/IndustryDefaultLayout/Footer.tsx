@@ -16,12 +16,15 @@ import {
 } from '../../../utilities/StaticContentConfigs';
 import GoToTop from '../../../../modules/goToTop';
 import {Link} from '../../../elements/common';
+import {ArrowForwardIos} from '@mui/icons-material';
 
 const PREFIX = 'Footer';
 
 const classes = {
   footerImage: `${PREFIX}-footerImage`,
   softbdImage: `${PREFIX}-softbdImage`,
+  primary: `${PREFIX}-primary`,
+  bullet: `${PREFIX}-bullet`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -36,6 +39,18 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   [`& .${classes.softbdImage}`]: {
     //width: '147px',
   },
+  [`& .${classes.primary}`]: {
+    color: theme.palette.primary.main,
+  },
+
+  [`& .${classes.bullet}`]: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 15,
+    color: theme.palette.grey[700],
+  },
 }));
 
 const Footer = () => {
@@ -44,85 +59,98 @@ const Footer = () => {
   return (
     <StyledGrid container>
       <Container maxWidth='lg'>
-        <Grid item container>
-          <Grid item xs={6} md={2}>
+        <Grid
+          item
+          container
+          spacing={10}
+          sx={{display: 'flex', justifyContent: 'space-around'}}>
+          <Grid item xs={6} md={4}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.about_us']}
+                {messages['footer.important_links']}
               </Box>
             </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.about_us']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
-                  CONTENT_ID_TERMS_AND_CONDITIONS
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.terms_and_condition']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
-                  CONTENT_ID_PRIVACY_POLICY
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.privacy_policy']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={LINK_FRONTEND_INDUSTRY_CONTACT}
-                component={'span'}
-                mt={2}>
-                {messages['common.contact']}
-              </Link>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={6} md={2}>
-            <Typography variant='subtitle2' gutterBottom={true}>
-              <Box component={'span'} fontWeight='fontWeightBold'>
-                {messages['footer.job_provider']}
+            <Box display='flex' mt={2} justifyContent='space-between'>
+              <Box>
+                <Link
+                  href={
+                    LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_ABOUT_US
+                  }
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.about_us']}
+                </Link>
+                <Link
+                  href={
+                    LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                    CONTENT_ID_TERMS_AND_CONDITIONS
+                  }
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.terms_and_condition']}
+                </Link>
+                <Link
+                  href={
+                    LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                    CONTENT_ID_PRIVACY_POLICY
+                  }
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.privacy_policy']}
+                </Link>
+                <Link
+                  href={LINK_FRONTEND_INDUSTRY_CONTACT}
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.contact']}
+                </Link>
               </Box>
-            </Typography>
-
-            <Typography gutterBottom={true}>
-              <Link href={LINK_FRONTEND_JOBS} component={'span'} mt={2}>
-                {messages['job_post.label']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={LINK_FRONTEND_INDUSTRY_FAQS}
-                component={'span'}
-                mt={2}>
-                {messages['footer.faq']}
-              </Link>
-            </Typography>
-            <Typography gutterBottom={true}>
-              <Link
-                href={
-                  LINK_INDUSTRY_FRONTEND_STATIC_CONTENT + CONTENT_ID_GUIDELINES
-                }
-                component={'span'}
-                mt={2}>
-                {messages['footer.guideline']}
-              </Link>
-            </Typography>
+              <Box>
+                <Link
+                  target={'_blank'}
+                  href={LINK_FRONTEND_JOBS}
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['job_post.label']}
+                </Link>
+                <Link
+                  href={LINK_FRONTEND_INDUSTRY_FAQS}
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.faq']}
+                </Link>
+                <Link
+                  href={
+                    LINK_INDUSTRY_FRONTEND_STATIC_CONTENT +
+                    CONTENT_ID_GUIDELINES
+                  }
+                  className={classes.bullet}>
+                  <ArrowForwardIos
+                    sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                    className={classes.primary}
+                  />{' '}
+                  {messages['footer.guideline']}
+                </Link>
+              </Box>
+            </Box>
           </Grid>
           <Grid item md={6}>
             <Grid container columnSpacing={12}>

@@ -22,6 +22,7 @@ type Props = {
   inputProps?: any;
   helperText?: any;
   [x: string]: any;
+  onInput?: any;
 };
 
 const CustomTextInput = ({
@@ -39,6 +40,7 @@ const CustomTextInput = ({
   defaultValue,
   inputProps,
   disabled,
+  onInput: onChangeCallback,
   helperText,
   ...rest
 }: Props) => {
@@ -48,7 +50,6 @@ const CustomTextInput = ({
     <TextInputSkeleton />
   ) : (
     <>
-
       <TextField
         fullWidth
         variant={variant ? variant : 'outlined'}
@@ -74,6 +75,12 @@ const CustomTextInput = ({
             ''
           )
         }
+        onInput={(event: any) => {
+          let value = type == 'file' ? event.target.files : event.target.value;
+          if (onChangeCallback) {
+            onChangeCallback(value);
+          }
+        }}
         defaultValue={defaultValue}
         disabled={disabled ? disabled : false}
         inputProps={{...inputProps, ...{required: false}}}
@@ -81,11 +88,10 @@ const CustomTextInput = ({
         {...rest}
       />
       {helperText && (
-          <FormHelperText sx={{color: 'primary.main'}}>
-            {helperText}
-          </FormHelperText>
+        <FormHelperText sx={{color: 'primary.main'}}>
+          {helperText}
+        </FormHelperText>
       )}
-
     </>
   );
 };
