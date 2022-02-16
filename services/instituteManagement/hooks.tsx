@@ -184,3 +184,11 @@ export const useFetchQuestionBank = (questionId: number | null) => {
     questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
   );
 };
+
+export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
+  return useAxiosSWR(
+    courseId
+      ? API_PUBLIC_COURSE_DETAILS + '/' + courseId + '/training-centers/batches'
+      : null,
+  );
+};
