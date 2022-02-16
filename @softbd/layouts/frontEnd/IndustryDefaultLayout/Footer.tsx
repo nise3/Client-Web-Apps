@@ -15,7 +15,7 @@ import {
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 import GoToTop from '../../../../modules/goToTop';
-import {H6, Link} from '../../../elements/common';
+import {Link} from '../../../elements/common';
 import {ArrowForwardIos} from '@mui/icons-material';
 
 const PREFIX = 'Footer';
@@ -65,10 +65,12 @@ const Footer = () => {
           spacing={10}
           sx={{display: 'flex', justifyContent: 'space-around'}}>
           <Grid item xs={6} md={4}>
-            <H6 className={classes.primary}>
-              {messages['footer.important_links']}
-            </H6>
-            <Box display='flex' mt={4} justifyContent='space-between'>
+            <Typography variant='subtitle2' gutterBottom={true}>
+              <Box component={'span'} fontWeight='fontWeightBold'>
+                {messages['footer.important_links']}
+              </Box>
+            </Typography>
+            <Box display='flex' mt={2} justifyContent='space-between'>
               <Box>
                 <Link
                   href={

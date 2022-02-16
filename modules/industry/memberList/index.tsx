@@ -18,8 +18,7 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import MemberListSearchSection from './MemberListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
-import {LINK_ORGANIZATION_SIGNUP} from '../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -157,7 +156,7 @@ const MemberListPage = () => {
                 }}>
                 {messages['member.be_our_member']}
               </H2>
-              <Link href={gotoLoginSignUpPage(LINK_ORGANIZATION_SIGNUP)}>
+              <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
                 <Button
                   variant='contained'
                   size='small'

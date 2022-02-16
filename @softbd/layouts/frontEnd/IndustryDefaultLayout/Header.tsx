@@ -12,10 +12,10 @@ import {
   LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
+  LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
   LINK_FRONTEND_INDUSTRY_ROOT,
   LINK_FRONTEND_JOBS,
-  LINK_ORGANIZATION_SIGNUP,
   LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
@@ -87,7 +87,7 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Link href={LINK_FRONTEND_FAQ}>{messages['menu.faq']}</Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={gotoLoginSignUpPage(LINK_ORGANIZATION_SIGNUP)}>
+        <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
           {messages['common.member_registration']}
         </Link>
       </MenuItem>
@@ -203,7 +203,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                   </Link>
 
                   <Link
-                    href={gotoLoginSignUpPage(LINK_ORGANIZATION_SIGNUP)}
+                    href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}
                     className={classes.menuItem}>
                     {messages['common.member_registration']}
                   </Link>

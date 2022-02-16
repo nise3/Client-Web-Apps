@@ -183,6 +183,18 @@ const Footer = () => {
                     {messages['footer.online_courses']}
                   </Link>*/}
                   <Link
+                    href={
+                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_ABOUT_US
+                    }
+                    className={classes.bullet}>
+                    <ArrowForwardIos
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                      className={classes.primary}
+                    />{' '}
+                    {messages['footer.about_us']}
+                  </Link>
+                  <Link
                     href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>
                     <ArrowForwardIos
@@ -199,18 +211,6 @@ const Footer = () => {
                       className={classes.primary}
                     />{' '}
                     {messages['footer.events']}
-                  </Link>
-                  <Link
-                    href={
-                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
-                      CONTENT_ID_ABOUT_US
-                    }
-                    className={classes.bullet}>
-                    <ArrowForwardIos
-                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
-                      className={classes.primary}
-                    />{' '}
-                    {messages['footer.about_us']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}
