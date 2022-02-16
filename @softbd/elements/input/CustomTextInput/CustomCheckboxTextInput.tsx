@@ -14,6 +14,7 @@ interface Props {
   errors: any;
   isLoading: any;
   isTextFieldExist?: boolean;
+  textFieldPlaceholder?: string | MessageFormatElement[];
 }
 
 const PREFIX = 'CustomCheckboxTextInput';
@@ -41,6 +42,7 @@ const CustomCheckboxTextInput = ({
   isLoading,
   errors,
   isTextFieldExist = true,
+  textFieldPlaceholder,
 }: Props) => {
   {
     return (
@@ -72,11 +74,11 @@ const CustomCheckboxTextInput = ({
                 <CustomTextInput
                   disabled={!checkedDataArray.includes(data.id)}
                   id={id + '[' + data.id + ']'}
-                  label={'Identification Number' + data.id}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
                   sx={{maxWidth: '200px', marginLeft: '50px'}}
+                  placeholder={textFieldPlaceholder}
                 />
               )}
             </StyledGrid>

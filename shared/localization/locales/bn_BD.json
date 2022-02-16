@@ -1467,7 +1467,7 @@
   "institute.info_collector_name": "তথ্য সংগ্রহকারীর নাম",
   "institute.info_collector_mobile": "তথ্য সংগ্রহকারীর মোবাইল নম্বর",
   "institute.nascib_cluster_information": "nascib ক্লাস্টার তথ্য",
-  "institute.chamber_association_information": "Chamber Association তথ্য",
+  "institute.chamber_association_information": "চেম্বার সমিতির তথ্য",
   "entrepreneur_introduction.label": "উদ্যোক্তার  পরিচিতি",
   "common.organization_identification_number": "প্রতিষ্ঠান সনাক্তকরণ নম্বর",
   "common.factory_address": "কারখানার ঠিকানা",
@@ -1484,5 +1484,7 @@
   "industry.import_export_irc_no": "আমদানি রপ্তানি আইআরসি নং",
   "industry.registered_authority": "নিবন্ধিত কর্তৃপক্ষ",
   "industry.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
-  "industry.specialized_areas": "বিশেষায়িত অঞ্চলসমূহ"
+  "industry.specialized_areas": "বিশেষায়িত অঞ্চলসমূহ",
+  "common.registered_no":  "নিবন্ধিত নম্বর",
+  "common.approved_no": "অনুমোদিত নম্বর"
 }

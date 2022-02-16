@@ -1492,5 +1492,7 @@
   "industry.import_export_irc_no": "Import Export IRC Number",
   "industry.registered_authority": "Registered Authority",
   "industry.authorized_authority": "Authorized Authority",
-  "industry.specialized_areas": "Specialized Areas"
+  "industry.specialized_areas": "Specialized Areas",
+  "common.registered_no":  "Registered Number",
+  "common.approved_no": "Approved Number"
 }

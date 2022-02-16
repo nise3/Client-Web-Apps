@@ -180,6 +180,14 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const [hasRegisteredAuthority, setHasRegisteredAuthority] =
     useState<any>(null);
 
+  const [isUnderSMECluster, setIsUnderSMECluster] = useState<any>(null);
+  const [isAssociationMember, setIsAssociationMember] =
+    useState<boolean>(false);
+
+  const [isIndustryDoExport, setIsIndustryDoExport] = useState<boolean>(false);
+
+  const [isIndustryDoImport, setIsIndustryDoImport] = useState<boolean>(false);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       form_fill_up_by: yup
@@ -372,7 +380,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         ? newSpecializedAreaArr.splice(index, 1)
         : newSpecializedAreaArr.push(areaId);
 
-      setCheckedAuthorizedAuthority(newSpecializedAreaArr);
+      setCheckedSpecializedArea(newSpecializedAreaArr);
     },
     [checkedSpecializedArea],
   );
@@ -396,6 +404,34 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       setIsIndustryUnderSpecializedArea(key);
     },
     [isIndustryUnderSpecializedArea],
+  );
+
+  const handleIsUnderSMECluster = useCallback(
+    (key: number) => {
+      setIsUnderSMECluster(key);
+    },
+    [isUnderSMECluster],
+  );
+
+  const handleIsAssociationMember = useCallback(
+    (key: number) => {
+      setIsAssociationMember(key == HasWorkshopConstant.YES);
+    },
+    [isAssociationMember],
+  );
+
+  const handleIsIndustryDoExport = useCallback(
+    (key: number) => {
+      setIsIndustryDoExport(key == HasWorkshopConstant.YES);
+    },
+    [isIndustryDoExport],
+  );
+
+  const handleIsIndustryDoImport = useCallback(
+    (key: number) => {
+      setIsIndustryDoImport(key == HasWorkshopConstant.YES);
+    },
+    [isIndustryDoImport],
   );
 
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
@@ -1051,6 +1087,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               register={register}
               errors={errors}
               isLoading={isLoading}
+              textFieldPlaceholder={messages['common.registered_no']}
             />
           )}
         </Grid>
@@ -1085,6 +1122,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               register={register}
               errors={errors}
               isLoading={isLoading}
+              textFieldPlaceholder={messages['common.approved_no']}
             />
           )}
         </Grid>
@@ -1130,28 +1168,31 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_under_any_sme_cluster'}
             radios={[
               {
-                key: '1',
+                key: HasRegisteredAuthority.YES,
                 label: messages['common.yes'],
               },
               {
-                key: '2',
+                key: HasRegisteredAuthority.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
             errorInstance={errors}
+            onChange={handleIsUnderSMECluster}
           />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='under_sme_cluster_name'
-            label={messages['institute.under_sme_cluster_name']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
+          {isUnderSMECluster == HasRegisteredAuthority.YES && (
+            <CustomFormSelect
+              id='under_sme_cluster_name'
+              label={messages['institute.under_sme_cluster_name']}
+              isLoading={isLoadingDistricts}
+              control={control}
+              options={districts}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+              onChange={changeDistrictAction}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
@@ -1171,18 +1212,21 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             ]}
             control={control}
             errorInstance={errors}
+            onChange={handleIsAssociationMember}
           />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='member_of_association_or_chamber_name'
-            label={messages['institute.member_of_association_or_chamber_name']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
+          {isAssociationMember && (
+            <CustomTextInput
+              required
+              id='member_of_association_or_chamber_name'
+              label={
+                messages['institute.member_of_association_or_chamber_name']
+              }
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              onChange={handleIsAssociationMember}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
@@ -1264,28 +1308,28 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_export_product'}
             radios={[
               {
-                key: 1,
+                key: HasRegisteredAuthority.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: HasRegisteredAuthority.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
             errorInstance={errors}
+            onChange={handleIsIndustryDoExport}
           />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='export_abroad_by'
-            label={messages['institute.exporter']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
+          {isIndustryDoExport && (
+            <CustomTextInput
+              required
+              id='export_abroad_by'
+              label={messages['institute.exporter']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
@@ -1295,38 +1339,40 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_import_product'}
             radios={[
               {
-                key: 1,
+                key: HasRegisteredAuthority.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: HasRegisteredAuthority.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
+            onChange={handleIsIndustryDoImport}
           />
+          {isIndustryDoImport && (
+            <CustomTextInput
+              required
+              id='import_by'
+              label={messages['institute.importer']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          )}
         </Grid>
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='import_by'
-            label={messages['institute.importer']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='industry_irc_no'
-            label={messages['industry.import_export_irc_no']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {(isIndustryDoImport || isIndustryDoExport) && (
+          <Grid item xs={6}>
+            <CustomTextInput
+              id='industry_irc_no'
+              label={messages['industry.import_export_irc_no']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           <FormLabel>{messages['institute.total_employee']}</FormLabel>
