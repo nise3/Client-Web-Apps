@@ -1436,5 +1436,11 @@
   "common.short_list_candidates": "প্রার্থীর সংক্ষিপ্ত তালিকার",
   "common.hired_candidates": "গ্রহন",
   "common.preferred_training_center": "পছন্দের প্রশিক্ষণ কেন্দ্র",
+  "common.interview_schedule": "ইন্টারভিউ সময়সূচী",
+  "common.venue": "ভেন্যু",
+  "common.invite_type": "আমন্ত্রণের টাইপ",
+  "common.date": "তারিখ",
+  "common.time": "সময়",
+  "common.maximum_number_of_applicants": "সর্বোচ্চ আবেদনকারীর সংখ্যা",
   "course.enrollment_form_config": "তালিকাভুক্তি ফর্ম কনফিগারেশন"
 }

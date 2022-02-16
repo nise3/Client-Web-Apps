@@ -392,6 +392,8 @@ export const API_CANDIDATE_UPDATE_SHORT_LIST =
   API_JOBS + '/candidate-update/shortlist';
 export const API_CANDIDATE_UPDATE_HIRED = API_JOBS + '/candidate-update/hired';
 
+export const API_CANDIDATE_STEP_SCHEDULE = API_JOBS + '/step-schedule';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
