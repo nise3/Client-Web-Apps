@@ -1419,5 +1419,11 @@
   "common.hire_invite_candidates": "Invite for hire",
   "common.short_list_candidates": "Short list candidate",
   "common.hired_candidates": "Hire",
-  "common.preferred_training_center": "Preferred training center"
+  "common.preferred_training_center": "Preferred training center",
+  "common.interview_schedule": "Interview Schedule",
+  "common.venue": "Venue",
+  "common.invite_type": "Invite type",
+  "common.date": "Date",
+  "common.time": "Time",
+  "common.maximum_number_of_applicants": "Maximum number Applicants"
 }
