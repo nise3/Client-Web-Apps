@@ -17,7 +17,7 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import {API_USERS} from '../../../@softbd/common/apiRoutes';
 import UserAddEditPopup from './UserAddEditPopup';
 import UserDetailsPopup from './UserDetailsPopup';
-import NascibUserAddEditPopup from './NascibUserAddEditPopup';
+import NascibUserAddEditPopup from './NASCIBMemberRegistrationForm';
 
 const UsersPage = () => {
   const {messages} = useIntl();

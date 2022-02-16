@@ -19,10 +19,7 @@ import {
 } from '../../../services/userManagement/UserService';
 import IconUser from '../../../@softbd/icons/IconUser';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {
-  MOBILE_NUMBER_REGEX,
-  TEXT_REGEX_PASSWORD,
-} from '../../../@softbd/common/patternRegex';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
@@ -42,8 +39,10 @@ import CustomChipTextInput from '../../../@softbd/elements/input/CustomTextInput
 import {DynamicForm} from '@mui/icons-material';
 import FormFiller from './FormFiller';
 import HasWorkshopConstant from './HasWorkshopConstant';
+import CustomCheckboxTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomCheckboxTextInput';
+import HasRegisteredAuthority from './constants/HasRegisteredAuthority';
 
-interface UserAddEditPopupProps {
+interface NASCIBMemberRegistrationFormProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -65,6 +64,15 @@ const StyledHeader = styled(Grid)(({theme}) => ({
     margin: '0 0 0 28px',
   },
 }));
+
+const registeredAuthors = [
+  {id: 1, title: 'author-1'},
+  {id: 2, title: 'author-2'},
+  {id: 3, title: 'author-3'},
+  {id: 4, title: 'author-4'},
+  {id: 5, title: 'author-5'},
+  {id: 6, title: 'author-6'},
+];
 
 const initialValues = {
   form_filler: '',
@@ -126,7 +134,7 @@ const initialValues = {
   info_collector_mobile: '',
 };
 
-const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
+const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -150,6 +158,27 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
   const [formFiller, setFormFiller] = useState<any>(null);
   const [hasWorkshop, setHasWorkshop] = useState<boolean>(false);
+
+  const [checkedRegisteredAuthority, setCheckedRegisteredAuthority] = useState<
+    Array<number> | []
+  >([]);
+
+  const [checkedAuthorizedAuthority, setCheckedAuthorizedAuthority] = useState<
+    Array<number> | []
+  >([]);
+
+  const [checkedSpecializedArea, setCheckedSpecializedArea] = useState<
+    Array<number> | []
+  >([]);
+
+  const [hasAuthorizedAuthority, setHasAuthorizedAuthority] =
+    useState<any>(null);
+
+  const [isIndustryUnderSpecializedArea, setIsIndustryUnderSpecializedArea] =
+    useState<any>(null);
+
+  const [hasRegisteredAuthority, setHasRegisteredAuthority] =
+    useState<any>(null);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -263,7 +292,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .email()
         .label(messages['common.email'] as string),
       factory: yup
-        .boolean()
+        .string()
         .required()
         .label(messages['common.workshop'] as string),
     });
@@ -280,8 +309,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   } = useForm<IUser>({
     resolver: yupResolver(validationSchema),
   });
-
-  console.log(errors);
 
   useEffect(() => {
     reset(initialValues);
@@ -306,6 +333,69 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       setHasWorkshop(key == HasWorkshopConstant.YES);
     },
     [hasWorkshop],
+  );
+
+  const handleRegisteredAuthorityCheck = useCallback(
+    (registeredAuthorityId: number) => {
+      const newAuthority = [...checkedRegisteredAuthority];
+
+      const index = newAuthority.indexOf(registeredAuthorityId);
+      newAuthority.includes(registeredAuthorityId)
+        ? newAuthority.splice(index, 1)
+        : newAuthority.push(registeredAuthorityId);
+
+      setCheckedRegisteredAuthority(newAuthority);
+    },
+    [checkedRegisteredAuthority],
+  );
+
+  const handleAuthorizedAuthorityCheck = useCallback(
+    (authorizedAuthorityId: number) => {
+      const newAuthorityArr = [...checkedAuthorizedAuthority];
+
+      const index = newAuthorityArr.indexOf(authorizedAuthorityId);
+      newAuthorityArr.includes(authorizedAuthorityId)
+        ? newAuthorityArr.splice(index, 1)
+        : newAuthorityArr.push(authorizedAuthorityId);
+
+      setCheckedAuthorizedAuthority(newAuthorityArr);
+    },
+    [checkedAuthorizedAuthority],
+  );
+
+  const handleSpecializedAreaCheck = useCallback(
+    (areaId: number) => {
+      const newSpecializedAreaArr = [...checkedSpecializedArea];
+
+      const index = newSpecializedAreaArr.indexOf(areaId);
+      newSpecializedAreaArr.includes(areaId)
+        ? newSpecializedAreaArr.splice(index, 1)
+        : newSpecializedAreaArr.push(areaId);
+
+      setCheckedAuthorizedAuthority(newSpecializedAreaArr);
+    },
+    [checkedSpecializedArea],
+  );
+
+  const handleHasRegisteredAuthorityChange = useCallback(
+    (key: number) => {
+      setHasRegisteredAuthority(key);
+    },
+    [hasRegisteredAuthority],
+  );
+
+  const handleHasAuthorizedAuthorityCheck = useCallback(
+    (key: number) => {
+      setHasAuthorizedAuthority(key);
+    },
+    [hasAuthorizedAuthority],
+  );
+
+  const handleInstituteIsUnderSpecializedArea = useCallback(
+    (key: number) => {
+      setIsIndustryUnderSpecializedArea(key);
+    },
+    [isIndustryUnderSpecializedArea],
   );
 
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
@@ -534,6 +624,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'gender'}
             radios={[
               {
@@ -587,6 +678,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <FileUploadComponent
+            required
             id={'nid_file'}
             errorInstance={errors}
             setValue={setValue}
@@ -618,6 +710,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FileUploadComponent
+            required
             id={'entrepreneur_photo'}
             errorInstance={errors}
             setValue={setValue}
@@ -676,7 +769,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFormSelect
-            id='factory_loc_district_id'
+            id='organization_loc_district_id'
             label={messages['districts.label']}
             isLoading={isLoadingDistricts}
             control={control}
@@ -689,7 +782,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomFormSelect
-            id='factory_loc_upazila_id'
+            id='organization_loc_upazila_id'
             label={messages['upazilas.label']}
             isLoading={isLoadingUpazilas}
             control={control}
@@ -712,7 +805,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'factory'}
+            required
+            id='factory'
             label={'common.has_workshop'}
             radios={[
               {key: '1', label: messages['common.yes']},
@@ -728,6 +822,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <>
             <Grid item xs={6}>
               <CustomTextInput
+                required
                 id='factory_address'
                 label={messages['common.factory_address']}
                 register={register}
@@ -774,6 +869,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
             <Grid item xs={6}>
               <FormRadioButtons
+                required
                 id={'office_or_showroom'}
                 label={'factory.office_or_showroom'}
                 radios={[
@@ -792,6 +888,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
             <Grid item xs={6}>
               <FormRadioButtons
+                required
                 id={'factory_land_own_or_rent'}
                 label={'factory.factory_land_own_or_rent'}
                 radios={[
@@ -818,6 +915,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'proprietorship'}
             radios={[
               {
@@ -840,6 +938,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'trade_licensing_authority'}
             label={'institute.trade_license_provider_authority'}
             radios={[
@@ -862,6 +961,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id={'industry_establishment_year'}
             label={messages['institute.establish_year']}
             register={register}
@@ -880,6 +980,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id={'industry_last_renew_year'}
             label={messages['institute.last_renewal_year']}
             register={register}
@@ -889,6 +990,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'tin'}
             radios={[
               {key: '1', label: messages['common.yes']},
@@ -896,11 +998,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             ]}
             control={control}
             label={'institute.is_tin'}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='investment_amount'
             label={messages['invested_amount_in_institute.label']}
             register={register}
@@ -920,6 +1024,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'registered_under_authority'}
             label={'institute.is_registered_under_authority'}
             radios={[
@@ -933,67 +1038,94 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
+            onChange={handleHasRegisteredAuthorityChange}
           />
+          {hasRegisteredAuthority == HasRegisteredAuthority.YES && (
+            <CustomCheckboxTextInput
+              id={'registered_authority'}
+              data={registeredAuthors}
+              label={messages['industry.registered_authority']}
+              checkedDataArray={checkedRegisteredAuthority}
+              onChange={handleRegisteredAuthorityCheck}
+              register={register}
+              errors={errors}
+              isLoading={isLoading}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'authorized_under_authority'}
             label={'institute.is_under_any_approved_authority'}
             radios={[
               {
-                key: '1',
+                key: HasRegisteredAuthority.YES,
                 label: messages['common.yes'],
               },
               {
-                key: '2',
+                key: HasRegisteredAuthority.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='authorized_authority'
-            label={messages['institute.authorized_authority']}
-            register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            onChange={handleHasAuthorizedAuthorityCheck}
           />
+
+          {hasAuthorizedAuthority == HasRegisteredAuthority.YES && (
+            <CustomCheckboxTextInput
+              id={'authorized_authority'}
+              data={registeredAuthors}
+              label={messages['industry.authorized_authority']}
+              checkedDataArray={checkedAuthorizedAuthority}
+              onChange={handleAuthorizedAuthorityCheck}
+              register={register}
+              errors={errors}
+              isLoading={isLoading}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'specialized_area'}
             label={'institute.is_under_any_special_region'}
             radios={[
               {
-                key: '1',
+                key: HasRegisteredAuthority.YES,
                 label: messages['common.yes'],
               },
               {
-                key: '2',
+                key: HasRegisteredAuthority.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='specialized_area_name'
-            label={messages['institute.specialized_area_name']}
-            register={register}
             errorInstance={errors}
-            isLoading={isLoading}
+            onChange={handleInstituteIsUnderSpecializedArea}
           />
+          {isIndustryUnderSpecializedArea == HasRegisteredAuthority.YES && (
+            <CustomCheckboxTextInput
+              id={'specialized_area_name'}
+              data={registeredAuthors}
+              label={messages['industry.specialized_areas']}
+              checkedDataArray={checkedSpecializedArea}
+              onChange={handleSpecializedAreaCheck}
+              register={register}
+              errors={errors}
+              isLoading={isLoading}
+              isTextFieldExist={false}
+            />
+          )}
         </Grid>
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'under_sme_cluster'}
             label={'institute.is_under_any_sme_cluster'}
             radios={[
@@ -1007,11 +1139,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='under_sme_cluster_name'
             label={messages['institute.under_sme_cluster_name']}
             register={register}
@@ -1022,6 +1156,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'member_of_association_or_chamber'}
             label={'institute.is_association_member'}
             radios={[
@@ -1035,11 +1170,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='member_of_association_or_chamber_name'
             label={messages['institute.member_of_association_or_chamber_name']}
             register={register}
@@ -1050,6 +1187,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFormSelect
+            required
             id='sector'
             label={messages['institute.sector']}
             isLoading={isLoading}
@@ -1073,6 +1211,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'business_type'}
             label={'business_type.label'}
             radios={[
@@ -1090,11 +1229,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='main_product_name'
             label={messages['institute.main_product']}
             register={register}
@@ -1105,6 +1246,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={12}>
           <CustomTextInput
+            required
             multiline={true}
             rows={3}
             id='main_material_description'
@@ -1117,6 +1259,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'export_abroad'}
             label={'institute.is_export_product'}
             radios={[
@@ -1130,11 +1273,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='export_abroad_by'
             label={messages['institute.exporter']}
             register={register}
@@ -1145,6 +1290,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
+            required
             id={'import'}
             label={'institute.is_import_product'}
             radios={[
@@ -1163,6 +1309,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='import_by'
             label={messages['institute.importer']}
             register={register}
@@ -1244,7 +1391,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'has_bank_account'}
+            required
+            id={'have_bank_account'}
             label={'institute.has_bank_account'}
             radios={[
               {
@@ -1257,6 +1405,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
@@ -1399,4 +1548,4 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   );
 };
 
-export default UserAddEditPopup;
+export default NASCIBMemberRegistrationForm;
