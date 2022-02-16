@@ -149,7 +149,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('remove err->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -188,7 +187,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -207,7 +205,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -383,7 +380,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       candidate?.apply_status == ApplyStatuses.HIRE_INVITED
     ) {
       if (currentStep?.step_no != 99) {
-        text = 'Sortlisted for hired';
+        text = 'Shortlisted for hired';
       }
     } else if (candidate?.apply_status == ApplyStatuses.HIRED) {
       text = 'Hired';
