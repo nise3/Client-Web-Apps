@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {
   Avatar,
@@ -32,6 +32,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {RecruitmentSteps} from './RecruitmentSteps';
 import {Check, Close, PersonRemove, Refresh} from '@mui/icons-material';
 import {ApplyStatuses} from './ApplyStatuses';
+import CandidateCvPopup from './CandidateCvPopup';
 
 const PREFIX = 'CandidateComponent';
 
@@ -102,7 +103,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
-
+  const [isOpenCvDetailsModal, setIsOpenCvDetailsModal] = useState(false);
   const rejectCandidate = async (itemId: number) => {
     try {
       let response = await rejectCandidateUpdate(itemId);
@@ -208,20 +209,23 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       processServerSideErrors({error, errorStack});
     }
   };
+
   const getExperiencedDuration = useCallback((data: any) => {
-    let durationAsMonth = moment
-      .duration(
-        data.start_date
-          ? data.start_date.slice(0, 10)
-          : moment(new Date()).diff(
-              data.start_date
-                ? data.start_date.slice(0, 10)
-                : moment(new Date()),
-            ),
-      )
-      .asMonths();
-    return {month: durationAsMonth};
+    const startDate = moment(data?.start_date);
+    const endDate = moment(data?.end_date);
+    let durationAsMonth = endDate.diff(startDate, 'months');
+    let durationAsYears = durationAsMonth / 12;
+    return {month: durationAsMonth, year: Math.floor(durationAsYears)};
   }, []);
+
+  const openCvDetailsModal = useCallback(() => {
+    setIsOpenCvDetailsModal(true);
+  }, []);
+
+  const closeCvDetailsModal = useCallback(() => {
+    setIsOpenCvDetailsModal(false);
+  }, []);
+
   const CheckButton = ({
     title,
     onClick,
@@ -402,7 +406,12 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                 />
               </Grid>
               <Grid item xs={9}>
-                <H5 style={{cursor: 'pointer'}} color={'primary'}>
+                <H5
+                  style={{cursor: 'pointer'}}
+                  color={'primary'}
+                  onClick={() => {
+                    openCvDetailsModal();
+                  }}>
                   {candidate?.youth_profile?.first_name}{' '}
                   {candidate?.youth_profile?.last_name}
                   {/*  <Caption className={classes.age}>
@@ -494,15 +503,34 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
           </Grid>
           <Grid item xs={3}>
             {(candidate?.youth_profile?.youth_job_experiences || []).map(
-              (data: any) => (
-                <Box key={data.id}>
-                  <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
-                  <Body2>
-                    {data.position} ({getExperiencedDuration(data).month}{' '}
-                    {'years'})
-                  </Body2>
-                </Box>
-              ),
+              (data: any) => {
+                let duration = getExperiencedDuration(data);
+                return (
+                  <Box key={data.id}>
+                    <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
+                    <Body2>
+                      {data.position}{' '}
+                      {duration.year && duration.year < 1 ? (
+                        duration.month && duration.month > 0 ? (
+                          <>
+                            {duration.month}
+                            {'+ months'}
+                          </>
+                        ) : (
+                          <></>
+                        )
+                      ) : duration.year && duration.year > 0 ? (
+                        <>
+                          {duration.year}
+                          {'+ years'}
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </Body2>
+                  </Box>
+                );
+              },
             )}
           </Grid>
           <Grid item xs={2}>
@@ -531,6 +559,13 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               )}
             </Box>
           </Grid>
+          {isOpenCvDetailsModal && (
+            <CandidateCvPopup
+              key={1}
+              youthData={candidate}
+              onClose={closeCvDetailsModal}
+            />
+          )}
         </Grid>
       </CardContent>
     </StyledCard>
