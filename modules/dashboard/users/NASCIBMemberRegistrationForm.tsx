@@ -41,6 +41,8 @@ import FormFiller from './FormFiller';
 import HasWorkshopConstant from './HasWorkshopConstant';
 import CustomCheckboxTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomCheckboxTextInput';
 import HasRegisteredAuthority from './constants/HasRegisteredAuthority';
+import BusinessType from './constants/BusinessTypes';
+import TradeLicensingAuthority from './constants/TradeLicensingAuthority';
 
 interface NASCIBMemberRegistrationFormProps {
   itemId: number | null;
@@ -273,12 +275,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.academic_qualification'] as string),
-      mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['common.mobile'] as string),
       nid: yup
         .string()
         .required()
@@ -287,22 +283,124 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.national_identity'] as string),
-      username: yup
-        .string()
-        .trim()
-        .required()
-        .min(3)
-        .label(messages['user.username'] as string),
       email: yup
         .string()
         .trim()
         .required()
         .email()
         .label(messages['common.email'] as string),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      entrepreneur_photo: yup
+        .string()
+        .required()
+        .label(messages['common.entrepreneur_pic'] as string),
+      organization_trade_license_no: yup
+        .string()
+        .required()
+        .label(messages['institute.trade_licence_number'] as string),
+      organization_identification_no: yup
+        .string()
+        .label(messages['common.organization_identification_number'] as string),
+      organization_name: yup
+        .string()
+        .required()
+        .label(messages['common.institute'] as string),
+      organization_address: yup
+        .string()
+        .required()
+        .label(messages['common.institute_address'] as string),
+      organization_loc_district_id: yup
+        .string()
+        .label(messages['districts.label'] as string),
+      organization_loc_upazila_id: yup
+        .string()
+        .label(messages['upazilas.label'] as string),
+      organization_domain: yup
+        .string()
+        .label(messages['common.domain'] as string),
       factory: yup
         .string()
         .required()
         .label(messages['common.workshop'] as string),
+      factory_address: yup.string().label(messages['common.address'] as string),
+      factory_loc_district_id: yup
+        .string()
+        .label(messages['districts.label'] as string),
+      factory_loc_upazila_id: yup
+        .string()
+        .label(messages['upazilas.label'] as string),
+      factory_web_site: yup
+        .string()
+        .label(messages['common.website'] as string),
+      office_or_showroom: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.website'] as string)
+        : yup.string(),
+      factory_land_own_or_rent: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.website'] as string)
+        : yup.string(),
+      proprietorship: yup
+        .string()
+        .required()
+        .label(messages['common.workshop'] as string),
+      industry_establishment_year: yup
+        .string()
+        .required()
+        .label(messages['institute.establish_year'] as string),
+      trade_licensing_authority: yup
+        .string()
+        .required()
+        .label(
+          messages['institute.trade_license_provider_authority'] as string,
+        ),
+      trade_license: yup
+        .string()
+        .label(messages['trade_license.label'] as string),
+      industry_last_renew_year: yup
+        .string()
+        .label(messages['institute.last_renewal_year'] as string),
+      tin: yup
+        .string()
+        .required()
+        .label(messages['common.tin'] as string),
+      investment_amount: yup
+        .string()
+        .required()
+        .label(messages['invested_amount_in_institute.label'] as string),
+      current_total_asset: yup.string(),
+      registered_under_authority: yup
+        .string()
+        .required()
+        .label(messages['institute.is_registered_under_authority'] as string),
+      registered_authority: yup.string(),
+      authorized_under_authority: yup
+        .string()
+        .required()
+        .label(messages['institute.is_under_any_approved_authority'] as string),
+      authorized_authority: yup
+        .string()
+        .label(messages['institute.authorized_authority'] as string),
+      specialized_area: yup
+        .string()
+        .required()
+        .label(messages['institute.is_under_any_special_region'] as string),
+      specialized_area_name:
+        isIndustryUnderSpecializedArea == HasRegisteredAuthority.YES
+          ? yup
+              .string()
+              .required()
+              .label(messages['industry.specialized_areas'] as string)
+          : yup.string(),
     });
   }, [itemId, messages]);
 
@@ -968,6 +1066,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               },
             ]}
             control={control}
+            errorInstance={errors}
             label={'common.business_ownership'}
           />
         </Grid>
@@ -979,19 +1078,20 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.trade_license_provider_authority'}
             radios={[
               {
-                key: '2',
+                key: TradeLicensingAuthority.MUNICIPALITY,
                 label: messages['municipality.label'],
               },
               {
-                key: '3',
+                key: TradeLicensingAuthority.UNION_COUNCIL,
                 label: messages['union_council.label'],
               },
               {
-                key: '1',
+                key: TradeLicensingAuthority.CITY_CORPORATION,
                 label: messages['city_corporation.label'],
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
@@ -1260,15 +1360,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'business_type.label'}
             radios={[
               {
-                key: 1,
+                key: BusinessType.MANUFACTURING,
                 label: messages['business_type.manufacturing'],
               },
               {
-                key: 2,
+                key: BusinessType.SERVICE,
                 label: messages['business_type.service'],
               },
               {
-                key: 3,
+                key: BusinessType.TRADING,
                 label: messages['business_type.trading'],
               },
             ]}
