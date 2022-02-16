@@ -41,6 +41,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomChipTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomChipTextInput';
 import {DynamicForm} from '@mui/icons-material';
 import FormFiller from './FormFiller';
+import HasWorkshopConstant from './HasWorkshopConstant';
 
 interface UserAddEditPopupProps {
   itemId: number | null;
@@ -87,7 +88,13 @@ const initialValues = {
   institute_district: '',
   institute_upazila: '',
   institute_website: '',
-  institute_workshop: '',
+  workshop: '',
+  factory_address: '',
+  factory_loc_district_id: '',
+  factory_loc_upazila_id: '',
+  factory_website: '',
+  factory_land_own_or_rent: '',
+  office_or_showroom: '',
   institute_business_owner_type: '',
   institute_inauguration_date: '',
   trade_license_provider: '',
@@ -142,19 +149,107 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
 
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
   const [formFiller, setFormFiller] = useState<any>(null);
+  const [hasWorkshop, setHasWorkshop] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      name_en: yup
+      form_fill_up_by: yup
+        .string()
+        .required()
+        .label(messages['common.form_filler'] as string),
+      udc_name:
+        formFiller == FormFiller.NASCIB_CLUSTER
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.name_en'] as string)
+          : yup.string(),
+      udc_loc_district:
+        formFiller == FormFiller.NASCIB_CLUSTER
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.district'] as string)
+          : yup.string(),
+      udc_union:
+        formFiller == FormFiller.NASCIB_CLUSTER
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.union'] as string)
+          : yup.string(),
+      udc_code:
+        formFiller == FormFiller.NASCIB_CLUSTER
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.code'] as string)
+          : yup.string(),
+
+      chamber_or_association_name:
+        formFiller == FormFiller.CHAMBER_ASSOCIATION
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.name_en'] as string)
+          : yup.string(),
+      chamber_or_association_loc_district_id:
+        formFiller == FormFiller.CHAMBER_ASSOCIATION
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.district'] as string)
+          : yup.string(),
+      chamber_or_association_union:
+        formFiller == FormFiller.CHAMBER_ASSOCIATION
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.union'] as string)
+          : yup.string(),
+      chamber_or_association_code:
+        formFiller == FormFiller.CHAMBER_ASSOCIATION
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.code'] as string)
+          : yup.string(),
+      name: yup
         .string()
         .title('en')
         .min(2)
         .label(messages['common.name_en'] as string),
-      name: yup
+      name_bn: yup
         .string()
         .title()
         .min(2)
         .label(messages['common.name'] as string),
+      gender: yup
+        .string()
+        .required()
+        .label(messages['common.gender'] as string),
+      date_of_birth: yup
+        .date()
+        .required()
+        .label(messages['common.date_of_birth'] as string),
+      academic_qualification: yup
+        .string()
+        .required()
+        .label(messages['common.academic_qualification'] as string),
+      mobile: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      nid: yup
+        .string()
+        .required()
+        .label(messages['common.identity_type_nid'] as string),
+      nid_file: yup
+        .string()
+        .required()
+        .label(messages['common.national_identity'] as string),
       username: yup
         .string()
         .trim()
@@ -167,47 +262,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .required()
         .email()
         .label(messages['common.email'] as string),
-      mobile: yup
-        .string()
-        .trim()
+      factory: yup
+        .boolean()
         .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['common.mobile'] as string),
-      password:
-        isEdit && itemId
-          ? yup.string()
-          : yup
-              .string()
-              .trim()
-              .required()
-              .min(8)
-              .matches(TEXT_REGEX_PASSWORD)
-              .label(messages['common.password'] as string),
-      password_confirmation: yup
-        .string()
-        .label(messages['common.password'] as string)
-        .oneOf(
-          [yup.ref('password'), null],
-          messages['password.not_matched'] as string,
-        ),
-      institute_user_type:
-        !isEdit && authUser && authUser.isInstituteUser
-          ? yup.string().required()
-          : yup.string(),
-      branch_id: yup
-        .mixed()
-        .label(messages['branch.label'] as string)
-        .when('institute_user_type', {
-          is: (value: string) => value == 'branch',
-          then: yup.string().required(),
-        }),
-      training_center_id: yup
-        .mixed()
-        .label(messages['common.training_center'] as string)
-        .when('institute_user_type', {
-          is: (value: string) => value == 'training center',
-          then: yup.string().required(),
-        }),
+        .label(messages['common.workshop'] as string),
     });
   }, [itemId, messages]);
 
@@ -222,6 +280,8 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   } = useForm<IUser>({
     resolver: yupResolver(validationSchema),
   });
+
+  console.log(errors);
 
   useEffect(() => {
     reset(initialValues);
@@ -239,6 +299,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       setFormFiller(key);
     },
     [formFiller],
+  );
+
+  const onChangeHasWorkshop = useCallback(
+    (key: number) => {
+      setHasWorkshop(key == HasWorkshopConstant.YES);
+    },
+    [hasWorkshop],
   );
 
   const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
@@ -323,6 +390,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             ]}
             control={control}
             onChange={onChangeFormFiller}
+            errorInstance={errors}
           />
         </Grid>
 
@@ -342,103 +410,101 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           </StyledHeader>
         )}
 
-        {formFiller != FormFiller.SELF &&
-          formFiller == FormFiller.NASCIB_CLUSTER && (
-            <>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='udc_name'
-                  label={messages['common.name']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomFormSelect
-                  id='udc_loc_district'
-                  label={messages['districts.label']}
-                  isLoading={isLoadingDistricts}
-                  control={control}
-                  options={districts}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
-                  errorInstance={errors}
-                  onChange={changeDistrictAction}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='udc_union'
-                  label={messages['union.label']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='udc_code'
-                  label={messages['common.code']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </>
-          )}
+        {formFiller == FormFiller.NASCIB_CLUSTER && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='udc_name'
+                label={messages['common.name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='udc_loc_district'
+                label={messages['districts.label']}
+                isLoading={isLoadingDistricts}
+                control={control}
+                options={districts}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={changeDistrictAction}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='udc_union'
+                label={messages['union.label']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='udc_code'
+                label={messages['common.code']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
 
-        {formFiller != FormFiller.SELF &&
-          formFiller == FormFiller.CHAMBER_ASSOCIATION && (
-            <>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='chamber_or_association_name'
-                  label={messages['common.name']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomFormSelect
-                  id='chamber_or_association_loc_district_id'
-                  label={messages['districts.label']}
-                  isLoading={isLoadingDistricts}
-                  control={control}
-                  options={districts}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
-                  errorInstance={errors}
-                  onChange={changeDistrictAction}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='chamber_or_association_union'
-                  label={messages['union.label']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  required
-                  id='chamber_or_association_code'
-                  label={messages['common.code']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </>
-          )}
+        {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='chamber_or_association_name'
+                label={messages['common.name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='chamber_or_association_loc_district_id'
+                label={messages['districts.label']}
+                isLoading={isLoadingDistricts}
+                control={control}
+                options={districts}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={changeDistrictAction}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='chamber_or_association_union'
+                label={messages['union.label']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='chamber_or_association_code'
+                label={messages['common.code']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
 
         <StyledHeader item xs={12}>
           <p className={classes.headerText}>
@@ -485,6 +551,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             ]}
             control={control}
             label={'common.gender'}
+            errorInstance={errors}
           />
         </Grid>
 
@@ -652,90 +719,96 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
               {key: '2', label: messages['common.no']},
             ]}
             control={control}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='factory_address'
-            label={messages['common.factory_address']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organiztion_loc_district_id'
-            label={messages['districts.label']}
-            isLoading={isLoadingDistricts}
-            control={control}
-            options={districts}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={changeDistrictAction}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='organization_loc_upazila_id'
-            label={messages['upazilas.label']}
-            isLoading={isLoadingUpazilas}
-            control={control}
-            options={upazilasList}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            onChange={onChangeHasWorkshop}
             errorInstance={errors}
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='factory_web_site'
-            label={messages['common.website']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {hasWorkshop && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='factory_address'
+                label={messages['common.factory_address']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
 
-        <Grid item xs={6}>
-          <FormRadioButtons
-            id={'office_or_showroom'}
-            label={'factory.office_or_showroom'}
-            radios={[
-              {
-                key: '1',
-                label: messages['common.yes'],
-              },
-              {
-                key: '2',
-                label: messages['common.no'],
-              },
-            ]}
-            control={control}
-          />
-        </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='factory_loc_district_id'
+                label={messages['districts.label']}
+                isLoading={isLoadingDistricts}
+                control={control}
+                options={districts}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={changeDistrictAction}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='factory_loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={isLoadingUpazilas}
+                control={control}
+                options={upazilasList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
 
-        <Grid item xs={6}>
-          <FormRadioButtons
-            id={'factory_land_own_or_rent'}
-            label={'factory.factory_land_own_or_rent'}
-            radios={[
-              {
-                key: '1',
-                label: messages['common.yes'],
-              },
-              {
-                key: '2',
-                label: messages['common.no'],
-              },
-            ]}
-            control={control}
-          />
-        </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='factory_web_site'
+                label={messages['common.website']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormRadioButtons
+                id={'office_or_showroom'}
+                label={'factory.office_or_showroom'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['common.yes'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['common.no'],
+                  },
+                ]}
+                control={control}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormRadioButtons
+                id={'factory_land_own_or_rent'}
+                label={'factory.factory_land_own_or_rent'}
+                radios={[
+                  {
+                    key: '1',
+                    label: messages['common.yes'],
+                  },
+                  {
+                    key: '2',
+                    label: messages['common.no'],
+                  },
+                ]}
+                control={control}
+              />
+            </Grid>
+          </>
+        )}
 
         <StyledHeader item xs={12}>
           <Typography variant={'body1'} className={classes.headerText}>
