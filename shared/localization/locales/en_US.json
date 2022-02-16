@@ -504,6 +504,7 @@
   "yup_validation_date": "{path} must be a date after start date",
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
+  "common.download_excel_file": "Download sample excel file",
   "role.label": "Role",
   "my_account.label": "My Account",
   "role.unique_value": "Unique value",
@@ -631,7 +632,7 @@
   "upload_file.portfolio_modal": "Upload File",
   "common.heading": "Title",
   "common.enroll_now": "Enroll Now",
-  "common.verify_enrollment": "Verify Enrollment",
+  "common.verify_enrollment": "Verify",
   "course_details.overview": "Overview",
   "course_details.lesson": "Lesson",
   "course_details.requirements": "Requirements",
@@ -1417,8 +1418,10 @@
   "youth.career_and_application_info_sub_title": "This information will help you to get your expected job",
   "common.remove": "Remove",
   "common.reject_candidates": "Reject candidate",
+  "common.restore_candidates": "Restore candidate",
   "common.remove_candidates": "Remove candidate",
   "common.hire_invite_candidates": "Invite for hire",
   "common.short_list_candidates": "Short list candidate",
-  "common.hired_candidates": "Hire"
+  "common.hired_candidates": "Hire",
+  "common.preferred_training_center": "Preferred training center"
 }

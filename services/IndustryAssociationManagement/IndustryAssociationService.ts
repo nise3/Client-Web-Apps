@@ -4,6 +4,7 @@ import {
   API_CANDIDATE_UPDATE_HIRED,
   API_CANDIDATE_UPDATE_REJECT,
   API_CANDIDATE_UPDATE_REMOVE,
+  API_CANDIDATE_UPDATE_RESTORE,
   API_CANDIDATE_UPDATE_SHORT_LIST,
   API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE,
   API_INDUSTRY_ASSOCIATIONS,
@@ -61,6 +62,17 @@ export const rejectCandidateUpdate = async (candidateId: number) => {
   try {
     let response: any = await apiPut(
       API_CANDIDATE_UPDATE_REJECT + '/' + candidateId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const restoreCandidateUpdate = async (candidateId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_CANDIDATE_UPDATE_RESTORE + '/' + candidateId,
     );
     return response.data;
   } catch (error) {

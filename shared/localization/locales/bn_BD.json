@@ -196,6 +196,7 @@
   "common.company_type": "কোম্পানির ধরন",
   "common.file_upload": "ফাইল আপলোড",
   "signup.label": "রেজিস্ট্রেশন",
+  "common.download_excel_file": "নমুনা এক্সেল ফাইল ডাউনলোড",
   "common.youth": "ইয়ুথ",
   "common.industry": "সংস্থা",
   "common.member_registration": "মেম্বার রেজিস্ট্রেশন",
@@ -675,7 +676,7 @@
   "common.trending_courses": "ট্রেন্ডিং কোর্স",
   "common.nearby_training_center": "নিকটবর্তী প্রশিক্ষণ কেন্দ্র",
   "common.enroll_now": "তালিকাভুক্ত",
-  "common.verify_enrollment": "তালিকাভুক্তিকরন নিশ্চিত করুন",
+  "common.verify_enrollment": "ভেরিফাই করুন",
   "course_details.overview": "ওভারভিউ",
   "course_details.lesson": "পাঠ",
   "course_details.requirements": "প্রয়োজনীয়তা",
@@ -1427,8 +1428,10 @@
   "youth.career_and_application_info_sub_title": "এই তথ্য আপনাকে আপনার প্রত্যাশিত চাকরি পেতে সাহায্য করবে",
   "common.remove": "অপসারণ",
   "common.reject_candidates": "প্রার্থী প্রত্যাখ্যান",
+  "common.restore_candidates": "প্রার্থী পুনরুদ্ধার",
   "common.remove_candidates": "প্রার্থীকে অপসারণ",
   "common.hire_invite_candidates": "গ্রহন জন্য আমন্ত্রণ",
   "common.short_list_candidates": "প্রার্থীর সংক্ষিপ্ত তালিকার",
-  "common.hired_candidates": "গ্রহন"
+  "common.hired_candidates": "গ্রহন",
+  "common.preferred_training_center": "পছন্দের প্রশিক্ষণ কেন্দ্র"
 }
