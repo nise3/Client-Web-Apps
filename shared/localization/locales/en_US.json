@@ -1419,5 +1419,6 @@
   "common.hire_invite_candidates": "Invite for hire",
   "common.short_list_candidates": "Short list candidate",
   "common.hired_candidates": "Hire",
-  "common.preferred_training_center": "Preferred training center"
+  "common.preferred_training_center": "Preferred training center",
+  "course.enrollment_form_config": "Enrollment Form Configuration"
 }
