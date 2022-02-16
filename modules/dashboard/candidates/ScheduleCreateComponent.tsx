@@ -23,15 +23,13 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 
 interface IScheduleCreateComponentPopupProps {
   onClose: () => void;
-  scheduleId?: number | null;
   jobId: string;
-  schedule?: any;
+  currentStep?: any;
 }
 
 const ScheduleCreateComponentPopup = ({
-  scheduleId,
   jobId,
-  schedule,
+  currentStep,
   ...props
 }: IScheduleCreateComponentPopupProps) => {
   const {messages} = useIntl();
@@ -39,11 +37,15 @@ const ScheduleCreateComponentPopup = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const isEdit = scheduleId != null;
+  const isEdit = currentStep.step_no != null;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      venue: yup
+      interview_address: yup
+        .string()
+        .required()
+        .label(messages['common.venue'] as string),
+      maximum_number_of_applicants: yup
         .string()
         .required()
         .label(messages['common.venue'] as string),
@@ -61,28 +63,25 @@ const ScheduleCreateComponentPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
+  console.log('erros->', errors);
+
   const notifyApplicant = useMemo(
     () => [
       {
         key: '1',
-        label: messages['common.yes'],
+        label: messages['common.email'],
       },
       {
         key: '2',
-        label: messages['common.no'],
+        label: messages['common.sms'],
       },
     ],
     [messages],
   );
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    // formData.start = formData.start_date;
-    // if (formData.start_time) {
-    //   formData.start_time = hasSecond(formData.start_time)
-    //     ? formData.start_time
-    //     : `${formData.start_time}:00`;
-    // }
-
+    console.log('formData schedule->', formData);
+    let scheduleId = 1;
     try {
       formData.job_id = jobId;
 
