@@ -1,6 +1,7 @@
 import {
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup,
@@ -9,6 +10,8 @@ import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInpu
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {Controller} from 'react-hook-form';
+import {getErrorObject} from '../../../utilities/helpers';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
 
 interface Props {
   id: string;
@@ -20,6 +23,7 @@ interface Props {
   defaultValue?: string | number | undefined;
   onChange?: (e: any) => any;
   styles?: any;
+  errorInstance?: any;
 }
 
 const FormRadioButtons = ({
@@ -32,15 +36,31 @@ const FormRadioButtons = ({
   defaultValue = '',
   onChange: onChangeCallback,
   styles = {},
+  errorInstance,
 }: Props) => {
   const {messages} = useIntl();
+  let errorObj = getErrorObject(id, errorInstance);
+  let helperText =
+    errorObj && errorObj.message ? (
+      errorObj.message.hasOwnProperty('key') ? (
+        <IntlMessages
+          id={errorObj.message.key}
+          key={errorObj.message.key}
+          values={errorObj.message?.values || {}}
+        />
+      ) : (
+        errorObj.message
+      )
+    ) : (
+      ''
+    );
 
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <FormControl component='fieldset'>
       {label && (
-        <FormLabel component='legend' required={required}>
+        <FormLabel error={errorObj} component='legend' required={required}>
           {messages[label]}
         </FormLabel>
       )}
@@ -71,6 +91,11 @@ const FormRadioButtons = ({
         control={control}
         defaultValue={defaultValue}
       />
+      {errorObj && (
+        <FormHelperText error={true} id={id}>
+          {helperText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };
