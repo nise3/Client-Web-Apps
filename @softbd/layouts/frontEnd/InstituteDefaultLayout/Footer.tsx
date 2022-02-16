@@ -18,15 +18,12 @@ import {
   LINK_FRONTEND_INSTITUTE_NOTICE_BOARD,
   LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES,
   LINK_INSTITUTE_FRONTEND_STATIC_CONTENT,
-  LINK_YOUTH_SIGNUP,
 } from '../../../common/appLinks';
-import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
-import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicInstituteDetailsWithParams} from '../../../../services/instituteManagement/hooks';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 
@@ -178,13 +175,13 @@ const Footer = () => {
               </H6>
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
-                  <Link href='/' className={classes.bullet}>
+                  {/*<Link href='/' className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.online_courses']}
-                  </Link>
+                  </Link>*/}
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>
@@ -246,16 +243,16 @@ const Footer = () => {
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
-                    {messages['footer.question_and_answer']}
+                    {messages['footer.faq']}
                   </Link>
-                  <Link href={getSSOLoginUrl()} className={classes.bullet}>
+                  {/*<Link href={getSSOLoginUrl()} className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.login']}
-                  </Link>
-                  <Link
+                  </Link>*/}
+                  {/*<Link
                     href={gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)}
                     className={classes.bullet}>
                     <ArrowForwardIos
@@ -263,7 +260,7 @@ const Footer = () => {
                       className={classes.primary}
                     />{' '}
                     {messages['common.youth_registration']}
-                  </Link>
+                  </Link>*/}
                   <Link
                     href={
                       LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +

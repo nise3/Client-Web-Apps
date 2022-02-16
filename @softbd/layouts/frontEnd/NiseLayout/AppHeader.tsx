@@ -7,11 +7,7 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {classes, StyledAppBar} from './AppHeader.style';
-import {
-  CalendarViewMonth,
-  LocalActivityOutlined,
-  Person,
-} from '@mui/icons-material';
+import {CalendarViewMonth, LocalActivityOutlined} from '@mui/icons-material';
 // import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import {Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
@@ -27,7 +23,6 @@ import {
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
   LINK_FRONTEND_NISE_TRAINING,
-  LINK_YOUTH_SIGNUP,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
 import {useIntl} from 'react-intl';
@@ -38,7 +33,6 @@ import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOu
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import WorkIcon from '@mui/icons-material/Work';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
-import {gotoLoginSignUpPage} from '../../../common/constants';
 
 interface AppHeaderProps {}
 
@@ -53,8 +47,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
     useState<null | HTMLElement>(null);
 
   /*const redirectToSSO = useCallback(() => {
-        window.location.href = getSSOLoginUrl();
-      }, []);*/
+      window.location.href = getSSOLoginUrl();
+    }, []);*/
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -175,28 +169,16 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.recent_activity']}
                   </Link>
                 </Box>
-                {!authUser && (
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)}>
-                      <Person
-                        className={classes.menuIcons}
-                        sx={{fontSize: '2.6rem'}}
-                      />{' '}
-                      {messages['common.youth_registration']}
-                    </Link>
-                  </Box>
-                )}
-                {authUser && (
-                  <Box component='span' className={classes.menuItem}>
-                    <Link href={LINK_FRONTEND_NISE_CALENDAR}>
-                      <CalendarViewMonth
-                        className={classes.menuIcons}
-                        sx={{fontSize: '2.6rem'}}
-                      />{' '}
-                      {messages['menu.calendar']}
-                    </Link>
-                  </Box>
-                )}
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_NISE_CALENDAR}>
+                    <CalendarViewMonth
+                      className={classes.menuIcons}
+                      sx={{fontSize: '2.6rem'}}
+                    />{' '}
+                    {messages['menu.calendar']}
+                  </Link>
+                </Box>
+                {/*<Notifications />*/}
                 <LanguageSwitcher />
               </Box>
 
