@@ -1432,5 +1432,6 @@
   "common.date": "Date",
   "common.time": "Time",
   "common.maximum_number_of_applicants": "Maximum number Applicants",
-  "course.enrollment_form_config": "Enrollment Form Configuration"
+  "course.enrollment_form_config": "Enrollment Form Configuration",
+  "common.sms": "SMS"
 }

@@ -90,33 +90,38 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                 {messages['common.candidates'] as string}{' '}
               </H4>
             </Grid>
-            <Grid item xs={3}>
-              <Button
-                variant='contained'
-                onClick={() => setOpenCreateSchedulePopup(true)}>
-                Create Schedule
-              </Button>
-              {openCreateSchedulePopup && (
-                <ScheduleCreateComponentPopup
-                  jobId={jobId}
-                  onClose={closeCreateScheduleAddEditPopup}
-                />
-              )}
-            </Grid>
-            <Grid item xs={3}>
-              <Button
-                variant='contained'
-                onClick={() => setOpenScheduleListPopup(true)}>
-                Schedule List
-              </Button>
-              {openScheduleListPopup && (
-                <ScheduleListComponentPopup
-                  onClose={closeScheduleListPopup}
-                  jobId={jobId}
-                  currentStep={currentStep}
-                />
-              )}
-            </Grid>
+            {currentStep?.step_type && currentStep?.total_candidate > 0 && (
+              <Grid item xs={3}>
+                <Button
+                  variant='contained'
+                  onClick={() => setOpenCreateSchedulePopup(true)}>
+                  Create Schedule
+                </Button>
+                {openCreateSchedulePopup && (
+                  <ScheduleCreateComponentPopup
+                    jobId={jobId}
+                    onClose={closeCreateScheduleAddEditPopup}
+                    currentStep={currentStep}
+                  />
+                )}
+              </Grid>
+            )}
+            {currentStep?.step_type && currentStep?.total_candidate > 0 && (
+              <Grid item xs={3}>
+                <Button
+                  variant='contained'
+                  onClick={() => setOpenScheduleListPopup(true)}>
+                  Schedule List
+                </Button>
+                {openScheduleListPopup && (
+                  <ScheduleListComponentPopup
+                    onClose={closeScheduleListPopup}
+                    jobId={jobId}
+                    currentStep={currentStep}
+                  />
+                )}
+              </Grid>
+            )}
           </Grid>
 
           {(candidateList || []).map((candidate: any) => (
