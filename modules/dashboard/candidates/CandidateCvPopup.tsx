@@ -3,39 +3,39 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {Button, Grid} from '@mui/material';
-import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CVTemplateKeys from '../../youth/myCv/CVTemplateKeys';
 import ClassicTemplate from '../../youth/myCv/templates/ClassicTemplate';
 import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {useIntl} from 'react-intl';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 type Props = {
-  itemId: number;
   onClose: () => void;
-  youthData: any;
+  youthData?: any;
 };
 
-const DivisionDetailsPopup = ({itemId, youthData, ...props}: Props) => {
+const DivisionDetailsPopup = ({youthData, ...props}: Props) => {
   const {messages} = useIntl();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
     CVTemplateKeys.CLASSIC,
   );
   useEffect(() => {
     if (youthData) {
+      console.log('youthData: ', youthData);
       setSelectedTemplateKey(
-        youthData?.default_cv_template || CVTemplateKeys.CLASSIC,
+        youthData?.youth_profile?.default_cv_template || CVTemplateKeys.CLASSIC,
       );
     }
   }, [youthData]);
   const getTemplate = () => {
     switch (selectedTemplateKey) {
       case CVTemplateKeys.CLASSIC:
-        return <ClassicTemplate userData={youthData} />;
+        return <ClassicTemplate userData={youthData?.youth_profile} />;
       case CVTemplateKeys.MODERN:
-        return <ModernTemplate userData={youthData} />;
+        return <ModernTemplate userData={youthData?.youth_profile} />;
       default:
-        return <ClassicTemplate userData={youthData} />;
+        return <ClassicTemplate userData={youthData?.youth_profile} />;
     }
   };
   const refer = useRef(null);
@@ -75,7 +75,7 @@ const DivisionDetailsPopup = ({itemId, youthData, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconDivision />
+            <PersonPinIcon />
             <IntlMessages id='common.youth_cv' />
           </>
         }
@@ -86,7 +86,7 @@ const DivisionDetailsPopup = ({itemId, youthData, ...props}: Props) => {
         }>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={12} md={12} ref={refer}>
-            {youthData && getTemplate()}
+            {youthData?.youth_profile && getTemplate()}
           </Grid>
           <Grid item xs={12}>
             <Button
