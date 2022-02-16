@@ -66,3 +66,13 @@ export const updateCandidateStepSchedule = async (
     catchBlockHandler(error);
   }
 };
+export const deleteCandidateStepSchedule = async (scheduleId: number) => {
+  try {
+    let response: any = await apiDelete(
+      API_CANDIDATE_STEP_SCHEDULE + '/' + scheduleId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
