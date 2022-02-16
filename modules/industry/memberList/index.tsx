@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
+  Button,
   Chip,
   Container,
   Grid,
@@ -8,7 +9,7 @@ import {
   Skeleton,
   Stack,
 } from '@mui/material';
-import {H1, H2} from '../../../@softbd/elements/common';
+import {H1, H2, NavLink as Link} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import MemberComponent from './MemberComponent';
 import {useFetchPublicIndustryMembers} from '../../../services/IndustryManagement/hooks';
@@ -17,6 +18,7 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import MemberListSearchSection from './MemberListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'IndustryMemberList';
 
@@ -124,19 +126,46 @@ const MemberListPage = () => {
         </Grid>
       ) : data && data.length > 0 ? (
         <React.Fragment>
-          <H2
-            gutterBottom
-            mt={3}
-            mb={3}
-            sx={{
-              ...result.h6,
-            }}>
-            {messages['common.total_result']}{' '}
-            <Chip
-              label={formatNumber(data ? data.length : '0')}
-              className={classes.chipStyle}
-            />
-          </H2>
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <H2
+                gutterBottom
+                mt={3}
+                mb={3}
+                sx={{
+                  ...result.h6,
+                }}>
+                {messages['member.total_result']}{' '}
+                <Chip
+                  label={formatNumber(data ? data.length : '0')}
+                  className={classes.chipStyle}
+                />
+              </H2>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{display: 'flex', justifyContent: 'end'}}>
+              <H2
+                gutterBottom
+                mt={3}
+                mb={3}
+                sx={{
+                  ...result.h6,
+                }}>
+                {messages['member.be_our_member']}
+              </H2>
+              <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
+                <Button
+                  variant='contained'
+                  size='small'
+                  sx={{marginY: 3, marginLeft: 2}}>
+                  {messages['common.register']}
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
 
           {data && data.length > 0 && (
             <Grid container spacing={3}>

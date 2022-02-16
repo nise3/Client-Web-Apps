@@ -178,6 +178,8 @@
   "common.validation_required_error": "This field is required",
   "common.validation_exist_error": "Already exists",
   "common.file_upload": "File Upload",
+  "common.file_upload_first": "Upload File First",
+  "common.only_xlsx_file": "Only .xlsx file is allowed",
   "common.nid": "NID no",
   "common.address_info": "Address",
   "common.personal_info": "Personal information",
@@ -354,6 +356,7 @@
   "signup.label": "Sign up as",
   "common.youth": "Youth",
   "common.industry": "Industry",
+  "common.member_registration": "Member Registration",
   "common.training_center": "Training Center",
   "menu.about_us": "About Us",
   "menu.profile": "Profile",
@@ -519,6 +522,7 @@
   "common.invalid_date_of_birth": "Please provide a valid date of birth",
   "common.nid_validation": "NID format is not correct",
   "common.registration": "Registration",
+  "common.register": "Register",
   "common.youth_registration": "Youth Registration",
   "permission_group.key": "Unique Key",
   "common.root_cant_be_drag_and_drop": "Sorry! Drag and drop is not allowed",
@@ -1150,6 +1154,8 @@
   "common.member_list": "Member list",
   "common.filter": "Filter",
   "common.total_result": "Total Results",
+  "member.total_result": "Total Member Found",
+  "member.be_our_member": "Be our member",
   "common.employed": "Employed",
   "common.unemployed": "Unemployed",
   "common.job_vacancy": "Job Vacancy",
@@ -1425,5 +1431,6 @@
   "common.invite_type": "Invite type",
   "common.date": "Date",
   "common.time": "Time",
-  "common.maximum_number_of_applicants": "Maximum number Applicants"
+  "common.maximum_number_of_applicants": "Maximum number Applicants",
+  "course.enrollment_form_config": "Enrollment Form Configuration"
 }
