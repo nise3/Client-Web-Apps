@@ -4,13 +4,13 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconList from '../../../@softbd/icons/IconList';
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomChipStatus from './CustomChipStatus';
 
 type Props = {
   itemId: number;
@@ -260,7 +260,7 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <CustomChipRowStatus
+            <CustomChipStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}
               isLoading={isLoading}
