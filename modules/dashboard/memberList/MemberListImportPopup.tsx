@@ -7,12 +7,12 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
 import {useIntl} from 'react-intl';
 import DownloadIcon from '@mui/icons-material/Download';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
 
 interface MemberImportPopupProps {
   onClose: () => void;
@@ -26,23 +26,43 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
 }) => {
   const {errorStack} = useNotiStack();
   const {messages} = useIntl();
+
   const {
     register,
     handleSubmit,
     // errors,
     setError,
-    formState: {isSubmitting},
+    setValue,
+    formState: {errors, isSubmitting},
   } = useForm<any>();
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-        await createExcelImport(data.file[0]);
-        props.onClose();
-        refreshDataTable();
+      if (data?.file.length == 0) {
+        errorStack(messages['common.file_upload_first']);
+        return;
+      } else if (
+        data?.file[0]?.type !==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      ) {
+        errorStack(messages['common.only_xlsx_file']);
+        return;
+      }
       await createExcelImport(data.file[0]);
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, errorStack});
+    }
+  };
+
+  const fileUploadHandler = (files: any) => {
+    if (
+      files[0].type !==
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      errorStack(messages['common.only_xlsx_file']);
+      setValue('file', '');
     }
   };
 
@@ -71,7 +91,7 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
       }>
       <Grid container spacing={3} sx={{overflow: 'hidden'}}>
         <Grid item xs={6}>
-          <Link href='../../../public/template/organization-list.xlsx' download>
+          <Link href='/template/organization-list.xlsx' download>
             <CommonButton
               key={1}
               onClick={() => console.log('download file')}
@@ -80,11 +100,11 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
               color={'primary'}
             />
           </Link>
-
         </Grid>
 
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='file'
             name='file'
             label={messages['common.file_upload']}
@@ -93,13 +113,13 @@ const MemberImportPopup: FC<MemberImportPopupProps> = ({
             InputLabelProps={{
               shrink: true,
             }}
+            onInput={fileUploadHandler}
+            errorInstance={errors}
           />
           {/* <label htmlFor="contained-button-file">
             <Input id={'fileinput'} name={'file'} type="file" />
           </label> */}
         </Grid>
-
-
       </Grid>
     </HookFormMuiModal>
   );
