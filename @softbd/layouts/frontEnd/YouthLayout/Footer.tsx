@@ -79,11 +79,6 @@ const Footer = () => {
                 {messages['footer.privacy_policy']}
               </Link>
             </Typography>
-            <Typography gutterBottom={true}>
-              <Link href={'https://www.bdjobs.com/'} component={'span'} mt={2}>
-                {messages['footer.bd_jobs']}
-              </Link>
-            </Typography>
           </Grid>
           <Grid item md={2}>
             <Typography variant='subtitle2' gutterBottom={true}>
