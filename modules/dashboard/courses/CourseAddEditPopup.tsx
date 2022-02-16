@@ -412,7 +412,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5}>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             required
@@ -707,6 +707,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item container xs={12}>
+          <Grid item xs={12} >
+            <h3 style={{marginTop: '0', marginBottom: '5px', color: 'gray'}} >{messages['course.enrollment_form_config']}</h3>
+          </Grid>
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];
             return item.isVisible ? (

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import Grid from '@mui/material/Grid';
 import {
   Avatar,
@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {Body2, Caption, H5} from '../../../@softbd/elements/common';
+import {Body2, H5} from '../../../@softbd/elements/common';
 import moment from 'moment/moment';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CallIcon from '@mui/icons-material/Call';
@@ -149,7 +149,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('remove err->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -188,7 +187,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -207,11 +205,23 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
-
+  const getExperiencedDuration = useCallback((data: any) => {
+    let durationAsMonth = moment
+      .duration(
+        data.start_date
+          ? data.start_date.slice(0, 10)
+          : moment(new Date()).diff(
+              data.start_date
+                ? data.start_date.slice(0, 10)
+                : moment(new Date()),
+            ),
+      )
+      .asMonths();
+    return {month: durationAsMonth};
+  }, []);
   const CheckButton = ({
     title,
     onClick,
@@ -370,7 +380,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       candidate?.apply_status == ApplyStatuses.HIRE_INVITED
     ) {
       if (currentStep?.step_no != 99) {
-        text = 'Sortlisted for hired';
+        text = 'Shortlisted for hired';
       }
     } else if (candidate?.apply_status == ApplyStatuses.HIRED) {
       text = 'Hired';
@@ -386,25 +396,51 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
           <Grid item xs={4}>
             <Grid container>
               <Grid item xs={3}>
-                <Avatar src={candidate?.youth_profile?.photo} />
+                <Avatar
+                  src={candidate?.youth_profile?.photo}
+                  sx={{height: '60px', width: '60px'}}
+                />
               </Grid>
               <Grid item xs={9}>
-                <H5>
+                <H5 style={{cursor: 'pointer'}} color={'primary'}>
                   {candidate?.youth_profile?.first_name}{' '}
                   {candidate?.youth_profile?.last_name}
-                  <Caption className={classes.age}>
+                  {/*  <Caption className={classes.age}>
                     {moment().diff(
                       candidate?.youth_profile?.date_of_birth.slice(0, 10),
                       'years',
                     )}
-                  </Caption>
+                  </Caption>*/}
                 </H5>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                  <FmdGoodIcon />
-                  {candidate?.youth_profile?.upazila_title}
-                  {', '}
-                  {candidate?.youth_profile?.district_title}
-                  {', '} {candidate?.youth_profile?.division_title}
+                  <FmdGoodIcon
+                    sx={{
+                      fontSize: '1rem',
+                      marginTop: '2px',
+                      marginRight: '2px',
+                    }}
+                  />
+                  {candidate?.youth_profile?.upazila_title ? (
+                    <>
+                      {candidate?.youth_profile?.upazila_title}
+                      {', '}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {candidate?.youth_profile?.district_title ? (
+                    <>
+                      {candidate?.youth_profile?.district_title}
+                      {', '}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {candidate?.youth_profile?.division_title ? (
+                    <>{candidate?.youth_profile?.division_title}</>
+                  ) : (
+                    <></>
+                  )}
                 </Body2>
                 <Body2>
                   {
@@ -444,7 +480,14 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                   </Typography>
                 </Box>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                  <CallIcon /> {candidate?.youth_profile?.mobile}
+                  <CallIcon
+                    sx={{
+                      fontSize: '1rem',
+                      marginTop: '2px',
+                      marginRight: '2px',
+                    }}
+                  />{' '}
+                  {candidate?.youth_profile?.mobile}
                 </Body2>
               </Grid>
             </Grid>
@@ -455,18 +498,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                 <Box key={data.id}>
                   <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
                   <Body2>
-                    {data.position} (
-                    {moment
-                      .duration(
-                        data.start_date
-                          ? data.start_date.slice(0, 10)
-                          : moment(new Date()).diff(
-                              data.start_date
-                                ? data.start_date.slice(0, 10)
-                                : moment(new Date()),
-                            ),
-                      )
-                      .asYears()}{' '}
+                    {data.position} ({getExperiencedDuration(data).month}{' '}
                     {'years'})
                   </Body2>
                 </Box>
