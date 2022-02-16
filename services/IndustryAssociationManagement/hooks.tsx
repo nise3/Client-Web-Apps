@@ -66,3 +66,9 @@ export function useFetchJobRecruitmentStep(stepId: any) {
 export function useFetchJobRecruitmentSteps(jobId: string) {
   return useAxiosSWR(jobId ? API_RECRUITMENT_STEP_LISTS + jobId : null);
 }
+
+export function useFetchJobRecruitmentSchedule(stepId: any) {
+  return useAxiosSWR(
+    stepId ? API_RECRUITMENT_STEPS + '/' + stepId + '/schedules' : null,
+  );
+}

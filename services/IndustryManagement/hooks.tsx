@@ -20,10 +20,10 @@ import {
   API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST,
   API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
-  API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST,
   API_INDUSTRY_ASSOCIATIONS,
   API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
   API_JOB_REQUIREMENTS,
+  API_JOBS_CANDIDATES,
   API_PUBLIC_INDUSTRY_ASSOC_DETAILS,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
@@ -230,17 +230,6 @@ export function useFetchIndustryAssociationRecruitmentStepCandidateList(
   params: any,
 ) {
   return useAxiosSWR(
-    jobId && params
-      ? [
-          API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST +
-            '/' +
-            jobId,
-          params,
-        ]
-      : null,
+    jobId && params ? [API_JOBS_CANDIDATES + '/' + jobId, params] : null,
   );
 }
-
-// export function useFetchIndustryAssociationDetails() {
-//   return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_DETAILS]);
-// }

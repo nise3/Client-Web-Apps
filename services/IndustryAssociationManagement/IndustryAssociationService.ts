@@ -1,11 +1,6 @@
 import {apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {
-  API_CANDIDATE_UPDATE_HIRE_INVITE,
-  API_CANDIDATE_UPDATE_HIRED,
-  API_CANDIDATE_UPDATE_REJECT,
-  API_CANDIDATE_UPDATE_REMOVE,
-  API_CANDIDATE_UPDATE_RESTORE,
-  API_CANDIDATE_UPDATE_SHORT_LIST,
+  API_CANDIDATE_UPDATE,
   API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE,
   API_INDUSTRY_ASSOCIATIONS,
   API_RECRUITMENT_STEPS,
@@ -58,10 +53,10 @@ export const updateRecruitmentStep = async (
   }
 };
 
-export const rejectCandidateUpdate = async (candidateId: number) => {
+export const rejectCandidateUpdate = async (applicationId: number) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_REJECT + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/reject',
     );
     return response.data;
   } catch (error) {
@@ -69,10 +64,10 @@ export const rejectCandidateUpdate = async (candidateId: number) => {
   }
 };
 
-export const restoreCandidateUpdate = async (candidateId: number) => {
+export const restoreCandidateUpdate = async (applicationId: number) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_RESTORE + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/restore',
     );
     return response.data;
   } catch (error) {
@@ -80,10 +75,10 @@ export const restoreCandidateUpdate = async (candidateId: number) => {
   }
 };
 
-export const removeCandidateUpdate = async (candidateId: number) => {
+export const removeCandidateUpdate = async (applicationId: number) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_REMOVE + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/remove',
     );
     return response.data;
   } catch (error) {
@@ -91,12 +86,12 @@ export const removeCandidateUpdate = async (candidateId: number) => {
   }
 };
 export const hireInviteCandidateUpdate = async (
-  candidateId: number,
+  applicationId: number,
   params: any,
 ) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_HIRE_INVITE + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/hire-invite',
       params,
     );
     return response.data;
@@ -104,20 +99,20 @@ export const hireInviteCandidateUpdate = async (
     catchBlockHandler(error);
   }
 };
-export const shortlistCandidateUpdate = async (candidateId: number) => {
+export const shortlistCandidateUpdate = async (applicationId: number) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_SHORT_LIST + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/shortlist',
     );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
 };
-export const hiredCandidateUpdate = async (candidateId: number) => {
+export const hiredCandidateUpdate = async (applicationId: number) => {
   try {
     let response: any = await apiPut(
-      API_CANDIDATE_UPDATE_HIRED + '/' + candidateId,
+      API_CANDIDATE_UPDATE + applicationId + '/hired',
     );
     return response.data;
   } catch (error) {

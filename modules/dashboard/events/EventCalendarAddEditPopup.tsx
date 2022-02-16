@@ -100,8 +100,8 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
       (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
         (initialValues.end_date = moment(endDate).format('yyyy-MM-DD')),
         (initialValues.start_time = moment(startDate).format('HH:mm')),
-        (initialValues.end_time = moment(endDate).format('HH:mm'))
-        reset(initialValues);
+        (initialValues.end_time = moment(endDate).format('HH:mm'));
+      reset(initialValues);
     }
   }, [itemData]);
   const hasSecond = (time: any) => {
