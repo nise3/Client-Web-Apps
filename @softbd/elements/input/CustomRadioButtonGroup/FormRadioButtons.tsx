@@ -60,7 +60,10 @@ const FormRadioButtons = ({
   ) : (
     <FormControl component='fieldset'>
       {label && (
-        <FormLabel error={errorObj} component='legend' required={required}>
+        <FormLabel
+          error={errorObj ?? false}
+          component='legend'
+          required={required}>
           {messages[label]}
         </FormLabel>
       )}
