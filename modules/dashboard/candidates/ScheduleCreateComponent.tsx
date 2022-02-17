@@ -6,13 +6,11 @@ import {Grid} from '@mui/material';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import {
   createCandidateStepSchedule,
   updateCandidateStepSchedule,
@@ -20,15 +18,27 @@ import {
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import CustomDateTimePicker from '../../../@softbd/elements/input/CustomDateTimePicker';
+import {useFetchCandidateStepSchedule} from '../../../services/IndustryManagement/hooks';
+
+const initialValues = {
+  recruitment_step_id: '',
+  interview_scheduled_at: '',
+  maximum_number_of_applicants: '',
+  interview_invite_type: '',
+  interview_address: '',
+};
 
 interface IScheduleCreateComponentPopupProps {
   onClose: () => void;
+  scheduleId?: any;
   jobId: string;
-  currentStep?: any;
+  currentStep: any;
 }
 
 const ScheduleCreateComponentPopup = ({
   jobId,
+  scheduleId,
   currentStep,
   ...props
 }: IScheduleCreateComponentPopupProps) => {
@@ -37,7 +47,23 @@ const ScheduleCreateComponentPopup = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const isEdit = currentStep.step_no != null;
+  const isEdit = scheduleId != null;
+
+  const {data: schedule, isLoading} = useFetchCandidateStepSchedule(scheduleId);
+
+  useEffect(() => {
+    if (schedule) {
+      reset({
+        recruitment_step_id: schedule?.recruitment_step_id,
+        interview_scheduled_at: schedule?.interview_scheduled_at,
+        maximum_number_of_applicants: schedule?.interview_scheduled_at,
+        interview_invite_type: schedule?.interview_scheduled_at,
+        interview_address: schedule?.interview_scheduled_at,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [schedule]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -56,14 +82,12 @@ const ScheduleCreateComponentPopup = ({
     control,
     register,
     setError,
-    // reset,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
-  console.log('erros->', errors);
 
   const notifyApplicant = useMemo(
     () => [
@@ -75,26 +99,35 @@ const ScheduleCreateComponentPopup = ({
         key: '2',
         label: messages['common.sms'],
       },
+      {
+        key: '3',
+        label: messages['common.email_sms'],
+      },
+      {
+        key: '4',
+        label: messages['common.dont_send'],
+      },
     ],
     [messages],
   );
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    console.log('formData schedule->', formData);
-    let scheduleId = 1;
+    formData.interview_scheduled_at = formData.interview_scheduled_at.replace(
+      'T',
+      ' ',
+    );
     try {
       formData.job_id = jobId;
+      formData.recruitment_step_id = currentStep.step_no;
 
       if (scheduleId) {
         await updateCandidateStepSchedule(scheduleId, formData);
         updateSuccessMessage('common.interview_schedule');
-        // mutateSteps();
       } else {
         await createCandidateStepSchedule(formData);
         createSuccessMessage('common.interview_schedule');
       }
       props.onClose();
-      // mutateSteps();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -127,26 +160,17 @@ const ScheduleCreateComponentPopup = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={false} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
         <Grid item xs={6}>
-          <CustomDateTimeField
-            required
-            id='date'
+          <CustomDateTimePicker
+            id='interview_scheduled_at'
             label={messages['common.date']}
             register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTimePicker
-            id='time'
-            label={messages['common.time']}
-            register={register}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={6}>
@@ -156,7 +180,7 @@ const ScheduleCreateComponentPopup = ({
             label={messages['common.maximum_number_of_applicants']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12}>
@@ -166,7 +190,7 @@ const ScheduleCreateComponentPopup = ({
             label={messages['common.venue']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             placeholder='Type a venue address'
           />
         </Grid>
@@ -177,7 +201,7 @@ const ScheduleCreateComponentPopup = ({
             label={'common.invite_type'}
             radios={notifyApplicant}
             control={control}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

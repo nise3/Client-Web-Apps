@@ -29,18 +29,17 @@ const ScheduleListComponentPopup = ({
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
-  const [openEditModal, setOpoenEditModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [scheduleId, setScheduleId] = useState<any>(null);
 
-  // const [closeEditModal, setcloseEditModal] = useState(false);
-
-  const onOpenEditModal = useCallback((itemId: number | null = null) => {
-    setOpoenEditModal(true);
-    // setSelectedItemId(itemId);
+  const onOpenEditModal = useCallback((scheduleId: number | null = null) => {
+    setOpenEditModal(true);
+    setScheduleId(scheduleId);
   }, []);
 
   const closeEditModal = () => {
-    setOpoenEditModal(false);
+    setOpenEditModal(false);
   };
 
   const {data, loading, pageCount, totalCount, onFetchData} =
@@ -134,6 +133,7 @@ const ScheduleListComponentPopup = ({
         <ScheduleCreateComponentPopup
           onClose={closeEditModal}
           jobId={jobId}
+          scheduleId={scheduleId}
           currentStep={currentStep}
         />
       )}

@@ -1433,5 +1433,7 @@
   "common.time": "Time",
   "common.maximum_number_of_applicants": "Maximum number Applicants",
   "course.enrollment_form_config": "Enrollment Form Configuration",
-  "common.sms": "SMS"
+  "common.sms": "SMS",
+  "common.email_sms": "Email and SMS",
+  "common.dont_send": "Don't send"
 }
