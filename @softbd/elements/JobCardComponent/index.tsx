@@ -312,6 +312,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             avatar={
               <Avatar
                 className={classes.providerAvatar}
+                variant={'square'}
                 src={getJobProviderImage()}
                 title={job.job_title}
                 alt={job.job_title}
