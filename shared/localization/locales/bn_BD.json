@@ -1443,5 +1443,7 @@
   "common.time": "সময়",
   "common.maximum_number_of_applicants": "সর্বোচ্চ আবেদনকারীর সংখ্যা",
   "course.enrollment_form_config": "তালিকাভুক্তি ফর্ম কনফিগারেশন",
-  "common.sms": "এসএমএস"
+  "common.sms": "এসএমএস",
+  "common.email_sms": "ইমেইল এবং এসএমএস",
+  "common.dont_send": "পাঠাবেন না"
 }
