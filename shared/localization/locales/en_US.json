@@ -1435,5 +1435,7 @@
   "course.enrollment_form_config": "Enrollment Form Configuration",
   "common.sms": "SMS",
   "common.email_sms": "Email and SMS",
-  "common.dont_send": "Don't send"
+  "common.dont_send": "Don't send",
+  "common.provided_vacancy": "Provided vacancy",
+  "common.approved_vacancy": "Approved vacancy"
 }

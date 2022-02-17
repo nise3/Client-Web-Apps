@@ -15,6 +15,8 @@ import Link from 'next/link';
 import {LINK_HUMAN_RESOURCE_DEMAND} from '../../../@softbd/common/appLinks';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import PersonIcon from '@mui/icons-material/Person';
+import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 
 const HumanResourceDemandPage = () => {
   const {messages, locale} = useIntl();
@@ -52,6 +54,48 @@ const HumanResourceDemandPage = () => {
         Header: messages['organization.label_en'],
         accessor: 'organization_title_en',
         isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['common.vacancy'],
+        accessor: 'hr_demand.vacancy',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.hr_demand?.vacancy}
+            />
+          );
+        },
+      },
+      {
+        Header: messages['common.provided_vacancy'],
+        accessor: 'vacancy_provided_by_institute',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.vacancy_provided_by_institute}
+            />
+          );
+        },
+      },
+      {
+        Header: messages['common.approved_vacancy'],
+        accessor: 'vacancy_approved_by_industry_association',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.vacancy_approved_by_industry_association}
+            />
+          );
+        },
       },
       {
         Header: messages['common.approval_status'],
