@@ -61,7 +61,7 @@ const FormRadioButtons = ({
     <FormControl component='fieldset'>
       {label && (
         <FormLabel
-          error={errorObj ?? false}
+          error={typeof errorObj != 'undefined' ?? false}
           component='legend'
           required={required}>
           {messages[label]}
