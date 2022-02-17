@@ -55,10 +55,13 @@ const ScheduleCreateComponentPopup = ({
     if (schedule) {
       reset({
         recruitment_step_id: schedule?.recruitment_step_id,
-        interview_scheduled_at: schedule?.interview_scheduled_at,
-        maximum_number_of_applicants: schedule?.interview_scheduled_at,
-        interview_invite_type: schedule?.interview_scheduled_at,
-        interview_address: schedule?.interview_scheduled_at,
+        interview_scheduled_at: schedule?.interview_scheduled_at.replace(
+          ' ',
+          'T',
+        ),
+        maximum_number_of_applicants: schedule?.maximum_number_of_applicants,
+        interview_invite_type: schedule?.interview_invite_type,
+        interview_address: schedule?.interview_address,
       });
     } else {
       reset(initialValues);
