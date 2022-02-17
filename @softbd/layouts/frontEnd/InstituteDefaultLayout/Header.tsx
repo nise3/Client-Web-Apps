@@ -133,7 +133,11 @@ const Header: React.FC<AppHeaderProps> = () => {
             <Box>
               <img
                 className={classes.logoInstitute}
-                src='/images/DYD-and-gov-Logo.png'
+                src={
+                  institute?.logo
+                    ? institute?.logo
+                    : '/images/DYD-and-gov-Logo.png'
+                }
                 alt='institute logo'
               />
             </Box>

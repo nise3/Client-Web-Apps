@@ -10,6 +10,8 @@ export const classes = {
 
 export const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
+  marginTop: '50px',
+  marginBottom: '50px',
   [theme.breakpoints.only('xs')]: {
     height: 'calc(100vh - 56px)',
   },
