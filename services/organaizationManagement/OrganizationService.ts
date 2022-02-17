@@ -8,6 +8,7 @@ import {
   API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP,
 } from '../../@softbd/common/apiRoutes';
 import {IOrganization} from '../../shared/Interface/organization.interface';
+import {IPermissionSubGroupAssignInstitute} from '../../shared/Interface/institute.interface';
 
 export const getAllOrganizations = async (params = {}) => {
   try {
@@ -74,7 +75,22 @@ export const rejectOrgMemberShip = async (memberId: number) => {
   }
 };
 
-export const approveOrgMemberShip = async (memberId: number) => {
+export const approveOrgMemberShip = async (
+  memberId: number,
+  data: IPermissionSubGroupAssignInstitute,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const reApproveOrgMemberShip = async (memberId: number) => {
   try {
     let response: any = await apiPut(
       API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
