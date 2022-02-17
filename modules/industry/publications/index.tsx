@@ -290,31 +290,32 @@ const Publications = () => {
                   ) : publications && publications?.length ? (
                     publications.map((publication: any) => {
                       return (
-                        <Grid
-                          item
-                          md={3}
-                          xs={12}
-                          justifyContent={'center'}
-                          mt={3}
+                        <Link
+                          href={`/publications/${publication.id}`}
                           key={publication.id}>
-                          <Box
-                            className={classes.imageBox}
-                            sx={{maxWidth: 150}}>
-                            <CardMedia
-                              component='img'
-                              height='227'
-                              image={publication.image_path}
-                              alt='publication'
-                            />
-                          </Box>
-                          <Box sx={{width: '150px'}} mt={1}>
-                            <Link href={`/publications/${publication.id}`}>
+                          <Grid
+                            item
+                            md={3}
+                            xs={12}
+                            justifyContent={'center'}
+                            mt={3}>
+                            <Box
+                              className={classes.imageBox}
+                              sx={{maxWidth: 150}}>
+                              <CardMedia
+                                component='img'
+                                height='227'
+                                image={publication.image_path}
+                                alt='publication'
+                              />
+                            </Box>
+                            <Box sx={{width: '150px'}} mt={1}>
                               <Body2 className={classes.title}>
                                 {publication?.title}
                               </Body2>
-                            </Link>
-                          </Box>
-                        </Grid>
+                            </Box>
+                          </Grid>
+                        </Link>
                       );
                     })
                   ) : (
