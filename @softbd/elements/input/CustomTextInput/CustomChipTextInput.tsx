@@ -35,12 +35,10 @@ const classes = {
 };
 
 const StyledTextField = styled(TextField)(() => ({
-  '& .css-18uie21-MuiInputBase-root-MuiOutlinedInput-root': {
+  '& .MuiInputBase-root': {
     borderRadius: '0',
   },
-  '& .css-c8d31g-MuiInputBase-root-MuiOutlinedInput-root': {
-    borderRadius: '0',
-  },
+
   [`& .${classes.lastTextField}`]: {
     borderRadius: '0 4px 4px 0',
   },
