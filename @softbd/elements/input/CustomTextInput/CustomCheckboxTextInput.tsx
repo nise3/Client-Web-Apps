@@ -1,7 +1,7 @@
 import {Checkbox, FormLabel, Grid} from '@mui/material';
 import CustomTextInput from './CustomTextInput';
 import React from 'react';
-import {MessageFormatElement} from 'react-intl';
+import {MessageFormatElement, useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 
 interface Props {
@@ -44,6 +44,7 @@ const CustomCheckboxTextInput = ({
   isTextFieldExist = true,
   textFieldPlaceholder,
 }: Props) => {
+  const {messages} = useIntl();
   {
     return (
       <>
@@ -70,16 +71,38 @@ const CustomCheckboxTextInput = ({
                 />
                 {data.title}
               </label>
-              {isTextFieldExist && (
+              {data.id != 'others' && isTextFieldExist && (
                 <CustomTextInput
                   disabled={!checkedDataArray.includes(data.id)}
                   id={id + '[' + data.id + ']'}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
-                  sx={{maxWidth: '200px', marginLeft: '50px'}}
+                  sx={{maxWidth: '20vw', marginLeft: '2vw'}}
                   placeholder={textFieldPlaceholder}
                 />
+              )}
+              {data.id == 'others' && (
+                <>
+                  <CustomTextInput
+                    disabled={!checkedDataArray.includes(data.id)}
+                    id={id + '[' + data.id + '][name]'}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    sx={{maxWidth: '10vw', marginLeft: '2vw'}}
+                    placeholder={messages['common.name']}
+                  />
+                  <CustomTextInput
+                    disabled={!checkedDataArray.includes(data.id)}
+                    id={id + '[' + data.id + '][number]'}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    sx={{maxWidth: '10vw', marginLeft: '1vw'}}
+                    placeholder={messages['common.number']}
+                  />
+                </>
               )}
             </StyledGrid>
           );
