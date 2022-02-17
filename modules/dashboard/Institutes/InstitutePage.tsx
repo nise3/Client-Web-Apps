@@ -73,6 +73,7 @@ const InstitutePage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+
   const rejectAction = async (itemId: number) => {
     let response = await rejectInstitute(itemId);
     if (isResponseSuccess(response)) {
@@ -85,6 +86,7 @@ const InstitutePage = () => {
     }
     refreshDataTable();
   };
+
   const ReApproveAction = async (itemId: number) => {
     let response = await ReApproveInstitute(itemId);
     if (isResponseSuccess(response)) {
