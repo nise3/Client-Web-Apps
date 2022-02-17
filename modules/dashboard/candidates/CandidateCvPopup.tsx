@@ -81,20 +81,18 @@ const DivisionDetailsPopup = ({youthData, ...props}: Props) => {
         }
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={false} />
-          </>
-        }>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} md={12} ref={refer}>
-            {youthData?.youth_profile && getTemplate()}
-          </Grid>
-          <Grid item xs={12}>
             <Button
               variant='contained'
               onClick={printCB}
               style={{float: 'right'}}>
               {messages['common.print']}
             </Button>
+            <CancelButton onClick={props.onClose} isLoading={false} />
+          </>
+        }>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12} md={12} ref={refer}>
+            {youthData?.youth_profile && getTemplate()}
           </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
