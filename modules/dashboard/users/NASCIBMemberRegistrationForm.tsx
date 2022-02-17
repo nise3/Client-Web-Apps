@@ -1,26 +1,19 @@
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchUser} from '../../../services/userManagement/hooks';
 import RowStatus from './RowStatus';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {FormLabel, Grid, Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {
-  createUser,
-  updateUser,
-} from '../../../services/userManagement/UserService';
-import IconUser from '../../../@softbd/icons/IconUser';
+import {createUser} from '../../../services/userManagement/UserService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   useFetchDistricts,
@@ -29,7 +22,6 @@ import {
 import {filterUpazilasByDistrictId} from '../../../services/locationManagement/locationUtils';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {getUserType} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {styled} from '@mui/material/styles';
 import {Gender} from '../jobLists/jobPost/enums/JobPostEnums';
@@ -43,11 +35,13 @@ import CustomCheckboxTextInput from '../../../@softbd/elements/input/CustomTextI
 import HasRegisteredAuthority from './constants/HasRegisteredAuthority';
 import BusinessType from './constants/BusinessTypes';
 import TradeLicensingAuthority from './constants/TradeLicensingAuthority';
+import BankAccountType from './constants/BankAccountType';
+import Boolean from './constants/Boolean';
+import BusinessOwnership from './constants/BusinessOwnership';
+import {Body1, H1, H2} from '../../../@softbd/elements/common';
 
 interface NASCIBMemberRegistrationFormProps {
-  itemId: number | null;
   onClose: () => void;
-  refreshDataTable: () => void;
 }
 
 const PREFIX = 'NascibUserAddEdit';
@@ -137,18 +131,12 @@ const initialValues = {
 };
 
 const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
-  itemId,
-  refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const authUser = useAuthUser();
 
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const isEdit = itemId != null;
-  const {data: itemData, isLoading, mutate: mutateUser} = useFetchUser(itemId);
-
+  const {createSuccessMessage} = useSuccessMessage();
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
 
@@ -156,6 +144,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const isLoading = false;
 
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
   const [formFiller, setFormFiller] = useState<any>(null);
@@ -189,6 +178,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const [isIndustryDoExport, setIsIndustryDoExport] = useState<boolean>(false);
 
   const [isIndustryDoImport, setIsIndustryDoImport] = useState<boolean>(false);
+  const [hasBankAccount, setHasBankAccount] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -305,6 +295,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .label(messages['institute.trade_licence_number'] as string),
       organization_identification_no: yup
         .string()
+        .required()
         .label(messages['common.organization_identification_number'] as string),
       organization_name: yup
         .string()
@@ -368,6 +359,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .label(messages['trade_license.label'] as string),
       industry_last_renew_year: yup
         .string()
+        .required()
         .label(messages['institute.last_renewal_year'] as string),
       tin: yup
         .string()
@@ -412,8 +404,85 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               .required()
               .label(messages['industry.under_sme_cluster_name'] as string)
           : yup.string(),
+      member_of_association_or_chamber: yup
+        .string()
+        .required()
+        .label(messages['institute.is_association_member'] as string),
+      member_of_association_or_chamber_name: isAssociationMember
+        ? yup
+            .string()
+            .required()
+            .label(messages['industry.under_sme_cluster_name'] as string)
+        : yup.string(),
+      sector: yup
+        .string()
+        .required()
+        .label(messages['institute.sector'] as string),
+      sector_other_name: yup.string(),
+      business_type: yup
+        .string()
+        .required()
+        .label(messages['business_type.label'] as string),
+      main_product_name: yup
+        .string()
+        .required()
+        .label(messages['institute.main_product'] as string),
+      main_material_description: yup
+        .string()
+        .required()
+        .label(messages['institute.raw_materials_details'] as string),
+      import: yup
+        .string()
+        .required()
+        .label(messages['institute.is_import_product'] as string),
+      import_by: yup.string(),
+      export_abroad: yup
+        .string()
+        .required()
+        .label(messages['institute.is_export_product'] as string),
+      export_abroad_by: yup.string(),
+      industry_irc_no: yup.string(),
+      salaried_manpower: yup.object(),
+      have_bank_account: yup
+        .string()
+        .required()
+        .label(messages['institute.has_bank_account'] as string),
+      bank_account_type: hasBankAccount
+        ? yup
+            .string()
+            .required()
+            .label(messages['bank_account_type.label'] as string)
+        : yup.string(),
+      accounting_system: yup
+        .string()
+        .required()
+        .label(messages['institute.is_keep_daily_credit_debit'] as string),
+      use_computer: yup
+        .string()
+        .required()
+        .label(messages['institute.is_use_computer'] as string),
+      internet_connection: yup
+        .string()
+        .required()
+        .label(messages['institute.has_internet_connection'] as string),
+      online_business: yup
+        .string()
+        .required()
+        .label(messages['institute.has_online_business'] as string),
+      info_provider_name: yup.string(),
+      info_provider_mobile: yup.string(),
+      info_collector_name: yup.string(),
+      info_collector_mobile: yup.string(),
     });
-  }, [itemId, messages]);
+  }, [
+    messages,
+    formFiller,
+    hasBankAccount,
+    hasWorkshop,
+    isAssociationMember,
+    isIndustryUnderSpecializedArea,
+    isUnderSMECluster,
+  ]);
 
   const {
     register,
@@ -523,47 +592,38 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   );
 
   const handleIsAssociationMember = useCallback(
-    (key: number) => {
-      setIsAssociationMember(key == HasWorkshopConstant.YES);
+    (key: number | string) => {
+      setIsAssociationMember(key == Boolean.YES);
     },
     [isAssociationMember],
   );
 
   const handleIsIndustryDoExport = useCallback(
-    (key: number) => {
-      setIsIndustryDoExport(key == HasWorkshopConstant.YES);
+    (key: number | string) => {
+      setIsIndustryDoExport(key == Boolean.YES);
     },
     [isIndustryDoExport],
   );
 
   const handleIsIndustryDoImport = useCallback(
-    (key: number) => {
-      setIsIndustryDoImport(key == HasWorkshopConstant.YES);
+    (key: number | string) => {
+      setIsIndustryDoImport(key == Boolean.YES);
     },
     [isIndustryDoImport],
   );
 
-  const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
-    if (authUser?.isInstituteUser) {
-      data.user_type = String(getUserType(authUser));
-      data.institute_id = authUser?.institute_id;
-    } else if (authUser?.isOrganizationUser) {
-      data.organization_id = authUser?.organization_id;
-    }
+  const handleHasBankAccount = useCallback(
+    (key: number | string) => {
+      setHasBankAccount(key == Boolean.YES);
+    },
+    [hasBankAccount],
+  );
 
+  const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
     try {
-      if (itemId) {
-        data.user_type = String(itemData?.user_type); //this will be removed after backend refactor user creation
-        await updateUser(itemId, data);
-        updateSuccessMessage('user.label');
-        mutateUser();
-      } else {
-        data.user_type = String(getUserType(authUser)); //this will be removed after backend refactor user creation
-        await createUser(data);
-        createSuccessMessage('user.label');
-      }
+      await createUser(data);
+      createSuccessMessage('user.label');
       props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -575,18 +635,19 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       {...props}
       title={
         <>
-          <IconUser />
-          {isEdit ? (
-            <IntlMessages
-              id='common.edit'
-              values={{subject: <IntlMessages id='user.label' />}}
-            />
-          ) : (
-            <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id='user.label' />}}
-            />
-          )}
+          <Grid container alignItems={'center'} justifyContent={'center'}>
+            <Grid item>
+              <H1 centered={true} sx={{color: 'red'}}>
+                ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন
+              </H1>
+              <H2 centered={true}>এসএমই উদ্যোক্তা ই-ডেটাবেজ</H2>
+              <Body1 centered={true}>
+                নানাবিধ নীতিগত সুবিধার জন্য সিএমএসএমই ই-ডাটাবেজ তৈরি করা হচ্ছে।
+                গণপ্রজাতন্ত্রী বাংলাদেশ সরকারকে এই ডাটাবেজ তৈরিতে সহযোগিতা করার
+                লক্ষ্যে আপনার প্রতিষ্ঠানকে তালিকাভুক্ত করার জন্য অনুরোধ করা হলো।
+              </Body1>
+            </Grid>
+          </Grid>
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -954,8 +1015,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             id='factory'
             label={'common.has_workshop'}
             radios={[
-              {key: '1', label: messages['common.yes']},
-              {key: '2', label: messages['common.no']},
+              {key: Boolean.YES, label: messages['common.yes']},
+              {key: Boolean.NO, label: messages['common.no']},
             ]}
             control={control}
             onChange={onChangeHasWorkshop}
@@ -1019,11 +1080,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 label={'factory.office_or_showroom'}
                 radios={[
                   {
-                    key: '1',
+                    key: Boolean.YES,
                     label: messages['common.yes'],
                   },
                   {
-                    key: '2',
+                    key: Boolean.NO,
                     label: messages['common.no'],
                   },
                 ]}
@@ -1038,11 +1099,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 label={'factory.factory_land_own_or_rent'}
                 radios={[
                   {
-                    key: '1',
+                    key: Boolean.YES,
                     label: messages['common.yes'],
                   },
                   {
-                    key: '2',
+                    key: Boolean.NO,
                     label: messages['common.no'],
                   },
                 ]}
@@ -1064,15 +1125,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             id={'proprietorship'}
             radios={[
               {
-                key: '1',
+                key: BusinessOwnership.SINGLE,
                 label: messages['business_ownership.single'],
               },
               {
-                key: '2',
+                key: BusinessOwnership.PARTNERSHIP,
                 label: messages['business_ownership.partnership'],
               },
               {
-                key: '3',
+                key: BusinessOwnership.JOINT,
                 label: messages['business_ownership.joint'],
               },
             ]}
@@ -1140,8 +1201,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'tin'}
             radios={[
-              {key: '1', label: messages['common.yes']},
-              {key: '2', label: messages['common.no']},
+              {key: Boolean.YES, label: messages['common.yes']},
+              {key: Boolean.NO, label: messages['common.no']},
             ]}
             control={control}
             label={'institute.is_tin'}
@@ -1176,11 +1237,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_registered_under_authority'}
             radios={[
               {
-                key: '1',
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: '2',
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1210,11 +1271,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_under_any_approved_authority'}
             radios={[
               {
-                key: HasRegisteredAuthority.YES,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: HasRegisteredAuthority.NO,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1223,7 +1284,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             onChange={handleHasAuthorizedAuthorityCheck}
           />
 
-          {hasAuthorizedAuthority == HasRegisteredAuthority.YES && (
+          {hasAuthorizedAuthority == Boolean.YES && (
             <CustomCheckboxTextInput
               id={'authorized_authority'}
               data={registeredAuthors}
@@ -1245,11 +1306,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_under_any_special_region'}
             radios={[
               {
-                key: HasRegisteredAuthority.YES,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: HasRegisteredAuthority.NO,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1279,11 +1340,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_under_any_sme_cluster'}
             radios={[
               {
-                key: HasRegisteredAuthority.YES,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: HasRegisteredAuthority.NO,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1313,11 +1374,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_association_member'}
             radios={[
               {
-                key: '1',
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: '2',
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1419,11 +1480,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_export_product'}
             radios={[
               {
-                key: HasRegisteredAuthority.YES,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: HasRegisteredAuthority.NO,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1450,16 +1511,17 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.is_import_product'}
             radios={[
               {
-                key: HasRegisteredAuthority.YES,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: HasRegisteredAuthority.NO,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
             onChange={handleIsIndustryDoImport}
+            errorInstance={errors}
           />
           {isIndustryDoImport && (
             <CustomTextInput
@@ -1553,11 +1615,54 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             label={'institute.has_bank_account'}
             radios={[
               {
-                key: 1,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: Boolean.NO,
+                label: messages['common.no'],
+              },
+            ]}
+            control={control}
+            errorInstance={errors}
+            onChange={handleHasBankAccount}
+          />
+
+          {hasBankAccount && (
+            <Grid item xs={6}>
+              <FormRadioButtons
+                required
+                id={'bank_account_type'}
+                label={'bank_account_type.label'}
+                radios={[
+                  {
+                    key: BankAccountType.PERSONAL,
+                    label: messages['bank_account_type.personal'],
+                  },
+                  {
+                    key: BankAccountType.OF_THE_ORGANIZATION,
+                    label: messages['bank_account_type.of_the_organization'],
+                  },
+                ]}
+                control={control}
+                errorInstance={errors}
+              />
+            </Grid>
+          )}
+        </Grid>
+
+        <Grid item xs={6}>
+          <FormRadioButtons
+            required
+            id={'accounting_system'}
+            label={'institute.is_keep_daily_debit_credit'}
+            radios={[
+              {
+                key: Boolean.YES,
+                label: messages['common.yes'],
+              },
+              {
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
@@ -1568,73 +1673,61 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'is_keep_daily_debit_credit'}
-            label={'institute.is_keep_daily_debit_credit'}
-            radios={[
-              {
-                key: 1,
-                label: messages['common.yes'],
-              },
-              {
-                key: 2,
-                label: messages['common.no'],
-              },
-            ]}
-            control={control}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <FormRadioButtons
-            id={'is_use_computer'}
+            required
+            id={'use_computer'}
             label={'institute.is_use_computer'}
             radios={[
               {
-                key: 1,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'has_internet_connection'}
+            required
+            id={'internet_connection'}
             label={'institute.has_internet_connection'}
             radios={[
               {
-                key: 1,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <FormRadioButtons
-            id={'has_online_business'}
+            required
+            id={'online_business'}
             label={'institute.has_online_business'}
             radios={[
               {
-                key: 1,
+                key: Boolean.YES,
                 label: messages['common.yes'],
               },
               {
-                key: 2,
+                key: Boolean.NO,
                 label: messages['common.no'],
               },
             ]}
             control={control}
+            errorInstance={errors}
           />
         </Grid>
 
