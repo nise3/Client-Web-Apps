@@ -15,6 +15,8 @@ import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
+import {checkPermission} from '../../../@crema/utility/authorizations';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'UserInfo';
 
@@ -83,6 +85,7 @@ const UserInfo: React.FC = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const user: CommonAuthUser | null = useAuthUser();
+  const {messages} = useIntl();
 
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);
@@ -144,9 +147,29 @@ const UserInfo: React.FC = () => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                <MenuItem onClick={openDetailsModal}>My account</MenuItem>
+                <MenuItem onClick={openDetailsModal}>
+                  {messages['my_account.label']}
+                </MenuItem>
+                {user?.isIndustryAssociationUser &&
+                  checkPermission(user, ['view_any_association_profile']) && (
+                    <MenuItem>
+                      <Link href='/association-profile'>
+                        {messages['association.association_profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                {user?.isInstituteUser &&
+                  checkPermission(user, ['view_institute_profile']) && (
+                    <MenuItem>
+                      <Link href='/institute-profile'>
+                        {messages['institute_profile.label']}
+                      </Link>
+                    </MenuItem>
+                  )}
                 <MenuItem>
-                  <Link href={getSSOLogoutUrl()}>Logout</Link>
+                  <Link href={getSSOLogoutUrl()}>
+                    {messages['common.logout']}
+                  </Link>
                 </MenuItem>
               </Menu>
             </Box>

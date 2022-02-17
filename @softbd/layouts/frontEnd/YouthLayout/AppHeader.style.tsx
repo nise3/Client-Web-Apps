@@ -78,11 +78,11 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   [`& .${classes.menuIcons}`]: {
     height: '0.6em',
     fontSize: 32,
-    marginTop: 2,
+    marginTop: '1px',
   },
 
   [`& .${classes.menuItem}`]: {
-    fontSize: 16,
+    fontSize: '1.13rem',
     padding: '20px 10px',
     color: theme.palette.grey[500],
     '&>a': {

@@ -4,9 +4,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import RejectButton from '../applicationManagement/RejectButton';
 import {useIntl} from 'react-intl';
-import ApproveButton from '../../../@softbd/elements/button/ApproveButton/ApproveButton';
 import IconList from '../../../@softbd/icons/IconList';
 import MemberListDetailsPopup from './MemberListDetailsPopup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -17,7 +15,7 @@ import MemberListAddEditPopup from './MemberListAddEditPopup';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
-  approveOrgMemberShip,
+  reApproveOrgMemberShip,
   rejectOrgMemberShip,
 } from '../../../services/organaizationManagement/OrganizationService';
 import CustomChipStatus from './CustomChipStatus';
@@ -25,15 +23,32 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import MemberImportPopup from './MemberListImportPopup';
 import DownloadIcon from '@mui/icons-material/Download';
+import MemberAssingnPermissionPopup from './MemberAssingnPermissionPopup';
+import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
+import {FiUserCheck} from 'react-icons/fi';
+import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
+import ApproveButton from '../industry-associations/ApproveButton';
+
 const MemberListPage = () => {
   const {messages, locale} = useIntl();
-  const {successStack, errorStack} = useNotiStack();
+  const {successStack} = useNotiStack();
 
+  const [isOpenPermissionSubGroupModal, setIsOpenPermissionSubGroupModal] =
+    useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
+
+  const openAssignPermissionModal = useCallback(
+    (itemId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenPermissionSubGroupModal(true);
+      setSelectedItemId(itemId);
+    },
+    [],
+  );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -52,6 +67,12 @@ const MemberListPage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+
+  const closeAssignPermissionModal = useCallback(() => {
+    setIsOpenPermissionSubGroupModal(false);
+    setSelectedItemId(null);
+  }, []);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -70,21 +91,6 @@ const MemberListPage = () => {
     setIsOpenImportModal(false);
   }, []);
 
-  const onClickApprove = async (memberId: number) => {
-    try {
-      let response = await approveOrgMemberShip(memberId);
-      if (isResponseSuccess(response)) {
-        {
-          successStack(<IntlMessages id='organization.approved' />);
-        }
-        refreshDataTable();
-      }
-    } catch (error: any) {
-      //console.log('error', error);
-      errorStack(<IntlMessages id='message.somethingWentWrong' />);
-    }
-  };
-
   const rejectAssocMemberShip = async (memberId: number) => {
     let response = await rejectOrgMemberShip(memberId);
     if (isResponseSuccess(response)) {
@@ -93,6 +99,19 @@ const MemberListPage = () => {
       }
       refreshDataTable();
     }
+  };
+
+  const ReApproveAction = async (itemId: number) => {
+    let response = await reApproveOrgMemberShip(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_approved'
+          values={{subject: <IntlMessages id='common.institute' />}}
+        />,
+      );
+    }
+    refreshDataTable();
   };
 
   const columns = useMemo(
@@ -130,22 +149,33 @@ const MemberListPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let itemId = data?.id;
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {data.row_status != 1 ? (
-                <ApproveButton onClick={() => onClickApprove(data.id)} />
-              ) : (
-                ''
-              )}
-              {data.row_status != 3 && data.row_status != 0 ? (
-                <RejectButton
-                  rejectAction={() => rejectAssocMemberShip(data.id)}
-                  rejectTitle={messages['common.delete_confirm'] as string}
+
+              {data?.row_status == ApprovalStatus.PENDING && (
+                <CommonButton
+                  onClick={() => openAssignPermissionModal(data.id)}
+                  btnText='common.approve'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  color='secondary'
                 />
-              ) : (
-                ''
+              )}
+              {data?.row_status == ApprovalStatus.APPROVED && (
+                <RejectButton
+                  itemId={itemId}
+                  rejectTitle={messages['common.organization'] as string}
+                  rejectAction={rejectAssocMemberShip}>
+                  {messages['common.reject']}
+                </RejectButton>
+              )}
+              {data?.row_status == ApprovalStatus.REJECTED && (
+                <ApproveButton
+                  approveAction={() => ReApproveAction(data.id)}
+                  buttonText={messages['common.approve'] as string}
+                />
               )}
             </DatatableButtonGroup>
           );
@@ -217,7 +247,15 @@ const MemberListPage = () => {
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            onApprove={onClickApprove}
+            openEditModal={openAddEditModal}
+          />
+        )}
+        {isOpenPermissionSubGroupModal && (
+          <MemberAssingnPermissionPopup
+            key={1}
+            onClose={closeAssignPermissionModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

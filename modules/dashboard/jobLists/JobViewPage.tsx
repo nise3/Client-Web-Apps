@@ -210,6 +210,7 @@ const JobViewPage = () => {
 
   const getEducationalRequirements = () => {
     let additionalEducationRequirement: Array<string> = [];
+    let isShowNotApplicable = true;
 
     if (jobData?.candidate_requirements?.other_educational_qualification) {
       additionalEducationRequirement =
@@ -250,6 +251,17 @@ const JobViewPage = () => {
         .map((skill: any) => skill.title)
         .join(', ');
     }
+    if (
+      additionalEducationRequirement.length > 0 ||
+      jobData?.candidate_requirements?.degrees?.length > 0 ||
+      educationalInstitutes ||
+      professionalCertificates ||
+      trainingOrTradeCourse ||
+      skillText
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
@@ -284,6 +296,7 @@ const JobViewPage = () => {
             {messages['job_preview.skill_required']} {skillText}
           </li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -310,7 +323,7 @@ const JobViewPage = () => {
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
-          {jobData?.candidate_requirements?.is_freshers_encouraged && (
+          {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
             <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
           <li>
@@ -372,9 +385,19 @@ const JobViewPage = () => {
         jobData?.candidate_requirements?.additional_requirements.split('\n');
     }
 
+    let isShowNotApplicable = true;
+    if (
+      getAgeText() ||
+      strArr.length > 0 ||
+      jobData?.candidate_requirements?.genders.length > 0 ||
+      jobData?.candidate_requirements?.person_with_disability == 1
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
-        <li>Age {getAgeText()}</li>
+        {getAgeText() && <li>Age {getAgeText()}</li>}
         {jobData?.candidate_requirements?.genders.length > 0 &&
           jobData?.candidate_requirements?.genders.length < 3 && (
             <li>{getGenderText()}</li>
@@ -385,6 +408,7 @@ const JobViewPage = () => {
         {jobData?.candidate_requirements?.person_with_disability == 1 && (
           <li>{messages['job_preview.person_with_disability']}</li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
