@@ -1502,5 +1502,8 @@
   "bank_account_type.label": "Bank Account Type",
   "bank_account_type.personal": "Personal",
   "bank_account_type.of_the_organization": "Organization",
-  "common,number": "Number"
+  "common,number": "Number",
+  "industry.sme_header_main": "Small and Medium Industries Foundation",
+  "industry.sme_header_second": "SME Entrepreneur E-Database",
+  "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database."
 }
