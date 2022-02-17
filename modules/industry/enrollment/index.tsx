@@ -32,7 +32,6 @@ import {Gender} from './constants/GenderEnums';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomChipTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomChipTextInput';
-import {DynamicForm} from '@mui/icons-material';
 import FormFiller from './constants/FormFiller';
 import HasWorkshopConstant from './constants/HasWorkshopConstant';
 import CustomCheckboxTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomCheckboxTextInput';
@@ -685,7 +684,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     <Typography
                       variant={'body1'}
                       className={classes.headerText}>
-                      <DynamicForm />
                       {messages['common.who_will_fill_form']}
                     </Typography>
                   </StyledHeader>
