@@ -669,14 +669,13 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 <Grid container spacing={5} justifyContent={'center'}>
                   <Grid item xs={12}>
                     <H1 centered={true} sx={{color: 'red'}}>
-                      ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন
+                      {messages['industry.sme_header_main']}
                     </H1>
-                    <H2 centered={true}>এসএমই উদ্যোক্তা ই-ডেটাবেজ</H2>
+                    <H2 centered={true}>
+                      {messages['industry.sme_header_second']}
+                    </H2>
                     <Body1 centered={true}>
-                      নানাবিধ নীতিগত সুবিধার জন্য সিএমএসএমই ই-ডাটাবেজ তৈরি করা
-                      হচ্ছে। গণপ্রজাতন্ত্রী বাংলাদেশ সরকারকে এই ডাটাবেজ তৈরিতে
-                      সহযোগিতা করার লক্ষ্যে আপনার প্রতিষ্ঠানকে তালিকাভুক্ত করার
-                      জন্য অনুরোধ করা হলো।
+                      {messages['industry.sme_header_body_text']}
                     </Body1>
                   </Grid>
 
