@@ -401,6 +401,17 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               .required()
               .label(messages['industry.specialized_areas'] as string)
           : yup.string(),
+      under_sme_cluster: yup
+        .string()
+        .required()
+        .label(messages['institute.is_under_any_sme_cluster'] as string),
+      under_sme_cluster_name:
+        isUnderSMECluster == HasRegisteredAuthority.YES
+          ? yup
+              .string()
+              .required()
+              .label(messages['industry.under_sme_cluster_name'] as string)
+          : yup.string(),
     });
   }, [itemId, messages]);
 
