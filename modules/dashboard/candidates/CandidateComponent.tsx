@@ -33,6 +33,7 @@ import {RecruitmentSteps} from './RecruitmentSteps';
 import {Check, Close, PersonRemove, Refresh} from '@mui/icons-material';
 import {ApplyStatuses} from './ApplyStatuses';
 import CandidateCvPopup from './CandidateCvPopup';
+import AssignSchedulePopup from './AssignSchedule';
 
 const PREFIX = 'CandidateComponent';
 
@@ -104,6 +105,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const [isOpenCvDetailsModal, setIsOpenCvDetailsModal] = useState(false);
+  const [openAssignSchedulePopup, setOpenAssignSchedulePopup] = useState(false);
+  const [candidateIds, setCandidateIds] = useState<any>();
+
   const rejectCandidate = async (itemId: number) => {
     try {
       let response = await rejectCandidateUpdate(itemId);
@@ -120,6 +124,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       processServerSideErrors({error, errorStack});
     }
   };
+
   const restoreCandidate = async (itemId: number) => {
     try {
       let response = await restoreCandidateUpdate(itemId);
@@ -191,6 +196,41 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       processServerSideErrors({error, errorStack});
     }
   };
+  //
+  // const candidateScheduleAssign = async (itemId: number) => {
+  //   let params = {};
+  //   try {
+  //     let response = await candidateStepScheduleAssign(itemId, params);
+  //     if (isResponseSuccess(response)) {
+  //       successStack(
+  //         <IntlMessages
+  //           id='common.subject_updated_successfully'
+  //           values={{
+  //             subject: <IntlMessages id='common.interview_schedule' />,
+  //           }}
+  //         />,
+  //       );
+  //     }
+  //     mutateCandidates();
+  //   } catch (error: any) {
+  //     processServerSideErrors({error, errorStack});
+  //   }
+  // };
+
+  const onClickCandidateScheduleAssignButton = useCallback(
+    (candidateId: any) => {
+      setOpenAssignSchedulePopup(true);
+      let data: any = [];
+      data = [candidateId, ...data];
+      setCandidateIds(data);
+    },
+    [candidateIds],
+  );
+
+  const onCloseSchedulePopup = () => {
+    setOpenAssignSchedulePopup(false);
+  };
+
   const hiredCandidate = async (itemId: number) => {
     try {
       let response = await hiredCandidateUpdate(itemId);
@@ -302,7 +342,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               nextStep ? (
                 <CheckButton
                   title={`Schedule for ${nextStep?.title}`}
-                  onClick={() => {}}
+                  onClick={() =>
+                    onClickCandidateScheduleAssignButton(candidate?.id)
+                  }
                 />
               ) : (
                 <CheckButton
@@ -568,6 +610,14 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               )}
             </Box>
           </Grid>
+          {openAssignSchedulePopup && (
+            <AssignSchedulePopup
+              appliedCandidateIds={candidateIds}
+              onClose={onCloseSchedulePopup}
+              currentStep={currentStep?.id}
+            />
+          )}
+
           {isOpenCvDetailsModal && (
             <CandidateCvPopup
               key={1}
