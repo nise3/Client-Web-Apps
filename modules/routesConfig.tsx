@@ -200,15 +200,6 @@ const routesConfig: NavItemProps[] = [
         icon: 'room',
         children: [
           {
-            id: 'profile',
-            title: 'Institute-Profile',
-            messageId: 'menu.profile',
-            permissionKey: 'view_institute_profile',
-            type: 'item',
-            icon: 'timeline',
-            url: '/institute-profile',
-          },
-          {
             id: 'timeline',
             title: 'Institute',
             messageId: 'menu.institute',
@@ -307,15 +298,6 @@ const routesConfig: NavItemProps[] = [
         type: 'collapse',
         icon: 'construction',
         children: [
-          {
-            id: 'association-profile',
-            title: 'association profile',
-            messageId: 'common.profile',
-            permissionKey: 'view_any_association_profile',
-            type: 'item',
-            icon: 'person',
-            url: '/association-profile',
-          },
           {
             id: 'industry_association',
             title: 'Industry Association',

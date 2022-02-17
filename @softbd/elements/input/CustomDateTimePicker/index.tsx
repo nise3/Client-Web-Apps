@@ -19,7 +19,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const CustomTimePicker: any = (inputProps: Props) => {
+const CustomDateTimePicker: any = (inputProps: Props) => {
   return inputProps.isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -27,7 +27,7 @@ const CustomTimePicker: any = (inputProps: Props) => {
       <TextField
         id={inputProps.id}
         label={inputProps.label}
-        type='time'
+        type='datetime-local'
         defaultValue={inputProps.defaultValue}
         variant={inputProps.variant ? inputProps.variant : 'outlined'}
         size={inputProps.size ? inputProps.size : 'small'}
@@ -43,4 +43,4 @@ const CustomTimePicker: any = (inputProps: Props) => {
   );
 };
 
-export default CustomTimePicker;
+export default CustomDateTimePicker;

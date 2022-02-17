@@ -145,7 +145,8 @@ const RecruitmentStepsViewSection = ({
 
       if (steps.length > 0) {
         steps[steps.length - 1].is_deletable =
-          steps[steps.length - 1]?.total_candidate == 0;
+          steps[steps.length - 1]?.total_candidate == 0 &&
+          recruitmentData?.final_hiring_list?.total_candidate == 0;
       }
 
       setRecruitmentSteps(steps);
@@ -243,6 +244,9 @@ const RecruitmentStepsViewSection = ({
               <Fab
                 color='primary'
                 aria-label='applicants'
+                disabled={
+                  recruitmentData?.final_hiring_list?.total_candidate > 0
+                }
                 sx={{marginLeft: '30px', marginRight: '30px'}}
                 onClick={() => {
                   setOpenRecruitmentAddEditPopup(true);
