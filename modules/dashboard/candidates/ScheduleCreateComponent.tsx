@@ -118,7 +118,7 @@ const ScheduleCreateComponentPopup = ({
     );
     try {
       formData.job_id = jobId;
-      formData.recruitment_step_id = currentStep.step_no;
+      formData.recruitment_step_id = currentStep?.id;
 
       if (scheduleId) {
         await updateCandidateStepSchedule(scheduleId, formData);
