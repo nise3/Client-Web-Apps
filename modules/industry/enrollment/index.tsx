@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   CardContent,
+  Container,
   FormLabel,
   Grid,
   Typography,
@@ -67,6 +68,10 @@ const StyledHeader = styled(Grid)(({theme}) => ({
 
   [`& .${classes.button}`]: {
     width: '100%',
+  },
+  [`& .${classes.card}`]: {
+    maxWidth: 345,
+    minWidth: '100%',
   },
 }));
 
@@ -656,1060 +661,1081 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   };
 
   return (
-    <Card>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-          <Grid container spacing={5} maxWidth={'lg'} justifyContent={'center'}>
-            <Grid item xs={12}>
-              <H1 centered={true} sx={{color: 'red'}}>
-                ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন
-              </H1>
-              <H2 centered={true}>এসএমই উদ্যোক্তা ই-ডেটাবেজ</H2>
-              <Body1 centered={true}>
-                নানাবিধ নীতিগত সুবিধার জন্য সিএমএসএমই ই-ডাটাবেজ তৈরি করা হচ্ছে।
-                গণপ্রজাতন্ত্রী বাংলাদেশ সরকারকে এই ডাটাবেজ তৈরিতে সহযোগিতা করার
-                লক্ষ্যে আপনার প্রতিষ্ঠানকে তালিকাভুক্ত করার জন্য অনুরোধ করা হলো।
-              </Body1>
-            </Grid>
+    <Container maxWidth={'lg'}>
+      <Grid container justifyContent={'center'} my={5}>
+        <Grid item xs={12}>
+          <Card className={classes.card}>
+            <CardContent>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
+                <Grid container spacing={5} justifyContent={'center'}>
+                  <Grid item xs={12}>
+                    <H1 centered={true} sx={{color: 'red'}}>
+                      ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন
+                    </H1>
+                    <H2 centered={true}>এসএমই উদ্যোক্তা ই-ডেটাবেজ</H2>
+                    <Body1 centered={true}>
+                      নানাবিধ নীতিগত সুবিধার জন্য সিএমএসএমই ই-ডাটাবেজ তৈরি করা
+                      হচ্ছে। গণপ্রজাতন্ত্রী বাংলাদেশ সরকারকে এই ডাটাবেজ তৈরিতে
+                      সহযোগিতা করার লক্ষ্যে আপনার প্রতিষ্ঠানকে তালিকাভুক্ত করার
+                      জন্য অনুরোধ করা হলো।
+                    </Body1>
+                  </Grid>
 
-            <StyledHeader item xs={12}>
-              <Typography variant={'body1'} className={classes.headerText}>
-                <DynamicForm />
-                {messages['common.who_will_fill_form']}
-              </Typography>
-            </StyledHeader>
+                  <StyledHeader item xs={12}>
+                    <Typography
+                      variant={'body1'}
+                      className={classes.headerText}>
+                      <DynamicForm />
+                      {messages['common.who_will_fill_form']}
+                    </Typography>
+                  </StyledHeader>
 
-            <Grid item xs={12}>
-              <FormRadioButtons
-                required
-                id={'form_fill_up_by'}
-                label={'form_filler'}
-                radios={[
-                  {
-                    key: FormFiller.SELF,
-                    label: messages['common.self'],
-                  },
-                  {
-                    key: FormFiller.CHAMBER_ASSOCIATION,
-                    label: messages['common.chamber_association'],
-                  },
-                  {
-                    key: FormFiller.NASCIB_CLUSTER,
-                    label: 'Nascib cluster',
-                  },
-                ]}
-                control={control}
-                onChange={onChangeFormFiller}
-                errorInstance={errors}
-              />
-            </Grid>
+                  <Grid item xs={12}>
+                    <FormRadioButtons
+                      required
+                      id={'form_fill_up_by'}
+                      label={'form_filler'}
+                      radios={[
+                        {
+                          key: FormFiller.SELF,
+                          label: messages['common.self'],
+                        },
+                        {
+                          key: FormFiller.CHAMBER_ASSOCIATION,
+                          label: messages['common.chamber_association'],
+                        },
+                        {
+                          key: FormFiller.NASCIB_CLUSTER,
+                          label: 'Nascib cluster',
+                        },
+                      ]}
+                      control={control}
+                      onChange={onChangeFormFiller}
+                      errorInstance={errors}
+                    />
+                  </Grid>
 
-            {formFiller == FormFiller.NASCIB_CLUSTER && (
-              <StyledHeader item xs={12}>
-                <p className={classes.headerText}>
-                  {messages['institute.nascib_cluster_information']}
-                </p>
-              </StyledHeader>
-            )}
+                  {formFiller == FormFiller.NASCIB_CLUSTER && (
+                    <StyledHeader item xs={12}>
+                      <p className={classes.headerText}>
+                        {messages['institute.nascib_cluster_information']}
+                      </p>
+                    </StyledHeader>
+                  )}
 
-            {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
-              <StyledHeader item xs={12}>
-                <p className={classes.headerText}>
-                  {messages['institute.chamber_association_information']}
-                </p>
-              </StyledHeader>
-            )}
+                  {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
+                    <StyledHeader item xs={12}>
+                      <p className={classes.headerText}>
+                        {messages['institute.chamber_association_information']}
+                      </p>
+                    </StyledHeader>
+                  )}
 
-            {formFiller == FormFiller.NASCIB_CLUSTER && (
-              <>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='udc_name'
-                    label={messages['common.name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
+                  {formFiller == FormFiller.NASCIB_CLUSTER && (
+                    <>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='udc_name'
+                          label={messages['common.name']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomFormSelect
+                          id='udc_loc_district'
+                          label={messages['districts.label']}
+                          isLoading={isLoadingDistricts}
+                          control={control}
+                          options={districts}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                          onChange={changeDistrictAction}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='udc_union'
+                          label={messages['union.label']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='udc_code'
+                          label={messages['common.code']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </>
+                  )}
+
+                  {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
+                    <>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='chamber_or_association_name'
+                          label={messages['common.name']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomFormSelect
+                          id='chamber_or_association_loc_district_id'
+                          label={messages['districts.label']}
+                          isLoading={isLoadingDistricts}
+                          control={control}
+                          options={districts}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                          onChange={changeDistrictAction}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='chamber_or_association_union'
+                          label={messages['union.label']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='chamber_or_association_code'
+                          label={messages['common.code']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </>
+                  )}
+
+                  <StyledHeader item xs={12}>
+                    <p className={classes.headerText}>
+                      {messages['entrepreneur_introduction.label']}
+                    </p>
+                  </StyledHeader>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='name'
+                      label={messages['common.name_en']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='name_bn'
+                      label={messages['common.name_bn']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'gender'}
+                      radios={[
+                        {
+                          key: Gender.MALE,
+                          label: messages['common.male'],
+                        },
+                        {
+                          key: Gender.FEMALE,
+                          label: messages['common.female'],
+                        },
+                        {
+                          key: Gender.OTHERS,
+                          label: messages['common.others'],
+                        },
+                      ]}
+                      control={control}
+                      label={'common.gender'}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomDateTimeField
+                      required
+                      id='date_of_birth'
+                      label={messages['common.date_of_birth']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='academic_qualification'
+                      label={messages['user.academic_qualification']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='nid'
+                      label={messages['common.identity_type_nid']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FileUploadComponent
+                      required
+                      id={'nid_file'}
+                      errorInstance={errors}
+                      setValue={setValue}
+                      register={register}
+                      label={messages['common.national_identity']}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='mobile'
+                      label={messages['common.mobile']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                      placeholder='017xxxxxxxx'
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='email'
+                      label={messages['common.email']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FileUploadComponent
+                      required
+                      id={'entrepreneur_photo'}
+                      errorInstance={errors}
+                      setValue={setValue}
+                      register={register}
+                      label={messages['common.entrepreneur_pic']}
+                    />
+                  </Grid>
+
+                  <StyledHeader item xs={12}>
+                    <p className={classes.headerText}>
+                      {messages['common.institute_information']}
+                    </p>
+                  </StyledHeader>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='organization_trade_license_no'
+                      label={messages['institute.trade_licence_number']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='organization_identification_no'
+                      label={
+                        messages['common.organization_identification_number']
+                      }
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='organization_name'
+                      label={messages['common.institute']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='organization_address'
+                      label={messages['common.address']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='organization_loc_district_id'
+                      label={messages['districts.label']}
+                      isLoading={isLoadingDistricts}
+                      control={control}
+                      options={districts}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title_en', 'title']}
+                      errorInstance={errors}
+                      onChange={changeDistrictAction}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      id='organization_loc_upazila_id'
+                      label={messages['upazilas.label']}
+                      isLoading={isLoadingUpazilas}
+                      control={control}
+                      options={upazilasList}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title_en', 'title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='organization_domain'
+                      label={messages['common.website']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id='factory'
+                      label={'common.has_workshop'}
+                      radios={YesNoArray}
+                      control={control}
+                      onChange={onChangeHasWorkshop}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  {hasWorkshop && (
+                    <>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          id='factory_address'
+                          label={messages['common.factory_address']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <CustomFormSelect
+                          id='factory_loc_district_id'
+                          label={messages['districts.label']}
+                          isLoading={isLoadingDistricts}
+                          control={control}
+                          options={districts}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                          onChange={changeDistrictAction}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomFormSelect
+                          id='factory_loc_upazila_id'
+                          label={messages['upazilas.label']}
+                          isLoading={isLoadingUpazilas}
+                          control={control}
+                          options={upazilasList}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                        />
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          id='factory_web_site'
+                          label={messages['common.website']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <FormRadioButtons
+                          required
+                          id={'office_or_showroom'}
+                          label={'factory.office_or_showroom'}
+                          radios={YesNoArray}
+                          control={control}
+                          errorInstance={errors}
+                        />
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <FormRadioButtons
+                          required
+                          id={'factory_land_own_or_rent'}
+                          label={'factory.factory_land_own_or_rent'}
+                          radios={YesNoArray}
+                          control={control}
+                          errorInstance={errors}
+                        />
+                      </Grid>
+                    </>
+                  )}
+
+                  <StyledHeader item xs={12}>
+                    <Typography
+                      variant={'body1'}
+                      className={classes.headerText}>
+                      {messages['common.institute_others_information']}
+                    </Typography>
+                  </StyledHeader>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'proprietorship'}
+                      radios={[
+                        {
+                          key: BusinessOwnership.SINGLE,
+                          label: messages['business_ownership.single'],
+                        },
+                        {
+                          key: BusinessOwnership.PARTNERSHIP,
+                          label: messages['business_ownership.partnership'],
+                        },
+                        {
+                          key: BusinessOwnership.JOINT,
+                          label: messages['business_ownership.joint'],
+                        },
+                      ]}
+                      control={control}
+                      errorInstance={errors}
+                      label={'common.business_ownership'}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'trade_licensing_authority'}
+                      label={'institute.trade_license_provider_authority'}
+                      radios={[
+                        {
+                          key: TradeLicensingAuthority.MUNICIPALITY,
+                          label: messages['municipality.label'],
+                        },
+                        {
+                          key: TradeLicensingAuthority.UNION_COUNCIL,
+                          label: messages['union_council.label'],
+                        },
+                        {
+                          key: TradeLicensingAuthority.CITY_CORPORATION,
+                          label: messages['city_corporation.label'],
+                        },
+                      ]}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id={'industry_establishment_year'}
+                      label={messages['institute.establish_year']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FileUploadComponent
+                      id={'trade_license'}
+                      errorInstance={errors}
+                      setValue={setValue}
+                      register={register}
+                      label={messages['trade_license.upload']}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id={'industry_last_renew_year'}
+                      label={messages['institute.last_renewal_year']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'tin'}
+                      radios={YesNoArray}
+                      control={control}
+                      label={'institute.is_tin'}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='investment_amount'
+                      label={messages['invested_amount_in_institute.label']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='current_total_asset'
+                      label={messages['institute.total_asset_amount']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'registered_under_authority'}
+                      label={'institute.is_registered_under_authority'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleHasRegisteredAuthorityChange}
+                    />
+                    {hasRegisteredAuthority == HasRegisteredAuthority.YES && (
+                      <CustomCheckboxTextInput
+                        id={'registered_authority'}
+                        data={registeredAuthors}
+                        label={messages['industry.registered_authority']}
+                        checkedDataArray={checkedRegisteredAuthority}
+                        onChange={handleRegisteredAuthorityCheck}
+                        register={register}
+                        errors={errors}
+                        isLoading={isLoading}
+                        textFieldPlaceholder={messages['common.registered_no']}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'authorized_under_authority'}
+                      label={'institute.is_under_any_approved_authority'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleHasAuthorizedAuthorityCheck}
+                    />
+
+                    {hasAuthorizedAuthority == Boolean.YES && (
+                      <CustomCheckboxTextInput
+                        id={'authorized_authority'}
+                        data={registeredAuthors}
+                        label={messages['industry.authorized_authority']}
+                        checkedDataArray={checkedAuthorizedAuthority}
+                        onChange={handleAuthorizedAuthorityCheck}
+                        register={register}
+                        errors={errors}
+                        isLoading={isLoading}
+                        textFieldPlaceholder={messages['common.approved_no']}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'specialized_area'}
+                      label={'institute.is_under_any_special_region'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleInstituteIsUnderSpecializedArea}
+                    />
+                    {isIndustryUnderSpecializedArea ==
+                      HasRegisteredAuthority.YES && (
+                      <CustomCheckboxTextInput
+                        id={'specialized_area_name'}
+                        data={registeredAuthors}
+                        label={messages['industry.specialized_areas']}
+                        checkedDataArray={checkedSpecializedArea}
+                        onChange={handleSpecializedAreaCheck}
+                        register={register}
+                        errors={errors}
+                        isLoading={isLoading}
+                        isTextFieldExist={false}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'under_sme_cluster'}
+                      label={'institute.is_under_any_sme_cluster'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleIsUnderSMECluster}
+                    />
+                    {isUnderSMECluster == HasRegisteredAuthority.YES && (
+                      <CustomFormSelect
+                        id='under_sme_cluster_name'
+                        label={messages['institute.under_sme_cluster_name']}
+                        isLoading={isLoadingDistricts}
+                        control={control}
+                        options={districts}
+                        optionValueProp={'id'}
+                        optionTitleProp={['title_en', 'title']}
+                        errorInstance={errors}
+                        onChange={changeDistrictAction}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'member_of_association_or_chamber'}
+                      label={'institute.is_association_member'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleIsAssociationMember}
+                    />
+                    {isAssociationMember && (
+                      <CustomTextInput
+                        required
+                        id='member_of_association_or_chamber_name'
+                        label={
+                          messages[
+                            'institute.member_of_association_or_chamber_name'
+                          ]
+                        }
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                        onChange={handleIsAssociationMember}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomFormSelect
+                      required
+                      id='sector'
+                      label={messages['institute.sector']}
+                      isLoading={isLoading}
+                      control={control}
+                      options={[{id: 1, title: 'cloths'}]}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title_en', 'title']}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='sector_other_name'
+                      label={messages['institute.sector_other_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'business_type'}
+                      label={'business_type.label'}
+                      radios={[
+                        {
+                          key: BusinessType.MANUFACTURING,
+                          label: messages['business_type.manufacturing'],
+                        },
+                        {
+                          key: BusinessType.SERVICE,
+                          label: messages['business_type.service'],
+                        },
+                        {
+                          key: BusinessType.TRADING,
+                          label: messages['business_type.trading'],
+                        },
+                      ]}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      required
+                      id='main_product_name'
+                      label={messages['institute.main_product']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+
+                  <Grid item xs={12}>
+                    <CustomTextInput
+                      required
+                      multiline={true}
+                      rows={3}
+                      id='main_material_description'
+                      label={messages['institute.raw_materials_details']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'export_abroad'}
+                      label={'institute.is_export_product'}
+                      radios={[
+                        {
+                          key: Boolean.YES,
+                          label: messages['common.yes'],
+                        },
+                        {
+                          key: Boolean.NO,
+                          label: messages['common.no'],
+                        },
+                      ]}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleIsIndustryDoExport}
+                    />
+                    {isIndustryDoExport && (
+                      <CustomTextInput
+                        required
+                        id='export_abroad_by'
+                        label={messages['institute.exporter']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'import'}
+                      label={'institute.is_import_product'}
+                      radios={[
+                        {
+                          key: Boolean.YES,
+                          label: messages['common.yes'],
+                        },
+                        {
+                          key: Boolean.NO,
+                          label: messages['common.no'],
+                        },
+                      ]}
+                      control={control}
+                      onChange={handleIsIndustryDoImport}
+                      errorInstance={errors}
+                    />
+                    {isIndustryDoImport && (
+                      <CustomTextInput
+                        required
+                        id='import_by'
+                        label={messages['institute.importer']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    )}
+                  </Grid>
+
+                  {(isIndustryDoImport || isIndustryDoExport) && (
+                    <Grid item xs={6}>
+                      <CustomTextInput
+                        id='industry_irc_no'
+                        label={messages['industry.import_export_irc_no']}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                  )}
+
+                  <Grid item xs={12} mb={0}>
+                    <FormLabel>
+                      {messages['institute.total_employee']}
+                    </FormLabel>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomChipTextInput
+                      fields={[
+                        {
+                          id: 'salaried_manpower.temporary.male',
+                          label: messages['common.male'],
+                        },
+                        {
+                          id: 'salaried_manpower.temporary.female',
+                          label: messages['common.female'],
+                        },
+                      ]}
+                      chipLabel={messages['total_employee.temporary']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomChipTextInput
+                      fields={[
+                        {
+                          id: 'salaried_manpower.permanent_employee.male',
+                          label: messages['common.male'],
+                        },
+                        {
+                          id: 'salaried_manpower.permanent_employee.female',
+                          label: messages['common.female'],
+                        },
+                      ]}
+                      chipLabel={messages['total_employee.permanent']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <CustomChipTextInput
+                      fields={[
+                        {
+                          id: 'salaried_manpower.seasonal.male',
+                          label: messages['common.male'],
+                        },
+                        {
+                          id: 'salaried_manpower.seasonal.female',
+                          label: messages['common.female'],
+                        },
+                      ]}
+                      chipLabel={messages['total_employee.seasonal']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'have_bank_account'}
+                      label={'institute.has_bank_account'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                      onChange={handleHasBankAccount}
+                    />
+
+                    {hasBankAccount && (
+                      <Grid item xs={6}>
+                        <FormRadioButtons
+                          required
+                          id={'bank_account_type'}
+                          label={'bank_account_type.label'}
+                          radios={[
+                            {
+                              key: BankAccountType.PERSONAL,
+                              label: messages['bank_account_type.personal'],
+                            },
+                            {
+                              key: BankAccountType.OF_THE_ORGANIZATION,
+                              label:
+                                messages[
+                                  'bank_account_type.of_the_organization'
+                                ],
+                            },
+                          ]}
+                          control={control}
+                          errorInstance={errors}
+                        />
+                      </Grid>
+                    )}
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'accounting_system'}
+                      label={'institute.is_keep_daily_debit_credit'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'use_computer'}
+                      label={'institute.is_use_computer'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'internet_connection'}
+                      label={'institute.has_internet_connection'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      required
+                      id={'online_business'}
+                      label={'institute.has_online_business'}
+                      radios={YesNoArray}
+                      control={control}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='info_provider_name'
+                      label={messages['institute.info_provider_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='info_provider_mobile'
+                      label={messages['institute.info_provider_mobile']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='info_collector_name'
+                      label={messages['institute.info_collector_name']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <CustomTextInput
+                      id='info_collector_mobile'
+                      label={messages['institute.info_collector_mobile']}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormRadioButtons
+                      id={'row_status'}
+                      label={'common.status'}
+                      radios={[
+                        {
+                          key: RowStatus.PENDING,
+                          label: messages['common.pending'],
+                        },
+                        {
+                          key: RowStatus.ACTIVE,
+                          label: messages['common.active'],
+                        },
+                        {
+                          key: RowStatus.INACTIVE,
+                          label: messages['common.inactive'],
+                        },
+                      ]}
+                      control={control}
+                      defaultValue={RowStatus.ACTIVE}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Grid container justifyContent={'center'}>
+                      <Button
+                        type={'submit'}
+                        disabled={isSubmitting}
+                        variant='contained'>
+                        {messages['common.submit']}
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='udc_loc_district'
-                    label={messages['districts.label']}
-                    isLoading={isLoadingDistricts}
-                    control={control}
-                    options={districts}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
-                    errorInstance={errors}
-                    onChange={changeDistrictAction}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='udc_union'
-                    label={messages['union.label']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='udc_code'
-                    label={messages['common.code']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              </>
-            )}
-
-            {formFiller == FormFiller.CHAMBER_ASSOCIATION && (
-              <>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='chamber_or_association_name'
-                    label={messages['common.name']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='chamber_or_association_loc_district_id'
-                    label={messages['districts.label']}
-                    isLoading={isLoadingDistricts}
-                    control={control}
-                    options={districts}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
-                    errorInstance={errors}
-                    onChange={changeDistrictAction}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='chamber_or_association_union'
-                    label={messages['union.label']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='chamber_or_association_code'
-                    label={messages['common.code']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              </>
-            )}
-
-            <StyledHeader item xs={12}>
-              <p className={classes.headerText}>
-                {messages['entrepreneur_introduction.label']}
-              </p>
-            </StyledHeader>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='name'
-                label={messages['common.name_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='name_bn'
-                label={messages['common.name_bn']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'gender'}
-                radios={[
-                  {
-                    key: Gender.MALE,
-                    label: messages['common.male'],
-                  },
-                  {
-                    key: Gender.FEMALE,
-                    label: messages['common.female'],
-                  },
-                  {
-                    key: Gender.OTHERS,
-                    label: messages['common.others'],
-                  },
-                ]}
-                control={control}
-                label={'common.gender'}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomDateTimeField
-                required
-                id='date_of_birth'
-                label={messages['common.date_of_birth']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='academic_qualification'
-                label={messages['user.academic_qualification']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='nid'
-                label={messages['common.identity_type_nid']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FileUploadComponent
-                required
-                id={'nid_file'}
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['common.national_identity']}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='email'
-                label={messages['common.email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FileUploadComponent
-                required
-                id={'entrepreneur_photo'}
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['common.entrepreneur_pic']}
-              />
-            </Grid>
-
-            <StyledHeader item xs={12}>
-              <p className={classes.headerText}>
-                {messages['common.institute_information']}
-              </p>
-            </StyledHeader>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='organization_trade_license_no'
-                label={messages['institute.trade_licence_number']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='organization_identification_no'
-                label={messages['common.organization_identification_number']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='organization_name'
-                label={messages['common.institute']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='organization_address'
-                label={messages['common.address']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='organization_loc_district_id'
-                label={messages['districts.label']}
-                isLoading={isLoadingDistricts}
-                control={control}
-                options={districts}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={changeDistrictAction}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomFormSelect
-                id='organization_loc_upazila_id'
-                label={messages['upazilas.label']}
-                isLoading={isLoadingUpazilas}
-                control={control}
-                options={upazilasList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='organization_domain'
-                label={messages['common.website']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id='factory'
-                label={'common.has_workshop'}
-                radios={YesNoArray}
-                control={control}
-                onChange={onChangeHasWorkshop}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            {hasWorkshop && (
-              <>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='factory_address'
-                    label={messages['common.factory_address']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='factory_loc_district_id'
-                    label={messages['districts.label']}
-                    isLoading={isLoadingDistricts}
-                    control={control}
-                    options={districts}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
-                    errorInstance={errors}
-                    onChange={changeDistrictAction}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    id='factory_loc_upazila_id'
-                    label={messages['upazilas.label']}
-                    isLoading={isLoadingUpazilas}
-                    control={control}
-                    options={upazilasList}
-                    optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
-                    errorInstance={errors}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    id='factory_web_site'
-                    label={messages['common.website']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormRadioButtons
-                    required
-                    id={'office_or_showroom'}
-                    label={'factory.office_or_showroom'}
-                    radios={YesNoArray}
-                    control={control}
-                    errorInstance={errors}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormRadioButtons
-                    required
-                    id={'factory_land_own_or_rent'}
-                    label={'factory.factory_land_own_or_rent'}
-                    radios={YesNoArray}
-                    control={control}
-                    errorInstance={errors}
-                  />
-                </Grid>
-              </>
-            )}
-
-            <StyledHeader item xs={12}>
-              <Typography variant={'body1'} className={classes.headerText}>
-                {messages['common.institute_others_information']}
-              </Typography>
-            </StyledHeader>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'proprietorship'}
-                radios={[
-                  {
-                    key: BusinessOwnership.SINGLE,
-                    label: messages['business_ownership.single'],
-                  },
-                  {
-                    key: BusinessOwnership.PARTNERSHIP,
-                    label: messages['business_ownership.partnership'],
-                  },
-                  {
-                    key: BusinessOwnership.JOINT,
-                    label: messages['business_ownership.joint'],
-                  },
-                ]}
-                control={control}
-                errorInstance={errors}
-                label={'common.business_ownership'}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'trade_licensing_authority'}
-                label={'institute.trade_license_provider_authority'}
-                radios={[
-                  {
-                    key: TradeLicensingAuthority.MUNICIPALITY,
-                    label: messages['municipality.label'],
-                  },
-                  {
-                    key: TradeLicensingAuthority.UNION_COUNCIL,
-                    label: messages['union_council.label'],
-                  },
-                  {
-                    key: TradeLicensingAuthority.CITY_CORPORATION,
-                    label: messages['city_corporation.label'],
-                  },
-                ]}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id={'industry_establishment_year'}
-                label={messages['institute.establish_year']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FileUploadComponent
-                id={'trade_license'}
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['trade_license.upload']}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id={'industry_last_renew_year'}
-                label={messages['institute.last_renewal_year']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'tin'}
-                radios={YesNoArray}
-                control={control}
-                label={'institute.is_tin'}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='investment_amount'
-                label={messages['invested_amount_in_institute.label']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='current_total_asset'
-                label={messages['institute.total_asset_amount']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'registered_under_authority'}
-                label={'institute.is_registered_under_authority'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleHasRegisteredAuthorityChange}
-              />
-              {hasRegisteredAuthority == HasRegisteredAuthority.YES && (
-                <CustomCheckboxTextInput
-                  id={'registered_authority'}
-                  data={registeredAuthors}
-                  label={messages['industry.registered_authority']}
-                  checkedDataArray={checkedRegisteredAuthority}
-                  onChange={handleRegisteredAuthorityCheck}
-                  register={register}
-                  errors={errors}
-                  isLoading={isLoading}
-                  textFieldPlaceholder={messages['common.registered_no']}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'authorized_under_authority'}
-                label={'institute.is_under_any_approved_authority'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleHasAuthorizedAuthorityCheck}
-              />
-
-              {hasAuthorizedAuthority == Boolean.YES && (
-                <CustomCheckboxTextInput
-                  id={'authorized_authority'}
-                  data={registeredAuthors}
-                  label={messages['industry.authorized_authority']}
-                  checkedDataArray={checkedAuthorizedAuthority}
-                  onChange={handleAuthorizedAuthorityCheck}
-                  register={register}
-                  errors={errors}
-                  isLoading={isLoading}
-                  textFieldPlaceholder={messages['common.approved_no']}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'specialized_area'}
-                label={'institute.is_under_any_special_region'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleInstituteIsUnderSpecializedArea}
-              />
-              {isIndustryUnderSpecializedArea == HasRegisteredAuthority.YES && (
-                <CustomCheckboxTextInput
-                  id={'specialized_area_name'}
-                  data={registeredAuthors}
-                  label={messages['industry.specialized_areas']}
-                  checkedDataArray={checkedSpecializedArea}
-                  onChange={handleSpecializedAreaCheck}
-                  register={register}
-                  errors={errors}
-                  isLoading={isLoading}
-                  isTextFieldExist={false}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'under_sme_cluster'}
-                label={'institute.is_under_any_sme_cluster'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleIsUnderSMECluster}
-              />
-              {isUnderSMECluster == HasRegisteredAuthority.YES && (
-                <CustomFormSelect
-                  id='under_sme_cluster_name'
-                  label={messages['institute.under_sme_cluster_name']}
-                  isLoading={isLoadingDistricts}
-                  control={control}
-                  options={districts}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
-                  errorInstance={errors}
-                  onChange={changeDistrictAction}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'member_of_association_or_chamber'}
-                label={'institute.is_association_member'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleIsAssociationMember}
-              />
-              {isAssociationMember && (
-                <CustomTextInput
-                  required
-                  id='member_of_association_or_chamber_name'
-                  label={
-                    messages['institute.member_of_association_or_chamber_name']
-                  }
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                  onChange={handleIsAssociationMember}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomFormSelect
-                required
-                id='sector'
-                label={messages['institute.sector']}
-                isLoading={isLoading}
-                control={control}
-                options={[{id: 1, title: 'cloths'}]}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='sector_other_name'
-                label={messages['institute.sector_other_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'business_type'}
-                label={'business_type.label'}
-                radios={[
-                  {
-                    key: BusinessType.MANUFACTURING,
-                    label: messages['business_type.manufacturing'],
-                  },
-                  {
-                    key: BusinessType.SERVICE,
-                    label: messages['business_type.service'],
-                  },
-                  {
-                    key: BusinessType.TRADING,
-                    label: messages['business_type.trading'],
-                  },
-                ]}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='main_product_name'
-                label={messages['institute.main_product']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                multiline={true}
-                rows={3}
-                id='main_material_description'
-                label={messages['institute.raw_materials_details']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'export_abroad'}
-                label={'institute.is_export_product'}
-                radios={[
-                  {
-                    key: Boolean.YES,
-                    label: messages['common.yes'],
-                  },
-                  {
-                    key: Boolean.NO,
-                    label: messages['common.no'],
-                  },
-                ]}
-                control={control}
-                errorInstance={errors}
-                onChange={handleIsIndustryDoExport}
-              />
-              {isIndustryDoExport && (
-                <CustomTextInput
-                  required
-                  id='export_abroad_by'
-                  label={messages['institute.exporter']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'import'}
-                label={'institute.is_import_product'}
-                radios={[
-                  {
-                    key: Boolean.YES,
-                    label: messages['common.yes'],
-                  },
-                  {
-                    key: Boolean.NO,
-                    label: messages['common.no'],
-                  },
-                ]}
-                control={control}
-                onChange={handleIsIndustryDoImport}
-                errorInstance={errors}
-              />
-              {isIndustryDoImport && (
-                <CustomTextInput
-                  required
-                  id='import_by'
-                  label={messages['institute.importer']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              )}
-            </Grid>
-
-            {(isIndustryDoImport || isIndustryDoExport) && (
-              <Grid item xs={6}>
-                <CustomTextInput
-                  id='industry_irc_no'
-                  label={messages['industry.import_export_irc_no']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            )}
-
-            <Grid item xs={12}>
-              <FormLabel>{messages['institute.total_employee']}</FormLabel>
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomChipTextInput
-                fields={[
-                  {
-                    id: 'salaried_manpower.temporary.male',
-                    label: messages['common.male'],
-                  },
-                  {
-                    id: 'salaried_manpower.temporary.female',
-                    label: messages['common.female'],
-                  },
-                ]}
-                chipLabel={messages['total_employee.temporary']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomChipTextInput
-                fields={[
-                  {
-                    id: 'salaried_manpower.permanent_employee.male',
-                    label: messages['common.male'],
-                  },
-                  {
-                    id: 'salaried_manpower.permanent_employee.female',
-                    label: messages['common.female'],
-                  },
-                ]}
-                chipLabel={messages['total_employee.permanent']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CustomChipTextInput
-                fields={[
-                  {
-                    id: 'salaried_manpower.seasonal.male',
-                    label: messages['common.male'],
-                  },
-                  {
-                    id: 'salaried_manpower.seasonal.female',
-                    label: messages['common.female'],
-                  },
-                ]}
-                chipLabel={messages['total_employee.seasonal']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'have_bank_account'}
-                label={'institute.has_bank_account'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-                onChange={handleHasBankAccount}
-              />
-
-              {hasBankAccount && (
-                <Grid item xs={6}>
-                  <FormRadioButtons
-                    required
-                    id={'bank_account_type'}
-                    label={'bank_account_type.label'}
-                    radios={[
-                      {
-                        key: BankAccountType.PERSONAL,
-                        label: messages['bank_account_type.personal'],
-                      },
-                      {
-                        key: BankAccountType.OF_THE_ORGANIZATION,
-                        label:
-                          messages['bank_account_type.of_the_organization'],
-                      },
-                    ]}
-                    control={control}
-                    errorInstance={errors}
-                  />
-                </Grid>
-              )}
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'accounting_system'}
-                label={'institute.is_keep_daily_debit_credit'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'use_computer'}
-                label={'institute.is_use_computer'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'internet_connection'}
-                label={'institute.has_internet_connection'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                required
-                id={'online_business'}
-                label={'institute.has_online_business'}
-                radios={YesNoArray}
-                control={control}
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='info_provider_name'
-                label={messages['institute.info_provider_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='info_provider_mobile'
-                label={messages['institute.info_provider_mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='info_collector_name'
-                label={messages['institute.info_collector_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='info_collector_mobile'
-                label={messages['institute.info_collector_mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormRadioButtons
-                id={'row_status'}
-                label={'common.status'}
-                radios={[
-                  {
-                    key: RowStatus.PENDING,
-                    label: messages['common.pending'],
-                  },
-                  {
-                    key: RowStatus.ACTIVE,
-                    label: messages['common.active'],
-                  },
-                  {
-                    key: RowStatus.INACTIVE,
-                    label: messages['common.inactive'],
-                  },
-                ]}
-                control={control}
-                defaultValue={RowStatus.ACTIVE}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Grid container justifyContent={'center'}>
-                <Button
-                  type={'submit'}
-                  disabled={isSubmitting}
-                  variant='contained'>
-                  {messages['common.submit']}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </form>
-      </CardContent>
-    </Card>
+              </form>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
