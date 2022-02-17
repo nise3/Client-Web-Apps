@@ -262,7 +262,7 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
     }
     if (
       additionalEducationRequirement.length > 0 ||
-      jobData?.candidate_requirements?.degrees?.length > 0 ||
+      job?.candidate_requirements?.degrees?.length > 0 ||
       educationalInstitutes ||
       professionalCertificates ||
       trainingOrTradeCourse ||
@@ -397,8 +397,8 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
     if (
       getAgeText() ||
       strArr.length > 0 ||
-      jobData?.candidate_requirements?.genders.length > 0 ||
-      jobData?.candidate_requirements?.person_with_disability == 1
+      job?.candidate_requirements?.genders.length > 0 ||
+      job?.candidate_requirements?.person_with_disability == 1
     ) {
       isShowNotApplicable = false;
     }

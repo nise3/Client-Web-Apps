@@ -8,10 +8,10 @@ import CandidateComponent from './CandidateComponent';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import ContentWithImageSkeleton from '../../youth/profile/component/ContentWithImageSkeleton';
 import {useIntl} from 'react-intl';
-import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
 import Grid from '@mui/material/Grid';
+/*import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
 import Button from '@mui/material/Button';
-import ScheduleListComponentPopup from './ScheduleListComponent';
+import ScheduleListComponentPopup from './ScheduleListComponent';*/
 
 const StyledBox = styled(Box)(({theme}) => ({
   '& .CandidateComponent-root:not(:first-of-type)': {
@@ -31,7 +31,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
   const [reloadStepData, setReloadStepData] = useState<any>(false);
 
-  const [openCreateSchedulePopup, setOpenCreateSchedulePopup] =
+  /*const [openCreateSchedulePopup, setOpenCreateSchedulePopup] =
     useState<boolean>(false);
   const [openScheduleListPopup, setOpenScheduleListPopup] =
     useState<boolean>(false);
@@ -42,7 +42,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
 
   const closeScheduleListPopup = () => {
     setOpenScheduleListPopup(false);
-  };
+  };*/
 
   const {
     data: candidateList,
@@ -90,7 +90,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                 {messages['common.candidates'] as string}{' '}
               </H4>
             </Grid>
-            {currentStep?.step_type && currentStep?.total_candidate > 0 && (
+            {/*{currentStep?.step_type && currentStep?.total_candidate > 0 && (
               <Grid item xs={3}>
                 <Button
                   variant='contained'
@@ -121,7 +121,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
                   />
                 )}
               </Grid>
-            )}
+            )}*/}
           </Grid>
 
           {(candidateList || []).map((candidate: any) => (
