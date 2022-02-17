@@ -38,6 +38,8 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         return messages['slider.template_code_bt_lr'];
       case SliderTemplateShowTypes.BT_RL:
         return messages['slider.template_code_bt_rl'];
+      case SliderTemplateShowTypes.BT_OB:
+        return messages['slider.template_code_bt_ob'];
       default:
         return '';
     }
