@@ -3,6 +3,7 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_CANDIDATE_STEP_SCHEDULE,
   API_CANDIDATE_UPDATE,
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
@@ -235,8 +236,15 @@ export function useFetchIndustryAssociationRecruitmentStepCandidateList(
   );
 }
 
+export function useFetchCandidateStepSchedule(scheduleId: any) {
+  return useAxiosSWR(
+    scheduleId ? API_CANDIDATE_STEP_SCHEDULE + '/' + scheduleId : null,
+  );
+}
+
 export function useFetchCandidate(applicationId: any) {
   return useAxiosSWR(
     applicationId ? API_CANDIDATE_UPDATE + applicationId : null,
   );
 }
+
