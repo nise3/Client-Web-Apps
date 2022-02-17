@@ -17,7 +17,6 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import {API_USERS} from '../../../@softbd/common/apiRoutes';
 import UserAddEditPopup from './UserAddEditPopup';
 import UserDetailsPopup from './UserDetailsPopup';
-import NascibUserAddEditPopup from './NASCIBMemberRegistrationForm';
 
 const UsersPage = () => {
   const {messages} = useIntl();
@@ -166,7 +165,7 @@ const UsersPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <NascibUserAddEditPopup
+          <UserAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
