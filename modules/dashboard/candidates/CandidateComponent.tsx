@@ -513,16 +513,18 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                       {duration.year && duration.year < 1 ? (
                         duration.month && duration.month > 0 ? (
                           <>
+                            {'('}
                             {duration.month}
-                            {'+ months'}
+                            {'+ months)'}
                           </>
                         ) : (
                           <></>
                         )
                       ) : duration.year && duration.year > 0 ? (
                         <>
+                          {'('}
                           {duration.year}
-                          {'+ years'}
+                          {'+ years)'}
                         </>
                       ) : (
                         <></>
@@ -536,9 +538,16 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
           <Grid item xs={2}>
             <Box>
               <Body2>
-                {candidate?.youth_profile?.total_job_experience.year}
-                {'.'}
-                {candidate?.youth_profile?.total_job_experience.month} years
+                {candidate?.youth_profile?.total_job_experience.year == 0 &&
+                candidate?.youth_profile?.total_job_experience.month == 0 ? (
+                  <></>
+                ) : (
+                  <>
+                    {candidate?.youth_profile?.total_job_experience.year}
+                    {'.'}
+                    {candidate?.youth_profile?.total_job_experience.month} years
+                  </>
+                )}
               </Body2>
               <Body2>
                 &#2547;{' '}

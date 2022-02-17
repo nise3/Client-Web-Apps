@@ -20,6 +20,7 @@ import {
   ResumeReceivingOptions,
   SalaryReviewType,
   SalaryShowOption,
+  SHOW,
   WorkPlaceTypes,
 } from '../../dashboard/jobLists/jobPost/enums/JobPostEnums';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -271,6 +272,7 @@ const JobCircularDetails = () => {
 
   const getEducationalRequirements = () => {
     let additionalEducationRequirement: Array<string> = [];
+    let isShowNotApplicable = true;
 
     if (jobData?.candidate_requirements?.other_educational_qualification) {
       additionalEducationRequirement =
@@ -311,6 +313,18 @@ const JobCircularDetails = () => {
         .map((skill: any) => skill.title)
         .join(', ');
     }
+
+    if (
+      additionalEducationRequirement.length > 0 ||
+      jobData?.candidate_requirements?.degrees?.length > 0 ||
+      educationalInstitutes ||
+      professionalCertificates ||
+      trainingOrTradeCourse ||
+      skillText
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
@@ -349,6 +363,7 @@ const JobCircularDetails = () => {
             {messages['job_preview.skill_required']} {skillText}
           </li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -372,24 +387,39 @@ const JobCircularDetails = () => {
             .join(', ');
       }
 
+      let isShowNotApplicable = true;
+      if (
+        experienceText ||
+        jobData?.candidate_requirements?.is_freshers_encouraged == 1 ||
+        experienceAreas ||
+        experienceBusinessAreas
+      ) {
+        isShowNotApplicable = false;
+      }
+
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
-          {jobData?.candidate_requirements?.is_freshers_encouraged && (
+          {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
             <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
-          <li>
-            {messages['job_preview.experience_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceAreas}</li>
-            </ul>
-          </li>
-          <li>
-            {messages['job_preview.business_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceBusinessAreas}</li>
-            </ul>
-          </li>
+          {experienceAreas && (
+            <li>
+              {messages['job_preview.experience_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceAreas}</li>
+              </ul>
+            </li>
+          )}
+          {experienceBusinessAreas && (
+            <li>
+              {messages['job_preview.business_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceBusinessAreas}</li>
+              </ul>
+            </li>
+          )}
+          {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
         </ul>
       );
     } else {
@@ -437,9 +467,19 @@ const JobCircularDetails = () => {
         jobData?.candidate_requirements?.additional_requirements.split('\n');
     }
 
+    let isShowNotApplicable = true;
+    if (
+      getAgeText() ||
+      strArr.length > 0 ||
+      jobData?.candidate_requirements?.genders.length > 0 ||
+      jobData?.candidate_requirements?.person_with_disability == 1
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
-        <li>Age {getAgeText()}</li>
+        {getAgeText() && <li>Age {getAgeText()}</li>}
         {jobData?.candidate_requirements?.genders.length > 0 &&
           jobData?.candidate_requirements?.genders.length < 3 && (
             <li>{getGenderText()}</li>
@@ -450,6 +490,7 @@ const JobCircularDetails = () => {
         {jobData?.candidate_requirements?.person_with_disability == 1 && (
           <li>{messages['job_preview.person_with_disability']}</li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -553,21 +594,21 @@ const JobCircularDetails = () => {
   };
 
   const getCompanyName = () => {
-    /*if (jobData?.company_info_visibility?.is_company_name_visible == SHOW) {
-      if (authUser?.isIndustryAssociationUser) {
-        return authUser?.industry_association
-          ? authUser?.industry_association?.title
+    if (jobData?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (jobData?.primary_job_information?.industry_association_id != null) {
+        return jobData?.primary_job_information?.industry_association_title
+          ? jobData.primary_job_information.industry_association_title
           : '';
-      } else if (authUser?.isOrganizationUser) {
-        return authUser?.organization ? authUser?.organization?.title : '';
+      } else if (jobData?.primary_job_information?.organization_id != null) {
+        return jobData?.primary_job_information?.organization_title
+          ? jobData?.primary_job_information?.organization_title
+          : '';
       } else {
         return '';
       }
     } else {
       return jobData?.company_info_visibility?.company_name;
-    }*/
-
-    return '';
+    }
   };
 
   /*const getCompanyAddress = () => {
@@ -766,8 +807,23 @@ const JobCircularDetails = () => {
                 {messages['job_preview.job_summary']}
               </Box>
               <CardContent>
+                <Body2>
+                  <b>
+                    {messages['job_preview_summary.application_deadline']}
+                    {jobData?.primary_job_information?.application_deadline
+                      ? formatDate(
+                          jobData.primary_job_information.application_deadline,
+                          {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                          },
+                        )
+                      : ''}
+                  </b>
+                </Body2>
                 {jobData?.primary_job_information.published_at && (
-                  <Body2>
+                  <Body2 sx={{marginTop: '6px'}}>
                     <b>{messages['job_posting.published_on']}</b>{' '}
                     {formatDate(jobData?.primary_job_information.published_at, {
                       day: '2-digit',
@@ -790,7 +846,7 @@ const JobCircularDetails = () => {
                 </Body2>
                 <Body2 sx={{marginTop: '6px'}}>
                   <b>{messages['job_preview_summary.age']} </b>
-                  {getAgeText()}
+                  {getAgeText() ? getAgeText() : messages['common.n_a']}
                 </Body2>
                 <Body2 sx={{marginTop: '6px'}}>
                   <b>{messages['job_preview_summary.experience']} </b>
@@ -809,19 +865,6 @@ const JobCircularDetails = () => {
                     {getSalary()}
                   </Body2>
                 )}
-                <Body2 sx={{marginTop: '6px'}}>
-                  <b>{messages['job_preview_summary.application_deadline']} </b>
-                  {jobData?.primary_job_information?.application_deadline
-                    ? formatDate(
-                        jobData.primary_job_information.application_deadline,
-                        {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric',
-                        },
-                      )
-                    : ''}
-                </Body2>
               </CardContent>
             </Card>
           </Grid>
@@ -853,10 +896,6 @@ const JobCircularDetails = () => {
                 />
               </S2>
             )}
-
-            <S2 fontWeight={'bold'} mt={2}>
-              {messages['job_preview.apply_procedure']}
-            </S2>
 
             {(!authUser || authUser?.isYouthUser) &&
               (jobData?.candidate_information?.has_applied == '1' ? (
