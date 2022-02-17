@@ -68,6 +68,7 @@ const registeredAuthors = [
   {id: 4, title: 'author-4'},
   {id: 5, title: 'author-5'},
   {id: 6, title: 'author-6'},
+  {id: 'others', title: 'Other'},
 ];
 
 const initialValues = {
@@ -491,10 +492,24 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     setError,
     handleSubmit,
     setValue,
+    getValues,
     formState: {errors, isSubmitting},
   } = useForm<IUser>({
     resolver: yupResolver(validationSchema),
   });
+
+  const YesNoArray = useMemo(() => {
+    return [
+      {
+        key: Boolean.YES,
+        label: messages['common.yes'],
+      },
+      {
+        key: Boolean.NO,
+        label: messages['common.no'],
+      },
+    ];
+  }, []);
 
   useEffect(() => {
     reset(initialValues);
@@ -611,6 +626,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     },
     [isIndustryDoImport],
   );
+
+  console.log('form values: ', getValues());
 
   const handleHasBankAccount = useCallback(
     (key: number | string) => {
@@ -1014,10 +1031,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id='factory'
             label={'common.has_workshop'}
-            radios={[
-              {key: Boolean.YES, label: messages['common.yes']},
-              {key: Boolean.NO, label: messages['common.no']},
-            ]}
+            radios={YesNoArray}
             control={control}
             onChange={onChangeHasWorkshop}
             errorInstance={errors}
@@ -1028,7 +1042,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
           <>
             <Grid item xs={6}>
               <CustomTextInput
-                required
                 id='factory_address'
                 label={messages['common.factory_address']}
                 register={register}
@@ -1078,17 +1091,9 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 required
                 id={'office_or_showroom'}
                 label={'factory.office_or_showroom'}
-                radios={[
-                  {
-                    key: Boolean.YES,
-                    label: messages['common.yes'],
-                  },
-                  {
-                    key: Boolean.NO,
-                    label: messages['common.no'],
-                  },
-                ]}
+                radios={YesNoArray}
                 control={control}
+                errorInstance={errors}
               />
             </Grid>
 
@@ -1097,17 +1102,9 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 required
                 id={'factory_land_own_or_rent'}
                 label={'factory.factory_land_own_or_rent'}
-                radios={[
-                  {
-                    key: Boolean.YES,
-                    label: messages['common.yes'],
-                  },
-                  {
-                    key: Boolean.NO,
-                    label: messages['common.no'],
-                  },
-                ]}
+                radios={YesNoArray}
                 control={control}
+                errorInstance={errors}
               />
             </Grid>
           </>
@@ -1200,10 +1197,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
           <FormRadioButtons
             required
             id={'tin'}
-            radios={[
-              {key: Boolean.YES, label: messages['common.yes']},
-              {key: Boolean.NO, label: messages['common.no']},
-            ]}
+            radios={YesNoArray}
             control={control}
             label={'institute.is_tin'}
             errorInstance={errors}
@@ -1235,16 +1229,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'registered_under_authority'}
             label={'institute.is_registered_under_authority'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleHasRegisteredAuthorityChange}
@@ -1269,16 +1254,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'authorized_under_authority'}
             label={'institute.is_under_any_approved_authority'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleHasAuthorizedAuthorityCheck}
@@ -1304,16 +1280,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'specialized_area'}
             label={'institute.is_under_any_special_region'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleInstituteIsUnderSpecializedArea}
@@ -1338,16 +1305,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'under_sme_cluster'}
             label={'institute.is_under_any_sme_cluster'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleIsUnderSMECluster}
@@ -1372,16 +1330,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'member_of_association_or_chamber'}
             label={'institute.is_association_member'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleIsAssociationMember}
@@ -1613,16 +1562,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'have_bank_account'}
             label={'institute.has_bank_account'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
             onChange={handleHasBankAccount}
@@ -1656,16 +1596,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'accounting_system'}
             label={'institute.is_keep_daily_debit_credit'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
           />
@@ -1676,16 +1607,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'use_computer'}
             label={'institute.is_use_computer'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
           />
@@ -1696,16 +1618,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'internet_connection'}
             label={'institute.has_internet_connection'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
           />
@@ -1716,16 +1629,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             required
             id={'online_business'}
             label={'institute.has_online_business'}
-            radios={[
-              {
-                key: Boolean.YES,
-                label: messages['common.yes'],
-              },
-              {
-                key: Boolean.NO,
-                label: messages['common.no'],
-              },
-            ]}
+            radios={YesNoArray}
             control={control}
             errorInstance={errors}
           />

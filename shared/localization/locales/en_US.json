@@ -1500,5 +1500,6 @@
   "common.approved_no": "Approved Number",
   "bank_account_type.label": "Bank Account Type",
   "bank_account_type.personal": "Personal",
-  "bank_account_type.of_the_organization": "Organization"
+  "bank_account_type.of_the_organization": "Organization",
+  "common,number": "Number"
 }
