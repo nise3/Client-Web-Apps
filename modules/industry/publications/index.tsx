@@ -290,15 +290,14 @@ const Publications = () => {
                   ) : publications && publications?.length ? (
                     publications.map((publication: any) => {
                       return (
-                        <Link
-                          href={`/publications/${publication.id}`}
-                          key={publication.id}>
-                          <Grid
-                            item
-                            md={3}
-                            xs={12}
-                            justifyContent={'center'}
-                            mt={3}>
+                        <Grid
+                          key={publication.id}
+                          item
+                          md={3}
+                          xs={12}
+                          justifyContent={'center'}
+                          mt={3}>
+                          <Link href={`/publications/${publication.id}`}>
                             <Box
                               className={classes.imageBox}
                               sx={{maxWidth: 150}}>
@@ -314,8 +313,8 @@ const Publications = () => {
                                 {publication?.title}
                               </Body2>
                             </Box>
-                          </Grid>
-                        </Link>
+                          </Link>
+                        </Grid>
                       );
                     })
                   ) : (
