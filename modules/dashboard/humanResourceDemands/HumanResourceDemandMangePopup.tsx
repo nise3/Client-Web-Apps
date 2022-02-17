@@ -50,12 +50,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
   const {data: youths} = useFetchInstituteTraineeYouths();
 
   const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      /*  cv_links: yup
-        .array()
-        .of(yup.string())
-        .label(messages['common.cv_links'] as string),*/
-    });
+    return yup.object().shape({});
   }, [messages]);
   const {
     register,
@@ -73,7 +68,6 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
 
   const onRejectAction = useCallback(
     async (itemId: any) => {
-      console.log('itemId: ', itemId);
       let response = await rejectHrdemand(itemId);
       if (isResponseSuccess(response)) {
         successStack(
@@ -102,6 +96,7 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
       setCvLinks(urlPaths);
 
       reset({
+        youth_ids: [],
         cv_links: cvLinks,
       });
     }
@@ -125,9 +120,6 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data: ', data);
-    console.log('getValues: ', getValues('youth_ids'));
-
     if (
       !Object.keys(getValues('cv_links')).length &&
       getValues('youth_ids') == undefined
@@ -136,11 +128,35 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
     } else {
       setValidationMessage('');
     }
+
+    const youthIds: any = [];
+    (data.youth_ids || []).map((item: any) => {
+      youthIds.push(item.youth_id);
+    });
+
+    if (data.cv_links?.length == 0) {
+      delete data.cv_links;
+    }
+
+    if (data.youth_ids?.length == 0) {
+      delete data.youth_ids;
+    }
+
+    const formData: any = {};
+    if (youthIds.length > 0) {
+      formData.youth_ids = youthIds;
+    }
+
+    if (data.cv_links?.length > 0) {
+      formData.cv_links = data.cv_links;
+    }
+
     try {
       if (itemId) {
-        await updateHrDemand(itemId, data);
+        await updateHrDemand(itemId, formData);
         updateSuccessMessage('hr_demand.label');
       }
+      setCvLinks([]);
       onClose();
       refreshDataTable();
     } catch (error: any) {
@@ -185,8 +201,8 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
             isLoading={false}
             control={control}
             options={youths}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionValueProp={'youth_id'}
+            optionTitleProp={['youth_name']}
             errorInstance={errors}
           />
         </Grid>
