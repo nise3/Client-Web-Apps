@@ -11,6 +11,7 @@ import LandingBannerTemplateCenterBackground from './components/LandingBannerTem
 import LandingBannerTemplateRightLeft from './components/LandingBannerTemplateRightLeft';
 import LandingBannerTemplateLeftRight from './components/LandingBannerTemplateLeftRight';
 import NiseImageCarousel from './components/NiseImageCarousel';
+import LandingBannerTemplateBackgroundImage from './components/LandingBannerTemplateBackgroundImage';
 
 const PREFIX = 'CoverArea';
 
@@ -40,6 +41,8 @@ const getBannerTemplate = (banner: any) => {
       return <LandingBannerTemplateRightLeft banner={banner} />;
     case 'BT_LR':
       return <LandingBannerTemplateLeftRight banner={banner} />;
+    case 'BT_OB':
+      return <LandingBannerTemplateBackgroundImage banner={banner} />;
     default:
       return <LandingBannerTemplateCenterBackground banner={banner} />;
   }
