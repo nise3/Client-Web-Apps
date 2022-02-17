@@ -241,14 +241,14 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
           ? yup
               .string()
               .required()
-              .label(messages['common.district'] as string)
+              .label(messages['districts.label'] as string)
           : yup.string(),
       chamber_or_association_union:
         formFiller == FormFiller.CHAMBER_ASSOCIATION
           ? yup
               .string()
               .required()
-              .label(messages['common.union'] as string)
+              .label(messages['union.label'] as string)
           : yup.string(),
       chamber_or_association_code:
         formFiller == FormFiller.CHAMBER_ASSOCIATION
