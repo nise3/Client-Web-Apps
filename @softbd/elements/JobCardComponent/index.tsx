@@ -312,6 +312,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             avatar={
               <Avatar
                 className={classes.providerAvatar}
+                variant={'square'}
                 src={getJobProviderImage()}
                 title={job.job_title}
                 alt={job.job_title}
@@ -353,6 +354,22 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               {job?.additional_job_information?.job_responsibilities}
             </Body1>
             <Box className={classes.marginTop10}>
+              {job?.application_deadline ? (
+                <TagChip
+                  label={
+                    messages['common.publication_deadline'] +
+                    ': ' +
+                    getIntlDateFromString(
+                      formatDate,
+                      job.application_deadline,
+                      'short',
+                    )
+                  }
+                  icon={<CalendarToday />}
+                />
+              ) : (
+                ''
+              )}
               <TagChip label={getLocationText()} icon={<LocationOn />} />
               <TagChip label={getExperienceText()} icon={<BusinessCenter />} />
               {job?.additional_job_information?.is_salary_info_show !=
