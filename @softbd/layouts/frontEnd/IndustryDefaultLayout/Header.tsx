@@ -11,6 +11,7 @@ import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
+  LINK_FRONTEND_INDUSTRY_ENROLLMENT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
   LINK_FRONTEND_INDUSTRY_ROOT,
@@ -193,6 +194,12 @@ const Header: React.FC<AppHeaderProps> = () => {
 
                   <Link href={LINK_FRONTEND_FAQ} className={classes.menuItem}>
                     {messages['menu.faq']}
+                  </Link>
+
+                  <Link
+                    href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
+                    className={classes.menuItem}>
+                    {messages['menu.enrollment']}
                   </Link>
                 </Box>
               </Box>

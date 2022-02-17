@@ -65,6 +65,7 @@ export const LINK_FRONTEND_INDUSTRY_PUBLICATION = '/publications';
 export const LINK_FRONTEND_INDUSTRY_CONTACT = '/contact';
 export const LINK_FRONTEND_INDUSTRY_MEMBER_LIST = '/member-list';
 export const LINK_FRONTEND_INDUSTRY_FAQS = '/faqs';
+export const LINK_FRONTEND_INDUSTRY_ENROLLMENT = '/enrollment';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
