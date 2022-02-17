@@ -146,9 +146,6 @@ const MemberDetails = () => {
           />
         )}
       </Box>
-      <H4 py={2} fontWeight={'bold'}>
-        {messages['common.organization_details']}
-      </H4>
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -271,6 +268,9 @@ const MemberDetails = () => {
             </Grid>
           </Grid>
         </Grid>
+        <H4 py={2} fontWeight={'bold'}>
+          {messages['common.organization_details']}
+        </H4>
         <Grid item xs={12} sm={8} md={9}>
           <Body1>{data?.description}</Body1>
         </Grid>
