@@ -5,6 +5,7 @@ import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBac
 import BannerTemplateRightLeft from './Components/BannerTemplateRightLeft';
 import BannerTemplateLeftRight from './Components/BannerTemplateLeftRight';
 import {Skeleton} from '@mui/material';
+import BannerTemplateBackgroundImage from './Components/BannerTemplateBackgroundImage';
 
 const CoverArea = () => {
   const [sliderFilters] = useState({});
@@ -22,6 +23,8 @@ const CoverArea = () => {
         return <BannerTemplateRightLeft banner={banner} />;
       case 'BT_LR':
         return <BannerTemplateLeftRight banner={banner} />;
+      case 'BT_OB':
+        return <BannerTemplateBackgroundImage banner={banner} />;
       default:
         return <BannerTemplateCenterBackground banner={banner} />;
     }

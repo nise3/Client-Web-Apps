@@ -6,6 +6,7 @@ import LandingBannerTemplateRightLeft from './LandingBannerTemplateRightLeft';
 import LandingBannerTemplateLeftRight from './LandingBannerTemplateLeftRight';
 import {styled} from '@mui/material/styles';
 import CarouselStyles from '../../../@softbd/elements/display/CustomCarousel/CarouselStyles';
+import LandingBannerTemplateBackgroundImage from './LandingBannerTemplateBackgroundImage';
 
 // @ts-ignore
 const StyledCarousel = styled(Carousel)(() => ({...CarouselStyles}));
@@ -66,6 +67,8 @@ const NiseImageCarousel = ({banners}: Props) => {
               return (
                 <LandingBannerTemplateLeftRight banner={banner} key={index} />
               );
+            case 'BT_OB':
+              return <LandingBannerTemplateBackgroundImage banner={banner} />;
             default:
               return (
                 <LandingBannerTemplateCenterBackground

@@ -9,6 +9,7 @@ import ClassicTemplate from '../../youth/myCv/templates/ClassicTemplate';
 import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {useIntl} from 'react-intl';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import {useFetchCandidate} from '../../../services/IndustryManagement/hooks';
 
 type Props = {
   onClose: () => void;
@@ -20,9 +21,11 @@ const DivisionDetailsPopup = ({youthData, ...props}: Props) => {
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>(
     CVTemplateKeys.CLASSIC,
   );
+  const {data} = useFetchCandidate(youthData?.id);
+  console.log('data: ', data);
+
   useEffect(() => {
     if (youthData) {
-      console.log('youthData: ', youthData);
       setSelectedTemplateKey(
         youthData?.youth_profile?.default_cv_template || CVTemplateKeys.CLASSIC,
       );
@@ -81,20 +84,18 @@ const DivisionDetailsPopup = ({youthData, ...props}: Props) => {
         }
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={false} />
-          </>
-        }>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} md={12} ref={refer}>
-            {youthData?.youth_profile && getTemplate()}
-          </Grid>
-          <Grid item xs={12}>
             <Button
               variant='contained'
               onClick={printCB}
               style={{float: 'right'}}>
               {messages['common.print']}
             </Button>
+            <CancelButton onClick={props.onClose} isLoading={false} />
+          </>
+        }>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12} md={12} ref={refer}>
+            {youthData?.youth_profile && getTemplate()}
           </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
