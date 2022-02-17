@@ -1415,6 +1415,7 @@
   "common.last_name": "নামের শেষ অংশ",
   "youth.fullName_en": "পুরো নাম (ইংরেজি)",
   "form_filler" : "ফর্ম পূরণকারী",
+  "common.form_filler" : "ফর্ম পূরণকারী",
   "common.who_will_fill_form" : "যার দ্বারা ফর্ম পূরণ করা হবে?",
   "common.self" : "নিজে",
   "common.chamber_association": "চেম্বার সমিতি",
@@ -1460,7 +1461,7 @@
   "total_employee.permanent": "স্থায়ী কর্মী",
   "total_employee.seasonal": "মৌসুমী কর্মী",
   "institute.has_bank_account": "ব্যাংক হিসাব আছে কিনা?",
-  "institute.is_keep_daily_debit_credit": "দৈনন্দিন আয়/ব্যয় রাখা হয় কিনা?",
+  "institute.is_keep_daily_debit_credit": "দৈনন্দিন আয়/ব্যয় হিসাব রাখা হয় কিনা?",
   "institute.is_use_computer": "প্রতিষ্ঠানটি কম্পিউটার ব্যবহার করে কিনা?",
   "institute.has_internet_connection": "প্রতিষ্ঠানটির ইন্টারনেট সংযোগ আছে কিনা?",
   "institute.has_online_business": "প্রতিষ্ঠানটি অনলাইন ব্যবসা করে কিনা?",
@@ -1468,7 +1469,7 @@
   "institute.info_provider_mobile": "তথ্য প্রদানকারীর মোবাইল নম্বর",
   "institute.info_collector_name": "তথ্য সংগ্রহকারীর নাম",
   "institute.info_collector_mobile": "তথ্য সংগ্রহকারীর মোবাইল নম্বর",
-  "institute.nascib_cluster_information": "nascib ক্লাস্টার তথ্য",
+  "institute.nascib_cluster_information": "NASCIB ক্লাস্টার তথ্য",
   "institute.chamber_association_information": "চেম্বার সমিতির তথ্য",
   "entrepreneur_introduction.label": "উদ্যোক্তার  পরিচিতি",
   "common.organization_identification_number": "প্রতিষ্ঠান সনাক্তকরণ নম্বর",
@@ -1488,5 +1489,8 @@
   "industry.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
   "industry.specialized_areas": "বিশেষায়িত অঞ্চলসমূহ",
   "common.registered_no":  "নিবন্ধিত নম্বর",
-  "common.approved_no": "অনুমোদিত নম্বর"
+  "common.approved_no": "অনুমোদিত নম্বর",
+  "bank_account_type.label": "ব্যাঙ্ক অ্যাকাউন্টের ধরন",
+  "bank_account_type.personal": "ব্যক্তিগত",
+  "bank_account_type.of_the_organization": "প্রতিষ্ঠানের"
 }

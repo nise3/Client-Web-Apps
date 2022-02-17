@@ -1406,6 +1406,7 @@
   "common.job_status_expired": "Expired",
   "common.step_name_en": "Step Name (English)",
   "form_filler" : "Form Filler",
+  "common.form_filler" : "Form Filler",
   "common.who_will_fill_form" : "Who will fill the form?",
   "common.entrepreneur_pic":  "Entrepreneur Picture",
   "institute.trade_licence_number": "Institute Trade License Number",
@@ -1449,7 +1450,7 @@
   "total_employee.permanent": "Permanent Employee",
   "total_employee.seasonal": "Seasonal Employee",
   "institute.has_bank_account": "Has Bank Account?",
-  "institute.is_keep_daily_debit_credit": "Is keep Daily Credit/Debit?",
+  "institute.is_keep_daily_debit_credit": "Is keep Daily Credit/Debit Account?",
   "institute.is_use_computer": "Is Institute Use Computer?",
   "institute.has_internet_connection": "Has Institute Internet Connection?",
   "institute.has_online_business": "Has Online Business?",
@@ -1496,5 +1497,8 @@
   "industry.authorized_authority": "Authorized Authority",
   "industry.specialized_areas": "Specialized Areas",
   "common.registered_no":  "Registered Number",
-  "common.approved_no": "Approved Number"
+  "common.approved_no": "Approved Number",
+  "bank_account_type.label": "Bank Account Type",
+  "bank_account_type.personal": "Personal",
+  "bank_account_type.of_the_organization": "Organization"
 }
