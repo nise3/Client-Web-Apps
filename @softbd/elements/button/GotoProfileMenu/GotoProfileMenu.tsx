@@ -74,6 +74,7 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         variant='contained'
+        size={'small'}
         disableElevation
         onClick={handleClick}
         endIcon={<KeyboardArrowDown />}>
@@ -87,13 +88,11 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}>
-        <Link>
-          <MenuItem onClick={onClick}>
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText>{buttonText}</ListItemText>
-          </MenuItem>
-        </Link>
-        <Divider />
+        <MenuItem onClick={onClick}>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText>{buttonText}</ListItemText>
+        </MenuItem>
+        <Divider sx={{margin: '0 !important'}} />
         <Link href={getSSOLogoutUrl()}>
           <MenuItem>
             <ListItemIcon>

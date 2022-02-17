@@ -63,6 +63,7 @@ const CustomEducationalQualificationFieldArray = ({
             <Grid container item spacing={4}>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomFilterableFormSelect
+                  required={true}
                   label={messages['education.education_level']}
                   id={educationLevelId}
                   control={control}
@@ -82,6 +83,7 @@ const CustomEducationalQualificationFieldArray = ({
               </Grid>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomFilterableFormSelect
+                  required={true}
                   label={messages['education.education_exam_degree']}
                   id={examDegreeId}
                   control={control}

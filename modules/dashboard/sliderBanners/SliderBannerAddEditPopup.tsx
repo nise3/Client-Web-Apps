@@ -216,6 +216,10 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         code: SliderTemplateShowTypes.BT_RL,
         title: messages['slider.template_code_bt_rl'],
       },
+      {
+        code: SliderTemplateShowTypes.BT_OB,
+        title: messages['slider.template_code_bt_ob'],
+      },
     ],
     [messages],
   );
