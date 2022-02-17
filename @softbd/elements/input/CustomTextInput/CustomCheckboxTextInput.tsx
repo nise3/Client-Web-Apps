@@ -56,7 +56,7 @@ const CustomCheckboxTextInput = ({
 
         {data.map((data: any) => {
           return (
-            <StyledGrid>
+            <StyledGrid key={data.id}>
               <label className={isTextFieldExist ? classes.inlineBlock : ''}>
                 <Checkbox
                   value={data.id}
