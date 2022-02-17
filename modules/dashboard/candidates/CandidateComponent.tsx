@@ -513,16 +513,18 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                       {duration.year && duration.year < 1 ? (
                         duration.month && duration.month > 0 ? (
                           <>
+                            {'('}
                             {duration.month}
-                            {'+ months'}
+                            {'+ months)'}
                           </>
                         ) : (
                           <></>
                         )
                       ) : duration.year && duration.year > 0 ? (
                         <>
+                          {'('}
                           {duration.year}
-                          {'+ years'}
+                          {'+ years)'}
                         </>
                       ) : (
                         <></>

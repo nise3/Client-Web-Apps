@@ -1061,6 +1061,7 @@
   "slider.template_code_bt_cb": "Banner with text center and image background",
   "slider.template_code_bt_lr": "Banner with text left and image right",
   "slider.template_code_bt_rl": "Banner with text right and image left",
+  "slider.template_code_bt_ob": "Banner with only image",
   "page_block.template_code_pbt_lr": "Block with text left and image right",
   "page_block.template_code_pbt_rl": "Block with text right and image left",
   "page_block.template_code_pbt_show_editor_content": "Block with text editor content",

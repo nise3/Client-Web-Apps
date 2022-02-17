@@ -7,6 +7,7 @@ import BannerTemplateLeftRight from '../../../../modules/institute/Components/Ba
 import BannerTemplateRightLeft from '../../../../modules/institute/Components/BannerTemplateRightLeft';
 import {rgba} from 'polished';
 import CarouselStyles from '../CustomCarousel/CarouselStyles';
+import BannerTemplateBackgroundImage from '../../../../modules/institute/Components/BannerTemplateBackgroundImage';
 
 const PREFIX = 'ImageCarousel';
 
@@ -144,6 +145,8 @@ const ImageCarousel = ({banners}: Props) => {
               return <BannerTemplateRightLeft key={i} banner={banner} />;
             case 'BT_LR':
               return <BannerTemplateLeftRight key={i} banner={banner} />;
+            case 'BT_OB':
+              return <BannerTemplateBackgroundImage banner={banner} />;
             default:
               return <BannerTemplateCenterBackground key={i} banner={banner} />;
           }
