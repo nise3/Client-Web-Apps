@@ -16,6 +16,7 @@ import {
   getCalenderViewFilter,
   getNavigationFilter,
 } from '../../../services/global/globalService';
+import { Event } from "@mui/icons-material";
 
 const localizer = momentLocalizer(moment);
 
@@ -123,7 +124,8 @@ const EventCalendar = () => {
 
   return (
     <>
-      <PageBlock title={messages['menu.calendar']}>
+
+      <PageBlock title={<><Event/>{messages['menu.calendar']}</>}>
         <Calendar
           events={eventsList}
           // events={events1}
