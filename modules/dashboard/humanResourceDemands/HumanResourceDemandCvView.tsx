@@ -11,6 +11,9 @@ import Router, {useRouter} from 'next/router';
 import {Button, Typography} from '@mui/material';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import {Link} from '../../../@softbd/elements/common';
+import {ArrowBack} from '@mui/icons-material';
+import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
 const HumanResourceDemandCvView = () => {
   const {messages} = useIntl();
@@ -166,6 +169,26 @@ const HumanResourceDemandCvView = () => {
                 }
               },
             },
+            {
+              Header: messages['youth_profile.label'],
+              accessor: 'youth_id',
+              Cell: (props: any) => {
+                let data = props.row.original;
+
+                return (
+                  data?.youth_id && (
+                    <Link
+                      href={LINK_CV_BANK + '/' + data.youth_id}
+                      target={'_blank'}>
+                      <CommonButton
+                        btnText={'youth_profile.label'}
+                        variant={'contained'}
+                      />
+                    </Link>
+                  )
+                );
+              },
+            },
           ],
     [messages],
   );
@@ -178,7 +201,10 @@ const HumanResourceDemandCvView = () => {
             <IconJobSector /> <IntlMessages id='hr_demand.label' />
           </>
         }>
-        <Button variant='outlined' onClick={() => Router.back()}>
+        <Button
+          variant='outlined'
+          onClick={() => Router.back()}
+          startIcon={<ArrowBack />}>
           {messages['common.back']}
         </Button>
         <ReactTable

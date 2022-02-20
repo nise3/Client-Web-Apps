@@ -116,10 +116,6 @@ const InstituteProvidedCVList = () => {
         },
       },
       {
-        Header: messages['common.name'],
-        accessor: 'name',
-      },
-      {
         Header: messages['common.cv'],
         accessor: 'cv_link',
         Cell: (props: any) => {
@@ -200,7 +196,7 @@ const InstituteProvidedCVList = () => {
 
   return (
     <PageBlock
-      title={messages['button.youth_approve']}
+      title={messages['button.cv_approve']}
       extra={[
         <React.Fragment key={1}>
           <Button

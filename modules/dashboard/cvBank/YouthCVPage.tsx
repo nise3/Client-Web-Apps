@@ -112,7 +112,7 @@ const YouthCVPage = () => {
             variant='outlined'
             onClick={() => Router.back()}
             style={{float: 'right'}}>
-            Back
+            {messages['common.back']}
           </Button>
         </Grid>
         <Grid item xs={6} sm={2} md={2}>
