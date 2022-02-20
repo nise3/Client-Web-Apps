@@ -1436,9 +1436,7 @@
   "common.dont_send": "Don't send",
   "common.provided_vacancy": "Provided vacancy",
   "common.approved_vacancy": "Approved vacancy",
-  "common.rejected_vacancy": "Rejected vacancy",
   "common.provided_vacancy_by_institute": "Provided vacancy by institute",
   "industry_association.youth_approved_successfully": "Youth successfully approved",
-  "common.rejected_vacancy_by_institute": "Rejected vacancy by institute",
   "common.youth_approval": "Youth approval"
 }
