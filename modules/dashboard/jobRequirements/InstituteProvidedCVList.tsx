@@ -76,16 +76,19 @@ const InstituteProvidedCVList = () => {
   );
 
   const rejectAction = async (itemId: number) => {
-    let response = await rejectHRDemandYouth(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='common.youth' />}}
-        />,
-      );
-
+    try {
+      let response = await rejectHRDemandYouth(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_rejected'
+            values={{subject: <IntlMessages id='common.youth' />}}
+          />,
+        );
+      }
       mutateYouthList();
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
     }
   };
 
@@ -98,11 +101,10 @@ const InstituteProvidedCVList = () => {
       successStack(
         messages['industry_association.youth_approved_successfully'],
       );
+      mutateYouthList();
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
-
-    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -114,10 +116,6 @@ const InstituteProvidedCVList = () => {
         Cell: (props: any) => {
           return props.row.index + 1;
         },
-      },
-      {
-        Header: messages['common.name'],
-        accessor: 'name',
       },
       {
         Header: messages['common.cv'],

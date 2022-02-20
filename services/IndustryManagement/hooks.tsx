@@ -122,7 +122,9 @@ export function useFetchHumanResourceDemands(params: any) {
 }
 
 export function useFetchInstituteHumanResourceDemands(params: any) {
-  return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
+  return useAxiosSWR(
+    params ? [API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params] : null,
+  );
 }
 
 export function useFetchPublicJobs(params: any) {
