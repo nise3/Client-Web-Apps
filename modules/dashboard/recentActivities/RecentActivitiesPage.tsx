@@ -17,6 +17,7 @@ import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 import ContentTypes from './ContentTypes';
+import IconVideo from '../../../@softbd/icons/IconVideo';
 
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
@@ -148,7 +149,7 @@ const RecentActivitiesPage = () => {
   return (
     <>
       <PageBlock
-        title={<IntlMessages id='recent_activities.label' />}
+        title={<><IconVideo/><IntlMessages id='recent_activities.label' /></>}
         extra={[
           <AddButton
             key={1}

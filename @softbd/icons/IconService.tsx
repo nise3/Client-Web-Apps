@@ -1,10 +1,10 @@
 import React from 'react';
-import {BusinessCenter} from '@mui/icons-material';
+import {Build} from '@mui/icons-material';
 
 const IconService = () => {
   return (
     <>
-      <BusinessCenter />
+      <Build />
     </>
   );
 };
