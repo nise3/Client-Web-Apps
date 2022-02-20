@@ -1444,8 +1444,6 @@
   "common.email_sms": "ইমেইল এবং এসএমএস",
   "common.dont_send": "পাঠাবেন না",
   "common.provided_vacancy": "প্রদানকৃত শূন্যপদ",
-  "common.rejected_vacancy": "বাতিলকৃত শূন্যপদ",
   "common.provided_vacancy_by_institute": "প্রতিষ্ঠান দ্বারা প্রদানকৃত শূন্যপদ",
-  "common.rejected_vacancy_by_institute": "প্রতিষ্ঠান দ্বারা বাতিলকৃত শূন্যপদ",
   "common.youth_approval": "ইয়ুথ অনুমোদন"
 }
