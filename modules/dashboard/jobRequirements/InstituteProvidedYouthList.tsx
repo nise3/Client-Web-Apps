@@ -20,7 +20,6 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import IndustryAssociationYouthApproval from '../../../@softbd/utilities/IndustryAssociationYouthApproval';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
-import HRDemandYouthType from '../../../@softbd/utilities/HRDemandYouthType';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -33,10 +32,9 @@ const InstituteProvidedYouthList = () => {
   const router = useRouter();
   const {hrDemandInstituteId} = router.query;
 
-  const [checkedYouths, setCheckedYouths] = useState<any>(new Set([]));
+  const [checkedYouths, setCheckedYouths] = useState<any>(new Set());
   const [youthListFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
-    hr_demand_youth_type: HRDemandYouthType.YOUTH_ID,
   });
 
   const {
@@ -51,12 +49,12 @@ const InstituteProvidedYouthList = () => {
   useEffect(() => {
     if (youthList && youthList.length > 0) {
       const approvedYouths = youthList
-        .map((youth: any) => {
+        .filter((youth: any) => {
           return (
             youth.approval_status == IndustryAssociationYouthApproval.APPROVED
           );
         })
-        .map((youth: any) => youth.youth_id);
+        .map((youth: any) => youth.id);
 
       setCheckedYouths(new Set(approvedYouths));
     }
@@ -77,16 +75,19 @@ const InstituteProvidedYouthList = () => {
   );
 
   const rejectAction = async (itemId: number) => {
-    let response = await rejectHRDemandYouth(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='common.institute' />}}
-        />,
-      );
-
+    try {
+      let response = await rejectHRDemandYouth(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_rejected'
+            values={{subject: <IntlMessages id='common.youth_approval' />}}
+          />,
+        );
+      }
       mutateYouthList();
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
     }
   };
 
@@ -99,10 +100,10 @@ const InstituteProvidedYouthList = () => {
       successStack(
         messages['industry_association.youth_approved_successfully'],
       );
+      mutateYouthList();
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
-    mutateYouthList();
   }, [youthList, checkedYouths]);
 
   const columns = useMemo(
@@ -116,20 +117,25 @@ const InstituteProvidedYouthList = () => {
         },
       },
       {
-        Header: messages['youth_profile.label'],
-        accessor: 'youth_id',
+        Header: messages['common.cv'],
+        accessor: 'cv_link',
         Cell: (props: any) => {
           let data = props.row.original;
+          const URL = data?.cv_link;
 
-          return (
-            data?.youth_id && (
-              <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>
-                <CommonButton
-                  btnText={'youth_profile.label'}
-                  variant={'contained'}
-                />
-              </Link>
-            )
+          return data?.youth_id ? (
+            <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>
+              <CommonButton
+                btnText={'youth_profile.label'}
+                variant={'contained'}
+              />
+            </Link>
+          ) : URL ? (
+            <Link href={URL} target={'_blank'}>
+              <CommonButton btnText={'common.see_cv'} variant={'contained'} />
+            </Link>
+          ) : (
+            <></>
           );
         },
       },
@@ -175,7 +181,7 @@ const InstituteProvidedYouthList = () => {
               <label style={{display: 'block', marginRight: '5px'}}>
                 <Checkbox
                   value={data.id}
-                  onChange={() => handleYouthCheck(data.youth_id)}
+                  onChange={() => handleYouthCheck(data.id)}
                   checked={checkedYouths.has(data.id)}
                 />
                 {lodashStartCase(messages['common.accept'] as string)}

@@ -1387,7 +1387,6 @@
   "common.difficulty": "Difficulty",
   "common.marks": "Marks",
   "common.import": "Imports",
-  "common.vacancy_approval_status": "Vacancy approval Status",
   "common.hour": "Hour",
   "common.hours": "Hours",
   "common.not_enrollable": "Not Enrollable",
@@ -1401,7 +1400,6 @@
   "common.candidates": "Candidates",
   "common.candidates_list": "Candidates List",
   "common.see_cv": "See CV",
-  "common.cv_approve": "CV Approve",
   "assign_permission.label": "Assign Permission",
   "common.applied": "Applied",
   "beneficiaries_of_NISE.label": "Beneficiaries of NISE",
@@ -1441,5 +1439,8 @@
   "common.email_sms": "Email and SMS",
   "common.dont_send": "Don't send",
   "common.provided_vacancy": "Provided vacancy",
-  "common.approved_vacancy": "Approved vacancy"
+  "common.approved_vacancy": "Approved vacancy",
+  "common.provided_vacancy_by_institute": "Provided vacancy by institute",
+  "industry_association.youth_approved_successfully": "Youth successfully approved",
+  "common.youth_approval": "Youth approval"
 }

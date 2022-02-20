@@ -94,13 +94,24 @@ const HumanResourceDemandMangePopup: FC<HumanResourceDemandMangePopupProps> = ({
         }
       });
       setCvLinks(urlPaths);
+      let youthIds: any = [];
+      (itemData?.hr_demand_youths_youth_ids || []).map((youth: any) => {
+        youthIds.push(youth.youth_id);
+      });
+
+      let youthList = [];
+      if (youths) {
+        youthList = youths.filter((youth: any) =>
+          youthIds.includes(youth.youth_id),
+        );
+      }
 
       reset({
-        youth_ids: [],
-        cv_links: cvLinks,
+        youth_ids: youthList,
+        cv_links: urlPaths,
       });
     }
-  }, [itemData]);
+  }, [itemData, youths]);
 
   useEffect(() => {
     setValidationMessage('');
