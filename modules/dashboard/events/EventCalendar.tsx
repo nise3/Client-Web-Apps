@@ -64,6 +64,12 @@ const EventCalendar = () => {
 
   const refreshDataTable = useCallback(
     (event, item) => {
+      if (item.start) {
+        item.start = new Date(`${item.start}T${item.start_time}`);
+      }
+      if (item.end) {
+        item.end = new Date(`${item.end}T${item.end_time}`);
+      }
       switch (event) {
         case 'delete':
           const newList = eventsList.filter(
@@ -85,7 +91,10 @@ const EventCalendar = () => {
   );
 
   useEffect(() => {
-    addStartEndPropsToList(events);
+    if (events) {
+      addStartEndPropsToList(events);
+    }
+    
   }, [events]);
 
   useEffect(() => {
