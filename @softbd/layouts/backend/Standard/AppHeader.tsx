@@ -18,7 +18,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
 import { Link } from '@mui/material';
 import { useAuthUser } from '../../../../@crema/utility/AppHooks';
-import { YouthAuthUser } from '../../../../redux/types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 
@@ -27,8 +26,9 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
   const authUser = useAuthUser<any>();
-  const homePageUrl = `http://${authUser?.domain}`;
-  console.log('authUser 4', authUser)
+  const homePageUrl = `${window?.location?.protocol}//${authUser?.domain ? authUser?.domain : ''}`;
+  // console.log('window ', window.location.protocol)
+  // console.log('authUser 4', authUser)
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
