@@ -116,10 +116,6 @@ const InstituteProvidedYouthList = () => {
         },
       },
       {
-        Header: messages['common.name'],
-        accessor: 'name',
-      },
-      {
         Header: messages['youth_profile.label'],
         accessor: 'youth_id',
         Cell: (props: any) => {
