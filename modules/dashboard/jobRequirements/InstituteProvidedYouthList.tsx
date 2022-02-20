@@ -117,10 +117,6 @@ const InstituteProvidedYouthList = () => {
         },
       },
       {
-        Header: messages['common.name'],
-        accessor: 'name',
-      },
-      {
         Header: messages['common.cv'],
         accessor: 'cv_link',
         Cell: (props: any) => {
