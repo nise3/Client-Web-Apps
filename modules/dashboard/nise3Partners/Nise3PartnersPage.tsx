@@ -18,6 +18,7 @@ import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
+
 const Nise3PartnersPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();

@@ -1,10 +1,10 @@
 import React from 'react';
-import {BusinessCenter} from '@mui/icons-material';
+import {Work} from '@mui/icons-material';
 
 const IconOccupation = () => {
   return (
     <>
-      <BusinessCenter />
+      <Work />
     </>
   );
 };

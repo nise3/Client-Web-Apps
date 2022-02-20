@@ -6,7 +6,7 @@ import {API_YOUTHS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconUser from '../../../@softbd/icons/IconUser';
+import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 import Genders from '../../../@softbd/utilities/Genders';
 import {useRouter} from 'next/router';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
@@ -179,7 +179,7 @@ const CVBankPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser /> <IntlMessages id='common.cv_bank' />
+            <IconStaticPage /> <IntlMessages id='common.cv_bank' />
           </>
         }>
         <ReactTable
