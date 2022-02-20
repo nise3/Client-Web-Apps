@@ -92,6 +92,15 @@ const MemberDetails = () => {
     }
   };
 
+  const copyPhoneToClipboard = () => {
+    let el: any = document.getElementById('phone_text');
+    if (el) {
+      el.select();
+      document.execCommand('copy');
+      successStack('Phone number copied');
+    }
+  };
+
   return (
     <StyledContainer maxWidth={'lg'}>
       <Box
@@ -232,7 +241,9 @@ const MemberDetails = () => {
                   marginRight: '10px',
                   backgroundColor: '#4d0d641f !important', //TODO this color needs to be added in palette
                 }}>
-                <Call />
+                <Tooltip title={'Click to copy phone number'} arrow>
+                  <Call onClick={() => copyPhoneToClipboard()} />
+                </Tooltip>
               </IconButton>
               <Box>
                 <Typography variant={'subtitle2'}>
@@ -245,6 +256,16 @@ const MemberDetails = () => {
                   }}>
                   {data?.contact_person_mobile}
                 </Typography>
+                <textarea
+                  id={'phone_text'}
+                  style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    pointerEvents: 'none',
+                  }}
+                  readOnly={true}
+                  value={data?.contact_person_mobile}
+                />
               </Box>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
