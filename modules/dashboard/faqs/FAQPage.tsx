@@ -13,7 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import { Help } from '@mui/icons-material';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -166,7 +166,7 @@ const FAQPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='menu.faq' />
+            <Help /> <IntlMessages id='menu.faq' />
           </>
         }
         extra={[

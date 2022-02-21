@@ -381,6 +381,7 @@ export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-steps/';
 export const API_CANDIDATE_UPDATE = API_JOBS + '/candidate/';
 
 export const API_CANDIDATE_STEP_SCHEDULE = API_JOBS + '/step-schedule';
+export const API_CANDIDATE_SCHEDULE = API_JOBS + '/step-schedule';
 
 //Industry Association section end
 

@@ -15,7 +15,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import {Book} from '@mui/icons-material';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
@@ -155,7 +155,7 @@ const PublicationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='publication.label' />
+            <Book /> <IntlMessages id='publication.label' />
           </>
         }
         extra={[
