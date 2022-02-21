@@ -106,7 +106,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
   const {successStack, errorStack} = useNotiStack();
   const [isOpenCvDetailsModal, setIsOpenCvDetailsModal] = useState(false);
   const [openAssignSchedulePopup, setOpenAssignSchedulePopup] = useState(false);
-  const [candidateIds, setCandidateIds] = useState<any>();
+  const [candidateIds] = useState<any>();
 
   const rejectCandidate = async (itemId: number) => {
     try {
@@ -217,7 +217,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
   //   }
   // };
 
-  const onClickCandidateScheduleAssignButton = useCallback(
+/*  const onClickCandidateScheduleAssignButton = useCallback(
     (candidateId: any) => {
       setOpenAssignSchedulePopup(true);
       let data: any = [];
@@ -225,7 +225,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       setCandidateIds(data);
     },
     [candidateIds],
-  );
+  );*/
 
   const onCloseSchedulePopup = () => {
     setOpenAssignSchedulePopup(false);
@@ -342,9 +342,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               nextStep ? (
                 <CheckButton
                   title={`Schedule for ${nextStep?.title}`}
-                  onClick={() =>
-                    onClickCandidateScheduleAssignButton(candidate?.id)
-                  }
+                  onClick={() => {
+                    //onClickCandidateScheduleAssignButton(candidate?.id)
+                  }}
                 />
               ) : (
                 <CheckButton
