@@ -32,6 +32,7 @@ import CustomizedDialogs from '../Components/ImageDialog';
 import {H2} from '../../../@softbd/elements/common';
 import clsx from 'clsx';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const PREFIX = 'InstituteVideos';
 
@@ -266,9 +267,22 @@ const InstituteVideos = () => {
                               <CardMedia
                                 component='img'
                                 height='140'
-                                image={data?.content_grid_image_path}
+                                image={
+                                  data?.content_grid_image_path ??
+                                  '/images/blank_gray_image.png'
+                                }
                                 alt={data?.title}
                                 title={data?.title}
+                              />
+                              <PlayCircleIcon
+                                sx={{
+                                  position: 'absolute',
+                                  top: 'calc(30% - 35px)',
+                                  left: 'calc(50% - 35px)',
+                                  height: '70px',
+                                  width: '70px',
+                                }}
+                                color='primary'
                               />
                               <CardContent>
                                 <Typography
