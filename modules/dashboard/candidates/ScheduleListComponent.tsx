@@ -13,6 +13,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteCandidateStepSchedule} from '../../../services/IndustryManagement/IndustryAssociationService';
 import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
+import CustomChipInviteType from './CustomChipInviteType';
 
 interface IScheduleListComponentPopupProps {
   onClose: () => void;
@@ -44,8 +45,7 @@ const ScheduleListComponentPopup = ({
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
-      urlPath:
-        API_RECRUITMENT_STEPS + '/' + currentStep?.step_no + '/schedules',
+      urlPath: API_RECRUITMENT_STEPS + '/' + currentStep?.id + '/schedules',
     });
 
   const deleteSchedule = async (scheduleId: number) => {
@@ -87,7 +87,11 @@ const ScheduleListComponentPopup = ({
       {
         Header: messages['common.invite_type'],
         accessor: 'interview_invite_type',
-        isVisible: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipInviteType value={data?.interview_invite_type} />;
+        },
+        // CustomChipInviteType
       },
       {
         Header: messages['common.venue'],

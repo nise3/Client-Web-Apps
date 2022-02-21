@@ -7,7 +7,6 @@ import {
 import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
@@ -20,6 +19,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {rejectInstituteJobRequirement} from '../../../services/IndustryManagement/JobRequirementService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import PersonIcon from '@mui/icons-material/Person';
 
 const JobRequirementManagePage = () => {
   const {successStack} = useNotiStack();
@@ -29,7 +29,7 @@ const JobRequirementManagePage = () => {
   const [
     instituteHumanResourceDemandFilter,
     setInstituteHumanResourceDemandFilter,
-  ] = useState<any>({});
+  ] = useState<any>(null);
 
   const {data: humanResourceDemandData} = useFetchHumanResourceDemand(
     Number(jobRequirementId),
@@ -86,6 +86,48 @@ const JobRequirementManagePage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.vacancy'],
+        accessor: 'hr_demand.vacancy',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.hr_demand?.vacancy}
+            />
+          );
+        },
+      },
+      {
+        Header: messages['common.provided_vacancy_by_institute'],
+        accessor: 'vacancy_provided_by_institute',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.vacancy_provided_by_institute}
+            />
+          );
+        },
+      },
+      {
+        Header: messages['common.approved_vacancy'],
+        accessor: 'vacancy_approved_by_industry_association',
+        Cell: (props: any) => {
+          let data: any = props.row.original;
+          return (
+            <CustomChip
+              icon={<PersonIcon fontSize={'small'} />}
+              color={'primary'}
+              label={data.vacancy_approved_by_industry_association}
+            />
+          );
+        },
+      },
+      {
         Header: messages['job_requirement.institute_step'],
         accessor: 'rejected_by_institute',
         Cell: (props: any) => {
@@ -138,41 +180,30 @@ const JobRequirementManagePage = () => {
         },
       },
       {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },
-      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
           const APPROVE_YOUTHS_PAGE_URL =
             '/job-requirement/youth-approval/' + data.id;
-
-          const APPROVE_CV_PAGE_URL = '/job-requirement/cv-approval/' + data.id;
           return (
             canRejectApprove(data) && (
               <DatatableButtonGroup>
                 <Link href={APPROVE_YOUTHS_PAGE_URL} passHref>
                   <Button
-                    sx={{color: (theme) => theme.palette.secondary.main}}
+                    variant={'outlined'}
+                    size={'small'}
+                    sx={{
+                      color: (theme) => theme.palette.primary.main,
+                      marginRight: '15px',
+                    }}
                     startIcon={<DoneIcon />}>
                     {messages['button.youth_approve']}
                   </Button>
                 </Link>
-                <Link href={APPROVE_CV_PAGE_URL} passHref>
-                  <Button
-                    sx={{color: (theme) => theme.palette.primary.main}}
-                    startIcon={<DoneIcon />}>
-                    {messages['common.cv_approve']}
-                  </Button>
-                </Link>
                 {!data?.rejected_by_industry_association && (
                   <RejectButton
+                    variant={'outlined'}
+                    size={'small'}
                     itemId={data.id}
                     rejectTitle={messages['common.youth'] as string}
                     rejectAction={rejectAction}>
