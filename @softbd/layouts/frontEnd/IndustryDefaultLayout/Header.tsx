@@ -130,13 +130,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                 />
               </Box>
             )}
-            {/* <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/gov-logo.png'
-                alt='bd-gov logo'
-              />
-            </Box>*/}
           </Link>
           <Grid item md={4} className={classes.instituteName}>
             <Text
@@ -222,17 +215,7 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
                 <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                /*<Link
-                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                                                  className={classes.menuItemRegOrLogin}>
-                                                  <Login className={classes.menuIcons} />
-                                                  {messages['common.registration_login']}
-                                                </Link>*/
-                <GotoSignInOrUpButton />
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>
