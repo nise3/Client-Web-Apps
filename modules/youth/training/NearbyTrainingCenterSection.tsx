@@ -55,6 +55,19 @@ const NearbyTrainingCenterSection = ({
     metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
+  const getPageSize = useCallback(
+    (totalData: number) => {
+      if (Number(queryPageSize) && Number(queryPageSize) > totalData) {
+        return totalData;
+      }
+      return (
+        queryPageSize ??
+        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR)
+      );
+    },
+    [queryPageSize],
+  );
+
   useEffect(() => {
     if (
       !Number(queryPageNumber) ||
@@ -66,9 +79,7 @@ const NearbyTrainingCenterSection = ({
           pathname: router.pathname,
           query: {
             page: 1,
-            page_size:
-              queryPageSize ??
-              (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
+            page_size: getPageSize(trainingCentersMetaData.total),
           },
         },
         undefined,
@@ -84,9 +95,7 @@ const NearbyTrainingCenterSection = ({
           pathname: router.pathname,
           query: {
             page: queryPageNumber,
-            page_size:
-              queryPageSize ??
-              (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
+            page_size: getPageSize(trainingCentersMetaData.total),
           },
         },
         undefined,
