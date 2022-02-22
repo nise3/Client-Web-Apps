@@ -8,6 +8,8 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, Container, Grid, Typography} from '@mui/material';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { jsPDF } from 'jspdf';
+import 'svg2pdf.js'
 
 const PREFIX = 'YouthCVPage';
 
@@ -87,6 +89,37 @@ const YouthCVPage = () => {
     }
   }, []);
 
+  const downloadCB = useCallback(() => {
+
+
+    const doc = new jsPDF('p',  'mm', [297, 210]);
+    // const doc = new jsPDF({ filters: ["ASCIIHexEncode"] });
+    const element = document.getElementById('svg');
+    // doc.addFileToVFS('NotoSerifBengali-Regular.ttf', myFont);
+    // doc.addFont("NotoSerifBengali-Regular.ttf", "NotoSerifBengali-Regular.ttf", "regular", undefined, "Identity-H");
+    // doc.setFont("NotoSerifBengali-Regular.ttf", 'regular');
+    // doc.setFontSize(10);
+    // console.log('doc font ', doc.getFont());
+    // console.log('doc font List', doc.getFontList());
+    // console.log('svg elem ', element);
+
+    doc
+      .svg(element, {
+        x:0,
+        y:0,
+        // width: 860,
+        // height: 1216
+      })
+      .then(() => {
+        // save the created pdf
+        doc.save('myPDF.pdf')
+      })
+    // doc.svg(element, 0, 0, 500, 600);
+    // doc.text('আমার সোনার বাংলা', 10, 10)
+    // doc.save('save.pdf')
+    // console.log('download');
+  }, []);
+
   const getTemplate = () => {
     switch (selectedTemplateKey) {
       case CVTemplateKeys.CLASSIC:
@@ -101,12 +134,12 @@ const YouthCVPage = () => {
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={5}>
-        <Grid item xs={8} sm={8} md={8}>
+        <Grid item xs={6} sm={6} md={6}>
           <Typography variant={'h5'} fontWeight={'bold'}>
             {messages['common.youth_cv']}
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={2} md={2}>
+        <Grid item xs={4} sm={2} md={2}>
           <Button
             startIcon={<ArrowBackIcon />}
             variant='outlined'
@@ -115,12 +148,20 @@ const YouthCVPage = () => {
             {messages['common.back']}
           </Button>
         </Grid>
-        <Grid item xs={6} sm={2} md={2}>
+        <Grid item xs={4} sm={2} md={2}>
           <Button
             variant='contained'
             onClick={printCB}
             style={{float: 'right'}}>
             {messages['common.print']}
+          </Button>
+        </Grid>
+        <Grid item xs={4} sm={2} md={2}>
+          <Button
+            variant='contained'
+            onClick={downloadCB}
+            style={{float: 'right'}}>
+            {messages['common.download']}
           </Button>
         </Grid>
       </Grid>
