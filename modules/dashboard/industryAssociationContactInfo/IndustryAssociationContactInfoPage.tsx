@@ -8,7 +8,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INDUSTRY_ASSOCIATION_CONTACT_INFO} from '../../../@softbd/common/apiRoutes';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import {BusinessCenter} from '@mui/icons-material';
+import {Business} from '@mui/icons-material';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IndustryAssociationContactInfoAddEditPopup from './IndustryAssociationContactInfoAddEditPopup';
@@ -139,7 +139,7 @@ const IndustryAssociationContactInfoPage = () => {
       <PageBlock
         title={
           <>
-            <BusinessCenter /> <IntlMessages id='common.contact_office' />
+            <Business /> <IntlMessages id='common.contact_office' />
           </>
         }
         extra={[

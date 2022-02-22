@@ -32,6 +32,7 @@ import {
   API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
+  API_RECRUITMENT_STEPS,
 } from '../../@softbd/common/apiRoutes';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
@@ -121,7 +122,9 @@ export function useFetchHumanResourceDemands(params: any) {
 }
 
 export function useFetchInstituteHumanResourceDemands(params: any) {
-  return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
+  return useAxiosSWR(
+    params ? [API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params] : null,
+  );
 }
 
 export function useFetchPublicJobs(params: any) {
@@ -248,3 +251,8 @@ export function useFetchCandidate(applicationId: any) {
   );
 }
 
+export function useFetchInterviewSchedule(stepId: number | null) {
+  return useAxiosSWR(
+    stepId ? API_RECRUITMENT_STEPS + '/' + stepId + '/schedules' : null,
+  );
+}
