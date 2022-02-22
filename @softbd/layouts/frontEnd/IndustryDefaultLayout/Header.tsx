@@ -11,6 +11,7 @@ import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
+  LINK_FRONTEND_INDUSTRY_ENROLLMENT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
   LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
@@ -129,13 +130,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                 />
               </Box>
             )}
-            {/* <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/gov-logo.png'
-                alt='bd-gov logo'
-              />
-            </Box>*/}
           </Link>
           <Grid item md={4} className={classes.instituteName}>
             <Text
@@ -207,6 +201,12 @@ const Header: React.FC<AppHeaderProps> = () => {
                     className={classes.menuItem}>
                     {messages['common.member_registration']}
                   </Link>
+
+                  <Link
+                    href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
+                    className={classes.menuItem}>
+                    {messages['menu.enrollment']}
+                  </Link>
                 </Box>
               </Box>
             </Box>
@@ -215,17 +215,7 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
                 <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                /*<Link
-                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                                                  className={classes.menuItemRegOrLogin}>
-                                                  <Login className={classes.menuIcons} />
-                                                  {messages['common.registration_login']}
-                                                </Link>*/
-                <GotoSignInOrUpButton />
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>
