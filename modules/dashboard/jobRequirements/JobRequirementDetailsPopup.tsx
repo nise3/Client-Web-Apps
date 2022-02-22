@@ -120,6 +120,34 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.requirements']}
+              value={itemData?.requirement}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.requirements_en']}
+              value={itemData?.requirement_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation']}
+              value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation_en']}
+              value={itemData?.designation_en}
+              isLoading={isLoading}
+            />
+          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

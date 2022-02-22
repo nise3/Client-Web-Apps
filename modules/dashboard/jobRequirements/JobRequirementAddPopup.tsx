@@ -128,6 +128,10 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
             .trim()
             .required()
             .label(messages['common.end_date'] as string),
+          designation: yup
+            .string()
+            .required()
+            .label(messages['common.designation'] as string),
         }),
       ),
     });
