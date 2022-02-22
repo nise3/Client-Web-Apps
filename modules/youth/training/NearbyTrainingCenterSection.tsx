@@ -101,10 +101,6 @@ const NearbyTrainingCenterSection = ({
       undefined,
       {shallow: true},
     );
-
-    setNearbyTrainingCenterFilters((params: any) => {
-      return {...params, ...{page: currentPage}};
-    });
   }, []);
   return (
     <StyledGrid container spacing={3}>
