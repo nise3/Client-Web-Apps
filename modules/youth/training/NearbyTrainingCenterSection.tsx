@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
@@ -11,6 +11,7 @@ import {styled} from '@mui/material/styles';
 import {H2, Link} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -35,6 +36,8 @@ const NearbyTrainingCenterSection = ({
 }: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const {page: queryPageNumber} = router.query;
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
     useState<any>({
@@ -49,9 +52,56 @@ const NearbyTrainingCenterSection = ({
     metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
+  useEffect(() => {
+    if (
+      !Number(queryPageNumber) ||
+      Number(queryPageNumber) < 0 ||
+      Number(queryPageNumber) > trainingCentersMetaData.total_page
+    ) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {page: 1},
+        },
+        undefined,
+        {shallow: true},
+      );
+    } else if (
+      queryPageNumber &&
+      Number(queryPageNumber) > 0 &&
+      queryPageNumber < trainingCentersMetaData.total_page
+    ) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {page: queryPageNumber},
+        },
+        undefined,
+        {shallow: true},
+      );
+    }
+  }, [queryPageNumber, trainingCentersMetaData]);
+
+  useEffect(() => {
+    if (queryPageNumber) {
+      setNearbyTrainingCenterFilters((params: any) => {
+        return {...params, ...{page: router.query.page}};
+      });
+    }
+  }, [queryPageNumber]);
+
   const page = useRef<any>(1);
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
+    router.push(
+      {
+        pathname: router.pathname,
+        query: {page: currentPage},
+      },
+      undefined,
+      {shallow: true},
+    );
+
     setNearbyTrainingCenterFilters((params: any) => {
       return {...params, ...{page: currentPage}};
     });
@@ -104,7 +154,11 @@ const NearbyTrainingCenterSection = ({
                     justifyContent={'center'}>
                     <Stack spacing={2}>
                       <Pagination
-                        page={page.current}
+                        page={
+                          queryPageNumber
+                            ? Number(queryPageNumber)
+                            : page.current
+                        }
                         count={trainingCentersMetaData.total_page}
                         color={'primary'}
                         shape='rounded'

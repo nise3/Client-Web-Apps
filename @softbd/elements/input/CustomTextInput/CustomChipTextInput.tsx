@@ -107,7 +107,7 @@ const CustomChipTextInput = ({
               inputProps={{...inputProps, ...{required: false}}}
               {...register(field.id)}
               {...rest}
-              sx={{maxWidth: '140px'}}
+              sx={{maxWidth: '100px'}}
             />
             {field.helperText && (
               <FormHelperText sx={{color: 'primary.main'}}>
