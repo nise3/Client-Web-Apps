@@ -10,7 +10,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
+import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import {
@@ -114,7 +114,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconPermissionGroup />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

@@ -1,10 +1,10 @@
-import {Business} from '@mui/icons-material';
+import {Engineering} from '@mui/icons-material';
 import React from 'react';
 
 const IconSkill = () => {
   return (
     <>
-      <Business />
+      <Engineering />
     </>
   );
 };
