@@ -60,6 +60,7 @@ const NearbyTrainingCenterSection = ({
       if (Number(queryPageSize) && Number(queryPageSize) > totalData) {
         return totalData;
       }
+
       return (
         queryPageSize ??
         (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR)
