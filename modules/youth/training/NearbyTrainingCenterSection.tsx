@@ -38,12 +38,15 @@ const NearbyTrainingCenterSection = ({
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const {page: queryPageNumber} = router.query;
+  const {page_size: queryPageSize} = router.query;
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
     useState<any>({
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
+      page_size:
+        queryPageSize ??
+        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
     });
 
   const {
@@ -63,9 +66,9 @@ const NearbyTrainingCenterSection = ({
           pathname: router.pathname,
           query: {
             page: 1,
-            page_size: showAllNearbyTrainingCenter
-              ? PageSizes.EIGHT
-              : PageSizes.FOUR,
+            page_size:
+              queryPageSize ??
+              (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
           },
         },
         undefined,
@@ -81,24 +84,28 @@ const NearbyTrainingCenterSection = ({
           pathname: router.pathname,
           query: {
             page: queryPageNumber,
-            page_size: showAllNearbyTrainingCenter
-              ? PageSizes.EIGHT
-              : PageSizes.FOUR,
+            page_size:
+              queryPageSize ??
+              (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
           },
         },
         undefined,
         {shallow: true},
       );
     }
-  }, [queryPageNumber, trainingCentersMetaData]);
+  }, [queryPageNumber, queryPageSize, trainingCentersMetaData]);
 
   useEffect(() => {
     if (queryPageNumber) {
       setNearbyTrainingCenterFilters((params: any) => {
         return {...params, ...{page: router.query.page}};
       });
+    } else if (queryPageSize) {
+      setNearbyTrainingCenterFilters((params: any) => {
+        return {...params, ...{page_size: router.query.page_size}};
+      });
     }
-  }, [queryPageNumber]);
+  }, [queryPageNumber, queryPageSize]);
 
   const page = useRef<any>(1);
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
@@ -108,9 +115,9 @@ const NearbyTrainingCenterSection = ({
         pathname: router.pathname,
         query: {
           page: currentPage,
-          page_size: showAllNearbyTrainingCenter
-            ? PageSizes.EIGHT
-            : PageSizes.FOUR,
+          page_size:
+            queryPageSize ??
+            (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
         },
       },
       undefined,
