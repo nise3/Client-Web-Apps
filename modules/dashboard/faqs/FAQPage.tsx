@@ -13,11 +13,11 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { Help } from '@mui/icons-material';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import IconFAQ from "../../../@softbd/icons/IconFAQ";
 
 const FAQPage = () => {
   const {messages, locale} = useIntl();
@@ -166,7 +166,7 @@ const FAQPage = () => {
       <PageBlock
         title={
           <>
-            <Help /> <IntlMessages id='menu.faq' />
+            <IconFAQ /> <IntlMessages id='menu.faq' />
           </>
         }
         extra={[
