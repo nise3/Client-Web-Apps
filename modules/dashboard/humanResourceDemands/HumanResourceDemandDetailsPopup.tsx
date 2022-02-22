@@ -1,5 +1,4 @@
 import {useIntl} from 'react-intl';
-import {useFetchHrDemandDetails} from '../../../services/IndustryManagement/hooks';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import IconList from '../../../@softbd/icons/IconList';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -8,27 +7,28 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import React, {useEffect, useState} from 'react';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchHrDemand} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
   onClose: () => void;
 };
 
-const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
+const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const [instituteTitles, setInstituteTitles] = useState<Array<string>>([]);
   const [mandatorySkills, setMandatorySkills] = useState<Array<string>>([]);
   const [optionalSkills, setOptionalSkills] = useState<Array<string>>([]);
 
-  const {data: itemData, isLoading} = useFetchHrDemandDetails(itemId);
+  const {data: itemData, isLoading} = useFetchHrDemand(itemId);
 
   useEffect(() => {
     let institutes: Array<any> = [];
-    itemData?.hr_demand_institutes.forEach((institute: any) => {
+    itemData?.hr_demand_institutes?.forEach((institute: any) => {
       institutes.push(
         <div
           dangerouslySetInnerHTML={{
-            __html: `<Chip>${institute.institute_title}</Chip>`,
+            __html: `<Chip>${institute?.institute_title}</Chip>`,
           }}
         />,
       );
@@ -37,12 +37,12 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
     setInstituteTitles(institutes);
 
     let mandatorySkills: Array<any> = [];
-    if (itemData && itemData?.mandatory_skills.length > 0) {
-      itemData.mandatory_skills.forEach((skill: any) => {
+    if (itemData && itemData?.mandatory_skills?.length > 0) {
+      itemData?.mandatory_skills?.forEach((skill: any) => {
         mandatorySkills.push(
           <div
             dangerouslySetInnerHTML={{
-              __html: `<Chip>${skill.title}</Chip>`,
+              __html: `<Chip>${skill?.title}</Chip>`,
             }}
           />,
         );
@@ -52,12 +52,12 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
     setMandatorySkills(mandatorySkills);
 
     let optionalSkills: Array<any> = [];
-    if (itemData && itemData?.optional_skills.length > 0) {
-      itemData.optional_skills.forEach((skill: any) => {
+    if (itemData && itemData?.optional_skills?.length > 0) {
+      itemData?.optional_skills?.forEach((skill: any) => {
         optionalSkills.push(
           <div
             dangerouslySetInnerHTML={{
-              __html: `<Chip>${skill.title}</Chip>`,
+              __html: `<Chip>${skill?.title}</Chip>`,
             }}
           />,
         );
@@ -153,4 +153,4 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
   );
 };
 
-export default JobRequirementDetailsPopup;
+export default HumanResourceDemandDetailsPopup;
