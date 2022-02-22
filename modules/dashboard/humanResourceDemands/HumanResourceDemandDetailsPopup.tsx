@@ -16,29 +16,14 @@ type Props = {
 
 const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
-  const [instituteTitles, setInstituteTitles] = useState<Array<string>>([]);
   const [mandatorySkills, setMandatorySkills] = useState<Array<string>>([]);
   const [optionalSkills, setOptionalSkills] = useState<Array<string>>([]);
 
   const {data: itemData, isLoading} = useFetchHrDemand(itemId);
-
   useEffect(() => {
-    let institutes: Array<any> = [];
-    itemData?.hr_demand_institutes?.forEach((institute: any) => {
-      institutes.push(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `<Chip>${institute?.institute_title}</Chip>`,
-          }}
-        />,
-      );
-      institutes.push(' ');
-    });
-    setInstituteTitles(institutes);
-
     let mandatorySkills: Array<any> = [];
-    if (itemData && itemData?.mandatory_skills?.length > 0) {
-      itemData?.mandatory_skills?.forEach((skill: any) => {
+    if (itemData && itemData?.hr_demand?.mandatory_skills?.length > 0) {
+      itemData?.hr_demand?.mandatory_skills?.forEach((skill: any) => {
         mandatorySkills.push(
           <div
             dangerouslySetInnerHTML={{
@@ -52,8 +37,8 @@ const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
     setMandatorySkills(mandatorySkills);
 
     let optionalSkills: Array<any> = [];
-    if (itemData && itemData?.optional_skills?.length > 0) {
-      itemData?.optional_skills?.forEach((skill: any) => {
+    if (itemData && itemData?.hr_demand?.optional_skills?.length > 0) {
+      itemData?.hr_demand?.optional_skills?.forEach((skill: any) => {
         optionalSkills.push(
           <div
             dangerouslySetInnerHTML={{
@@ -90,13 +75,6 @@ const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.institute_name']}
-              value={instituteTitles}
-              isLoading={isLoading}
-            />
-          </Grid>
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
@@ -115,35 +93,35 @@ const HumanResourceDemandDetailsPopup = ({itemId, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.no_of_vacancy']}
-              value={itemData?.vacancy}
+              value={itemData?.hr_demand?.vacancy}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.requirements']}
-              value={itemData?.requirement}
+              value={itemData?.hr_demand?.requirement}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.requirements_en']}
-              value={itemData?.requirement_en}
+              value={itemData?.hr_demand?.requirement_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.designation']}
-              value={itemData?.designation}
+              value={itemData?.hr_demand?.designation}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.designation_en']}
-              value={itemData?.designation_en}
+              value={itemData?.hr_demand?.designation_en}
               isLoading={isLoading}
             />
           </Grid>

@@ -129,6 +129,7 @@
   "permission.label": "Permission",
   "menu.role": "Role",
   "menu.user": "User",
+  "common.select_first": "Please select a search type first",
   "menu.slider_banners": "Banners",
   "permission_group.label": "Permission group",
   "permission_group.label_en": "Permission group(EN)",
