@@ -61,7 +61,12 @@ const NearbyTrainingCenterSection = ({
       router.push(
         {
           pathname: router.pathname,
-          query: {page: 1},
+          query: {
+            page: 1,
+            page_size: showAllNearbyTrainingCenter
+              ? PageSizes.EIGHT
+              : PageSizes.FOUR,
+          },
         },
         undefined,
         {shallow: true},
@@ -74,7 +79,12 @@ const NearbyTrainingCenterSection = ({
       router.push(
         {
           pathname: router.pathname,
-          query: {page: queryPageNumber},
+          query: {
+            page: queryPageNumber,
+            page_size: showAllNearbyTrainingCenter
+              ? PageSizes.EIGHT
+              : PageSizes.FOUR,
+          },
         },
         undefined,
         {shallow: true},
@@ -96,7 +106,12 @@ const NearbyTrainingCenterSection = ({
     router.push(
       {
         pathname: router.pathname,
-        query: {page: currentPage},
+        query: {
+          page: currentPage,
+          page_size: showAllNearbyTrainingCenter
+            ? PageSizes.EIGHT
+            : PageSizes.FOUR,
+        },
       },
       undefined,
       {shallow: true},
