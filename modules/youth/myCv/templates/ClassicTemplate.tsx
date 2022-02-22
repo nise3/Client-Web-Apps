@@ -4,6 +4,7 @@ import {Box, Slide} from '@mui/material';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
 import {ISkill} from '../../../../shared/Interface/organization.interface';
+import { useIntl } from 'react-intl';
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -25,8 +26,11 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     '1': 'Fluently',
     '2': 'Not Fluently',
   };
-
+  const {messages, locale} = useIntl();
+  console.log(messages, locale)
   const theCB = useCallback((node) => {
+    
+  console.log('cv locale ', locale)
     if (!node || node.children.length > 0) return;
     const div = document.createElement('div');
     div.innerHTML = pageSVG;
@@ -145,7 +149,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         return skill?.title ? index + 1 + '. ' + skill?.title + ' ' : ' ';
       }),
     );
-  }, []);
+  }, [locale]);
 
   return (
     <Slide direction={'right'} in={true}>
