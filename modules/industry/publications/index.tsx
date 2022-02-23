@@ -1,24 +1,15 @@
-import React, {useCallback, useRef, useState, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Box,
-  Button,
   CardMedia,
   Chip,
   Container,
   Grid,
-  IconButton,
-  InputBase,
   Pagination,
-  Paper,
   Skeleton,
   Stack,
-  Typography,
 } from '@mui/material';
 import {Body2, H1, Link} from '../../../@softbd/elements/common';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import clsx from 'clsx';
-import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {useFetchPublications} from '../../../services/IndustryManagement/hooks';
@@ -26,6 +17,8 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PublicationListSearchSection from './PublicationListSearchSection';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -123,21 +116,12 @@ const Publications = () => {
     setUniqueAuthors(uniqueAuthorsSet);
   }, [publications]);
 
-  const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setPublicationFilter((params: any) => {
       return {...params, ...{page: currentPage}};
-    });
-  }, []);
-
-  const onResetClicked = useCallback(() => {
-    setPublicationFilter({
-      row_status: RowStatus.ACTIVE,
-      page: 1,
-      page_size: PageSizes.EIGHT,
     });
   }, []);
 
@@ -148,10 +132,16 @@ const Publications = () => {
     });
   }, [selectedWriter]);
 
-  const onSearch = useCallback(() => {
-    page.current = 1;
-    setPublicationFilter((param: any) => {
-      return {...param, ...{title: inputFieldRef.current?.value}};
+  const setWriterName = (value: string) => {
+    setSelectedWriter(value);
+  };
+
+  const filterPublication = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
+
+    setPublicationFilter((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
     });
   }, []);
 
@@ -171,79 +161,17 @@ const Publications = () => {
       </Grid>
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={3} spacing={2}>
-          <Grid item md={6} xs={12}>
-            <Grid container spacing={1}>
-              <Grid
-                item
-                xs={12}
-                md={2}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Box display={'flex'}>
-                  <FilterListIcon />
-                  <Typography sx={{marginLeft: '15px', fontWeight: 'bold'}}>
-                    {messages['filter.institute']}
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomFilterableSelect
-                  id={'author'}
-                  defaultValue={selectedWriter}
-                  label={messages['industry.writer_name'] as string}
-                  onChange={(value) => setSelectedWriter(value)}
-                  isLoading={false}
-                  optionValueProp={'author'}
-                  options={uniqueAuthors}
-                  optionTitleProp={['author']}
-                  className={clsx(classes.gridMargin, classes.selectStyle)}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Button
-                  onClick={onResetClicked}
-                  variant={'contained'}
-                  size={'small'}
-                  color={'primary'}
-                  className={classes.gridMargin}
-                  sx={{height: '40px'}}>
-                  {messages['common.reset']}
-                </Button>
-              </Grid>
-            </Grid>
+          <Grid item md={12}>
+            <PublicationListSearchSection
+              addFilterKey={filterPublication}
+              defaultValue={selectedWriter}
+              label={messages['industry.writer_name'] as string}
+              onChange={setWriterName}
+              optionValueProp={'author'}
+              options={uniqueAuthors}
+              optionTitleProp={['author']}
+            />
           </Grid>
-          <Grid item md={6} xs={12} className={classes.searchItem}>
-            <Paper
-              style={{
-                display: 'flex',
-                width: 220,
-                height: '40px',
-              }}
-              className={classes.gridMargin}>
-              <InputBase
-                size={'small'}
-                style={{
-                  paddingLeft: '20px',
-                }}
-                placeholder={messages['common.search'] as string}
-                inputProps={{'aria-label': 'Search'}}
-                inputRef={inputFieldRef}
-                onKeyDown={(event) => {
-                  if (event.code == 'Enter') onSearch();
-                }}
-              />
-              <IconButton
-                sx={{p: '5px'}}
-                aria-label='search'
-                onClick={onSearch}>
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
-
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container>
               <Grid item xs={12}>
@@ -291,29 +219,29 @@ const Publications = () => {
                     publications.map((publication: any) => {
                       return (
                         <Grid
+                          key={publication.id}
                           item
                           md={3}
                           xs={12}
                           justifyContent={'center'}
-                          mt={3}
-                          key={publication.id}>
-                          <Box
-                            className={classes.imageBox}
-                            sx={{maxWidth: 150}}>
-                            <CardMedia
-                              component='img'
-                              height='227'
-                              image={publication.image_path}
-                              alt='publication'
-                            />
-                          </Box>
-                          <Box sx={{width: '150px'}} mt={1}>
-                            <Link href={`/publications/${publication.id}`}>
+                          mt={3}>
+                          <Link href={`/publications/${publication.id}`}>
+                            <Box
+                              className={classes.imageBox}
+                              sx={{maxWidth: 150}}>
+                              <CardMedia
+                                component='img'
+                                height='227'
+                                image={publication.image_path}
+                                alt='publication'
+                              />
+                            </Box>
+                            <Box sx={{width: '150px'}} mt={1}>
                               <Body2 className={classes.title}>
                                 {publication?.title}
                               </Body2>
-                            </Link>
-                          </Box>
+                            </Box>
+                          </Link>
                         </Grid>
                       );
                     })

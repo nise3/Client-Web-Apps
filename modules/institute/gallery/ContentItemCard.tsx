@@ -8,6 +8,7 @@ import {
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import GalleryAlbumContentTypes from '../../dashboard/galleryAlbumContents/GalleryAlbumContentTypes';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const StyledTypography = styled(Typography)(({theme}) => ({
   whiteSpace: 'nowrap',
@@ -43,13 +44,22 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
           component='img'
           height='140'
           image={
-            data?.content_grid_image_path
-              ? data?.content_grid_image_path
-              : data?.image_path
+            data?.content_grid_image_path ?? '/images/blank_gray_image.png'
           }
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
           title={data?.title}
         />
+        <PlayCircleIcon
+          sx={{
+            position: 'absolute',
+            top: 'calc(30% - 25px)',
+            left: 'calc(50% - 35px)',
+            height: '70px',
+            width: '70px',
+          }}
+          color='primary'
+        />
+
         <CardContent>
           <StyledTypography gutterBottom variant='body1'>
             {data?.title}

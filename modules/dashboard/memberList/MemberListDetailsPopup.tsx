@@ -1,24 +1,24 @@
 import React from 'react';
-import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconList from '../../../@softbd/icons/IconList';
-import DoneIcon from '@mui/icons-material/Done';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomChipStatus from './CustomChipStatus';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 
 type Props = {
   itemId: number;
   onClose: () => void;
-  onApprove: (id: any) => void;
+  openEditModal: (id: number) => void;
 };
 
-const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
+const MemberListDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchOrganization(itemId);
   return (
@@ -35,21 +35,12 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
-            <Button
-              color={'primary'}
+            <CancelButton onClick={props.onClose} isLoading={isLoading} />
+            <EditButton
               variant={'contained'}
-              startIcon={<DoneIcon />}
-              onClick={() => props.onApprove(itemData?.id)}>
-              {messages['common.accept']}
-            </Button>
-
-            <Button
-              variant={'contained'}
-              startIcon={<DeleteIcon />}
-              color={'secondary'}
-              onClick={props.onClose}>
-              {messages['common.reject']}
-            </Button>
+              onClick={() => openEditModal(itemData.id)}
+              isLoading={isLoading}
+            />
           </>
         }>
         <Grid container spacing={3}>
@@ -260,7 +251,7 @@ const MemberListDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <CustomChipRowStatus
+            <CustomChipStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}
               isLoading={isLoading}

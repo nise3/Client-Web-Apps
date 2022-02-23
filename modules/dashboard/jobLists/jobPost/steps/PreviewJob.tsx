@@ -249,6 +249,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
 
   const getEducationalRequirements = () => {
     let additionalEducationRequirement: Array<string> = [];
+    let isShowNotApplicable = true;
 
     if (jobData?.candidate_requirements?.other_educational_qualification) {
       additionalEducationRequirement =
@@ -289,6 +290,17 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         .map((skill: any) => skill.title)
         .join(', ');
     }
+    if (
+      additionalEducationRequirement.length > 0 ||
+      jobData?.candidate_requirements?.degrees?.length > 0 ||
+      educationalInstitutes ||
+      professionalCertificates ||
+      trainingOrTradeCourse ||
+      skillText
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
@@ -323,6 +335,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             {messages['job_preview.skill_required']} {skillText}
           </li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -349,7 +362,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
-          {jobData?.candidate_requirements?.is_freshers_encouraged && (
+          {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
             <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
           <li>
@@ -411,9 +424,19 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         jobData?.candidate_requirements?.additional_requirements.split('\n');
     }
 
+    let isShowNotApplicable = true;
+    if (
+      getAgeText() ||
+      strArr.length > 0 ||
+      jobData?.candidate_requirements?.genders.length > 0 ||
+      jobData?.candidate_requirements?.person_with_disability == 1
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
-        <li>Age {getAgeText()}</li>
+        {getAgeText() && <li>Age {getAgeText()}</li>}
         {jobData?.candidate_requirements?.genders.length > 0 &&
           jobData?.candidate_requirements?.genders.length < 3 && (
             <li>{getGenderText()}</li>
@@ -424,6 +447,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         {jobData?.candidate_requirements?.person_with_disability == 1 && (
           <li>{messages['job_preview.person_with_disability']}</li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -709,7 +733,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
                 <b>{messages['job_preview_summary.age']} </b>
-                {getAgeText()}
+                {getAgeText() ? getAgeText() : messages['common.n_a']}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
                 <b>{messages['job_preview_summary.experience']} </b>
@@ -772,10 +796,6 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
               />
             </S2>
           )}
-
-          <S2 fontWeight={'bold'} mt={2}>
-            {messages['job_preview.apply_procedure']}
-          </S2>
 
           <Button
             color={'primary'}

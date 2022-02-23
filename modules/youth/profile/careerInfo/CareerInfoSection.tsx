@@ -80,7 +80,7 @@ const CareerInfoSection = () => {
       <Box>
         <Grid container spacing={5}>
           <Grid item xs={12}>
-            <Body2 sx={{color: 'red', fontStyle: 'italic'}}>
+            <Body2 sx={{color: 'green', fontStyle: 'italic'}}>
               {messages['youth.career_and_application_info_sub_title']}
             </Body2>
           </Grid>

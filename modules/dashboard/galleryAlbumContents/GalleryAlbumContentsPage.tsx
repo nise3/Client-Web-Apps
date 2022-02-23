@@ -19,6 +19,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
+
 const GalleryAlbumContentsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();

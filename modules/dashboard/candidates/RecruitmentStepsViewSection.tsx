@@ -8,6 +8,13 @@ import RecruitmentStepAddEditPopup from './RecruitmentStepAddEditPopup';
 import {useFetchJobRecruitmentSteps} from '../../../services/IndustryAssociationManagement/hooks';
 import Tooltip from '@mui/material/Tooltip';
 import {CandidateFilterTypes} from './CandidateFilterTypes';
+import {deleteRecruitmentStep} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {
+  catchBlockHandler,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const PREFIX = 'RecruitmentStepsViewSection';
 
@@ -89,6 +96,8 @@ const RecruitmentStepsViewSection = ({
   jobId,
   onChangeStepOrFilters,
 }: RecruitmentStepsViewSectionProps) => {
+  const {successStack} = useNotiStack();
+
   const [openRecruitmentAddEditPopup, setOpenRecruitmentAddEditPopup] =
     useState<boolean>(false);
 
@@ -145,7 +154,8 @@ const RecruitmentStepsViewSection = ({
 
       if (steps.length > 0) {
         steps[steps.length - 1].is_deletable =
-          steps[steps.length - 1]?.total_candidate == 0;
+          steps[steps.length - 1]?.total_candidate == 0 &&
+          recruitmentData?.final_hiring_list?.total_candidate == 0;
       }
 
       setRecruitmentSteps(steps);
@@ -184,8 +194,23 @@ const RecruitmentStepsViewSection = ({
     setSelectedStep(null);
     setOpenRecruitmentAddEditPopup(false);
   };
-  const onClickDeleteStep = (stepId: any) => {
-    console.log('onClickDeleteStep: ', stepId);
+  const onClickDeleteStep = async (stepId: any) => {
+    try {
+      let response = await deleteRecruitmentStep(stepId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{
+              subject: <IntlMessages id='common.recruitment_step' />,
+            }}
+          />,
+        );
+      }
+      mutateRecruitmentSteps();
+    } catch (error) {
+      catchBlockHandler(error);
+    }
   };
 
   return (
@@ -243,6 +268,9 @@ const RecruitmentStepsViewSection = ({
               <Fab
                 color='primary'
                 aria-label='applicants'
+                disabled={
+                  recruitmentData?.final_hiring_list?.total_candidate > 0
+                }
                 sx={{marginLeft: '30px', marginRight: '30px'}}
                 onClick={() => {
                   setOpenRecruitmentAddEditPopup(true);

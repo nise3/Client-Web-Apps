@@ -24,6 +24,7 @@ import CustomFilterableSelect from './components/CustomFilterableSelect';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -74,13 +75,15 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
 
   const [selectedProgrammeId, setSelectedProgrammeId] = useState<any>('');
   const [selectedLanguageId, setSelectedLanguageId] = useState<any>('');
+  const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
   const [selectedAvailability, setSelectedAvailability] = useState<any>('');
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
-  const {search_text} = router.query;
+  const {search_text, upazila} = router.query;
 
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const SKILL_LEVELS = useMemo(
     () => [
@@ -117,12 +120,17 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   );
 
   const {data: programmes} = useFetchPublicPrograms(programmeFilters);
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
 
   useEffect(() => {
     if (search_text) {
       addFilterKey('search_text', String(search_text));
     }
-  }, [search_text]);
+    if (upazila) {
+      addFilterKey('loc_upazila_id', String(upazila));
+      setSelectedLocUpazilaId(upazila);
+    }
+  }, [search_text, upazila]);
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {
@@ -168,6 +176,14 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
       addFilterKey('language_medium', languageId);
     },
     [selectedLanguageId],
+  );
+
+  const handleUpazilaChange = useCallback(
+    (upazilaId: number | null) => {
+      setSelectedLocUpazilaId(upazilaId);
+      addFilterKey('loc_upazila_id', upazilaId);
+    },
+    [selectedLocUpazilaId],
   );
 
   const handleSkillLevelChange = useCallback((skillLevel: number | null) => {
@@ -261,7 +277,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
           <Grid item xs={12} md={12}>
             <Grid container spacing={3}>
               {showInType != ShowInTypes.TSP && (
-                <Grid item xs={6} sm={4} md={2}>
+                <Grid item xs={6} sm={4} md={3}>
                   <CustomFilterableSelect
                     id={'institute_id'}
                     defaultValue={selectedInstituteId}
@@ -275,7 +291,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                 </Grid>
               )}
 
-              <Grid item xs={6} sm={4} md={2}>
+              <Grid item xs={6} sm={4} md={3}>
                 <CustomFilterableSelect
                   id={'program_id'}
                   defaultValue={selectedProgrammeId}
@@ -287,7 +303,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={2}>
+              <Grid item xs={6} sm={4} md={3}>
                 <CustomFilterableSelect
                   id={'level'}
                   defaultValue={selectedSkillLevel}
@@ -299,7 +315,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   optionTitleProp={['title']}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={2}>
+              <Grid item xs={6} sm={4} md={3}>
                 <CustomFilterableSelect
                   id={'course_type'}
                   defaultValue={selectedCourseTypeId}
@@ -311,7 +327,9 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   optionTitleProp={['title']}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={2}>
+            </Grid>
+            <Grid container spacing={3} mt={1}>
+              <Grid item xs={6} sm={4} md={3}>
                 <CustomFilterableSelect
                   id={'availability'}
                   defaultValue={selectedAvailability}
@@ -323,13 +341,25 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                   optionTitleProp={['title']}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={2}>
+              <Grid item xs={6} sm={4} md={3}>
                 <CustomFilterableSelect
                   id={'language'}
                   defaultValue={selectedLanguageId}
                   label={messages['language.label'] as string}
                   onChange={handleLanguageChange}
                   options={LANGUAGES}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={3}>
+                <CustomFilterableSelect
+                  id={'loc_upazila_id'}
+                  defaultValue={selectedLocUpazilaId}
+                  label={messages['menu.upazila'] as string}
+                  onChange={handleUpazilaChange}
+                  options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}

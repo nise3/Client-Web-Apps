@@ -8,9 +8,12 @@ import CustomChipVacancyApprovalStatus from './CustomChipApprovalStatus';
 import {HrDemandApprovalStatusByIndustry} from './HrDemandEnums';
 import {useFetchHrDemand} from '../../../services/instituteManagement/hooks';
 import Router, {useRouter} from 'next/router';
-import {Button} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import {Link} from '../../../@softbd/elements/common';
+import {ArrowBack} from '@mui/icons-material';
+import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
 const HumanResourceDemandCvView = () => {
   const {messages} = useIntl();
@@ -31,67 +34,162 @@ const HumanResourceDemandCvView = () => {
   }, [hrDemand, show_cv]);
 
   const columns = useMemo(
-    () => [
-      {
-        Header: '#',
-        disableFilters: true,
-        disableSortBy: true,
-        Cell: (props: any) => {
-          return props.row.index + 1;
-        },
-      },
+    () =>
+      show_cv == '1'
+        ? [
+            {
+              Header: '#',
+              disableFilters: true,
+              disableSortBy: true,
+              Cell: (props: any) => {
+                return props.row.index + 1;
+              },
+            },
+            {
+              Header: messages['common.cv_links'],
+              accessor: 'cv_link',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                return (
+                  <Link href={data?.cv_link} target={'_blank'}>
+                    <ReadButton>{messages['common.view_cv']}</ReadButton>
+                  </Link>
+                );
+              },
+            },
 
-      {
-        Header:
-          show_cv == '1'
-            ? messages['common.cv_links']
-            : messages['common.youths'],
-        accessor: 'cv_link',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (show_cv == '1') {
-            return (
-              <Link href={data?.cv_link} target={'_blank'}>
-                <ReadButton>{messages['common.view_cv']}</ReadButton>
-              </Link>
-            );
-          } else {
-            return <></>;
-          }
-        },
-      },
+            {
+              Header: messages['common.approval_status'],
+              accessor: 'approval_status',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                if (
+                  data?.approval_status ==
+                  HrDemandApprovalStatusByIndustry.REJECTED
+                ) {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.REJECTED}
+                    />
+                  );
+                } else if (
+                  data?.approval_status ==
+                  HrDemandApprovalStatusByIndustry.PENDING
+                ) {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.PENDING}
+                    />
+                  );
+                } else {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.APPROVED}
+                    />
+                  );
+                }
+              },
+            },
+          ]
+        : [
+            {
+              Header: '#',
+              disableFilters: true,
+              disableSortBy: true,
+              Cell: (props: any) => {
+                return props.row.index + 1;
+              },
+            },
 
-      {
-        Header: messages['common.approval_status'],
-        accessor: 'approval_status',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (
-            data?.approval_status == HrDemandApprovalStatusByIndustry.REJECTED
-          ) {
-            return (
-              <CustomChipVacancyApprovalStatus
-                value={HrDemandApprovalStatusByIndustry.REJECTED}
-              />
-            );
-          } else if (
-            data?.approval_status == HrDemandApprovalStatusByIndustry.PENDING
-          ) {
-            return (
-              <CustomChipVacancyApprovalStatus
-                value={HrDemandApprovalStatusByIndustry.PENDING}
-              />
-            );
-          } else {
-            return (
-              <CustomChipVacancyApprovalStatus
-                value={HrDemandApprovalStatusByIndustry.APPROVED}
-              />
-            );
-          }
-        },
-      },
-    ],
+            {
+              Header: messages['common.name'],
+              accessor: 'youth_details.first_name',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                let name =
+                  (data?.youth_details?.first_name
+                    ? data?.youth_details?.first_name
+                    : '') +
+                  ' ' +
+                  (data?.youth_details?.last_name
+                    ? data?.youth_details?.last_name
+                    : '');
+                return <Typography>{name}</Typography>;
+              },
+            },
+
+            {
+              Header: messages['common.email'],
+              accessor: 'youth_details.email',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                return <Typography>{data?.youth_details?.email}</Typography>;
+              },
+            },
+
+            {
+              Header: messages['common.mobile'],
+              accessor: 'youth_details.mobile',
+              Cell: (props: any) => {
+                let data = props.row.original;
+
+                return <Typography>{data?.youth_details?.mobile}</Typography>;
+              },
+            },
+
+            {
+              Header: messages['common.approval_status'],
+              accessor: 'approval_status',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                if (
+                  data?.approval_status ==
+                  HrDemandApprovalStatusByIndustry.REJECTED
+                ) {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.REJECTED}
+                    />
+                  );
+                } else if (
+                  data?.approval_status ==
+                  HrDemandApprovalStatusByIndustry.PENDING
+                ) {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.PENDING}
+                    />
+                  );
+                } else {
+                  return (
+                    <CustomChipVacancyApprovalStatus
+                      value={HrDemandApprovalStatusByIndustry.APPROVED}
+                    />
+                  );
+                }
+              },
+            },
+            {
+              Header: messages['youth_profile.label'],
+              accessor: 'youth_id',
+              Cell: (props: any) => {
+                let data = props.row.original;
+
+                return (
+                  data?.youth_id && (
+                    <Link
+                      href={LINK_CV_BANK + '/' + data.youth_id}
+                      target={'_blank'}>
+                      <CommonButton
+                        btnText={'youth_profile.label'}
+                        variant={'contained'}
+                      />
+                    </Link>
+                  )
+                );
+              },
+            },
+          ],
     [messages],
   );
 
@@ -103,7 +201,10 @@ const HumanResourceDemandCvView = () => {
             <IconJobSector /> <IntlMessages id='hr_demand.label' />
           </>
         }>
-        <Button variant='outlined' onClick={() => Router.back()}>
+        <Button
+          variant='outlined'
+          onClick={() => Router.back()}
+          startIcon={<ArrowBack />}>
           {messages['common.back']}
         </Button>
         <ReactTable

@@ -12,7 +12,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import IconList from "../../../@softbd/icons/IconList";
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
@@ -234,7 +234,7 @@ const IndustryAssociationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='menu.industry_associations' />
+            <IconList/> <IntlMessages id='menu.industry_associations' />
           </>
         }
         extra={[

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {
   Avatar,
@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {Body2, Caption, H5} from '../../../@softbd/elements/common';
+import {Body2, H5} from '../../../@softbd/elements/common';
 import moment from 'moment/moment';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CallIcon from '@mui/icons-material/Call';
@@ -32,6 +32,8 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {RecruitmentSteps} from './RecruitmentSteps';
 import {Check, Close, PersonRemove, Refresh} from '@mui/icons-material';
 import {ApplyStatuses} from './ApplyStatuses';
+import CandidateCvPopup from './CandidateCvPopup';
+import AssignSchedulePopup from './AssignSchedule';
 
 const PREFIX = 'CandidateComponent';
 
@@ -102,6 +104,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
+  const [isOpenCvDetailsModal, setIsOpenCvDetailsModal] = useState(false);
+  const [openAssignSchedulePopup, setOpenAssignSchedulePopup] = useState(false);
+  const [candidateIds, setCandidateIds] = useState<any>();
 
   const rejectCandidate = async (itemId: number) => {
     try {
@@ -119,6 +124,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       processServerSideErrors({error, errorStack});
     }
   };
+
   const restoreCandidate = async (itemId: number) => {
     try {
       let response = await restoreCandidateUpdate(itemId);
@@ -149,7 +155,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('remove err->', error);
       processServerSideErrors({error, errorStack});
     }
   };
@@ -188,10 +193,44 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
+  //
+  // const candidateScheduleAssign = async (itemId: number) => {
+  //   let params = {};
+  //   try {
+  //     let response = await candidateStepScheduleAssign(itemId, params);
+  //     if (isResponseSuccess(response)) {
+  //       successStack(
+  //         <IntlMessages
+  //           id='common.subject_updated_successfully'
+  //           values={{
+  //             subject: <IntlMessages id='common.interview_schedule' />,
+  //           }}
+  //         />,
+  //       );
+  //     }
+  //     mutateCandidates();
+  //   } catch (error: any) {
+  //     processServerSideErrors({error, errorStack});
+  //   }
+  // };
+
+  const onClickCandidateScheduleAssignButton = useCallback(
+    (candidateId: any) => {
+      setOpenAssignSchedulePopup(true);
+      let data: any = [];
+      data = [candidateId, ...data];
+      setCandidateIds(data);
+    },
+    [candidateIds],
+  );
+
+  const onCloseSchedulePopup = () => {
+    setOpenAssignSchedulePopup(false);
+  };
+
   const hiredCandidate = async (itemId: number) => {
     try {
       let response = await hiredCandidateUpdate(itemId);
@@ -207,10 +246,25 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       }
       mutateCandidates();
     } catch (error: any) {
-      console.log('error->', error);
       processServerSideErrors({error, errorStack});
     }
   };
+
+  const getExperiencedDuration = useCallback((data: any) => {
+    const startDate = moment(data?.start_date);
+    const endDate = moment(data?.end_date);
+    let durationAsMonth = endDate.diff(startDate, 'months');
+    let durationAsYears = durationAsMonth / 12;
+    return {month: durationAsMonth, year: Math.floor(durationAsYears)};
+  }, []);
+
+  const openCvDetailsModal = useCallback(() => {
+    setIsOpenCvDetailsModal(true);
+  }, []);
+
+  const closeCvDetailsModal = useCallback(() => {
+    setIsOpenCvDetailsModal(false);
+  }, []);
 
   const CheckButton = ({
     title,
@@ -288,7 +342,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               nextStep ? (
                 <CheckButton
                   title={`Schedule for ${nextStep?.title}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    onClickCandidateScheduleAssignButton(candidate?.id);
+                  }}
                 />
               ) : (
                 <CheckButton
@@ -370,7 +426,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       candidate?.apply_status == ApplyStatuses.HIRE_INVITED
     ) {
       if (currentStep?.step_no != 99) {
-        text = 'Sortlisted for hired';
+        text = 'Shortlisted for hired';
       }
     } else if (candidate?.apply_status == ApplyStatuses.HIRED) {
       text = 'Hired';
@@ -386,25 +442,56 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
           <Grid item xs={4}>
             <Grid container>
               <Grid item xs={3}>
-                <Avatar src={candidate?.youth_profile?.photo} />
+                <Avatar
+                  src={candidate?.youth_profile?.photo}
+                  sx={{height: '60px', width: '60px'}}
+                />
               </Grid>
               <Grid item xs={9}>
-                <H5>
+                <H5
+                  style={{cursor: 'pointer'}}
+                  color={'primary'}
+                  onClick={() => {
+                    openCvDetailsModal();
+                  }}>
                   {candidate?.youth_profile?.first_name}{' '}
                   {candidate?.youth_profile?.last_name}
-                  <Caption className={classes.age}>
+                  {/*  <Caption className={classes.age}>
                     {moment().diff(
                       candidate?.youth_profile?.date_of_birth.slice(0, 10),
                       'years',
                     )}
-                  </Caption>
+                  </Caption>*/}
                 </H5>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                  <FmdGoodIcon />
-                  {candidate?.youth_profile?.upazila_title}
-                  {', '}
-                  {candidate?.youth_profile?.district_title}
-                  {', '} {candidate?.youth_profile?.division_title}
+                  <FmdGoodIcon
+                    sx={{
+                      fontSize: '1rem',
+                      marginTop: '2px',
+                      marginRight: '2px',
+                    }}
+                  />
+                  {candidate?.youth_profile?.upazila_title ? (
+                    <>
+                      {candidate?.youth_profile?.upazila_title}
+                      {', '}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {candidate?.youth_profile?.district_title ? (
+                    <>
+                      {candidate?.youth_profile?.district_title}
+                      {', '}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {candidate?.youth_profile?.division_title ? (
+                    <>{candidate?.youth_profile?.division_title}</>
+                  ) : (
+                    <></>
+                  )}
                 </Body2>
                 <Body2>
                   {
@@ -444,41 +531,65 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                   </Typography>
                 </Box>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
-                  <CallIcon /> {candidate?.youth_profile?.mobile}
+                  <CallIcon
+                    sx={{
+                      fontSize: '1rem',
+                      marginTop: '2px',
+                      marginRight: '2px',
+                    }}
+                  />{' '}
+                  {candidate?.youth_profile?.mobile}
                 </Body2>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={3}>
             {(candidate?.youth_profile?.youth_job_experiences || []).map(
-              (data: any) => (
-                <Box key={data.id}>
-                  <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
-                  <Body2>
-                    {data.position} (
-                    {moment
-                      .duration(
-                        data.start_date
-                          ? data.start_date.slice(0, 10)
-                          : moment(new Date()).diff(
-                              data.start_date
-                                ? data.start_date.slice(0, 10)
-                                : moment(new Date()),
-                            ),
-                      )
-                      .asYears()}{' '}
-                    {'years'})
-                  </Body2>
-                </Box>
-              ),
+              (data: any) => {
+                let duration = getExperiencedDuration(data);
+                return (
+                  <Box key={data.id}>
+                    <Body2 sx={{fontWeight: 'bold'}}>{data.company_name}</Body2>
+                    <Body2>
+                      {data.position}{' '}
+                      {duration.year && duration.year < 1 ? (
+                        duration.month && duration.month > 0 ? (
+                          <>
+                            {'('}
+                            {duration.month}
+                            {'+ months)'}
+                          </>
+                        ) : (
+                          <></>
+                        )
+                      ) : duration.year && duration.year > 0 ? (
+                        <>
+                          {'('}
+                          {duration.year}
+                          {'+ years)'}
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </Body2>
+                  </Box>
+                );
+              },
             )}
           </Grid>
           <Grid item xs={2}>
             <Box>
               <Body2>
-                {candidate?.youth_profile?.total_job_experience.year}
-                {'.'}
-                {candidate?.youth_profile?.total_job_experience.month} years
+                {candidate?.youth_profile?.total_job_experience.year == 0 &&
+                candidate?.youth_profile?.total_job_experience.month == 0 ? (
+                  <></>
+                ) : (
+                  <>
+                    {candidate?.youth_profile?.total_job_experience.year}
+                    {'.'}
+                    {candidate?.youth_profile?.total_job_experience.month} years
+                  </>
+                )}
               </Body2>
               <Body2>
                 &#2547;{' '}
@@ -499,6 +610,21 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               )}
             </Box>
           </Grid>
+          {openAssignSchedulePopup && (
+            <AssignSchedulePopup
+              appliedCandidateIds={candidateIds}
+              onClose={onCloseSchedulePopup}
+              currentStep={currentStep?.id}
+            />
+          )}
+
+          {isOpenCvDetailsModal && (
+            <CandidateCvPopup
+              key={1}
+              youthData={candidate}
+              onClose={closeCvDetailsModal}
+            />
+          )}
         </Grid>
       </CardContent>
     </StyledCard>

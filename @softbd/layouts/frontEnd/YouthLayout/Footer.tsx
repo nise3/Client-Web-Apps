@@ -27,6 +27,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   paddingTop: '60px',
   paddingBottom: '30px',
   background: '#F7F7F7',
+  marginTop: '50px',
 
   [`& .${classes.footerImage}`]: {
     width: '280px',
