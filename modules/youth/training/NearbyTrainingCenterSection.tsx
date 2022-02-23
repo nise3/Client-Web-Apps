@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack} from '@mui/material';
+import {Button, Grid, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
@@ -12,6 +12,7 @@ import {H2, Link} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -40,13 +41,14 @@ const NearbyTrainingCenterSection = ({
   const {page: queryPageNumber} = router.query;
   const {page_size: queryPageSize} = router.query;
 
+  const [urlQuery, setUrlQuery] = useState<any>({});
+  const page = useRef<any>(1);
+
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
     useState<any>({
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size:
-        queryPageSize ??
-        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
+      page_size: urlQuery.pageSize,
     });
 
   const {
@@ -70,10 +72,62 @@ const NearbyTrainingCenterSection = ({
   );
 
   useEffect(() => {
+    if (Number(queryPageNumber)) {
+      setUrlQuery((params: any) => {
+        return {...params, ...{page: queryPageNumber}};
+      });
+    }
+
+    if (Number(queryPageSize)) {
+      setUrlQuery((params: any) => {
+        return {...params, ...{pageSize: queryPageSize}};
+      });
+    }
+
+    if (!Number(queryPageSize) && !Number(queryPageNumber)) {
+      setUrlQuery((params: any) => {
+        return {
+          ...params,
+          ...{
+            page: 1,
+            pageSize: showAllNearbyTrainingCenter
+              ? PageSizes.EIGHT
+              : PageSizes.FOUR,
+          },
+        };
+      });
+    }
+
+    setNearbyTrainingCenterFilters((params: any) => {
+      return {
+        ...params,
+        ...{page: queryPageNumber, page_size: queryPageSize},
+      };
+    });
+  }, [queryPageNumber, queryPageSize]);
+
+  useEffect(() => {
     if (
-      !Number(queryPageNumber) ||
-      Number(queryPageNumber) < 0 ||
-      Number(queryPageNumber) > trainingCentersMetaData.total_page
+      urlQuery.page &&
+      urlQuery.page > 0 &&
+      urlQuery.page < trainingCentersMetaData.total_page
+    ) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {
+            page: urlQuery.page,
+            page_size: getPageSize(trainingCentersMetaData.total),
+          },
+        },
+        undefined,
+        {shallow: true},
+      );
+    } else if (
+      !urlQuery.page ||
+      urlQuery.page < 0 ||
+      urlQuery.page > trainingCentersMetaData.total_page ||
+      urlQuery.pageSize > trainingCentersMetaData.total
     ) {
       router.push(
         {
@@ -86,54 +140,44 @@ const NearbyTrainingCenterSection = ({
         undefined,
         {shallow: true},
       );
-    } else if (
-      queryPageNumber &&
-      Number(queryPageNumber) > 0 &&
-      queryPageNumber < trainingCentersMetaData.total_page
-    ) {
+    }
+  }, [urlQuery, trainingCentersMetaData]);
+
+  const onPaginationChange = useCallback(
+    (event: any, currentPage: number) => {
+      page.current = currentPage;
       router.push(
         {
           pathname: router.pathname,
           query: {
-            page: queryPageNumber,
-            page_size: getPageSize(trainingCentersMetaData.total),
+            page: currentPage,
+            page_size: urlQuery.pageSize,
           },
         },
         undefined,
         {shallow: true},
       );
-    }
-  }, [queryPageNumber, queryPageSize, trainingCentersMetaData]);
+    },
+    [urlQuery],
+  );
 
-  useEffect(() => {
-    if (queryPageNumber) {
-      setNearbyTrainingCenterFilters((params: any) => {
-        return {...params, ...{page: router.query.page}};
-      });
-    } else if (queryPageSize) {
-      setNearbyTrainingCenterFilters((params: any) => {
-        return {...params, ...{page_size: router.query.page_size}};
-      });
-    }
-  }, [queryPageNumber, queryPageSize]);
-
-  const page = useRef<any>(1);
-  const onPaginationChange = useCallback((event: any, currentPage: number) => {
-    page.current = currentPage;
-    router.push(
-      {
-        pathname: router.pathname,
-        query: {
-          page: currentPage,
-          page_size:
-            queryPageSize ??
-            (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {
+            page: urlQuery.page,
+            page_size: event.target.value,
+          },
         },
-      },
-      undefined,
-      {shallow: true},
-    );
-  }, []);
+        undefined,
+        {shallow: true},
+      );
+    },
+    [],
+  );
+
   return (
     <StyledGrid container spacing={3}>
       <Grid item xs={12} sm={12} md={12}>
@@ -181,16 +225,13 @@ const NearbyTrainingCenterSection = ({
                     display={'flex'}
                     justifyContent={'center'}>
                     <Stack spacing={2}>
-                      <Pagination
-                        page={
-                          queryPageNumber
-                            ? Number(queryPageNumber)
-                            : page.current
-                        }
+                      <CustomPaginationWithPageNumber
                         count={trainingCentersMetaData.total_page}
-                        color={'primary'}
-                        shape='rounded'
-                        onChange={onPaginationChange}
+                        currentPage={1}
+                        queryPageNumber={Number(queryPageNumber)}
+                        onPaginationChange={onPaginationChange}
+                        rowsPerPage={Number(urlQuery.pageSize)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                       />
                     </Stack>
                   </Grid>
