@@ -258,6 +258,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
             <H6
               sx={{
                 ...customStyle.body2,
+                marginTop: '5px',
               }}
               className={classes.overflowSubText}
               title={getJobProviderTitle()}>
@@ -366,6 +367,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               <H6
                 sx={{
                   ...customStyle.body2,
+                  marginTop: '5px',
                 }}>
                 {getJobProviderTitle()}
               </H6>

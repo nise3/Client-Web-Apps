@@ -15,7 +15,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCourseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
-import {H5} from '../common';
+import {H5, H6} from '../common';
 
 const PREFIX = 'CourseCardComponent';
 
@@ -142,15 +142,15 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         </Box>
 
         <Box marginTop={'5px'}>
-          <H5
+          <H6
             fontWeight={'bold'}
             title={course.institute_title}
             className={classes.overflowDottedInstituteTitle}
             sx={{
               ...customStyle.body1,
             }}>
-            {messages['common.institute_name']}: {course.institute_title}
-          </H5>
+            {course.institute_title}
+          </H6>
         </Box>
 
         <Box className={classes.tagBox}>
