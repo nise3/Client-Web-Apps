@@ -152,6 +152,16 @@ const GalleryAlbumPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+      },
+      {
         Header: messages['gallery_album.album_type'],
         accessor: 'album_type',
         filter: 'selectFilter',
@@ -163,7 +173,7 @@ const GalleryAlbumPage = () => {
       {
         Header: messages['common.show_in'],
         accessor: 'show_in',
-        disableFilters: !authUser?.isSystemUser ? true : false,
+        disableFilters: !authUser?.isSystemUser,
         filter: authUser?.isSystemUser ? 'selectFilter' : null,
         selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
         Cell: (props: any) => {
