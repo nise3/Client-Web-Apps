@@ -26,6 +26,7 @@ import {
 
 import {FilterChipBar} from './FilterChipBar';
 import {
+  dateTimeFilter,
   DefaultColumnFilter,
   fuzzyTextFilter,
   numericTextFilter,
@@ -151,6 +152,7 @@ const filterTypes = {
   numeric: numericTextFilter,
   rowStatusFilter: rowStatusFilter,
   selectFilter: selectFilter,
+  dateTimeFilter: dateTimeFilter,
 };
 
 /**
