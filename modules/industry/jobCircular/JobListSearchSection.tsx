@@ -17,6 +17,8 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchPublicJobSectors} from '../../../services/organaizationManagement/hooks';
 import {IOccupation} from '../../../shared/Interface/occupation.interface';
 import {getAllPublicOccupations} from '../../../services/organaizationManagement/OccupationService';
+import {useRouter} from 'next/router';
+import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 
 const PREFIX = 'JobListSearchSection';
 
@@ -60,17 +62,23 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
   const {messages} = useIntl();
 
   const searchTextField = useRef<any>();
+  const router = useRouter();
 
   const [selectedSkillIds, setSelectedSkillIds] = useState<any>('');
   const [selectJobSectorsId, setSelectJobSectorsId] = useState<any>('');
   const [selectOccupationId, setSelectOccupationId] = useState<any>('');
   const [selectedJobLevel, setSelectedJobLevel] = useState<any>('');
+  const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
+  const {search_text, upazila} = router.query;
 
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchPublicSkills(skillFilter);
+
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
 
   const onSearch = useCallback(() => {
     addFilterKey('search_text', searchTextField.current.value);
@@ -120,6 +128,16 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
     })();
   }, [selectJobSectorsId]);
 
+  useEffect(() => {
+    if (search_text) {
+      addFilterKey('search_text', String(search_text));
+    }
+    if (upazila) {
+      addFilterKey('loc_upazila_id', String(upazila));
+      setSelectedLocUpazilaId(upazila);
+    }
+  }, [search_text, upazila]);
+
   const onOccupationChange = useCallback((occupationId: any) => {
     setSelectOccupationId(occupationId);
     addFilterKey('occupation_ids', occupationId ? [occupationId] : []);
@@ -139,6 +157,14 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
     addFilterKey('job_level', jobLevel);
   }, []);
 
+  const handleUpazilaChange = useCallback(
+    (upazilaId: number | null) => {
+      setSelectedLocUpazilaId(upazilaId);
+      addFilterKey('loc_upazila_id', upazilaId);
+    },
+    [selectedLocUpazilaId],
+  );
+
   return (
     <StyledBox>
       <Container maxWidth={'lg'}>
@@ -153,6 +179,7 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
                     name='searchBox'
                     placeholder={messages['common.search'] as string}
                     fullWidth
+                    defaultValue={search_text ?? ''}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment
@@ -241,6 +268,18 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
                   label={messages['label.job_level'] as string}
                   onChange={handleJobLevelChange}
                   options={JOB_LEVELS}
+                  isLoading={false}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={2}>
+                <CustomFilterableSelect
+                  id={'loc_upazila_id'}
+                  defaultValue={selectedLocUpazilaId}
+                  label={messages['menu.upazila'] as string}
+                  onChange={handleUpazilaChange}
+                  options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}

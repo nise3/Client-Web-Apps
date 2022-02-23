@@ -13,7 +13,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {Help} from '@mui/icons-material';
+import { Help } from '@mui/icons-material';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';

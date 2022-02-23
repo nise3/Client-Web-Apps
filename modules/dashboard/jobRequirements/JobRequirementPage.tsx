@@ -60,10 +60,6 @@ const JobRequirementPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const onClickApprove: any = useCallback((id: any) => {
-    closeDetailsModal();
-  }, []);
-
   const deleteHRDemandItem = async (HRDemandId: number) => {
     let response = await deleteHRDemand(HRDemandId);
     if (isResponseSuccess(response)) {
@@ -200,7 +196,6 @@ const JobRequirementPage = () => {
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            onApprove={onClickApprove}
           />
         )}
       </PageBlock>

@@ -97,6 +97,31 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
             errorInstance={errors}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id={'hr_demands[' + index + '][requirement_en]'}
+            label={messages['common.requirements_en']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'hr_demands[' + index + '][designation]'}
+            label={messages['common.designation']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id={'hr_demands[' + index + '][designation_en]'}
+            label={messages['common.designation_en']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
       </Grid>
     </>
   );

@@ -3,6 +3,8 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_CANDIDATE_STEP_SCHEDULE,
+  API_CANDIDATE_UPDATE,
   API_GET_BUSINESS_AREAS,
   API_GET_EDUCATION_LEVELS,
   API_GET_EDUCATIONAL_INSTITUTES,
@@ -20,16 +22,17 @@ import {
   API_HR_DEMAND_INSTITUTE_PROVIDED_YOUTH_LIST,
   API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT,
   API_INDUSTRY_ASSOCIATION_MEMBERS,
-  API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST,
   API_INDUSTRY_ASSOCIATIONS,
   API_INSTITUTE_HUMAN_RESOURCE_DEMANDS,
   API_JOB_REQUIREMENTS,
+  API_JOBS_CANDIDATES,
   API_PUBLIC_INDUSTRY_ASSOC_DETAILS,
   API_PUBLIC_INDUSTRY_ASSOCIATION_CONTACT_INFO,
   API_PUBLIC_INDUSTRY_ASSOCIATION_MEMBER_LIST,
   API_PUBLIC_INDUSTRY_PUBLICATIONS,
   API_PUBLIC_JOBS,
   API_PUBLIC_ORGANIZATIONS,
+  API_RECRUITMENT_STEPS,
 } from '../../@softbd/common/apiRoutes';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
@@ -119,7 +122,9 @@ export function useFetchHumanResourceDemands(params: any) {
 }
 
 export function useFetchInstituteHumanResourceDemands(params: any) {
-  return useAxiosSWR([API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params]);
+  return useAxiosSWR(
+    params ? [API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params] : null,
+  );
 }
 
 export function useFetchPublicJobs(params: any) {
@@ -230,17 +235,24 @@ export function useFetchIndustryAssociationRecruitmentStepCandidateList(
   params: any,
 ) {
   return useAxiosSWR(
-    jobId && params
-      ? [
-          API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST +
-            '/' +
-            jobId,
-          params,
-        ]
-      : null,
+    jobId && params ? [API_JOBS_CANDIDATES + '/' + jobId, params] : null,
   );
 }
 
-// export function useFetchIndustryAssociationDetails() {
-//   return useAxiosSWR([API_PUBLIC_INDUSTRY_ASSOCIATION_DETAILS]);
-// }
+export function useFetchCandidateStepSchedule(scheduleId: any) {
+  return useAxiosSWR(
+    scheduleId ? API_CANDIDATE_STEP_SCHEDULE + '/' + scheduleId : null,
+  );
+}
+
+export function useFetchCandidate(applicationId: any) {
+  return useAxiosSWR(
+    applicationId ? API_CANDIDATE_UPDATE + applicationId : null,
+  );
+}
+
+export function useFetchInterviewSchedule(stepId: number | null) {
+  return useAxiosSWR(
+    stepId ? API_RECRUITMENT_STEPS + '/' + stepId + '/schedules' : null,
+  );
+}

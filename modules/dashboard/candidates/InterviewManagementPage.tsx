@@ -7,6 +7,11 @@ import {useFetchIndustryAssociationRecruitmentStepCandidateList} from '../../../
 import CandidateComponent from './CandidateComponent';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import ContentWithImageSkeleton from '../../youth/profile/component/ContentWithImageSkeleton';
+import {useIntl} from 'react-intl';
+import Grid from '@mui/material/Grid';
+import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
+import Button from '@mui/material/Button';
+import ScheduleListComponentPopup from './ScheduleListComponent';
 
 const StyledBox = styled(Box)(({theme}) => ({
   '& .CandidateComponent-root:not(:first-of-type)': {
@@ -19,10 +24,25 @@ interface InterviewManagementPageProps {
 }
 
 const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
+  const {messages} = useIntl();
+
   const [currentStep, setCurrentStep] = useState<any>(null);
   const [nextStep, setNextStep] = useState<any>(null);
   const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
   const [reloadStepData, setReloadStepData] = useState<any>(false);
+
+  const [openCreateSchedulePopup, setOpenCreateSchedulePopup] =
+    useState<boolean>(false);
+  const [openScheduleListPopup, setOpenScheduleListPopup] =
+    useState<boolean>(false);
+
+  const closeCreateScheduleAddEditPopup = () => {
+    setOpenCreateSchedulePopup(false);
+  };
+
+  const closeScheduleListPopup = () => {
+    setOpenScheduleListPopup(false);
+  };
 
   const {
     data: candidateList,
@@ -63,9 +83,46 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
         </Box>
       ) : (
         <React.Fragment>
-          <H4 sx={{fontWeight: 'bold', marginBottom: '20px'}}>
-            {(candidateList || []).length} candidates{' '}
-          </H4>
+          <Grid container>
+            <Grid item xs={6}>
+              <H4 sx={{fontWeight: 'bold', marginBottom: '20px'}}>
+                {(candidateList || []).length}{' '}
+                {messages['common.candidates'] as string}{' '}
+              </H4>
+            </Grid>
+            {currentStep?.step_type && currentStep?.total_candidate > 0 && (
+              <Grid item xs={3}>
+                <Button
+                  variant='contained'
+                  onClick={() => setOpenCreateSchedulePopup(true)}>
+                  Create Schedule
+                </Button>
+                {openCreateSchedulePopup && (
+                  <ScheduleCreateComponentPopup
+                    jobId={jobId}
+                    onClose={closeCreateScheduleAddEditPopup}
+                    currentStep={currentStep}
+                  />
+                )}
+              </Grid>
+            )}
+            {currentStep?.step_type && currentStep?.total_candidate > 0 && (
+              <Grid item xs={3}>
+                <Button
+                  variant='contained'
+                  onClick={() => setOpenScheduleListPopup(true)}>
+                  Schedule List
+                </Button>
+                {openScheduleListPopup && (
+                  <ScheduleListComponentPopup
+                    onClose={closeScheduleListPopup}
+                    jobId={jobId}
+                    currentStep={currentStep}
+                  />
+                )}
+              </Grid>
+            )}
+          </Grid>
 
           {(candidateList || []).map((candidate: any) => (
             <CandidateComponent

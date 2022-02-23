@@ -18,6 +18,7 @@ import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 
 const NoticeOrNewsPage = () => {
   const {messages, locale} = useIntl();
@@ -162,7 +163,7 @@ const NoticeOrNewsPage = () => {
   return (
     <>
       <PageBlock
-        title={<IntlMessages id='common.notice_or_news' />}
+        title={<><IconStaticPage/><IntlMessages id='common.notice_or_news' /></>}
         extra={[
           <AddButton
             key={1}

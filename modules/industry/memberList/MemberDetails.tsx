@@ -22,6 +22,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 const PREFIX = 'MemberDetails';
 
@@ -44,9 +46,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
     '&:not(:last-child)': {marginRight: '10px'},
   },
   [`& .${classes.logo}`]: {
-    width: '100%',
-    maxHeight: '350px',
-    objectFit: 'unset',
+    width: '300px',
+    maxHeight: '300px',
+    objectFit: 'contain',
   },
   [`& .${classes.contact_person_avatar}`]: {
     width: '100px',
@@ -60,6 +62,8 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.contact_person_info}`]: {
     background: theme.palette.common.white,
     border: '1px solid #e9e9e9',
+    boxShadow: '0px 0px 7px 4px #e9e9e9',
+    borderRadius: '5px',
   },
   [`& .${classes.divider}`]: {
     width: '100%',
@@ -73,10 +77,29 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const MemberDetails = () => {
   const {messages, formatDate} = useIntl();
+  const {successStack} = useNotiStack();
   const router = useRouter();
   const {memberId} = router.query;
 
   const {data} = useFetchIndustryMember(Number(memberId));
+
+  const copyToClipboard = () => {
+    let el: any = document.getElementById('email_text');
+    if (el) {
+      el.select();
+      document.execCommand('copy');
+      successStack('Email address copied');
+    }
+  };
+
+  const copyPhoneToClipboard = () => {
+    let el: any = document.getElementById('phone_text');
+    if (el) {
+      el.select();
+      document.execCommand('copy');
+      successStack('Phone number copied');
+    }
+  };
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -144,133 +167,147 @@ const MemberDetails = () => {
           />
         )}
       </Box>
-      <H4 py={2} fontWeight={'bold'}>
-        {messages['common.organization_details']}
-      </H4>
 
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={9}
+          order={{
+            xs: 2,
+            sm: 1,
+            md: 1,
+          }}>
+          <Box>
+            <CardMedia
+              component={'img'}
+              image={data?.logo ? data?.logo : '/images/blank_image.png'}
+              alt={data?.title}
+              className={classes.logo}
+            />
+          </Box>
+          <H4 py={2} fontWeight={'bold'}>
+            {messages['common.organization_details']}
+          </H4>
+          <Body1>
+            {data?.description ? data?.description : <NoDataFoundComponent />}
+          </Body1>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={4}
+          md={3}
+          order={{
+            xs: 1,
+            sm: 2,
+            md: 2,
+          }}>
+          <Grid container className={classes.contact_person_info}>
             <Grid
               item
               xs={12}
-              sm={8}
-              md={9}
-              order={{
-                xs: 2,
-                sm: 1,
-                md: 1,
-              }}>
+              padding={1}
+              display={'flex'}
+              alignItems={'center'}
+              flexDirection={'column'}>
+              <Avatar
+                className={classes.contact_person_avatar}
+                src={data?.office_head_avatar}
+              />
+              <H6 centered={true} fontWeight={'bold'} mt={1}>
+                {data?.contact_person_name}
+              </H6>
+              <S2
+                centered={true}
+                variant={'subtitle2'}
+                sx={{
+                  color: 'primary.main',
+                }}>
+                {data?.contact_person_designation}
+              </S2>
+            </Grid>
+            <Divider orientation={'horizontal'} className={classes.divider} />
+            <Grid
+              item
+              xs={12}
+              padding={1}
+              display={'flex'}
+              alignItems={'center'}>
+              <IconButton
+                color={'primary'}
+                sx={{
+                  marginRight: '10px',
+                  backgroundColor: '#4d0d641f !important', //TODO this color needs to be added in palette
+                }}>
+                <Tooltip title={'Click to copy phone number'} arrow>
+                  <Call onClick={() => copyPhoneToClipboard()} />
+                </Tooltip>
+              </IconButton>
               <Box>
-                <CardMedia
-                  component={'img'}
-                  image={data?.logo}
-                  alt={data?.title}
-                  className={classes.logo}
+                <Typography variant={'subtitle2'}>
+                  {messages['common.mobile']}
+                </Typography>
+                <Typography
+                  variant={'subtitle2'}
+                  sx={{
+                    color: 'grey.500',
+                  }}>
+                  {data?.contact_person_mobile}
+                </Typography>
+                <textarea
+                  id={'phone_text'}
+                  style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    pointerEvents: 'none',
+                  }}
+                  readOnly={true}
+                  value={data?.contact_person_mobile}
                 />
               </Box>
             </Grid>
+            <Divider orientation={'horizontal'} className={classes.divider} />
             <Grid
               item
               xs={12}
-              sm={4}
-              md={3}
-              order={{
-                xs: 1,
-                sm: 2,
-                md: 2,
-              }}>
-              <Grid container className={classes.contact_person_info}>
-                <Grid
-                  item
-                  xs={12}
-                  padding={1}
-                  display={'flex'}
-                  alignItems={'center'}
-                  flexDirection={'column'}>
-                  <Avatar
-                    className={classes.contact_person_avatar}
-                    src={data?.office_head_avatar}
-                  />
-                  <H6 centered={true} fontWeight={'bold'} mt={1}>
-                    {data?.contact_person_name}
-                  </H6>
-                  <S2
-                    centered={true}
-                    variant={'subtitle2'}
-                    sx={{
-                      color: 'primary.main',
-                    }}>
-                    {data?.contact_person_designation}
-                  </S2>
-                </Grid>
-                <Divider
-                  orientation={'horizontal'}
-                  className={classes.divider}
+              padding={1}
+              display={'flex'}
+              alignItems={'center'}>
+              <IconButton
+                color={'primary'}
+                sx={{
+                  marginRight: '10px',
+                  backgroundColor: '#4d0d641f !important', //TODO this color needs to be added in palette
+                }}>
+                <Tooltip title={'Click to copy email'} arrow>
+                  <Email onClick={() => copyToClipboard()} />
+                </Tooltip>
+              </IconButton>
+              <Box className={classes.overflowEllipsis}>
+                <Typography variant={'subtitle2'}>
+                  {messages['common.email']}
+                </Typography>
+                <S2
+                  sx={{color: 'grey.500'}}
+                  className={classes.overflowEllipsis}
+                  title={data?.contact_person_email}>
+                  {data?.contact_person_email}
+                </S2>
+                <textarea
+                  id={'email_text'}
+                  style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    pointerEvents: 'none',
+                  }}
+                  readOnly={true}
+                  value={data?.contact_person_email}
                 />
-                <Grid
-                  item
-                  xs={12}
-                  padding={1}
-                  display={'flex'}
-                  alignItems={'center'}>
-                  <IconButton
-                    color={'primary'}
-                    sx={{
-                      marginRight: '10px',
-                      backgroundColor: '#4d0d641f !important', //TODO this color needs to be added in palette
-                    }}>
-                    <Call />
-                  </IconButton>
-                  <Box>
-                    <Typography variant={'subtitle2'}>
-                      {messages['common.mobile']}
-                    </Typography>
-                    <Typography
-                      variant={'subtitle2'}
-                      sx={{
-                        color: 'grey.500',
-                      }}>
-                      {data?.contact_person_mobile}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Divider
-                  orientation={'horizontal'}
-                  className={classes.divider}
-                />
-                <Grid
-                  item
-                  xs={12}
-                  padding={1}
-                  display={'flex'}
-                  alignItems={'center'}>
-                  <IconButton
-                    color={'primary'}
-                    sx={{
-                      marginRight: '10px',
-                      backgroundColor: '#4d0d641f !important', //TODO this color needs to be added in palette
-                    }}>
-                    <Email />
-                  </IconButton>
-                  <Box className={classes.overflowEllipsis}>
-                    <Typography variant={'subtitle2'}>
-                      {messages['common.email']}
-                    </Typography>
-                    <S2
-                      sx={{color: 'grey.500'}}
-                      className={classes.overflowEllipsis}
-                      title={data?.contact_person_email}>
-                      {data?.contact_person_email}
-                    </S2>
-                  </Box>
-                </Grid>
-              </Grid>
+              </Box>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} sm={8} md={9}>
-          <Body1>{data?.description}</Body1>
         </Grid>
       </Grid>
     </StyledContainer>

@@ -242,10 +242,10 @@ export const API_REJECT_INDUSTRY_ASSOC_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/industry-association-registration-rejection';
 
 export const API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-membership-rejection';
+  ORGANIZATION_SERVICE_PATH + '/organization-user-rejection';
 
 export const API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP =
-  ORGANIZATION_SERVICE_PATH + '/industry-association-membership-approval';
+  ORGANIZATION_SERVICE_PATH + '/organization-user-approval';
 
 export const API_INDUSTRY_ASSOCIATION_ORGANIZATION_IMPORT =
   INDUSTRY_ASSOCIATION_SERVICE_PATH + '/organization-import-excel';
@@ -299,17 +299,17 @@ export const API_JOBS = ORGANIZATION_SERVICE_PATH + '/jobs';
 export const API_JOB_ID = API_JOBS + '/job-id';
 
 export const API_JOB_STORE_PRIMARY_INFORMATION =
-  API_JOBS + '/store-primary-job-information';
+  API_JOBS + '/primary-job-information';
 export const API_GET_JOB_PRIMARY_INFORMATION =
   API_JOBS + '/primary-job-information/';
 
 export const API_JOB_STORE_ADDITIONAL_INFORMATION =
-  API_JOBS + '/store-additional-job-information';
+  API_JOBS + '/additional-job-information';
 export const API_GET_JOB_ADDITIONAL_INFORMATION =
   API_JOBS + '/additional-job-information/';
 
 export const API_JOB_STORE_CANDIDATE_REQUIREMENTS =
-  API_JOBS + '/store-candidate-requirements';
+  API_JOBS + '/candidate-requirements';
 export const API_GET_JOB_CANDIDATE_REQUIREMENTS =
   API_JOBS + '/candidate-requirements/';
 
@@ -319,12 +319,11 @@ export const API_GET_JOB_CANDIDATES_APPLIED_LIST =
   API_JOBS + '/candidates/applied';
 
 export const API_JOB_STORE_COMPANY_INFO_VISIBILITY =
-  API_JOBS + '/store-company-info-visibility';
+  API_JOBS + '/company-info-visibility';
 export const API_GET_JOB_COMPANY_INFO_VISIBILITY =
   API_JOBS + '/company-info-visibility/';
 
-export const API_JOB_STORE_MATCHING_CRITERIA =
-  API_JOBS + '/store-matching-criteria';
+export const API_JOB_STORE_MATCHING_CRITERIA = API_JOBS + '/matching-criteria';
 export const API_GET_JOB_MATCHING_CRITERIA = API_JOBS + '/matching-criteria/';
 
 export const API_JOB_STORE_CONTACT_INFORMATION =
@@ -374,23 +373,15 @@ export const API_HUMAN_RESOURCE_DEMAND_REJECTED_BY_INSTITUTE =
 export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
 
-export const API_INDUSTRY_ASSOCIATION_RECRUITMENT_STEP_CANDIDATE_LIST =
-  API_JOBS + '/recruitment-step-candidate-list';
+export const API_JOBS_CANDIDATES = API_JOBS + '/candidates';
 
-export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-steps';
-export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-step-list/';
+export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-step';
+export const API_RECRUITMENT_STEP_LISTS = API_JOBS + '/recruitment-steps/';
 
-export const API_CANDIDATE_UPDATE_REJECT =
-  API_JOBS + '/candidate-update/reject';
-export const API_CANDIDATE_UPDATE_RESTORE =
-  API_JOBS + '/candidate-update/restore';
-export const API_CANDIDATE_UPDATE_REMOVE =
-  API_JOBS + '/candidate-update/remove';
-export const API_CANDIDATE_UPDATE_HIRE_INVITE =
-  API_JOBS + '/candidate-update/hire-invite';
-export const API_CANDIDATE_UPDATE_SHORT_LIST =
-  API_JOBS + '/candidate-update/shortlist';
-export const API_CANDIDATE_UPDATE_HIRED = API_JOBS + '/candidate-update/hired';
+export const API_CANDIDATE_UPDATE = API_JOBS + '/candidate/';
+
+export const API_CANDIDATE_STEP_SCHEDULE = API_JOBS + '/step-schedule';
+export const API_CANDIDATE_SCHEDULE = API_JOBS + '/step-schedule';
 
 //Industry Association section end
 

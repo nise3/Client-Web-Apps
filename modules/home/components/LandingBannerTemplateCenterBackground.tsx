@@ -1,9 +1,8 @@
-import {Box, CardMedia} from '@mui/material';
+import {Box, Button, CardMedia, Typography} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
-// import {Link} from '../../../@softbd/elements/common';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {Link} from '../../../@softbd/elements/common';
 const PREFIX = 'LandingBannerTemplateCenterBackground';
 
 const classes = {
@@ -58,7 +57,7 @@ const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
         alt={banner?.image_alt_title}
         title={banner?.title}
       />
-      {/*<Box sx={{margin: 'auto'}}>
+      <Box sx={{margin: 'auto'}}>
         <Typography variant='h3' className={classes.heading}>
           {banner?.title}
         </Typography>
@@ -77,7 +76,7 @@ const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
         ) : (
           ''
         )}
-      </Box>*/}
+      </Box>
     </StyledBox>
   );
 };
