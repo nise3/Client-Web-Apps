@@ -64,7 +64,7 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['organization.label']}
-              value={itemData?.organization_title_en}
+              value={itemData?.organization_title}
               isLoading={isLoading}
             />
           </Grid>
