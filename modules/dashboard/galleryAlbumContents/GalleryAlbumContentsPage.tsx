@@ -18,12 +18,22 @@ import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 
 const GalleryAlbumContentsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const [contentTypeFilterItems] = useState<Array<ISelectFilterItem>>([
+    {
+      id: GalleryAlbumContentTypes.IMAGE,
+      title: messages['common.image'] as string,
+    },
+    {
+      id: GalleryAlbumContentTypes.VIDEO,
+      title: messages['common.video'] as string,
+    },
+  ]);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -88,16 +98,31 @@ const GalleryAlbumContentsPage = () => {
       },
       {
         Header: messages['common.content_type'],
+        accessor: 'content_type',
+        filter: 'selectFilter',
+        selectFilterItems: contentTypeFilterItems,
         Cell: (props: any) => {
           let data = props.row.original;
-          if (data.content_type === 1) {
+          if (data.content_type === GalleryAlbumContentTypes.IMAGE) {
             return <p>{messages['common.image']}</p>;
-          } else if (data.content_type === 2) {
+          } else if (data.content_type === GalleryAlbumContentTypes.VIDEO) {
             return <p>{messages['common.video']}</p>;
           } else {
             return '';
           }
         },
+      },
+      {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
       },
       {
         Header: messages['gallery_album.featured_status'],
@@ -113,30 +138,9 @@ const GalleryAlbumContentsPage = () => {
         },
       },
       {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['organization.label_en'],
-        accessor: 'organization_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;

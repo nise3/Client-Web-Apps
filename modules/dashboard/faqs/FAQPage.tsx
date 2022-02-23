@@ -13,11 +13,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { Help } from '@mui/icons-material';
+import {Help} from '@mui/icons-material';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -29,7 +28,9 @@ const FAQPage = () => {
   const [showInFilterItems, setShowInFilterItems] = useState<
     Array<ISelectFilterItem>
   >([]);
+
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const authUser = useAuthUser<CommonAuthUser>();
 
@@ -74,10 +75,10 @@ const FAQPage = () => {
   useEffect(() => {
     if (cmsGlobalConfig) {
       setShowInFilterItems(
-        cmsGlobalConfig?.show_in.map((showIntype: any) => {
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
           return {
-            id: showIntype.id,
-            title: showIntype.title,
+            id: showInType.id,
+            title: showInType.title,
           };
         }),
       );
@@ -101,6 +102,7 @@ const FAQPage = () => {
       {
         Header: messages['faq.show_in'],
         accessor: 'show_in',
+        isVisible: authUser?.isSystemUser,
         disableFilters: !authUser?.isSystemUser ? true : false,
         filter: authUser?.isSystemUser ? 'selectFilter' : null,
         selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
@@ -108,18 +110,7 @@ const FAQPage = () => {
           return props.row.original.show_in_label;
         },
       },
-      {
-        Header: messages['common.institute'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
-        disableFilters: true,
-      },
-      {
-        Header: messages['institute.name_en'],
-        accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-        disableFilters: true,
-      },
+
       {
         Header: messages['faq.question'],
         accessor: 'question_short',
