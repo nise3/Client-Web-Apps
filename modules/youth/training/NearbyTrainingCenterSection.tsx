@@ -98,12 +98,14 @@ const NearbyTrainingCenterSection = ({
       });
     }
 
-    setNearbyTrainingCenterFilters((params: any) => {
-      return {
-        ...params,
-        ...{page: queryPageNumber, page_size: queryPageSize},
-      };
-    });
+    if (queryPageSize && queryPageNumber) {
+      setNearbyTrainingCenterFilters((params: any) => {
+        return {
+          ...params,
+          ...{page: queryPageNumber, page_size: queryPageSize},
+        };
+      });
+    }
   }, [queryPageNumber, queryPageSize]);
 
   useEffect(() => {
