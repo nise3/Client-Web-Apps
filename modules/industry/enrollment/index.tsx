@@ -51,8 +51,6 @@ const PREFIX = 'NascibUserAddEdit';
 
 const classes = {
   headerText: `${PREFIX}-headerText`,
-  button: `${PREFIX}-button`,
-  card: `${PREFIX}-card`,
 };
 
 const StyledHeader = styled(Grid)(({theme}) => ({
@@ -63,14 +61,6 @@ const StyledHeader = styled(Grid)(({theme}) => ({
 
   [`& .${classes.headerText}`]: {
     margin: '0 0 0 28px',
-  },
-
-  [`& .${classes.button}`]: {
-    width: '100%',
-  },
-  [`& .${classes.card}`]: {
-    maxWidth: 345,
-    minWidth: '100%',
   },
 }));
 
@@ -147,7 +137,7 @@ const initialValues = {
 const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   ...props
 }) => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
 
   const {createSuccessMessage} = useSuccessMessage();
@@ -489,6 +479,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       info_collector_mobile: yup.string(),
     });
   }, [
+    locale,
     messages,
     formFiller,
     hasBankAccount,
@@ -663,7 +654,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     <Container maxWidth={'lg'}>
       <Grid container justifyContent={'center'} my={5}>
         <Grid item xs={12}>
-          <Card className={classes.card}>
+          <Card>
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                 <Grid container spacing={5} justifyContent={'center'}>
@@ -1509,13 +1500,13 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     </Grid>
                   )}
 
-                  <Grid item xs={12} mb={0}>
+                  <Grid item xs={12} m={0}>
                     <FormLabel>
                       {messages['institute.total_employee']}
                     </FormLabel>
                   </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item xs={6} sx={{paddingTop: 0}}>
                     <CustomChipTextInput
                       fields={[
                         {
@@ -1553,7 +1544,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item xs={12} pt={0}>
                     <CustomChipTextInput
                       fields={[
                         {

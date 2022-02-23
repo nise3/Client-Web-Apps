@@ -1543,5 +1543,7 @@
   "common,number": "Number",
   "industry.sme_header_main": "Small and Medium Industries Foundation",
   "industry.sme_header_second": "SME Entrepreneur E-Database",
-  "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database."
+  "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database.",
+  "file_size.maximum_size_warning_text": "Maximum allowed file size 1MB",
+  "file.drag_and_drop_or_upload": "Drag and Drop your file or Upload"
 }
