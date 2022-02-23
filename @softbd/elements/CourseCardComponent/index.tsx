@@ -14,6 +14,8 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCourseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
+import {useCustomStyle} from '../../hooks/useCustomStyle';
+import {H5, H6} from '../common';
 
 const PREFIX = 'CourseCardComponent';
 
@@ -25,6 +27,7 @@ const classes = {
   tagBox: `${PREFIX}-tagBox`,
   courseTitle: `${PREFIX}-courseTitle`,
   overflowDottedText: `${PREFIX}-overflowDottedText`,
+  overflowDottedInstituteTitle: `${PREFIX}-overflowDottedInstituteTitle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -79,6 +82,13 @@ const StyledCard = styled(Card)(({theme}) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  [`& .${classes.overflowDottedInstituteTitle}`]: {
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }));
 
 interface CourseCardComponentProps {
@@ -87,6 +97,7 @@ interface CourseCardComponentProps {
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
+  const customStyle = useCustomStyle();
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
@@ -118,18 +129,28 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           </Box>
         </Box>
 
-        <Box
-          fontWeight={'bold'}
-          title={course.title}
-          className={classes.overflowDottedText}>
-          {course.title}
+        <Box>
+          <H5
+            fontWeight={'bold'}
+            title={course.title}
+            className={classes.overflowDottedText}
+            sx={{
+              ...customStyle.h6,
+            }}>
+            {course.title}
+          </H5>
         </Box>
 
-        <Box
-          marginTop={'5px'}
-          title={course.institute_title}
-          className={classes.overflowDottedText}>
-          {messages['common.institute_name']}: {course.institute_title}
+        <Box marginTop={'5px'}>
+          <H6
+            fontWeight={'bold'}
+            title={course.institute_title}
+            className={classes.overflowDottedInstituteTitle}
+            sx={{
+              ...customStyle.body1,
+            }}>
+            {course.institute_title}
+          </H6>
         </Box>
 
         <Box className={classes.tagBox}>
