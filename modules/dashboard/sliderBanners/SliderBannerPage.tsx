@@ -109,7 +109,6 @@ const SliderBannerPage = () => {
           return props.row.index + 1;
         },
       },
-
       {
         Header: messages['common.title'],
         accessor: 'title',
