@@ -1,6 +1,6 @@
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_NOTICE_OR_NEWSES} from '../../../@softbd/common/apiRoutes';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -17,17 +17,49 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import NoticeOrNewsAddEditPopup from './NoticeOrNewsAddEditPopup';
 import NoticeOrNewsDetailsPopup from './NoticeOrNewsDetailsPopup';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 
 const NoticeOrNewsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const [typeFilterItems] = useState<Array<ISelectFilterItem>>([
+    {
+      id: NoticeOrNewsTypes.NOTICE,
+      title: messages['notice_type.notice'] as string,
+    },
+    {
+      id: NoticeOrNewsTypes.NEWS,
+      title: messages['notice_type.news'] as string,
+    },
+  ]);
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
+          return {
+            id: showInType.id,
+            title: showInType.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -93,43 +125,35 @@ const NoticeOrNewsPage = () => {
       },
       {
         Header: messages['common.type'],
+        accessor: 'type',
+        filter: 'selectFilter',
+        selectFilterItems: typeFilterItems,
         Cell: (props: any) => {
           return getNoticeOrNewsTitle(props.row.original?.type);
         },
       },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['organization.label_en'],
-        accessor: 'organization_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
+
       {
         Header: messages['common.details'],
         accessor: 'details',
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['common.show_in'],
-        accessor: 'show_in_label',
+        accessor: 'show_in',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
+        },
       },
       {
         Header: messages['common.active_status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -153,7 +177,7 @@ const NoticeOrNewsPage = () => {
         sortable: false,
       },
     ];
-  }, [messages, locale]);
+  }, [messages, locale, typeFilterItems, showInFilterItems]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
@@ -163,7 +187,12 @@ const NoticeOrNewsPage = () => {
   return (
     <>
       <PageBlock
-        title={<><IconStaticPage/><IntlMessages id='common.notice_or_news' /></>}
+        title={
+          <>
+            <IconStaticPage />
+            <IntlMessages id='common.notice_or_news' />
+          </>
+        }
         extra={[
           <AddButton
             key={1}

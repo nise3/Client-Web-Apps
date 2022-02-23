@@ -18,7 +18,6 @@ import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
-
 const Nise3PartnersPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
@@ -99,7 +98,7 @@ const Nise3PartnersPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
