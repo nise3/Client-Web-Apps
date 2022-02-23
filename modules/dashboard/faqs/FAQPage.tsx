@@ -28,7 +28,9 @@ const FAQPage = () => {
   const [showInFilterItems, setShowInFilterItems] = useState<
     Array<ISelectFilterItem>
   >([]);
+
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const authUser = useAuthUser<CommonAuthUser>();
 
@@ -73,10 +75,10 @@ const FAQPage = () => {
   useEffect(() => {
     if (cmsGlobalConfig) {
       setShowInFilterItems(
-        cmsGlobalConfig?.show_in.map((showIntype: any) => {
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
           return {
-            id: showIntype.id,
-            title: showIntype.title,
+            id: showInType.id,
+            title: showInType.title,
           };
         }),
       );
