@@ -17,6 +17,7 @@ import {
   FILE_SERVER_FILE_VIEW_ENDPOINT,
   FILE_SERVER_UPLOAD_ENDPOINT,
 } from '../../@softbd/common/apiRoutes';
+import {useIntl} from 'react-intl';
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -50,11 +51,17 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   label,
   defaultFileUrl,
   allowMultiple,
-  acceptedFileTypes = ['image/*', 'application/pdf', 'application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+  acceptedFileTypes = [
+    'image/*',
+    'application/pdf',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  ],
   uploadedUrls,
   height,
   width,
 }) => {
+  const {messages} = useIntl();
   let errorObj = errorInstance?.[id];
   const reg = new RegExp('(.*)\\[(.*?)]', '');
   const matches = id.match(reg);
@@ -97,7 +104,11 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
 
   return (
     <StyledWrapper>
-      <InputLabel required={required}>{label}</InputLabel>
+      <InputLabel
+        error={errorObj && typeof errorObj != undefined}
+        required={required}>
+        {label}
+      </InputLabel>
       <FormControl fullWidth>
         <FilePond
           className={allowMultiple ? 'multi-upload' : ''}
@@ -135,7 +146,8 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           }}
           styleProgressIndicatorPosition={'center'}
           name='files'
-          labelIdle='Drag & Drop your files or <span class="filepond--label-action">Upload</span>'
+          // labelIdle='Drag & Drop your files or <span class="filepond--label-action">Upload</span>'
+          labelIdle={messages['file.drag_and_drop_or_upload'] as string}
         />
         <TextField
           id={id}
@@ -162,7 +174,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       </FormControl>
       {
         <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
-          {`Maximum allowed file size 1MB`}
+          {messages['file_size.maximum_size_warning_text']}
           {height &&
             width &&
             ` and required image size ${width} px * ${height} px`}

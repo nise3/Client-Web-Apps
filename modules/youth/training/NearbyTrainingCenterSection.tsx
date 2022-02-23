@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Button, Grid, Pagination, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
@@ -11,6 +11,7 @@ import {styled} from '@mui/material/styles';
 import {H2, Link} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
+import {useRouter} from 'next/router';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -35,12 +36,17 @@ const NearbyTrainingCenterSection = ({
 }: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const {page: queryPageNumber} = router.query;
+  const {page_size: queryPageSize} = router.query;
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
     useState<any>({
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
+      page_size:
+        queryPageSize ??
+        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
     });
 
   const {
@@ -49,12 +55,84 @@ const NearbyTrainingCenterSection = ({
     metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
+  const getPageSize = useCallback(
+    (totalData: number) => {
+      if (Number(queryPageSize) && Number(queryPageSize) > totalData) {
+        return totalData;
+      }
+
+      return (
+        queryPageSize ??
+        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR)
+      );
+    },
+    [queryPageSize],
+  );
+
+  useEffect(() => {
+    if (
+      !Number(queryPageNumber) ||
+      Number(queryPageNumber) < 0 ||
+      Number(queryPageNumber) > trainingCentersMetaData.total_page
+    ) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {
+            page: 1,
+            page_size: getPageSize(trainingCentersMetaData.total),
+          },
+        },
+        undefined,
+        {shallow: true},
+      );
+    } else if (
+      queryPageNumber &&
+      Number(queryPageNumber) > 0 &&
+      queryPageNumber < trainingCentersMetaData.total_page
+    ) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {
+            page: queryPageNumber,
+            page_size: getPageSize(trainingCentersMetaData.total),
+          },
+        },
+        undefined,
+        {shallow: true},
+      );
+    }
+  }, [queryPageNumber, queryPageSize, trainingCentersMetaData]);
+
+  useEffect(() => {
+    if (queryPageNumber) {
+      setNearbyTrainingCenterFilters((params: any) => {
+        return {...params, ...{page: router.query.page}};
+      });
+    } else if (queryPageSize) {
+      setNearbyTrainingCenterFilters((params: any) => {
+        return {...params, ...{page_size: router.query.page_size}};
+      });
+    }
+  }, [queryPageNumber, queryPageSize]);
+
   const page = useRef<any>(1);
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
-    setNearbyTrainingCenterFilters((params: any) => {
-      return {...params, ...{page: currentPage}};
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: {
+          page: currentPage,
+          page_size:
+            queryPageSize ??
+            (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR),
+        },
+      },
+      undefined,
+      {shallow: true},
+    );
   }, []);
   return (
     <StyledGrid container spacing={3}>
@@ -104,7 +182,11 @@ const NearbyTrainingCenterSection = ({
                     justifyContent={'center'}>
                     <Stack spacing={2}>
                       <Pagination
-                        page={page.current}
+                        page={
+                          queryPageNumber
+                            ? Number(queryPageNumber)
+                            : page.current
+                        }
                         count={trainingCentersMetaData.total_page}
                         color={'primary'}
                         shape='rounded'
