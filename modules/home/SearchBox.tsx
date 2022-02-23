@@ -208,7 +208,6 @@ const SearchBox = () => {
           sx={{
             top: '-6px',
             color: 'primary.contrastText',
-            backgroundColor: 'primary.main',
             paddingX: 1,
           }}>
           {messages['common.select']}
