@@ -17,14 +17,17 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PersonIcon from '@mui/icons-material/Person';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
 
 const HumanResourceDemandPage = () => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenAddEditModal(true);
+    setIsOpenDetailsModal(false);
     setSelectedItemId(itemId);
   }, []);
 
@@ -32,9 +35,24 @@ const HumanResourceDemandPage = () => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
+
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setIsOpenDetailsModal(false);
+  }, []);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
+
   const columns = useMemo(
     () => [
       {
@@ -136,6 +154,7 @@ const HumanResourceDemandPage = () => {
           const URL = LINK_HUMAN_RESOURCE_DEMAND + `/${data.id}`;
           return (
             <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <Link href={URL + '?show_cv=1'} passHref>
                 <ReadButton>{messages['common.cv_read']}</ReadButton>
@@ -179,6 +198,13 @@ const HumanResourceDemandPage = () => {
             refreshDataTable={refreshDataTable}
             itemId={selectedItemId}
             onClose={closeAddEditModal}
+          />
+        )}
+        {isOpenDetailsModal && selectedItemId && (
+          <HumanResourceDemandDetailsPopup
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeDetailsModal}
           />
         )}
       </PageBlock>
