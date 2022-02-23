@@ -23,6 +23,7 @@ import {
 } from '../../@softbd/common/appLinks';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
+import clsx from 'clsx';
 
 const PREFIX = 'SearchBox';
 
@@ -32,6 +33,8 @@ const classes = {
   resetDivider: `${PREFIX}-resetDivider`,
   rootPaper: `${PREFIX}-rootPaper`,
   searchButton: `${PREFIX}-searchButton`,
+  inputLabel: `${PREFIX}-inputLabel`,
+  inputLabelBackground: `${PREFIX}-inputLabelBackground`,
 };
 
 const StyledPaper = styled(Paper)(({theme}) => ({
@@ -56,7 +59,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     height: 40,
     width: 110,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.main,
     },
     '& .MuiSelect-select': {
       paddingTop: 0,
@@ -75,6 +78,20 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     '&::after': {
       display: 'none',
     },
+  },
+
+  [`& .${classes.inputLabel}`]: {
+    top: '-6px',
+    color: theme.palette.common.white,
+    '&.Mui-focused': {
+      color: theme.palette.common.white,
+      background: theme.palette.primary.main,
+      padding: '1px 5px',
+    },
+  },
+  [`& .${classes.inputLabelBackground}`]: {
+    background: theme.palette.primary.main,
+    padding: '1px 5px',
   },
 
   [`& .${classes.resetDivider}`]: {
@@ -113,7 +130,7 @@ const SearchBox = () => {
   const router = useRouter();
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
-  const [locationValue, setLocationValue] = useState<any>('0');
+  const [locationValue, setLocationValue] = useState<any>(null);
   const [typeValue, setTypeValue] = useState<any>('');
   const searchTextField = useRef<any>();
   const {errorStack} = useNotiStack();
@@ -121,14 +138,20 @@ const SearchBox = () => {
 
   const onSearchClick = () => {
     const text = searchTextField.current.value;
+    let query;
+    if (locationValue) {
+      query = {
+        upazila: locationValue,
+      };
+    }
     if (text) {
       if (typeValue == 1) {
         router
           .push({
             pathname: LINK_FRONTEND_NISE_TRAINING,
             query: {
+              ...query,
               search_text: searchTextField.current.value,
-              upazila: locationValue,
             },
           })
           .then(() => {});
@@ -137,8 +160,8 @@ const SearchBox = () => {
           .push({
             pathname: LINK_FRONTEND_JOBS,
             query: {
+              ...query,
               search_text: searchTextField.current.value,
-              upazila: locationValue,
             },
           })
           .then(() => {});
@@ -205,11 +228,11 @@ const SearchBox = () => {
         }}>
         <InputLabel
           id='type-select-label'
-          sx={{
-            top: '-6px',
-            color: 'primary.contrastText',
-            paddingX: 1,
-          }}>
+          className={
+            typeValue
+              ? clsx(classes.inputLabel, classes.inputLabelBackground)
+              : classes.inputLabel
+          }>
           {messages['common.select']}
         </InputLabel>
         <Select
