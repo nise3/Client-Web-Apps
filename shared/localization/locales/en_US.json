@@ -1374,6 +1374,7 @@
   "job_preview.read_before_apply": "Read Before Apply",
   "job_preview.photograph": "Photograph",
   "job_preview.photograph_enclose_with_resume": "{photo} must be enclosed with the resume.",
+  "job_preview.apply_procedure": "Apply Procedure",
   "common.click_here": "Click here",
   "job_preview.company_information": "Company Information",
   "job_preview.send_your_cv": "Send your CV to {email} ",
@@ -1393,6 +1394,7 @@
   "common.difficulty": "Difficulty",
   "common.marks": "Marks",
   "common.import": "Imports",
+  "common.vacancy_approval_status": "Vacancy approval Status",
   "common.hour": "Hour",
   "common.hours": "Hours",
   "common.not_enrollable": "Not Enrollable",
@@ -1406,6 +1408,7 @@
   "common.candidates": "Candidates",
   "common.candidates_list": "Candidates List",
   "common.see_cv": "See CV",
+  "common.cv_approve": "CV Approve",
   "assign_permission.label": "Assign Permission",
   "common.applied": "Applied",
   "beneficiaries_of_NISE.label": "Beneficiaries of NISE",
@@ -1545,5 +1548,6 @@
   "industry.sme_header_second": "SME Entrepreneur E-Database",
   "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database.",
   "file_size.maximum_size_warning_text": "Maximum allowed file size 1MB",
-  "file.drag_and_drop_or_upload": "Drag and Drop your file or Upload"
+  "file.drag_and_drop_or_upload": "Drag and Drop your file or Upload",
+  "common.tsp": "TSP"
 }
