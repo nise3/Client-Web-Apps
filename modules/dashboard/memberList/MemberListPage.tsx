@@ -139,6 +139,14 @@ const MemberListPage = () => {
         accessor: 'membership_id',
       },
       {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
+      },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
         Header: messages['applicationManagement.status'],
         Cell: (props: any) => {
           let data = props.row.original;
