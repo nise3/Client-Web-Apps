@@ -103,11 +103,12 @@ const RolePage = () => {
       {
         Header: messages['permission_sub_group.label'],
         accessor: 'permission_sub_group_title_en',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
