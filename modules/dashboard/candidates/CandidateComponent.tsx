@@ -342,9 +342,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               nextStep ? (
                 <CheckButton
                   title={`Schedule for ${nextStep?.title}`}
-                  onClick={() =>
-                    onClickCandidateScheduleAssignButton(candidate?.id)
-                  }
+                  onClick={() => {
+                    onClickCandidateScheduleAssignButton(candidate?.id);
+                  }}
                 />
               ) : (
                 <CheckButton

@@ -85,6 +85,11 @@ const UsersPage = () => {
         accessor: 'name_en',
         isVisible: false,
       },
+      {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
+        isVisible: false,
+      },
 
       {
         Header: messages['common.email'],

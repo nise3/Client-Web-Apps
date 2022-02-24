@@ -23,10 +23,9 @@ const CourseDetailsSkillMatchingJobSection = ({
   const {messages} = useIntl();
 
   const [jobFilters, setJobFilters] = useState<any>(null);
-  const {data: jobs, isLoading} = useFetchPublicJobs(jobFilters);
 
   useEffect(() => {
-    if (skillIds) {
+    if (skillIds?.length > 0) {
       let params: any = {
         skill_ids: skillIds,
         page_size: PageSizes.FOUR,
@@ -34,6 +33,8 @@ const CourseDetailsSkillMatchingJobSection = ({
       setJobFilters(params);
     }
   }, [skillIds]);
+
+  const {data: jobs, isLoading} = useFetchPublicJobs(jobFilters);
 
   return (
     <Container maxWidth={'lg'} style={{marginBottom: '5px'}}>
@@ -45,16 +46,21 @@ const CourseDetailsSkillMatchingJobSection = ({
                 {messages['common.skill_matching_job']}
               </H2>
             </Grid>
-            <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
-              <Link
-                href={`${LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS}${courseId}`}
-                passHref>
-                <Button variant={'outlined'} size={'medium'} color={'primary'}>
-                  {messages['common.see_all']}
-                  <ChevronRight />
-                </Button>
-              </Link>
-            </Grid>
+            {jobs?.total_page > 1 && (
+              <Grid item xs={4} sm={3} md={2} style={{textAlign: 'right'}}>
+                <Link
+                  href={`${LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS}${courseId}`}
+                  passHref>
+                  <Button
+                    variant={'outlined'}
+                    size={'medium'}
+                    color={'primary'}>
+                    {messages['common.see_all']}
+                    <ChevronRight />
+                  </Button>
+                </Link>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>

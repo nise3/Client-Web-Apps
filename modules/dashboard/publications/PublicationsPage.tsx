@@ -15,7 +15,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import IconPublication from '../../../@softbd/icons/IconPublication';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
@@ -118,7 +118,7 @@ const PublicationsPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -155,7 +155,7 @@ const PublicationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='publication.label' />
+            <IconPublication /> <IntlMessages id='publication.label' />
           </>
         }
         extra={[

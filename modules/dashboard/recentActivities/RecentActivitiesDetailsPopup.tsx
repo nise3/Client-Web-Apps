@@ -20,6 +20,7 @@ import ContentTypes from './ContentTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconVideo from '../../../@softbd/icons/IconVideo';
 
 interface RecentActivitiesDetailsPopupProps {
   itemId: number | null;
@@ -56,6 +57,7 @@ const RecentActivitiesDetailsPopup: FC<RecentActivitiesDetailsPopupProps> = ({
         {...props}
         title={
           <>
+            <IconVideo/>
             <IntlMessages id='recent_activities.label' />
           </>
         }

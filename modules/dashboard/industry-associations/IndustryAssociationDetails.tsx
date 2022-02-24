@@ -77,7 +77,7 @@ const IndustryAssociationDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['association.association_trades']}
-              value={itemData?.industry_association_trade_title}
+              value={itemData?.trade_title}
               isLoading={isLoading}
             />
           </Grid>
