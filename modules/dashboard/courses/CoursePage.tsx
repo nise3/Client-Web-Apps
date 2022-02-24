@@ -19,11 +19,14 @@ import {deleteCourse} from '../../../services/instituteManagement/CourseService'
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {LEVEL} from './CourseEnums';
 
 const CoursePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -65,6 +68,12 @@ const CoursePage = () => {
     }
   };
 
+  const courseLevelFilterItems = [
+    {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
+    {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
+    {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
+  ];
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
@@ -92,12 +101,14 @@ const CoursePage = () => {
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
       {
         Header: messages['course.fee'],
@@ -106,6 +117,22 @@ const CoursePage = () => {
       {
         Header: messages['course.duration'],
         accessor: 'duration',
+      },
+      {
+        Header: messages['course.course_level'],
+        accessor: 'level',
+        filter: 'selectFilter',
+        selectFilterItems: courseLevelFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.level == LEVEL.BEGINNER) {
+            return <>{messages['level.beginner']}</>;
+          } else if (data?.level == LEVEL.INTERMEDIATE) {
+            return <>{messages['level.intermediate']}</>;
+          } else {
+            return <>{messages['level.expert']}</>;
+          }
+        },
       },
       {
         Header: messages['common.status'],

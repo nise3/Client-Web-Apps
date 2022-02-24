@@ -93,16 +93,21 @@ const BranchPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
-        disableFilters: !authUser?.isSystemUser,
+        Header: messages['common.address'],
+        accessor: 'address',
+        isVisible: false,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
         disableFilters: true,
+      },
+      {
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser,
       },
       {
         Header: messages['common.status'],
