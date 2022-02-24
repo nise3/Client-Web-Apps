@@ -1,6 +1,7 @@
 import {Grid, Pagination, TablePagination} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
+import {useIntl} from 'react-intl';
 
 type Props = {
   count: number;
@@ -39,6 +40,9 @@ const CustomPaginationWithPageNumber = ({
   rowsPerPage,
   onRowsPerPageChange: onRowsPerPageChangeCallback,
 }: Props) => {
+  const {messages} = useIntl();
+  const labelRowsPerPage: any = messages['common.per_page'];
+
   return (
     <StyledGrid container>
       <TablePagination
@@ -48,6 +52,7 @@ const CustomPaginationWithPageNumber = ({
         onPageChange={() => {}}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={onRowsPerPageChangeCallback}
+        labelRowsPerPage={labelRowsPerPage}
       />
 
       <Pagination

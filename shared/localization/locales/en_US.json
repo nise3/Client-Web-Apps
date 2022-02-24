@@ -1554,5 +1554,6 @@
   "permissions.method_post": "POST",
   "permissions.method_put": "PUT",
   "permissions.method_patch": "PATCH",
-  "permissions.method_delete": "DELETE"
+  "permissions.method_delete": "DELETE",
+  "common.per_page": "Per Page"
 }
