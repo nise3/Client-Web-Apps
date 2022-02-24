@@ -30,6 +30,6 @@ export function useFetchUpazila(upazilaId: number | null) {
   return useAxiosSWR(upazilaId ? API_UPAZILAS + '/' + upazilaId : null);
 }
 
-export function useFetchCountries(params: any) {
+export function useFetchCountries(params: any=null) {
   return useLocalizedAxiosSWR([API_COUNTRIES, params]);
 }
