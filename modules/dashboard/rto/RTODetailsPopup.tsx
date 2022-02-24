@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
-import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
+import {useFetchRTO} from '../../../services/CertificateAuthorityManagement/hooks';
 import {InstituteType} from './RTOAddEditPopup';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
@@ -24,7 +24,7 @@ const ERPLInstituteDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchInstitute(itemId);
+  const {data: itemData, isLoading} = useFetchRTO(itemId);
 
   return (
     <>
@@ -34,7 +34,7 @@ const ERPLInstituteDetailsPopup = ({
         title={
           <>
             <IconInstitute />
-            <IntlMessages id='certificate_authority.details' />
+            <IntlMessages id='rto.details' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -139,6 +139,13 @@ const ERPLInstituteDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.country']}
+              value={itemData?.country_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.mobile']}
               value={itemData?.primary_mobile}
               isLoading={isLoading}
@@ -157,13 +164,6 @@ const ERPLInstituteDetailsPopup = ({
                 </Grid>
               );
             })}
-          {/*<Grid item xs={12} md={6}>*/}
-          {/*  <DetailsInputView*/}
-          {/*    label={messages['common.domain']}*/}
-          {/*    value={itemData?.domain}*/}
-          {/*    isLoading={isLoading}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['districts.label']}

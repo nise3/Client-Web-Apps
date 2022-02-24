@@ -433,6 +433,7 @@
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
   "rto.label": "RTO",
+  "rto.details": "RTO Details",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
   "programme.label": "Programme",
