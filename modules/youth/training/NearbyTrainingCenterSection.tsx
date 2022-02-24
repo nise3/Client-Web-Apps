@@ -80,6 +80,7 @@ const NearbyTrainingCenterSection = ({
     let params: any = {};
     params.page = Number(router.query.page);
     params.page_size = Number(router.query.page_size);
+    params = objectFilter(params);
 
     if (
       params.page &&
@@ -155,13 +156,15 @@ const NearbyTrainingCenterSection = ({
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      let queryObj: any = {};
+      queryObj.page = router.query.page;
+      queryObj.page_size = event.target.value;
+      queryObj = objectFilter(queryObj);
+
       router.push(
         {
           pathname: router.pathname,
-          query: {
-            page: router.query.page,
-            page_size: event.target.value,
-          },
+          query: queryObj,
         },
         undefined,
         {shallow: true},
