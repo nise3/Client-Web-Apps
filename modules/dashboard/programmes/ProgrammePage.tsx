@@ -19,6 +19,8 @@ import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const ProgrammePage = () => {
   const {messages, locale} = useIntl();
@@ -28,7 +30,7 @@ const ProgrammePage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -92,12 +94,14 @@ const ProgrammePage = () => {
       {
         Header: messages['institute.label_en'],
         accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.status'],

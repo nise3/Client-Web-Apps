@@ -97,8 +97,13 @@ const BatchesPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.courses'],
+        accessor: 'course_title',
+      },
+      {
         Header: messages['batches.total_and_available_seat'],
         accessor: 'number_of_seats',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -109,6 +114,7 @@ const BatchesPage = () => {
       {
         Header: messages['batches.registration_start_date'],
         accessor: 'registration_start_date',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -117,11 +123,34 @@ const BatchesPage = () => {
         },
       },
       {
+        Header: messages['batches.registration_end_date'],
+        accessor: 'registration_end_date',
+        filter: 'dateTimeFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.registration_end_date)}</span>
+          );
+        },
+      },
+      {
         Header: messages['batches.start_date'],
         accessor: 'batch_start_date',
+        filter: 'dateTimeFilter',
+        isVisible: false,
         Cell: (props: any) => {
           let data = props.row.original;
           return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
+        },
+      },
+      {
+        Header: messages['batches.end_date'],
+        accessor: 'batch_end_date',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
         },
       },
       {
