@@ -9,7 +9,10 @@ import {Button, Container, Grid, Typography} from '@mui/material';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { jsPDF } from 'jspdf';
-import 'svg2pdf.js'
+import 'svg2pdf.js';
+import "svg-to-pdfkit";
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import { svg2pdf } from 'svg2pdf.js';
 
 const PREFIX = 'YouthCVPage';
 
@@ -40,9 +43,10 @@ const StyledContainer = styled(Container)(({theme}) => ({
     borderColor: theme.palette.primary.main,
   },
 }));
-
+// const PRINT_WIDTH = 1000;
+// const PRINT_HIGHT = 1400;
 const YouthCVPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const router: any = useRouter();
   const {youthId} = router.query;
   const {data: youthData} = useFetchYouthDetails(youthId);
@@ -89,21 +93,10 @@ const YouthCVPage = () => {
     }
   }, []);
 
-  const downloadCB = useCallback(() => {
-
-
+    const downloadCB = useCallback(() => {
     const doc = new jsPDF('p',  'mm', [297, 210]);
-    // const doc = new jsPDF({ filters: ["ASCIIHexEncode"] });
-    const element = document.getElementById('svg');
-    // doc.addFileToVFS('NotoSerifBengali-Regular.ttf', myFont);
-    // doc.addFont("NotoSerifBengali-Regular.ttf", "NotoSerifBengali-Regular.ttf", "regular", undefined, "Identity-H");
-    // doc.setFont("NotoSerifBengali-Regular.ttf", 'regular');
-    // doc.setFontSize(10);
-    // console.log('doc font ', doc.getFont());
-    // console.log('doc font List', doc.getFontList());
-    // console.log('svg elem ', element);
-
-    doc
+    const element = document.getElementById('svg') as Element;
+      doc
       .svg(element, {
         x:0,
         y:0,
@@ -111,13 +104,8 @@ const YouthCVPage = () => {
         // height: 1216
       })
       .then(() => {
-        // save the created pdf
         doc.save('myPDF.pdf')
       })
-    // doc.svg(element, 0, 0, 500, 600);
-    // doc.text('আমার সোনার বাংলা', 10, 10)
-    // doc.save('save.pdf')
-    // console.log('download');
   }, []);
 
   const getTemplate = () => {
@@ -163,6 +151,7 @@ const YouthCVPage = () => {
             style={{float: 'right'}}>
             {messages['common.download']}
           </Button>
+          <a id="lnk" download>Download</a>
         </Grid>
       </Grid>
 
