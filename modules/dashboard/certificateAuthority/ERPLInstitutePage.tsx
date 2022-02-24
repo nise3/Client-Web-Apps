@@ -1,11 +1,7 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {
-  deleteInstitute,
-  ReApproveInstitute,
-  rejectInstitute,
-} from '../../../services/instituteManagement/InstituteService';
+import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -14,45 +10,23 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import InstituteDetailsPopup from './InstituteDetailsPopup';
-import InstituteAddEditPopup from './InstituteAddEditPopup';
+import ERPLInstituteDetailsPopup from './ERPLInstituteDetailsPopup';
+import ERPLInstituteAddEditPopup from './ERPLInstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
-import {ApprovalStatus} from './ApprovalStatusEnums';
-import {FiUserCheck} from 'react-icons/fi';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import InstituteAssingnPermissionPopup from './InstituteAssingnPermissionPopup';
 import CustomChipStatus from '../memberList/CustomChipStatus';
-import ApproveButton from '../industry-associations/ApproveButton';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
-const InstitutePage = () => {
+const ERPLInstitutePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenPermissionSubGroupModal, setIsOpenPermissionSubGroupModal] =
-    useState(false);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  const openAssignPermissionModal = useCallback(
-    (itemId: number | null = null) => {
-      setIsOpenDetailsModal(false);
-      setIsOpenPermissionSubGroupModal(true);
-      setSelectedItemId(itemId);
-    },
-    [],
-  );
-
-  const closeAssignPermissionModal = useCallback(() => {
-    setIsOpenPermissionSubGroupModal(false);
-    setSelectedItemId(null);
-  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -74,31 +48,32 @@ const InstitutePage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const rejectAction = async (itemId: number) => {
-    let response = await rejectInstitute(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_rejected'
-          values={{subject: <IntlMessages id='common.institute' />}}
-        />,
-      );
-    }
-    refreshDataTable();
-  };
-
-  const ReApproveAction = async (itemId: number) => {
-    let response = await ReApproveInstitute(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_approved'
-          values={{subject: <IntlMessages id='common.institute' />}}
-        />,
-      );
-    }
-    refreshDataTable();
-  };
+  /** if open registration is on, then these codes will be in action => IORIOTTCWBIA */
+  /*  const rejectAction = async (itemId: number) => {
+          let response = await rejectInstitute(itemId);
+          if (isResponseSuccess(response)) {
+            successStack(
+              <IntlMessages
+                id='common.subject_rejected'
+                values={{subject: <IntlMessages id='erpl_institute.label' />}}
+              />,
+            );
+          }
+          refreshDataTable();
+        };
+      
+        const ReApproveAction = async (itemId: number) => {
+          let response = await ReApproveInstitute(itemId);
+          if (isResponseSuccess(response)) {
+            successStack(
+              <IntlMessages
+                id='common.subject_approved'
+                values={{subject: <IntlMessages id='erpl_institute.label' />}}
+              />,
+            );
+          }
+          refreshDataTable();
+        };*/
 
   const deleteInstituteItem = async (itemId: number) => {
     let response = await deleteInstitute(itemId);
@@ -106,7 +81,7 @@ const InstitutePage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='institute.label' />}}
+          values={{subject: <IntlMessages id='certificate_authority.label' />}}
         />,
       );
 
@@ -157,13 +132,14 @@ const InstitutePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          let itemId = data?.id;
+          /*let itemId = data?.id;*/
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
 
-              {data?.row_status == ApprovalStatus.PENDING && (
+              {/** IORIOTTCWBIA */}
+              {/*{data?.row_status == ApprovalStatus.PENDING && (
                 <CommonButton
                   onClick={() => openAssignPermissionModal(data.id)}
                   btnText='common.approve'
@@ -171,7 +147,7 @@ const InstitutePage = () => {
                   color='secondary'
                 />
               )}
-              {data?.row_status == ApprovalStatus.APPROVED && (
+                            {data?.row_status == ApprovalStatus.APPROVED && (
                 <RejectButton
                   itemId={itemId}
                   rejectTitle={messages['common.organization'] as string}
@@ -184,7 +160,7 @@ const InstitutePage = () => {
                   approveAction={() => ReApproveAction(data.id)}
                   buttonText={messages['common.approve'] as string}
                 />
-              )}
+              )}*/}
 
               <DeleteButton
                 deleteAction={() => deleteInstituteItem(data.id)}
@@ -203,7 +179,7 @@ const InstitutePage = () => {
     useReactTableFetchData({
       urlPath: API_INSTITUTES,
       paramsValueModifier: (params: any) => {
-        params['service_type'] = 3;
+        params['service_type'] = 2;
         return params;
       },
     });
@@ -213,7 +189,7 @@ const InstitutePage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='institute.label' />
+            <IconInstitute /> <IntlMessages id='certificate_authority.label' />
           </>
         }
         extra={[
@@ -225,7 +201,7 @@ const InstitutePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['institute.label'],
+                  subject: messages['certificate_authority.label'],
                 }}
               />
             }
@@ -241,7 +217,7 @@ const InstitutePage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <InstituteAddEditPopup
+          <ERPLInstituteAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -250,19 +226,11 @@ const InstitutePage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <InstituteDetailsPopup
+          <ERPLInstituteDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
-          />
-        )}
-        {isOpenPermissionSubGroupModal && (
-          <InstituteAssingnPermissionPopup
-            key={1}
-            onClose={closeAssignPermissionModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>
@@ -270,4 +238,4 @@ const InstitutePage = () => {
   );
 };
 
-export default InstitutePage;
+export default ERPLInstitutePage;
