@@ -52,6 +52,8 @@ const CustomPaginationWithPageNumber = ({
   const rowsPerPageOptions = [
     {value: 5, label: locale == localeLanguage.EN ? '5' : '৫'},
     {value: 10, label: locale == localeLanguage.EN ? '10' : '১০'},
+    {value: 25, label: locale == localeLanguage.EN ? '25' : '২৫'},
+    {value: 50, label: locale == localeLanguage.EN ? '50' : '৫০'},
   ];
 
   return (
