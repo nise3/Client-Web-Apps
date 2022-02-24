@@ -12,7 +12,7 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
+import IconPublication from '../../../@softbd/icons/IconPublication';
 import {
   useFetchIndustryAssociationMembers,
   useFetchPublication,
@@ -158,7 +158,7 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconProgramme />
+          <IconPublication />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
