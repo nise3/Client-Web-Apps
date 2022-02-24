@@ -445,7 +445,7 @@
   "training_center.centerLocationType": "Center Location Type",
   "course.label": "Course",
   "course.label_en": "Course (English)",
-  "course.duration": "Duration",
+  "course.duration": "Duration (in hour)",
   "course.fee": "Fee",
   "course.target_group": "Target group",
   "course.target_group_en": "Target group (EN)",

@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login} from '@mui/icons-material';
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_CALENDAR,
@@ -16,7 +15,6 @@ import {
   LINK_FRONTEND_INSTITUTE_FEEDBACK,
   LINK_FRONTEND_INSTITUTE_ROOT,
   LINK_FRONTEND_INSTITUTE_VIDEOS,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
@@ -24,7 +22,6 @@ import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
