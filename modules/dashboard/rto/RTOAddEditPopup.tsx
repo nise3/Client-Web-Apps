@@ -1,8 +1,4 @@
 import {Grid} from '@mui/material';
-import {
-  createInstitute,
-  updateInstitute,
-} from '../../../services/instituteManagement/InstituteService';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -26,8 +22,8 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {
+  useFetchCountries,
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
@@ -48,6 +44,12 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {useFetchRTO} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  createRTO,
+  updateRTO,
+} from '../../../services/CertificateAuthorityManagement/RTOService';
 
 export enum InstituteType {
   GOVERNMENT = '1',
@@ -63,8 +65,8 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  // domain: '',
   institute_type_id: '0',
+  country_id: '0',
   code: '',
   address: '',
   primary_phone: '',
@@ -90,7 +92,7 @@ const initialValues = {
   contact_person_mobile: '',
 };
 
-const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
+const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -113,11 +115,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   );
 
   const isEdit = itemId != null;
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateInstitute,
-  } = useFetchInstitute(itemId);
+  const {data: itemData, isLoading, mutate: mutateRTO} = useFetchRTO(itemId);
+
+  const [countryFilters] = useState<any>({});
+  const {data: countries, isLoading: isLoadingCountries} =
+    useFetchCountries(countryFilters);
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
@@ -185,6 +187,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['institute.type'] as string),
+      country_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.country'] as string),
       phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
       primary_mobile: yup
         .string()
@@ -288,6 +295,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         title: itemData?.title,
         // domain: itemData?.domain,
         institute_type_id: itemData?.institute_type_id,
+        country_id: itemData?.country_id,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
         phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
@@ -344,15 +352,14 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.service_type = '3';
 
       if (itemId) {
-        await updateInstitute(itemId, data);
-        updateSuccessMessage('institute.label');
-        mutateInstitute();
+        await updateRTO(itemId, data);
+        updateSuccessMessage('rto.label');
+        mutateRTO();
       } else {
-        await createInstitute(data);
-        createSuccessMessage('institute.label');
+        await createRTO(data);
+        createSuccessMessage('rto.label');
       }
       props.onClose();
       refreshDataTable();
@@ -371,12 +378,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='rto.label' />,
+              }}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='rto.label' />,
+              }}
             />
           )}
         </>
@@ -563,16 +574,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='domain'*/}
-            {/*    label={messages['common.domain']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    placeholder='https://example.xyz'*/}
-            {/*  />*/}
-            {/*</Grid>*/}
             <Grid item xs={12}>
               <FormRadioButtons
                 id='institute_type_id'
@@ -581,6 +582,19 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 defaultValue={initialValues.institute_type_id}
                 isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomFilterableFormSelect
+                required
+                id={'country_id'}
+                label={messages['common.country']}
+                isLoading={isLoadingCountries}
+                control={control}
+                options={countries}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
               />
             </Grid>
             <Grid item xs={12}>
@@ -692,4 +706,4 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default InstituteAddEditPopup;
+export default ERPLInstituteAddEditPopup;
