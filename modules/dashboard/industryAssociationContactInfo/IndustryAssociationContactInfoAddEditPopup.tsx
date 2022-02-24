@@ -22,7 +22,7 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import {Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {BusinessCenter} from '@mui/icons-material';
+import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface IAddEditPopupProps {
@@ -129,7 +129,7 @@ const IndustryAssociationContactInfoAddEditPopup = ({
       open={true}
       title={
         <>
-          <BusinessCenter />
+          <IconOrganization />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
