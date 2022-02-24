@@ -1,10 +1,10 @@
-import {BusinessCenter} from '@mui/icons-material';
+import {Person} from '@mui/icons-material';
 import React from 'react';
 
 const IconPermissionGroup = () => {
   return (
     <>
-      <BusinessCenter />
+      <Person />
     </>
   );
 };

@@ -105,7 +105,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.rank_type',
             permissionKey: 'view_any_rank_type',
             type: 'item',
-            icon: 'business',
+            icon: 'star',
             url: '/rank-types',
           },
           {
@@ -114,7 +114,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.rank',
             permissionKey: 'view_any_rank',
             type: 'item',
-            icon: 'business',
+            icon: 'star',
             url: '/ranks',
           },
           {
@@ -123,7 +123,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.skill',
             permissionKey: 'view_any_skill',
             type: 'item',
-            icon: 'business',
+            icon: 'engineering',
             url: '/skills',
           },
           {

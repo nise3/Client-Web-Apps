@@ -5,7 +5,6 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import {WorkOutline} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {
@@ -16,6 +15,7 @@ import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
 
 type Props = {
   itemId: number;
@@ -40,7 +40,7 @@ const Nise3PartnersDetailsPopup = ({
         {...props}
         title={
           <>
-            <WorkOutline />
+            <IconNise3Partner />
             <IntlMessages id='nise.partners' />
           </>
         }

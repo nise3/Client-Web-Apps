@@ -38,6 +38,7 @@ import {getAllIndustryAssociations} from '../../../services/IndustryAssociationM
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconVideo from '../../../@softbd/icons/IconVideo';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -492,6 +493,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <IconVideo/>
           {isEdit ? (
             <IntlMessages
               id='common.edit'
