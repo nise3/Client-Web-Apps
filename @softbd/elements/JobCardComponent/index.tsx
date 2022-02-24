@@ -19,7 +19,7 @@ import {
   Share,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {Body1, Body2, H5, Link} from '../common';
+import {Body1, H5, H6, Link} from '../common';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getIntlDateFromString} from '../../utilities/helpers';
 import {
@@ -34,6 +34,7 @@ import TagChip from '../display/TagChip';
 import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
 import CustomChip from '../display/CustomChip/CustomChip';
+import {useCustomStyle} from '../../hooks/useCustomStyle';
 
 const PREFIX = 'JobCardComponent';
 
@@ -46,6 +47,7 @@ const classes = {
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
   overflowText: `${PREFIX}-overflowText`,
+  overflowSubText: `${PREFIX}-overflowSubText`,
   details: `${PREFIX}-details`,
   salaryIcon: `${PREFIX}-salaryIcon`,
 };
@@ -98,6 +100,13 @@ const StyledCard = styled(Card)(({theme}) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  [`& .${classes.overflowSubText}`]: {
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
   [`& .${classes.details}`]: {
     whiteSpace: 'break-spaces',
     maxHeight: '100px',
@@ -126,6 +135,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
+  const customStyle = useCustomStyle();
 
   const closeJobApplyModal = useCallback(() => {
     setIsOpenJobApplyModal(false);
@@ -245,9 +255,15 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               className={classes.overflowText}>
               {job.job_title}
             </H5>
-            <Body2 className={classes.overflowText}>
+            <H6
+              sx={{
+                ...customStyle.body2,
+                marginTop: '5px',
+              }}
+              className={classes.overflowSubText}
+              title={getJobProviderTitle()}>
               {getJobProviderTitle()}
-            </Body2>
+            </H6>
           </CardContent>
           <Divider />
           <CardContent>
@@ -347,7 +363,15 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               </Box>
             }
             title={<H5 fontWeight={'bold'}>{job.job_title}</H5>}
-            subheader={<Body2>{getJobProviderTitle()}</Body2>}
+            subheader={
+              <H6
+                sx={{
+                  ...customStyle.body2,
+                  marginTop: '5px',
+                }}>
+                {getJobProviderTitle()}
+              </H6>
+            }
           />
           <CardContent>
             <Body1 className={classes.details}>

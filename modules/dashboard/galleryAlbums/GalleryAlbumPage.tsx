@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -19,15 +19,67 @@ import {API_GALLERY_ALBUMS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import AlbumTypes from './AlbumTypes';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const GalleryAlbumPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [albumTypeFilterItems, setAlbumTypeFilterItems] = useState<Array<any>>(
+    [],
+  );
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+  const albumTypes = useMemo(
+    () => [
+      {
+        id: AlbumTypes.IMAGE,
+        label: messages['album_type.image'],
+      },
+      {
+        id: AlbumTypes.VIDEO,
+        label: messages['album_type.video'],
+      },
+      {
+        id: AlbumTypes.MIXED,
+        label: messages['album_type.mixed'],
+      },
+    ],
+    [messages],
+  );
+
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showIntype: any) => {
+          return {
+            id: showIntype.id,
+            title: showIntype.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
+
+  useEffect(() => {
+    setAlbumTypeFilterItems(
+      albumTypes.map((type) => {
+        return {
+          id: type.id,
+          title: type.label,
+        };
+      }),
+    );
+  }, [albumTypes]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -100,9 +152,32 @@ const GalleryAlbumPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+      },
+      {
         Header: messages['gallery_album.album_type'],
+        accessor: 'album_type',
+        filter: 'selectFilter',
+        selectFilterItems: albumTypeFilterItems,
         Cell: (props: any) => {
           return getAlbumTypeTitle(props.row.original.album_type);
+        },
+      },
+      {
+        Header: messages['common.show_in'],
+        accessor: 'show_in',
+        disableFilters: !authUser?.isSystemUser,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
         },
       },
       {
@@ -121,7 +196,7 @@ const GalleryAlbumPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -145,7 +220,7 @@ const GalleryAlbumPage = () => {
         sortable: false,
       },
     ];
-  }, [messages, locale]);
+  }, [messages, locale, showInFilterItems]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({

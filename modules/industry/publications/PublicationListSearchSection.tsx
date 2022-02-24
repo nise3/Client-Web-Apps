@@ -69,12 +69,12 @@ const PublicationListSearchSection = ({
   const searchTextField = useRef<any>();
 
   const onSearch = useCallback(() => {
-    addFilterKey('title', searchTextField.current.value);
+    addFilterKey('search_text', searchTextField.current.value);
   }, []);
 
   const onClickResetButton = useCallback(() => {
     searchTextField.current.value = '';
-    addFilterKey('title', '');
+    addFilterKey('search_text', '');
     onChange('');
   }, []);
 

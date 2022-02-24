@@ -282,14 +282,7 @@ const AssociationProfile = () => {
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.country']}
-                value={userData?.country}
-                isLoading={false}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.country']}
+                label={messages['common.skills']}
                 value={(userData?.skills || [])
                   .map((data: any) => data.title)
                   .join(', ')}
