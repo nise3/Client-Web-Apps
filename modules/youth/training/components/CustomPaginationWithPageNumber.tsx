@@ -1,7 +1,14 @@
-import {Grid, Pagination, TablePagination} from '@mui/material';
+import {
+  Grid,
+  Pagination,
+  PaginationItem,
+  PaginationRenderItemParams,
+  TablePagination,
+} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
+import localeLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 
 type Props = {
   count: number;
@@ -40,8 +47,12 @@ const CustomPaginationWithPageNumber = ({
   rowsPerPage,
   onRowsPerPageChange: onRowsPerPageChangeCallback,
 }: Props) => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const labelRowsPerPage: any = messages['common.per_page'];
+  const rowsPerPageOptions = [
+    {value: 5, label: locale == localeLanguage.EN ? '5' : '৫'},
+    {value: 10, label: locale == localeLanguage.EN ? '10' : '১০'},
+  ];
 
   return (
     <StyledGrid container>
@@ -53,6 +64,7 @@ const CustomPaginationWithPageNumber = ({
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={onRowsPerPageChangeCallback}
         labelRowsPerPage={labelRowsPerPage}
+        rowsPerPageOptions={rowsPerPageOptions}
       />
 
       <Pagination
@@ -61,6 +73,9 @@ const CustomPaginationWithPageNumber = ({
         color={'primary'}
         shape='rounded'
         onChange={onPaginationChange}
+        renderItem={(item: PaginationRenderItemParams) => {
+          return <PaginationItem {...item} />;
+        }}
       />
     </StyledGrid>
   );
