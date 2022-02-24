@@ -99,7 +99,18 @@ const CandidateRequirements = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      degrees: yup.array().of(yup.object().shape({})),
+      degrees: yup.array().of(
+        yup.object().shape({
+          education_level_id: yup
+            .mixed()
+            .required()
+            .label(messages['education.education_level'] as string),
+          exam_degree_id: yup
+            .mixed()
+            .required()
+            .label(messages['education.education_exam_degree'] as string),
+        }),
+      ),
     });
   }, [messages]);
   const {

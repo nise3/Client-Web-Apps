@@ -162,6 +162,10 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.end_date'] as string),
+      designation: yup
+        .string()
+        .required()
+        .label(messages['common.designation'] as string),
     });
   }, [messages]);
 
@@ -200,6 +204,9 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
         end_date: itemData?.end_date,
         vacancy: itemData?.vacancy,
         requirement: itemData?.requirement,
+        requirement_en: itemData?.requirement_en,
+        designation: itemData?.designation,
+        designation_en: itemData?.designation_en,
       };
 
       if (itemData?.hr_demands) {
@@ -372,6 +379,31 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
             required
             id={'requirement'}
             label={messages['common.requirements']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id={'requirement_en'}
+            label={messages['common.requirements_en']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'designation'}
+            label={messages['common.designation']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id={'designation_en'}
+            label={messages['common.designation_en']}
             register={register}
             errorInstance={errors}
           />

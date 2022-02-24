@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login} from '@mui/icons-material';
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_FAQ,
@@ -16,7 +15,6 @@ import {
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
   LINK_FRONTEND_INDUSTRY_ROOT,
   LINK_FRONTEND_JOBS,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
@@ -24,7 +22,6 @@ import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
@@ -95,17 +92,6 @@ const Header: React.FC<AppHeaderProps> = () => {
       <MenuItem component='span' className={classes.menuItemMobile}>
         <LanguageSwitcher />
       </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        {authUser ? (
-          <GotoDashboardButton />
-        ) : (
-          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons} />
-            {messages['common.registration_login']}
-          </Link>
-        )}
-      </MenuItem>
     </Menu>
   );
 
@@ -129,13 +115,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                 />
               </Box>
             )}
-            {/* <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/gov-logo.png'
-                alt='bd-gov logo'
-              />
-            </Box>*/}
           </Link>
           <Grid item md={4} className={classes.instituteName}>
             <Text
@@ -207,6 +186,12 @@ const Header: React.FC<AppHeaderProps> = () => {
                     className={classes.menuItem}>
                     {messages['common.member_registration']}
                   </Link>
+
+                  {/*<Link
+                    href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
+                    className={classes.menuItem}>
+                    {messages['menu.enrollment']}
+                  </Link>*/}
                 </Box>
               </Box>
             </Box>
@@ -215,17 +200,7 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
                 <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                /*<Link
-                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                                                  className={classes.menuItemRegOrLogin}>
-                                                  <Login className={classes.menuIcons} />
-                                                  {messages['common.registration_login']}
-                                                </Link>*/
-                <GotoSignInOrUpButton />
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>

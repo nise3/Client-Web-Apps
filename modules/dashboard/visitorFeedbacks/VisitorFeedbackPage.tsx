@@ -20,7 +20,7 @@ const VisitorFeedbackPage = () => {
     pageCount,
     totalCount,
   } = useReactTableFetchData({
-    urlPath: API_VISITOR_FEEDBACKS
+    urlPath: API_VISITOR_FEEDBACKS,
   });
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -48,39 +48,32 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.name'],
         accessor: 'name',
-        isVisible: true,
-      },
-      {
-        Header: messages['common.mobile'],
-        accessor: 'mobile',
-      },
-      {
-        Header: messages['common.email'],
-        accessor: 'email',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.address'],
-        accessor: 'address',
-        isVisible: false,
       },
       {
         Header: messages['common.comment'],
         accessor: 'short_comment',
       },
       {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
+        isVisible: false,
+        disableFilters: true,
+      },
+
+      {
         Header: messages['common.achieved_at'],
         accessor: 'achieved_at',
-        isVisible: false,
-      },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
+        filter: 'dateTimeFilter',
         isVisible: false,
       },
       {

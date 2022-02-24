@@ -272,8 +272,6 @@ export const API_REJECT_HR_DEMAND_YOUTH =
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
 
-export const API_INDUSTRY_MEMBERS = ORGANIZATION_SERVICE_PATH + '/members';
-
 export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
@@ -462,3 +460,8 @@ export const API_PUBLIC_NISE_STATICS =
   CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
 
 /** CMS service public routes section end */
+
+/**             Registered Training Organizations             */
+
+export const API_REGISTERED_TRAINING_ORGANIZATIONS =
+  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';

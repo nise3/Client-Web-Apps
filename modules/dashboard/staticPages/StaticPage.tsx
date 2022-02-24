@@ -19,7 +19,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 const StaticPage = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
-
+  const [showInFilterItems, setShowInFilterItems] = useState<Array<any>>([]);
   const [staticPageTypesFilters, setStaticPageTypesFilters] = useState({
     category: [StaticPageCategoryTypes.COMMON],
   });
@@ -39,6 +39,16 @@ const StaticPage = () => {
           StaticPageCategoryTypes.NISE3,
           StaticPageCategoryTypes.YOUTH,
         );
+        setShowInFilterItems([
+          {
+            id: StaticPageCategoryTypes.NISE3,
+            title: getCategoryTitle(StaticPageCategoryTypes.NISE3),
+          },
+          {
+            id: StaticPageCategoryTypes.YOUTH,
+            title: getCategoryTitle(StaticPageCategoryTypes.YOUTH),
+          },
+        ]);
       } else if (authUser?.isInstituteUser) {
         categories.push(StaticPageCategoryTypes.TSP);
       } else if (authUser?.isOrganizationUser) {
@@ -87,12 +97,16 @@ const StaticPage = () => {
     }
   };
 
-  const getCategoryTitle = (category: number) => {
+  const getCategoryTitle = (category: number | string) => {
     switch (category) {
       case StaticPageCategoryTypes.NISE3:
         return messages['common.nise3'];
       case StaticPageCategoryTypes.YOUTH:
         return messages['common.youth'];
+      case StaticPageCategoryTypes.TSP:
+        return messages['common.tsp'];
+      case StaticPageCategoryTypes.INDUSTRY_ASSOCIATION:
+        return messages['common.industry_association'];
       default:
         return '';
     }
@@ -121,10 +135,14 @@ const StaticPage = () => {
       },
       {
         Header: messages['common.show_in'],
+        accessor: 'category',
+        isVisible: authUser && authUser.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
         Cell: (props: any) => {
           return getCategoryTitle(props.row.original.category);
         },
-        isVisible: authUser && authUser.isSystemUser,
       },
       {
         Header: messages['common.actions'],

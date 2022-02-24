@@ -344,6 +344,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
+      data.service_type = '3';
 
       if (itemId) {
         await updateInstitute(itemId, data);
