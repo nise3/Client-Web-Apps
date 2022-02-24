@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -22,6 +22,8 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {LEVEL} from './CourseEnums';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const CoursePage = () => {
   const {messages, locale} = useIntl();
@@ -32,6 +34,22 @@ const CoursePage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
+  const [youthSkillsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+
+  const [skillFilterItems, setSkillFilterItems] = useState([]);
+
+  useEffect(() => {
+    if (skills) {
+      setSkillFilterItems(
+        skills.map((skill: any) => {
+          return {id: skill?.id, title: skill?.title};
+        }),
+      );
+    }
+  }, [skills]);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -99,6 +117,13 @@ const CoursePage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        filter: 'selectFilter',
+        selectFilterItems: skillFilterItems,
+        isVisible: false,
+      },
+      {
         Header: messages['institute.label'],
         accessor: 'institute_title',
         isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
@@ -113,10 +138,12 @@ const CoursePage = () => {
       {
         Header: messages['course.fee'],
         accessor: 'course_fee',
+        disableFilters: true,
       },
       {
         Header: messages['course.duration'],
         accessor: 'duration',
+        disableFilters: true,
       },
       {
         Header: messages['course.course_level'],
@@ -161,7 +188,7 @@ const CoursePage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale, skillFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
