@@ -89,6 +89,11 @@ const TrainersPage = () => {
         isVisible: false,
       },
       {
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        isVisible: false,
+      },
+      {
         Header: messages['common.mobile'],
         accessor: 'mobile',
         isVisible: false,
