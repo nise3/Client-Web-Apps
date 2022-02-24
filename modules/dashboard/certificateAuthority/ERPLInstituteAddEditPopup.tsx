@@ -65,6 +65,7 @@ const initialValues = {
   title: '',
   // domain: '',
   institute_type_id: '0',
+  service_type: '2',
   code: '',
   address: '',
   primary_phone: '',
@@ -90,7 +91,7 @@ const initialValues = {
   contact_person_mobile: '',
 };
 
-const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
+const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -288,6 +289,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         title: itemData?.title,
         // domain: itemData?.domain,
         institute_type_id: itemData?.institute_type_id,
+        service_type: itemData?.service_type,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
         phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
@@ -344,15 +346,15 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.service_type = '3';
+      data.service_type = '2';
 
       if (itemId) {
         await updateInstitute(itemId, data);
-        updateSuccessMessage('institute.label');
+        updateSuccessMessage('certificate_authority.label');
         mutateInstitute();
       } else {
         await createInstitute(data);
-        createSuccessMessage('institute.label');
+        createSuccessMessage('certificate_authority.label');
       }
       props.onClose();
       refreshDataTable();
@@ -371,12 +373,16 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='certificate_authority.label' />,
+              }}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='certificate_authority.label' />,
+              }}
             />
           )}
         </>
@@ -692,4 +698,4 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default InstituteAddEditPopup;
+export default ERPLInstituteAddEditPopup;

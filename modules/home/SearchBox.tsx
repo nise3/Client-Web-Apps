@@ -66,6 +66,9 @@ const StyledPaper = styled(Paper)(({theme}) => ({
       paddingBottom: 0,
       paddingLeft: 0,
     },
+    '&.Mui-focused': {
+      backgroundColor: theme.palette.primary.main,
+    },
     '& .MuiSvgIcon-root': {
       color: '#fff',
     },

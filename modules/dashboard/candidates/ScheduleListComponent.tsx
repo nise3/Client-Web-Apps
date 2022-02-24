@@ -11,9 +11,9 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_RECRUITMENT_STEPS} from '../../../@softbd/common/apiRoutes';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteCandidateStepSchedule} from '../../../services/IndustryManagement/IndustryAssociationService';
 import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
 import CustomChipInviteType from './CustomChipInviteType';
+import {deleteCandidateStepSchedule} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 
 interface IScheduleListComponentPopupProps {
   onClose: () => void;
@@ -139,6 +139,7 @@ const ScheduleListComponentPopup = ({
           jobId={jobId}
           scheduleId={scheduleId}
           currentStep={currentStep}
+          refreshDataTable={refreshDataTable}
         />
       )}
     </HookFormMuiModal>
