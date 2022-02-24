@@ -53,7 +53,6 @@ interface JobPreviewPageProps {
 }
 
 const JobPreviewPage = ({job}: JobPreviewPageProps) => {
-  console.log('JobPreviewPage: ', job);
   const {messages, formatNumber, formatDate} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
 

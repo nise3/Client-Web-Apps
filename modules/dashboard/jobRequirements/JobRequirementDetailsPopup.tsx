@@ -12,7 +12,6 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 type Props = {
   itemId: number;
   onClose: () => void;
-  onApprove: (id: any) => void;
 };
 
 const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
@@ -117,6 +116,34 @@ const JobRequirementDetailsPopup = ({itemId, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.no_of_vacancy']}
               value={itemData?.vacancy}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.requirements']}
+              value={itemData?.requirement}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.requirements_en']}
+              value={itemData?.requirement_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation']}
+              value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation_en']}
+              value={itemData?.designation_en}
               isLoading={isLoading}
             />
           </Grid>

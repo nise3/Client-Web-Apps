@@ -5,9 +5,16 @@ import ShowInTypes from './ShowInTypes';
 import {getBrowserCookie} from '../libs/cookieInstance';
 import {COOKIE_KEY_INSTITUTE_ID} from '../../shared/constants/AppConst';
 import {getHostUrl} from '../common/SSOConfig';
-import {industryDomain, instituteDomain, isLocalHost, niseDomain, youthDomain} from '../common/constants';
+import {
+  industryDomain,
+  instituteDomain,
+  isLocalHost,
+  niseDomain,
+  youthDomain,
+} from '../common/constants';
 import URL from 'url';
 import UserTypes from './UserTypes';
+import PageSizes from './PageSizes';
 
 export const genders = [
   {
@@ -267,7 +274,8 @@ export const getUserType = (user: CommonAuthUser | null) => {
   if (user?.isSystemUser) return UserTypes.SYSTEM_USER;
   else if (user?.isOrganizationUser) return UserTypes.ORGANIZATION_USER;
   else if (user?.isInstituteUser) return UserTypes.INSTITUTE_USER;
-  else if (user?.isIndustryAssociationUser) return UserTypes.INDUSTRY_ASSOCIATION_USER;
+  else if (user?.isIndustryAssociationUser)
+    return UserTypes.INDUSTRY_ASSOCIATION_USER;
   else return UserTypes.SYSTEM_USER;
 };
 
@@ -492,4 +500,15 @@ export const getCurrentDomain = () => {
   } else {
     return '';
   }
+};
+
+export const getPaginationPageSize = (inputPageSize: any) => {
+  const isIncluded = Object.values<any>(PageSizes).includes(
+    Number(inputPageSize),
+  );
+  if (isIncluded) {
+    return Number(inputPageSize);
+  }
+
+  return PageSizes.FOUR;
 };

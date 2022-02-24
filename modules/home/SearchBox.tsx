@@ -2,20 +2,28 @@ import React, {useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Button,
+  Divider,
+  FormControl,
   IconButton,
   InputBase,
+  InputLabel,
   MenuItem,
   Paper,
   Select,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined';
 import {useIntl} from 'react-intl';
 import Hidden from '../../@softbd/elements/Hidden';
 import {useRouter} from 'next/router';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import {useFetchUpazilas} from '../../services/locationManagement/hooks';
-import {LINK_FRONTEND_NISE_TRAINING} from '../../@softbd/common/appLinks';
+import {
+  LINK_FRONTEND_JOBS,
+  LINK_FRONTEND_NISE_TRAINING,
+} from '../../@softbd/common/appLinks';
+import useNotiStack from '../../@softbd/hooks/useNotifyStack';
+import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
+import clsx from 'clsx';
 
 const PREFIX = 'SearchBox';
 
@@ -25,6 +33,8 @@ const classes = {
   resetDivider: `${PREFIX}-resetDivider`,
   rootPaper: `${PREFIX}-rootPaper`,
   searchButton: `${PREFIX}-searchButton`,
+  inputLabel: `${PREFIX}-inputLabel`,
+  inputLabelBackground: `${PREFIX}-inputLabelBackground`,
 };
 
 const StyledPaper = styled(Paper)(({theme}) => ({
@@ -49,12 +59,15 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     height: 40,
     width: 110,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.main,
     },
     '& .MuiSelect-select': {
       paddingTop: 0,
       paddingBottom: 0,
       paddingLeft: 0,
+    },
+    '&.Mui-focused': {
+      backgroundColor: theme.palette.primary.main,
     },
     '& .MuiSvgIcon-root': {
       color: '#fff',
@@ -70,6 +83,20 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     },
   },
 
+  [`& .${classes.inputLabel}`]: {
+    top: '-6px',
+    color: theme.palette.common.white,
+    '&.Mui-focused': {
+      color: theme.palette.common.white,
+      background: theme.palette.primary.main,
+      padding: '1px 5px',
+    },
+  },
+  [`& .${classes.inputLabelBackground}`]: {
+    background: theme.palette.primary.main,
+    padding: '1px 5px',
+  },
+
   [`& .${classes.resetDivider}`]: {
     marginTop: '0px !important',
     marginBottom: '0px !important',
@@ -82,7 +109,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     width: '760px',
     height: '86px',
     padding: '10px',
-    marginTop: '40px',
+    marginTop: '50px',
     boxSizing: 'border-box',
     [theme.breakpoints.down('md')]: {
       display: 'flex',
@@ -106,21 +133,45 @@ const SearchBox = () => {
   const router = useRouter();
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
-  const [locationValue, setLocationValue] = useState<any>('0');
-  const [typeValue, setTypeValue] = useState<any>('1');
+  const [locationValue, setLocationValue] = useState<any>(null);
+  const [typeValue, setTypeValue] = useState<any>('');
   const searchTextField = useRef<any>();
+  const {errorStack} = useNotiStack();
+  const [isOpenDropDown, setIsOpenDropDown] = useState(false);
 
   const onSearchClick = () => {
     const text = searchTextField.current.value;
+    let query;
+    if (locationValue) {
+      query = {
+        upazila: locationValue,
+      };
+    }
     if (text) {
-      router
-        .push({
-          pathname: LINK_FRONTEND_NISE_TRAINING,
-          query: {
-            search_text: searchTextField.current.value,
-          },
-        })
-        .then(() => {});
+      if (typeValue == 1) {
+        router
+          .push({
+            pathname: LINK_FRONTEND_NISE_TRAINING,
+            query: {
+              ...query,
+              search_text: searchTextField.current.value,
+            },
+          })
+          .then(() => {});
+      } else if (typeValue == 2) {
+        router
+          .push({
+            pathname: LINK_FRONTEND_JOBS,
+            query: {
+              ...query,
+              search_text: searchTextField.current.value,
+            },
+          })
+          .then(() => {});
+      } else {
+        setIsOpenDropDown(true);
+        errorStack(messages['common.select_first']);
+      }
     }
   };
 
@@ -144,27 +195,23 @@ const SearchBox = () => {
         inputRef={searchTextField}
       />
       <Hidden mdDown>
-        <Paper component='span' elevation={0}>
-          <IconButton aria-label='location'>
-            <LocationOnOutlined />
-          </IconButton>
-          <Select
-            className={classes.select}
-            variant='standard'
-            value={locationValue}
-            label=''
-            onChange={(e: any) => {
-              setLocationValue(e.target.value);
+        <Paper component='span' elevation={0} sx={{minWidth: '200px'}}>
+          <CustomFilterableSelect
+            id={'loc_upazila_id'}
+            defaultValue={locationValue}
+            label={messages['common.location_2'] as string}
+            onChange={(upazilaId: any) => {
+              setLocationValue(upazilaId);
             }}
-            MenuProps={{disableScrollLock: true}}>
-            <MenuItem value='0'>{messages['common.location_2']}</MenuItem>
-            {upazilas &&
-              upazilas.map((upazila: any) => (
-                <MenuItem key={upazila.id} value={upazila.id}>
-                  {upazila.title}
-                </MenuItem>
-              ))}
-          </Select>
+            options={upazilas}
+            isLoading={false}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
+            size='medium'
+            dropdownStyle={{
+              width: '400px',
+            }}
+          />
         </Paper>
       </Hidden>
       <Button
@@ -175,30 +222,46 @@ const SearchBox = () => {
         onClick={onSearchClick}>
         {messages['common.search']}
       </Button>
-      <Select
-        className={classes.topSelect}
+      <FormControl
         sx={{
           position: 'absolute',
           left: 0,
           top: '-40px',
           color: 'primary.contrastText',
-        }}
-        variant='filled'
-        value={typeValue}
-        label=''
-        MenuProps={{disableScrollLock: true}}
-        defaultValue={typeValue}
-        onChange={(e: any) => {
-          setTypeValue(e.target.value);
         }}>
-        <MenuItem value='1'>{messages['common.skills']}</MenuItem>
-        {/*<Divider className={classes.resetDivider} />
-        <MenuItem value='2'>{messages['menu.jobs']}</MenuItem>
-        <Divider className={classes.resetDivider} />
+        <InputLabel
+          id='type-select-label'
+          className={
+            typeValue
+              ? clsx(classes.inputLabel, classes.inputLabelBackground)
+              : classes.inputLabel
+          }>
+          {messages['common.select']}
+        </InputLabel>
+        <Select
+          className={classes.topSelect}
+          variant='filled'
+          open={isOpenDropDown}
+          value={typeValue}
+          labelId={'type-select-label'}
+          label={messages['common.select']}
+          MenuProps={{disableScrollLock: true}}
+          defaultValue={typeValue}
+          onClick={() => {
+            setIsOpenDropDown((prevState) => !prevState);
+          }}
+          onChange={(e: any) => {
+            setTypeValue(e.target.value);
+          }}>
+          <MenuItem value='1'>{messages['common.skills']}</MenuItem>
+          <Divider className={classes.resetDivider} />
+          <MenuItem value='2'>{messages['menu.jobs']}</MenuItem>
+          {/*<Divider className={classes.resetDivider} />
         <MenuItem value='3'>{messages['common.business']}</MenuItem>
         <Divider className={classes.resetDivider} />
         <MenuItem value='4'>{messages['common.educations']}</MenuItem>*/}
-      </Select>
+        </Select>
+      </FormControl>
     </StyledPaper>
   );
 };

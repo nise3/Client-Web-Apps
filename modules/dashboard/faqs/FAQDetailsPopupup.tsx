@@ -5,7 +5,7 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import {
   useFetchCMSGlobalConfig,
   useFetchFAQ,
@@ -36,7 +36,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconInstitute />
+            <IconFAQ />
             <IntlMessages id='menu.faq' />
           </>
         }

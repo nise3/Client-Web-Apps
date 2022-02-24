@@ -27,8 +27,12 @@ import {useFetchPublicJobSectors} from '../../../../../services/organaizationMan
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
 import {getAllPublicOccupations} from '../../../../../services/organaizationManagement/OccupationService';
-import {useFetchJobPrimaryInformation} from '../../../../../services/IndustryManagement/hooks';
+import {
+  useFetchIndustryMembers,
+  useFetchJobPrimaryInformation,
+} from '../../../../../services/IndustryManagement/hooks';
 import {savePrimaryJobInformation} from '../../../../../services/IndustryManagement/JobService';
+import {useAuthUser} from '../../../../../@crema/utility/AppHooks';
 
 interface Props {
   jobId: string;
@@ -61,6 +65,8 @@ const initialValue = {
 const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
+  const authUser = useAuthUser();
+
   const [isNotApplicable, setIsNotApplicable] = useState<boolean>(false);
   const [resumeReceivingOption, setResumeReceivingOption] = useState<
     number | null
@@ -73,6 +79,14 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
 
   const {data: primaryJobInfo} = useFetchJobPrimaryInformation(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+
+  const [latestStepValue, setLatestStepValue] = useState(1);
+
+  const [industryAssociationMembersFilter] = useState({});
+  const {
+    data: industryAssociationMembers,
+    isLoading: isLoadingIndustryAssocMembers,
+  } = useFetchIndustryMembers(industryAssociationMembersFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -166,6 +180,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
     if (primaryJobInfo && primaryJobInfo?.latest_step) {
       const latestStep = primaryJobInfo.latest_step;
       delete primaryJobInfo?.latest_step;
+      setLatestStepValue(latestStep);
 
       if (latestStep >= 1) {
         setIsReady(true);
@@ -270,6 +285,22 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={3}>
+          {authUser?.isIndustryAssociationUser && (
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id='organization_id'
+                label={messages['common.create_job_for_member']}
+                isLoading={isLoadingIndustryAssocMembers}
+                control={control}
+                options={industryAssociationMembers}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                isDisabled={latestStepValue > 1}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <FormRadioButtons
               id='service_type'

@@ -20,6 +20,7 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 
 interface NoticeOrNewsDetailsPopupProps {
   itemId: number | null;
@@ -54,6 +55,7 @@ const NoticeOrNewsDetailsPopup: FC<NoticeOrNewsDetailsPopupProps> = ({
         {...props}
         title={
           <>
+            <IconStaticPage/>
             <IntlMessages id='common.notice_or_news' />
           </>
         }

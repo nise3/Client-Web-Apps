@@ -202,6 +202,10 @@ const InstitutePage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_INSTITUTES,
+      paramsValueModifier: (params: any) => {
+        params['service_type'] = 3;
+        return params;
+      },
     });
 
   return (

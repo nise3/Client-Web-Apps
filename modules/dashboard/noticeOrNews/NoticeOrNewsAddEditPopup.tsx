@@ -38,6 +38,7 @@ import {getAllOrganizations} from '../../../services/organaizationManagement/Org
 import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -427,6 +428,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <IconStaticPage/>
           {isEdit ? (
             <IntlMessages
               id='common.edit'
