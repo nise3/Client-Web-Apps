@@ -1547,5 +1547,6 @@
   "permissions.method_post": "পোস্ট",
   "permissions.method_put": "পুট",
   "permissions.method_patch": "প্যাচ",
-  "permissions.method_delete": "ডিলেট"
+  "permissions.method_delete": "ডিলেট",
+  "common.per_page": "প্রতি পেজ"
 }
