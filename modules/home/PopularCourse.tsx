@@ -63,7 +63,7 @@ const PopularCourse = () => {
                   passHref
                   key={key}
                   href={`${LINK_FRONTEND_COURSE_DETAILS}${course.id}`}>
-                  <Box mr={1} ml={1}>
+                  <Box mr={1} ml={1} height={'100%'}>
                     <CourseCardComponent course={course} />
                   </Box>
                 </Link>

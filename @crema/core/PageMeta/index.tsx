@@ -28,8 +28,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
     <meta name='twitter:description' content={desc} />
     <meta name='twitter:site' content='@propernounco' />
     <meta name='twitter:creator' content='@propernounco' />
-    <link rel='icon' type='image/png' href='/favicon.ico' />
-    <link rel='apple-touch-icon' href='/favicon.ico' />
+    <link rel='icon' type='image/png' href='/nise-favicon.png' />
+    <link rel='apple-touch-icon' href='/nise-favicon.png' />
 
     {canonical && <meta property='og:url' content={`${canonical}`} />}
     {css && <link rel='stylesheet' href={`${css}`} />}
