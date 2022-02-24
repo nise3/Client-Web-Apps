@@ -8,7 +8,7 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -395,7 +395,7 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
-          <IconInstitute />
+          <IconFAQ />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

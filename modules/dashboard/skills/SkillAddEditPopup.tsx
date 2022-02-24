@@ -9,7 +9,7 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
+import IconSkill from '../../../@softbd/icons/IconSkill';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createSkill,
@@ -106,7 +106,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconSkill />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
