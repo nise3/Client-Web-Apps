@@ -7,7 +7,7 @@ import {
   getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
-import {H1, Link} from '../../../@softbd/elements/common';
+import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD,
@@ -64,9 +64,10 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 : messages['common.free']}
             </Box>
           </Box>
-          <H1 mb={8} style={{fontWeight: 'bold', fontSize: '1.640625rem'}}>
+          <H1 mb={1} style={{fontWeight: 'bold', fontSize: '1.640625rem'}}>
             {course?.title}
           </H1>
+          <Body1 mb={6}>{course?.institute_title}</Body1>
           {course?.duration && (
             <TagChip
               label={getCourseDuration(course.duration, formatNumber, messages)}

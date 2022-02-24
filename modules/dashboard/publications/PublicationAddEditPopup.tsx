@@ -144,11 +144,11 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
 
       if (itemId) {
         await updatePublication(itemId, data);
-        updateSuccessMessage('programme.label');
+        updateSuccessMessage('menu.publication');
         mutatePublication();
       } else {
         await createPublication(data);
-        createSuccessMessage('programme.label');
+        createSuccessMessage('menu.publication');
       }
       props.onClose();
       refreshDataTable();
