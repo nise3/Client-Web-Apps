@@ -1,6 +1,6 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import { useAxiosSWR } from "../../@softbd/hooks/useAxiosSWR";
 import {
-  API_ASSOCIATION_TRADES, API_COUNTRIES,
+  API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
   API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
@@ -145,8 +145,4 @@ export function useFetchHumanResource(humanResourceId: number | null) {
 
 export function useFetchHumanResources(params: any) {
   return useAxiosSWR([API_HUMAN_RESOURCES, params]);
-}
-
-export function useFetchCountries(params: any) {
-  return useAxiosSWR([API_COUNTRIES , params]);
 }
