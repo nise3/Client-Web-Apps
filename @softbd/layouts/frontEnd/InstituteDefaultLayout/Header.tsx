@@ -102,16 +102,6 @@ const Header: React.FC<AppHeaderProps> = () => {
       <MenuItem component='span' className={classes.menuItemMobile}>
         <LanguageSwitcher />
       </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        {authUser ? (
-          <GotoDashboardButton />
-        ) : (
-          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons} />
-            {messages['common.registration_login']}
-          </Link>
-        )}
-      </MenuItem>
     </Menu>
   );
 
@@ -130,17 +120,15 @@ const Header: React.FC<AppHeaderProps> = () => {
               instituteName='Bangladesh Industrial Technical Assistance Centre'
               instituteLogo='/images/Logo-Nise-Bitac-Gov.png'
             />*/}
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src={
-                  institute?.logo
-                    ? institute?.logo
-                    : '/images/DYD-and-gov-Logo.png'
-                }
-                alt='institute logo'
-              />
-            </Box>
+            {institute?.logo && (
+              <Box>
+                <img
+                  className={classes.logoInstitute}
+                  src={institute?.logo}
+                  alt='institute logo'
+                />
+              </Box>
+            )}
           </Link>
 
           <Grid item md={4} className={classes.instituteName}>
@@ -157,17 +145,6 @@ const Header: React.FC<AppHeaderProps> = () => {
               src='/images/NISE-SSP3.png'
               alt='institute logo'
             />
-            {/*<H6 p={2}>
-              <Send
-                className={classes.menuIcons}
-                sx={{transform: 'rotate( 320deg)'}}
-              />{' '}
-              support@bitac.gov.bd
-            </H6>
-            <H6>
-              <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,
-              ০১৮১২৩৪৫৬৭৮
-            </H6>*/}
           </Grid>
         </Container>
       </StyledBox>
@@ -198,11 +175,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                     className={classes.menuItem}>
                     {messages['menu.courses']}
                   </Link>
-                  {/*<Link*/}
-                  {/*  href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}*/}
-                  {/*  className={classes.menuItem}>*/}
-                  {/*  {messages['menu.training_calender']}*/}
-                  {/*</Link>*/}
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_VIDEOS}
                     className={classes.menuItem}>
@@ -236,17 +208,7 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
                 <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                /*<Link
-                                                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                                                  className={classes.menuItemRegOrLogin}>
-                                                  <Login className={classes.menuIcons} />
-                                                  {messages['common.registration_login']}
-                                                </Link>*/
-                <GotoSignInOrUpButton />
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>
