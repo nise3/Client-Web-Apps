@@ -31,6 +31,16 @@ const HumanResourceDemandPage = () => {
     setSelectedItemId(itemId);
   }, []);
 
+  const approvalStatusFilterItems = [
+    {
+      id: HrDemandApprovalStatusByIndustry.APPROVED,
+      title: messages['common.approved'],
+    },
+    {
+      id: HrDemandApprovalStatusByIndustry.REJECTED,
+      title: messages['common.rejected'],
+    },
+  ];
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -120,7 +130,8 @@ const HumanResourceDemandPage = () => {
       {
         Header: messages['common.approval_status'],
         accessor: 'rejected_by_industry_association',
-        filter: 'rowStatusFilter',
+        filter: 'selectFilter',
+        selectFilterItems: approvalStatusFilterItems,
         Cell: (props: any) => {
           let data = props.row.original;
           if (data?.rejected_by_industry_association == 1) {
