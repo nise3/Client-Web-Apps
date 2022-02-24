@@ -29,7 +29,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   const [currentStep, setCurrentStep] = useState<any>(null);
   const [nextStep, setNextStep] = useState<any>(null);
   const [candidatesFilter, setCandidatesFilter] = useState<any>(null);
-  const [reloadStepData, setReloadStepData] = useState<any>(false);
+  const [reloadStepData, setReloadStepData] = useState<any>(null);
 
   const [openCreateSchedulePopup, setOpenCreateSchedulePopup] =
     useState<boolean>(false);
@@ -64,9 +64,8 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
   };
 
   const reloadAllData = () => {
-    setReloadStepData(true);
+    setReloadStepData(Math.random() * 1e9);
     mutateCandidates();
-    setReloadStepData(false);
   };
 
   return (

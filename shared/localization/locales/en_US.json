@@ -1438,6 +1438,9 @@
   "common.hired_candidates": "Hire",
   "common.preferred_training_center": "Preferred training center",
   "common.interview_schedule": "Interview Schedule",
+  "common.interview_schedule_assign": "Interview Schedule Assign",
+  "common.interview_schedule_unassigned": "Interview Schedule Unassigned",
+  "common.interview_schedule_hire_invite": "Invited for hiring",
   "common.venue": "Venue",
   "common.invite_type": "Invite type",
   "common.date": "Date",
@@ -1549,5 +1552,9 @@
   "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database.",
   "file_size.maximum_size_warning_text": "Maximum allowed file size 1MB",
   "file.drag_and_drop_or_upload": "Drag and Drop your file or Upload",
-  "common.tsp": "TSP"
+  "common.tsp": "TSP",
+  "common.create_job_for_member": "Create job for member",
+  "common.candidate_present": "Candidate present",
+  "common.interview_score": "Interview score",
+  "common.mark_as_interview": "Mark as interview"
 }

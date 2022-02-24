@@ -1447,6 +1447,9 @@
   "file.drag_and_drop_or_upload": "আপনার ফাইল টেনে আনুন বা আপলোড করুন",
   "common.preferred_training_center": "পছন্দের প্রশিক্ষণ কেন্দ্র",
   "common.interview_schedule": "ইন্টারভিউ সময়সূচী",
+  "common.interview_schedule_assign": "ইন্টারভিউ সময়সূচী বরাদ্দ",
+  "common.interview_schedule_unassigned": "ইন্টারভিউ সময়সূচী প্রত্যাখ্যান",
+  "common.interview_schedule_hire_invite": "নিয়োগের জন্য আমন্ত্রণ জানানো হয়েছে",
   "common.venue": "ভেন্যু",
   "common.invite_type": "আমন্ত্রণের টাইপ",
   "common.date": "তারিখ",
@@ -1542,5 +1545,9 @@
   "industry.sme_header_main": "ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন",
   "industry.sme_header_second": "এসএমই উদ্যোক্তা ই-ডেটাবেজ",
   "industry.sme_header_body_text": "নানাবিধ নীতিগত সুবিধার জন্য সিএমএসএমই ই-ডাটাবেজ তৈরি করা\n                      হচ্ছে। গণপ্রজাতন্ত্রী বাংলাদেশ সরকারকে এই ডাটাবেজ তৈরিতে\n                      সহযোগিতা করার লক্ষ্যে আপনার প্রতিষ্ঠানকে তালিকাভুক্ত করার\n                      জন্য অনুরোধ করা হলো।",
-  "common.tsp": "টিএসপি"
+  "common.tsp": "টিএসপি",
+  "common.create_job_for_member": "সদস্যের জন্য চাকরি তৈরি করুন",
+  "common.candidate_present": "প্রার্থী উপস্থিত",
+  "common.interview_score": "ইন্টারভিউ স্কোর",
+  "common.mark_as_interview": "ইন্টারভিউ হিসাবে চিহ্নিত করুন"
 }
