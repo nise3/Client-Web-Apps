@@ -16,7 +16,6 @@ import {
   LINK_FRONTEND_YOUTH_MY_CV,
   LINK_FRONTEND_YOUTH_MY_JOBS,
   LINK_FRONTEND_YOUTH_ROOT,
-  LINK_FRONTEND_YOUTH_SETTINGS,
 } from '../../../common/appLinks';
 import {
   DesktopMac,
@@ -144,7 +143,7 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <Link href={LINK_FRONTEND_YOUTH_SETTINGS}>
+        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
               <Settings />

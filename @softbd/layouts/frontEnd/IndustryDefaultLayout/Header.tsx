@@ -6,18 +6,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login} from '@mui/icons-material';
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
-  LINK_FRONTEND_INDUSTRY_ENROLLMENT,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
   LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
   LINK_FRONTEND_INDUSTRY_ROOT,
   LINK_FRONTEND_JOBS,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
@@ -25,7 +22,6 @@ import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {gotoLoginSignUpPage} from '../../../common/constants';
 import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
@@ -95,17 +91,6 @@ const Header: React.FC<AppHeaderProps> = () => {
 
       <MenuItem component='span' className={classes.menuItemMobile}>
         <LanguageSwitcher />
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        {authUser ? (
-          <GotoDashboardButton />
-        ) : (
-          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons} />
-            {messages['common.registration_login']}
-          </Link>
-        )}
       </MenuItem>
     </Menu>
   );
@@ -202,11 +187,11 @@ const Header: React.FC<AppHeaderProps> = () => {
                     {messages['common.member_registration']}
                   </Link>
 
-                  <Link
+                  {/*<Link
                     href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
                     className={classes.menuItem}>
                     {messages['menu.enrollment']}
-                  </Link>
+                  </Link>*/}
                 </Box>
               </Box>
             </Box>

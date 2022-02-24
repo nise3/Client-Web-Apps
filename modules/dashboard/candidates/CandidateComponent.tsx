@@ -17,8 +17,9 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CallIcon from '@mui/icons-material/Call';
 import {styled} from '@mui/material/styles';
 import {
+  candidateStepScheduleHireInvite,
+  candidateStepScheduleUnassign,
   hiredCandidateUpdate,
-  hireInviteCandidateUpdate,
   rejectCandidateUpdate,
   removeCandidateUpdate,
   restoreCandidateUpdate,
@@ -34,6 +35,8 @@ import {Check, Close, PersonRemove, Refresh} from '@mui/icons-material';
 import {ApplyStatuses} from './ApplyStatuses';
 import CandidateCvPopup from './CandidateCvPopup';
 import AssignSchedulePopup from './AssignSchedule';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import MarksAsInterviewedFromPopup from './MarksAsInterviewedFromPopup';
 
 const PREFIX = 'CandidateComponent';
 
@@ -106,7 +109,12 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
   const {successStack, errorStack} = useNotiStack();
   const [isOpenCvDetailsModal, setIsOpenCvDetailsModal] = useState(false);
   const [openAssignSchedulePopup, setOpenAssignSchedulePopup] = useState(false);
+  const [openMarkAsInterviewedPopup, setOpenMarkAsInterviewedPopup] =
+    useState(false);
   const [candidateIds, setCandidateIds] = useState<any>();
+  const [candidateId, setCandidateId] = useState<any>();
+
+  const {createSuccessMessage} = useSuccessMessage();
 
   const rejectCandidate = async (itemId: number) => {
     try {
@@ -159,24 +167,24 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
     }
   };
 
-  const hireInviteCandidate = async (itemId: number, params: any) => {
-    try {
-      let response = await hireInviteCandidateUpdate(itemId, params);
-      if (isResponseSuccess(response)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_updated_successfully'
-            values={{
-              subject: <IntlMessages id='common.hire_invite_candidates' />,
-            }}
-          />,
-        );
-      }
-      mutateCandidates();
-    } catch (error: any) {
-      processServerSideErrors({error, errorStack});
-    }
-  };
+  // const hireInviteCandidate = async (itemId: number, params: any) => {
+  //   try {
+  //     let response = await candidateStepScheduleHireInvite(itemId, params);
+  //     if (isResponseSuccess(response)) {
+  //       successStack(
+  //         <IntlMessages
+  //           id='common.subject_updated_successfully'
+  //           values={{
+  //             subject: <IntlMessages id='common.hire_invite_candidates' />,
+  //           }}
+  //         />,
+  //       );
+  //     }
+  //     mutateCandidates();
+  //   } catch (error: any) {
+  //     processServerSideErrors({error, errorStack});
+  //   }
+  // };
 
   const shortlistCandidate = async (itemId: number) => {
     try {
@@ -196,7 +204,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       processServerSideErrors({error, errorStack});
     }
   };
-  //
+
   // const candidateScheduleAssign = async (itemId: number) => {
   //   let params = {};
   //   try {
@@ -227,8 +235,60 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
     [candidateIds],
   );
 
+  const onClickCandidateScheduleUnassignButton = useCallback(
+    async (candidates: any) => {
+      let candidateIds = [candidates?.id];
+      try {
+        await candidateStepScheduleUnassign(
+          candidates?.candidate_interviews_interview_schedule_id,
+          {applied_job_ids: candidateIds},
+        );
+        createSuccessMessage('common.interview_schedule_unassigned');
+        mutateCandidates();
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          errorStack,
+        });
+      }
+    },
+    [candidateIds],
+  );
+
+  const onClickCandidateScheduleInviteButton = useCallback(
+    async (applicationId: any) => {
+      let hireInviteType = 3;
+      try {
+        await candidateStepScheduleHireInvite(applicationId, {
+          hire_invite_type: hireInviteType,
+        });
+        createSuccessMessage('common.interview_schedule_hire_invite');
+        mutateCandidates();
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          errorStack,
+        });
+      }
+    },
+    [candidateIds],
+  );
+
+  const onClickMarkAsInterviewButton = useCallback(
+    async (applicationId: any) => {
+      setOpenMarkAsInterviewedPopup(true);
+      setCandidateId(applicationId);
+    },
+    [candidateIds],
+  );
+
   const onCloseSchedulePopup = () => {
     setOpenAssignSchedulePopup(false);
+    mutateCandidates();
+  };
+  const onCloseMarkAsInterviewedPopup = () => {
+    setOpenMarkAsInterviewedPopup(false);
+    mutateCandidates();
   };
 
   const hiredCandidate = async (itemId: number) => {
@@ -306,7 +366,8 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
     );
   };
 
-  const getButtons = () => {
+  // TODO: Remove this function if not used in the future
+  /*const getButton = () => {
     switch (candidate?.apply_status) {
       case ApplyStatuses.APPLIED:
         return (
@@ -404,6 +465,92 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       default:
         return <></>;
     }
+  };*/
+
+  const getButtons = () => {
+    let pos_title: any,
+      pos_onClick: any,
+      neg_title: any,
+      neg_onClick: any,
+      neg_icon: any;
+    switch (candidate?.apply_status) {
+      case ApplyStatuses.APPLIED:
+        pos_title = `Shortlist for $`;
+        pos_onClick = () => shortlistCandidate(candidate.id);
+        neg_title = messages['applicationManagement.reject'] as string;
+        neg_onClick = () => rejectCandidate(candidate.id);
+        neg_icon = <Close />;
+        break;
+      case ApplyStatuses.REJECTED:
+        neg_title = 'Restore';
+        neg_onClick = () => restoreCandidate(candidate.id);
+        neg_icon = <Refresh />;
+        break;
+      case ApplyStatuses.SHORTLISTED:
+        if (currentStep?.step_type != RecruitmentSteps.STEP_TYPE_SHORTLIST) {
+          pos_title = `Schedule for Interview`;
+          pos_onClick = () => {
+            onClickCandidateScheduleAssignButton(candidate?.id);
+          };
+        } else {
+          pos_title = `Shortlist for ${
+            nextStep ? nextStep?.title : 'final hiring'
+          }`;
+          pos_onClick = () => shortlistCandidate(candidate.id);
+        }
+        neg_title = messages['common.remove'];
+        neg_onClick = () => removeCandidate(candidate.id);
+        neg_icon = <PersonRemove />;
+        break;
+      case ApplyStatuses.INTERVIEW_SCHEDULED:
+      case ApplyStatuses.INTERVIEW_INVITED:
+        pos_title = `Mark as Interviewed`;
+        pos_onClick = () => onClickMarkAsInterviewButton(candidate?.id);
+        neg_title = 'Deschedule';
+        neg_onClick = () => onClickCandidateScheduleUnassignButton(candidate);
+        neg_icon = <PersonRemove />;
+        break;
+      case ApplyStatuses.INTERVIEWED:
+        if (nextStep) {
+          pos_title = `Shortlist for ${nextStep?.title}`;
+          pos_onClick = () => shortlistCandidate(candidate.id);
+        } else {
+          pos_title = `Shortlist for final hiring`;
+          pos_onClick = () => shortlistCandidate(candidate.id);
+        }
+        neg_title = messages['common.reject'];
+        neg_onClick = () => rejectCandidate(candidate.id);
+        neg_icon = <Close />;
+        break;
+      case ApplyStatuses.HIRING_LISTED:
+        pos_title = `Send hire invitation`;
+        // pos_onClick = () =>
+        //   hireInviteCandidate(candidate.id, {
+        //     hire_invite_type: candidate.hire_invite_type
+        //       ? candidate.hire_invite_type
+        //       : 2,
+        //   });
+        pos_onClick = () => onClickCandidateScheduleInviteButton(candidate.id);
+        break;
+      case ApplyStatuses.HIRE_INVITED:
+        pos_title = 'Hire';
+        pos_onClick = () => hiredCandidate(candidate.id);
+        break;
+      default:
+        return <></>;
+    }
+    return (
+      <Box m={'auto'}>
+        <CheckButton title={pos_title} onClick={pos_onClick} />
+        {neg_title && neg_onClick && neg_icon && (
+          <CustomRemoveButton
+            title={neg_title}
+            onClick={neg_onClick}
+            icon={neg_icon}
+          />
+        )}
+      </Box>
+    );
   };
 
   const getText = () => {
@@ -422,11 +569,24 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
         text = 'Shortlisted for ' + candidate?.current_recruitment_step_title;
       }
     } else if (
+      candidate?.apply_status == ApplyStatuses.INTERVIEW_SCHEDULED ||
+      candidate?.apply_status == ApplyStatuses.INTERVIEW_INVITED
+    ) {
+      if (isNotCurrentStep) {
+        text =
+          'Interview scheduled for ' +
+          candidate?.current_recruitment_step_title;
+      }
+    } else if (candidate?.apply_status == ApplyStatuses.INTERVIEWED) {
+      if (isNotCurrentStep) {
+        text = 'Interviewed for ' + candidate?.current_recruitment_step_title;
+      }
+    } else if (
       candidate?.apply_status == ApplyStatuses.HIRING_LISTED ||
       candidate?.apply_status == ApplyStatuses.HIRE_INVITED
     ) {
       if (currentStep?.step_no != 99) {
-        text = 'Shortlisted for hired';
+        text = 'Shortlisted for hiring';
       }
     } else if (candidate?.apply_status == ApplyStatuses.HIRED) {
       text = 'Hired';
@@ -615,6 +775,12 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
               appliedCandidateIds={candidateIds}
               onClose={onCloseSchedulePopup}
               currentStep={currentStep?.id}
+            />
+          )}
+          {openMarkAsInterviewedPopup && (
+            <MarksAsInterviewedFromPopup
+              appliedCandidateId={candidateId}
+              onClose={onCloseMarkAsInterviewedPopup}
             />
           )}
 

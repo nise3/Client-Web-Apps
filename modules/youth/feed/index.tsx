@@ -2,7 +2,6 @@ import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
-import FeatureJobSection from './FeatureJobSection';
 import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
 import CourseListSection from './CourseListSection';
@@ -139,9 +138,9 @@ const YouthFeedPage = () => {
               <Grid item xs={12}>
                 <OverviewSection addFilter={filterPost} />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}> //TODO it will be implemented in future
                 <FeatureJobSection />
-              </Grid>
+              </Grid>*/}
               <Grid item xs={12}>
                 <PostSection
                   filters={filters}
