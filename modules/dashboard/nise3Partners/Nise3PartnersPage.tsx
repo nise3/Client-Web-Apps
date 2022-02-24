@@ -98,7 +98,7 @@ const Nise3PartnersPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;

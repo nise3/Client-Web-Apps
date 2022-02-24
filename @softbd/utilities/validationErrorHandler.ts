@@ -97,10 +97,36 @@ export const processServerSideErrors = ({
         );
       }
     } else {
-      errorStack(
-        error.response?.data?._response_status?.message ||
-          'Unknown Validation Error',
-      );
+      const {response: {data: {errors}} = {}} = error;
+
+      if (errors && Object.keys(errors).length > 0) {
+        const notistackErrors = Object.keys(errors).reduce(
+          (previousValue: any, currentValue: any) => {
+            if (currentValue in errors) {
+              errors[currentValue]?.forEach((error: string) => {
+                const match = error.match(/\[([0-9]+)]$/i);
+                if (match && match[1]) {
+                  error = error.replace('[' + match[1] + ']', '');
+                }
+
+                previousValue.push(error);
+              });
+            }
+
+            return previousValue;
+          },
+          [],
+        );
+
+        notistackErrors.forEach((value: string) => {
+          errorStack(value);
+        });
+      } else {
+        errorStack(
+          error.response?.data?._response_status?.message ||
+            'Unknown Validation Error',
+        );
+      }
     }
   } else if (Number(error.response?.status || 0) >= 500) {
     errorStack(

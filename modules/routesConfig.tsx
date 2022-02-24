@@ -105,7 +105,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.rank_type',
             permissionKey: 'view_any_rank_type',
             type: 'item',
-            icon: 'business',
+            icon: 'star',
             url: '/rank-types',
           },
           {
@@ -114,7 +114,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.rank',
             permissionKey: 'view_any_rank',
             type: 'item',
-            icon: 'business',
+            icon: 'star',
             url: '/ranks',
           },
           {
@@ -123,7 +123,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.skill',
             permissionKey: 'view_any_skill',
             type: 'item',
-            icon: 'business',
+            icon: 'engineering',
             url: '/skills',
           },
           {
@@ -177,7 +177,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.occupations',
             permissionKey: 'view_any_occupation',
             type: 'item',
-            icon: 'timeline',
+            icon: 'work',
             url: '/occupations',
           },
           {
@@ -186,7 +186,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.services',
             permissionKey: 'view_any_service',
             type: 'item',
-            icon: 'timeline',
+            icon: 'build',
             url: '/services',
           },
         ],
@@ -205,7 +205,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.institute',
             permissionKey: 'view_any_institute',
             type: 'item',
-            icon: 'timeline',
+            icon: 'business',
             url: '/institutes',
           },
           {
@@ -214,7 +214,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'branch.label',
             permissionKey: 'view_any_branch',
             type: 'item',
-            icon: 'timeline',
+            icon: 'business',
             url: '/branches',
           },
           {
@@ -232,7 +232,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.training_center',
             permissionKey: 'view_any_training_center',
             type: 'item',
-            icon: 'timeline',
+            icon: 'business',
             url: '/training-centers',
           },
           {
@@ -241,7 +241,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'course.label',
             permissionKey: 'view_any_course',
             type: 'item',
-            icon: 'timeline',
+            icon: 'grading',
             url: '/courses',
           },
           {
@@ -259,7 +259,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.trainers',
             permissionKey: 'view_any_trainer',
             type: 'item',
-            icon: 'timeline',
+            icon: 'group',
             url: '/trainers',
           },
           {
@@ -349,7 +349,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.contact_office',
             permissionKey: 'view_any_contact_info',
             type: 'item',
-            icon: 'apartment',
+            icon: 'business',
             url: '/contact-info',
           },
           /*{
@@ -421,7 +421,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.static_page',
             permissionKey: 'view_any_static_page_content_or_page_block',
             type: 'item',
-            icon: 'room',
+            icon: 'feed',
             url: '/static-pages',
           },
           {
@@ -466,7 +466,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.nise3_partners',
             permissionKey: 'view_any_nise3_partner',
             type: 'item',
-            icon: 'person',
+            icon: 'group',
             url: '/nise3-partners',
           },
           {

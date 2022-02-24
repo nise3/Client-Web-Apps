@@ -98,7 +98,7 @@ const AssignSchedulePopup = ({
           <CustomFormSelect
             required
             id='scheduleId'
-            label={messages['permission_sub_group.label']}
+            label={messages['calendar.schedule']}
             isLoading={isLoading}
             control={control}
             options={schedule}

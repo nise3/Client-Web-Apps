@@ -147,6 +147,7 @@ const JobListPage = () => {
       {
         Header: messages['common.publish_at'],
         accessor: 'published_at',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -161,6 +162,7 @@ const JobListPage = () => {
       {
         Header: messages['common.publication_deadline'],
         accessor: 'application_deadline',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (

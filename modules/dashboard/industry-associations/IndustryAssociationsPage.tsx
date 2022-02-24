@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -12,7 +12,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
+import IconList from '../../../@softbd/icons/IconList';
 import IndustryAssociationDetailsPopup from './IndustryAssociationDetails';
 import IndustryAssociationAddEditPopup from './IndustryAssociationAddEdit';
 import {deleteIndustryAssoc} from '../../../services/IndustryManagement/IndustryAssociationService';
@@ -28,6 +28,8 @@ import ApproveButton from './ApproveButton';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import {ApprovalStatus} from '../Institutes/ApprovalStatusEnums';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 
 const IndustryAssociationsPage = () => {
   const {messages, locale} = useIntl();
@@ -38,6 +40,28 @@ const IndustryAssociationsPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const [associationTradeFilter] = useState({});
+
+  const {data: associationTrades} = useFetchIndustryAssociationTrades(
+    associationTradeFilter,
+  );
+  const [tradeFilterItems, setTradeFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+
+  useEffect(() => {
+    if (associationTrades) {
+      setTradeFilterItems(
+        associationTrades.map((trade: any) => {
+          return {
+            id: trade.id,
+            title: trade.title,
+          };
+        }),
+      );
+    }
+  }, [associationTrades]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -153,6 +177,14 @@ const IndustryAssociationsPage = () => {
         isVisible: locale == LocaleLanguage.BN,
       },
       {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
+      },
+      {
         Header: messages['common.title_en'],
         accessor: 'title_en',
         isVisible: locale == LocaleLanguage.EN,
@@ -164,12 +196,18 @@ const IndustryAssociationsPage = () => {
       // },
       {
         Header: messages['association.association_trades'],
-        accessor: 'industry_association_trade_title',
+        accessor: 'trade_id',
+        filter: 'selectFilter',
+        selectFilterItems: tradeFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.trade_title}</>;
+        },
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipStatus value={data?.row_status} />;
@@ -221,7 +259,7 @@ const IndustryAssociationsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, tradeFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -234,7 +272,7 @@ const IndustryAssociationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='menu.industry_associations' />
+            <IconList /> <IntlMessages id='menu.industry_associations' />
           </>
         }
         extra={[

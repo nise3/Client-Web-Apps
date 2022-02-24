@@ -1,6 +1,6 @@
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -17,21 +17,42 @@ import RecentActivitiesDetailsPopup from './RecentActivitiesDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteRecentActivity} from '../../../services/cmsManagement/RecentActivityService';
 import ContentTypes from './ContentTypes';
+import IconVideo from '../../../@softbd/icons/IconVideo';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 
 const RecentActivitiesPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+  const [contentTypeFilterItems] = useState<Array<ISelectFilterItem>>([
+    {id: ContentTypes.IMAGE, title: messages['common.image'] as string},
+    {
+      id: ContentTypes.YOUTUBE_SOURCE,
+      title: messages['content_type.youtube_video'] as string,
+    },
+    {
+      id: ContentTypes.FACEBOOK_SOURCE,
+      title: messages['content_type.facebook_video'] as string,
+    },
+  ]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
       urlPath: API_RECENT_ACTIVITIES,
     });
+
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -81,6 +102,18 @@ const RecentActivitiesPage = () => {
         return '';
     }
   };
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
+          return {
+            id: showInType.id,
+            title: showInType.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
 
   const columns = useMemo(() => {
     return [
@@ -93,25 +126,26 @@ const RecentActivitiesPage = () => {
         disableSortBy: true,
       },
       {
+        Header: messages['common.show_in'],
+        accessor: 'show_in',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
+        },
+      },
+      {
         Header: messages['common.title'],
         accessor: 'title',
       },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.show_in'],
-        accessor: 'show_in_label',
-      },
+
       {
         Header: messages['common.content_type'],
+        accessor: 'content_type',
+        filter: 'selectFilter',
+        selectFilterItems: contentTypeFilterItems,
         Cell: (props: any) => {
           return getContentTypeTitle(props.row.original.content_type);
         },
@@ -119,7 +153,7 @@ const RecentActivitiesPage = () => {
       {
         Header: messages['common.active_status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -143,12 +177,17 @@ const RecentActivitiesPage = () => {
         sortable: false,
       },
     ];
-  }, [messages]);
+  }, [messages, showInFilterItems]);
 
   return (
     <>
       <PageBlock
-        title={<IntlMessages id='recent_activities.label' />}
+        title={
+          <>
+            <IconVideo />
+            <IntlMessages id='recent_activities.label' />
+          </>
+        }
         extra={[
           <AddButton
             key={1}

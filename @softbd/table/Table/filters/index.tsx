@@ -302,6 +302,17 @@ export function selectFilter<T extends object>(
   return rows.filter((row) => filterValue == row.values[id[0]]);
 }
 
+export function dateTimeFilter<T extends object>(
+  rows: Array<Row<T>>,
+  id: IdType<T>,
+  filterValue: FilterValue,
+) {
+  /*  console.log('rowsrows: ', rows);
+  console.log('id: ', id);
+  console.log('filterValue: ', filterValue);*/
+  return rows.filter((row) => filterValue == row.values[id[0]]);
+}
+
 // Let the table remove the filter if the string is empty
 numericTextFilter.autoRemove = (val: any) => !val;
 
@@ -359,6 +370,20 @@ export function DefaultColumnFilter<T extends object>({
           </MenuItem>
         ))}
       </TextField>
+    );
+  } else if (filter === 'dateTimeFilter') {
+    return (
+      <TextField
+        InputLabelProps={{
+          shrink: true,
+        }}
+        name={id}
+        type={'date'}
+        label={render('Header')}
+        value={value}
+        variant={'standard'}
+        onChange={handleChange}
+      />
     );
   } else
     return (

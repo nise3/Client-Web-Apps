@@ -1,7 +1,6 @@
 import {useFetchContactInfo} from '../../../services/IndustryAssociationManagement/hooks';
 import {useIntl} from 'react-intl';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {BusinessCenter} from '@mui/icons-material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import React from 'react';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -10,6 +9,7 @@ import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconOrganization from "../../../@softbd/icons/IconOrganization";
 
 interface IContactInfoDetails {
   contactInfoId: number;
@@ -32,7 +32,7 @@ const IndustryAssociationContactInfoDetailsPopup = ({
       {...props}
       title={
         <>
-          <BusinessCenter />
+          <IconOrganization />
           <IntlMessages id='common.contact_office' />
         </>
       }

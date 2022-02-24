@@ -1,10 +1,10 @@
-import {BusinessCenter} from '@mui/icons-material';
+import { MilitaryTech } from "@mui/icons-material";
 import React from 'react';
 
 const IconRankType = () => {
   return (
     <>
-      <BusinessCenter />
+      <MilitaryTech/>
     </>
   );
 };

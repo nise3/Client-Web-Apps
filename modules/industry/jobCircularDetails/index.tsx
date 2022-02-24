@@ -445,7 +445,9 @@ const JobCircularDetails = () => {
       }
     });
 
-    if (male && female) {
+    if (male && female && other) {
+      return 'Any one allowed to apply';
+    } else if (male && female) {
       return 'Both male and female are allowed to apply';
     } else if (male && other) {
       return 'Both male and third genders are allowed to apply';
@@ -481,7 +483,7 @@ const JobCircularDetails = () => {
       <ul style={{paddingLeft: '20px'}}>
         {getAgeText() && <li>Age {getAgeText()}</li>}
         {jobData?.candidate_requirements?.genders.length > 0 &&
-          jobData?.candidate_requirements?.genders.length < 3 && (
+          jobData?.candidate_requirements?.genders.length <= 3 && (
             <li>{getGenderText()}</li>
           )}
         {strArr.map((item: string, index) => (

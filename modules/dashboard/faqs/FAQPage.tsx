@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteFAQ} from '../../../services/cmsManagement/FAQService';
@@ -13,17 +13,26 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const FAQPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -63,6 +72,19 @@ const FAQPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
+          return {
+            id: showInType.id,
+            title: showInType.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
@@ -79,18 +101,16 @@ const FAQPage = () => {
       },
       {
         Header: messages['faq.show_in'],
-        accessor: 'show_in_label',
+        accessor: 'show_in',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
+        },
       },
-      {
-        Header: messages['common.institute'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['institute.name_en'],
-        accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
+
       {
         Header: messages['faq.question'],
         accessor: 'question_short',
@@ -102,7 +122,7 @@ const FAQPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -126,7 +146,7 @@ const FAQPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale, showInFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -166,7 +186,7 @@ const FAQPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='menu.faq' />
+            <IconFAQ /> <IntlMessages id='menu.faq' />
           </>
         }
         extra={[
