@@ -462,3 +462,8 @@ export const API_PUBLIC_NISE_STATICS =
   CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
 
 /** CMS service public routes section end */
+
+/**             Registered Training Organizations             */
+
+export const API_REGISTERED_TRAINING_ORGANIZATIONS =
+  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';

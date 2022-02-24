@@ -8,7 +8,8 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   code: string;
   domain: string;
   address: string;
-  service_type: number | string;
+  service_type?: number | string;
+  country_id?: number | string;
   google_map_src: string;
   logo: string;
   primary_phone: string;

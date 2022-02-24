@@ -1,14 +1,13 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
+import {API_REGISTERED_TRAINING_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import RTODetailsPopup from './RTODetailsPopup';
 import RTOAddEditPopup from './RTOAddEditPopup';
@@ -18,6 +17,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {deleteRTO} from '../../../services/CertificateAuthorityManagement/RTOService';
 
 const ERPLInstitutePage = () => {
   const {messages, locale} = useIntl();
@@ -48,8 +48,8 @@ const ERPLInstitutePage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteInstituteItem = async (itemId: number) => {
-    let response = await deleteInstitute(itemId);
+  const deleteRTOItem = async (itemId: number) => {
+    let response = await deleteRTO(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -105,13 +105,12 @@ const ERPLInstitutePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          /*let itemId = data?.id;*/
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteAction={() => deleteRTOItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -125,11 +124,7 @@ const ERPLInstitutePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_INSTITUTES,
-      paramsValueModifier: (params: any) => {
-        params['service_type'] = 2;
-        return params;
-      },
+      urlPath: API_REGISTERED_TRAINING_ORGANIZATIONS,
     });
 
   return (
@@ -137,7 +132,7 @@ const ERPLInstitutePage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='certificate_authority.label' />
+            <IconInstitute /> <IntlMessages id='rto.label' />
           </>
         }
         extra={[
@@ -149,7 +144,7 @@ const ERPLInstitutePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['certificate_authority.label'],
+                  subject: messages['rto.label'],
                 }}
               />
             }
