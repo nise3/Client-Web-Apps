@@ -1438,6 +1438,9 @@
   "common.hired_candidates": "Hire",
   "common.preferred_training_center": "Preferred training center",
   "common.interview_schedule": "Interview Schedule",
+  "common.interview_schedule_assign": "Interview Schedule Assign",
+  "common.interview_schedule_unassigned": "Interview Schedule Unassigned",
+  "common.interview_schedule_hire_invite": "Invited for hiring",
   "common.venue": "Venue",
   "common.invite_type": "Invite type",
   "common.date": "Date",
@@ -1554,5 +1557,9 @@
   "permissions.method_post": "POST",
   "permissions.method_put": "PUT",
   "permissions.method_patch": "PATCH",
-  "permissions.method_delete": "DELETE"
+  "permissions.method_delete": "DELETE",
+  "common.create_job_for_member": "Create job for member",
+  "common.candidate_present": "Candidate present",
+  "common.interview_score": "Interview score",
+  "common.mark_as_interview": "Mark as interview"
 }
