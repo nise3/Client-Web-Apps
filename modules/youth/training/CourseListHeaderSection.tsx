@@ -210,6 +210,8 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     addFilterKey('language_medium', 0);
     setSelectedAvailability('');
     addFilterKey('availability', 0);
+    setSelectedLocUpazilaId('');
+    addFilterKey('loc_upazila_id', 0);
   }, []);
 
   return (

@@ -128,7 +128,7 @@ const Publications = () => {
   useEffect(() => {
     page.current = 1;
     setPublicationFilter((param: any) => {
-      return {...param, ...{author: selectedWriter}};
+      return objectFilter({...param, author: selectedWriter});
     });
   }, [selectedWriter]);
 

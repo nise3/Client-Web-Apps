@@ -13,10 +13,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconPublication from '../../../@softbd/icons/IconPublication';
-import {
-  useFetchIndustryAssociationMembers,
-  useFetchPublication,
-} from '../../../services/instituteManagement/hooks';
+import {useFetchPublication} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -28,6 +25,8 @@ import {
 } from '../../../services/IndustryManagement/PublicationService';
 import {IPublication} from '../../../shared/Interface/publication.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface PublicationAddEditPopupProps {
   itemId: number | null;
@@ -53,6 +52,7 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
@@ -63,14 +63,11 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
     mutate: mutatePublication,
   } = useFetchPublication(itemId);
 
-  const [industryAssociationMemberFilters] = useState({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [industryAssociationsFilters, setIndustryAssociationsFilters] =
+    useState<any>(null);
 
-  const {data: industryAssociationMembers, isLoading: isLoadingMembers} =
-    useFetchIndustryAssociationMembers(industryAssociationMemberFilters);
-
-  const authUser = useAuthUser();
+  const {data: industryAssociations, isLoading: isLoadingAssociations} =
+    useFetchIndustryAssociations(industryAssociationsFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -114,6 +111,14 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser && authUser?.isSystemUser) {
+      setIndustryAssociationsFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title: itemData?.title,
@@ -133,8 +138,8 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<IPublication> = async (data: IPublication) => {
     try {
-      if (authUser?.isIndustryAssociationUser) {
-        data.industry_association_id = authUser.industry_association_id;
+      if (!authUser?.isSystemUser) {
+        delete data.industry_association_id;
       }
 
       if (itemId) {
@@ -248,9 +253,9 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
               required
               id='industry_association_id'
               label={messages['common.association']}
-              isLoading={isLoadingMembers}
+              isLoading={isLoadingAssociations}
               control={control}
-              options={industryAssociationMembers}
+              options={industryAssociations}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}

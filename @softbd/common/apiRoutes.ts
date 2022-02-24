@@ -272,8 +272,6 @@ export const API_REJECT_HR_DEMAND_YOUTH =
 export const API_INDUSTRY_PUBLICATIONS =
   ORGANIZATION_SERVICE_PATH + '/publications';
 
-export const API_INDUSTRY_MEMBERS = ORGANIZATION_SERVICE_PATH + '/members';
-
 export const API_INDUSTRY_ASSOCIATIONS =
   ORGANIZATION_SERVICE_PATH + '/industry-associations';
 
