@@ -19,11 +19,13 @@ import {deleteBranch} from '../../../services/instituteManagement/BranchService'
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const BranchPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -94,11 +96,13 @@ const BranchPage = () => {
         Header: messages['institute.label'],
         accessor: 'institute_title',
         isVisible: locale == LocaleLanguage.BN,
+        disableFilters: !authUser?.isSystemUser,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
         isVisible: locale == LocaleLanguage.EN,
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
