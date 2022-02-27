@@ -1,15 +1,14 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-// import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {useFetchBranch} from '../../../services/instituteManagement/hooks';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import IconCountry from "../../../@softbd/icons/IconCountry";
+import { useFetchCountries } from "../../../services/locationManagement/hooks";
 
 type Props = {
   itemId: number;
@@ -19,7 +18,7 @@ type Props = {
 
 const CountryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchBranch(itemId);
+  const {data: itemData, isLoading} = useFetchCountries(itemId);
 
   return (
     <>
@@ -28,8 +27,8 @@ const CountryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconBranch />
-            <IntlMessages id='branch.label' />
+            <IconCountry />
+            <IntlMessages id='country.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}

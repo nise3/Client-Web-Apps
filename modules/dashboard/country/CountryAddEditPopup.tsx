@@ -10,19 +10,15 @@ import { useIntl } from "react-intl";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
 import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
 
-import IconBranch from "../../../@softbd/icons/IconBranch";
+import IconCountry from "../../../@softbd/icons/IconCountry";
 import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
 import { useAuthUser } from "../../../@crema/utility/AppHooks";
-import { IBranch } from "../../../shared/Interface/institute.interface";
 import { isBreakPointUp } from "../../../@crema/utility/Utils";
 import { useFetchCountries } from "../../../services/locationManagement/hooks";
 import CustomSelectAutoComplete from "../../youth/registration/CustomSelectAutoComplete";
-// import { createCountry, updateCountry } from "../../../services/CertificateAuthorityManagement/CountryService";
-// import { ICountry } from "../../../shared/Interface/country.interface";
+import { ICountry } from "../../../shared/Interface/country.interface";
 
-interface BranchAddEditPopupProps {
+interface CountryAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -32,27 +28,27 @@ interface BranchAddEditPopupProps {
 //   countries: []
 // };
 
-const CountryAddEditPopup: FC<BranchAddEditPopupProps> = ({
-                                                            itemId,
-                                                            refreshDataTable,
-                                                            ...props
-                                                          }) => {
+const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
+                                                             itemId,
+                                                             refreshDataTable,
+                                                             ...props
+                                                           }) => {
   const { messages } = useIntl();
   const { errorStack } = useNotiStack();
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
 
-  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
+  // const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
   const {
     data: countryData,
-    isLoading,
-    //mutate: mutateCountry,
+    isLoading
+    // mutate: mutateCountry,
   } = useFetchCountries(itemId);
 
   const [countryFilters] = useState<any>({});
-  const {data: countries, isLoading: isCountriesLoading} =
+  const { data: countries, isLoading: isCountriesLoading } =
     useFetchCountries(countryFilters);
 
   const [countryList, setCountryList] = useState<any>([]);
@@ -61,7 +57,7 @@ const CountryAddEditPopup: FC<BranchAddEditPopupProps> = ({
     if (countryData && countries) {
       const filteredData = isEdit
         ? countries.filter(
-          (cntry: any) => cntry.id != countryData.id,
+          (cntry: any) => cntry.id != countryData.id
         )
         : countries;
       setCountryList(filteredData);
@@ -82,44 +78,57 @@ const CountryAddEditPopup: FC<BranchAddEditPopupProps> = ({
 
   const {
     control,
-    // register,
-    reset,
+    //register,
+    //reset,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<IBranch>({
+  } = useForm<ICountry>({
     resolver: yupResolver(validationSchema)
   });
 
 
-  useEffect(() => {
-    if (countryData) {
-      reset({
-        title_en: countryData?.title_en,
-        title: countryData?.title,
-        row_status: String(countryData?.row_status)
-      });
+  // useEffect(() => {
+  //   if (countryData) {
+  //     reset({
+  //       title_en: countryData?.title_en,
+  //       title: countryData?.title,
+  //       row_status: String(countryData?.row_status)
+  //     });
+  //
+  //   }
+  //   // else {
+  //   //   reset(initialValues);
+  //   // }
+  // }, [countryData]);
 
-    }
-    // else {
-    //   reset(initialValues);
-    // }
-  }, [countryData]);
-
-
+  //let [selCountry,setSelCountry] = useState<any>([])
   const onSubmit: SubmitHandler<any> = async (data: any) => {
 
 
     try {
       if (itemId) {
         //await updateCountry(itemId, data);
-        updateSuccessMessage("branch.label");
-        // mutateCountry();
-        console.log(itemId,'updated to',data);
+        //updateSuccessMessage("country.label");
+        //mutateCountry();
+        //console.log(itemId,'updated to',data);
+        // <CountryPage c={data}/>
+        data.country.map((c: any) => {
+          console.log(c.title);
+        });
+        console.log(data);
+
+
       } else {
         //await createCountry(data);
-        createSuccessMessage("branch.label");
-        console.log('created',data);
+        //createSuccessMessage("country.label");
+        //setSelCountry([...data])
+        // <CountryPage c={data}/>
+        data.country.map((c: any) => {
+          console.log(c.title);
+        });
+        console.log(data);
+
       }
       props.onClose();
       refreshDataTable();
@@ -128,22 +137,23 @@ const CountryAddEditPopup: FC<BranchAddEditPopupProps> = ({
     }
   };
 
+
   return (
     <HookFormMuiModal
       open={true}
       {...props}
       title={
         <>
-          <IconBranch />
+          <IconCountry />
           {isEdit ? (
             <IntlMessages
               id="common.edit"
-              values={{ subject: <IntlMessages id="branch.label" /> }}
+              values={{ subject: <IntlMessages id="country.label" /> }}
             />
           ) : (
             <IntlMessages
               id="common.add_new"
-              values={{ subject: <IntlMessages id="branch.label" /> }}
+              values={{ subject: <IntlMessages id="country.label" /> }}
             />
           )}
         </>
@@ -165,9 +175,10 @@ const CountryAddEditPopup: FC<BranchAddEditPopupProps> = ({
             control={control}
             isLoading={isCountriesLoading}
             options={countryList}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
+            optionValueProp={"id"}
+            optionTitleProp={["title"]}
             errorInstance={errors}
+            //defaultValue={selCountry}
             // onChange={onCountriesChange}
           />
         </Grid>

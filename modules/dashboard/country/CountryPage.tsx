@@ -7,7 +7,7 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_BRANCHES} from '../../../@softbd/common/apiRoutes';
+import {API_COUNTRIES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CountryAddEditPopup from './CountryAddEditPopup';
 import CountryDetailsPopup from './CountryDetailsPopup';
@@ -15,12 +15,12 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteBranch} from '../../../services/instituteManagement/BranchService';
+import {deleteCountry} from '../../../services/CertificateAuthorityManagement/CountryService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
+import IconCountry from '../../../@softbd/icons/IconCountry';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
-const BranchPage = () => {
+const CountryPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -52,13 +52,13 @@ const BranchPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteBranchItem = async (branchId: number) => {
-    let response = await deleteBranch(branchId);
+  const deleteCountryItem = async (countryId: number) => {
+    let response = await deleteCountry(countryId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='branch.label' />}}
+          values={{subject: <IntlMessages id='country.label' />}}
         />,
       );
       refreshDataTable();
@@ -108,7 +108,7 @@ const BranchPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteBranchItem(data.id)}
+                deleteAction={() => deleteCountryItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -122,7 +122,7 @@ const BranchPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_BRANCHES,
+      urlPath: API_COUNTRIES,
     });
 
   return (
@@ -130,7 +130,7 @@ const BranchPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='branch.label' />
+            <IconCountry /> <IntlMessages id='country.label' />
           </>
         }
         extra={[
@@ -142,7 +142,7 @@ const BranchPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['branch.label'],
+                  subject: messages['country.label'],
                 }}
               />
             }
@@ -179,4 +179,4 @@ const BranchPage = () => {
   );
 };
 
-export default BranchPage;
+export default CountryPage;
