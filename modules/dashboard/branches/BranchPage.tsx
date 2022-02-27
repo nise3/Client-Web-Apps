@@ -19,11 +19,13 @@ import {deleteBranch} from '../../../services/instituteManagement/BranchService'
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const BranchPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -91,14 +93,21 @@ const BranchPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
+        Header: messages['common.address'],
+        accessor: 'address',
+        isVisible: false,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: true,
+      },
+      {
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser,
       },
       {
         Header: messages['common.status'],
