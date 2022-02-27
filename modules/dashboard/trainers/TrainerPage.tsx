@@ -87,13 +87,16 @@ const TrainersPage = () => {
         Header: messages['common.email'],
         accessor: 'email',
         isVisible: false,
-        disableFilters: true,
+      },
+      {
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        isVisible: false,
       },
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
         isVisible: false,
-        disableFilters: true,
       },
       {
         Header: messages['common.nid'],
@@ -104,7 +107,7 @@ const TrainersPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;

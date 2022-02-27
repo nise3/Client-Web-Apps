@@ -1558,6 +1558,7 @@
   "file_size.maximum_size_warning_text": "Maximum allowed file size 1MB",
   "file.drag_and_drop_or_upload": "Drag and Drop your file or Upload",
   "common.tsp": "TSP",
+  "common.primary_mobile": "Primary mobile number",
   "permissions.method_get": "GET",
   "permissions.method_post": "POST",
   "permissions.method_put": "PUT",
