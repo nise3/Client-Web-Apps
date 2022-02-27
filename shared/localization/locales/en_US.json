@@ -1220,6 +1220,7 @@
   "common.vacancy_provided_by_institute": "Vacancy provided by institute",
   "common.rejected": "Rejected",
   "common.reject": "Reject",
+  "common.reschedule": "Reschedule",
   "publication.label": "Publications",
   "publication.author": "Author",
   "publication.author_en": "Author (En)",
@@ -1389,6 +1390,7 @@
   "job_preview.experience_at_most": "At most {to} year(s)",
   "hr_demand.label": "Human Resource Demand",
   "industry_association.label": "Industry Association",
+  "industry_association_member_job.label": "Member jobs",
   "common.hr_demand": "Human Resource Demand",
   "common.manage": "Manage",
   "common.question_bank": "Question Bank",
@@ -1564,5 +1566,9 @@
   "permissions.method_put": "PUT",
   "permissions.method_patch": "PATCH",
   "permissions.method_delete": "DELETE",
-  "common.per_page": "Per Page"
+  "common.per_page": "Per Page",
+  "common.confirmation": "Confirmation",
+  "common.response": "Response",
+  "common.accepted": "Accepted",
+  "common.rescheduled": "Rescheduled"
 }

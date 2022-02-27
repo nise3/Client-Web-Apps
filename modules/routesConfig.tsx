@@ -343,6 +343,7 @@ const routesConfig: NavItemProps[] = [
             icon: 'list',
             url: '/member-management',
           },
+
           {
             id: 'publications',
             title: 'Publications',
@@ -360,6 +361,15 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'person',
             url: '/applicant-list',
+          },
+          {
+            id: 'industry-association-member-jobs',
+            title: 'Industry Association Member Jobs',
+            messageId: 'industry_association_member_job.label',
+            permissionKey: 'view_any_industry_association_member_job',
+            type: 'item',
+            icon: 'work',
+            url: '/industry-association-member-jobs',
           },
           {
             id: 'jobs',
