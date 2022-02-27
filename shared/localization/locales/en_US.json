@@ -639,6 +639,7 @@
   "personal_info.label": "Personal Information",
   "common.zip_or_postal_code": "Post Code",
   "personal_info.bio": "Bio",
+  "personal_info.curriculum_vitae": "Curriculum Vitae",
   "personal_info_edit.label": "Edit Personal Information",
   "personal_info_add.label": "Add Personal Information",
   "common.add_new_portfolio": "New Portfolio",
@@ -1607,4 +1608,6 @@
   "common.direct": "Direct",
   "common.indirect": "Indirect",
   "payment.incomplete_text": "Your haven't complete your payment  yet"
+  "common.objective": "Objective",
+  "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database."
 }
