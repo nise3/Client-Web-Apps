@@ -372,6 +372,7 @@
   "certificate_authority.details": "সার্টিফিকেট অথরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথরিটি ব্যবস্থাপনা",
   "rto.label": "আরটিও",
+  "rto-sectors.label": "আরটিও সেক্টর সমূহ",
   "rto.details": "আরটিও বিস্তারিত",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
