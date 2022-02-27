@@ -93,6 +93,8 @@ const JobListSearchSection = ({addFilterKey}: IProps) => {
     addFilterKey('occupation_ids', []);
     addFilterKey('job_level', 0);
     addFilterKey('occupation_ids', '');
+    setSelectedLocUpazilaId('');
+    addFilterKey('loc_upazila_id', 0);
 
     setSelectJobSectorsId('');
     setSelectOccupationId('');

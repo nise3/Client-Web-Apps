@@ -11,15 +11,15 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import {
-  createCandidateStepSchedule,
-  updateCandidateStepSchedule,
-} from '../../../services/IndustryManagement/IndustryAssociationService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomDateTimePicker from '../../../@softbd/elements/input/CustomDateTimePicker';
 import {useFetchCandidateStepSchedule} from '../../../services/IndustryManagement/hooks';
+import {
+  createCandidateStepSchedule,
+  updateCandidateStepSchedule,
+} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 
 const initialValues = {
   recruitment_step_id: '',
@@ -34,12 +34,14 @@ interface IScheduleCreateComponentPopupProps {
   scheduleId?: any;
   jobId: string;
   currentStep: any;
+  refreshDataTable?: () => void;
 }
 
 const ScheduleCreateComponentPopup = ({
   jobId,
   scheduleId,
   currentStep,
+  refreshDataTable,
   ...props
 }: IScheduleCreateComponentPopupProps) => {
   const {messages} = useIntl();
@@ -115,10 +117,9 @@ const ScheduleCreateComponentPopup = ({
   );
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    formData.interview_scheduled_at = formData.interview_scheduled_at.replace(
-      'T',
-      ' ',
-    );
+    formData.interview_scheduled_at = formData.interview_scheduled_at
+      .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+      .replace('T', ' ');
     try {
       formData.job_id = jobId;
       formData.recruitment_step_id = currentStep?.id;
@@ -131,6 +132,10 @@ const ScheduleCreateComponentPopup = ({
         createSuccessMessage('common.interview_schedule');
       }
       props.onClose();
+
+      if (refreshDataTable) {
+        refreshDataTable();
+      }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

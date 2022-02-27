@@ -9,12 +9,12 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
-import {candidateStepScheduleAssign} from '../../../services/IndustryManagement/IndustryAssociationService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useFetchInterviewSchedule} from '../../../services/IndustryManagement/hooks';
+import {candidateStepScheduleAssign} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
 
 interface IAssignSchedulePopupProps {
   onClose: () => void;
@@ -63,7 +63,7 @@ const AssignSchedulePopup = ({
 
     try {
       await candidateStepScheduleAssign(formData.scheduleId, params);
-      createSuccessMessage('common.interview_schedule');
+      createSuccessMessage('common.interview_schedule_assign');
 
       props.onClose();
     } catch (error: any) {

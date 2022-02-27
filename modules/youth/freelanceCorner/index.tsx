@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import FeaturedFreelanceSection from './FeaturedFreelanceSection';
 import AllFreelancerListSection from './AllFreelancerListSection';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
@@ -216,9 +215,9 @@ const FreelanceCorner = () => {
                 </Grid>
               </Card>
             </Grid>
-            <Grid item xs={12}>
+            {/*<Grid item xs={12}> //TODO it will be implemented in future
               <FeaturedFreelanceSection />
-            </Grid>
+            </Grid>*/}
             <Grid item xs={12}>
               <AllFreelancerListSection
                 skillIds={freelancerFilters}

@@ -103,7 +103,7 @@ const FAQPage = () => {
         Header: messages['faq.show_in'],
         accessor: 'show_in',
         isVisible: authUser?.isSystemUser,
-        disableFilters: !authUser?.isSystemUser ? true : false,
+        disableFilters: !authUser?.isSystemUser,
         filter: authUser?.isSystemUser ? 'selectFilter' : null,
         selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
         Cell: (props: any) => {

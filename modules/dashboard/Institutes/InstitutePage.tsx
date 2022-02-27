@@ -15,7 +15,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
-import InstituteAddEditPopup from './InstituteAddEditPopup';
+import InstituteAddEditPopup, {InstituteType} from './InstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -40,6 +40,16 @@ const InstitutePage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
+  const instituteTypeFilterItems = [
+    {
+      id: InstituteType.GOVERNMENT,
+      title: messages['common.government'] as string,
+    },
+    {
+      id: InstituteType.NON_GOVERNMENT,
+      title: messages['common.non_government'] as string,
+    },
+  ];
   const openAssignPermissionModal = useCallback(
     (itemId: number | null = null) => {
       setIsOpenDetailsModal(false);
@@ -143,6 +153,28 @@ const InstitutePage = () => {
         accessor: 'code',
       },
       {
+        Header: messages['common.primary_mobile'],
+        accessor: 'primary_mobile',
+      },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+      {
+        Header: messages['common.institute_type'],
+        accessor: 'institute_type_id',
+        filter: 'selectFilter',
+        selectFilterItems: instituteTypeFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if ((data.institute_type_id = InstituteType.GOVERNMENT)) {
+            return <>{messages['common.government']}</>;
+          } else {
+            return <>{messages['common.non_government']}</>;
+          }
+        },
+      },
+      {
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',
@@ -202,6 +234,10 @@ const InstitutePage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_INSTITUTES,
+      paramsValueModifier: (params: any) => {
+        params['service_type'] = 3;
+        return params;
+      },
     });
 
   return (

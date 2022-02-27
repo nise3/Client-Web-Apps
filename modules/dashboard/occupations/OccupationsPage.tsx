@@ -92,11 +92,13 @@ const OccupationsPage = () => {
         Header: messages['job_sectors.label'],
         accessor: 'job_sector_title',
         isVisible: locale == LocaleLanguage.BN,
+        disableFilters: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['job_sectors.label_en'],
         accessor: 'job_sector_title_en',
         isVisible: locale == LocaleLanguage.EN,
+        disableFilters: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
