@@ -185,3 +185,8 @@ export interface ISelectFilterItem {
   id: number | string;
   title: string;
 }
+
+export interface CourseFilterItem {
+  filterKey: string;
+  filterValue: any;
+}

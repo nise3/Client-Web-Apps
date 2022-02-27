@@ -25,6 +25,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import {CourseFilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -61,9 +62,13 @@ export const StyledBox = styled(Box)(({theme}) => ({
 
 interface CourseListHeaderSection {
   addFilterKey: (filterKey: string, filterValue: any) => void;
+  routeParamsFilters?: (filters: Array<CourseFilterItem>) => void;
 }
 
-const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
+const CourseListHeaderSection = ({
+  addFilterKey,
+  routeParamsFilters,
+}: CourseListHeaderSection) => {
   const {messages} = useIntl();
   const router = useRouter();
   const showInType = getShowInTypeByDomain();
@@ -78,7 +83,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
   const [selectedAvailability, setSelectedAvailability] = useState<any>('');
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<any>('');
-  const {search_text, upazila} = router.query;
+  const {search_text} = router.query;
 
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -123,14 +128,101 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
 
   useEffect(() => {
-    if (search_text) {
-      addFilterKey('search_text', String(search_text));
+    let params: any = {...router.query};
+    let filters: Array<CourseFilterItem> = [];
+
+    if (params.search_text) {
+      filters.push({
+        filterKey: 'search_text',
+        filterValue: params.search_text,
+      });
     }
-    if (upazila) {
-      addFilterKey('loc_upazila_id', String(upazila));
-      setSelectedLocUpazilaId(upazila);
+
+    if (!Number(params.institute_id)) {
+      delete params.institute_id;
+    } else {
+      filters.push({
+        filterKey: 'institute_id',
+        filterValue: params.institute_id,
+      });
+      setSelectedInstituteId(params.institute_id);
     }
-  }, [search_text, upazila]);
+
+    if (!Number(params.program_id)) {
+      delete params.program_id;
+    } else {
+      filters.push({
+        filterKey: 'program_id',
+        filterValue: params.program_id,
+      });
+      setSelectedProgrammeId(params.program_id);
+    }
+
+    if (!Number(params.course_type)) {
+      delete params.course_type;
+    } else {
+      filters.push({
+        filterKey: 'course_type',
+        filterValue: params.course_type,
+      });
+      setSelectedCourseTypeId(params.course_type);
+    }
+
+    if (!Number(params.level)) {
+      delete params.level;
+    } else {
+      filters.push({
+        filterKey: 'level',
+        filterValue: params.level,
+      });
+      setSelectedSkillLevel(params.level);
+    }
+
+    if (!Number(params.availability)) {
+      delete params.availability;
+    } else {
+      filters.push({
+        filterKey: 'availability',
+        filterValue: params.availability,
+      });
+      setSelectedAvailability(params.availability);
+    }
+
+    if (!Number(params.upazila)) {
+      delete params.upazila;
+    } else {
+      filters.push({
+        filterKey: 'loc_upazila_id',
+        filterValue: params.upazila,
+      });
+      setSelectedLocUpazilaId(params.upazila);
+    }
+
+    if (!Number(params.language_medium)) {
+      delete params.language_medium;
+    } else {
+      filters.push({
+        filterKey: 'language_medium',
+        filterValue: params.language_medium,
+      });
+      setSelectedLanguageId(params.language_medium);
+    }
+
+    if (routeParamsFilters && filters.length > 0) {
+      routeParamsFilters(filters);
+    }
+  }, [router.query]);
+
+  const urlParamsUpdate = (params: any) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: objectFilter({...router.query, ...params}),
+      },
+      undefined,
+      {shallow: true},
+    );
+  };
 
   const handleInstituteFilterChange = useCallback(
     (instituteId: number | null) => {
@@ -145,51 +237,68 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
       if (!instituteId) {
         addFilterKey('program_id', 0);
       }
+
+      urlParamsUpdate({
+        institute_id: instituteId,
+        program_id: '',
+      });
     },
-    [selectedInstituteId],
+    [selectedInstituteId, router.query],
   );
 
   const handleProgrammeFilterChange = useCallback(
     (programId: number | null) => {
       setSelectedProgrammeId(programId);
       addFilterKey('program_id', programId);
+      urlParamsUpdate({program_id: programId});
     },
-    [selectedProgrammeId],
+    [selectedProgrammeId, router.query],
   );
 
   const handleAvailabilityChange = useCallback(
     (availability: number | null) => {
       setSelectedAvailability(availability);
       addFilterKey('availability', availability);
+      urlParamsUpdate({availability: availability});
     },
-    [selectedAvailability],
+    [selectedAvailability, router.query],
   );
 
-  const handleCourseTypeChange = useCallback((courseType: number | null) => {
-    setSelectedCourseTypeId(courseType);
-    addFilterKey('course_type', courseType);
-  }, []);
+  const handleCourseTypeChange = useCallback(
+    (courseType: number | null) => {
+      setSelectedCourseTypeId(courseType);
+      addFilterKey('course_type', courseType);
+      urlParamsUpdate({course_type: courseType});
+    },
+    [router.query],
+  );
 
   const handleLanguageChange = useCallback(
     (languageId: number | null) => {
       setSelectedLanguageId(languageId);
       addFilterKey('language_medium', languageId);
+      urlParamsUpdate({language_medium: languageId});
     },
-    [selectedLanguageId],
+    [selectedLanguageId, router.query],
   );
 
   const handleUpazilaChange = useCallback(
     (upazilaId: number | null) => {
       setSelectedLocUpazilaId(upazilaId);
       addFilterKey('loc_upazila_id', upazilaId);
+      urlParamsUpdate({upazila: upazilaId});
     },
-    [selectedLocUpazilaId],
+    [selectedLocUpazilaId, router.query],
   );
 
-  const handleSkillLevelChange = useCallback((skillLevel: number | null) => {
-    setSelectedSkillLevel(skillLevel);
-    addFilterKey('level', skillLevel);
-  }, []);
+  const handleSkillLevelChange = useCallback(
+    (skillLevel: number | null) => {
+      setSelectedSkillLevel(skillLevel);
+      addFilterKey('level', skillLevel);
+      urlParamsUpdate({level: skillLevel});
+    },
+    [router.query],
+  );
 
   const onClickResetButton = useCallback(() => {
     if (showInType !== ShowInTypes.TSP) {
@@ -212,7 +321,22 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
     addFilterKey('availability', 0);
     setSelectedLocUpazilaId('');
     addFilterKey('loc_upazila_id', 0);
+    urlParamsUpdate({
+      institute_id: '',
+      search_text: '',
+      program_id: '',
+      course_type: '',
+      level: '',
+      language_medium: '',
+      availability: '',
+      upazila: '',
+    });
   }, []);
+
+  const onSearchClick = useCallback(() => {
+    addFilterKey('search_text', searchTextField.current.value);
+    urlParamsUpdate({search_text: searchTextField.current.value});
+  }, [router.query]);
 
   return (
     <StyledBox>
@@ -249,12 +373,7 @@ const CourseListHeaderSection = ({addFilterKey}: CourseListHeaderSection) => {
                     variant='contained'
                     color={'primary'}
                     className={classes.thinSearchButton}
-                    onClick={useCallback(() => {
-                      addFilterKey(
-                        'search_text',
-                        searchTextField.current.value,
-                      );
-                    }, [])}>
+                    onClick={onSearchClick}>
                     {messages['common.search']}
                   </Button>
                 </Grid>

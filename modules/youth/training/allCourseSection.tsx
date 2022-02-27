@@ -6,6 +6,7 @@ import PopularCoursesSection from './PopularCoursesSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
+import {CourseFilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'AllCourseSection';
 
@@ -38,9 +39,26 @@ const CourseListPage = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<CourseFilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <StyledCourseSection>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+      <CourseListHeaderSection
+        addFilterKey={filterCoursesListTrainingList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container spacing={5}>
           {courseType == 'skill-matching' && (
