@@ -512,3 +512,23 @@ export const getPaginationPageSize = (inputPageSize: any) => {
 
   return PageSizes.FOUR;
 };
+
+const finalEnlishToBanglaNumber: any = {
+  '0': '০',
+  '1': '১',
+  '2': '২',
+  '3': '৩',
+  '4': '৪',
+  '5': '৫',
+  '6': '৬',
+  '7': '৭',
+  '8': '৮',
+  '9': '৯',
+};
+
+export const getDigitBanglaFromEnglish = (input: any) => {
+  for (let x in finalEnlishToBanglaNumber) {
+    input = input.replace(new RegExp(x, 'g'), finalEnlishToBanglaNumber[x]);
+  }
+  return input;
+};
