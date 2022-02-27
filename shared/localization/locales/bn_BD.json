@@ -1556,10 +1556,11 @@
   "permissions.method_post": "পোস্ট",
   "permissions.method_put": "পুট",
   "permissions.method_patch": "প্যাচ",
-  "permissions.method_delete": "ডিলেট",
   "common.create_job_for_member": "সদস্যের জন্য চাকরি তৈরি করুন",
   "common.candidate_present": "প্রার্থী উপস্থিত",
   "common.interview_score": "ইন্টারভিউ স্কোর",
   "common.mark_as_interview": "ইন্টারভিউ হিসাবে চিহ্নিত করুন",
-  "common.per_page": "প্রতি পেজ"
+  "common.per_page": "প্রতি পেজ",
+  "permissions.method_delete": "ডিলেট",
+  "country.label": "দেশ"
 }
