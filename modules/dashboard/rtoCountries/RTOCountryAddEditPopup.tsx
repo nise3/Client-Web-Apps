@@ -2,7 +2,7 @@ import yup from "../../../@softbd/libs/yup";
 import { Grid } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState, useCallback } from "react";
 import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
 import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
 import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
@@ -12,54 +12,42 @@ import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelBu
 
 import IconCountry from "../../../@softbd/icons/IconCountry";
 import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import { useAuthUser } from "../../../@crema/utility/AppHooks";
 import { isBreakPointUp } from "../../../@crema/utility/Utils";
 import { useFetchCountries } from "../../../services/locationManagement/hooks";
 import CustomSelectAutoComplete from "../../youth/registration/CustomSelectAutoComplete";
 import { ICountry } from "../../../shared/Interface/country.interface";
+import { createRTOCountry } from "../../../services/CertificateAuthorityManagement/RTOCountryService";
+import { useFetchRTOCountries } from "../../../services/CertificateAuthorityManagement/hooks";
+import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
 
 interface CountryAddEditPopupProps {
-  itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
-// const initialValues = {
-//   countries: []
-// };
-
-const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
-                                                             itemId,
-                                                             refreshDataTable,
-                                                             ...props
-                                                           }) => {
+const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable, ...props }) => {
   const { messages } = useIntl();
   const { errorStack } = useNotiStack();
-  const isEdit = itemId != null;
-  const authUser = useAuthUser();
 
-
-  // const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
+  const { createSuccessMessage } = useSuccessMessage();
 
   const {
     data: countryData,
-    isLoading
-    // mutate: mutateCountry,
-  } = useFetchCountries(itemId);
+    isLoading,
+    mutate: mutateCountry
+  } = useFetchRTOCountries();
 
+  /** only this one will come from location hooks, all others should be from your own service */
   const [countryFilters] = useState<any>({});
   const { data: countries, isLoading: isCountriesLoading } =
     useFetchCountries(countryFilters);
 
   const [countryList, setCountryList] = useState<any>([]);
   //console.log('countries: ', countryList);
+
   useEffect(() => {
     if (countryData && countries) {
-      const filteredData = isEdit
-        ? countries.filter(
-          (cntry: any) => cntry.id != countryData.id
-        )
-        : countries;
+      const filteredData = countries.filter((cntry: any) => cntry.id != countryData.id);
       setCountryList(filteredData);
     }
   }, [countryData, countries]);
@@ -70,11 +58,11 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
         .array()
         .of(yup.object())
     });
-  }, [messages, authUser]);
+  }, [messages]);
 
-  // const onCountriesChange = useCallback((options) => {
-  //   setCountryList(options);
-  // }, []);
+  const onCountriesChange = useCallback((options) => {
+    setCountryList(options);
+  }, []);
 
   const {
     control,
@@ -102,34 +90,17 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
   //   // }
   // }, [countryData]);
 
-  //let [selCountry,setSelCountry] = useState<any>([])
+  let [selectedCountry,setSelectedCountry] = useState<any>([])
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-
-
     try {
-      if (itemId) {
-        //await updateCountry(itemId, data);
-        //updateSuccessMessage("country.label");
-        //mutateCountry();
-        //console.log(itemId,'updated to',data);
-        // <CountryPage c={data}/>
-        data.country.map((c: any) => {
-          console.log(c.title);
-        });
-        console.log(data);
-
-
-      } else {
-        //await createCountry(data);
-        //createSuccessMessage("country.label");
-        //setSelCountry([...data])
-        // <CountryPage c={data}/>
-        data.country.map((c: any) => {
-          console.log(c.title);
-        });
-        console.log(data);
-
-      }
+      const idArr = data.country.map((c: any) => c.id);
+      delete data["country"];
+      data.country_ids = idArr;
+      await createRTOCountry(data);
+      createSuccessMessage("country.label");
+      console.log(data);
+      mutateCountry();
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
@@ -145,17 +116,10 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
       title={
         <>
           <IconCountry />
-          {isEdit ? (
-            <IntlMessages
-              id="common.edit"
-              values={{ subject: <IntlMessages id="country.label" /> }}
-            />
-          ) : (
             <IntlMessages
               id="common.add_new"
               values={{ subject: <IntlMessages id="country.label" /> }}
             />
-          )}
         </>
       }
       maxWidth={isBreakPointUp("xl") ? "lg" : "md"}
@@ -168,7 +132,7 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomSelectAutoComplete
             id="country"
             label="Countries"
@@ -178,7 +142,7 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
             optionValueProp={"id"}
             optionTitleProp={["title"]}
             errorInstance={errors}
-            //defaultValue={selCountry}
+            defaultValue={countryData}
             // onChange={onCountriesChange}
           />
         </Grid>
@@ -188,4 +152,4 @@ const CountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default CountryAddEditPopup;
+export default RTOCountryAddEditPopup;

@@ -6,14 +6,14 @@ import { useIntl } from "react-intl";
 // import {useIntl} from 'react-intl';
 
 const CountryPage = asyncComponent(
-  () => import('../../../modules/dashboard/country/CountryPage'),
+  () => import('../../../modules/dashboard/rtoCountries/RTOCountryPage'),
 
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.country']} />
+      <PageMeta title={messages['common.rto-rtoCountries']} />
       <CountryPage />
     </>
   );
