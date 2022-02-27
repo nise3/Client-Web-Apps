@@ -11,8 +11,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 import "svg-to-pdfkit";
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import { svg2pdf } from 'svg2pdf.js';
+// import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+// import { svg2pdf } from 'svg2pdf.js';
 
 const PREFIX = 'YouthCVPage';
 

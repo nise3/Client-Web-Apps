@@ -1,11 +1,12 @@
-import React, {FC, useCallback} from 'react';
-import {styled} from '@mui/material/styles';
-import {Box, Slide} from '@mui/material';
-import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
-import {setAreaText} from '../../../../@softbd/common/svg-utils';
-import {ISkill} from '../../../../shared/Interface/organization.interface';
-import { useIntl } from 'react-intl';import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import { Box, Slide } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React, { FC, useCallback } from 'react';
+import { useIntl } from 'react-intl';
+import { setAreaText } from '../../../../@softbd/common/svg-utils';
 import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
+import { ISkill } from '../../../../shared/Interface/organization.interface';
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -23,12 +24,17 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     '2': 'Not Easily',
   };
 
+  const setPhoto = (data) => {
+    var elem = document.getElementById('photo');
+    var imgElem = elem.childNodes[1];
+    imgElem.setAttribute('xlink:href', data.photo);
+    }
   const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
     '2': 'Not Fluently',
   };
   const {messages, locale} = useIntl();
-  console.log(messages, locale)
+  // console.log(messages, locale)
   const theCB = useCallback((node) => {
     
     if (!node || node.children.length > 0) return;
@@ -42,35 +48,33 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       // @ts-ignore
       rects[r].previousElementSibling.setAttribute('fill', 'transparent');
     // setAreaText(svgNode, 'image', userData?.photo);
-    setAreaText(
-      svgNode,
-      'name',
-      userData?.first_name + ' ' + userData?.last_name,
-      'lt',
-    );
-    setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
-    setAreaText(svgNode, 'email', userData?.email, 'lt');
+    // console.log(svgNode)
     const getProps = (propsName: string, locale: string): string =>{
       return (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
     }
     const getValue = (presentAddress: any, propsName: string, locale: string): string =>{
       let val = `${presentAddress[getProps(propsName, locale)]}`;
-      let valWithComma = val !== 'null' ? val : "";
-      return valWithComma;
+      let valWithNullCheck = val !== 'null' ? val : "";
+      return valWithNullCheck;
     }
+
+    setPhoto(userData);
+    setAreaText(
+      svgNode,
+      'name',
+      getValue(userData, 'first_name', locale) + ' ' + getValue(userData, 'last_name', locale),
+      'lt',
+    );
+    setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
+    setAreaText(svgNode, 'email', userData?.email, 'lt');
+    
+    
     /** present address */
     const addressText = (userData: any, locale: string) => {
       let presentAddress = userData?.youth_addresses.filter((item:any)=> item.address_type == AddressTypes.PRESENT)[0];
       const propsArray = ['house_n_road', 'village_or_area', 'loc_upazila_title', 'loc_district_title', 'loc_division_title' ];
 
-        // presentAddress.house_n_road = '৩৫/৬/২৩/এ';
-        // presentAddress.house_n_road_en = '35/6/2/A';
-        // presentAddress.village_or_area = 'কমলাপুর';
-        // presentAddress.village_or_area_en = 'Kamlapur';
-        // presentAddress.loc_upazila_title = 'ফরিদপুর সদর';
-        // presentAddress.loc_upazila_title_en = 'Faridpur Sadar';
-
-      let addresstxt:string = `Address: `;
+      let addresstxt:string = `${messages['common.address']}: `;
       let addressArray = [];
       for (let i = 0; i < propsArray.length; i++) {
         const element = propsArray[i];
@@ -86,44 +90,54 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       svgNode,
       'address',
       addressText(userData, locale)
-      // (userData?.youth_addresses[1]?.house_n_road
-      //   ? userData?.youth_addresses[1]?.house_n_road + ','
-      //   : 'Address: ') +
-      //   (userData?.youth_addresses[1]?.village_or_area
-      //     ? userData?.youth_addresses[1]?.village_or_area + ','
-      //     : '&#32') +
-      // (userData?.youth_addresses[1]?.loc_upazila_title
-      //   ? userData?.youth_addresses[1]?.loc_upazila_title  + ','
-      //   : '&#32')+
-      //   userData?.youth_addresses[1]?.loc_district_title +
-      //   ',' +
-      //   userData?.youth_addresses[1]?.loc_division_title,
-      // 'lt',
     );
+    const educationText = (education: any, locale: string) => {
+      return (
+        (education?.institute_name
+          ? 'Institution Name: ' + education[getProps('institute_name', locale)] + ', '
+          : ' ') +
+        (education?.duration
+          ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
+          : ' ') +
+        (education?.result?.code === 'GRADE'
+          ? education?.cgpa
+            ? 'CGPA: ' +
+              parseFloat(education?.cgpa) +
+              ' ( out of ' +
+              parseInt(education?.cgpa_scale) +
+              ' ), '
+            : ' '
+          : 'Result: ' + education?.result?.title) +
+        (education?.year_of_passing
+          ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
+          : ' ')
+      );
+    };
     setAreaText(
       svgNode,
       'education',
       userData?.youth_educations.map((education: any) => {
-        return (
-          (education?.institute_name
-            ? 'Institution Name: ' + education?.institute_name + ', '
-            : ' ') +
-          (education?.duration
-            ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
-            : ' ') +
-          (education?.result?.code === 'GRADE'
-            ? education?.cgpa
-              ? 'CGPA: ' +
-                parseFloat(education?.cgpa) +
-                ' ( out of ' +
-                parseInt(education?.cgpa_scale) +
-                ' ), '
-              : ' '
-            : 'Result: ' + education?.result?.title) +
-          (education?.year_of_passing
-            ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
-            : ' ')
-        );
+        return educationText(education, locale);
+        // return (
+        //   (education?.institute_name
+        //     ? 'Institution Name: ' + education[getProps('institute_name', locale)] + ', '
+        //     : ' ') +
+        //   (education?.duration
+        //     ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
+        //     : ' ') +
+        //   (education?.result?.code === 'GRADE'
+        //     ? education?.cgpa
+        //       ? 'CGPA: ' +
+        //         parseFloat(education?.cgpa) +
+        //         ' ( out of ' + 
+        //         parseInt(education?.cgpa_scale) +
+        //         ' ), '
+        //       : ' '
+        //     : 'Result: ' + education?.result?.title) +
+        //   (education?.year_of_passing
+        //     ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
+        //     : ' ')
+        // );
       }),
       'lt',
     );
@@ -150,17 +164,17 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         );
       }),
     );
-    setAreaText(svgNode, 'objective', userData.bio);
+    setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
     setAreaText(
       svgNode,
       'experience',
       userData?.youth_job_experiences.map((experience: any) => {
         return (
           (experience?.company_name
-            ? 'Company: ' + experience?.company_name + ', '
+            ? 'Company: ' + experience[getProps('company_name', locale)] + ', '
             : ' ') +
           (experience?.position
-            ? 'Position: ' + experience?.position + ', '
+            ? `${messages['common.position']}: ` + experience[getProps('position', locale)] + ', '
             : ' ') +
           (experience?.start_date
             ? 'Start Date: ' +
@@ -178,10 +192,10 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       svgNode,
       'computerskill',
       userData?.skills.map((skill: ISkill, index: number) => {
-        return skill?.title ? index + 1 + '. ' + skill?.title + ' ' : ' ';
+        return skill?.title ? index + 1 + '. ' + skill[getProps('title', locale)] + ' ' : ' ';
       }),
     );
-  }, [locale]);
+    }, [locale]);
 
   return (
     <Slide direction={'right'} in={true}>

@@ -1,3 +1,5 @@
+import { xor } from "lodash";
+
 const fn = {
   text(str = '') {
     let div = document.createElement('div');
@@ -642,10 +644,33 @@ export const setAreaText = (
 ) => {
   const g: any = svgNode.querySelector(`g[id="${id}"]`);
   const rect = g.children[0].getBBox();
-  g.children[1].innerHTML = text;
   const fs = 1 * g.children[1].getAttribute('font-size');
   const lh = 1.25 * fs;
   const bl = 0.8;
-  areaText(g.children[1], rect, {fs, lh, bl, ta: textAlign});
+  if(Array.isArray(text)){
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    let lineHeight;
+    text.map((item, i)=> {
+      // console.log(g.children, rect, rect.x, rect.y)
+      // console.log('g.children[1].getBBox()', g.children[0].getBBox());
+      if (i > 0) {
+        lineHeight = rect.y + 20;
+        console.log('rect.y + lineHeight ', lineHeight)
+        let text = document.createElementNS(SVG_NS, "text");
+        text.setAttributeNS(null, 'x', rect.x);
+        text.setAttributeNS(null, 'y', rect.y);
+        text.setAttributeNS(null, 'transform', `translate(18 ${rect.y + lineHeight})`);
+        text.setAttributeNS(null, 'font-size', '12');
+        g.appendChild(text);
+      }
+      
+      g.children[i+1].innerHTML = item;
+      areaText(g.children[i+1], rect, {fs, lh, bl, ta: textAlign})
+    });
+  } else {
+    g.children[1].innerHTML = text;
+    areaText(g.children[1], rect, {fs, lh, bl, ta: textAlign});
+  }
+  
   g.children[0].setAttribute('fill', 'transparent');
 };
