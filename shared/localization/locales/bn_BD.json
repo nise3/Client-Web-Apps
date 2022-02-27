@@ -1204,6 +1204,8 @@
   "common.cv_read": "সিভি প্রদর্শন",
   "common.youth_read": "ইয়ুথ প্রদর্শন",
   "common.rejected": "প্রত্যাখ্যাত",
+  "common.reschedule": "সময় পুনঃনির্ধারণ",
+  "common.rescheduled": "সময় পুনঃনির্ধারিত",
   "common.vacancy_provided_by_institute": "ইনস্টিটিউট দ্বারা প্রদত্ত শূন্যপদ",
   "common.reject": "প্রত্যাখ্যান",
   "publication.label": "প্রকাশনা সমূহ",
@@ -1376,6 +1378,7 @@
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
   "hr_demand.label": "হিউম্যান রিসোর্স চাহিদা",
   "industry_association.label": "শিল্প সমিতি",
+  "industry_association_member_job.label": "সদস্য চাকরি",
   "common.manage": "ম্যানেজ",
   "common.question_bank": "প্রশ্ন ব্যাংক",
   "common.question_id": "প্রশ্ন আইডি",
@@ -1561,5 +1564,8 @@
   "common.candidate_present": "প্রার্থী উপস্থিত",
   "common.interview_score": "ইন্টারভিউ স্কোর",
   "common.mark_as_interview": "ইন্টারভিউ হিসাবে চিহ্নিত করুন",
-  "common.per_page": "প্রতি পেজ"
+  "common.per_page": "প্রতি পেজ",
+  "common.confirmation": "নিশ্চিতকরণ",
+  "common.response": "রেসপন্স",
+  "common.accepted": "অনুমোদিত"
 }
