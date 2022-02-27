@@ -1569,5 +1569,6 @@
   "common.create_job_for_member": "Create job for member",
   "common.candidate_present": "Candidate Present",
   "common.interview_score": "Interview Score",
-  "common.mark_as_interview": "Mark as interview"
+  "common.mark_as_interview": "Mark as interview",
+  "common.rto-countries": "RTO countries"
 }

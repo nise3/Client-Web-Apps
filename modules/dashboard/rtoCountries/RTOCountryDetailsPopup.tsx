@@ -16,7 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const CountryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const RTOCountryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchCountries(itemId);
 
@@ -60,17 +60,11 @@ const CountryDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {/*<Grid item xs={12}>*/}
-          {/*  <CustomChipRowStatus*/}
-          {/*    label={messages['common.active_status']}*/}
-          {/*    value={itemData?.row_status}*/}
-          {/*    isLoading={isLoading}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
+
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
   );
 };
 
-export default CountryDetailsPopup;
+export default RTOCountryDetailsPopup;

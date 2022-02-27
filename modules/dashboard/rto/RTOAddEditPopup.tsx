@@ -191,7 +191,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['common.country'] as string),
+        .label(messages['common.rto-rtoCountries'] as string),
       phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
       primary_mobile: yup
         .string()
@@ -588,7 +588,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomFilterableFormSelect
                 required
                 id={'country_id'}
-                label={messages['common.country']}
+                label={messages['common.rto-rtoCountries']}
                 isLoading={isLoadingCountries}
                 control={control}
                 options={countries}
