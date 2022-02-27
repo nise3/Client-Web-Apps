@@ -186,7 +186,7 @@ export interface ISelectFilterItem {
   title: string;
 }
 
-export interface CourseFilterItem {
+export interface FilterItem {
   filterKey: string;
   filterValue: any;
 }

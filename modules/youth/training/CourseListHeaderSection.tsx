@@ -25,7 +25,7 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
-import {CourseFilterItem} from '../../../shared/Interface/common.interface';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'CustomListHeaderSection';
 
@@ -62,7 +62,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
 
 interface CourseListHeaderSection {
   addFilterKey: (filterKey: string, filterValue: any) => void;
-  routeParamsFilters?: (filters: Array<CourseFilterItem>) => void;
+  routeParamsFilters?: (filters: Array<FilterItem>) => void;
 }
 
 const CourseListHeaderSection = ({
@@ -129,7 +129,7 @@ const CourseListHeaderSection = ({
 
   useEffect(() => {
     let params: any = {...router.query};
-    let filters: Array<CourseFilterItem> = [];
+    let filters: Array<FilterItem> = [];
 
     if (params.search_text) {
       filters.push({
