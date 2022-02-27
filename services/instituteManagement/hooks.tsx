@@ -143,7 +143,9 @@ export function useFetchTrainers(params: any) {
 }
 
 export function useFetchPublicTrainingCenters(params: any) {
-  return useDataLocalizationAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_TRAINING_CENTERS, params] : null,
+  );
 }
 
 /** fetches a single application's details */
