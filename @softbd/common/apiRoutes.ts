@@ -371,6 +371,9 @@ export const API_HUMAN_RESOURCE_DEMAND_REJECTED_BY_INSTITUTE =
 export const API_INDUSTRY_ASSOCIATION_DASHBOARD_STATICS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-dashboard-statistics';
 
+export const API_NASCIB_MEMBER_PUBLIC_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/public/nascib-members/open-registration';
+
 export const API_JOBS_CANDIDATES = API_JOBS + '/candidates';
 
 export const API_RECRUITMENT_STEPS = API_JOBS + '/recruitment-step';
