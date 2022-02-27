@@ -1565,5 +1565,9 @@
   "permissions.method_patch": "PATCH",
   "permissions.method_delete": "DELETE",
   "common.per_page": "Per Page",
-  "country.label": "Country"
+  "country.label": "Country",
+  "common.create_job_for_member": "Create job for member",
+  "common.candidate_present": "Candidate Present",
+  "common.interview_score": "Interview Score",
+  "common.mark_as_interview": "Mark as interview"
 }
