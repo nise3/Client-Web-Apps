@@ -12,7 +12,7 @@ import CourseListHeaderSection from '../training/CourseListHeaderSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {CourseFilterItem} from '../../../shared/Interface/common.interface';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'CourseList';
 
@@ -96,7 +96,7 @@ const CourseList = () => {
   );
 
   const filterCoursesListByRouteParams = useCallback(
-    (filters: Array<CourseFilterItem>) => {
+    (filters: Array<FilterItem>) => {
       const newFilter: any = {};
       filters.map((item) => {
         newFilter[item.filterKey] = item.filterValue;

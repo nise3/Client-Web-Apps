@@ -6,7 +6,7 @@ import PopularCoursesSection from './PopularCoursesSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
-import {CourseFilterItem} from '../../../shared/Interface/common.interface';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'AllCourseSection';
 
@@ -40,7 +40,7 @@ const CourseListPage = () => {
   );
 
   const filterCoursesListByRouteParams = useCallback(
-    (filters: Array<CourseFilterItem>) => {
+    (filters: Array<FilterItem>) => {
       const newFilter: any = {};
       filters.map((item) => {
         newFilter[item.filterKey] = item.filterValue;

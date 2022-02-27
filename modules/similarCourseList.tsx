@@ -15,7 +15,7 @@ import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import BoxCardsSkeleton from './institute/Components/BoxCardsSkeleton';
 import PageSizes from '../@softbd/utilities/PageSizes';
-import {CourseFilterItem} from '../shared/Interface/common.interface';
+import {FilterItem} from '../shared/Interface/common.interface';
 
 const PREFIX = 'SimilarCourseList';
 
@@ -78,7 +78,7 @@ const SimilarCourseList = () => {
   );
 
   const filterCoursesListByRouteParams = useCallback(
-    (filters: Array<CourseFilterItem>) => {
+    (filters: Array<FilterItem>) => {
       const newFilter: any = {};
       filters.map((item) => {
         newFilter[item.filterKey] = item.filterValue;
