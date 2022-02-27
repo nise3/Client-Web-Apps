@@ -1564,8 +1564,5 @@
   "permissions.method_put": "PUT",
   "permissions.method_patch": "PATCH",
   "permissions.method_delete": "DELETE",
-  "common.create_job_for_member": "Create job for member",
-  "common.candidate_present": "Candidate present",
-  "common.interview_score": "Interview score",
-  "common.mark_as_interview": "Mark as interview"
+  "common.per_page": "Per Page"
 }
