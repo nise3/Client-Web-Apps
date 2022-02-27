@@ -1,23 +1,23 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {deleteInstitute} from '../../../services/instituteManagement/InstituteService';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
+import {API_REGISTERED_TRAINING_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ERPLInstituteDetailsPopup from './ERPLInstituteDetailsPopup';
-import ERPLInstituteAddEditPopup from './ERPLInstituteAddEditPopup';
+import RTODetailsPopup from './RTODetailsPopup';
+import RTOAddEditPopup from './RTOAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {deleteRTO} from '../../../services/CertificateAuthorityManagement/RTOService';
 
 const ERPLInstitutePage = () => {
   const {messages, locale} = useIntl();
@@ -48,40 +48,13 @@ const ERPLInstitutePage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  /** if open registration is on, then these codes will be in action => IORIOTTCWBIA */
-  /*  const rejectAction = async (itemId: number) => {
-          let response = await rejectInstitute(itemId);
-          if (isResponseSuccess(response)) {
-            successStack(
-              <IntlMessages
-                id='common.subject_rejected'
-                values={{subject: <IntlMessages id='erpl_institute.label' />}}
-              />,
-            );
-          }
-          refreshDataTable();
-        };
-      
-        const ReApproveAction = async (itemId: number) => {
-          let response = await ReApproveInstitute(itemId);
-          if (isResponseSuccess(response)) {
-            successStack(
-              <IntlMessages
-                id='common.subject_approved'
-                values={{subject: <IntlMessages id='erpl_institute.label' />}}
-              />,
-            );
-          }
-          refreshDataTable();
-        };*/
-
-  const deleteInstituteItem = async (itemId: number) => {
-    let response = await deleteInstitute(itemId);
+  const deleteRTOItem = async (itemId: number) => {
+    let response = await deleteRTO(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='certificate_authority.label' />}}
+          values={{subject: <IntlMessages id='rto.label' />}}
         />,
       );
 
@@ -132,38 +105,12 @@ const ERPLInstitutePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          /*let itemId = data?.id;*/
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-
-              {/** IORIOTTCWBIA */}
-              {/*{data?.row_status == ApprovalStatus.PENDING && (
-                <CommonButton
-                  onClick={() => openAssignPermissionModal(data.id)}
-                  btnText='common.approve'
-                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                  color='secondary'
-                />
-              )}
-                            {data?.row_status == ApprovalStatus.APPROVED && (
-                <RejectButton
-                  itemId={itemId}
-                  rejectTitle={messages['common.organization'] as string}
-                  rejectAction={rejectAction}>
-                  {messages['common.reject']}
-                </RejectButton>
-              )}
-              {data?.row_status == ApprovalStatus.REJECTED && (
-                <ApproveButton
-                  approveAction={() => ReApproveAction(data.id)}
-                  buttonText={messages['common.approve'] as string}
-                />
-              )}*/}
-
               <DeleteButton
-                deleteAction={() => deleteInstituteItem(data.id)}
+                deleteAction={() => deleteRTOItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -177,11 +124,7 @@ const ERPLInstitutePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_INSTITUTES,
-      paramsValueModifier: (params: any) => {
-        params['service_type'] = 2;
-        return params;
-      },
+      urlPath: API_REGISTERED_TRAINING_ORGANIZATIONS,
     });
 
   return (
@@ -189,7 +132,7 @@ const ERPLInstitutePage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='certificate_authority.label' />
+            <IconInstitute /> <IntlMessages id='rto.label' />
           </>
         }
         extra={[
@@ -201,7 +144,7 @@ const ERPLInstitutePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['certificate_authority.label'],
+                  subject: messages['rto.label'],
                 }}
               />
             }
@@ -217,7 +160,7 @@ const ERPLInstitutePage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ERPLInstituteAddEditPopup
+          <RTOAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -226,7 +169,7 @@ const ERPLInstitutePage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <ERPLInstituteDetailsPopup
+          <RTODetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
