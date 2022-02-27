@@ -220,13 +220,18 @@ const RecruitmentStepComponent = ({
                 value: stepData?.shortlisted ? stepData?.shortlisted : '0',
                 active: true,
               },
-
               {
                 key: CandidateFilterTypes.SCHEDULED,
                 label: 'Scheduled',
                 value: stepData?.interview_scheduled
                   ? stepData?.interview_scheduled
                   : '0',
+                active: false,
+              },
+              {
+                key: CandidateFilterTypes.INTERVIEWED,
+                label: 'Interviewed',
+                value: stepData?.interviewed ? stepData?.interviewed : '0',
                 active: false,
               },
               {

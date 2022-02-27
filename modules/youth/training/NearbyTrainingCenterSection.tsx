@@ -13,6 +13,7 @@ import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -39,7 +40,7 @@ const NearbyTrainingCenterSection = ({
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const {page: queryPageNumber} = router.query;
-  const {page_size: queryPageSize} = router.query;
+  // const {page_size: queryPageSize} = router.query;
 
   const [urlQuery, setUrlQuery] = useState<any>({});
   const page = useRef<any>(1);
@@ -48,7 +49,6 @@ const NearbyTrainingCenterSection = ({
     useState<any>({
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size: urlQuery.pageSize,
     });
 
   const {
@@ -57,93 +57,84 @@ const NearbyTrainingCenterSection = ({
     metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
-  const getPageSize = useCallback(
-    (totalData: number) => {
-      if (Number(queryPageSize) && Number(queryPageSize) > totalData) {
-        return totalData;
+  useEffect(() => {
+    let queryObj: any = {};
+    if (Number(router.query.page)) {
+      queryObj['page'] = router.query.page;
+    }
+
+    if (Number(router.query.page_size)) {
+      queryObj['page_size'] = router.query.page_size;
+    } else {
+      queryObj['page_size'] = showAllNearbyTrainingCenter
+        ? PageSizes.EIGHT
+        : PageSizes.FOUR;
+    }
+
+    setUrlQuery((params: any) => {
+      return {...params, ...queryObj};
+    });
+  }, [router.query.page_size, router.query.page]);
+
+  useEffect(() => {
+    let params: any = {};
+    params.page = Number(router.query.page);
+    params.page_size = Number(router.query.page_size);
+    params = objectFilter(params);
+
+    if (
+      params.page &&
+      (params.page < 1 || params.page > trainingCentersMetaData.total_page)
+    ) {
+      params.page = 1;
+    }
+
+    if (
+      params.page_size &&
+      (params.page_size < 1 || params.page_size > trainingCentersMetaData.total)
+    ) {
+      params.page_size = trainingCentersMetaData.total;
+    }
+
+    if (
+      params.page != router.query.page ||
+      params.page_size != router.query.page_size
+    ) {
+      //change router
+      router.push(
+        {
+          pathname: router.pathname,
+          query: objectFilter(params),
+        },
+        undefined,
+        {shallow: true},
+      );
+    }
+  }, [trainingCentersMetaData]);
+
+  useEffect(() => {
+    setNearbyTrainingCenterFilters((params: any) => {
+      return {
+        ...params,
+        ...objectFilter(urlQuery),
+      };
+    });
+  }, [urlQuery]);
+
+  const getFilteredQueryValues = useCallback(
+    (page: number | null = null, pageSize: number | null = null) => {
+      let filteredObj: any = {};
+      if (page) {
+        filteredObj.page = page;
+      }
+      if (pageSize) {
+        filteredObj.page_size = pageSize;
       }
 
-      return (
-        queryPageSize ??
-        (showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR)
-      );
+      return objectFilter(filteredObj);
     },
-    [queryPageSize],
+    [],
   );
-
-  useEffect(() => {
-    if (Number(queryPageNumber)) {
-      setUrlQuery((params: any) => {
-        return {...params, ...{page: queryPageNumber}};
-      });
-    }
-
-    if (Number(queryPageSize)) {
-      setUrlQuery((params: any) => {
-        return {...params, ...{pageSize: queryPageSize}};
-      });
-    }
-
-    if (!Number(queryPageSize) && !Number(queryPageNumber)) {
-      setUrlQuery((params: any) => {
-        return {
-          ...params,
-          ...{
-            page: 1,
-            pageSize: showAllNearbyTrainingCenter
-              ? PageSizes.EIGHT
-              : PageSizes.FOUR,
-          },
-        };
-      });
-    }
-
-    if (queryPageSize && queryPageNumber) {
-      setNearbyTrainingCenterFilters((params: any) => {
-        return {
-          ...params,
-          ...{page: queryPageNumber, page_size: queryPageSize},
-        };
-      });
-    }
-  }, [queryPageNumber, queryPageSize]);
-
-  useEffect(() => {
-    if (
-      urlQuery.page &&
-      urlQuery.page > 0 &&
-      urlQuery.page < trainingCentersMetaData.total_page
-    ) {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: {
-            page: urlQuery.page,
-            page_size: getPageSize(trainingCentersMetaData.total),
-          },
-        },
-        undefined,
-        {shallow: true},
-      );
-    } else if (
-      !urlQuery.page ||
-      urlQuery.page < 0 ||
-      urlQuery.page > trainingCentersMetaData.total_page ||
-      urlQuery.pageSize > trainingCentersMetaData.total
-    ) {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: {
-            page: 1,
-            page_size: getPageSize(trainingCentersMetaData.total),
-          },
-        },
-        undefined,
-        {shallow: true},
-      );
-    }
-  }, [urlQuery, trainingCentersMetaData]);
 
   const onPaginationChange = useCallback(
     (event: any, currentPage: number) => {
@@ -151,33 +142,35 @@ const NearbyTrainingCenterSection = ({
       router.push(
         {
           pathname: router.pathname,
-          query: {
-            page: currentPage,
-            page_size: urlQuery.pageSize,
-          },
+          query: getFilteredQueryValues(
+            currentPage,
+            Number(router.query.page_size),
+          ),
         },
         undefined,
         {shallow: true},
       );
     },
-    [urlQuery],
+    [router.query],
   );
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      let queryObj: any = {};
+      queryObj.page = router.query.page;
+      queryObj.page_size = event.target.value;
+      queryObj = objectFilter(queryObj);
+
       router.push(
         {
           pathname: router.pathname,
-          query: {
-            page: urlQuery.page,
-            page_size: event.target.value,
-          },
+          query: queryObj,
         },
         undefined,
         {shallow: true},
       );
     },
-    [],
+    [router.query],
   );
 
   return (
@@ -232,7 +225,7 @@ const NearbyTrainingCenterSection = ({
                         currentPage={1}
                         queryPageNumber={Number(queryPageNumber)}
                         onPaginationChange={onPaginationChange}
-                        rowsPerPage={Number(urlQuery.pageSize)}
+                        rowsPerPage={Number(router.query.page_size)}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                       />
                     </Stack>

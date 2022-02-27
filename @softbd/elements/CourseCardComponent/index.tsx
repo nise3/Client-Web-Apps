@@ -141,7 +141,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           </H5>
         </Box>
 
-        <Box marginTop={'5px'}>
+        <Box marginTop={'5px'} minHeight={'50px'}>
           <H6
             fontWeight={'bold'}
             title={course.institute_title}
@@ -159,7 +159,6 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
               label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
-          <TagChip label={formatNumber(15) + ' ' + messages['common.lesson']} />
         </Box>
 
         {isMyCoursePage && course?.total_enroll && (

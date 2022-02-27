@@ -102,20 +102,6 @@ const PublicationsPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['common.description'],
-        accessor: 'description',
-        disableFilters: true,
-        disableSortBy: true,
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['common.description_en'],
-        accessor: 'description_en',
-        disableFilters: true,
-        disableSortBy: true,
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
         disableFilters: true,

@@ -9,7 +9,6 @@ import {
   API_COURSE_ENROLLMENTS,
   API_COURSES,
   API_HUMAN_RESOURCE_DEMAND,
-  API_INDUSTRY_MEMBERS,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
   API_INSTITUTE_QUESTION_BANK,
@@ -49,10 +48,6 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR([API_INSTITUTES, params]);
-}
-
-export function useFetchIndustryAssociationMembers(params: any) {
-  return useAxiosSWR([API_INDUSTRY_MEMBERS, params]);
 }
 
 export function useFetchBranch(branchId: number | null) {

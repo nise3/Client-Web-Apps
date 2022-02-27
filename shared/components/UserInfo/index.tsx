@@ -166,6 +166,14 @@ const UserInfo: React.FC = () => {
                       </Link>
                     </MenuItem>
                   )}
+                {user?.isOrganizationUser &&
+                  checkPermission(user, ['view_any_organization_profile']) && (
+                    <MenuItem>
+                      <Link href='/organization-profile'>
+                        {messages['common.profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
                 <MenuItem>
                   <Link href={getSSOLogoutUrl()}>
                     {messages['common.logout']}
