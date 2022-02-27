@@ -211,8 +211,8 @@ export const routePermissions: any = {
     routePrefix: '/country',
     permissionKeys: ['view_any_country'],
   },
-  '/rto-sectors': {
-    routePrefix: '/rto-sectors',
-    permissionKeys: ['view_any_rto_sectors'],
+  '/rpl-sectors': {
+    routePrefix: '/rpl-sectors',
+    permissionKeys: ['view_any_rpl_sectors'],
   },
 };

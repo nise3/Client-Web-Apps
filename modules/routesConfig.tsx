@@ -308,13 +308,13 @@ const routesConfig: NavItemProps[] = [
             url: '/rto',
           },
           {
-            id: 'rto-sectors',
-            title: 'RTO',
-            messageId: 'rto-sectors.label',
-            permissionKey: 'view_any_rto_sectors',
+            id: 'rpl-sectors',
+            title: 'RPL',
+            messageId: 'rpl_sectors.label',
+            permissionKey: 'view_any_rpl_sectors',
             type: 'item',
             icon: 'home',
-            url: '/rto-sectors',
+            url: '/rpl-sectors',
           },
           {
             id: 'country',
