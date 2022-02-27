@@ -42,6 +42,11 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
+export interface IRPLSector {
+  title: string;
+  row_status: number;
+  other_country_fields?: object;
+}
 
 export interface IPartner extends IIdTitle {
   main_image_path?: string;

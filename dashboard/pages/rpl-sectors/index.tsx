@@ -4,16 +4,16 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const RTOSectorsPage = asyncComponent(
-  () => import('../../../modules/dashboard/rtoSectors/RTOSectorsPage'),
+const RPLSectorsPage = asyncComponent(
+  () => import('../../../modules/dashboard/rplSectors/RPLSectorsPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
 
   return (
     <>
-      <PageMeta title={messages['rto-sectors.label']} />
-      <RTOSectorsPage />
+      <PageMeta title={messages['rpl_sectors.label']} />
+      <RPLSectorsPage />
     </>
   );
 });
