@@ -8,7 +8,6 @@ import {API_MEMBER_JOBS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-/*import useNotiStack from '../../../@softbd/hooks/useNotifyStack';*/
 import {
   getMomentDateFormat,
   isResponseSuccess,
