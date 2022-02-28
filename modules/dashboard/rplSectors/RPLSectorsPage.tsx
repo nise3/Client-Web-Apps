@@ -14,7 +14,6 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import RPLSectorsDetailsPopup from './RPLSectorsDetailsPopup';
 import RPLSectorsAddEditPopup from './RPLSectorsAddEditPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
 
@@ -54,7 +53,7 @@ const RPLSectorsPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rpl_sectors.label' />}}
+          values={{subject: <IntlMessages id='rpl_sector.label' />}}
         />,
       );
 
@@ -81,11 +80,11 @@ const RPLSectorsPage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
-      {
+      /*{
         Header: messages['common.title_en'],
         accessor: 'title_en',
-      },
-      {
+      },*/
+      /*{
         Header: messages['common.status'],
         accessor: 'row_status',
         disableFilters: true,
@@ -93,7 +92,7 @@ const RPLSectorsPage = () => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
         },
-      },
+      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {

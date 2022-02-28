@@ -311,7 +311,7 @@ const routesConfig: NavItemProps[] = [
             id: 'rpl-sectors',
             title: 'RPL',
             messageId: 'rpl_sectors.label',
-            permissionKey: 'view_any_rpl_sectors',
+            permissionKey: 'view_any_rpl_sector',
             type: 'item',
             icon: 'home',
             url: '/rpl-sectors',
