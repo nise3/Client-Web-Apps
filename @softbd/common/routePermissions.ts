@@ -199,6 +199,10 @@ export const routePermissions: any = {
     routePrefix: '/cv-bank',
     permissionKeys: ['view_any_cv_bank'],
   },
+  '/rto-countries': {
+    routePrefix: '/rto-countries',
+    permissionKeys: ['view_any_rto_country'],
+  },
   '/certificate-authorities': {
     routePrefix: '/certificate-authorities',
     permissionKeys: ['view_any_certificate_authority'],
