@@ -103,7 +103,7 @@ const FAQPage = () => {
         Header: messages['faq.show_in'],
         accessor: 'show_in',
         isVisible: authUser?.isSystemUser,
-        disableFilters: !authUser?.isSystemUser ? true : false,
+        disableFilters: !authUser?.isSystemUser,
         filter: authUser?.isSystemUser ? 'selectFilter' : null,
         selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
         Cell: (props: any) => {
@@ -113,11 +113,11 @@ const FAQPage = () => {
 
       {
         Header: messages['faq.question'],
-        accessor: 'question_short',
+        accessor: 'question',
       },
       {
         Header: messages['faq.answer'],
-        accessor: 'answer_short',
+        accessor: 'answer',
       },
       {
         Header: messages['common.status'],
@@ -155,7 +155,7 @@ const FAQPage = () => {
     });
 
   let modifiedData = data?.map((faq: any) => {
-    let name: string, question_short: string, answer_short: string;
+    let name: string, question: string, answer: string;
     if (parseInt(faq?.show_in) === 1) {
       name = 'NISE';
     } else if (parseInt(faq?.show_in) === 2) {
@@ -170,14 +170,14 @@ const FAQPage = () => {
       name = '';
     }
 
-    question_short = faq?.question ? faq?.question.substr(0, 25) + '.....' : '';
-    answer_short = faq?.answer ? faq?.answer.substr(0, 25) + '.....' : '';
+    question = faq?.question ? faq?.question.substr(0, 25) + '.....' : '';
+    answer = faq?.answer ? faq?.answer.substr(0, 25) + '.....' : '';
 
     return {
       ...faq,
       name,
-      question_short,
-      answer_short,
+      question,
+      answer,
     };
   });
 

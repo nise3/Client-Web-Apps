@@ -14,7 +14,7 @@ import {
 } from '../common/constants';
 import URL from 'url';
 import UserTypes from './UserTypes';
-import PageSizes from './PageSizes';
+import {MAX_PAGE_SIZE, MIN_PAGE_SIZE} from './PageSizes';
 
 export const genders = [
   {
@@ -502,13 +502,23 @@ export const getCurrentDomain = () => {
   }
 };
 
-export const getPaginationPageSize = (inputPageSize: any) => {
-  const isIncluded = Object.values<any>(PageSizes).includes(
-    Number(inputPageSize),
-  );
-  if (isIncluded) {
-    return Number(inputPageSize);
+export const getFilteredQueryParams = (
+  params: any,
+  defaultPageSize: number,
+  defaultPage: number,
+) => {
+  if (
+    params.page_size &&
+    (!Number(params.page_size) ||
+      params.page_size < MIN_PAGE_SIZE ||
+      params.page_size > MAX_PAGE_SIZE)
+  ) {
+    params.page_size = defaultPageSize;
   }
 
-  return PageSizes.FOUR;
+  if (params.page && !Number(params.page)) {
+    params.page = defaultPage;
+  }
+
+  return params;
 };

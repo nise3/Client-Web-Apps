@@ -6,6 +6,7 @@ import {
   API_INDUSTRY_ASSOCIATION_PROFILE_UPDATE,
   API_INDUSTRY_ASSOCIATIONS,
   API_RECRUITMENT_STEPS,
+  API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {IRecruitmentStep} from '../../shared/Interface/interview.interface';
@@ -222,6 +223,18 @@ export const candidateStepMarkAsInterviewed = async (
     let response: any = await apiPut(
       API_CANDIDATE_UPDATE + applicationId + '/interviewed',
       params,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const showInLandingPageStatusChange = async (data: any) => {
+  try {
+    let response: any = await apiPost(
+      API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE,
+      data,
     );
     return response.data;
   } catch (error) {

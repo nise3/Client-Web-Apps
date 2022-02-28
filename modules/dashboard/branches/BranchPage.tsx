@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -19,16 +19,21 @@ import {deleteBranch} from '../../../services/instituteManagement/BranchService'
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
 
 const BranchPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
+  const [instituteFilterItems, setInstituteFilterItems] = useState<Array<any>>(
+    [],
+  );
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -69,6 +74,22 @@ const BranchPage = () => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
+  const [instituteFilter] = useState({});
+  const {data: institutes} = useFetchAllInstitutes(instituteFilter);
+
+  useEffect(() => {
+    if (institutes) {
+      setInstituteFilterItems(
+        institutes.map((institute: any) => {
+          return {
+            id: institute.id,
+            title: institute.title,
+          };
+        }),
+      );
+    }
+  }, [institutes]);
+
   const columns = useMemo(
     () => [
       {
@@ -83,22 +104,35 @@ const BranchPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
-        isVisible: locale == LocaleLanguage.BN,
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        Header: messages['common.address'],
+        accessor: 'address',
+        isVisible: false,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
-        isVisible: locale == LocaleLanguage.BN,
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        filter: 'selectFilter',
+        selectFilterItems: instituteFilterItems,
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.institute_title}</>;
+        },
       },
       {
         Header: messages['institute.label'],
-        accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        accessor: 'institute_id',
+        filter: 'selectFilter',
+        selectFilterItems: instituteFilterItems,
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.institute_title}</>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -127,7 +161,7 @@ const BranchPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale, instituteFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

@@ -19,7 +19,7 @@ import CustomChipStatus from '../memberList/CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {deleteRTO} from '../../../services/CertificateAuthorityManagement/RTOService';
 
-const ERPLInstitutePage = () => {
+const RTOPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -181,4 +181,4 @@ const ERPLInstitutePage = () => {
   );
 };
 
-export default ERPLInstitutePage;
+export default RTOPage;

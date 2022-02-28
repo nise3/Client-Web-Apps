@@ -212,6 +212,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
             primaryJobInfo?.special_instruction_for_job_seekers_en,
           is_photograph_enclose_with_resume:
             primaryJobInfo?.is_photograph_enclose_with_resume == 1,
+          organization_id: primaryJobInfo?.organization_id,
         });
         onJobSectorChange(primaryJobInfo?.job_sector_id);
       }
@@ -249,6 +250,10 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
 
       if (Number(data.is_apply_online) != 1) {
         delete data.is_apply_online;
+      }
+
+      if (!authUser?.isIndustryAssociationUser) {
+        delete data.organization_id;
       }
 
       //console.log('data', data);
