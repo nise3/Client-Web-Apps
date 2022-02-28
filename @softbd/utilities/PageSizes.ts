@@ -7,3 +7,6 @@ enum PageSizes {
 }
 
 export default PageSizes;
+
+export const MIN_PAGE_SIZE = 3;
+export const MAX_PAGE_SIZE = 100;
