@@ -44,7 +44,7 @@ for (let i = 1; i <= 50; i++) experienceYears.push({id: i, title: i});
 for (let i = 14; i <= 90; i++) ages.push({id: i, title: i});
 
 const initialValue = {
-  degrees: [{education_level_id: '', exam_degree_id: '', major_subject: ''}],
+  degrees: [],
   preferred_educational_institutions: [],
   other_educational_qualification: '',
   other_educational_qualification_en: '',
@@ -179,8 +179,7 @@ const CandidateRequirements = ({
   }, [candidateRequirements]);
 
   const getDegrees = (degrees: any) => {
-    if (!degrees || degrees.length < 1)
-      return [{education_level_id: '', exam_degree_id: '', major_subject: ''}];
+    if (!degrees || degrees.length < 1) return [];
 
     let eduLevelIds: any = {};
 

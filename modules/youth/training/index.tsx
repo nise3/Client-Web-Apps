@@ -8,6 +8,7 @@ import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'TrainingPage';
 
@@ -40,9 +41,26 @@ const CourseListPage = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <StyledTrainingRoot>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+      <CourseListHeaderSection
+        addFilterKey={filterCoursesListTrainingList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container>
           {authUser && authUser?.isYouthUser && (

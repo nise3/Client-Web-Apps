@@ -105,14 +105,14 @@ const OrganizationUnitTypePage = () => {
       {
         Header: messages['organization.label_en'],
         accessor: 'organization_title_en',
-        disableFilters: true,
+        disableFilters: locale == LocaleLanguage.BN,
         disableSortBy: true,
         isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
         accessor: 'organization_title',
-        disableFilters: true,
+        disableFilters: locale == LocaleLanguage.EN,
         disableSortBy: true,
         isVisible: locale == LocaleLanguage.BN,
       },

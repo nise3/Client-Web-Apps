@@ -1,6 +1,13 @@
-import {Grid, Pagination, TablePagination} from '@mui/material';
+import {
+  Box,
+  Pagination,
+  PaginationItem,
+  PaginationRenderItemParams,
+  TablePagination,
+} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
+import {useIntl} from 'react-intl';
 
 type Props = {
   count: number;
@@ -19,15 +26,22 @@ export const classes = {
   subHeader: `${PREFIX}-subHeader`,
 };
 
-export const StyledGrid = styled(Grid)(({theme}) => ({
+export const StyledBox = styled(Box)(({theme}) => ({
+  display: 'flex',
   '& .MuiTablePagination-displayedRows': {
     display: 'none',
   },
   '& .MuiTablePagination-actions': {
     display: 'none',
   },
+  '& .MuiTablePagination-toolbar': {
+    padding: '0px',
+    '& .MuiInputBase-root': {
+      marginRight: '5px',
+    },
+  },
   '& .MuiPagination-root': {
-    marginTop: '20px',
+    marginTop: '10px',
   },
 }));
 
@@ -39,8 +53,17 @@ const CustomPaginationWithPageNumber = ({
   rowsPerPage,
   onRowsPerPageChange: onRowsPerPageChangeCallback,
 }: Props) => {
+  const {messages, formatNumber} = useIntl();
+  const labelRowsPerPage: any = messages['common.per_page'];
+  const rowsPerPageOptions = [
+    {value: 10, label: formatNumber(10)},
+    {value: 25, label: formatNumber(25)},
+    {value: 50, label: formatNumber(50)},
+    {value: 100, label: formatNumber(100)},
+  ];
+
   return (
-    <StyledGrid container>
+    <StyledBox>
       <TablePagination
         component='span'
         count={count}
@@ -48,6 +71,8 @@ const CustomPaginationWithPageNumber = ({
         onPageChange={() => {}}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={onRowsPerPageChangeCallback}
+        labelRowsPerPage={labelRowsPerPage}
+        rowsPerPageOptions={rowsPerPageOptions}
       />
 
       <Pagination
@@ -56,8 +81,11 @@ const CustomPaginationWithPageNumber = ({
         color={'primary'}
         shape='rounded'
         onChange={onPaginationChange}
+        renderItem={(item: PaginationRenderItemParams) => {
+          return <PaginationItem {...item} />;
+        }}
       />
-    </StyledGrid>
+    </StyledBox>
   );
 };
 

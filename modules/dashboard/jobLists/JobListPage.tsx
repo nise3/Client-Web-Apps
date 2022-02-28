@@ -145,6 +145,18 @@ const JobListPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.member'],
+        accessor: 'organization_title',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.organization_id) {
+            return <>{data?.organization_title}</>;
+          } else {
+            return <>{messages['member.none']}</>;
+          }
+        },
+      },
+      {
         Header: messages['common.publish_at'],
         accessor: 'published_at',
         filter: 'dateTimeFilter',

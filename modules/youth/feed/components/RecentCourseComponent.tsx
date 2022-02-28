@@ -24,6 +24,9 @@ const StyledBox = styled(Box)(({theme}) => ({
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
+    '& img': {
+      objectFit: 'contain',
+    },
   },
 
   [`& .${classes.courseTitle}`]: {
@@ -51,6 +54,7 @@ const RecentCourseComponent = ({data: course}: any) => {
         <Box>
           <Avatar
             alt='provider image'
+            variant={'square'}
             src={course?.logo ? course?.logo : '/images/blank_image.png'}
             className={classes.courseProviderImage}
           />
@@ -68,8 +72,8 @@ const RecentCourseComponent = ({data: course}: any) => {
               href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}
               passHref>
               <Button
-                className={classes.detailsButton}
-                variant='contained'
+                variant='outlined'
+                color='primary'
                 size={'small'}
                 style={{marginLeft: 10}}>
                 {messages['common.details']}

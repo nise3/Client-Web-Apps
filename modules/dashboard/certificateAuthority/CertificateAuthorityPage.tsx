@@ -10,8 +10,8 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ERPLInstituteDetailsPopup from './ERPLInstituteDetailsPopup';
-import ERPLInstituteAddEditPopup from './ERPLInstituteAddEditPopup';
+import CertificateAuthorityDetailsPopup from './CertificateAuthorityDetailsPopup';
+import CertificateAuthorityAddEditPopup from './CertificateAuthorityAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -19,7 +19,7 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
-const ERPLInstitutePage = () => {
+const CertificateAuthorityPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -217,7 +217,7 @@ const ERPLInstitutePage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ERPLInstituteAddEditPopup
+          <CertificateAuthorityAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -226,7 +226,7 @@ const ERPLInstitutePage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <ERPLInstituteDetailsPopup
+          <CertificateAuthorityDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -238,4 +238,4 @@ const ERPLInstitutePage = () => {
   );
 };
 
-export default ERPLInstitutePage;
+export default CertificateAuthorityPage;

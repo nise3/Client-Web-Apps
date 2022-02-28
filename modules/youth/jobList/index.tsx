@@ -16,6 +16,7 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobListSearchSection from '../../industry/jobCircular/JobListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {ListAlt, Window} from '@mui/icons-material';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'JobList';
 
@@ -123,9 +124,26 @@ const JobList = () => {
     });
   }, []);
 
+  const filterJobListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setJobFilters((prev: any) => {
+        return objectFilter({...prev, ...newFilter});
+      });
+    },
+    [],
+  );
+
   return (
     <>
-      <JobListSearchSection addFilterKey={filterJobList} />
+      <JobListSearchSection
+        addFilterKey={filterJobList}
+        routeParamsFilters={filterJobListByRouteParams}
+      />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
