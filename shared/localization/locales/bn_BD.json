@@ -1567,5 +1567,6 @@
   "common.per_page": "প্রতি পেজ",
   "common.confirmation": "নিশ্চিতকরণ",
   "common.response": "রেসপন্স",
-  "common.accepted": "অনুমোদিত"
+  "common.accepted": "অনুমোদিত",
+  "common.show_in_status": "দেখানোর স্টযাটাস"
 }
