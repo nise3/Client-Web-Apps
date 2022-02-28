@@ -20,6 +20,16 @@ const StaticPage = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
   const [showInFilterItems, setShowInFilterItems] = useState<Array<any>>([]);
+  const staticPagetypeFilterItems = [
+    {
+      id: StaticPageTypes.BLOCK,
+      title: messages['static_page_content_type.page_block'],
+    },
+    {
+      id: StaticPageTypes.PAGE,
+      title: messages['static_page_content_type.static_page'],
+    },
+  ];
   const [staticPageTypesFilters, setStaticPageTypesFilters] = useState({
     category: [StaticPageCategoryTypes.COMMON],
   });
@@ -129,6 +139,9 @@ const StaticPage = () => {
       },
       {
         Header: messages['common.type'],
+        accessor: 'type',
+        filter: 'selectFilter',
+        selectFilterItems: staticPagetypeFilterItems,
         Cell: (props: any) => {
           return getPageTypeTitle(props.row.original.type);
         },
@@ -158,7 +171,7 @@ const StaticPage = () => {
         sortable: false,
       },
     ],
-    [messages, authUser],
+    [messages, authUser, showInFilterItems],
   );
 
   return (

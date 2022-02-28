@@ -78,11 +78,7 @@ const TrainersPage = () => {
         Header: messages['common.title'],
         accessor: 'trainer_name',
       },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'trainer_name_en',
-        isVisible: false,
-      },
+
       {
         Header: messages['common.email'],
         accessor: 'email',
@@ -96,6 +92,11 @@ const TrainersPage = () => {
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
         isVisible: false,
       },
       {
