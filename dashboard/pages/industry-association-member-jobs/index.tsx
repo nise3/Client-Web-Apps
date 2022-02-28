@@ -4,10 +4,10 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const CertificateAuthorityPage = asyncComponent(
+const IndustryAssociationsPage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/certificateAuthority/CertificateAuthorityPage'
+      '../../../modules/dashboard/industryAssociationMemberJobs/IndustryAssociationMemberJobsPage'
     ),
 );
 export default DashboardPage(() => {
@@ -15,8 +15,8 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['certificate_authority.label']} />
-      <CertificateAuthorityPage />
+      <PageMeta title={messages['industry_association_member_job.label']} />
+      <IndustryAssociationsPage />
     </>
   );
 });

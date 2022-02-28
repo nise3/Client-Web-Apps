@@ -375,11 +375,11 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
       if (itemId) {
         await updateFAQ(itemId, data);
-        updateSuccessMessage('institute.label');
+        updateSuccessMessage('menu.faq');
         mutateFAQ();
       } else {
         await createFAQ(data);
-        createSuccessMessage('institute.label');
+        createSuccessMessage('menu.faq');
       }
       props.onClose();
       refreshDataTable();

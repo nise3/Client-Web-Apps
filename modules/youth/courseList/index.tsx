@@ -12,6 +12,7 @@ import CourseListHeaderSection from '../training/CourseListHeaderSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'CourseList';
 
@@ -94,9 +95,26 @@ const CourseList = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setCourseFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <>
-      <CourseListHeaderSection addFilterKey={filterPopularCoursesList} />
+      <CourseListHeaderSection
+        addFilterKey={filterPopularCoursesList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <StyledContainer>
         {courseList && courseList.length > 0 ? (
           <Grid container spacing={3} padding={5}>

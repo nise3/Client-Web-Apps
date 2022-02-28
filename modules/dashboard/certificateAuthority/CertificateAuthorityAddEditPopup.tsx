@@ -91,7 +91,7 @@ const initialValues = {
   contact_person_mobile: '',
 };
 
-const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
+const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -698,4 +698,4 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default ERPLInstituteAddEditPopup;
+export default CertificateAuthorityAddEditPopup;

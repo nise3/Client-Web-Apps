@@ -13,7 +13,10 @@ import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {
+  getFilteredQueryParams,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -40,16 +43,10 @@ const NearbyTrainingCenterSection = ({
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const {page: queryPageNumber} = router.query;
-  // const {page_size: queryPageSize} = router.query;
-
-  const [urlQuery, setUrlQuery] = useState<any>({});
   const page = useRef<any>(1);
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
-    useState<any>({
-      district_id: authUser?.loc_district_id,
-      upazila_id: authUser?.loc_upazila_id,
-    });
+    useState<any>(null);
 
   const {
     data: nearbyTrainingCenters,
@@ -58,117 +55,75 @@ const NearbyTrainingCenterSection = ({
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
   useEffect(() => {
-    let queryObj: any = {};
-    if (Number(router.query.page)) {
-      queryObj['page'] = router.query.page;
-    }
+    let params: any = {
+      district_id: authUser?.loc_district_id,
+      upazila_id: authUser?.loc_upazila_id,
+      page_size: PageSizes.FOUR,
+    };
 
-    if (Number(router.query.page_size)) {
-      queryObj['page_size'] = router.query.page_size;
-    } else {
-      queryObj['page_size'] = showAllNearbyTrainingCenter
-        ? PageSizes.EIGHT
-        : PageSizes.FOUR;
-    }
-
-    setUrlQuery((params: any) => {
-      return {...params, ...queryObj};
-    });
-  }, [router.query.page_size, router.query.page]);
-
-  useEffect(() => {
-    let params: any = {};
-    params.page = Number(router.query.page);
-    params.page_size = Number(router.query.page_size);
-    params = objectFilter(params);
-
-    if (
-      params.page &&
-      (params.page < 1 || params.page > trainingCentersMetaData.total_page)
-    ) {
-      params.page = 1;
-    }
-
-    if (
-      params.page_size &&
-      (params.page_size < 1 || params.page_size > trainingCentersMetaData.total)
-    ) {
-      params.page_size = trainingCentersMetaData.total;
-    }
-
-    if (
-      params.page != router.query.page ||
-      params.page_size != router.query.page_size
-    ) {
-      //change router
-      router.push(
-        {
-          pathname: router.pathname,
-          query: objectFilter(params),
-        },
-        undefined,
-        {shallow: true},
+    if (showAllNearbyTrainingCenter) {
+      let modifiedParams = getFilteredQueryParams(
+        router.query,
+        PageSizes.EIGHT,
+        page.current,
       );
+
+      if (Object.keys(modifiedParams).length > 0)
+        urlParamsUpdate(modifiedParams);
+      params = {...params, ...modifiedParams};
     }
-  }, [trainingCentersMetaData]);
+    setNearbyTrainingCenterFilters(objectFilter(params));
+  }, [authUser]);
 
   useEffect(() => {
-    setNearbyTrainingCenterFilters((params: any) => {
-      return {
-        ...params,
-        ...objectFilter(urlQuery),
-      };
-    });
-  }, [urlQuery]);
+    if (
+      Number(router.query?.page) &&
+      trainingCentersMetaData &&
+      trainingCentersMetaData.total > 0 &&
+      trainingCentersMetaData.total_page < Number(router.query.page)
+    ) {
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: 1,
+      }));
+      urlParamsUpdate({...router.query, page: 1});
+    }
+  }, [trainingCentersMetaData, router.query]);
 
-  const getFilteredQueryValues = useCallback(
-    (page: number | null = null, pageSize: number | null = null) => {
-      let filteredObj: any = {};
-      if (page) {
-        filteredObj.page = page;
-      }
-      if (pageSize) {
-        filteredObj.page_size = pageSize;
-      }
-
-      return objectFilter(filteredObj);
-    },
-    [],
-  );
+  const urlParamsUpdate = (params: any) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: params,
+      },
+      undefined,
+      {shallow: true},
+    );
+  };
 
   const onPaginationChange = useCallback(
     (event: any, currentPage: number) => {
       page.current = currentPage;
-      router.push(
-        {
-          pathname: router.pathname,
-          query: getFilteredQueryValues(
-            currentPage,
-            Number(router.query.page_size),
-          ),
-        },
-        undefined,
-        {shallow: true},
-      );
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: currentPage,
+      }));
+      urlParamsUpdate({...router.query, page: currentPage});
     },
     [router.query],
   );
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      let queryObj: any = {};
-      queryObj.page = router.query.page;
-      queryObj.page_size = event.target.value;
-      queryObj = objectFilter(queryObj);
-
-      router.push(
-        {
-          pathname: router.pathname,
-          query: queryObj,
-        },
-        undefined,
-        {shallow: true},
-      );
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllNearbyTrainingCenter
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate({...router.query, page_size: event.target.value});
     },
     [router.query],
   );

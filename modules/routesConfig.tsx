@@ -283,29 +283,38 @@ const routesConfig: NavItemProps[] = [
         ],
       },
       {
-        id: 'institute_management',
+        id: 'institute-management',
         title: 'Institutes Management',
         messageId: 'certificate_authority.management',
         type: 'collapse',
         icon: 'room',
         children: [
           {
-            id: 'timeline',
+            id: 'certificate-authority',
             title: 'Certificate Authority',
             messageId: 'certificate_authority.label',
-            permissionKey: 'view_any_certificate_authority_remove',
+            permissionKey: 'view_any_certificate_authority',
             type: 'item',
             icon: 'business',
             url: '/certificate-authorities',
           },
           {
-            id: 'timeline',
+            id: 'rto',
             title: 'RTO',
             messageId: 'rto.label',
-            permissionKey: 'view_any_rto_remove',
+            permissionKey: 'view_any_rto',
             type: 'item',
             icon: 'home',
             url: '/rto',
+          },
+          {
+            id: 'rpl-sectors',
+            title: 'RPL',
+            messageId: 'rpl_sectors.label',
+            permissionKey: 'view_any_rpl_sectors',
+            type: 'item',
+            icon: 'home',
+            url: '/rpl-sectors',
           },
           {
             id: 'rto-countries',
@@ -343,6 +352,7 @@ const routesConfig: NavItemProps[] = [
             icon: 'list',
             url: '/member-management',
           },
+
           {
             id: 'publications',
             title: 'Publications',
@@ -360,6 +370,15 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'person',
             url: '/applicant-list',
+          },
+          {
+            id: 'industry-association-member-jobs',
+            title: 'Industry Association Member Jobs',
+            messageId: 'industry_association_member_job.label',
+            permissionKey: 'view_any_industry_association_member_job',
+            type: 'item',
+            icon: 'work',
+            url: '/industry-association-member-jobs',
           },
           {
             id: 'jobs',
