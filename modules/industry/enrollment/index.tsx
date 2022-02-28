@@ -74,19 +74,9 @@ const StyledHeader = styled(Grid)(({theme}) => ({
 
 const CustomContainer = styled(Container)(({theme}) => ({
   [`& .${classes.totalEmployeeFields}`]: {
-    paddingTop: '0',
+    paddingTop: '0 !important',
   },
 }));
-
-const registeredAuthors = [
-  {id: 1, title: 'author-1'},
-  {id: 2, title: 'author-2'},
-  {id: 3, title: 'author-3'},
-  {id: 4, title: 'author-4'},
-  {id: 5, title: 'author-5'},
-  {id: 6, title: 'author-6'},
-  {id: 'others', title: 'Other'},
-];
 
 const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   ...props
@@ -372,13 +362,13 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['institute.is_registered_under_authority'] as string),
-      registered_authority: yup.object(),
+      registered_authority: yup.array(),
       is_authorized_under_authority: yup
         .string()
         .required()
         .label(messages['institute.is_under_any_approved_authority'] as string),
       authorized_authority: yup
-        .string()
+        .array()
         .label(messages['institute.authorized_authority'] as string),
       have_specialized_area: yup
         .string()
@@ -406,11 +396,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['institute.is_association_member'] as string),
-      member_of_association_or_chamber_name: isAssociationMember
+      under_association_or_chamber_name: isAssociationMember
         ? yup
             .string()
             .required()
-            .label(messages['industry.under_sme_cluster_name'] as string)
+            .label(
+              messages[
+                'industry.member_of_association_or_chamber_name'
+              ] as string,
+            )
         : yup.string(),
       sector_id: yup
         .string()
@@ -672,11 +666,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   console.log('errors', errors);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('submitted data:', data);
+    data.authorized_authority = data?.authorized_authority
+      .map((item: any, index: number) => {
+        return {authority_type: index, registration_number: item};
+      })
+      .filter((item: any) => item.registration_number);
+
     try {
       await registerNASCIBMember(data);
       createSuccessMessage('nascib_member.label');
-      props.onClose();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -1355,7 +1353,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     {hasRegisteredAuthority == HasRegisteredAuthority.YES && (
                       <CustomCheckboxTextInput
                         id={'registered_authority'}
-                        data={registeredAuthors}
+                        data={memberStaticData?.registered_authority || []}
                         label={messages['industry.registered_authority']}
                         checkedDataArray={checkedRegisteredAuthority}
                         onChange={handleRegisteredAuthorityCheck}
@@ -1381,7 +1379,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     {hasAuthorizedAuthority == Boolean.YES && (
                       <CustomCheckboxTextInput
                         id={'authorized_authority'}
-                        data={registeredAuthors}
+                        data={memberStaticData?.authorized_authority || []}
                         label={messages['industry.authorized_authority']}
                         checkedDataArray={checkedAuthorizedAuthority}
                         onChange={handleAuthorizedAuthorityCheck}
@@ -1407,7 +1405,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       HasRegisteredAuthority.YES && (
                       <CustomCheckboxTextInput
                         id={'specialized_area_name'}
-                        data={registeredAuthors}
+                        data={memberStaticData?.specialized_area || []}
                         label={messages['industry.specialized_areas']}
                         checkedDataArray={checkedSpecializedArea}
                         onChange={handleSpecializedAreaCheck}
@@ -1436,7 +1434,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         label={messages['institute.under_sme_cluster_name']}
                         isLoading={false}
                         control={control}
-                        options={[]}
+                        options={memberStaticData?.smef_clusters || []}
                         optionValueProp={'id'}
                         optionTitleProp={['title_en', 'title']}
                         errorInstance={errors}
@@ -1457,7 +1455,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     {isAssociationMember && (
                       <>
                         <CustomTextInput
-                          id='member_of_association_or_chamber_name'
+                          required
+                          id='under_association_or_chamber_name'
                           label={
                             messages[
                               'institute.member_of_association_or_chamber_name'
@@ -1467,7 +1466,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                           errorInstance={errors}
                         />
                         <CustomTextInput
-                          id='member_of_association_or_chamber_name_en'
+                          id='under_association_or_chamber_name_en'
                           label={
                             messages[
                               'institute.member_of_association_or_chamber_name_en'
@@ -1488,10 +1487,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       label={messages['institute.sector']}
                       isLoading={isLoadingMemberStaticData}
                       control={control}
-                      options={[
-                        {id: 1, title: 'Electrical'},
-                        {id: 'other_sector', title: 'others'},
-                      ]}
+                      options={memberStaticData?.sector || []}
                       optionValueProp={'id'}
                       optionTitleProp={['title_en', 'title']}
                       errorInstance={errors}
@@ -1499,7 +1495,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     />
 
                     {isOpenSectorOtherName && (
-                      <Grid container>
+                      <Grid container spacing={2} mt={1}>
                         <Grid item xs={6}>
                           <CustomTextInput
                             required
@@ -1512,7 +1508,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         </Grid>
                         <Grid item xs={6}>
                           <CustomTextInput
-                            required
                             id='other_sector_name_en'
                             label={messages['institute.sector_other_name_en']}
                             register={register}
