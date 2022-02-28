@@ -369,7 +369,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -411,7 +415,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -472,27 +480,39 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               <Box className={classes.cardBottom}>
                 <Body1>
                   <Body1>
-                    you have been invited in {job?.interview_address} at {time}
+                    You have been invited in {job?.interview_address} at {time}
                   </Body1>
                 </Body1>
                 {job?.confirmation_status == ConfirmationStatus.ACCEPTED ? (
                   <CustomChip
                     label={messages['common.accepted']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : job?.confirmation_status == ConfirmationStatus.REJECTED ? (
                   <CustomChip
                     label={messages['common.rejected']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : job?.confirmation_status ==
                   ConfirmationStatus.RESCHEDULED ? (
                   <CustomChip
                     label={messages['common.rescheduled']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : (
                   <Button
