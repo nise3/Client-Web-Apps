@@ -137,6 +137,7 @@ const MyJobsPage = () => {
                         job={job}
                         onPopupClose={onPopupClose}
                         isGridView={viewType == 1}
+                        isShowingInMyJobs={true}
                       />
                     </Grid>
                   );
