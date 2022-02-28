@@ -86,11 +86,6 @@ const TrainingCenterPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
-      {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
         isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
@@ -105,6 +100,10 @@ const TrainingCenterPage = () => {
       {
         Header: messages['branch.label'],
         accessor: 'branch_title',
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
       },
       {
         Header: messages['common.status'],

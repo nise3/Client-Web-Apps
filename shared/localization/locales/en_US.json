@@ -1573,14 +1573,20 @@
   "permissions.method_delete": "DELETE",
   "common.per_page": "Per Page",
   "country.label": "Country",
+  "rto-country.label": "RTO Country",
   "common.create_job_for_member": "Create job for member",
   "common.candidate_present": "Candidate Present",
   "common.interview_score": "Interview Score",
   "common.mark_as_interview": "Mark as interview",
+  "common.rto-countries": "RTO countries",
   "common.confirmation": "Confirmation",
   "common.response": "Response",
   "common.accepted": "Accepted",
   "common.rescheduled": "Rescheduled",
   "job.online_job_posting": "Nise Online Job Posting.",
-  "job.posted_by": "Job posted by: "
+  "job.posted_by": "Job posted by: ",
+  "common.show_in_status": "Show in status",
+  "common.show_in_landing_page": "Show in landing page",
+  "common.member": "Member",
+  "member.none": "No member"
 }

@@ -1571,9 +1571,15 @@
   "common.per_page": "প্রতি পেজ",
   "permissions.method_delete": "ডিলেট",
   "country.label": "দেশ",
+  "rto-country.label": "আরটিওভুক্ত দেশ",
+  "common.rto-countries": "আরটিওভুক্ত দেশসমূহ",
   "common.confirmation": "নিশ্চিতকরণ",
   "common.response": "রেসপন্স",
   "common.accepted": "অনুমোদিত",
   "job.online_job_posting": "NISE অনলাইন জব পোস্টিং",
-  "job.posted_by": "চাকরি পোস্ট করেছেন: "
+  "job.posted_by": "চাকরি পোস্ট করেছেন: ",
+  "common.show_in_status": "দেখানোর স্টযাটাস",
+  "common.show_in_landing_page": "ল্যান্ডিং পেইজে দেখানো হবে",
+  "common.member": "সদস্য",
+  "member.none": "নেই"
 }

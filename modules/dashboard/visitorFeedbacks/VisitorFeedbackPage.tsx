@@ -51,12 +51,11 @@ const VisitorFeedbackPage = () => {
       },
       {
         Header: messages['common.comment'],
-        accessor: 'short_comment',
+        accessor: 'comment',
       },
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
-        disableFilters: true,
       },
       {
         Header: messages['common.email'],
@@ -93,13 +92,13 @@ const VisitorFeedbackPage = () => {
   );
 
   let modifiedData = visitorFeedbacks?.map((feedback: any) => {
-    let short_comment = feedback?.comment
+    let comment = feedback?.comment
       ? feedback?.comment.substr(0, 25) + '.....'
       : '';
 
     return {
       ...feedback,
-      short_comment,
+      comment,
     };
   });
 

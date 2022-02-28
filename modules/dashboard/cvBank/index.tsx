@@ -15,10 +15,9 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 import {Link} from '../../../@softbd/elements/common';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const CVBankPage = () => {
-  const {messages, locale} = useIntl();
+  const {messages} = useIntl();
 
   const router = useRouter();
   const path = router.pathname;
@@ -60,22 +59,11 @@ const CVBankPage = () => {
       {
         Header: messages['common.first_name'],
         accessor: 'first_name',
-        isVisible: locale == LocaleLanguage.BN,
       },
-      {
-        Header: messages['common.first_name_en'],
-        accessor: 'first_name_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
+
       {
         Header: messages['common.last_name'],
         accessor: 'last_name',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['common.last_name_en'],
-        accessor: 'last_name_en',
-        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['youth.gender'],
