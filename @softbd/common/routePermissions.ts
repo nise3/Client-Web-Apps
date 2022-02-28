@@ -213,7 +213,7 @@ export const routePermissions: any = {
   },
   '/rpl-sectors': {
     routePrefix: '/rpl-sectors',
-    permissionKeys: ['view_any_rpl_sectors'],
+    permissionKeys: ['view_any_rpl_sector'],
   },
   '/industry-association-member-jobs': {
     routePrefix: '/industry-association-member-jobs',

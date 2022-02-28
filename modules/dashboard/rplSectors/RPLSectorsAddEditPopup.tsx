@@ -14,12 +14,13 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {Add, Delete} from '@mui/icons-material';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchRPLSector} from '../../../services/CertificateAuthorityManagement/hooks';
-import {useFetchCountries} from '../../../services/locationManagement/hooks';
+import {
+  useFetchRPLSector,
+  useFetchRTOCountries,
+} from '../../../services/CertificateAuthorityManagement/hooks';
 import {
   createRPLSector,
   updateRPLSector,
@@ -53,15 +54,14 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     mutate: mutateRPLSector,
   } = useFetchRPLSector(itemId);
 
-  const [countryFilters] = useState<any>({});
   const {data: countries, isLoading: isFetchingCountries} =
-    useFetchCountries(countryFilters);
+    useFetchRTOCountries();
 
   const [countryList, setCountryList] = useState<any>([]);
 
   const [allCountries, setAllCountries] = useState<any>([]);
 
-  const [selectedCountryList, setSelectedCoutryList] = useState<any>([]);
+  const [selectedCountryList, setSelectedCountryList] = useState<any>([]);
   const [selectedCountryId, setSelectedCountryId] = useState<string | null>(
     null,
   );
@@ -76,33 +76,33 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         .required()
         .label(messages['rpl_sector.name'] as string),
       /*      language_en: !selectedIds.includes(LanguageCodes.ENGLISH)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            question: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.question'] as string),
-            answer: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.answer'] as string),
-          }),
-      language_hi: !selectedIds.includes(LanguageCodes.HINDI)
-        ? yup.object().shape({})
-        : yup.object().shape({
-            question: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.question'] as string),
-            answer: yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['faq.answer'] as string),
-          }),*/
+                                            ? yup.object().shape({})
+                                            : yup.object().shape({
+                                                question: yup
+                                                  .string()
+                                                  .trim()
+                                                  .required()
+                                                  .label(messages['faq.question'] as string),
+                                                answer: yup
+                                                  .string()
+                                                  .trim()
+                                                  .required()
+                                                  .label(messages['faq.answer'] as string),
+                                              }),
+                                          language_hi: !selectedIds.includes(LanguageCodes.HINDI)
+                                            ? yup.object().shape({})
+                                            : yup.object().shape({
+                                                question: yup
+                                                  .string()
+                                                  .trim()
+                                                  .required()
+                                                  .label(messages['faq.question'] as string),
+                                                answer: yup
+                                                  .string()
+                                                  .trim()
+                                                  .required()
+                                                  .label(messages['faq.answer'] as string),
+                                              }),*/
     });
   }, [messages, selectedIds]);
 
@@ -126,7 +126,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     if (itemData) {
       let data: any = {
         title: itemData?.title,
-        title_en: itemData?.title_en,
+        /*title_en: itemData?.title_en,*/
         row_status: itemData?.row_status,
       };
 
@@ -134,6 +134,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
 
       if (otherCountryData) {
         let ids: any = Object.keys(otherCountryData);
+
         ids.map((id: string) => {
           data['country_' + id] = {
             id: id,
@@ -142,12 +143,16 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         });
         setSelectedIds(ids);
 
-        setSelectedCoutryList(
-          allCountries.filter((item: any) => ids.includes(item.id)),
+        setSelectedCountryList(
+          allCountries?.filter((item: any) =>
+            ids.includes(String(item.country_id)),
+          ),
         );
 
         setCountryList(
-          allCountries.filter((item: any) => !ids.includes(item.id)),
+          allCountries?.filter(
+            (item: any) => !ids.includes(String(item.country_id)),
+          ),
         );
       }
 
@@ -160,17 +165,17 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   const onAddOtherCountryClick = useCallback(() => {
     if (selectedCountryId) {
       let lists = [...selectedCountryList];
-      const country = allCountries.find(
-        (item: any) => item.id == selectedCountryId,
+      const country = allCountries?.find(
+        (item: any) => item.country_id == selectedCountryId,
       );
 
       if (country) {
         lists.push(country);
-        setSelectedCoutryList(lists);
-        setSelectedIds((prev) => [...prev, country.id]);
+        setSelectedCountryList(lists);
+        setSelectedIds((prev) => [...prev, country.country_id]);
 
         setCountryList((prevState: any) =>
-          prevState.filter((item: any) => item.id != selectedCountryId),
+          prevState.filter((item: any) => item.country_id != selectedCountryId),
         );
         setSelectedCountryId(null);
       }
@@ -184,15 +189,19 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   const onDeleteCountry = useCallback(
     (country: any) => {
       if (country) {
-        setSelectedCoutryList((prevState: any) =>
-          prevState.filter((item: any) => item.id != country.id),
+        setSelectedCountryList((prevState: any) =>
+          prevState.filter(
+            (item: any) => item.country_id != country.country_id,
+          ),
         );
 
         let countries = [...countryList];
         countries.push(country);
         setCountryList(countries);
 
-        setSelectedIds((prev) => prev.filter((id: any) => id != country.id));
+        setSelectedIds((prev) =>
+          prev.filter((id: any) => id != country.country_id),
+        );
       }
     },
     [selectedCountryList, countryList, selectedIds],
@@ -207,23 +216,21 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
       let otherCountriesFields: any = {};
       delete data.country_list;
 
-      selectedCountryList.map((country: any) => {
-        const countryObj = formData['country_' + country.id];
+      selectedCountryList?.map((country: any) => {
+        const countryObj = formData['country_' + country.country_id];
 
-        otherCountriesFields[country.id] = {
+        otherCountriesFields[country.country_id] = {
           title: countryObj.title,
         };
       });
 
-      /** work here later */
-      delete data['language_en'];
-      delete data['language_hi'];
-      delete data['language_te'];
-
       if (selectedCountryList.length > 0)
         data.translations = otherCountriesFields;
 
-      console.log('submitted data of rouzex: ', data);
+      const selectedIds = Object.keys(data.translations);
+      selectedIds.forEach((id: string | number) => {
+        delete data['country_' + id];
+      });
 
       if (itemId) {
         await updateRPLSector(itemId, data);
@@ -279,7 +286,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/*<Grid item xs={12}>
           <CustomTextInput
             id={'title_en'}
             label={messages['rpl_sector.name_en']}
@@ -288,7 +295,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
             isLoading={isLoading}
             multiline={true}
           />
-        </Grid>
+        </Grid>*/}
 
         <Grid item xs={6}>
           <CustomFilterableFormSelect
@@ -297,7 +304,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
             isLoading={isFetchingCountries}
             control={control}
             options={countryList}
-            optionValueProp={'id'}
+            optionValueProp={'country_id'}
             optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onCountryListChange}
@@ -315,15 +322,15 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12}>
-          {selectedCountryList.map((country: any) => (
-            <Box key={country.id} sx={{marginTop: '10px'}}>
+          {selectedCountryList?.map((country: any) => (
+            <Box key={country.country_id} sx={{marginTop: '10px'}}>
               <fieldset style={{border: '1px solid #7e7e7e'}}>
                 <legend style={{color: '#0a8fdc'}}>{country.title}</legend>
                 <Grid container spacing={5}>
                   <Grid item xs={11}>
                     <CustomTextInput
                       required
-                      id={'country_' + country.id + '[title]'}
+                      id={'country_' + country.country_id + '[title]'}
                       label={messages['rpl_sector.name']}
                       register={register}
                       errorInstance={errors}
@@ -345,14 +352,14 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
           ))}
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        {/*<Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}
             defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
-        </Grid>
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );
