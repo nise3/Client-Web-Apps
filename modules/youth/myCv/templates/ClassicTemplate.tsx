@@ -94,22 +94,18 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     const educationText = (education: any, locale: string) => {
       return (
         (education?.institute_name
-          ? 'Institution Name: ' + education[getProps('institute_name', locale)] + ', '
+          ? `${messages['common.institute_name']}: ${education[getProps('institute_name', locale)]}, `
           : ' ') +
         (education?.duration
-          ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
+          ? `${messages['education.duration']}: ${parseFloat(education?.duration)} yrs,`
           : ' ') +
         (education?.result?.code === 'GRADE'
           ? education?.cgpa
-            ? 'CGPA: ' +
-              parseFloat(education?.cgpa) +
-              ' ( out of ' +
-              parseInt(education?.cgpa_scale) +
-              ' ), '
+            ? `${messages['education.cgpa']}: ` + parseFloat(education?.cgpa) + ' ( out of ' + parseInt(education?.cgpa_scale) + ' ), '
             : ' '
-          : 'Result: ' + education?.result?.title) +
+          : `${messages['education.result']}: ` + education?.result?.title) +
         (education?.year_of_passing
-          ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
+          ? `${messages['education.passing_year']}: ` + parseInt(education?.year_of_passing) + ', '
           : ' ')
       );
     };
@@ -147,15 +143,15 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       userData?.youth_languages_proficiencies.map((language: any) => {
         return (
           (language?.language_title
-            ? 'Language: ' + language?.language_title + ', '
+            ? `${messages['common.language']}: ` + language?.language_title + ', '
             : ' ') +
           (language?.reading_proficiency_level
-            ? 'Reading: ' +
+            ? `${messages['language.read']}: ` +
               LanguageProficiencyType[language?.reading_proficiency_level] +
               ', '
             : ' ') +
           (language?.speaking_proficiency_level
-            ? 'Speaking: ' +
+            ? `${messages['language.speak']}: ` +
               LanguageProficiencySpeakingType[
                 language?.speaking_proficiency_level
               ] +
@@ -171,7 +167,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       userData?.youth_job_experiences.map((experience: any) => {
         return (
           (experience?.company_name
-            ? 'Company: ' + experience[getProps('company_name', locale)] + ', '
+            ? `${messages['common.company_name_bn']}: ` + experience[getProps('company_name', locale)] + ', '
             : ' ') +
           (experience?.position
             ? `${messages['common.position']}: ` + experience[getProps('position', locale)] + ', '
