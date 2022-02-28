@@ -15,6 +15,7 @@ import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import BoxCardsSkeleton from './institute/Components/BoxCardsSkeleton';
 import PageSizes from '../@softbd/utilities/PageSizes';
+import {FilterItem} from '../shared/Interface/common.interface';
 
 const PREFIX = 'SimilarCourseList';
 
@@ -76,13 +77,26 @@ const SimilarCourseList = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setSimilarCourseFilter((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   const pathValue = 'skill-matching';
   const {
     data: courseList,
     isLoading: isSimilarCoursesLoading,
     metaData,
   } = useFetchCourseList(pathValue, similarCourseFilter);
-  console.log('metaData', metaData.total_page);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
@@ -92,7 +106,10 @@ const SimilarCourseList = () => {
   }, []);
   return (
     <StyledBox>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+      <CourseListHeaderSection
+        addFilterKey={filterCoursesListTrainingList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container>
           <Grid item xs={12}>

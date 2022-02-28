@@ -42,6 +42,11 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
+export interface IRPLSector {
+  title: string;
+  row_status: number;
+  other_country_fields?: object;
+}
 
 export interface IPartner extends IIdTitle {
   main_image_path?: string;
@@ -184,4 +189,9 @@ export interface ICellProps<T extends object> extends CellProps<any> {
 export interface ISelectFilterItem {
   id: number | string;
   title: string;
+}
+
+export interface FilterItem {
+  filterKey: string;
+  filterValue: any;
 }

@@ -9,7 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
-import {InstituteType} from './ERPLInstituteAddEditPopup';
+import {InstituteType} from './CertificateAuthorityAddEditPopup';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const ERPLInstituteDetailsPopup = ({
+const CertificateAuthorityDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
@@ -183,4 +183,4 @@ const ERPLInstituteDetailsPopup = ({
     </>
   );
 };
-export default ERPLInstituteDetailsPopup;
+export default CertificateAuthorityDetailsPopup;

@@ -199,6 +199,22 @@ export const routePermissions: any = {
     routePrefix: '/cv-bank',
     permissionKeys: ['view_any_cv_bank'],
   },
+  '/certificate-authorities': {
+    routePrefix: '/certificate-authorities',
+    permissionKeys: ['view_any_certificate_authority'],
+  },
+  '/rto': {
+    routePrefix: '/rto',
+    permissionKeys: ['view_any_rto'],
+  },
+  '/country': {
+    routePrefix: '/country',
+    permissionKeys: ['view_any_country'],
+  },
+  '/rpl-sectors': {
+    routePrefix: '/rpl-sectors',
+    permissionKeys: ['view_any_rpl_sectors'],
+  },
   '/industry-association-member-jobs': {
     routePrefix: '/industry-association-member-jobs',
     permissionKeys: ['view_any_industry_association_member_job'],
