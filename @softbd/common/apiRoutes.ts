@@ -195,6 +195,7 @@ export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
 export const API_YOUTH_APPLY_JOB = YOUTH_SERVICE_PATH + '/apply-job';
+export const API_YOUTH_JOB_RESPONSE = YOUTH_SERVICE_PATH + '/respond-to-job';
 
 /** Youth service routes section end */
 
@@ -294,6 +295,8 @@ export const API_INDUSTRY_ASSOCIATION_MEMBERS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-members';
 
 export const API_JOBS = ORGANIZATION_SERVICE_PATH + '/jobs';
+export const API_MEMBER_JOBS =
+  ORGANIZATION_SERVICE_PATH + '/jobs/industry-association-member-jobs';
 export const API_JOB_ID = API_JOBS + '/job-id';
 
 export const API_JOB_STORE_PRIMARY_INFORMATION =
@@ -467,3 +470,5 @@ export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
 
 export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH  + '/rto-countries';
+
+export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';

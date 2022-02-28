@@ -372,6 +372,10 @@
   "certificate_authority.details": "সার্টিফিকেট অথরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথরিটি ব্যবস্থাপনা",
   "rto.label": "আরটিও",
+  "rpl_sectors.label": "আরপিএল সেক্টর সমূহ",
+  "rpl_sector.label": "আরপিএল সেক্টর",
+  "rpl_sector.name": "সেক্টর এর নাম",
+  "rpl_sector.name_en": "সেক্টর এর নাম (ইংরেজি)",
   "rto.details": "আরটিও বিস্তারিত",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
@@ -1043,6 +1047,7 @@
   "common.video_id": "ভিডিও আইডি",
   "common.video_url": "ভিডিও ইউআরএল",
   "faq.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
+  "rpl_sector.add_country": "অন্যান্য দেশের ভাষায় সেক্টর যোগ করুন",
   "common.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি",
   "common.event_start_date": "ঘটনা শুরুর তারিখ",
@@ -1204,6 +1209,8 @@
   "common.cv_read": "সিভি প্রদর্শন",
   "common.youth_read": "ইয়ুথ প্রদর্শন",
   "common.rejected": "প্রত্যাখ্যাত",
+  "common.reschedule": "সময় পুনঃনির্ধারণ",
+  "common.rescheduled": "সময় পুনঃনির্ধারিত",
   "common.vacancy_provided_by_institute": "ইনস্টিটিউট দ্বারা প্রদত্ত শূন্যপদ",
   "common.reject": "প্রত্যাখ্যান",
   "publication.label": "প্রকাশনা সমূহ",
@@ -1376,6 +1383,7 @@
   "job_preview.experience_at_most": "সর্বাধিক {to} বছর",
   "hr_demand.label": "হিউম্যান রিসোর্স চাহিদা",
   "industry_association.label": "শিল্প সমিতি",
+  "industry_association_member_job.label": "সদস্য চাকরি",
   "common.manage": "ম্যানেজ",
   "common.question_bank": "প্রশ্ন ব্যাংক",
   "common.question_id": "প্রশ্ন আইডি",
@@ -1565,4 +1573,7 @@
   "country.label": "দেশ",
   "rto-country.label": "আরটিওভুক্ত দেশ",
   "common.rto-countries": "আরটিওভুক্ত দেশসমূহ"
+  "common.confirmation": "নিশ্চিতকরণ",
+  "common.response": "রেসপন্স",
+  "common.accepted": "অনুমোদিত"
 }
