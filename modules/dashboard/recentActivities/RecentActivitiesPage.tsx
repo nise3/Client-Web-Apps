@@ -140,6 +140,18 @@ const RecentActivitiesPage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
+      {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
 
       {
         Header: messages['common.content_type'],

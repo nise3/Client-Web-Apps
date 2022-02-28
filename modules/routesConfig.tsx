@@ -282,9 +282,9 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
-      {
-        id: 'institute-management',
-        title: 'Institutes Management',
+      /*{
+        id: 'certificate_authority',
+        title: 'Certificate Authority',
         messageId: 'certificate_authority.management',
         type: 'collapse',
         icon: 'room',
@@ -317,16 +317,16 @@ const routesConfig: NavItemProps[] = [
             url: '/rpl-sectors',
           },
           {
-            id: 'country',
-            title: 'Country',
-            messageId: 'common.country',
-            permissionKey: 'view_any_country',
+            id: 'rto-countries',
+            title: 'RTO Countries',
+            messageId: 'common.rto-countries',
+            permissionKey: 'view_any_rto_country',
             type: 'item',
             icon: 'flag',
-            url: '/country',
+            url: '/rto-countries',
           },
         ],
-      },
+      },*/
       {
         id: 'industry_association_management',
         title: 'Industry Association Management',
@@ -398,15 +398,6 @@ const routesConfig: NavItemProps[] = [
             icon: 'business',
             url: '/contact-info',
           },
-          /*{
-            id: 'job-requirement',
-            title: 'job-requirement',
-            messageId: 'job_requirement.label',
-            permissionKey: 'view_any_job_requirement',
-            type: 'item',
-            icon: 'timeline',
-            url: '/job-requirement',
-          },*/
         ],
       },
       {

@@ -124,6 +124,18 @@ const NoticeOrNewsPage = () => {
         accessor: 'title',
       },
       {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
+      {
         Header: messages['common.type'],
         accessor: 'type',
         filter: 'selectFilter',
