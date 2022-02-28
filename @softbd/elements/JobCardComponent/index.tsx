@@ -31,7 +31,10 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
-import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
+import {
+  SalaryShowOption,
+  SHOW,
+} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
 import CustomChip from '../display/CustomChip/CustomChip';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
@@ -117,6 +120,7 @@ const StyledCard = styled(Card)(({theme}) => ({
     WebkitBoxOrient: 'vertical',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    minHeight: '45px',
   },
   [`& .${classes.details}`]: {
     whiteSpace: 'break-spaces',
@@ -192,18 +196,38 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   }, [authUser]);
 
   const getJobProviderTitle = () => {
-    if (job.industry_association_id) {
-      return job.industry_association_title;
-    } else if (job.organization_id) {
-      return job.organization_title;
+    if (job?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (job?.industry_association_id) {
+        if (job?.organization_id) {
+          return job?.organization_title;
+        } else {
+          return job?.industry_association_title;
+        }
+      } else if (job?.organization_id) {
+        return job?.organization_title;
+      } else {
+        return '';
+      }
+    } else {
+      return job?.company_info_visibility?.company_name;
     }
   };
 
   const getJobProviderImage = () => {
     let logo = '/images/blank_image.png';
-    if (job.industry_association_id && job?.industry_association_logo) {
-      logo = job.industry_association_logo;
-    } else if (job.organization_id && job?.organization_logo) {
+    if (job?.industry_association_id && job?.industry_association_logo) {
+      if (job?.organization_id && job?.organization_logo) {
+        logo = job.organization_logo;
+      } else if (!job?.organization_id && job?.industry_association_logo) {
+        logo = job.industry_association_logo;
+      }
+    } else if (
+      job?.industry_association_id &&
+      job?.organization_id &&
+      job?.organization_logo
+    ) {
+      logo = job.organization_logo;
+    } else if (job?.organization_id && job?.organization_logo) {
       logo = job.organization_logo;
     }
     return logo;
