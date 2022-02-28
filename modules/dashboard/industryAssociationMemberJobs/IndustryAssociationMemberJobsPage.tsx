@@ -6,24 +6,28 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_MEMBER_JOBS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 /*import useNotiStack from '../../../@softbd/hooks/useNotifyStack';*/
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
 import {useRouter} from 'next/router';
 import {LINK_JOB_DETAILS_VIEW} from '../../../@softbd/common/appLinks';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {FormControlLabel, Switch} from '@mui/material';
+import * as _ from 'lodash';
+import {showInLandingPageStatusChange} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import ShowInLandingPageStatus from './ShowInLandingPageStatus';
 
 const IndustryAssociationMemberJobsPage = () => {
   const {messages, locale} = useIntl();
-
-  /*  const {successStack, errorStack} = useNotiStack();*/
+  const {successStack} = useNotiStack();
   const router = useRouter();
 
-  //const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isToggleTable] = useState<boolean>(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const openJobDetailsView = useCallback((jobId: string) => {
     router
@@ -33,9 +37,42 @@ const IndustryAssociationMemberJobsPage = () => {
       .then(() => {});
   }, []);
 
-  /*  const refreshDataTable = useCallback(() => {
+  const debounceFn = useCallback(_.debounce(handleDebounce, 500), []);
+
+  async function handleDebounce(data: any) {
+    try {
+      const response = await showInLandingPageStatusChange(data);
+      if (isResponseSuccess(response)) {
+        console.log('data.show_in_landing_page: ', data.show_in_landing_page);
+        successStack(
+          <IntlMessages
+            id='common.subject_updated_successfully'
+            values={{subject: <IntlMessages id='common.show_in_status' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error) {}
+  }
+
+  const handleShowInStatusChange = (
+    event: any,
+    jobId: any,
+    organizationId: number,
+  ) => {
+    const status = event.target.checked
+      ? ShowInLandingPageStatus.YES
+      : ShowInLandingPageStatus.NO;
+    const data: any = {};
+    data.show_in_landing_page = status;
+    data.job_id = jobId;
+    data.organization_id = organizationId;
+    debounceFn(data);
+  };
+
+  const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
-  }, [isToggleTable]);*/
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -91,22 +128,31 @@ const IndustryAssociationMemberJobsPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let jobId = data?.job_id;
+          let organizationId = data?.organization_id;
+          console.log(
+            'data?.show_in_landing_page: ',
+            data?.show_in_landing_page,
+          );
           return (
             <DatatableButtonGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    color={'primary'}
+                    onChange={(event) => {
+                      handleShowInStatusChange(event, jobId, organizationId);
+                    }}
+                    checked={!!data.show_in_landing_page}
+                  />
+                }
+                label='Show in landing page'
+              />
               <ReadButton
                 onClick={() => {
                   openJobDetailsView(data.job_id);
                 }}
               />
-              {/* <CustomCheckbox
-                id='is_freshers_encouraged'
-                label={messages['job_post.is_fresher_applicable']}
-                checked={isFresherApplicable}
-                onChange={() => {
-                  setIsFresherApplicable((prev) => !prev);
-                }}
-                isLoading={false}
-              />*/}
             </DatatableButtonGroup>
           );
         },
