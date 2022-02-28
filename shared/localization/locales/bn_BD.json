@@ -1574,5 +1574,8 @@
   "common.confirmation": "নিশ্চিতকরণ",
   "common.response": "রেসপন্স",
   "common.accepted": "অনুমোদিত",
-  "common.show_in_status": "দেখানোর স্টযাটাস"
+  "common.show_in_status": "দেখানোর স্টযাটাস",
+  "common.show_in_landing_page": "ল্যান্ডিং পেইজে দেখানো হবে",
+  "common.member": "সদস্য",
+  "member.none": "নেই"
 }

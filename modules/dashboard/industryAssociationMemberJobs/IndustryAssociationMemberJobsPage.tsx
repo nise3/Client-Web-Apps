@@ -95,6 +95,30 @@ const IndustryAssociationMemberJobsPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
+        Header: messages['common.show_in_landing_page'],
+        accessor: 'show_in_landing_page',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let jobId = data?.job_id;
+          let organizationId = data?.organization_id;
+          return (
+            <FormControlLabel
+              control={
+                <Switch
+                  color={'primary'}
+                  onChange={(event) => {
+                    handleShowInStatusChange(event, jobId, organizationId);
+                  }}
+                  checked={!!data.show_in_landing_page}
+                />
+              }
+              label=''
+            />
+          );
+        },
+      },
+      {
         Header: messages['common.publish_at'],
         accessor: 'published_at',
         filter: 'dateTimeFilter',
@@ -128,26 +152,8 @@ const IndustryAssociationMemberJobsPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          let jobId = data?.job_id;
-          let organizationId = data?.organization_id;
-          console.log(
-            'data?.show_in_landing_page: ',
-            data?.show_in_landing_page,
-          );
           return (
             <DatatableButtonGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    color={'primary'}
-                    onChange={(event) => {
-                      handleShowInStatusChange(event, jobId, organizationId);
-                    }}
-                    checked={!!data.show_in_landing_page}
-                  />
-                }
-                label='Show in landing page'
-              />
               <ReadButton
                 onClick={() => {
                   openJobDetailsView(data.job_id);

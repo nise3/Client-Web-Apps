@@ -1581,5 +1581,8 @@
   "common.response": "Response",
   "common.accepted": "Accepted",
   "common.rescheduled": "Rescheduled",
-  "common.show_in_status": "Show in status"
+  "common.show_in_status": "Show in status",
+  "common.show_in_landing_page": "Show in landing page",
+  "common.member": "Member",
+  "member.none": "No member"
 }
