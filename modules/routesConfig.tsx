@@ -282,9 +282,9 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
-      {
-        id: 'institute-management',
-        title: 'Institutes Management',
+      /*{
+        id: 'certificate_authority',
+        title: 'Certificate Authority',
         messageId: 'certificate_authority.management',
         type: 'collapse',
         icon: 'room',
@@ -326,7 +326,7 @@ const routesConfig: NavItemProps[] = [
             url: '/rto-countries',
           },
         ],
-      },
+      },*/
       {
         id: 'industry_association_management',
         title: 'Industry Association Management',
@@ -398,15 +398,6 @@ const routesConfig: NavItemProps[] = [
             icon: 'business',
             url: '/contact-info',
           },
-          /*{
-            id: 'job-requirement',
-            title: 'job-requirement',
-            messageId: 'job_requirement.label',
-            permissionKey: 'view_any_job_requirement',
-            type: 'item',
-            icon: 'timeline',
-            url: '/job-requirement',
-          },*/
         ],
       },
       {
