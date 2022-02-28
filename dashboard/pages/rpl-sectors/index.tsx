@@ -4,19 +4,16 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const CertificateAuthorityPage = asyncComponent(
-  () =>
-    import(
-      '../../../modules/dashboard/certificateAuthority/CertificateAuthorityPage'
-    ),
+const RPLSectorsPage = asyncComponent(
+  () => import('../../../modules/dashboard/rplSectors/RPLSectorsPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
 
   return (
     <>
-      <PageMeta title={messages['certificate_authority.label']} />
-      <CertificateAuthorityPage />
+      <PageMeta title={messages['rpl_sectors.label']} />
+      <RPLSectorsPage />
     </>
   );
 });

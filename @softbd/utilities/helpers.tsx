@@ -14,7 +14,7 @@ import {
 } from '../common/constants';
 import URL from 'url';
 import UserTypes from './UserTypes';
-import PageSizes from './PageSizes';
+import {MAX_PAGE_SIZE, MIN_PAGE_SIZE} from './PageSizes';
 
 export const genders = [
   {
@@ -502,33 +502,23 @@ export const getCurrentDomain = () => {
   }
 };
 
-export const getPaginationPageSize = (inputPageSize: any) => {
-  const isIncluded = Object.values<any>(PageSizes).includes(
-    Number(inputPageSize),
-  );
-  if (isIncluded) {
-    return Number(inputPageSize);
+export const getFilteredQueryParams = (
+  params: any,
+  defaultPageSize: number,
+  defaultPage: number,
+) => {
+  if (
+    params.page_size &&
+    (!Number(params.page_size) ||
+      params.page_size < MIN_PAGE_SIZE ||
+      params.page_size > MAX_PAGE_SIZE)
+  ) {
+    params.page_size = defaultPageSize;
   }
 
-  return PageSizes.FOUR;
-};
-
-const finalEnlishToBanglaNumber: any = {
-  '0': '০',
-  '1': '১',
-  '2': '২',
-  '3': '৩',
-  '4': '৪',
-  '5': '৫',
-  '6': '৬',
-  '7': '৭',
-  '8': '৮',
-  '9': '৯',
-};
-
-export const getDigitBanglaFromEnglish = (input: any) => {
-  for (let x in finalEnlishToBanglaNumber) {
-    input = input.replace(new RegExp(x, 'g'), finalEnlishToBanglaNumber[x]);
+  if (params.page && !Number(params.page)) {
+    params.page = defaultPage;
   }
-  return input;
+
+  return params;
 };
