@@ -72,7 +72,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const [selectOccupationId, setSelectOccupationId] = useState<any>('');
   const [selectedJobLevel, setSelectedJobLevel] = useState<any>('');
   const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
-  const {search_text, upazila} = router.query;
+  const {search_text} = router.query;
 
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
 
@@ -100,16 +100,6 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
       }
     })();
   }, [selectJobSectorsId]);
-
-  useEffect(() => {
-    if (search_text) {
-      addFilterKey('search_text', String(search_text));
-    }
-    if (upazila) {
-      addFilterKey('loc_upazila_id', String(upazila));
-      setSelectedLocUpazilaId(upazila);
-    }
-  }, [search_text, upazila]);
 
   useEffect(() => {
     let params: any = {...router.query};
@@ -269,7 +259,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const onSearch = useCallback(() => {
     addFilterKey('search_text', searchTextField.current.value);
     urlParamsUpdate({search_text: searchTextField.current.value});
-  }, []);
+  }, [router.query]);
 
   const onClickResetButton = useCallback(() => {
     searchTextField.current.value = '';
