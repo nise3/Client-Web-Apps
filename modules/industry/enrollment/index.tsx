@@ -46,6 +46,7 @@ import Boolean from './constants/Boolean';
 import BusinessOwnership from './constants/BusinessOwnership';
 import {Body1, H1, H2} from '../../../@softbd/elements/common';
 import {registerNASCIBMember} from '../../../services/IndustryManagement/NascibMemberRegistrationService';
+import {useFetchNascibMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface NASCIBMemberRegistrationFormProps {
   onClose: () => void;
@@ -55,6 +56,7 @@ const PREFIX = 'NascibUserAddEdit';
 
 const classes = {
   headerText: `${PREFIX}-headerText`,
+  totalEmployeeFields: `${PREFIX}-totalEmployeeFields`,
 };
 
 const StyledHeader = styled(Grid)(({theme}) => ({
@@ -65,6 +67,12 @@ const StyledHeader = styled(Grid)(({theme}) => ({
 
   [`& .${classes.headerText}`]: {
     margin: '0 0 0 28px',
+  },
+}));
+
+const CustomContainer = styled(Container)(({theme}) => ({
+  [`& .${classes.totalEmployeeFields}`]: {
+    paddingTop: '0',
   },
 }));
 
@@ -98,6 +106,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const {data: memberStaticData, isLoading: isLoadingMemberStaticData} =
+    useFetchNascibMemberStaticData();
 
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
@@ -145,6 +155,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
   const [isIndustryDoImport, setIsIndustryDoImport] = useState<boolean>(false);
   const [hasBankAccount, setHasBankAccount] = useState<boolean>(false);
+  const [isOpenSectorOtherName, setIsOpenSectorOtherName] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -218,7 +230,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .required()
         .label(messages['common.gender'] as string),
       entrepreneur_date_of_birth: yup
-        .date()
+        .string()
         .required()
         .label(messages['common.date_of_birth'] as string),
       entrepreneur_educational_qualification: yup
@@ -236,7 +248,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       entrepreneur_email: yup
         .string()
         .trim()
-        .nullable()
+        .email()
+        .required()
         .label(messages['common.email'] as string),
       entrepreneur_mobile: yup
         .string()
@@ -291,7 +304,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.workshop'] as string),
-      factory_address: yup.string().label(messages['common.address'] as string),
+      factory_address: yup
+        .string()
+        .required()
+        .label(messages['common.address'] as string),
       factory_loc_district_id: yup
         .string()
         .label(messages['districts.label'] as string),
@@ -301,7 +317,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       factory_web_site: yup
         .string()
         .label(messages['common.website'] as string),
-      office_or_showroom: hasWorkshop
+      have_office_or_showroom: hasWorkshop
         ? yup
             .string()
             .required()
@@ -327,8 +343,9 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .label(
           messages['institute.trade_license_provider_authority'] as string,
         ),
-      trade_license: yup
+      trade_license_path: yup
         .string()
+        .required()
         .label(messages['trade_license.label'] as string),
       trade_license_last_renew_year: yup
         .string()
@@ -348,7 +365,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .required()
         .label(messages['institute.is_registered_under_authority'] as string),
       registered_authority: yup.object(),
-      authorized_under_authority: yup
+      is_authorized_under_authority: yup
         .string()
         .required()
         .label(messages['institute.is_under_any_approved_authority'] as string),
@@ -371,7 +388,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .required()
         .label(messages['institute.is_under_any_sme_cluster'] as string),
       under_sme_cluster_id:
-        isUnderSMECluster == HasRegisteredAuthority.YES
+        isUnderSMECluster == Boolean.YES
           ? yup
               .string()
               .required()
@@ -391,7 +408,12 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['institute.sector'] as string),
-      other_sector_name: yup.string(),
+      other_sector_name: isOpenSectorOtherName
+        ? yup
+            .string()
+            .required()
+            .label(messages['institute.sector_other_name'] as string)
+        : yup.string(),
       other_sector_name_en: yup.string(),
       business_type: yup
         .string()
@@ -410,7 +432,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .required()
         .label(messages['institute.is_import_product'] as string),
       import_by: yup.string(),
-      is_export_abroad: yup
+      is_export: yup
         .string()
         .required()
         .label(messages['institute.is_export_product'] as string),
@@ -457,6 +479,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     isAssociationMember,
     isIndustryUnderSpecializedArea,
     isUnderSMECluster,
+    isOpenSectorOtherName,
   ]);
 
   const {
@@ -619,8 +642,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     [isIndustryDoImport],
   );
 
-  console.log('form values: ', getValues());
-
   const handleHasBankAccount = useCallback(
     (key: number | string) => {
       setHasBankAccount(key == Boolean.YES);
@@ -628,9 +649,22 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     [hasBankAccount],
   );
 
+  const handleSectorChange = useCallback(
+    (sectorId: any) => {
+      if (sectorId == 'other_sector') {
+        setIsOpenSectorOtherName(true);
+      } else {
+        setIsOpenSectorOtherName(false);
+      }
+    },
+    [memberStaticData],
+  );
+
+  console.log('form values: ', getValues());
   console.log('errors', errors);
 
-  const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('submitted data:', data);
     try {
       await registerNASCIBMember(data);
       createSuccessMessage('nascib_member.label');
@@ -641,7 +675,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   };
 
   return (
-    <Container maxWidth={'lg'}>
+    <CustomContainer maxWidth={'lg'}>
       <Grid container my={5}>
         <Grid item xs={12}>
           <Card>
@@ -805,108 +839,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     </>
                   )}
 
-                  {/*{(formFiller == FormFiller.UDC_ENTREPRENEUR ||*/}
-                  {/*  formFiller == FormFiller.CHAMBER_ASSOCIATION) && (*/}
-                  {/*  <>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        required*/}
-                  {/*        id='udc_name'*/}
-                  {/*        label={messages['common.name']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        id='title_en'*/}
-                  {/*        label={messages['common.name_en']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        required*/}
-                  {/*        id='address'*/}
-                  {/*        label={messages['common.address']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        id='address_en'*/}
-                  {/*        label={messages['common.address_en']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomFormSelect*/}
-                  {/*        required*/}
-                  {/*        id='loc_division_id'*/}
-                  {/*        label={messages['divisions.label']}*/}
-                  {/*        isLoading={isLoadingDivisions}*/}
-                  {/*        control={control}*/}
-                  {/*        options={divisions}*/}
-                  {/*        optionValueProp={'id'}*/}
-                  {/*        optionTitleProp={['title_en', 'title']}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        onChange={changeDivisionAction}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomFormSelect*/}
-                  {/*        required*/}
-                  {/*        id='loc_district_id'*/}
-                  {/*        label={messages['districts.label']}*/}
-                  {/*        isLoading={isLoadingDistricts}*/}
-                  {/*        control={control}*/}
-                  {/*        options={districtsList}*/}
-                  {/*        optionValueProp={'id'}*/}
-                  {/*        optionTitleProp={['title_en', 'title']}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        onChange={changeDistrictAction}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomFormSelect*/}
-                  {/*        id='loc_upazila_id'*/}
-                  {/*        label={messages['upazilas.label']}*/}
-                  {/*        isLoading={isLoadingUpazilas}*/}
-                  {/*        control={control}*/}
-                  {/*        options={upazilasList}*/}
-                  {/*        optionValueProp={'id'}*/}
-                  {/*        optionTitleProp={['title_en', 'title']}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        id='domain'*/}
-                  {/*        label={messages['common.domain']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*    <Grid item xs={6}>*/}
-                  {/*      <CustomTextInput*/}
-                  {/*        id='identification_no'*/}
-                  {/*        label={messages['common.code']}*/}
-                  {/*        register={register}*/}
-                  {/*        errorInstance={errors}*/}
-                  {/*        isLoading={isLoading}*/}
-                  {/*      />*/}
-                  {/*    </Grid>*/}
-                  {/*  </>*/}
-                  {/*)}*/}
-
                   <StyledHeader item xs={12}>
                     <p className={classes.headerText}>
                       {messages['entrepreneur_introduction.label']}
@@ -1009,6 +941,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                   </Grid>
                   <Grid item xs={6}>
                     <CustomTextInput
+                      required
                       id='entrepreneur_email'
                       label={messages['common.email']}
                       register={register}
@@ -1191,6 +1124,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     <>
                       <Grid item xs={6}>
                         <CustomTextInput
+                          required
                           id='factory_address'
                           label={messages['common.factory_address']}
                           register={register}
@@ -1262,7 +1196,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       <Grid item xs={6}>
                         <FormRadioButtons
                           required
-                          id={'office_or_showroom'}
+                          id={'have_office_or_showroom'}
                           label={'factory.office_or_showroom'}
                           radios={YesNoArray}
                           control={control}
@@ -1351,6 +1285,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                   <Grid item xs={6}>
                     <FileUploadComponent
+                      required
                       id={'trade_license_path'}
                       errorInstance={errors}
                       setValue={setValue}
@@ -1427,7 +1362,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                   <Grid item xs={6}>
                     <FormRadioButtons
                       required
-                      id={'authorized_under_authority'}
+                      id={'is_authorized_under_authority'}
                       label={'institute.is_under_any_approved_authority'}
                       radios={YesNoArray}
                       control={control}
@@ -1488,6 +1423,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     />
                     {isUnderSMECluster == HasRegisteredAuthority.YES && (
                       <CustomFormSelect
+                        required
                         id='under_sme_cluster_id'
                         label={messages['institute.under_sme_cluster_name']}
                         isLoading={false}
@@ -1542,32 +1478,42 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       required
                       id='sector_id'
                       label={messages['institute.sector']}
-                      isLoading={isLoading}
+                      isLoading={isLoadingMemberStaticData}
                       control={control}
-                      options={[{id: 1, title: 'cloths'}]}
+                      options={[
+                        {id: 1, title: 'Electrical'},
+                        {id: 'other_sector', title: 'others'},
+                      ]}
                       optionValueProp={'id'}
                       optionTitleProp={['title_en', 'title']}
                       errorInstance={errors}
+                      onChange={handleSectorChange}
                     />
-                  </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      id='other_sector_name'
-                      label={messages['institute.sector_other_name']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      id='other_sector_name_en'
-                      label={messages['institute.sector_other_name_en']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
+                    {isOpenSectorOtherName && (
+                      <Grid container>
+                        <Grid item xs={6}>
+                          <CustomTextInput
+                            required
+                            id='other_sector_name'
+                            label={messages['institute.sector_other_name']}
+                            register={register}
+                            errorInstance={errors}
+                            isLoading={isLoadingMemberStaticData}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <CustomTextInput
+                            required
+                            id='other_sector_name_en'
+                            label={messages['institute.sector_other_name_en']}
+                            register={register}
+                            errorInstance={errors}
+                            isLoading={isLoadingMemberStaticData}
+                          />
+                        </Grid>
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Grid item xs={6}>
@@ -1642,7 +1588,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                   <Grid item xs={6}>
                     <FormRadioButtons
                       required
-                      id={'is_export_abroad'}
+                      id={'is_export'}
                       label={'institute.is_export_product'}
                       radios={[
                         {
@@ -1719,7 +1665,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     </FormLabel>
                   </Grid>
 
-                  <Grid item xs={6} sx={{paddingTop: 0}}>
+                  <Grid item xs={4} className={classes.totalEmployeeFields}>
                     <CustomChipTextInput
                       fields={[
                         {
@@ -1738,7 +1684,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item xs={4} className={classes.totalEmployeeFields}>
                     <CustomChipTextInput
                       fields={[
                         {
@@ -1757,7 +1703,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     />
                   </Grid>
 
-                  <Grid item xs={12} pt={0}>
+                  <Grid item xs={4} className={classes.totalEmployeeFields}>
                     <CustomChipTextInput
                       fields={[
                         {
@@ -1936,7 +1882,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
           </Card>
         </Grid>
       </Grid>
-    </Container>
+    </CustomContainer>
   );
 };
 
