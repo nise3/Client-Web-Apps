@@ -12,6 +12,7 @@ import JobListSearchSection from './JobListSearchSection';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {ListAlt, Window} from '@mui/icons-material';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'JobCircular';
 
@@ -89,9 +90,26 @@ const JobCircular = () => {
     });
   }, []);
 
+  const filterJobListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setJobFilters((prev: any) => {
+        return objectFilter({...prev, ...newFilter});
+      });
+    },
+    [],
+  );
+
   return (
     <>
-      <JobListSearchSection addFilterKey={filterJobList} />
+      <JobListSearchSection
+        addFilterKey={filterJobList}
+        routeParamsFilters={filterJobListByRouteParams}
+      />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
