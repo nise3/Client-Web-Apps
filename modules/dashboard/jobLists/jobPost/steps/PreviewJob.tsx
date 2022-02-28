@@ -1,14 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {
-  Body1,
-  Body2,
-  H3,
-  Link,
-  S1,
-  S2,
-} from '../../../../../@softbd/elements/common';
+import {Body1, Body2, H3, S1, S2} from '../../../../../@softbd/elements/common';
 import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 import {styled} from '@mui/material/styles';
 import {
@@ -23,8 +16,6 @@ import {
 } from '../enums/JobPostEnums';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hooks';
-import {useAuthUser} from '../../../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../../../redux/types/models/CommonAuthUser';
 
 interface Props {
   jobId: string;
@@ -65,7 +56,6 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
-  const authUser = useAuthUser<CommonAuthUser>();
   const {data: jobData} = useFetchJobPreview(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
 
@@ -552,12 +542,14 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
 
   const getCompanyName = () => {
     if (jobData?.company_info_visibility?.is_company_name_visible == SHOW) {
-      if (authUser?.isIndustryAssociationUser) {
-        return authUser?.industry_association
-          ? authUser?.industry_association?.title
-          : '';
-      } else if (authUser?.isOrganizationUser) {
-        return authUser?.organization ? authUser?.organization?.title : '';
+      if (jobData?.primary_job_information?.industry_association_id) {
+        if (jobData?.primary_job_information?.organization_id) {
+          return jobData?.primary_job_information?.organization_title;
+        } else {
+          return jobData?.primary_job_information?.industry_association_title;
+        }
+      } else if (jobData?.primary_job_information?.organization_id) {
+        return jobData?.primary_job_information?.organization_title;
       } else {
         return '';
       }
@@ -568,47 +560,27 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
 
   const getCompanyAddress = () => {
     let address: string = '';
-    let domain: string = '';
-    if (authUser?.isIndustryAssociationUser) {
-      if (authUser?.industry_association) {
-        let addressArr: any = [];
-        if (authUser?.industry_association?.address)
-          addressArr.push(authUser?.industry_association?.address);
 
-        if (authUser?.industry_association?.loc_division_title)
-          addressArr.push(authUser?.industry_association?.loc_division_title);
-
-        if (authUser?.industry_association?.loc_district_title)
-          addressArr.push(authUser?.industry_association?.loc_district_title);
-
-        if (authUser?.industry_association?.loc_upazila_title)
-          addressArr.push(authUser?.industry_association?.loc_upazila_title);
-        address = addressArr.join(', ');
-
-        domain = authUser?.industry_association?.domain;
+    if (jobData?.primary_job_information?.industry_association_id) {
+      if (jobData?.primary_job_information?.organization_id) {
+        address = jobData?.primary_job_information?.organization_address;
+      } else {
+        address =
+          jobData?.primary_job_information?.industry_association_address;
       }
-    } else if (authUser?.isOrganizationUser) {
-      if (authUser?.organization) {
-        address = authUser?.organization?.address;
-        domain = authUser?.organization?.domain;
-      }
+    } else if (jobData?.primary_job_information?.organization_id) {
+      address = jobData?.primary_job_information?.organization_address;
     }
 
     return (
       <React.Fragment>
         <Body2>{address}</Body2>
-        <Body2>
-          Web:{' '}
-          <Link href={domain} target={'_blank'}>
-            {domain}
-          </Link>
-        </Body2>
       </React.Fragment>
     );
   };
 
   const getCompanyBusiness = () => {
-    return <Body2>Business: Web Development and IT Services</Body2>;
+    return <Body2></Body2>;
   };
 
   return isReady ? (

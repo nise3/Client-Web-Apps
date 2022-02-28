@@ -1573,5 +1573,7 @@
   "country.label": "দেশ",
   "common.confirmation": "নিশ্চিতকরণ",
   "common.response": "রেসপন্স",
-  "common.accepted": "অনুমোদিত"
+  "common.accepted": "অনুমোদিত",
+  "job.online_job_posting": "NISE অনলাইন জব পোস্টিং",
+  "job.posted_by": "চাকরি পোস্ট করেছেন: "
 }

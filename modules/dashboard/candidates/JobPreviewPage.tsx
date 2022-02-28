@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
-import {Body1, Body2, H3, Link, S1, S2} from '../../../@softbd/elements/common';
+import {Body1, Body2, H3, S1, S2} from '../../../@softbd/elements/common';
 import JobPreviewSubComponent from '../jobLists/jobPost/steps/components/JobPreviewSubComponent';
 import {
   EmploymentStatus,
@@ -14,8 +14,6 @@ import {
 } from '../jobLists/jobPost/enums/JobPostEnums';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {styled} from '@mui/material/styles';
 
 const PREFIX = 'JobPreviewPage';
@@ -43,6 +41,9 @@ const StyledBox = styled(Box)(({theme}) => ({
       color: theme.palette.primary.light,
     },
   },
+  [`& ul`]: {
+    listStyleType: 'disclosure-closed',
+  },
   [`& ul>li`]: {
     marginTop: '5px',
   },
@@ -54,7 +55,6 @@ interface JobPreviewPageProps {
 
 const JobPreviewPage = ({job}: JobPreviewPageProps) => {
   const {messages, formatNumber, formatDate} = useIntl();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const getJobNature = () => {
     let jobNature: Array<string> = [];
@@ -520,12 +520,14 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
 
   const getCompanyName = () => {
     if (job?.company_info_visibility?.is_company_name_visible == SHOW) {
-      if (authUser?.isIndustryAssociationUser) {
-        return authUser?.industry_association
-          ? authUser?.industry_association?.title
-          : '';
-      } else if (authUser?.isOrganizationUser) {
-        return authUser?.organization ? authUser?.organization?.title : '';
+      if (job?.primary_job_information?.industry_association_id) {
+        if (job?.primary_job_information?.organization_id) {
+          return job?.primary_job_information?.organization_title;
+        } else {
+          return job?.primary_job_information?.industry_association_title;
+        }
+      } else if (job?.primary_job_information?.organization_id) {
+        return job?.primary_job_information?.organization_title;
       } else {
         return '';
       }
@@ -536,47 +538,22 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
 
   const getCompanyAddress = () => {
     let address: string = '';
-    let domain: string = '';
-    if (authUser?.isIndustryAssociationUser) {
-      if (authUser?.industry_association) {
-        let addressArr: any = [];
-        if (authUser?.industry_association?.address)
-          addressArr.push(authUser?.industry_association?.address);
 
-        if (authUser?.industry_association?.loc_division_title)
-          addressArr.push(authUser?.industry_association?.loc_division_title);
-
-        if (authUser?.industry_association?.loc_district_title)
-          addressArr.push(authUser?.industry_association?.loc_district_title);
-
-        if (authUser?.industry_association?.loc_upazila_title)
-          addressArr.push(authUser?.industry_association?.loc_upazila_title);
-        address = addressArr.join(', ');
-
-        domain = authUser?.industry_association?.domain;
+    if (job?.primary_job_information?.industry_association_id) {
+      if (job?.primary_job_information?.organization_id) {
+        address = job?.primary_job_information?.organization_address;
+      } else {
+        address = job?.primary_job_information?.industry_association_address;
       }
-    } else if (authUser?.isOrganizationUser) {
-      if (authUser?.organization) {
-        address = authUser?.organization?.address;
-        domain = authUser?.organization?.domain;
-      }
+    } else if (job?.primary_job_information?.organization_id) {
+      address = job?.primary_job_information?.organization_address;
     }
 
     return (
       <React.Fragment>
         <Body2>{address}</Body2>
-        <Body2>
-          Web:{' '}
-          <Link href={domain} target={'_blank'}>
-            {domain}
-          </Link>
-        </Body2>
       </React.Fragment>
     );
-  };
-
-  const getCompanyBusiness = () => {
-    return '';
   };
 
   return (
@@ -865,8 +842,6 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
             <Body2>{getCompanyName()}</Body2>
             {job?.company_info_visibility?.is_company_address_visible == SHOW &&
               getCompanyAddress()}
-            {job?.company_info_visibility?.is_company_business_visible ==
-              SHOW && <Body2>{getCompanyBusiness()}</Body2>}
           </Box>
         </Grid>
       </Grid>
