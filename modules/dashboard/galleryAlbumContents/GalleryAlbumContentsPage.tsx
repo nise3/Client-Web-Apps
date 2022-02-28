@@ -17,7 +17,6 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 
@@ -89,12 +88,6 @@ const GalleryAlbumContentsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.content_type'],
