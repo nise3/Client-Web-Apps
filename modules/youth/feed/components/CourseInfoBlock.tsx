@@ -38,10 +38,10 @@ const StyledCard = styled(Card)(({theme}) => ({
   padding: 15,
 
   [`& .${classes.jobProviderImage}`]: {
-    borderRadius: '50%',
     height: 60,
     width: 60,
     border: '1px solid ' + theme.palette.grey['300'],
+    objectFit: 'contain',
   },
 
   [`& .${classes.totalEnrolled}`]: {
@@ -144,7 +144,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         className={classes.titleStyle}>
                         {course.title}
                       </H3>
-                      <Box ml={2}>{course?.trainer_name}</Box>
+                      <Box ml={2}>{course?.institute_title}</Box>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -178,10 +178,6 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     )}
                     className={classes.tagChipStyle}
                   />
-                  <TagChip
-                    label={formatNumber(12) + ' ' + messages['common.lesson']}
-                    className={classes.tagChipStyle}
-                  />
                 </Grid>
                 {!course?.enrolled ? (
                   <Grid item xs={4} className={classes.enrollButton}>
@@ -204,6 +200,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CustomChip
                         label={messages['common.not_available']}
                         color={'primary'}
+                        sx={{borderRadius: '5px', height: '35px'}}
                       />
                     )}
                   </Grid>
@@ -247,6 +244,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CustomChip
                         label={messages['common.already_enrolled']}
                         color={'primary'}
+                        sx={{borderRadius: '5px', height: '35px'}}
                       />
                     )}
                   </Grid>

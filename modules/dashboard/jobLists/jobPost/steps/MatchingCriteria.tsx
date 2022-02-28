@@ -273,7 +273,7 @@ const MatchingCriteria = ({
   const getBusinessArea = () => {
     let businessAreaTextArr: Array<any> = [];
     (matchingCriteria?.area_of_business || []).map((area: any) => {
-      businessAreaTextArr.push(area);
+      businessAreaTextArr.push(area?.title);
     });
 
     return businessAreaTextArr.join(', ');
@@ -282,7 +282,7 @@ const MatchingCriteria = ({
   const getExperienceArea = () => {
     let experienceAreaTextArr: Array<any> = [];
     (matchingCriteria?.area_of_experiences || []).map((area: any) => {
-      experienceAreaTextArr.push(area);
+      experienceAreaTextArr.push(area?.title);
     });
 
     return experienceAreaTextArr.join(', ');
