@@ -1,5 +1,5 @@
 import {
-  Grid,
+  Box,
   Pagination,
   PaginationItem,
   PaginationRenderItemParams,
@@ -8,7 +8,6 @@ import {
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import localeLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 
 type Props = {
   count: number;
@@ -27,15 +26,22 @@ export const classes = {
   subHeader: `${PREFIX}-subHeader`,
 };
 
-export const StyledGrid = styled(Grid)(({theme}) => ({
+export const StyledBox = styled(Box)(({theme}) => ({
+  display: 'flex',
   '& .MuiTablePagination-displayedRows': {
     display: 'none',
   },
   '& .MuiTablePagination-actions': {
     display: 'none',
   },
+  '& .MuiTablePagination-toolbar': {
+    padding: '0px',
+    '& .MuiInputBase-root': {
+      marginRight: '5px',
+    },
+  },
   '& .MuiPagination-root': {
-    marginTop: '20px',
+    marginTop: '10px',
   },
 }));
 
@@ -47,17 +53,17 @@ const CustomPaginationWithPageNumber = ({
   rowsPerPage,
   onRowsPerPageChange: onRowsPerPageChangeCallback,
 }: Props) => {
-  const {messages, locale} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const labelRowsPerPage: any = messages['common.per_page'];
   const rowsPerPageOptions = [
-    {value: 5, label: locale == localeLanguage.EN ? '5' : '৫'},
-    {value: 10, label: locale == localeLanguage.EN ? '10' : '১০'},
-    {value: 25, label: locale == localeLanguage.EN ? '25' : '২৫'},
-    {value: 50, label: locale == localeLanguage.EN ? '50' : '৫০'},
+    {value: 10, label: formatNumber(10)},
+    {value: 25, label: formatNumber(25)},
+    {value: 50, label: formatNumber(50)},
+    {value: 100, label: formatNumber(100)},
   ];
 
   return (
-    <StyledGrid container>
+    <StyledBox>
       <TablePagination
         component='span'
         count={count}
@@ -79,7 +85,7 @@ const CustomPaginationWithPageNumber = ({
           return <PaginationItem {...item} />;
         }}
       />
-    </StyledGrid>
+    </StyledBox>
   );
 };
 

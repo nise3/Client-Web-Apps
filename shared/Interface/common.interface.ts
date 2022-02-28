@@ -190,3 +190,8 @@ export interface ISelectFilterItem {
   id: number | string;
   title: string;
 }
+
+export interface FilterItem {
+  filterKey: string;
+  filterValue: any;
+}
