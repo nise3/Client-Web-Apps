@@ -20,7 +20,6 @@ export const StyledTrainingCenterSection = styled(Box)(({theme}) => ({
 const AllNearbyTrainingCenterPage = () => {
   return (
     <StyledTrainingCenterSection>
-      {/*      <H1>Header</H1>*/}
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container spacing={5}>
           <Grid item xs={12}>

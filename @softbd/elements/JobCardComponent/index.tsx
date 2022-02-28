@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Avatar,
@@ -31,10 +31,16 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
-import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
+import {
+  SalaryShowOption,
+  SHOW,
+} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
 import CustomChip from '../display/CustomChip/CustomChip';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
+import JobScheduleResponsePopup from '../../components/JobScheduleResponsePopup';
+import ConfirmationStatus from '../../components/JobScheduleResponsePopup/ConfirmationStatus';
+import moment from 'moment';
 
 const PREFIX = 'JobCardComponent';
 
@@ -44,6 +50,7 @@ const classes = {
   providerLogo: `${PREFIX}-providerLogo`,
   marginRight10: `${PREFIX}-marginRight10`,
   marginTop10: `${PREFIX}-marginTop10`,
+  cardBottom: `${PREFIX}-cardBottom`,
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
   overflowText: `${PREFIX}-overflowText`,
@@ -84,6 +91,13 @@ const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.marginRight10}`]: {
     marginRight: '10px',
   },
+  [`& .${classes.cardBottom}`]: {
+    marginTop: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderTop: '1px solid #888',
+    padding: '5px',
+  },
   [`& .${classes.marginTop10}`]: {
     marginTop: '10px',
   },
@@ -106,6 +120,7 @@ const StyledCard = styled(Card)(({theme}) => ({
     WebkitBoxOrient: 'vertical',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    minHeight: '45px',
   },
   [`& .${classes.details}`]: {
     whiteSpace: 'break-spaces',
@@ -124,15 +139,22 @@ interface JobCardComponentProps {
   job: any;
   isGridView?: boolean;
   onPopupClose?: () => void;
+  isShowingInMyJobs?: boolean;
 }
 
 const JobCardComponent: FC<JobCardComponentProps> = ({
   job,
   onPopupClose,
   isGridView = false,
+  isShowingInMyJobs = false,
 }) => {
   const {messages, formatDate, formatNumber} = useIntl();
   const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
+  const [isOpenScheduleResponseModal, setIsOpenScheduleResponseModal] =
+    useState(false);
+
+  const [time, setTime] = useState('');
+
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const customStyle = useCustomStyle();
@@ -144,27 +166,68 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     }
   }, []);
 
+  const closeJobScheduleResponseModal = useCallback(() => {
+    setIsOpenScheduleResponseModal(false);
+    if (onPopupClose) {
+      onPopupClose();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (job?.interview_scheduled_at) {
+      let day = moment(job?.interview_scheduled_at);
+
+      setTime(day.toLocaleString());
+    }
+  }, [job]);
+
   const onJobApply = useCallback(() => {
     if (authUser) {
       setIsOpenJobApplyModal(true);
     } else {
       router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
     }
-  }, []);
+  }, [authUser]);
+
+  const onScheduleResponse = useCallback(() => {
+    if (authUser) {
+      setIsOpenScheduleResponseModal(true);
+    }
+  }, [authUser]);
 
   const getJobProviderTitle = () => {
-    if (job.industry_association_id) {
-      return job.industry_association_title;
-    } else if (job.organization_id) {
-      return job.organization_title;
+    if (job?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (job?.industry_association_id) {
+        if (job?.organization_id) {
+          return job?.organization_title;
+        } else {
+          return job?.industry_association_title;
+        }
+      } else if (job?.organization_id) {
+        return job?.organization_title;
+      } else {
+        return '';
+      }
+    } else {
+      return job?.company_info_visibility?.company_name;
     }
   };
 
   const getJobProviderImage = () => {
     let logo = '/images/blank_image.png';
-    if (job.industry_association_id && job?.industry_association_logo) {
-      logo = job.industry_association_logo;
-    } else if (job.organization_id && job?.organization_logo) {
+    if (job?.industry_association_id && job?.industry_association_logo) {
+      if (job?.organization_id && job?.organization_logo) {
+        logo = job.organization_logo;
+      } else if (!job?.organization_id && job?.industry_association_logo) {
+        logo = job.industry_association_logo;
+      }
+    } else if (
+      job?.industry_association_id &&
+      job?.organization_id &&
+      job?.organization_logo
+    ) {
+      logo = job.organization_logo;
+    } else if (job?.organization_id && job?.organization_logo) {
       logo = job.organization_logo;
     }
     return logo;
@@ -306,7 +369,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -348,7 +415,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -405,12 +476,70 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               )}
               <Share className={classes.shareIcon} />
             </Box>
+            {isShowingInMyJobs && job?.interview_scheduled_at ? (
+              <Box className={classes.cardBottom}>
+                <Body1>
+                  <Body1>
+                    You have been invited in {job?.interview_address} at {time}
+                  </Body1>
+                </Body1>
+                {job?.confirmation_status == ConfirmationStatus.ACCEPTED ? (
+                  <CustomChip
+                    label={messages['common.accepted']}
+                    color={'primary'}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
+                  />
+                ) : job?.confirmation_status == ConfirmationStatus.REJECTED ? (
+                  <CustomChip
+                    label={messages['common.rejected']}
+                    color={'primary'}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
+                  />
+                ) : job?.confirmation_status ==
+                  ConfirmationStatus.RESCHEDULED ? (
+                  <CustomChip
+                    label={messages['common.rescheduled']}
+                    color={'primary'}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
+                  />
+                ) : (
+                  <Button
+                    sx={{float: 'right'}}
+                    variant={'outlined'}
+                    color={'primary'}
+                    size={'small'}
+                    onClick={onScheduleResponse}>
+                    {messages['common.response']}
+                  </Button>
+                )}
+              </Box>
+            ) : (
+              ''
+            )}
           </CardContent>
         </React.Fragment>
       )}
 
       {isOpenJobApplyModal && (
         <JobApplyPopup job={job} onClose={closeJobApplyModal} />
+      )}
+      {isOpenScheduleResponseModal && (
+        <JobScheduleResponsePopup
+          job={job}
+          onClose={closeJobScheduleResponseModal}
+        />
       )}
     </StyledCard>
   );

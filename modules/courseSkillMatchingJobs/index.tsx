@@ -13,6 +13,7 @@ import {styled} from '@mui/material/styles';
 import {useFetchPublicCourseDetailsWithParams} from '../../services/instituteManagement/hooks';
 import {objectFilter} from '../../@softbd/utilities/helpers';
 import JobListSearchSection from '../industry/jobCircular/JobListSearchSection';
+import {FilterItem} from '../../shared/Interface/common.interface';
 
 const PREFIX = 'CourseSkillMatchingJobs';
 
@@ -115,9 +116,26 @@ const CourseSkillMatchingJobs = () => {
     });
   }, []);
 
+  const filterJobListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setJobFilters((prev: any) => {
+        return objectFilter({...prev, ...newFilter});
+      });
+    },
+    [],
+  );
+
   return (
     <>
-      <JobListSearchSection addFilterKey={filterJobList} />
+      <JobListSearchSection
+        addFilterKey={filterJobList}
+        routeParamsFilters={filterJobListByRouteParams}
+      />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
           <Grid item md={12} mt={{xs: 4, md: 5}}>
