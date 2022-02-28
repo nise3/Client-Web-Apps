@@ -83,49 +83,9 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
 
-  const onSearch = useCallback(() => {
-    addFilterKey('search_text', searchTextField.current.value);
-  }, []);
-
-  const onClickResetButton = useCallback(() => {
-    searchTextField.current.value = '';
-    addFilterKey('search_text', '');
-
-    addFilterKey('skill_ids', []);
-    addFilterKey('job_sector_ids', []);
-    addFilterKey('occupation_ids', []);
-    addFilterKey('job_level', 0);
-    addFilterKey('occupation_ids', '');
-    setSelectedLocUpazilaId('');
-    addFilterKey('loc_upazila_id', 0);
-
-    setSelectJobSectorsId('');
-    setSelectOccupationId('');
-    setSelectedJobLevel('');
-    setSelectJobSectorsId('');
-  }, []);
-
-  const handleSkillsFilterChange = useCallback(
-    (skillsId: number | null) => {
-      setSelectedSkillIds(skillsId);
-      addFilterKey('skill_ids', skillsId ? [skillsId] : []);
-      urlParamsUpdate({skill_ids: [skillsId]});
-    },
-    [router.query],
-  );
-
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isLoadingJobSector}: any =
     useFetchPublicJobSectors(jobSectorFilters);
-
-  const handleJobSectorsFilterChange = useCallback(
-    (jobSectorId: any) => {
-      setSelectJobSectorsId(jobSectorId);
-      addFilterKey('job_sector_ids', jobSectorId ? [jobSectorId] : []);
-      urlParamsUpdate({job_sector_ids: [jobSectorId]});
-    },
-    [router.query],
-  );
 
   useEffect(() => {
     (async () => {
@@ -171,11 +131,59 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
           ? params.skill_ids
           : [params.skill_ids],
       });
-      setSelectedLocUpazilaId(
+      setSelectedSkillIds(
         Array.isArray(params.skill_ids)
           ? params.skill_ids?.[0]
           : params.skill_ids,
       );
+    }
+
+    if (
+      !Number(params.job_sector_ids) &&
+      !Array.isArray(params.job_sector_ids)
+    ) {
+      delete params.job_sector_ids;
+    } else {
+      filters.push({
+        filterKey: 'job_sector_ids',
+        filterValue: Array.isArray(params.job_sector_ids)
+          ? params.job_sector_ids
+          : [params.job_sector_ids],
+      });
+      setSelectJobSectorsId(
+        Array.isArray(params.job_sector_ids)
+          ? params.job_sector_ids?.[0]
+          : params.job_sector_ids,
+      );
+    }
+
+    if (
+      !Number(params.occupation_ids) &&
+      !Array.isArray(params.occupation_ids)
+    ) {
+      delete params.occupation_ids;
+    } else {
+      filters.push({
+        filterKey: 'occupation_ids',
+        filterValue: Array.isArray(params.occupation_ids)
+          ? params.occupation_ids
+          : [params.occupation_ids],
+      });
+      setSelectOccupationId(
+        Array.isArray(params.occupation_ids)
+          ? params.occupation_ids?.[0]
+          : params.occupation_ids,
+      );
+    }
+
+    if (!Number(params.job_level)) {
+      delete params.job_level;
+    } else {
+      filters.push({
+        filterKey: 'job_level',
+        filterValue: params.job_level,
+      });
+      setSelectedJobLevel(params.job_level);
     }
 
     if (!Number(params.upazila)) {
@@ -187,8 +195,6 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
       });
       setSelectedLocUpazilaId(params.upazila);
     }
-
-    console.log('ffff', filters);
 
     if (routeParamsFilters && filters.length > 0) {
       routeParamsFilters(filters);
@@ -205,6 +211,24 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
       {shallow: true},
     );
   };
+
+  const handleSkillsFilterChange = useCallback(
+    (skillsId: number | null) => {
+      setSelectedSkillIds(skillsId);
+      addFilterKey('skill_ids', skillsId ? [skillsId] : []);
+      urlParamsUpdate({skill_ids: [skillsId]});
+    },
+    [router.query],
+  );
+
+  const handleJobSectorsFilterChange = useCallback(
+    (jobSectorId: any) => {
+      setSelectJobSectorsId(jobSectorId);
+      addFilterKey('job_sector_ids', jobSectorId ? [jobSectorId] : []);
+      urlParamsUpdate({job_sector_ids: [jobSectorId]});
+    },
+    [router.query],
+  );
 
   const onOccupationChange = useCallback(
     (occupationId: any) => {
@@ -241,6 +265,36 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
     },
     [selectedLocUpazilaId, router.query],
   );
+
+  const onSearch = useCallback(() => {
+    addFilterKey('search_text', searchTextField.current.value);
+    urlParamsUpdate({search_text: searchTextField.current.value});
+  }, []);
+
+  const onClickResetButton = useCallback(() => {
+    searchTextField.current.value = '';
+    addFilterKey('search_text', '');
+
+    addFilterKey('skill_ids', []);
+    addFilterKey('job_sector_ids', []);
+    addFilterKey('occupation_ids', []);
+    addFilterKey('job_level', 0);
+    setSelectedLocUpazilaId('');
+    addFilterKey('loc_upazila_id', 0);
+
+    setSelectJobSectorsId('');
+    setSelectOccupationId('');
+    setSelectedJobLevel('');
+    setSelectJobSectorsId('');
+    urlParamsUpdate({
+      skill_ids: '',
+      job_sector_ids: '',
+      occupation_ids: '',
+      search_text: '',
+      job_level: '',
+      upazila: '',
+    });
+  }, []);
 
   return (
     <StyledBox>

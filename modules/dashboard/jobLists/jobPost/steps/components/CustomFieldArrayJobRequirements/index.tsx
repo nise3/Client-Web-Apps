@@ -118,9 +118,9 @@ const CustomEducationalQualificationFieldArray = ({
           </Button>
           <Button
             onClick={() => {
-              if (fields.length > 1) remove(fields.length - 1);
+              if (fields.length > 0) remove(fields.length - 1);
             }}
-            disabled={fields.length < 2}>
+            disabled={fields.length < 1}>
             <RemoveCircleOutline />
           </Button>
         </ButtonGroup>

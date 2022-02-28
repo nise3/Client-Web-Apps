@@ -72,6 +72,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
       color: theme.palette.primary.light,
     },
   },
+  [`& ul`]: {
+    listStyleType: 'disclosure-closed',
+  },
   [`& ul>li`]: {
     marginTop: '5px',
   },
@@ -597,14 +600,14 @@ const JobCircularDetails = () => {
 
   const getCompanyName = () => {
     if (jobData?.company_info_visibility?.is_company_name_visible == SHOW) {
-      if (jobData?.primary_job_information?.industry_association_id != null) {
-        return jobData?.primary_job_information?.industry_association_title
-          ? jobData.primary_job_information.industry_association_title
-          : '';
-      } else if (jobData?.primary_job_information?.organization_id != null) {
-        return jobData?.primary_job_information?.organization_title
-          ? jobData?.primary_job_information?.organization_title
-          : '';
+      if (jobData?.primary_job_information?.industry_association_id) {
+        if (jobData?.primary_job_information?.organization_id) {
+          return jobData?.primary_job_information?.organization_title;
+        } else {
+          return jobData?.primary_job_information?.industry_association_title;
+        }
+      } else if (jobData?.primary_job_information?.organization_id) {
+        return jobData?.primary_job_information?.organization_title;
       } else {
         return '';
       }
@@ -613,50 +616,26 @@ const JobCircularDetails = () => {
     }
   };
 
-  /*const getCompanyAddress = () => {
+  const getCompanyAddress = () => {
     let address: string = '';
-    let domain: string = '';
-    /!* if (authUser?.isIndustryAssociationUser) {
-      if (authUser?.industry_association) {
-        let addressArr: any = [];
-        if (authUser?.industry_association?.address)
-          addressArr.push(authUser?.industry_association?.address);
 
-        if (authUser?.industry_association?.loc_division_title)
-          addressArr.push(authUser?.industry_association?.loc_division_title);
-
-        if (authUser?.industry_association?.loc_district_title)
-          addressArr.push(authUser?.industry_association?.loc_district_title);
-
-        if (authUser?.industry_association?.loc_upazila_title)
-          addressArr.push(authUser?.industry_association?.loc_upazila_title);
-        address = addressArr.join(', ');
-
-        domain = authUser?.industry_association?.domain;
+    if (jobData?.primary_job_information?.industry_association_id) {
+      if (jobData?.primary_job_information?.organization_id) {
+        address = jobData?.primary_job_information?.organization_address;
+      } else {
+        address =
+          jobData?.primary_job_information?.industry_association_address;
       }
-    } else if (authUser?.isOrganizationUser) {
-      if (authUser?.organization) {
-        address = authUser?.organization?.address;
-        domain = authUser?.organization?.domain;
-      }
-    }*!/
+    } else if (jobData?.primary_job_information?.organization_id) {
+      address = jobData?.primary_job_information?.organization_address;
+    }
 
     return (
       <React.Fragment>
         <Body2>{address}</Body2>
-        <Body2>
-          Web:{' '}
-          <Link href={domain} target={'_blank'}>
-            {domain}
-          </Link>
-        </Body2>
       </React.Fragment>
     );
-  };*/
-
-  /*  const getCompanyBusiness = () => {
-    return <Body2>Business: Web Development and IT Services</Body2>;
-  };*/
+  };
 
   return (
     <StyledContainer>
@@ -709,8 +688,19 @@ const JobCircularDetails = () => {
       <Box mt={3} className={classes.jobDetailsBox}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8}>
-            <H3>{jobData?.primary_job_information?.job_title}</H3>
+            <H3 sx={{color: 'primary.main'}}>
+              {jobData?.primary_job_information?.job_title}
+            </H3>
             <S1 fontWeight={'bold'}>{getCompanyName()}</S1>
+            {jobData?.primary_job_information?.industry_association_id &&
+            jobData?.primary_job_information?.organization_id ? (
+              <Body2 mt={1}>
+                <b>{messages['job.posted_by']}</b>{' '}
+                {jobData?.primary_job_information?.industry_association_title}
+              </Body2>
+            ) : (
+              <></>
+            )}
             <JobPreviewSubComponent title={messages['common.vacancy']}>
               {jobData?.primary_job_information?.no_of_vacancies
                 ? formatNumber(
@@ -780,7 +770,7 @@ const JobCircularDetails = () => {
             </JobPreviewSubComponent>
 
             <JobPreviewSubComponent title={messages['job_posting.job_source']}>
-              Nise Online Job Posting.
+              {messages['job.online_job_posting']}
             </JobPreviewSubComponent>
             {jobData?.primary_job_information?.published_at && (
               <JobPreviewSubComponent
@@ -799,10 +789,15 @@ const JobCircularDetails = () => {
               {jobData?.primary_job_information?.job_sector_title}/
               {jobData?.primary_job_information?.occupation_title}
             </Typography>
-            <Card sx={{border: '1px solid #bbbbbb', marginTop: '10px'}}>
+            <Card
+              sx={{
+                border: '1px solid',
+                borderColor: 'primary.main',
+                marginTop: '10px',
+              }}>
               <Box
                 sx={{
-                  backgroundColor: 'common.black',
+                  backgroundColor: 'primary.main',
                   padding: '10px',
                   color: 'common.white',
                 }}>
@@ -899,23 +894,25 @@ const JobCircularDetails = () => {
               </S2>
             )}
 
-            {(!authUser || authUser?.isYouthUser) &&
-              (jobData?.candidate_information?.has_applied == '1' ? (
-                <CustomChip
-                  label={messages['common.applied']}
-                  color={'primary'}
-                />
-              ) : (
-                <Button
-                  sx={{
-                    marginTop: '20px',
-                  }}
-                  variant={'contained'}
-                  color={'primary'}
-                  onClick={onJobApply}>
-                  {messages['industry.apply_now']}
-                </Button>
-              ))}
+            <Box>
+              {(!authUser || authUser?.isYouthUser) &&
+                (jobData?.candidate_information?.has_applied == '1' ? (
+                  <CustomChip
+                    label={messages['common.applied']}
+                    color={'primary'}
+                  />
+                ) : (
+                  <Button
+                    sx={{
+                      marginTop: '20px',
+                    }}
+                    variant={'contained'}
+                    color={'primary'}
+                    onClick={onJobApply}>
+                    {messages['industry.apply_now']}
+                  </Button>
+                ))}
+            </Box>
 
             {jobData?.primary_job_information?.resume_receiving_option ==
               ResumeReceivingOptions.EMAIL && (
@@ -1003,7 +1000,7 @@ const JobCircularDetails = () => {
                 : ''}
             </Body1>
           </Grid>
-          {/*<Grid
+          <Grid
             item
             xs={12}
             mt={4}
@@ -1017,10 +1014,8 @@ const JobCircularDetails = () => {
               <Body2>{getCompanyName()}</Body2>
               {jobData?.company_info_visibility?.is_company_address_visible ==
                 SHOW && getCompanyAddress()}
-              {jobData?.company_info_visibility?.is_company_business_visible ==
-                SHOW && <Body2>{getCompanyBusiness()}</Body2>}
             </Box>
-          </Grid>*/}
+          </Grid>
         </Grid>
       </Box>
       {isOpenJobApplyModal && (

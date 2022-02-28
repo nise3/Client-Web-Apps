@@ -31,7 +31,10 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useRouter} from 'next/router';
 import TagChip from '../display/TagChip';
-import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
+import {
+  SalaryShowOption,
+  SHOW,
+} from '../../../modules/dashboard/jobLists/jobPost/enums/JobPostEnums';
 import JobApplyPopup from '../../components/JobApplyPopup';
 import CustomChip from '../display/CustomChip/CustomChip';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
@@ -117,6 +120,7 @@ const StyledCard = styled(Card)(({theme}) => ({
     WebkitBoxOrient: 'vertical',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    minHeight: '45px',
   },
   [`& .${classes.details}`]: {
     whiteSpace: 'break-spaces',
@@ -192,18 +196,38 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   }, [authUser]);
 
   const getJobProviderTitle = () => {
-    if (job.industry_association_id) {
-      return job.industry_association_title;
-    } else if (job.organization_id) {
-      return job.organization_title;
+    if (job?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (job?.industry_association_id) {
+        if (job?.organization_id) {
+          return job?.organization_title;
+        } else {
+          return job?.industry_association_title;
+        }
+      } else if (job?.organization_id) {
+        return job?.organization_title;
+      } else {
+        return '';
+      }
+    } else {
+      return job?.company_info_visibility?.company_name;
     }
   };
 
   const getJobProviderImage = () => {
     let logo = '/images/blank_image.png';
-    if (job.industry_association_id && job?.industry_association_logo) {
-      logo = job.industry_association_logo;
-    } else if (job.organization_id && job?.organization_logo) {
+    if (job?.industry_association_id && job?.industry_association_logo) {
+      if (job?.organization_id && job?.organization_logo) {
+        logo = job.organization_logo;
+      } else if (!job?.organization_id && job?.industry_association_logo) {
+        logo = job.industry_association_logo;
+      }
+    } else if (
+      job?.industry_association_id &&
+      job?.organization_id &&
+      job?.organization_logo
+    ) {
+      logo = job.organization_logo;
+    } else if (job?.organization_id && job?.organization_logo) {
       logo = job.organization_logo;
     }
     return logo;
@@ -345,7 +369,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -387,7 +415,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                     <CustomChip
                       label={messages['common.applied']}
                       color={'primary'}
-                      sx={{marginLeft: '15px'}}
+                      sx={{
+                        marginLeft: '15px',
+                        borderRadius: '5px',
+                        height: '35px',
+                      }}
                     />
                   ) : (
                     <Button
@@ -448,27 +480,39 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               <Box className={classes.cardBottom}>
                 <Body1>
                   <Body1>
-                    you have been invited in {job?.interview_address} at {time}
+                    You have been invited in {job?.interview_address} at {time}
                   </Body1>
                 </Body1>
                 {job?.confirmation_status == ConfirmationStatus.ACCEPTED ? (
                   <CustomChip
                     label={messages['common.accepted']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : job?.confirmation_status == ConfirmationStatus.REJECTED ? (
                   <CustomChip
                     label={messages['common.rejected']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : job?.confirmation_status ==
                   ConfirmationStatus.RESCHEDULED ? (
                   <CustomChip
                     label={messages['common.rescheduled']}
                     color={'primary'}
-                    sx={{marginLeft: '15px'}}
+                    sx={{
+                      marginLeft: '15px',
+                      borderRadius: '5px',
+                      height: '35px',
+                    }}
                   />
                 ) : (
                   <Button

@@ -294,7 +294,7 @@ const MoreJobInformation = ({
 
       if (data.is_other_benefits == 1) {
         const benefits: any = [];
-        data.other_benefits.map((benefit: any) => {
+        (data.other_benefits || []).map((benefit: any) => {
           benefits.push(benefit.id);
         });
         data.other_benefits = benefits;
