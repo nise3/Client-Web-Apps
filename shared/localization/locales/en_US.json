@@ -1584,5 +1584,9 @@
   "common.accepted": "Accepted",
   "common.rescheduled": "Rescheduled",
   "job.online_job_posting": "Nise Online Job Posting.",
-  "job.posted_by": "Job posted by: "
+  "job.posted_by": "Job posted by: ",
+  "common.show_in_status": "Show in status",
+  "common.show_in_landing_page": "Show in landing page",
+  "common.member": "Member",
+  "member.none": "No member"
 }
