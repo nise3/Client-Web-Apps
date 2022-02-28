@@ -7,23 +7,23 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_REGISTERED_TRAINING_ORGANIZATIONS} from '../../../@softbd/common/apiRoutes';
+import {API_RPL_SECTORS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import RTODetailsPopup from './RTODetailsPopup';
-import RTOAddEditPopup from './RTOAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import CustomChipStatus from '../memberList/CustomChipStatus';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {deleteRTO} from '../../../services/CertificateAuthorityManagement/RTOService';
+import RPLSectorsDetailsPopup from './RPLSectorsDetailsPopup';
+import RPLSectorsAddEditPopup from './RPLSectorsAddEditPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
 
-const RTOPage = () => {
+const RPLSectorsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -48,13 +48,13 @@ const RTOPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteRTOItem = async (itemId: number) => {
-    let response = await deleteRTO(itemId);
+  const deleteRPLSectorItem = async (itemId: number) => {
+    let response = await deleteRPLSector(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rto.label' />}}
+          values={{subject: <IntlMessages id='rpl_sectors.label' />}}
         />,
       );
 
@@ -76,29 +76,22 @@ const RTOPage = () => {
         disableFilters: true,
         disableSortBy: true,
       },
+
       {
         Header: messages['common.title'],
         accessor: 'title',
-        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['common.code'],
-        accessor: 'code',
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <CustomChipStatus variant={'filled'} value={data?.row_status} />
-          );
+          return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
       {
@@ -110,7 +103,7 @@ const RTOPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteRTOItem(data.id)}
+                deleteAction={() => deleteRPLSectorItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -124,7 +117,7 @@ const RTOPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_REGISTERED_TRAINING_ORGANIZATIONS,
+      urlPath: API_RPL_SECTORS,
     });
 
   return (
@@ -132,7 +125,7 @@ const RTOPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='rto.label' />
+            <IconFAQ /> <IntlMessages id='rpl_sectors.label' />
           </>
         }
         extra={[
@@ -144,7 +137,7 @@ const RTOPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['rto.label'],
+                  subject: messages['rpl_sectors.label'],
                 }}
               />
             }
@@ -159,17 +152,17 @@ const RTOPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
+
         {isOpenAddEditModal && (
-          <RTOAddEditPopup
+          <RPLSectorsAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
-
         {isOpenDetailsModal && selectedItemId && (
-          <RTODetailsPopup
+          <RPLSectorsDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -181,4 +174,4 @@ const RTOPage = () => {
   );
 };
 
-export default RTOPage;
+export default RPLSectorsPage;

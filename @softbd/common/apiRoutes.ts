@@ -465,3 +465,5 @@ export const API_PUBLIC_NISE_STATICS =
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
+
+export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
