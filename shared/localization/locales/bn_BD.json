@@ -1563,5 +1563,6 @@
   "common.per_page": "প্রতি পেজ",
   "permissions.method_delete": "ডিলেট",
   "country.label": "দেশ",
-  "common.rto-countries": "আরটিও অন্তর্ভুক্ত দেশসমূহ"
+  "rto-country.label": "আরটিওভুক্ত দেশ",
+  "common.rto-countries": "আরটিওভুক্ত দেশসমূহ"
 }

@@ -32,25 +32,15 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
   const { createSuccessMessage } = useSuccessMessage();
 
   const {
-    data: countryData,
+    data: serverSelectedCountries,
     isLoading,
     mutate: mutateCountry
   } = useFetchRTOCountries();
 
-  /** only this one will come from location hooks, all others should be from your own service */
+
   const [countryFilters] = useState<any>({});
-  const { data: countries, isLoading: isCountriesLoading } =
+  const { data: allCountries, isLoading: isCountriesLoading } =
     useFetchCountries(countryFilters);
-
-  const [countryList, setCountryList] = useState<any>([]);
-  //console.log('countries: ', countryList);
-
-  useEffect(() => {
-    if (countryData && countries) {
-      const filteredData = countries.filter((cntry: any) => cntry.id != countryData.id);
-      setCountryList(filteredData);
-    }
-  }, [countryData, countries]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -61,13 +51,11 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
   }, [messages]);
 
   const onCountriesChange = useCallback((options) => {
-    setCountryList(options);
+    setSelectedCountry(options);
   }, []);
 
   const {
     control,
-    //register,
-    //reset,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting }
@@ -76,30 +64,21 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
   });
 
 
-  // useEffect(() => {
-  //   if (countryData) {
-  //     reset({
-  //       title_en: countryData?.title_en,
-  //       title: countryData?.title,
-  //       row_status: String(countryData?.row_status)
-  //     });
-  //
-  //   }
-  //   // else {
-  //   //   reset(initialValues);
-  //   // }
-  // }, [countryData]);
+  useEffect(() => {
+      serverSelectedCountries?.map((single_country_server: any) => single_country_server.id = single_country_server.country_id);
+      setSelectedCountry(serverSelectedCountries);
+    }, [serverSelectedCountries]
+  );
 
-  let [selectedCountry,setSelectedCountry] = useState<any>([])
+  let [selectedCountry, setSelectedCountry] = useState<any>([]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const idArr = data.country.map((c: any) => c.id);
+      const countriesId = data.country.map((singleCountry: any) => singleCountry.id);
       delete data["country"];
-      data.country_ids = idArr;
+      data.country_ids = countriesId;
       await createRTOCountry(data);
       createSuccessMessage("country.label");
-      console.log(data);
       mutateCountry();
       props.onClose();
       refreshDataTable();
@@ -116,10 +95,10 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
       title={
         <>
           <IconCountry />
-            <IntlMessages
-              id="common.add_new"
-              values={{ subject: <IntlMessages id="country.label" /> }}
-            />
+          <IntlMessages
+            id="common.add_new"
+            values={{ subject: <IntlMessages id="rto-country.label" /> }}
+          />
         </>
       }
       maxWidth={isBreakPointUp("xl") ? "lg" : "md"}
@@ -133,20 +112,21 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
       <Grid container spacing={5}>
 
         <Grid item xs={12}>
-          <CustomSelectAutoComplete
-            id="country"
-            label="Countries"
-            control={control}
-            isLoading={isCountriesLoading}
-            options={countryList}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
-            errorInstance={errors}
-            defaultValue={countryData}
-            // onChange={onCountriesChange}
-          />
+          {selectedCountry && (
+            <CustomSelectAutoComplete
+              id="country"
+              label="Countries"
+              control={control}
+              isLoading={isCountriesLoading}
+              options={allCountries}
+              optionValueProp={"id"}
+              optionTitleProp={["title"]}
+              errorInstance={errors}
+              defaultValue={selectedCountry}
+              onChange={onCountriesChange}
+            />
+          )}
         </Grid>
-
 
       </Grid>
     </HookFormMuiModal>
