@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Avatar,
@@ -35,6 +35,9 @@ import {SalaryShowOption} from '../../../modules/dashboard/jobLists/jobPost/enum
 import JobApplyPopup from '../../components/JobApplyPopup';
 import CustomChip from '../display/CustomChip/CustomChip';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
+import JobScheduleResponsePopup from '../../components/JobScheduleResponsePopup';
+import ConfirmationStatus from '../../components/JobScheduleResponsePopup/ConfirmationStatus';
+import moment from 'moment';
 
 const PREFIX = 'JobCardComponent';
 
@@ -44,6 +47,7 @@ const classes = {
   providerLogo: `${PREFIX}-providerLogo`,
   marginRight10: `${PREFIX}-marginRight10`,
   marginTop10: `${PREFIX}-marginTop10`,
+  cardBottom: `${PREFIX}-cardBottom`,
   providerAvatar: `${PREFIX}-providerAvatar`,
   shareIcon: `${PREFIX}-shareIcon`,
   overflowText: `${PREFIX}-overflowText`,
@@ -83,6 +87,13 @@ const StyledCard = styled(Card)(({theme}) => ({
 
   [`& .${classes.marginRight10}`]: {
     marginRight: '10px',
+  },
+  [`& .${classes.cardBottom}`]: {
+    marginTop: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderTop: '1px solid #888',
+    padding: '5px',
   },
   [`& .${classes.marginTop10}`]: {
     marginTop: '10px',
@@ -124,15 +135,22 @@ interface JobCardComponentProps {
   job: any;
   isGridView?: boolean;
   onPopupClose?: () => void;
+  isShowingInMyJobs?: boolean;
 }
 
 const JobCardComponent: FC<JobCardComponentProps> = ({
   job,
   onPopupClose,
   isGridView = false,
+  isShowingInMyJobs = false,
 }) => {
   const {messages, formatDate, formatNumber} = useIntl();
   const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
+  const [isOpenScheduleResponseModal, setIsOpenScheduleResponseModal] =
+    useState(false);
+
+  const [time, setTime] = useState('');
+
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const customStyle = useCustomStyle();
@@ -144,13 +162,34 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     }
   }, []);
 
+  const closeJobScheduleResponseModal = useCallback(() => {
+    setIsOpenScheduleResponseModal(false);
+    if (onPopupClose) {
+      onPopupClose();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (job?.interview_scheduled_at) {
+      let day = moment(job?.interview_scheduled_at);
+
+      setTime(day.toLocaleString());
+    }
+  }, [job]);
+
   const onJobApply = useCallback(() => {
     if (authUser) {
       setIsOpenJobApplyModal(true);
     } else {
       router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
     }
-  }, []);
+  }, [authUser]);
+
+  const onScheduleResponse = useCallback(() => {
+    if (authUser) {
+      setIsOpenScheduleResponseModal(true);
+    }
+  }, [authUser]);
 
   const getJobProviderTitle = () => {
     if (job.industry_association_id) {
@@ -405,12 +444,58 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
               )}
               <Share className={classes.shareIcon} />
             </Box>
+            {isShowingInMyJobs && job?.interview_scheduled_at ? (
+              <Box className={classes.cardBottom}>
+                <Body1>
+                  <Body1>
+                    you have been invited in {job?.interview_address} at {time}
+                  </Body1>
+                </Body1>
+                {job?.confirmation_status == ConfirmationStatus.ACCEPTED ? (
+                  <CustomChip
+                    label={messages['common.accepted']}
+                    color={'primary'}
+                    sx={{marginLeft: '15px'}}
+                  />
+                ) : job?.confirmation_status == ConfirmationStatus.REJECTED ? (
+                  <CustomChip
+                    label={messages['common.rejected']}
+                    color={'primary'}
+                    sx={{marginLeft: '15px'}}
+                  />
+                ) : job?.confirmation_status ==
+                  ConfirmationStatus.RESCHEDULED ? (
+                  <CustomChip
+                    label={messages['common.rescheduled']}
+                    color={'primary'}
+                    sx={{marginLeft: '15px'}}
+                  />
+                ) : (
+                  <Button
+                    sx={{float: 'right'}}
+                    variant={'outlined'}
+                    color={'primary'}
+                    size={'small'}
+                    onClick={onScheduleResponse}>
+                    {messages['common.response']}
+                  </Button>
+                )}
+              </Box>
+            ) : (
+              ''
+            )}
           </CardContent>
         </React.Fragment>
       )}
 
       {isOpenJobApplyModal && (
         <JobApplyPopup job={job} onClose={closeJobApplyModal} />
+      )}
+      {isOpenScheduleResponseModal && (
+        <JobScheduleResponsePopup
+          job={job}
+          onClose={closeJobScheduleResponseModal}
+        />
       )}
     </StyledCard>
   );
