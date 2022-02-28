@@ -10,6 +10,7 @@ import {
   Card,
   CardContent,
   Container,
+  FormControlLabel,
   FormLabel,
   Grid,
   Typography,
@@ -47,6 +48,7 @@ import BusinessOwnership from './constants/BusinessOwnership';
 import {Body1, H1, H2} from '../../../@softbd/elements/common';
 import {registerNASCIBMember} from '../../../services/IndustryManagement/NascibMemberRegistrationService';
 import {useFetchNascibMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 
 interface NASCIBMemberRegistrationFormProps {
   onClose: () => void;
@@ -157,6 +159,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const [hasBankAccount, setHasBankAccount] = useState<boolean>(false);
   const [isOpenSectorOtherName, setIsOpenSectorOtherName] =
     useState<boolean>(false);
+  const [bankAccountTypes, setBankAccountTypes] = useState<Array<boolean>>([
+    false,
+    false,
+  ]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -304,10 +310,12 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.workshop'] as string),
-      factory_address: yup
-        .string()
-        .required()
-        .label(messages['common.address'] as string),
+      factory_address: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.address'] as string)
+        : yup.string(),
       factory_loc_district_id: yup
         .string()
         .label(messages['districts.label'] as string),
@@ -490,7 +498,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     setValue,
     getValues,
     formState: {errors, isSubmitting},
-  } = useForm<IUser>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -1735,26 +1743,61 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                     {hasBankAccount && (
                       <Grid item xs={6}>
-                        <FormRadioButtons
-                          required
-                          id={'bank_account_type'}
-                          label={'bank_account_type.label'}
-                          radios={[
-                            {
-                              key: BankAccountType.PERSONAL,
-                              label: messages['bank_account_type.personal'],
-                            },
-                            {
-                              key: BankAccountType.OF_THE_ORGANIZATION,
-                              label:
-                                messages[
-                                  'bank_account_type.of_the_organization'
-                                ],
-                            },
-                          ]}
-                          control={control}
-                          errorInstance={errors}
+                        <FormControlLabel
+                          control={<></>}
+                          label={messages['bank_account_type.label'] as string}
                         />
+                        <CustomCheckbox
+                          id={'bank_account_type.personal'}
+                          label={messages['bank_account_type.personal']}
+                          checked={bankAccountTypes[0]}
+                          onChange={() => {
+                            return setBankAccountTypes([
+                              !bankAccountTypes[0],
+                              bankAccountTypes[1],
+                            ]);
+                          }}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={false}
+                        />
+                        <CustomCheckbox
+                          id={'bank_account_type.organization'}
+                          label={
+                            messages['bank_account_type.of_the_organization']
+                          }
+                          checked={bankAccountTypes[1]}
+                          onChange={() => {
+                            return setBankAccountTypes([
+                              bankAccountTypes[0],
+                              !bankAccountTypes[1],
+                            ]);
+                          }}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={false}
+                        />
+
+                        {/*<FormRadioButtons*/}
+                        {/*  required*/}
+                        {/*  id={'bank_account_type'}*/}
+                        {/*  label={'bank_account_type.label'}*/}
+                        {/*  radios={[*/}
+                        {/*    {*/}
+                        {/*      key: BankAccountType.PERSONAL,*/}
+                        {/*      label: messages['bank_account_type.personal'],*/}
+                        {/*    },*/}
+                        {/*    {*/}
+                        {/*      key: BankAccountType.OF_THE_ORGANIZATION,*/}
+                        {/*      label:*/}
+                        {/*        messages[*/}
+                        {/*          'bank_account_type.of_the_organization'*/}
+                        {/*        ],*/}
+                        {/*    },*/}
+                        {/*  ]}*/}
+                        {/*  control={control}*/}
+                        {/*  errorInstance={errors}*/}
+                        {/*/>*/}
                       </Grid>
                     )}
                   </Grid>
