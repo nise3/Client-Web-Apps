@@ -1987,6 +1987,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                   <Grid item xs={6}>
                     <CustomTextInput
+                      required
                       id='info_provider_mobile'
                       label={messages['institute.info_provider_mobile']}
                       register={register}
@@ -2007,6 +2008,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                   <Grid item xs={6}>
                     <CustomTextInput
+                      required
                       id='info_collector_mobile'
                       label={messages['institute.info_collector_mobile']}
                       register={register}
