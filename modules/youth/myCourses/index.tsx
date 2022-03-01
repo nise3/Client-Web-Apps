@@ -29,9 +29,7 @@ const MyCoursePage = () => {
             {courseList.map((course: any) => {
               return (
                 <Grid item xs={12} sm={6} md={3} key={course.id}>
-                  <Link
-                    href={`/course-details/${course.course_id}`
-                    }>
+                  <Link href={`/course-details/${course.course_id}`}>
                     <CourseCardComponent
                       course={{
                         id: course.course_id,
