@@ -71,7 +71,6 @@ const YouthNoticeBoard = () => {
   const authUser = useAuthUser<YouthAuthUser>();
   const page = useRef<any>(1);
   const router = useRouter();
-  const {page: queryPageNumber} = router.query;
   const [noticeFilters, setNoticeFilters] = useState<any>(null);
 
   const {
@@ -94,7 +93,6 @@ const YouthNoticeBoard = () => {
 
   useEffect(() => {
     let params: any = {
-      page: 1,
       type: NoticeOrNewsTypes.NOTICE,
       page_size: PageSizes.EIGHT,
     };
@@ -110,6 +108,9 @@ const YouthNoticeBoard = () => {
       ...params,
       ...modifiedParams,
     };
+    if (modifiedParams.page) {
+      page.current = modifiedParams.page;
+    }
 
     setNoticeFilters(objectFilter(params));
   }, [authUser]);
@@ -121,11 +122,12 @@ const YouthNoticeBoard = () => {
       metaData.total > 0 &&
       metaData.total_page < Number(router.query.page)
     ) {
+      page.current = 1;
       setNoticeFilters((prev: any) => ({
         ...prev,
-        page: 1,
+        page: page.current,
       }));
-      urlParamsUpdate({...router.query, page: 1});
+      urlParamsUpdate({...router.query, page: page.current});
     }
   }, [metaData, router.query]);
 
@@ -217,7 +219,7 @@ const YouthNoticeBoard = () => {
             <CustomPaginationWithPageNumber
               count={metaData.total_page}
               currentPage={1}
-              queryPageNumber={Number(queryPageNumber)}
+              queryPageNumber={page.current}
               onPaginationChange={onPaginationChange}
               rowsPerPage={Number(router.query.page_size)}
               onRowsPerPageChange={handleChangeRowsPerPage}
