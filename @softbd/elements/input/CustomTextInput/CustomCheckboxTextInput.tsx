@@ -15,6 +15,7 @@ interface Props {
   isLoading: any;
   isTextFieldExist?: boolean;
   textFieldPlaceholder?: string | MessageFormatElement[];
+  required?: boolean;
 }
 
 const PREFIX = 'CustomCheckboxTextInput';
@@ -43,14 +44,16 @@ const CustomCheckboxTextInput = ({
   errors,
   isTextFieldExist = true,
   textFieldPlaceholder,
+  required = false,
 }: Props) => {
   const {messages} = useIntl();
+  const OTHER_FIELD_NAME = 'other_authority';
   {
     return (
       <>
         <Grid container>
           <Grid item xs={6}>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel required={required}>{label}</FormLabel>
           </Grid>
         </Grid>
 
@@ -63,6 +66,7 @@ const CustomCheckboxTextInput = ({
                     className={isTextFieldExist ? classes.inlineBlock : ''}>
                     <Checkbox
                       value={data.id}
+                      {...register(id)}
                       onChange={() => {
                         if (
                           onChangeCallback &&
@@ -76,7 +80,7 @@ const CustomCheckboxTextInput = ({
                   </label>
                 </Grid>
                 <Grid item xs={6}>
-                  {data.id != 'other_authority' && isTextFieldExist && (
+                  {data.id != OTHER_FIELD_NAME && isTextFieldExist && (
                     <CustomTextInput
                       disabled={!checkedDataArray.includes(data.id)}
                       id={id + '[' + data.id + ']'}
@@ -87,8 +91,8 @@ const CustomCheckboxTextInput = ({
                       placeholder={textFieldPlaceholder}
                     />
                   )}
-                  {data.id == 'other_authority' && (
-                    <Grid container>
+                  {data.id == OTHER_FIELD_NAME && (
+                    <Grid container spacing={1}>
                       <Grid item xs={6}>
                         <CustomTextInput
                           disabled={!checkedDataArray.includes(data.id)}
@@ -108,7 +112,7 @@ const CustomCheckboxTextInput = ({
                           errorInstance={errors}
                           isLoading={isLoading}
                           sx={{maxWidth: '10vw', marginLeft: '1vw'}}
-                          placeholder={messages['common.number']}
+                          placeholder={textFieldPlaceholder}
                         />
                       </Grid>
                     </Grid>
