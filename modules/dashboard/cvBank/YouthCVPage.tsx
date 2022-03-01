@@ -8,9 +8,8 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, Container, Grid, Typography} from '@mui/material';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
-import "svg-to-pdfkit";
+import 'svg-to-pdfkit';
 // import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 // import { svg2pdf } from 'svg2pdf.js';
 
@@ -92,21 +91,6 @@ const YouthCVPage = () => {
       doc.document.body.innerHTML = html;
       doc.window.print();
     }
-  }, []);
-
-    const downloadCB = useCallback(() => {
-    const doc = new jsPDF('p',  'mm', [297, 210]);
-    const element = document.getElementById('svg') as Element;
-      doc
-      .svg(element, {
-        x:0,
-        y:0,
-        // width: 860,
-        // height: 1216
-      })
-      .then(() => {
-        doc.save('myPDF.pdf')
-      })
   }, []);
 
   const getTemplate = () => {
