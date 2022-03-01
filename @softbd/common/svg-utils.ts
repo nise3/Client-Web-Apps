@@ -1,4 +1,3 @@
-import { xor } from "lodash";
 
 const fn = {
   text(str = '') {
