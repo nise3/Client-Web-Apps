@@ -56,6 +56,15 @@ export interface IRPLOccupation {
   row_status: number;
   translations?: object;
 }
+export interface IRPLLevel {
+  rpl_sector_id: number | string;
+  title: string;
+  title_en?: string;
+  row_status: number;
+  translations?: object;
+  rpl_occupation_id: number | string;
+  sequence_order: number;
+}
 
 export interface IPartner extends IIdTitle {
   main_image_path?: string;
