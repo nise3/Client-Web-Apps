@@ -1,12 +1,11 @@
-import { Box, Slide } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import React, { FC, useCallback } from 'react';
-import { useIntl } from 'react-intl';
-import { setAreaText } from '../../../../@softbd/common/svg-utils';
-import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
+import {Box, Slide} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import React, {FC, useCallback} from 'react';
+import {useIntl} from 'react-intl';
+import {setAreaText} from '../../../../@softbd/common/svg-utils';
+import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
-import { ISkill } from '../../../../shared/Interface/organization.interface';
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -24,9 +23,9 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     '2': 'Not Easily',
   };
 
-  const setPhoto = (data) => {
-    var elem = document.getElementById('photo');
-    var imgElem = elem.childNodes[1];
+  const setPhoto = (data: any) => {
+    var elem = document.getElementById('photo') as Element;
+    var imgElem = elem.childNodes[1] as any;
     imgElem.setAttribute('xlink:href', data.photo);
     }
   const LanguageProficiencySpeakingType: any = {
@@ -169,9 +168,9 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     const skill = setAreaText(
       svgNode,
       'computerskill',
-      userData?.skills.map((skill: ISkill, index: number) => {
+      userData?.skills.map((skill: any, index: number) => {
         // return skill?.title ? index + 1 + '. ' + skill[getProps('title', locale)] + ' ' : ' ';
-        return skill?.title ? skill[getProps('title', locale)] + ' ' : ' ';
+        return skill?.title ? skill[getProps('title', locale)] as any + ' ' : ' ';
       }),
     );
     console.log('skill cord', skill)
