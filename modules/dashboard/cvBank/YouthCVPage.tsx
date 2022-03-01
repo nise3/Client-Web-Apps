@@ -46,8 +46,9 @@ const StyledContainer = styled(Container)(({theme}) => ({
 // const PRINT_WIDTH = 1000;
 // const PRINT_HIGHT = 1400;
 const YouthCVPage = () => {
-  const {messages, locale} = useIntl();
   const router: any = useRouter();
+  // const {messages, locale} = useIntl();
+  const {messages} = useIntl();
   const {youthId} = router.query;
   const {data: youthData} = useFetchYouthDetails(youthId);
 
