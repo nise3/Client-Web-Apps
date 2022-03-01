@@ -223,4 +223,8 @@ export const routePermissions: any = {
     routePrefix: '/industry-association-member-jobs',
     permissionKeys: ['view_any_industry_association_member_job'],
   },
+  '/rpl-levels': {
+    routePrefix: '/rpl-levels',
+    permissionKeys: ['view_any_rpl_level'],
+  },
 };

@@ -1,6 +1,7 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_REGISTERED_TRAINING_ORGANIZATIONS,
+  API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
@@ -24,4 +25,7 @@ export function useFetchRPLOccupation(RPLOccupationId: number | null) {
   return useAxiosSWR(
     RPLOccupationId ? API_RPL_OCCUPATIONS + '/' + RPLOccupationId : null,
   );
+}
+export function useFetchRPLLevels(params: any = null) {
+  return useAxiosSWR(params ? [API_RPL_LEVELS, params] : null);
 }

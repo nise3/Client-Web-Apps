@@ -442,6 +442,7 @@
   "rpl_occupation.name": "Occupation Name",
   "rpl_occupation.name_en": "Occupation Name (EN)",
   "rto.details": "RTO Details",
+  "rpl_level.label": "RTO Levels",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
   "programme.label": "Programme",
