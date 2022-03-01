@@ -80,19 +80,6 @@ const RPLSectorsPage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
-      /*{
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },*/
-      /*{
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
