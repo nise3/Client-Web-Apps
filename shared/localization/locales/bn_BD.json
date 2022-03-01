@@ -1475,7 +1475,7 @@
   "common.entrepreneur_pic": "উদ্যোক্তার  ছবি",
   "institute.trade_licence_number": "প্রতিষ্ঠানের ট্রেড লাইসেন্স নম্বর",
   "common.website": "ওয়েবসাইট",
-  "common.has_workshop": "কারখানা?",
+  "common.has_workshop": "কারখানা আছে?",
   "common.workshop": "কারখানা",
   "common.institute_others_information": "ইনস্টিটিউটের অন্যান্য তথ্য",
   "common.business_ownership": "ব্যবসার মালিকানা",
@@ -1530,7 +1530,7 @@
   "common.organization_identification_number": "প্রতিষ্ঠান সনাক্তকরণ নম্বর",
   "common.factory_address": "কারখানার ঠিকানা",
   "common.factory_address_en": "কারখানার ঠিকানা (ইংরেজী)",
-  "factory.office_or_showroom": "অফিস/শোরুম?",
+  "factory.office_or_showroom": "অফিস/শোরুম আছে?",
   "factory.factory_land_own_or_rent": "নিজস্ব জমি আছে?",
   "common.proprietorship": "মালিকানা?",
   "institute.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
@@ -1546,6 +1546,7 @@
   "industry.registered_authority": "নিবন্ধিত কর্তৃপক্ষ",
   "industry.authorized_authority": "অনুমোদিত কর্তৃপক্ষ",
   "industry.specialized_areas": "বিশেষায়িত অঞ্চলসমূহ",
+  "industry.is_keep_daily_credit_debit": "দৈনিক হিসাব রাখা হয়?",
   "common.registered_no": "নিবন্ধিত নম্বর",
   "common.approved_no": "অনুমোদিত নম্বর",
   "bank_account_type.label": "ব্যাঙ্ক অ্যাকাউন্টের ধরন",
@@ -1572,5 +1573,7 @@
   "membership.partnership": "অংশীদারী",
   "membership.general": "সাধারণ",
   "membership.id": "সদস্যতা আইডি",
-  "membership.type": "সদস্যতা ধরণ"
+  "membership.type": "সদস্যতা ধরণ",
+  "common.direct": "প্রত্যক্ষ",
+  "common.indirect": "পরোক্ষ"
 }
