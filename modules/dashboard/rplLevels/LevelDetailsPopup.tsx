@@ -5,13 +5,13 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchRPLLevel,
   useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
+import IconRplLevel from '../../../@softbd/icons/IconRplLevel';
 
 type Props = {
   itemId: number;
@@ -42,7 +42,7 @@ const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconFAQ />
+            <IconRplLevel />
             <IntlMessages id='rpl_level.label' />
           </>
         }

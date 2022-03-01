@@ -81,6 +81,18 @@ const RPLSectorsPage = () => {
         accessor: 'title',
       },
       {
+        Header: messages['rpl_level.sequence_order'],
+        accessor: 'sequence_order',
+      },
+      {
+        Header: messages['occupations.label'],
+        accessor: 'rpl_occupation_title',
+      },
+      {
+        Header: messages['rpl_sector.label'],
+        accessor: 'rpl_sector_title',
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
