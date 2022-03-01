@@ -8,7 +8,6 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -27,6 +26,7 @@ import {
   createRPLLevel,
   updateRPLLevel,
 } from '../../../services/CertificateAuthorityManagement/RPLLevelService';
+import IconRplLevel from '../../../@softbd/icons/IconRplLevel';
 
 interface LevelAddEditPopupProps {
   itemId: number | null;
@@ -255,7 +255,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
-          <IconFAQ />
+          <IconRplLevel />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
