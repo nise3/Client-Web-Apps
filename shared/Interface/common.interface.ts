@@ -42,10 +42,19 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
+
 export interface IRPLSector {
   title: string;
+  row_status?: number;
+  translations?: object;
+}
+
+export interface IRPLOccupation {
+  rpl_sector_id: number | string;
+  title: string;
+  title_en?: string;
   row_status: number;
-  other_country_fields?: object;
+  translations?: object;
 }
 
 export interface IPartner extends IIdTitle {

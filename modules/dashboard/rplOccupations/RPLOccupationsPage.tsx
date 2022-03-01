@@ -7,17 +7,17 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_RPL_SECTORS} from '../../../@softbd/common/apiRoutes';
+import {API_RPL_OCCUPATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import RPLSectorsDetailsPopup from './RPLSectorsDetailsPopup';
-import RPLSectorsAddEditPopup from './RPLSectorsAddEditPopup';
+import RPLOccupationsDetailsPopup from './RPLOccupationsDetailsPopup';
+import RPLOccupationsAddEditPopup from './RPLOccupationsAddEditPopup';
 import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+import {deleteRPLOccupation} from '../../../services/CertificateAuthorityManagement/RPLOccupationService';
 
-const RPLSectorsPage = () => {
+const RPLOccupationsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -47,13 +47,13 @@ const RPLSectorsPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteRPLSectorItem = async (itemId: number) => {
-    let response = await deleteRPLSector(itemId);
+  const deleteRPLOccupationItem = async (itemId: number) => {
+    let response = await deleteRPLOccupation(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rpl_sector.label' />}}
+          values={{subject: <IntlMessages id='rpl_occupation.label' />}}
         />,
       );
 
@@ -75,10 +75,13 @@ const RPLSectorsPage = () => {
         disableFilters: true,
         disableSortBy: true,
       },
-
       {
         Header: messages['common.title'],
         accessor: 'title',
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
       },
       {
         Header: messages['common.actions'],
@@ -89,7 +92,7 @@ const RPLSectorsPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteRPLSectorItem(data.id)}
+                deleteAction={() => deleteRPLOccupationItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -103,7 +106,7 @@ const RPLSectorsPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_RPL_SECTORS,
+      urlPath: API_RPL_OCCUPATIONS,
     });
 
   return (
@@ -111,7 +114,7 @@ const RPLSectorsPage = () => {
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='rpl_sectors.label' />
+            <IconFAQ /> <IntlMessages id='rpl_occupations.label' />
           </>
         }
         extra={[
@@ -123,7 +126,7 @@ const RPLSectorsPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['rpl_sectors.label'],
+                  subject: messages['rpl_occupation.label'],
                 }}
               />
             }
@@ -140,7 +143,7 @@ const RPLSectorsPage = () => {
         />
 
         {isOpenAddEditModal && (
-          <RPLSectorsAddEditPopup
+          <RPLOccupationsAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -148,7 +151,7 @@ const RPLSectorsPage = () => {
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
-          <RPLSectorsDetailsPopup
+          <RPLOccupationsDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -160,4 +163,4 @@ const RPLSectorsPage = () => {
   );
 };
 
-export default RPLSectorsPage;
+export default RPLOccupationsPage;

@@ -474,3 +474,5 @@ export const API_REGISTERED_TRAINING_ORGANIZATIONS =
 export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
 
 export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
+
+export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
