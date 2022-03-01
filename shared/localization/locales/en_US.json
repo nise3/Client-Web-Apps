@@ -1607,7 +1607,7 @@
   "membership.type": "Membership Type",
   "common.direct": "Direct",
   "common.indirect": "Indirect",
-  "payment.incomplete_text": "Your haven't complete your payment  yet"
+  "payment.incomplete_text": "Your haven't complete your payment  yet",
   "common.objective": "Objective",
   "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database."
 }

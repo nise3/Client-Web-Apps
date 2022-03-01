@@ -127,7 +127,7 @@ const YouthCVPage = () => {
             {messages['common.youth_cv']}
           </Typography>
         </Grid>
-        <Grid item xs={4} sm={2} md={2}>
+        <Grid item xs={3} sm={3} md={3}>
           <Button
             startIcon={<ArrowBackIcon />}
             variant='outlined'
@@ -136,7 +136,7 @@ const YouthCVPage = () => {
             {messages['common.back']}
           </Button>
         </Grid>
-        <Grid item xs={4} sm={2} md={2}>
+        <Grid item xs={3} sm={3} md={3}>
           <Button
             variant='contained'
             onClick={printCB}
@@ -144,7 +144,7 @@ const YouthCVPage = () => {
             {messages['common.print']}
           </Button>
         </Grid>
-        <Grid item xs={4} sm={2} md={2}>
+        {/* <Grid item xs={4} sm={2} md={2}>
           <Button
             variant='contained'
             onClick={downloadCB}
@@ -152,7 +152,7 @@ const YouthCVPage = () => {
             {messages['common.download']}
           </Button>
           <a id="lnk" download>Download</a>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Grid container spacing={5} className={classes.rootContent}>
