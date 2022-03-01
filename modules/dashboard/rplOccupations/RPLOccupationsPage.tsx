@@ -84,6 +84,10 @@ const RPLOccupationsPage = () => {
         accessor: 'title_en',
       },
       {
+        Header: messages['rpl_sector.name'],
+        accessor: 'rpl_sector_title',
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
