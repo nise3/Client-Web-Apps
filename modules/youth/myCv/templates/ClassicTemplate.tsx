@@ -46,7 +46,11 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     const rects = svgNode.querySelectorAll('g[id]>text');
     for (let r = 0; r < rects.length; r++)
       // @ts-ignore
-      rects[r].previousElementSibling.setAttribute('fill', 'transparent');
+      if(rects[r].previousElementSibling){
+        // @ts-ignore
+        rects[r].previousElementSibling.setAttribute('fill', 'transparent');
+      }
+
     // setAreaText(svgNode, 'image', userData?.photo);
     // console.log(svgNode)
     const getProps = (propsName: string, locale: string): string =>{
@@ -137,29 +141,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       }),
       'lt',
     );
-    setAreaText(
-      svgNode,
-      'language',
-      userData?.youth_languages_proficiencies.map((language: any) => {
-        return (
-          (language?.language_title
-            ? `${messages['common.language']}: ` + language?.language_title + ', '
-            : ' ') +
-          (language?.reading_proficiency_level
-            ? `${messages['language.read']}: ` +
-              LanguageProficiencyType[language?.reading_proficiency_level] +
-              ', '
-            : ' ') +
-          (language?.speaking_proficiency_level
-            ? `${messages['language.speak']}: ` +
-              LanguageProficiencySpeakingType[
-                language?.speaking_proficiency_level
-              ] +
-              ', '
-            : ' ')
-        );
-      }),
-    );
+
     setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
     setAreaText(
       svgNode,
@@ -184,13 +166,57 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         );
       }),
     );
-    setAreaText(
+    const skill = setAreaText(
       svgNode,
       'computerskill',
       userData?.skills.map((skill: ISkill, index: number) => {
-        return skill?.title ? index + 1 + '. ' + skill[getProps('title', locale)] + ' ' : ' ';
+        // return skill?.title ? index + 1 + '. ' + skill[getProps('title', locale)] + ' ' : ' ';
+        return skill?.title ? skill[getProps('title', locale)] + ' ' : ' ';
       }),
     );
+    console.log('skill cord', skill)
+    let svg = document.getElementById('svg') as Element;
+    // svg.setAttribute('viewBox', `0 0 595.276 ${skill.lastCord + 20}`)
+    // update langulage rect, line and heading from the last cord
+    const lastCords = skill.lastCord + 40;
+    let languageHead = document.getElementById('language-headling');
+    let languageHeadLine = document.getElementById('language-headling-line');
+    languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
+    languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
+    languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
+    // langular rectangle cord change
+    let languageReact = document.getElementById('language');
+    languageReact?.children[0].setAttribute('y', (lastCords + 20) + '');
+
+    setAreaText(
+      svgNode,
+      'language',
+      userData?.youth_languages_proficiencies.map((language: any) => {
+        return (
+          (language?.language_title
+            ? `${messages['common.language']}: ` + language?.language_title + ', '
+            : ' ') +
+          (language?.reading_proficiency_level
+            ? `${messages['language.read']}: ` +
+              LanguageProficiencyType[language?.reading_proficiency_level] +
+              ', '
+            : ' ') +
+          (language?.speaking_proficiency_level
+            ? `${messages['language.speak']}: ` +
+              LanguageProficiencySpeakingType[
+                language?.speaking_proficiency_level
+              ] +
+              ', '
+            : ' ')
+        );
+      }),
+    );
+    //@ts-ignore
+    const langulageRect = languageReact?.children[0].getBBox();
+    const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
+    console.log('lang rectangle ', languageLastBoxBottomY);
+    // update svg if less then last cord
+    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY}`);
     }, [locale]);
 
   return (
