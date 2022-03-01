@@ -9,7 +9,7 @@ import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchRPLSector,
+  useFetchRPLLevel,
   useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 
@@ -21,7 +21,7 @@ type Props = {
 
 const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchRPLSector(itemId);
+  const {data: itemData, isLoading} = useFetchRPLLevel(itemId);
 
   const {data: countries} = useFetchRTOCountries();
 
@@ -43,7 +43,7 @@ const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconFAQ />
-            <IntlMessages id='rpl_sector.label' />
+            <IntlMessages id='rpl_level.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -60,20 +60,34 @@ const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={12}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <DetailsInputView
                   label={messages['common.title']}
                   value={itemData?.title}
                   isLoading={isLoading}
                 />
               </Grid>
-              {/*<Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <DetailsInputView
-                  label={messages['common.title_en']}
-                  value={itemData?.title_en}
+                  label={messages['occupations.label']}
+                  value={itemData?.rpl_occupation_title}
                   isLoading={isLoading}
                 />
-              </Grid>*/}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['rpl_sector.label']}
+                  value={itemData?.rpl_sector_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['rpl_level.sequence_order']}
+                  value={itemData?.sequence_order}
+                  isLoading={isLoading}
+                />
+              </Grid>
             </Grid>
           </Grid>
 
@@ -96,13 +110,6 @@ const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 </Grid>
               ),
             )}
-          {/*<Grid item xs={12}>
-            <CustomChipRowStatus
-              label={messages['common.status']}
-              value={itemData?.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

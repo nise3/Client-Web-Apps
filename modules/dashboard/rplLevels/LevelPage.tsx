@@ -14,8 +14,8 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import LevelDetailsPopup from './LevelDetailsPopup';
 import LevelAddEditPopup from './LevelAddEditPopup';
-import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
 import IconRplLevel from '../../../@softbd/icons/IconRplLevel';
+import {deleteRPLLevel} from '../../../services/CertificateAuthorityManagement/RPLLevelService';
 
 const RPLSectorsPage = () => {
   const {messages, locale} = useIntl();
@@ -48,7 +48,7 @@ const RPLSectorsPage = () => {
   }, []);
 
   const deleteRPLSectorItem = async (itemId: number) => {
-    let response = await deleteRPLSector(itemId);
+    let response = await deleteRPLLevel(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages

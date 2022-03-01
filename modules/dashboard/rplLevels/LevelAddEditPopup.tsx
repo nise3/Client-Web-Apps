@@ -18,13 +18,15 @@ import {Add, Delete} from '@mui/icons-material';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchRPLSector,
+  useFetchRPLLevel,
+  useFetchRPLOccupations,
+  useFetchRPLSectors,
   useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
-  createRPLSector,
-  updateRPLSector,
-} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+  createRPLLevel,
+  updateRPLLevel,
+} from '../../../services/CertificateAuthorityManagement/RPLLevelService';
 
 interface LevelAddEditPopupProps {
   itemId: number | null;
@@ -35,6 +37,8 @@ interface LevelAddEditPopupProps {
 const initialValues = {
   title: '',
   title_en: '',
+  rpl_sector_id: '',
+  rpl_occupation_id: '',
   row_status: '1',
 };
 
@@ -46,16 +50,23 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-
+  const [rplSectorFilter] = useState<any>({});
+  const [occupationFilter] = useState<any>({});
   const isEdit = itemId != null;
   const {
     data: itemData,
     isLoading,
-    mutate: mutateRPLSector,
-  } = useFetchRPLSector(itemId);
+    mutate: mutateRPLLevel,
+  } = useFetchRPLLevel(itemId);
 
   const {data: countries, isLoading: isFetchingCountries} =
     useFetchRTOCountries();
+
+  const {data: rplSectors, isLoading: isLoadingRplSectors} =
+    useFetchRPLSectors(rplSectorFilter);
+
+  const {data: occupations, isLoading: isLoadingOccupations} =
+    useFetchRPLOccupations(occupationFilter);
 
   const [countryList, setCountryList] = useState<any>([]);
 
@@ -74,7 +85,22 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['rpl_sector.name'] as string),
+        .label(messages['common.title'] as string),
+      rpl_occupation_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['occupations.label'] as string),
+      rpl_sector_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['rpl_sector.label'] as string),
+      sequence_order: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['rpl_level.sequence_order'] as string),
       country: yup.array().of(
         yup.object().shape({
           title: yup
@@ -107,7 +133,9 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
     if (itemData) {
       let data: any = {
         title: itemData?.title,
-        row_status: itemData?.row_status,
+        rpl_sector_id: itemData?.rpl_sector_id,
+        rpl_occupation_id: itemData?.rpl_occupation_id,
+        sequence_order: itemData?.sequence_order,
       };
 
       const otherCountryData = itemData?.translations;
@@ -206,11 +234,11 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
       delete data['country'];
 
       if (itemId) {
-        await updateRPLSector(itemId, data);
+        await updateRPLLevel(itemId, data);
         updateSuccessMessage('rpl_sector.label');
-        mutateRPLSector();
+        mutateRPLLevel();
       } else {
-        await createRPLSector(data);
+        await createRPLLevel(data);
         createSuccessMessage('rpl_sector.label');
       }
       props.onClose();
@@ -231,12 +259,12 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              values={{subject: <IntlMessages id='rpl_level.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              values={{subject: <IntlMessages id='rpl_level.label' />}}
             />
           )}
         </>
@@ -249,18 +277,54 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id={'title'}
-            label={messages['rpl_sector.name']}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'sequence_order'}
+            label={messages['rpl_level.sequence_order']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'rpl_sector_id'}
+            label={messages['rpl_sector.label']}
+            isLoading={isLoadingRplSectors}
+            control={control}
+            options={rplSectors}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'rpl_occupation_id'}
+            label={messages['occupations.label']}
+            isLoading={isLoadingOccupations}
+            control={control}
+            options={occupations}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id={'country_list'}
             label={messages['common.country']}
@@ -273,7 +337,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
             onChange={onCountryListChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Button
             variant={'outlined'}
             color={'primary'}
