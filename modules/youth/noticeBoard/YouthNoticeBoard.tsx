@@ -72,17 +72,13 @@ const YouthNoticeBoard = () => {
   const page = useRef<any>(1);
   const router = useRouter();
   const {page: queryPageNumber} = router.query;
-  const [noticeFilters, setNoticeFilters] = useState<any>({
-    page: 1,
-    page_size: PageSizes.EIGHT,
-    type: NoticeOrNewsTypes.NOTICE,
-  });
+  const [noticeFilters, setNoticeFilters] = useState<any>(null);
 
   const {
     data: noticeList,
     isLoading: isNoticeLoading,
     metaData,
-  } = useFetchPublicNoticeOrNewses(objectFilter(noticeFilters));
+  } = useFetchPublicNoticeOrNewses(noticeFilters);
 
   const onSearchClick = useCallback((e) => {
     if (e.keyCode && e.keyCode !== KeyCodes.ENTER) {
@@ -98,8 +94,9 @@ const YouthNoticeBoard = () => {
 
   useEffect(() => {
     let params: any = {
-      district_id: authUser?.loc_district_id,
-      upazila_id: authUser?.loc_upazila_id,
+      page: 1,
+      type: NoticeOrNewsTypes.NOTICE,
+      page_size: PageSizes.EIGHT,
     };
 
     let modifiedParams = getFilteredQueryParams(
@@ -112,8 +109,6 @@ const YouthNoticeBoard = () => {
     params = {
       ...params,
       ...modifiedParams,
-      page_size: PageSizes.EIGHT,
-      page: page.current,
     };
 
     setNoticeFilters(objectFilter(params));
