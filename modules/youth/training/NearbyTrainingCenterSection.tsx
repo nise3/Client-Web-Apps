@@ -58,7 +58,9 @@ const NearbyTrainingCenterSection = ({
     let params: any = {
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size: PageSizes.FOUR,
+      page_size: showAllNearbyTrainingCenter
+        ? PageSizes.EIGHT
+        : PageSizes.FOUR,
     };
 
     if (showAllNearbyTrainingCenter) {
