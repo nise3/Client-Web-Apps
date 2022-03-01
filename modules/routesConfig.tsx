@@ -282,7 +282,7 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
-      /*{
+      {
         id: 'certificate_authority',
         title: 'Certificate Authority',
         messageId: 'certificate_authority.management',
@@ -326,7 +326,7 @@ const routesConfig: NavItemProps[] = [
             url: '/rto-countries',
           },
         ],
-      },*/
+      },
       {
         id: 'industry_association_management',
         title: 'Industry Association Management',
