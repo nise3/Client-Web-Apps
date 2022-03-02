@@ -43,6 +43,8 @@ export const LINK_COURSES = '/courses';
 export const LINK_JOB_LIST = '/jobs';
 export const LINK_JOB_CREATE_OR_UPDATE = '/jobs/job-post/';
 export const LINK_JOB_DETAILS_VIEW = '/jobs/view/';
+export const LINK_FRONTEND_NASCIB_MEMBER_REGISTRATION_PAYMENT_METHOD_PAGE =
+  '/nascib-member-registration-payment-method/';
 
 /** institute links  */
 export const LINK_FRONTEND_INSTITUTE_ROOT = '/';

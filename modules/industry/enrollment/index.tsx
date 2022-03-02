@@ -373,6 +373,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       authorized_authority: hasAuthorizedAuthority
         ? yup
             .array()
+            .of(yup.string().min(1))
             .required()
             .label(messages['institute.authorized_authority'] as string)
         : yup.array(),
