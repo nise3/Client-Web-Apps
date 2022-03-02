@@ -466,7 +466,7 @@ export const API_PUBLIC_NISE_STATICS =
 
 /** CMS service public routes section end */
 
-/**             Registered Training Organizations             */
+/**             eRPL            */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
@@ -478,3 +478,5 @@ export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
 export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
 
 export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
+
+export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
