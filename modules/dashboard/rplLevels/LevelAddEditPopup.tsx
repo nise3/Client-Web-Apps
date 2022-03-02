@@ -19,7 +19,7 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchRPLLevel,
   useFetchRPLOccupations,
-  useFetchRPLSectors,
+  useFetchRPLSectorsWithFilter,
   useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
@@ -64,7 +64,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
     useFetchRTOCountries();
 
   const {data: rplSectors, isLoading: isLoadingRplSectors} =
-    useFetchRPLSectors(rplSectorFilter);
+    useFetchRPLSectorsWithFilter(rplSectorFilter);
 
   const {data: occupations, isLoading: isLoadingOccupations} =
     useFetchRPLOccupations(occupationFilter);

@@ -21,6 +21,10 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   row_status?: string;
   deleted_at?: string;
 }
+export interface ISubject extends IIdTitleCreateUpdateAt {
+  title: string;
+  title_en: string;
+}
 
 export interface IProgramme extends IIdTitleCreateUpdateAt {
   institute_id?: string | number;
