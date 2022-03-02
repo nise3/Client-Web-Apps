@@ -476,3 +476,5 @@ export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
 export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
 
 export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
+
+export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
