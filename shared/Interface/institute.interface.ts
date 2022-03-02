@@ -110,6 +110,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   trainer_name_en?: string;
   trainer_name: string;
   branch_id?: number | string;
+  role_id: number | string;
   training_center_id?: number | string;
   trainer_registration_number: number | string;
   email: string;

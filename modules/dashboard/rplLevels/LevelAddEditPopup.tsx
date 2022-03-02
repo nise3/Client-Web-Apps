@@ -52,7 +52,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [rplSectorFilter] = useState<any>({});
-  const [occupationFilter] = useState<any>({});
+  const [occupationFilter, setOccupationFilter] = useState<any>(null);
   const isEdit = itemId != null;
   const {
     data: itemData,
@@ -168,6 +168,13 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData, allCountries]);
+
+  const handleRplSectorChange = useCallback(
+    (sectorId: any) => {
+      setOccupationFilter({rplSectorId: sectorId});
+    },
+    [occupationFilter],
+  );
 
   const onAddOtherCountryClick = useCallback(() => {
     if (selectedCountryId) {
@@ -309,6 +316,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}
+            onChange={handleRplSectorChange}
           />
         </Grid>
         <Grid item xs={12} md={6}>
