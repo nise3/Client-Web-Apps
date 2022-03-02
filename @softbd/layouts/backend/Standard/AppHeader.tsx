@@ -16,8 +16,11 @@ import AppLogo from '../../../../shared/components/AppLogo';
 import clsx from 'clsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
-import { Link } from '@mui/material';
-import { useAuthUser } from '../../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {useIntl} from 'react-intl';
+import {Body1} from '../../../elements/common';
+import {Link} from '../../../elements/common';
+import {Button} from '@mui/material';
 
 interface AppHeaderProps {}
 
@@ -26,7 +29,11 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
   const authUser = useAuthUser<any>();
-  const homePageUrl = `${window?.location?.protocol}//${authUser?.domain ? authUser?.domain : ''}`;
+  const {messages} = useIntl();
+
+  const homePageUrl = `${window?.location?.protocol}//${
+    authUser?.domain ? authUser?.domain : ''
+  }`;
   // console.log('window ', window.location.protocol)
   // console.log('authUser 4', authUser)
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
@@ -80,7 +87,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
             <AppLogo />
           </AppNavLink> */}
           <Link href={homePageUrl}>
-          < AppLogo />
+            <AppLogo />
           </Link>
           <Box className={classes.grow} />
           <SearchBar borderLight placeholder='Search…' />
@@ -100,6 +107,46 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <MoreIcon />
             </IconButton>
           </Box>
+
+          {authUser && (
+            <>
+              <Box
+                mx={'auto'}
+                sx={{
+                  color: '#0069BC',
+                  width: '0',
+                  height: '0',
+                  borderLeft: '12px solid transparent',
+                  borderRight: '12px solid transparent',
+                  borderTop: '18px solid',
+                  zIndex: 1,
+                }}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    background: 'red',
+                    padding: '3px',
+                    width: '500px',
+                    border: '1px solid red',
+                    color: '#fff',
+                    top: '10px',
+                    left: 'calc(50vw - 250px)',
+                    zIndex: '1101',
+                    textAlign: 'center',
+                    borderRadius: '5px',
+                  }}>
+                  <Body1 centered={true}>
+                    {messages['payment.incomplete_text']}
+                  </Body1>
+                  <Button variant={'contained'} color={'primary'}>
+                    <Link href={'https://google.com'} passHref={true}>
+                      {messages['common.pay_now']}
+                    </Link>
+                  </Button>
+                </Box>
+              </Box>
+            </>
+          )}
         </StyledToolbar>
       </StyledAppBar>
       {renderMobileMenu}

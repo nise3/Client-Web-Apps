@@ -13,7 +13,6 @@ import {
   COOKIE_KEY_COURSE_ID,
   COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID,
 } from '../../../shared/constants/AppConst';
-import {youthDomain} from '../../../@softbd/common/constants';
 
 const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
@@ -23,6 +22,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const NASCIBMemberRegistrationSuccessPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
+  const {basePath} = router.query;
   const {responseStatus} = router.query;
   const [paymentId, setPaymentId] = useState<number | null>(null);
 
@@ -77,7 +77,7 @@ const NASCIBMemberRegistrationSuccessPage = () => {
             </Button>
           </Link>
         ) : (
-          <Link href={youthDomain()}>
+          <Link href={String(basePath)}>
             <Button color='primary' variant={'contained'}>
               {messages['common.goto_home']}
             </Button>

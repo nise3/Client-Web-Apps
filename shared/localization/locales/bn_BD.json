@@ -1576,5 +1576,6 @@
   "membership.id": "সদস্যতা আইডি",
   "membership.type": "সদস্যতা ধরণ",
   "common.direct": "প্রত্যক্ষ",
-  "common.indirect": "পরোক্ষ"
+  "common.indirect": "পরোক্ষ",
+  "payment.incomplete_text": "আপনার পেমেন্ট এখনও সম্পূর্ণ হয়নি"
 }
