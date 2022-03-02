@@ -1591,5 +1591,6 @@
   "common.show_in_status": "দেখানোর স্টযাটাস",
   "common.show_in_landing_page": "ল্যান্ডিং পেইজে দেখানো হবে",
   "common.member": "সদস্য",
-  "member.none": "নেই"
+  "member.none": "নেই",
+  "question.label": "প্রশ্ন"
 }
