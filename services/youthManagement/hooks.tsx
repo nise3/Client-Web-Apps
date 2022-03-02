@@ -41,7 +41,9 @@ export function useFetchYouthProfile() {
 }
 
 export function useFetchYouthFeedDataList(params: any) {
-  return useAxiosSWR(params ? [API_YOUTH_FEED_DATA_LIST, params] : null);
+  return useDataLocalizationAxiosSWR(
+    params ? [API_YOUTH_FEED_DATA_LIST, params] : null,
+  );
 }
 
 export function useFetchMyJobs(params: any) {
