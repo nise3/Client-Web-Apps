@@ -66,6 +66,13 @@ export interface IRPLLevel {
   sequence_order: number;
 }
 
+export interface IAssessment {
+  rpl_occupation_id: number | string;
+  rpl_level_id: number | string;
+  title: string;
+  title_en?: string;
+}
+
 export interface IPartner extends IIdTitle {
   main_image_path?: string;
   thumb_image_path?: string;

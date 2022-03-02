@@ -480,3 +480,5 @@ export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
 export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
 
 export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
+
+export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessments';
