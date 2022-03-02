@@ -171,7 +171,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
 
   const handleRplSectorChange = useCallback(
     (sectorId: any) => {
-      setOccupationFilter({rplSectorId: sectorId});
+      setOccupationFilter({rpl_sector_id: sectorId});
     },
     [occupationFilter],
   );

@@ -235,4 +235,8 @@ export const routePermissions: any = {
     routePrefix: '/rpl-levels',
     permissionKeys: ['view_any_rpl_level'],
   },
+  '/assessments': {
+    routePrefix: '/assessments',
+    permissionKeys: ['view_any_assessment'],
+  },
 };

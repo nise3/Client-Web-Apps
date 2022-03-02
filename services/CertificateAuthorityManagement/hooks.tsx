@@ -51,3 +51,7 @@ export function useFetchSubject(subjectId: number | null) {
 export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_SUBJECTS, params]);
 }
+
+export function useFetchAssessment(assessmentId: number | null) {
+  return useAxiosSWR(assessmentId ? API_RPL_LEVELS + '/' + assessmentId : null);
+}
