@@ -59,8 +59,9 @@ const RPLOccupationsAddEditPopup: FC<RPLOccupationAddEditPopupProps> = ({
   const {data: countries, isLoading: isFetchingCountries} =
     useFetchRTOCountries();
 
+  const [rplSectorFilter] = useState<any>({});
   const {data: rplSectors, isLoading: isFetchingRPLSectors} =
-    useFetchRPLSectors();
+    useFetchRPLSectors(rplSectorFilter);
 
   const [countryList, setCountryList] = useState<any>([]);
 
