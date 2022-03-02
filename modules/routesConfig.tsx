@@ -352,6 +352,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'flag',
             url: '/subjects',
           },
+          {
+            id: 'assessments',
+            title: 'Assessments',
+            messageId: 'assessment.label',
+            permissionKey: 'view_any_assessment',
+            type: 'item',
+            icon: 'flag',
+            url: '/assessments',
+          },
         ],
       },
       {
