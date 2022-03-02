@@ -9,7 +9,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID} from '../../../shared/constants/AppConst';
-import {industryDomain} from '../../../@softbd/common/constants';
 import {nascibMemberRegistrationPaymentPay} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 
 const PREFIX = 'ChoosePayment';
@@ -37,7 +36,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.img}`]: {
     width: '120px',
     border: '1px solid #fff',
-    objectFit: 'contain',
+    objectFit: 'cover',
     borderRadius: '10px',
     padding: '0px 10px',
     '&:hover': {
@@ -62,7 +61,8 @@ const ChoosePayment = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const router = useRouter();
-  const {paymentId}: any = router.query;
+  const {basePath} = router.query;
+  const {paymentId} = router.query;
   const [isDisableLayout, setIsDisableLayout] = useState<boolean>(false);
 
   const onPaymentMethodSelect = useCallback(
@@ -73,7 +73,7 @@ const ChoosePayment = () => {
             setIsDisableLayout(true);
             if (paymentId) {
               const paymentRedirectTo =
-                industryDomain() + '/nascib-member-registration-payment/';
+                basePath + '/nascib-member-registration-payment/';
 
               let data = {
                 payment_gateway_type: method,
@@ -113,7 +113,7 @@ const ChoosePayment = () => {
         })();
       }
     },
-    [isDisableLayout],
+    [isDisableLayout, basePath],
   );
 
   return (
@@ -125,10 +125,10 @@ const ChoosePayment = () => {
         <Box className={classes.imageWrapper}>
           <CardMedia
             component='img'
-            height='70'
-            image='/images/payment/ekpay.png'
-            alt='ssl'
-            title='ssl'
+            height='80'
+            image={'https://avatars.githubusercontent.com/u/19384040?s=280&v=4'}
+            alt='sslcommerz payment'
+            title='sslcommerz payment system'
             className={clsx(classes.img, classes.imgActive)}
             onClick={() => onPaymentMethodSelect(PaymentMethods.SSL)}
           />

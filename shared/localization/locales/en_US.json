@@ -1582,5 +1582,6 @@
   "membership.id": "Membership ID",
   "membership.type": "Membership Type",
   "common.direct": "Direct",
-  "common.indirect": "Indirect"
+  "common.indirect": "Indirect",
+  "payment.incomplete_text": "Your haven't complete your payment  yet"
 }

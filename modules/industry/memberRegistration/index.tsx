@@ -16,6 +16,7 @@ const RegistrationForm = () => {
   }, []);
 
   const isNASCIBDomain = useCallback(() => {
+    console.log(basePath);
     return NASCIBDomains.includes(String(basePath));
   }, [router]);
 
