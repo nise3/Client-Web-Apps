@@ -446,6 +446,8 @@
   "subject.title": "Subject Name",
   "subject.title_en": "Subject Name (EN)",
   "rto.details": "RTO Details",
+  "rpl_level.label": "RPL Levels",
+  "rpl_level.sequence_order": "RPL Sequence order",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
   "programme.label": "Programme",
