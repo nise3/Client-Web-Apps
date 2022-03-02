@@ -26,7 +26,7 @@ export function useFetchRPLSector(RPLSectorId: number | null) {
   return useAxiosSWR(RPLSectorId ? API_RPL_SECTORS + '/' + RPLSectorId : null);
 }
 
-export function useFetchRPLSectors(params: any = null) {
+export function useFetchRPLSectorsWithFilter(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
 }
 
