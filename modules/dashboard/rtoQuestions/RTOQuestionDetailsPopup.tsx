@@ -9,9 +9,9 @@ import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchRPLSector,
-  useFetchRTOCountries,
-} from '../../../services/CertificateAuthorityManagement/hooks';
+  //useFetchRPLSector,
+   useFetchSubjects
+} from "../../../services/CertificateAuthorityManagement/hooks";
 
 type Props = {
   itemId: number;
@@ -21,9 +21,9 @@ type Props = {
 
 const RTOQuestionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchRPLSector(itemId);
+  const {data: itemData, isLoading} = useFetchSubjects({});
 
-  const {data: countries} = useFetchRTOCountries();
+  const { data: countries } = useFetchSubjects({});
 
   const getCountryLabel = (country_id: number | string) => {
     let label: string = '';
@@ -43,7 +43,7 @@ const RTOQuestionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconFAQ />
-            <IntlMessages id='rpl_sector.label' />
+            <IntlMessages id='question.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -62,7 +62,7 @@ const RTOQuestionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <DetailsInputView
-                  label={messages['rpl_sector.name']}
+                  label={messages['question.label']}
                   value={itemData?.title}
                   isLoading={isLoading}
                 />
@@ -79,7 +79,7 @@ const RTOQuestionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                     <Grid container spacing={5}>
                       <Grid item xs={12}>
                         <DetailsInputView
-                          label={messages['rpl_sector.name']}
+                          label={messages['question.label']}
                           value={itemData?.translations[country_id]?.title}
                           isLoading={isLoading}
                         />
