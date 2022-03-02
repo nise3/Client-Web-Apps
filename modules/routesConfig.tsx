@@ -326,6 +326,15 @@ const routesConfig: NavItemProps[] = [
             url: '/rpl-occupations',
           },
           {
+            id: 'rpl-levels',
+            title: 'RPL Level',
+            messageId: 'rpl_level.label',
+            permissionKey: 'view_any_rpl_level',
+            type: 'item',
+            icon: 'stairs',
+            url: '/rpl-levels',
+          },
+          {
             id: 'rto-countries',
             title: 'RTO Countries',
             messageId: 'common.rto-countries',
