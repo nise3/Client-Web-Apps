@@ -48,6 +48,6 @@ export function useFetchSubject(subjectId: number | null) {
   return useAxiosSWR(subjectId ? API_SUBJECTS + '/' + subjectId : null);
 }
 
-export function useFetchSubjects() {
-  return useAxiosSWR(API_SUBJECTS);
+export function useFetchSubjects(params: any) {
+  return useAxiosSWR([API_SUBJECTS, params]);
 }

@@ -23,11 +23,12 @@ const SubjectPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [skillFilters] = useState({});
   const {
     data: subjects,
     isLoading: isLoadingSubjects,
     mutate: mutateSubjects,
-  } = useFetchSubjects();
+  } = useFetchSubjects(skillFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -88,15 +89,6 @@ const SubjectPage = () => {
         accessor: 'title_en',
         inVisible: false,
       },
-      // {
-      //   Header: messages['common.status'],
-      //   accessor: 'row_status',
-      //   filter: 'rowStatusFilter',
-      //   Cell: (props: any) => {
-      //     let data = props.row.original;
-      //     return <CustomChipRowStatus value={data?.row_status} />;
-      //   },
-      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
