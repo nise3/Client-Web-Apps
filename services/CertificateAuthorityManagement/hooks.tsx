@@ -18,15 +18,11 @@ export function useFetchRTOCountries() {
   return useAxiosSWR(API_RTO_COUNTRIES);
 }
 
-export function useFetchRPLSectors() {
-  return useAxiosSWR(API_RPL_SECTORS);
-}
-
 export function useFetchRPLSector(RPLSectorId: number | null) {
   return useAxiosSWR(RPLSectorId ? API_RPL_SECTORS + '/' + RPLSectorId : null);
 }
 
-export function useFetchRPLSectorsWithFilter(params: any = null) {
+export function useFetchRPLSectors(params: any) {
   return useAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
 }
 
@@ -35,6 +31,7 @@ export function useFetchRPLOccupation(RPLOccupationId: number | null) {
     RPLOccupationId ? API_RPL_OCCUPATIONS + '/' + RPLOccupationId : null,
   );
 }
+
 export function useFetchRPLOccupations(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_OCCUPATIONS, params] : null);
 }
