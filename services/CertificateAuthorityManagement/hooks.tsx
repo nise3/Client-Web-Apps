@@ -16,6 +16,10 @@ export function useFetchRTOCountries() {
   return useAxiosSWR(API_RTO_COUNTRIES);
 }
 
+export function useFetchRPLSectors() {
+  return useAxiosSWR(API_RPL_SECTORS);
+}
+
 export function useFetchRPLSector(RPLSectorId: number | null) {
   return useAxiosSWR(RPLSectorId ? API_RPL_SECTORS + '/' + RPLSectorId : null);
 }
