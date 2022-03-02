@@ -201,6 +201,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['role.label'] as string),
+      present_address_division_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.division_title_present_address'] as string),
+      present_address_district_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.district_title_present_address'] as string),
       institute_id:
         authUser && authUser.isSystemUser
           ? yup
@@ -393,9 +403,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<ITrainer> = async (data: ITrainer) => {
     try {
-      if (authUser?.isSystemUser) {
+      if (!authUser?.isSystemUser) {
         delete data.institute_id;
       }
+      let skillIds: any = [];
+      (data?.skills || []).map((skill: any) => {
+        skillIds.push(skill.id);
+      });
+      data.skills = skillIds;
 
       if (itemId) {
         await updateTrainer(itemId, data);
@@ -560,7 +575,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='present_address_division_id'
             label={messages['common.division_title_present_address']}
             isLoading={isLoadingDivisions}
@@ -573,7 +589,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='permanent_address_division_id'
             label={messages['common.division_title_permanent_address']}
             isLoading={isLoadingDivisions}
@@ -586,7 +602,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
+            required
             id='present_address_district_id'
             label={messages['common.district_title_present_address']}
             isLoading={isLoading}
@@ -599,7 +616,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='permanent_address_district_id'
             label={messages['common.district_title_permanent_address']}
             control={control}
@@ -612,7 +629,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='present_address_upazila_id'
             label={messages['common.upazila_title_present_address']}
             isLoading={isLoading}
@@ -624,7 +641,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='permanent_address_upazila_id'
             label={messages['common.upazila_title_permanent_address']}
             isLoading={isLoading}
@@ -731,13 +748,13 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         {authUser && authUser.isSystemUser && (
           <Grid item xs={12} md={6}>
-            <CustomFormSelect
+            <CustomFilterableFormSelect
               required
-              id='institute_id'
-              label={messages['institute.label']}
+              id={'institute_id'}
               isLoading={isLoadingInstitutes}
-              control={control}
               options={institutes}
+              control={control}
+              label={messages['institute.label']}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
@@ -747,7 +764,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='branch_id'
             label={messages['branch.label']}
             isLoading={isLoadingBranches}
@@ -760,7 +777,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomFilterableFormSelect
             id='training_center_id'
             label={messages['menu.training_center']}
             isLoading={isLoadingTrainingCenters}
