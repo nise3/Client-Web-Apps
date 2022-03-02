@@ -1350,6 +1350,7 @@
   "common.resend_validation_code_success": "A validation code has been send to your mobile",
   "course_enroll.failed": "Sorry! Failed to process your payment!",
   "course_enroll.cancelled": "Sorry! You have cancelled your payment!",
+  "member_registration.success": "Congratulations, You have successfully registered for Member Association",
   "common.goto_home": "Home",
   "job_preview.prefer_institute_text": " students will get preference",
   "job_preview.skill_required": "Skill Required:",
