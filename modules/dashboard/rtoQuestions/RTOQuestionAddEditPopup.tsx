@@ -1,33 +1,22 @@
-import {Box, Button, Grid, IconButton} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import yup from '../../../@softbd/libs/yup';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Add, Delete} from '@mui/icons-material';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  useFetchRPLSector,
-  useFetchRTOCountries,
-} from '../../../services/CertificateAuthorityManagement/hooks';
-import {
-  createRPLSector,
-  updateRPLSector,
-} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
-import FormRowStatus from "../../../@softbd/elements/input/FormRowStatus/FormRowStatus";
+import { Grid } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import IconFAQ from "../../../@softbd/icons/IconFAQ";
+import yup from "../../../@softbd/libs/yup";
+import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
+import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import { useFetchRPLSector, useFetchSubjects } from "../../../services/CertificateAuthorityManagement/hooks";
 import { LEVEL } from "../courses/CourseEnums";
+import { AnswerType, OPTIONS, QuestionType } from "./QuestionEnums";
 import CustomFormSelect from "../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect";
+import FormRadioButtons from "../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons";
 
 interface RPLSectorsAddEditPopupProps {
   itemId: number | null;
@@ -36,58 +25,105 @@ interface RPLSectorsAddEditPopupProps {
 }
 
 const initialValues = {
-  title: '',
-  title_en: '',
-  row_status: '1',
+  title: "",
+  title_en: "",
+  row_status: "1",
+  question_type_id: "1",
+  answer_yn_id: "1"
 };
 
 const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
-                                                                   itemId,
-                                                                   refreshDataTable,
-                                                                   ...props
-                                                                 }) => {
-  const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+                                                                    itemId,
+                                                                    refreshDataTable,
+                                                                    ...props
+                                                                  }) => {
+  const { messages } = useIntl();
+  /*const { errorStack } = useNotiStack();
+  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();*/
+
+  const [subjectFilters] = useState({});
 
   const isEdit = itemId != null;
   const {
-    data: itemData,
+    // data: itemData,
     isLoading,
-    mutate: mutateRPLSector,
+    //mutate: mutateRPLSector
   } = useFetchRPLSector(itemId);
 
-  const {data: countries, isLoading: isFetchingCountries} =
-    useFetchRTOCountries();
+  const { data: countries, isLoading: isFetchingCountries } =
+    useFetchSubjects(subjectFilters);
 
   const levels = useMemo(
     () => [
       {
         id: LEVEL.BEGINNER,
-        label: messages['level.beginner'],
+        label: messages["level.easy"]
       },
       {
         id: LEVEL.INTERMEDIATE,
-        label: messages['level.intermediate'],
+        label: messages["level.intermediate"]
       },
       {
         id: LEVEL.EXPERT,
-        label: messages['level.expert'],
-      },
+        label: messages["level.hard"]
+      }
     ],
-    [messages],
+    [messages]
+  );
+
+  const option = useMemo(
+    () => [
+      {
+        id: OPTIONS.OPTION_1,
+        label: messages["option.option1"]
+      },
+      {
+        id: OPTIONS.OPTION_2,
+        label: messages["option.option2"]
+      },
+      {
+        id: OPTIONS.OPTION_3,
+        label: messages["option.option3"]
+      },
+      {
+        id: OPTIONS.OPTION_4,
+        label: messages["option.option4"]
+      }
+    ],
+    [messages]
+  );
+
+  const questionTypes = useMemo(
+    () => [
+      {
+        key: QuestionType.MCQ,
+        label: messages["question.type.mcq"]
+      },
+      {
+        key: QuestionType.YES_NO,
+        label: messages["question.type.y_n"]
+      }
+    ],
+    [messages]
+  );
+
+  const answerTypes = useMemo(
+    () => [
+      {
+        key: AnswerType.YES,
+        label: messages["answer.type.yes"]
+      },
+      {
+        key: AnswerType.NO,
+        label: messages["answer.type.no"]
+      }
+    ],
+    [messages]
   );
 
   const [countryList, setCountryList] = useState<any>([]);
 
-  const [allCountries, setAllCountries] = useState<any>([]);
-
-  const [selectedCountryList, setSelectedCountryList] = useState<any>([]);
-  const [selectedCountryId, setSelectedCountryId] = useState<string | null>(
-    null,
-  );
-
-  const [selectedIds, setSelectedIds] = useState<Array<string>>([]);
+  const [isMCQ, setIsMCQ] = useState<boolean>(true);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -95,149 +131,72 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['rpl_sector.name'] as string),
+        .label(messages["question.label"] as string),
       country: yup.array().of(
         yup.object().shape({
           title: yup
             .string()
             .trim()
             .required()
-            .label(messages['rpl_sector.name'] as string),
-        }),
-      ),
+            .label(messages["question.label"] as string)
+        })
+      )
     });
   }, [messages]);
 
   const {
     register,
     control,
-    reset,
-    setError,
+    // reset,
+    //setError,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting }
   } = useForm<any>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema)
   });
 
   useEffect(() => {
-    setAllCountries(countries);
     setCountryList(countries);
   }, [countries]);
 
-  useEffect(() => {
-    if (itemData) {
-      let data: any = {
-        title: itemData?.title,
-        row_status: itemData?.row_status,
-      };
 
-      const otherCountryData = itemData?.translations;
-
-      if (otherCountryData) {
-        let ids: any = Object.keys(otherCountryData);
-
-        ids.map((id: string, index: any) => {
-          data['country[' + index + '][title]'] = otherCountryData[id].title;
-          data['country[' + index + '][country_id]'] = id;
-        });
-        setSelectedIds(ids);
-
-        setSelectedCountryList(
-          allCountries?.filter((item: any) =>
-            ids.includes(String(item.country_id)),
-          ),
-        );
-
-        setCountryList(
-          allCountries?.filter(
-            (item: any) => !ids.includes(String(item.country_id)),
-          ),
-        );
-      }
-
-      reset(data);
-    } else {
-      reset(initialValues);
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if(!isMCQ){
+      data.option_1= '';
+      data.option_1_en= '';
+      data.option_2= '';
+      data.option_2_en= '';
+      data.option_3= '';
+      data.option_3_en= '';
+      data.option_4= '';
+      data.option_4_en= '';
     }
-  }, [itemData, allCountries]);
-
-  const onAddOtherCountryClick = useCallback(() => {
-    if (selectedCountryId) {
-      let lists = [...selectedCountryList];
-      const country = allCountries?.find(
-        (item: any) => item.country_id == selectedCountryId,
-      );
-
-      if (country) {
-        lists.push(country);
-        setSelectedCountryList(lists);
-        setSelectedIds((prev) => [...prev, country.country_id]);
-
-        setCountryList((prevState: any) =>
-          prevState.filter((item: any) => item.country_id != selectedCountryId),
-        );
-        setSelectedCountryId(null);
-      }
-    }
-  }, [selectedCountryId, selectedCountryList]);
-
-  const onCountryListChange = useCallback((selected: any) => {
-    setSelectedCountryId(selected);
-  }, []);
-
-  const onDeleteCountry = useCallback(
-    (country: any) => {
-      if (country) {
-        setSelectedCountryList((prevState: any) =>
-          prevState.filter(
-            (item: any) => item.country_id != country.country_id,
-          ),
-        );
-
-        let countries = [...countryList];
-        countries.push(country);
-        setCountryList(countries);
-
-        setSelectedIds((prev) =>
-          prev.filter((id: any) => id != country.country_id),
-        );
-      }
-    },
-    [selectedCountryList, countryList, selectedIds],
-  );
-
-  const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    console.log(data);
+   /* return;
     try {
-      objectFilter(formData);
-
-      let data = {...formData};
-
-      let otherCountriesFields: any = {};
-      delete data.country_list;
-
-      data?.country?.map((cntr: any) => {
-        otherCountriesFields[cntr.country_id] = {
-          title: cntr.title,
-        };
-      });
-
-      if (selectedCountryList.length > 0)
-        data.translations = otherCountriesFields;
-
-      delete data['country'];
-
       if (itemId) {
         await updateRPLSector(itemId, data);
-        updateSuccessMessage('rpl_sector.label');
+        updateSuccessMessage("question.label");
         mutateRPLSector();
       } else {
         await createRPLSector(data);
-        createSuccessMessage('rpl_sector.label');
+        createSuccessMessage("question.label");
       }
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
+      processServerSideErrors({ error, setError, validationSchema, errorStack });
+    }*/
+  };
+
+  const changeType = (e: any) => {
+    if (e == '1') {
+      setIsMCQ(true);
+      /*reset({
+        answer_yn_id: ''
+      })*/
+    } else {
+      setIsMCQ(false);
     }
   };
 
@@ -245,19 +204,19 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
-      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
+      maxWidth={isBreakPointUp("xl") ? "lg" : "md"}
       title={
         <>
           <IconFAQ />
           {isEdit ? (
             <IntlMessages
-              id='common.edit'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              id="common.edit"
+              values={{ subject: <IntlMessages id="question.label" /> }}
             />
           ) : (
             <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              id="common.add_new"
+              values={{ subject: <IntlMessages id="question.label" /> }}
             />
           )}
         </>
@@ -270,103 +229,166 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
-            required
-            id={'title'}
-            label={messages['rpl_sector.name']}
+            id={"title"}
+            label={messages["common.title"]}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
-            required
-            id='level'
-            label={messages['course.course_level']}
-            isLoading={false}
-            control={control}
-            options={levels}
-            optionValueProp='id'
-            optionTitleProp={['label']}
+        <Grid item xs={6}>
+          <CustomTextInput
+            id={"title_en"}
+            label={messages["common.title_en"]}
+            register={register}
             errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomFilterableFormSelect
-            id={'country_list'}
-            label={messages['common.country']}
+            id={"subject_id"}
+            label={messages["subject.label"]}
             isLoading={isFetchingCountries}
             control={control}
             options={countryList}
-            optionValueProp={'country_id'}
-            optionTitleProp={['title']}
+            optionValueProp={"country_id"}
+            optionTitleProp={["title"]}
             errorInstance={errors}
-            onChange={onCountryListChange}
+            // onChange={onCountryListChange}
           />
         </Grid>
+
         <Grid item xs={6}>
-          <Button
-            variant={'outlined'}
-            color={'primary'}
-            onClick={onAddOtherCountryClick}
-            disabled={!selectedCountryId}>
-            <Add />
-            {messages['rpl_sector.add_country']}
-          </Button>
+          <CustomFormSelect
+            id="difficulty_level"
+            label={messages["question.difficulty_level"]}
+            isLoading={false}
+            control={control}
+            options={levels}
+            optionValueProp="id"
+            optionTitleProp={["label"]}
+            errorInstance={errors}
+          />
         </Grid>
 
         <Grid item xs={12}>
-          {selectedCountryList?.map((country: any, index: any) => (
-            <Box key={country.country_id} sx={{marginTop: '10px'}}>
-              <fieldset style={{border: '1px solid #7e7e7e'}}>
-                <legend style={{color: '#0a8fdc'}}>{country.title}</legend>
-                <Grid container spacing={5}>
-                  <Grid item xs={11}>
-                    <CustomTextInput
-                      required
-                      id={'country[' + index + '][title]'}
-                      label={messages['rpl_sector.name']}
-                      register={register}
-                      errorInstance={errors}
-                    />
-                  </Grid>
-                  <Grid item xs={11} sx={{display: 'none'}}>
-                    <CustomTextInput
-                      required
-                      id={'country[' + index + '][country_id]'}
-                      label={messages['rpl_sector.name']}
-                      register={register}
-                      errorInstance={errors}
-                      defaultValue={country.country_id}
-                    />
-                  </Grid>
-                  <Grid item xs={1} md={1}>
-                    <IconButton
-                      aria-label='delete'
-                      color={'error'}
-                      onClick={(event) => {
-                        onDeleteCountry(country);
-                      }}>
-                      <Delete color={'error'} />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </fieldset>
-            </Box>
-          ))}
+          <FormRadioButtons
+            id="type"
+            label={"question.type"}
+            radios={questionTypes}
+            control={control}
+            defaultValue={initialValues.question_type_id}
+            isLoading={isLoading}
+            onChange={changeType}
+          />
         </Grid>
+
+
+
+        {isMCQ && (<>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_1"}
+              label={messages["option.option1"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_1_en"}
+              label={messages["option.option1_en"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_2"}
+              label={messages["option.option2"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_2_en"}
+              label={messages["option.option2_en"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_3"}
+              label={messages["option.option3"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_3_en"}
+              label={messages["option.option3_en"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_4"}
+              label={messages["option.option4"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={"option_4_en"}
+              label={messages["option.option4_en"]}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid></>)}
+
+
+        {isMCQ ? <Grid item xs={6}>
+            <CustomFormSelect
+              id="answer"
+              label={messages["question.answer"]}
+              isLoading={false}
+              control={control}
+              options={option}
+              optionValueProp="id"
+              optionTitleProp={["label"]}
+              errorInstance={errors}
+            />
+          </Grid>
+          :
+          <Grid item xs={6}>
+            <FormRadioButtons
+              id="answer"
+              label={"question.answer"}
+              radios={answerTypes}
+              control={control}
+              defaultValue={initialValues.answer_yn_id}
+              isLoading={isLoading}
+            />
+          </Grid>
+        }
+
       </Grid>
     </HookFormMuiModal>
   );

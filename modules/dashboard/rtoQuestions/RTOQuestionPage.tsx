@@ -53,7 +53,7 @@ const RTOQuestionPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rpl_sector.label' />}}
+          values={{subject: <IntlMessages id='question.label' />}}
         />,
       );
 
@@ -111,7 +111,7 @@ const RTOQuestionPage = () => {
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='rpl_sectors.label' />
+            <IconFAQ /> <IntlMessages id='questions.label' />
           </>
         }
         extra={[
@@ -123,7 +123,7 @@ const RTOQuestionPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['rpl_sectors.label'],
+                  subject: messages['question.label'],
                 }}
               />
             }
