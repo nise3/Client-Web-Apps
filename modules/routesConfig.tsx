@@ -317,6 +317,15 @@ const routesConfig: NavItemProps[] = [
             url: '/rpl-sectors',
           },
           {
+            id: 'rpl-occupation',
+            title: 'RPL Occupation',
+            messageId: 'rpl_occupations.label',
+            permissionKey: 'view_any_rpl_occupation',
+            type: 'item',
+            icon: 'home',
+            url: '/rpl-occupations',
+          },
+          {
             id: 'rto-countries',
             title: 'RTO Countries',
             messageId: 'common.rto-countries',

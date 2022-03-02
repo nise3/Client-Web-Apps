@@ -18,27 +18,29 @@ import {Add, Delete} from '@mui/icons-material';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchRPLSector,
+  useFetchRPLOccupation,
+  useFetchRPLSectors,
   useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
-  createRPLSector,
-  updateRPLSector,
-} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+  createRPLOccupation,
+  updateRPLOccupation,
+} from '../../../services/CertificateAuthorityManagement/RPLOccupationService';
 
-interface RPLSectorsAddEditPopupProps {
+interface RPLOccupationAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
+  rpl_sector_id: '',
   title: '',
   title_en: '',
-  row_status: '1',
+  translations: [],
 };
 
-const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
+const RPLOccupationsAddEditPopup: FC<RPLOccupationAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -51,11 +53,14 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateRPLSector,
-  } = useFetchRPLSector(itemId);
+    mutate: mutateRPLOccupation,
+  } = useFetchRPLOccupation(itemId);
 
   const {data: countries, isLoading: isFetchingCountries} =
     useFetchRTOCountries();
+
+  const {data: rplSectors, isLoading: isFetchingRPLSectors} =
+    useFetchRPLSectors();
 
   const [countryList, setCountryList] = useState<any>([]);
 
@@ -70,18 +75,23 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title: yup
+      rpl_sector_id: yup
         .string()
         .trim()
         .required()
         .label(messages['rpl_sector.name'] as string),
+      title: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['rpl_occupation.name'] as string),
       country: yup.array().of(
         yup.object().shape({
           title: yup
             .string()
             .trim()
             .required()
-            .label(messages['rpl_sector.name'] as string),
+            .label(messages['rpl_occupation.name'] as string),
         }),
       ),
     });
@@ -106,7 +116,9 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
+        rpl_sector_id: itemData?.rpl_sector_id,
         title: itemData?.title,
+        title_en: itemData?.title_en,
         row_status: itemData?.row_status,
       };
 
@@ -206,12 +218,12 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
       delete data['country'];
 
       if (itemId) {
-        await updateRPLSector(itemId, data);
-        updateSuccessMessage('rpl_sector.label');
-        mutateRPLSector();
+        await updateRPLOccupation(itemId, data);
+        updateSuccessMessage('rpl_occupation.label');
+        mutateRPLOccupation();
       } else {
-        await createRPLSector(data);
-        createSuccessMessage('rpl_sector.label');
+        await createRPLOccupation(data);
+        createSuccessMessage('rpl_occupation.label');
       }
       props.onClose();
       refreshDataTable();
@@ -231,12 +243,12 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              values={{subject: <IntlMessages id='rpl_occupation.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='rpl_sector.label' />}}
+              values={{subject: <IntlMessages id='rpl_occupation.label' />}}
             />
           )}
         </>
@@ -250,10 +262,32 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
+          <CustomFilterableFormSelect
+            required
+            id={'rpl_sector_id'}
+            label={messages['rpl_sector.name']}
+            isLoading={isFetchingRPLSectors}
+            control={control}
+            options={rplSectors}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <CustomTextInput
             required
             id={'title'}
-            label={messages['rpl_sector.name']}
+            label={messages['rpl_occupation.name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            id={'title_en'}
+            label={messages['rpl_occupation.name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -294,7 +328,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'country[' + index + '][title]'}
-                      label={messages['rpl_sector.name']}
+                      label={messages['rpl_occupation.name']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -303,7 +337,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'country[' + index + '][country_id]'}
-                      label={messages['rpl_sector.name']}
+                      label={messages['rpl_occupation.name']}
                       register={register}
                       errorInstance={errors}
                       defaultValue={country.country_id}
@@ -328,4 +362,4 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default RPLSectorsAddEditPopup;
+export default RPLOccupationsAddEditPopup;
