@@ -23,12 +23,12 @@ const SubjectPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [skillFilters] = useState({});
+  const [subjectFilters] = useState({});
   const {
     data: subjects,
     isLoading: isLoadingSubjects,
     mutate: mutateSubjects,
-  } = useFetchSubjects(skillFilters);
+  } = useFetchSubjects(subjectFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
