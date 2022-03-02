@@ -227,6 +227,10 @@ export const routePermissions: any = {
     routePrefix: '/rpl-occupations',
     permissionKeys: ['view_any_rpl_occupation'],
   },
+  '/subjects': {
+    routePrefix: '/subjects',
+    permissionKeys: ['view_any_subject'],
+  },
   '/rpl-levels': {
     routePrefix: '/rpl-levels',
     permissionKeys: ['view_any_rpl_level'],

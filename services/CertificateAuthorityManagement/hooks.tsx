@@ -5,6 +5,7 @@ import {
   API_RPL_OCCUPATIONS,
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
+  API_SUBJECTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -25,7 +26,7 @@ export function useFetchRPLSector(RPLSectorId: number | null) {
   return useAxiosSWR(RPLSectorId ? API_RPL_SECTORS + '/' + RPLSectorId : null);
 }
 
-export function useFetchRPLSectors(params: any = null) {
+export function useFetchRPLSectorsWithFilter(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
 }
 
@@ -44,4 +45,12 @@ export function useFetchRPLLevels(params: any = null) {
 
 export function useFetchRPLLevel(rplLevelId: number | null) {
   return useAxiosSWR(rplLevelId ? API_RPL_LEVELS + '/' + rplLevelId : null);
+}
+
+export function useFetchSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_SUBJECTS + '/' + subjectId : null);
+}
+
+export function useFetchSubjects() {
+  return useAxiosSWR(API_SUBJECTS);
 }
