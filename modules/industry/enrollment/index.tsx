@@ -47,9 +47,7 @@ import {useFetchNascibMemberStaticData} from '../../../services/IndustryAssociat
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import ImportExportType from './constants/ImportExportType';
 
-interface NASCIBMemberRegistrationFormProps {
-  onClose: () => void;
-}
+interface NASCIBMemberRegistrationFormProps {}
 
 const PREFIX = 'NascibUserAddEdit';
 

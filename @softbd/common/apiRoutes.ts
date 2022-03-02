@@ -385,7 +385,9 @@ export const API__PUBLIC_NASCIB_MEMBER_REGISTRATION =
 export const API_PUBLIC_NASCIB_MEMBER_STATIC_DATA =
   ORGANIZATION_SERVICE_PATH + '/public/nascib-members/get-static-data';
 export const API_PUBLIC_NASCIB_MEMBER_REGISTRATION_PAYMENT_PAGE =
-  ORGANIZATION_SERVICE_PATH + '/payment/nascib-member-ship-pay-via-ssl/pay-now';
+  ORGANIZATION_SERVICE_PATH +
+  '/public/nascib-members/payment/pay-via-ssl/pay-now';
+
 //Industry Association section end
 
 /** Industry and Industry Association service private routes section end */
@@ -466,7 +468,7 @@ export const API_PUBLIC_NISE_STATICS =
 
 /** CMS service public routes section end */
 
-/**             Registered Training Organizations             */
+/** Registered Training Organizations */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';

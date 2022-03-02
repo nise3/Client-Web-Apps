@@ -39,7 +39,7 @@ const NASCIBMemberRegistrationSuccessPage = () => {
   const getResponseMessage = () => {
     switch (responseStatus) {
       case 'success':
-        return messages['course_enroll.success'];
+        return messages['member_registration.success'];
       case 'failed':
         return messages['course_enroll.failed'];
       case 'cancelled':
