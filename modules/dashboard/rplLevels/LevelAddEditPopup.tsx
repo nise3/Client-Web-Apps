@@ -39,6 +39,7 @@ const initialValues = {
   title_en: '',
   rpl_sector_id: '',
   rpl_occupation_id: '',
+  sequence_order: '',
   row_status: '1',
 };
 

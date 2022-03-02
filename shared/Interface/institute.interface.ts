@@ -133,8 +133,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   educational_qualification_en?: string;
   photo?: string;
   signature?: string;
-  skills?: string;
-  skills_en?: string;
+  skills?: Array<any>;
   row_status?: string;
 }
 
