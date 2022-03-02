@@ -1598,5 +1598,9 @@
   "common.show_in_status": "Show in status",
   "common.show_in_landing_page": "Show in landing page",
   "common.member": "Member",
-  "member.none": "No member"
+  "member.none": "No member",
+  "common.assessment": "Assessment",
+  "common.assessment_result": "Assessment Result",
+  "common.self_assessment": "Self Assessment",
+  "common.sector_occupation": "Sector and Occupation"
 }

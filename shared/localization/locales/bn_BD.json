@@ -264,6 +264,7 @@
   "common.miscellaneous_info": "অন্যান্য তথ্য",
   "common.personal_info": "ব্যক্তিগত তথ্য",
   "common.occupation_info": "পেশাগত তথ্য",
+  "common.sector_occupation": "সেক্টর এবং পেশা",
   "common.education_info": "শিক্ষাগত যোগ্যতা",
   "common.guardian_info": "অভিভাবকের তথ্য",
   "gallery_album.parent_gallery_album": "প্যারেন্ট গ্যালারি",
@@ -1591,5 +1592,8 @@
   "common.show_in_status": "দেখানোর স্টযাটাস",
   "common.show_in_landing_page": "ল্যান্ডিং পেইজে দেখানো হবে",
   "common.member": "সদস্য",
-  "member.none": "নেই"
+  "member.none": "নেই",
+  "common.assessment": "মূল্যায়ন",
+  "common.self_assessment": "নিজেকে যাচাইকরণ",
+  "common.assessment_result": "মূল্যায়ন ফলাফল"
 }
