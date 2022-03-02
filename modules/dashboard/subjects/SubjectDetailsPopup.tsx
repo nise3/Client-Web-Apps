@@ -7,8 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import {useFetchSkill} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchSubject} from '../../../services/CertificateAuthorityManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -18,7 +18,7 @@ type Props = {
 
 const SubjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchSkill(itemId);
+  const {data: itemData, isLoading} = useFetchSubject(itemId);
 
   return (
     <>
@@ -28,7 +28,7 @@ const SubjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconSkill />
-            <IntlMessages id='skill.label' />
+            <IntlMessages id='subject.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -47,14 +47,14 @@ const SubjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title']}
+              label={messages['subject.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.title_en']}
+              label={messages['subject.title_en']}
               value={itemData?.title_en}
               isLoading={isLoading}
             />

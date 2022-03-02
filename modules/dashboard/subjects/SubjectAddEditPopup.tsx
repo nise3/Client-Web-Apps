@@ -11,15 +11,16 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createSkill,
-  updateSkill,
-} from '../../../services/organaizationManagement/SkillService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ISkill} from '../../../shared/Interface/organization.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetchSubject} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  createSubject,
+  updateSubject,
+} from '../../../services/CertificateAuthorityManagement/SubjectService';
+import {ISubject} from '../../../shared/Interface/institute.interface';
 
 interface SubjectAddEditPopupProps {
   itemId: number | null;
@@ -78,15 +79,16 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<ISkill> = async (data: ISkill) => {
+  const onSubmit: SubmitHandler<ISubject> = async (data: ISubject) => {
+    console.log('submitted data: ', data);
     try {
       if (itemId) {
-        await updateSkill(itemId, data);
-        updateSuccessMessage('skill.label');
+        await updateSubject(itemId, data);
+        updateSuccessMessage('subject.label');
         mutateSubject();
       } else {
-        await createSkill(data);
-        createSuccessMessage('skill.label');
+        await createSubject(data);
+        createSuccessMessage('subject.label');
       }
       props.onClose();
       refreshDataTable();
@@ -105,12 +107,12 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='skill.label' />}}
+              values={{subject: <IntlMessages id='subject.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='skill.label' />}}
+              values={{subject: <IntlMessages id='subject.label' />}}
             />
           )}
         </>
@@ -128,7 +130,7 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='title'
-            label={messages['common.title']}
+            label={messages['subject.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -136,9 +138,8 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12}>
           <CustomTextInput
-            required
             id='title_en'
-            label={messages['common.title_en']}
+            label={messages['subject.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
