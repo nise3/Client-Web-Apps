@@ -447,6 +447,7 @@
   "subject.title_en": "Subject Name (EN)",
   "rto.details": "RTO Details",
   "rpl_level.label": "RPL Levels",
+  "rpl_level.name": "RPL Level",
   "rpl_level.sequence_order": "RPL Sequence order",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
@@ -1598,5 +1599,7 @@
   "common.show_in_status": "Show in status",
   "common.show_in_landing_page": "Show in landing page",
   "common.member": "Member",
-  "member.none": "No member"
+  "member.none": "No member",
+  "assessment.label": "Assessment",
+  "assessment.addQuestion": "Add Questions"
 }

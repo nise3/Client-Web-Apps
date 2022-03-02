@@ -386,6 +386,7 @@
   "subject.title": "সাবজেক্টের নাম",
   "subject.title_en": "সাবজেক্টের নাম (ইংরেজি)",
   "rpl_level.label": "আরপিএল লেভেল",
+  "rpl_level.name": "আরপিএল লেভেল",
   "rpl_level.sequence_order": "আরপিএল লেভেল ক্রম",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
@@ -1591,5 +1592,7 @@
   "common.show_in_status": "দেখানোর স্টযাটাস",
   "common.show_in_landing_page": "ল্যান্ডিং পেইজে দেখানো হবে",
   "common.member": "সদস্য",
-  "member.none": "নেই"
+  "member.none": "নেই",
+  "assessment.label": "অ্যাসেসমেন্ট",
+  "assessment.addQuestion": "প্রশ্ন যোগ করুন"
 }
