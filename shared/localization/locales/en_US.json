@@ -1598,5 +1598,6 @@
   "common.show_in_status": "Show in status",
   "common.show_in_landing_page": "Show in landing page",
   "common.member": "Member",
-  "member.none": "No member"
+  "member.none": "No member",
+  "question.label": "Question"
 }
