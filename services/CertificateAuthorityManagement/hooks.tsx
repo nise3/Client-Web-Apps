@@ -4,6 +4,7 @@ import {
   API_RPL_OCCUPATIONS,
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
+  API_SUBJECTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -28,4 +29,12 @@ export function useFetchRPLOccupation(RPLOccupationId: number | null) {
   return useAxiosSWR(
     RPLOccupationId ? API_RPL_OCCUPATIONS + '/' + RPLOccupationId : null,
   );
+}
+
+export function useFetchSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_SUBJECTS + '/' + subjectId : null);
+}
+
+export function useFetchSubjects() {
+  return useAxiosSWR(API_SUBJECTS);
 }
