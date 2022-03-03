@@ -22,6 +22,7 @@ export interface AuthUser {
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
+  isRTOUser: boolean;
 }
 
 export interface CommonAuthUser extends AuthUser {
