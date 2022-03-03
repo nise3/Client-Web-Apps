@@ -370,6 +370,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'flag',
             url: '/rto-questions',
           },
+          {
+            id: 'ca_assigned_batches',
+            title: 'CA Assigned Batches',
+            messageId: 'certificate_authority.batch',
+            permissionKey: 'view_any_ca_assigned_batches',
+            type: 'item',
+            icon: 'flag',
+            url: '/ca-assigned-batches',
+          },
         ],
       },
       {
