@@ -1624,5 +1624,6 @@
   "common.assessment": "Assessment",
   "common.assessment_result": "Assessment Result",
   "common.self_assessment": "Self Assessment",
-  "common.sector_occupation": "Sector and Occupation"
+  "common.sector_occupation": "Sector and Occupation",
+  "rto_country.label": "Rto Country"
 }
