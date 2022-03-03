@@ -11,6 +11,7 @@ import {
   API_INDUSTRY_ASSOCIATION_TRADES,
   API_INDUSTRY_ASSOCIATIONS,
   API_PUBLIC_JOB_DETAILS,
+  API_PUBLIC_NASCIB_MEMBER_STATIC_DATA,
   API_RECRUITMENT_STEP_LISTS,
   API_RECRUITMENT_STEPS,
 } from '../../@softbd/common/apiRoutes';
@@ -65,4 +66,8 @@ export function useFetchJobRecruitmentStep(stepId: any) {
 
 export function useFetchJobRecruitmentSteps(jobId: string) {
   return useAxiosSWR(jobId ? API_RECRUITMENT_STEP_LISTS + jobId : null);
+}
+
+export function useFetchNascibMemberStaticData() {
+  return useAxiosSWR(API_PUBLIC_NASCIB_MEMBER_STATIC_DATA);
 }
