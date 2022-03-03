@@ -8,7 +8,7 @@ interface Props {
   id: string;
   data: Array<any>;
   label: string | MessageFormatElement[];
-  onChange?: (e: any) => any;
+  onChange?: (checked: boolean, value: string, index: number) => any;
   checkedDataArray: Array<any>;
   register: any;
   errors: any;
@@ -58,32 +58,40 @@ const CustomCheckboxTextInput = ({
       </Grid>
 
       <StyledGrid container spacing={1}>
-        {data.map((data: any) => {
+        {data.map((data: any, index: number) => {
           return (
             <React.Fragment key={data.id}>
               <Grid item xs={6}>
                 <label className={isTextFieldExist ? classes.inlineBlock : ''}>
                   <Checkbox
-                    value={data.id}
-                    {...register(id)}
-                    onChange={() => {
+                    onChange={(event) => {
                       if (
                         onChangeCallback &&
                         typeof onChangeCallback == 'function'
                       ) {
-                        onChangeCallback(data.id);
+                        onChangeCallback(
+                          event.target.checked,
+                          String(data.id),
+                          index,
+                        );
                       }
                     }}
                   />
                   {data.title}
                 </label>
+                <CustomTextInput
+                  id={id + '[' + index + '][id]'}
+                  register={register}
+                  errorInstance={errors}
+                  sx={{opacity: '0', display: 'none'}}
+                  defaultValue={data.id}
+                />
               </Grid>
               <Grid item xs={6}>
                 {data.id != OTHER_FIELD_NAME && isTextFieldExist && (
                   <CustomTextInput
-                    disabled={!checkedDataArray.includes(data.id)}
-                    id={id + '[' + data.id + ']'}
-                    type={'number'}
+                    disabled={!checkedDataArray.includes(String(data.id))}
+                    id={id + '[' + index + '][value]'}
                     register={register}
                     errorInstance={errors}
                     isLoading={isLoading}
@@ -94,8 +102,8 @@ const CustomCheckboxTextInput = ({
                   <Grid container spacing={1}>
                     <Grid item xs={6}>
                       <CustomTextInput
-                        disabled={!checkedDataArray.includes(data.id)}
-                        id={id + '[' + data.id + '][name]'}
+                        disabled={!checkedDataArray.includes(String(data.id))}
+                        id={id + '[' + index + '][name]'}
                         register={register}
                         errorInstance={errors}
                         isLoading={isLoading}
@@ -104,9 +112,8 @@ const CustomCheckboxTextInput = ({
                     </Grid>
                     <Grid item xs={6}>
                       <CustomTextInput
-                        disabled={!checkedDataArray.includes(data.id)}
-                        id={id + '[' + data.id + '][number]'}
-                        type={'number'}
+                        disabled={!checkedDataArray.includes(String(data.id))}
+                        id={id + '[' + index + '][value]'}
                         register={register}
                         errorInstance={errors}
                         isLoading={isLoading}
