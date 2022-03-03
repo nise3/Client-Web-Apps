@@ -239,4 +239,8 @@ export const routePermissions: any = {
     routePrefix: '/assessments',
     permissionKeys: ['view_any_assessment'],
   },
+  '/rto-questions': {
+    routePrefix: '/rto-questions',
+    permissionKeys: ['view_any_question'],
+  },
 };
