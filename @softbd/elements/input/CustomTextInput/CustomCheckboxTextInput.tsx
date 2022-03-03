@@ -48,83 +48,80 @@ const CustomCheckboxTextInput = ({
 }: Props) => {
   const {messages} = useIntl();
   const OTHER_FIELD_NAME = 'other_authority';
-  {
-    return (
-      <>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormLabel required={required}>{label}</FormLabel>
-          </Grid>
-        </Grid>
 
+  return (
+    <>
+      <Grid container>
+        <Grid item xs={6}>
+          <FormLabel required={required}>{label}</FormLabel>
+        </Grid>
+      </Grid>
+
+      <StyledGrid container spacing={1}>
         {data.map((data: any) => {
           return (
-            <StyledGrid key={data.id}>
-              <Grid container>
-                <Grid item xs={6}>
-                  <label
-                    className={isTextFieldExist ? classes.inlineBlock : ''}>
-                    <Checkbox
-                      value={data.id}
-                      {...register(id)}
-                      onChange={() => {
-                        if (
-                          onChangeCallback &&
-                          typeof onChangeCallback == 'function'
-                        ) {
-                          onChangeCallback(data.id);
-                        }
-                      }}
-                    />
-                    {data.title}
-                  </label>
-                </Grid>
-                <Grid item xs={6}>
-                  {data.id != OTHER_FIELD_NAME && isTextFieldExist && (
-                    <CustomTextInput
-                      disabled={!checkedDataArray.includes(data.id)}
-                      id={id + '[' + data.id + ']'}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                      sx={{maxWidth: '20vw', marginLeft: '2vw'}}
-                      placeholder={textFieldPlaceholder}
-                    />
-                  )}
-                  {data.id == OTHER_FIELD_NAME && (
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <CustomTextInput
-                          disabled={!checkedDataArray.includes(data.id)}
-                          id={id + '[' + data.id + '][name]'}
-                          register={register}
-                          errorInstance={errors}
-                          isLoading={isLoading}
-                          sx={{maxWidth: '10vw', marginLeft: '2vw'}}
-                          placeholder={messages['common.name']}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <CustomTextInput
-                          disabled={!checkedDataArray.includes(data.id)}
-                          id={id + '[' + data.id + '][number]'}
-                          register={register}
-                          errorInstance={errors}
-                          isLoading={isLoading}
-                          sx={{maxWidth: '10vw', marginLeft: '1vw'}}
-                          placeholder={textFieldPlaceholder}
-                        />
-                      </Grid>
-                    </Grid>
-                  )}
-                </Grid>
+            <React.Fragment key={data.id}>
+              <Grid item xs={6}>
+                <label className={isTextFieldExist ? classes.inlineBlock : ''}>
+                  <Checkbox
+                    value={data.id}
+                    {...register(id)}
+                    onChange={() => {
+                      if (
+                        onChangeCallback &&
+                        typeof onChangeCallback == 'function'
+                      ) {
+                        onChangeCallback(data.id);
+                      }
+                    }}
+                  />
+                  {data.title}
+                </label>
               </Grid>
-            </StyledGrid>
+              <Grid item xs={6}>
+                {data.id != OTHER_FIELD_NAME && isTextFieldExist && (
+                  <CustomTextInput
+                    disabled={!checkedDataArray.includes(data.id)}
+                    id={id + '[' + data.id + ']'}
+                    type={'number'}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder={textFieldPlaceholder}
+                  />
+                )}
+                {data.id == OTHER_FIELD_NAME && (
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <CustomTextInput
+                        disabled={!checkedDataArray.includes(data.id)}
+                        id={id + '[' + data.id + '][name]'}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                        placeholder={messages['common.name']}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <CustomTextInput
+                        disabled={!checkedDataArray.includes(data.id)}
+                        id={id + '[' + data.id + '][number]'}
+                        type={'number'}
+                        register={register}
+                        errorInstance={errors}
+                        isLoading={isLoading}
+                        placeholder={textFieldPlaceholder}
+                      />
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            </React.Fragment>
           );
         })}
-      </>
-    );
-  }
+      </StyledGrid>
+    </>
+  );
 };
 
 export default CustomCheckboxTextInput;

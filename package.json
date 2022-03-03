@@ -22,6 +22,7 @@
     "build:nise-local": "env-cmd -f .\\env.local next build nise",
     "build:youth-dev": "env-cmd -f .\\env.development next build youth",
     "build:youth-prod": "env-cmd -f env.production next build youth",
+    "build:youth-local": "env-cmd -f .\\env.local next build youth",
     "build:institute-dev": "env-cmd -f .\\env.development next build institute",
     "build:institute-prod": "env-cmd -f env.production next build institute",
     "build:institute-local": "env-cmd -f .\\env.local next build institute",
