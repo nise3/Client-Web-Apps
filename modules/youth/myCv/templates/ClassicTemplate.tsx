@@ -61,6 +61,22 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       return valWithNullCheck;
     }
 
+    const createHeaderAndLine = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
+      // update langulage rect, line and heading from the last cord
+      const lastCords = innerCordObj.lastCord + 40;
+      let languageHead = document.getElementById(headerId);
+      let languageHeadLine = document.getElementById(headlineId);
+      languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
+      languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
+      languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
+      // langular rectangle cord change
+      let rectCord = document.getElementById(rectAreaId);
+      rectCord?.children[0].setAttribute('y', (lastCords + 20) + '');
+      return {
+        rectCord
+      }
+    }
+
     setPhoto(userData);
     setAreaText(
       svgNode,
@@ -112,37 +128,9 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
           : ' ')
       );
     };
-    setAreaText(
-      svgNode,
-      'education',
-      userData?.youth_educations.map((education: any) => {
-        return educationText(education, locale);
-        // return (
-        //   (education?.institute_name
-        //     ? 'Institution Name: ' + education[getProps('institute_name', locale)] + ', '
-        //     : ' ') +
-        //   (education?.duration
-        //     ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
-        //     : ' ') +
-        //   (education?.result?.code === 'GRADE'
-        //     ? education?.cgpa
-        //       ? 'CGPA: ' +
-        //         parseFloat(education?.cgpa) +
-        //         ' ( out of ' +
-        //         parseInt(education?.cgpa_scale) +
-        //         ' ), '
-        //       : ' '
-        //     : 'Result: ' + education?.result?.title) +
-        //   (education?.year_of_passing
-        //     ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
-        //     : ' ')
-        // );
-      }),
-      'lt',
-    );
 
-    setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
-    setAreaText(
+    const objective = setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
+    const experiance = setAreaText(
       svgNode,
       'experience',
       userData?.youth_job_experiences.map((experience: any) => {
@@ -165,28 +153,39 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         );
       }),
     );
+    createHeaderAndLine(experiance, 'education-headling', 'education-headling-line', 'education');
+
+    const education = setAreaText(
+      svgNode,
+      'education',
+      userData?.youth_educations.map((education: any) => {
+        return educationText(education, locale);
+      }),
+      'lt',
+    );
+    createHeaderAndLine(education, 'computerskill-headling', 'computerskill-headling-line', 'computerskill')
+
     const skill = setAreaText(
       svgNode,
       'computerskill',
       userData?.skills.map((skill: any, index: number) => {
-        // return skill?.title ? index + 1 + '. ' + skill[getProps('title', locale)] + ' ' : ' ';
         return skill?.title ? skill[getProps('title', locale)] as any + ' ' : ' ';
       }),
     );
-    console.log('skill cord', skill)
-    let svg = document.getElementById('svg') as Element;
-    // svg.setAttribute('viewBox', `0 0 595.276 ${skill.lastCord + 20}`)
-    // update langulage rect, line and heading from the last cord
-    const lastCords = skill.lastCord + 40;
-    let languageHead = document.getElementById('language-headling');
-    let languageHeadLine = document.getElementById('language-headling-line');
-    languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
-    languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
-    languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
-    // langular rectangle cord change
-    let languageReact = document.getElementById('language');
-    languageReact?.children[0].setAttribute('y', (lastCords + 20) + '');
 
+
+    // // svg.setAttribute('viewBox', `0 0 595.276 ${skill.lastCord + 20}`)
+    // // update langulage rect, line and heading from the last cord
+    // const lastCords = skill.lastCord + 40;
+    // let languageHead = document.getElementById('language-headling');
+    // let languageHeadLine = document.getElementById('language-headling-line');
+    // languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
+    // languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
+    // languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
+    // // langular rectangle cord change
+    // let languageReact = document.getElementById('language');
+    // languageReact?.children[0].setAttribute('y', (skill.lastCord + 20) + '');
+    let languageReact = createHeaderAndLine(skill, 'language-headling', 'language-headling-line', 'language');
     setAreaText(
       svgNode,
       'language',
@@ -211,10 +210,11 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       }),
     );
     //@ts-ignore
-    const langulageRect = languageReact?.children[0].getBBox();
+    const langulageRect = languageReact.rectCord?.children[0].getBBox();
     const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
     console.log('lang rectangle ', languageLastBoxBottomY);
     // update svg if less then last cord
+    let svg = document.getElementById('svg') as Element;
     svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY}`);
   }, [locale]);
 
