@@ -18,6 +18,7 @@
   "common.accept_application": "Are you sure to approve?",
   "common.publication_deadline": "Deadline",
   "applicationManagement.batchAssigned": "Trainee has been assigned a batch successfully ",
+  "assessment.questionsAdded": "Questions have been added successfully",
   "applicationManagement.rejected": "Application has been rejected successfully",
   "organization.rejected": "Industry Association membership has been rejected successfully",
   "organization.approved": "Industry Association membership has been approved successfully",

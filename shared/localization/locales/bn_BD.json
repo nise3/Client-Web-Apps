@@ -19,6 +19,7 @@
   "applicationManagement.rejectApplication": "আবেদন / রেজিস্ট্রেশন বাতিল করবেন?",
   "common.accept_application": "নিশ্চিত ভাবে অনুমোদন করবেন?",
   "applicationManagement.batchAssigned": " প্রশিক্ষণার্থীকে সফলভাবে ব্যাচ বরাদ্দ করা হয়েছে",
+  "assessment.questionsAdded": " প্রশ্ন সফলভাবে ব্যাচ যোগ করা হয়েছে",
   "applicationManagement.rejected": "প্রশিক্ষণার্থীকে সফলভাবে কোর্সে থেকে বাতিল করা হয়েছে",
   "organization.rejected": "সদস্যপদ সফলভাবে বাতিল করা হয়েছে",
   "organization.approved": "সদস্যপদ সফলভাবে অনুমোদিত হয়েছে",

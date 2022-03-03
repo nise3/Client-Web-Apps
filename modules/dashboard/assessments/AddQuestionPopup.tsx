@@ -13,7 +13,6 @@ import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
-import {IBatchAssign} from '../../../shared/Interface/organization.interface';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 interface AssignBatchPopup {
@@ -67,14 +66,14 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<IBatchAssign> = async (data: IBatchAssign) => {
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       if (itemId) {
         await assignBatch(data, itemId);
         successStack(
           <IntlMessages
-            id='applicationManagement.batchAssigned'
-            values={{subject: <IntlMessages id='common.label' />}}
+            id='assessment.questionsAdded'
+            values={{subject: <IntlMessages id='assessment.addQuestion' />}}
           />,
         );
       }
