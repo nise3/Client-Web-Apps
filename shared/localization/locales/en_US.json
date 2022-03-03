@@ -1620,5 +1620,9 @@
   "question.type.y_n": "Yes/No",
   "question.difficulty_level": "Difficulty Level",
   "answer.type.yes": "Yes",
-  "answer.type.no": "No"
+  "answer.type.no": "No",
+  "common.assessment": "Assessment",
+  "common.assessment_result": "Assessment Result",
+  "common.self_assessment": "Self Assessment",
+  "common.sector_occupation": "Sector and Occupation"
 }

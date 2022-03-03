@@ -264,6 +264,7 @@
   "common.miscellaneous_info": "অন্যান্য তথ্য",
   "common.personal_info": "ব্যক্তিগত তথ্য",
   "common.occupation_info": "পেশাগত তথ্য",
+  "common.sector_occupation": "সেক্টর এবং পেশা",
   "common.education_info": "শিক্ষাগত যোগ্যতা",
   "common.guardian_info": "অভিভাবকের তথ্য",
   "gallery_album.parent_gallery_album": "প্যারেন্ট গ্যালারি",
@@ -1613,5 +1614,8 @@
   "question.type.y_n": "হ্যা/না",
   "question.difficulty_level": "ডিফিকাল্টি লেভেল",
   "answer.type.yes": "হ্যা",
-  "answer.type.no": "না"
+  "answer.type.no": "না",
+  "common.assessment": "মূল্যায়ন",
+  "common.self_assessment": "নিজেকে যাচাইকরণ",
+  "common.assessment_result": "মূল্যায়ন ফলাফল"
 }
