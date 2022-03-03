@@ -27,7 +27,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     var elem = document.getElementById('photo') as Element;
     var imgElem = elem.childNodes[1] as any;
     imgElem.setAttribute('xlink:href', data.photo);
-    }
+  }
   const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
     '2': 'Not Fluently',
@@ -35,7 +35,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
   const {messages, locale} = useIntl();
   // console.log(messages, locale)
   const theCB = useCallback((node) => {
-    
+
     if (!node || node.children.length > 0) return;
     const div = document.createElement('div');
     div.innerHTML = pageSVG;
@@ -70,8 +70,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     );
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
-    
-    
+
+
     /** present address */
     const addressText = (userData: any, locale: string) => {
       let presentAddress = userData?.youth_addresses.filter((item:any)=> item.address_type == AddressTypes.PRESENT)[0];
@@ -128,7 +128,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         //     ? education?.cgpa
         //       ? 'CGPA: ' +
         //         parseFloat(education?.cgpa) +
-        //         ' ( out of ' + 
+        //         ' ( out of ' +
         //         parseInt(education?.cgpa_scale) +
         //         ' ), '
         //       : ' '
@@ -155,13 +155,13 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
             : ' ') +
           (experience?.start_date
             ? 'Start Date: ' +
-              new Date(experience?.start_date).toLocaleDateString('en-US') +
-              ', '
+            new Date(experience?.start_date).toLocaleDateString('en-US') +
+            ', '
             : ' ') +
           (experience?.is_currently_working === 1
             ? 'Currently working here' + ', '
             : 'End Date: ' +
-              new Date(experience?.end_date).toLocaleDateString('en-US'))
+            new Date(experience?.end_date).toLocaleDateString('en-US'))
         );
       }),
     );
@@ -197,15 +197,15 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
             : ' ') +
           (language?.reading_proficiency_level
             ? `${messages['language.read']}: ` +
-              LanguageProficiencyType[language?.reading_proficiency_level] +
-              ', '
+            LanguageProficiencyType[language?.reading_proficiency_level] +
+            ', '
             : ' ') +
           (language?.speaking_proficiency_level
             ? `${messages['language.speak']}: ` +
-              LanguageProficiencySpeakingType[
-                language?.speaking_proficiency_level
+            LanguageProficiencySpeakingType[
+              language?.speaking_proficiency_level
               ] +
-              ', '
+            ', '
             : ' ')
         );
       }),
@@ -216,7 +216,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     console.log('lang rectangle ', languageLastBoxBottomY);
     // update svg if less then last cord
     svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY}`);
-    }, [locale]);
+  }, [locale]);
 
   return (
     <Slide direction={'right'} in={true}>
