@@ -103,9 +103,9 @@ export const routePermissions: any = {
     routePrefix: '/hr-demand',
     permissionKeys: ['view_any_institute_hr_demand'],
   },
-  '/question-bank': {
-    routePrefix: '/question-bank',
-    permissionKeys: ['view_any_question_bank'],
+  '/question-bank1': {
+    routePrefix: '/question-bank1',
+    permissionKeys: ['view_any_question_bank1'],
   },
   '/association-profile': {
     routePrefix: '/association-profile',
@@ -239,8 +239,8 @@ export const routePermissions: any = {
     routePrefix: '/assessments',
     permissionKeys: ['view_any_assessment'],
   },
-  '/rto-questions': {
-    routePrefix: '/rto-questions',
-    permissionKeys: ['view_any_question'],
+  '/question-banks': {
+    routePrefix: '/question-banks',
+    permissionKeys: ['view_any_question_bank'],
   },
 };
