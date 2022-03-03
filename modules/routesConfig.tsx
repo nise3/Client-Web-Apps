@@ -361,6 +361,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'flag',
             url: '/assessments',
           },
+          {
+            id: 'rto_questions',
+            title: 'RTO Questions',
+            messageId: 'question.label',
+            permissionKey: 'view_any_question',
+            type: 'item',
+            icon: 'flag',
+            url: '/rto-questions',
+          },
         ],
       },
       {
