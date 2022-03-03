@@ -1,8 +1,13 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS,
+  API_PUBLIC_RPL_OCCUPATIONS,
+  API_PUBLIC_RPL_SECTORS,
+  API_PUBLIC_RTO_COUNTRIES,
   API_REGISTERED_TRAINING_ORGANIZATIONS,
   API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
+  API_RPL_PUBLIC_LEVELS,
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
   API_SUBJECTS,
@@ -18,12 +23,20 @@ export function useFetchRTOCountries() {
   return useAxiosSWR(API_RTO_COUNTRIES);
 }
 
+export function useFetchPublicRTOCountries(params: any) {
+  return useAxiosSWR(params ? [API_PUBLIC_RTO_COUNTRIES, params] : null);
+}
+
 export function useFetchRPLSector(RPLSectorId: number | null) {
   return useAxiosSWR(RPLSectorId ? API_RPL_SECTORS + '/' + RPLSectorId : null);
 }
 
 export function useFetchRPLSectors(params: any) {
   return useAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
+}
+
+export function useFetchPublicRPLSectors(params: any) {
+  return useAxiosSWR(params ? [API_PUBLIC_RPL_SECTORS, params] : null);
 }
 
 export function useFetchRPLOccupation(RPLOccupationId: number | null) {
@@ -36,8 +49,16 @@ export function useFetchRPLOccupations(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_OCCUPATIONS, params] : null);
 }
 
+export function useFetchPublicRPLOccupations(params: any) {
+  return useAxiosSWR(params ? [API_PUBLIC_RPL_OCCUPATIONS, params] : null);
+}
+
 export function useFetchRPLLevels(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_LEVELS, params] : null);
+}
+
+export function useFetchPublicRPLLevels(params: any) {
+  return useAxiosSWR(params ? [API_RPL_PUBLIC_LEVELS, params] : null);
 }
 
 export function useFetchRPLLevel(rplLevelId: number | null) {
@@ -54,4 +75,16 @@ export function useFetchSubjects(params: any) {
 
 export function useFetchAssessment(assessmentId: number | null) {
   return useAxiosSWR(assessmentId ? API_RPL_LEVELS + '/' + assessmentId : null);
+}
+
+export function useFetchRTOS(params: any) {
+  return useAxiosSWR(
+    params ? [API_REGISTERED_TRAINING_ORGANIZATIONS, params] : null,
+  );
+}
+
+export function useFetchPublicRTOS(params: any) {
+  return useAxiosSWR(
+    params ? [API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS, params] : null,
+  );
 }
