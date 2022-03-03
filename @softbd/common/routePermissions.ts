@@ -243,4 +243,8 @@ export const routePermissions: any = {
     routePrefix: '/rto-questions',
     permissionKeys: ['view_any_question'],
   },
+  '/ca-assigned-batches': {
+    routePrefix: '/ca-assigned-batches',
+    permissionKeys: ['view_any_ca_assigned_batches'],
+  },
 };
