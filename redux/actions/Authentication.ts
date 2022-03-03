@@ -189,7 +189,8 @@ export const getCommonAuthUserObject = (
     isInstituteUser: authUser?.isInstituteUser,
     isOrganizationUser: authUser?.isOrganizationUser,
     isIndustryAssociationUser: authUser.isIndustryAssociationUser,
-    isRTOUser: authUser?.isRTOUser,
+    isRegisteredTrainingOrganizationUser:
+      authUser?.isRegisteredTrainingOrganizationUser,
     userType: authUser?.userType,
     institute_id: authUser?.institute_id,
     institute: authUser?.institute,
@@ -209,6 +210,10 @@ export const getCommonAuthUserObject = (
     branch_id: authUser?.branch_id,
     industry_association_id: authUser?.industry_association_id,
     industry_association: authUser?.industry_association,
+    registered_training_organization_id:
+      authUser?.registered_training_organization_id,
+    registered_training_organization:
+      authUser?.registered_training_organization,
   };
 };
 
@@ -224,7 +229,7 @@ export const getYouthAuthUserObject = (
     isInstituteUser: false,
     isOrganizationUser: false,
     isIndustryAssociationUser: false,
-    isRTOUser: false,
+    isRegisteredTrainingOrganizationUser: false,
     email: authUser?.email,
     uid: authUser?.sub,
     youthId: authUser?.id,
