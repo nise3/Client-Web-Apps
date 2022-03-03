@@ -15,6 +15,7 @@ interface Props {
   isLoading: any;
   isTextFieldExist?: boolean;
   textFieldPlaceholder?: string | MessageFormatElement[];
+  required?: boolean;
 }
 
 const PREFIX = 'CustomCheckboxTextInput';
@@ -43,67 +44,81 @@ const CustomCheckboxTextInput = ({
   errors,
   isTextFieldExist = true,
   textFieldPlaceholder,
+  required = false,
 }: Props) => {
   const {messages} = useIntl();
+  const OTHER_FIELD_NAME = 'other_authority';
   {
     return (
       <>
         <Grid container>
           <Grid item xs={6}>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel required={required}>{label}</FormLabel>
           </Grid>
         </Grid>
 
         {data.map((data: any) => {
           return (
             <StyledGrid key={data.id}>
-              <label className={isTextFieldExist ? classes.inlineBlock : ''}>
-                <Checkbox
-                  value={data.id}
-                  onChange={() => {
-                    if (
-                      onChangeCallback &&
-                      typeof onChangeCallback == 'function'
-                    ) {
-                      onChangeCallback(data.id);
-                    }
-                  }}
-                />
-                {data.title}
-              </label>
-              {data.id != 'others' && isTextFieldExist && (
-                <CustomTextInput
-                  disabled={!checkedDataArray.includes(data.id)}
-                  id={id + '[' + data.id + ']'}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                  sx={{maxWidth: '20vw', marginLeft: '2vw'}}
-                  placeholder={textFieldPlaceholder}
-                />
-              )}
-              {data.id == 'others' && (
-                <>
-                  <CustomTextInput
-                    disabled={!checkedDataArray.includes(data.id)}
-                    id={id + '[' + data.id + '][name]'}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    sx={{maxWidth: '10vw', marginLeft: '2vw'}}
-                    placeholder={messages['common.name']}
-                  />
-                  <CustomTextInput
-                    disabled={!checkedDataArray.includes(data.id)}
-                    id={id + '[' + data.id + '][number]'}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                    sx={{maxWidth: '10vw', marginLeft: '1vw'}}
-                    placeholder={messages['common.number']}
-                  />
-                </>
-              )}
+              <Grid container>
+                <Grid item xs={6}>
+                  <label
+                    className={isTextFieldExist ? classes.inlineBlock : ''}>
+                    <Checkbox
+                      value={data.id}
+                      {...register(id)}
+                      onChange={() => {
+                        if (
+                          onChangeCallback &&
+                          typeof onChangeCallback == 'function'
+                        ) {
+                          onChangeCallback(data.id);
+                        }
+                      }}
+                    />
+                    {data.title}
+                  </label>
+                </Grid>
+                <Grid item xs={6}>
+                  {data.id != OTHER_FIELD_NAME && isTextFieldExist && (
+                    <CustomTextInput
+                      disabled={!checkedDataArray.includes(data.id)}
+                      id={id + '[' + data.id + ']'}
+                      register={register}
+                      errorInstance={errors}
+                      isLoading={isLoading}
+                      sx={{maxWidth: '20vw', marginLeft: '2vw'}}
+                      placeholder={textFieldPlaceholder}
+                    />
+                  )}
+                  {data.id == OTHER_FIELD_NAME && (
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          disabled={!checkedDataArray.includes(data.id)}
+                          id={id + '[' + data.id + '][name]'}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                          sx={{maxWidth: '10vw', marginLeft: '2vw'}}
+                          placeholder={messages['common.name']}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          disabled={!checkedDataArray.includes(data.id)}
+                          id={id + '[' + data.id + '][number]'}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                          sx={{maxWidth: '10vw', marginLeft: '1vw'}}
+                          placeholder={textFieldPlaceholder}
+                        />
+                      </Grid>
+                    </Grid>
+                  )}
+                </Grid>
+              </Grid>
             </StyledGrid>
           );
         })}

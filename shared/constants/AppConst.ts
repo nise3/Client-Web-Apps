@@ -17,5 +17,7 @@ export const COOKIE_KEY_APP_CURRENT_LANG = 'app_current_lang';
 export const COOKIE_KEY_INSTITUTE_ID = 'institute_id';
 export const COOKIE_KEY_SEND_TIME = 'send_time';
 export const COOKIE_KEY_COURSE_ID = 'enrollment_course_id';
+export const COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID =
+  'nascib_member_registration_payment_id';
 export const IS_LOCAL_IDP = true;
 export const IS_LOCAL_APM = true;
