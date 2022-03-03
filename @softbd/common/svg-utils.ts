@@ -670,12 +670,12 @@ export const setAreaText = (
         rect.y += heightWithPrev;
         if (i == row.length -1) {
           lastCord = rect.y;
-         }
+        }
       }
-      
+
       let currentChildren = g.children[i + 1];
       currentChildren.innerHTML = `${i+1}. ${item}`
-      
+
       areaText(currentChildren, rect, { fs, lh, bl, ta: textAlign });
       textElement.push(currentChildren);
     });
