@@ -27,6 +27,7 @@ export interface TAuthUserSSOResponse {
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
+  isRTOUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: IInstitute;
