@@ -1333,6 +1333,7 @@
   "course_enroll.go_to_course": "কোর্সে যান",
   "common.enter_validation_code": "যাচাই করণ কোডটি প্রবেশ করুন",
   "common.missing_enrollment_id": "এনরোলমেন্ট আইডি অনুপস্থিত",
+  "common.missing_payment_id": "পেমেন্ট আইডি অনুপস্থিত",
   "common.resend_validation_code_success": "আপনার মোবাইলে একটি যাচাই করণ কোড পাঠানো হয়েছে",
   "course_enroll.success": "অভিনন্দন! আপনি আপনার কোর্স নথিভুক্ত করেছেন!",
   "course_enroll.failed": "দুঃখিত! আপনার অর্থপ্রদান প্রক্রিয়া করতে ব্যর্থ!",

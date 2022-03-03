@@ -10,6 +10,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID} from '../../../shared/constants/AppConst';
 import {nascibMemberRegistrationPaymentPay} from '../../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
+import {LINK_FRONTEND_MEMBER_REGISTRATION_PAYMENT_SUCCESS_PAGE} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'ChoosePayment';
 
@@ -23,6 +24,7 @@ const classes = {
 
 const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
+  margin: '20px 0 5px 0',
 
   [`& .${classes.paperBox}`]: {
     margin: 'auto',
@@ -61,7 +63,6 @@ const ChoosePayment = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const router = useRouter();
-  const {basePath} = router.query;
   const {paymentId} = router.query;
   const [isDisableLayout, setIsDisableLayout] = useState<boolean>(false);
 
@@ -73,7 +74,8 @@ const ChoosePayment = () => {
             setIsDisableLayout(true);
             if (paymentId) {
               const paymentRedirectTo =
-                basePath + '/nascib-member-registration-payment/';
+                window.location.origin +
+                LINK_FRONTEND_MEMBER_REGISTRATION_PAYMENT_SUCCESS_PAGE;
 
               let data = {
                 payment_gateway_type: method,
@@ -87,7 +89,7 @@ const ChoosePayment = () => {
 
               const response = await nascibMemberRegistrationPaymentPay(data);
 
-              if (response?.redirect_url) {
+              if (response?.gateway_page_url) {
                 let expireDate = new Date();
                 expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
                 setBrowserCookie(
@@ -98,10 +100,10 @@ const ChoosePayment = () => {
                   },
                 );
 
-                window.location.href = response?.redirect_url;
+                window.location.href = response?.gateway_page_url;
               }
             } else {
-              errorStack(<IntlMessages id={'common.missing_enrollment_id'} />);
+              errorStack(<IntlMessages id={'common.missing_payment_id'} />);
             }
           } catch (error: any) {
             setIsDisableLayout(false);
@@ -113,7 +115,7 @@ const ChoosePayment = () => {
         })();
       }
     },
-    [isDisableLayout, basePath],
+    [isDisableLayout, router],
   );
 
   return (
