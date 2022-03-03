@@ -22,7 +22,7 @@ export interface AuthUser {
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
-  isRTOUser: boolean;
+  isRegisteredTrainingOrganizationUser: boolean;
 }
 
 export interface CommonAuthUser extends AuthUser {
@@ -41,6 +41,8 @@ export interface CommonAuthUser extends AuthUser {
   name?: string;
   industry_association_id?: string | number | undefined;
   industry_association?: any;
+  registered_training_organization_id?: string | number | undefined;
+  registered_training_organization?: any;
   domain?: string;
 }
 
