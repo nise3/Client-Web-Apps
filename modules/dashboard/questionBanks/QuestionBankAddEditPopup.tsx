@@ -12,13 +12,23 @@ import yup from "../../../@softbd/libs/yup";
 import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
 import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
 import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { useFetchRPLSector, useFetchSubjects } from "../../../services/CertificateAuthorityManagement/hooks";
+import {
+  useFetchQuestionBank,
+  useFetchSubjects
+} from "../../../services/CertificateAuthorityManagement/hooks";
 import { LEVEL } from "../courses/CourseEnums";
 import { AnswerType, OPTIONS, QuestionType } from "./QuestionEnums";
 import CustomFormSelect from "../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect";
 import FormRadioButtons from "../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons";
+import {
+  createQuestion,
+  updateQuestion,
+} from "../../../services/CertificateAuthorityManagement/QuestionBankService";
+import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
 
-interface RPLSectorsAddEditPopupProps {
+interface RTOQuestionAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -27,30 +37,38 @@ interface RPLSectorsAddEditPopupProps {
 const initialValues = {
   title: "",
   title_en: "",
-  row_status: "1",
-  question_type_id: "1",
-  answer_yn_id: "1"
+  difficulty_level:"1",
+  option_1: "",
+  option_2: "",
+  option_3: "",
+  option_4: "",
+  option_1_en: "",
+  option_2_en: "",
+  option_3_en: "",
+  option_4_en: "",
+  type: "1",
+  answer: "1"
 };
 
-const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
-                                                                    itemId,
-                                                                    refreshDataTable,
-                                                                    ...props
-                                                                  }) => {
+const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
+                                                                     itemId,
+                                                                     refreshDataTable,
+                                                                     ...props
+                                                                   }) => {
   const { messages } = useIntl();
-  /*const { errorStack } = useNotiStack();
-  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();*/
+  const { errorStack } = useNotiStack();
+  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
 
   const [subjectFilters] = useState({});
 
   const isEdit = itemId != null;
   const {
-    // data: itemData,
+    data: itemData,
     isLoading,
-    //mutate: mutateRPLSector
-  } = useFetchRPLSector(itemId);
+    mutate: mutateRTOQuestion
+  } = useFetchQuestionBank(itemId);
 
-  const { data: countries, isLoading: isFetchingCountries } =
+  const { data: subjects, isLoading: isFetchingSubjects } =
     useFetchSubjects(subjectFilters);
 
   const levels = useMemo(
@@ -121,7 +139,7 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     [messages]
   );
 
-  const [countryList, setCountryList] = useState<any>([]);
+  //const [subjectList, setSubjectList] = useState<any>([]);
 
   const [isMCQ, setIsMCQ] = useState<boolean>(true);
 
@@ -132,23 +150,19 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages["question.label"] as string),
-      country: yup.array().of(
-        yup.object().shape({
-          title: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages["question.label"] as string)
-        })
-      )
+      /*subject_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages["question.label"] as string)*/
     });
   }, [messages]);
 
   const {
     register,
     control,
-    // reset,
-    //setError,
+    reset,
+    setError,
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<any>({
@@ -156,41 +170,69 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    setCountryList(countries);
-  }, [countries]);
+    if (itemData) {
+      let data: any = {
+        subject_id: itemData?.subject_id,
+        title: itemData?.title,
+        title_en: itemData?.title_en,
+        difficulty_level: itemData?.difficulty_level,
+        type: itemData?.type,
+        option_1: itemData?.option_1,
+        option_1_en: itemData?.option_1_en,
+        option_2: itemData?.option_2,
+        option_2_en: itemData?.option_2_en,
+        option_3: itemData?.option_3,
+        option_3_en: itemData?.option_3_en,
+        option_4: itemData?.option_4,
+        option_4_en: itemData?.option_4_en,
+        answer: itemData?.answer,
+      };
+
+
+      reset(data);
+
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
+
+  // useEffect(() => {
+  //   setSubjectList(subjects);
+  // }, [subjects]);
 
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    if(!isMCQ){
-      data.option_1= '';
-      data.option_1_en= '';
-      data.option_2= '';
-      data.option_2_en= '';
-      data.option_3= '';
-      data.option_3_en= '';
-      data.option_4= '';
-      data.option_4_en= '';
+    if (!isMCQ) {
+      data.option_1 = "";
+      data.option_1_en = "";
+      data.option_2 = "";
+      data.option_2_en = "";
+      data.option_3 = "";
+      data.option_3_en = "";
+      data.option_4 = "";
+      data.option_4_en = "";
     }
     console.log(data);
-   /* return;
+    // return;
     try {
       if (itemId) {
-        await updateRPLSector(itemId, data);
+        console.log(data);
+        await updateQuestion(itemId, data);
         updateSuccessMessage("question.label");
-        mutateRPLSector();
+        mutateRTOQuestion();
       } else {
-        await createRPLSector(data);
+        await createQuestion(data);
         createSuccessMessage("question.label");
       }
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({ error, setError, validationSchema, errorStack });
-    }*/
+    }
   };
 
   const changeType = (e: any) => {
-    if (e == '1') {
+    if (e == "1") {
       setIsMCQ(true);
       /*reset({
         answer_yn_id: ''
@@ -252,13 +294,12 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
           <CustomFilterableFormSelect
             id={"subject_id"}
             label={messages["subject.label"]}
-            isLoading={isFetchingCountries}
+            isLoading={isFetchingSubjects}
             control={control}
-            options={countryList}
-            optionValueProp={"country_id"}
+            options={subjects}
+            optionValueProp={"id"}
             optionTitleProp={["title"]}
             errorInstance={errors}
-            // onChange={onCountryListChange}
           />
         </Grid>
 
@@ -266,7 +307,7 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
           <CustomFormSelect
             id="difficulty_level"
             label={messages["question.difficulty_level"]}
-            isLoading={false}
+            isLoading={isLoading}
             control={control}
             options={levels}
             optionValueProp="id"
@@ -281,12 +322,11 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
             label={"question.type"}
             radios={questionTypes}
             control={control}
-            defaultValue={initialValues.question_type_id}
+            defaultValue={initialValues.type}
             isLoading={isLoading}
             onChange={changeType}
           />
         </Grid>
-
 
 
         {isMCQ && (<>
@@ -368,7 +408,7 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
             <CustomFormSelect
               id="answer"
               label={messages["question.answer"]}
-              isLoading={false}
+              isLoading={isLoading}
               control={control}
               options={option}
               optionValueProp="id"
@@ -383,7 +423,7 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
               label={"question.answer"}
               radios={answerTypes}
               control={control}
-              defaultValue={initialValues.answer_yn_id}
+              defaultValue={initialValues.answer}
               isLoading={isLoading}
             />
           </Grid>
@@ -393,4 +433,4 @@ const RTOQuestionAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default RTOQuestionAddEditPopup;
+export default QuestionBankAddEditPopup;
