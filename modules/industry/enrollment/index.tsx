@@ -107,15 +107,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   >([]);
 
   const [checkedRegisteredAuthority, setCheckedRegisteredAuthority] = useState<
-    Array<number> | []
+    Array<string>
   >([]);
 
   const [checkedAuthorizedAuthority, setCheckedAuthorizedAuthority] = useState<
-    Array<number> | []
+    Array<any>
   >([]);
 
   const [checkedSpecializedArea, setCheckedSpecializedArea] = useState<
-    Array<number> | []
+    Array<string>
   >([]);
 
   const [hasAuthorizedAuthority, setHasAuthorizedAuthority] =
@@ -361,21 +361,52 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .required()
         .label(messages['institute.is_registered_under_authority'] as string),
       registered_authority: hasRegisteredAuthority
-        ? yup
-            .array()
-            .required()
-            .label(messages['industry.registered_authority'] as string)
+        ? yup.array().of(
+            yup.object({
+              id: yup.string(),
+              value: yup
+                .mixed()
+                .label(messages['common.registered_no'] as string)
+                .when('id', {
+                  is: (value: string) => {
+                    return checkedRegisteredAuthority.includes(value);
+                  },
+                  then: yup.string().required(),
+                }),
+            }),
+          )
         : yup.array(),
       is_authorized_under_authority: yup
         .string()
         .required()
         .label(messages['institute.is_under_any_approved_authority'] as string),
       authorized_authority: hasAuthorizedAuthority
-        ? yup
-            .array()
-            .of(yup.string().min(1))
-            .required()
-            .label(messages['institute.authorized_authority'] as string)
+        ? yup.array().of(
+            yup.object({
+              id: yup.string(),
+              value: yup
+                .mixed()
+                .label(messages['common.registered_no'] as string)
+                .when('id', {
+                  is: (value: string) => {
+                    return checkedAuthorizedAuthority.includes(value);
+                  },
+                  then: yup.string().required(),
+                }),
+              name: yup
+                .mixed()
+                .label(messages['common.name'] as string)
+                .when('id', {
+                  is: (value: string) => {
+                    return (
+                      checkedAuthorizedAuthority.includes(value) &&
+                      value == 'other_authority'
+                    );
+                  },
+                  then: yup.string().required(),
+                }),
+            }),
+          )
         : yup.array(),
       have_specialized_area: yup
         .string()
@@ -502,6 +533,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     hasRegisteredAuthority,
     hasAuthorizedAuthority,
     isIndustryDoImport,
+    checkedRegisteredAuthority,
+    checkedAuthorizedAuthority,
   ]);
 
   const {
@@ -574,19 +607,22 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   );
 
   const handleRegisteredAuthorityCheck = useCallback(
-    (registeredAuthorityId: number) => {
+    (checked: boolean, registeredAuthorityId: string, index: number) => {
       const formFieldName = 'registered_authority';
-      const newAuthority = [...checkedRegisteredAuthority];
+      let newAuthority: any = [...checkedRegisteredAuthority];
 
-      const index = newAuthority.indexOf(registeredAuthorityId);
-      newAuthority.includes(registeredAuthorityId)
-        ? newAuthority.splice(index, 1)
-        : newAuthority.push(registeredAuthorityId);
+      if (checked && !newAuthority.includes(registeredAuthorityId)) {
+        newAuthority.push(String(registeredAuthorityId));
+      } else if (!checked && newAuthority.includes(registeredAuthorityId)) {
+        newAuthority = newAuthority.filter(
+          (item: any) => item != registeredAuthorityId,
+        );
+      }
 
       //clean the associated text field on uncheck
       if (!newAuthority.includes(registeredAuthorityId)) {
-        let tmpValue = getValues(formFieldName);
-        tmpValue[registeredAuthorityId] = undefined;
+        let tmpValue: any = [...getValues(formFieldName)];
+        tmpValue[index].value = undefined;
         setValue(formFieldName, tmpValue);
       }
 
@@ -596,19 +632,23 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   );
 
   const handleAuthorizedAuthorityCheck = useCallback(
-    (authorizedAuthorityId: number) => {
+    (checked: boolean, authorizedAuthorityId: string, index: number) => {
       const formFieldName = 'authorized_authority';
-      const newAuthorityArr = [...checkedAuthorizedAuthority];
+      let newAuthorityArr: any = [...checkedAuthorizedAuthority];
 
-      const index = newAuthorityArr.indexOf(authorizedAuthorityId);
-      newAuthorityArr.includes(authorizedAuthorityId)
-        ? newAuthorityArr.splice(index, 1)
-        : newAuthorityArr.push(authorizedAuthorityId);
+      if (checked && !newAuthorityArr.includes(authorizedAuthorityId)) {
+        newAuthorityArr.push(String(authorizedAuthorityId));
+      } else if (!checked && newAuthorityArr.includes(authorizedAuthorityId)) {
+        newAuthorityArr = newAuthorityArr.filter(
+          (item: any) => item != authorizedAuthorityId,
+        );
+      }
 
       //clean the associated text field on uncheck
       if (!newAuthorityArr.includes(authorizedAuthorityId)) {
         let tmpValue = getValues(formFieldName);
-        tmpValue[authorizedAuthorityId] = undefined;
+        tmpValue[index].value = undefined;
+        tmpValue[index].name = undefined;
         setValue(formFieldName, tmpValue);
       }
 
@@ -618,13 +658,16 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   );
 
   const handleSpecializedAreaCheck = useCallback(
-    (areaId: number) => {
-      const newSpecializedAreaArr = [...checkedSpecializedArea];
+    (checked: boolean, areaId: string, index: number) => {
+      let newSpecializedAreaArr = [...checkedSpecializedArea];
 
-      const index = newSpecializedAreaArr.indexOf(areaId);
-      newSpecializedAreaArr.includes(areaId)
-        ? newSpecializedAreaArr.splice(index, 1)
-        : newSpecializedAreaArr.push(areaId);
+      if (checked && !newSpecializedAreaArr.includes(areaId)) {
+        newSpecializedAreaArr.push(String(areaId));
+      } else if (!checked && newSpecializedAreaArr.includes(areaId)) {
+        newSpecializedAreaArr = newSpecializedAreaArr.filter(
+          (item: any) => item != areaId,
+        );
+      }
 
       setCheckedSpecializedArea(newSpecializedAreaArr);
     },
@@ -703,10 +746,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (hasRegisteredAuthority) {
       data.registered_authority = data?.registered_authority
-        .map((item: any, index: number) => {
-          return {authority_type: index, registration_number: item};
-        })
-        .filter((item: any) => item.registration_number);
+        .filter((item: any) => item.value)
+        .map((item: any) => {
+          return {authority_type: item.id, registration_number: item.value};
+        });
     } else {
       delete data.registered_authority;
     }
@@ -736,11 +779,26 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     }
 
     if (hasAuthorizedAuthority) {
+      let otherAuthority = data?.authorized_authority
+        .filter((item: any) => item.id == 'other_authority')
+        .map((item: any) => {
+          return {
+            authority_type: 'other_authority',
+            authority_name: item?.name,
+            registration_number: item?.value,
+          };
+        });
       data.authorized_authority = data?.authorized_authority
-        .map((item: any, index: number) => {
-          return {authority_type: index, registration_number: item};
-        })
-        .filter((item: any) => item.registration_number);
+        .filter((item: any) => item.id != 'other_authority' && item?.value)
+        .map((item: any) => {
+          return {
+            authority_type: item.id,
+            registration_number: item?.value,
+          };
+        });
+
+      if (otherAuthority && otherAuthority.length > 0)
+        data.other_authority = otherAuthority[0];
     } else {
       delete data.authorized_authority;
     }
@@ -752,6 +810,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       data.chamber_or_association_union_id = 1;
     }
 
+    console.log('data: ', data);
     try {
       await registerNASCIBMember(data);
       createSuccessMessage('nascib_member.label');
