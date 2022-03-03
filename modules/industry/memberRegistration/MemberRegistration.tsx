@@ -38,6 +38,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import {classes, StyledContainer} from './Registration.style';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {Link} from '../../../@softbd/elements/common';
+import RegistrationSuccessBox from './RegistrationSuccessBox';
 
 const MemberRegistration = () => {
   const {messages} = useIntl();
@@ -193,29 +194,7 @@ const MemberRegistration = () => {
   return (
     <StyledContainer maxWidth={'md'}>
       {isSuccessRegistration ? (
-        <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
-          <Card>
-            <CardContent>
-              <CardMedia
-                component='img'
-                alt='registration success'
-                height='350'
-                image='/images/success.png'
-              />
-              <Typography
-                variant={'h5'}
-                align={'center'}
-                style={{marginTop: '10px', marginBottom: '10px'}}>
-                Thank you for your registration!
-              </Typography>
-              <Link href='/'>
-                <Button color='primary' variant={'contained'}>
-                  Go to Homepage
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </Box>
+        <RegistrationSuccessBox />
       ) : (
         <Paper className={classes.PaperBox}>
           <Typography
