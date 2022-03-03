@@ -1,16 +1,7 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-  Typography,
-} from '@mui/material';
+import {Grid, Paper, Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import yup from '../../../@softbd/libs/yup';
@@ -37,7 +28,6 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
-import {Link} from '../../../@softbd/elements/common';
 import RegistrationSuccessBox from './RegistrationSuccessBox';
 
 const MemberRegistration = () => {
