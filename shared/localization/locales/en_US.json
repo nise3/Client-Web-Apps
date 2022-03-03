@@ -1347,6 +1347,7 @@
   "course_enroll.go_to_course": "Go to Course",
   "common.enter_validation_code": "Enter validation code",
   "common.missing_enrollment_id": "Enrollment id missing",
+  "common.missing_payment_id": "Missing Payment ID",
   "common.resend_validation_code_success": "A validation code has been send to your mobile",
   "course_enroll.failed": "Sorry! Failed to process your payment!",
   "course_enroll.cancelled": "Sorry! You have cancelled your payment!",

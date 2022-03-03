@@ -1,29 +1,20 @@
-import {useRouter} from 'next/router';
-import {useCallback, useMemo} from 'react';
+import {useMemo} from 'react';
 import NASCIBMemberRegistrationForm from '../enrollment';
 import MemberRegistration from './MemberRegistration';
 
 const RegistrationForm = () => {
-  const router = useRouter();
-  const {basePath} = router.query;
-
   const NASCIBDomains = useMemo(() => {
     return [
-      'https://nascib.gov.bd',
+      'https://nascib.nise.gov.bd',
       'http://nascib.nise.asm',
-      'http://localhost:3004/nascib',
+      'https://nascib-dev.nise3.xyz',
     ];
   }, []);
 
-  const isNASCIBDomain = useCallback(() => {
-    console.log(basePath);
-    return NASCIBDomains.includes(String(basePath));
-  }, [router]);
-
-  return isNASCIBDomain() ? (
-    <MemberRegistration />
-  ) : (
+  return window && NASCIBDomains.includes(String(window.location.origin)) ? (
     <NASCIBMemberRegistrationForm />
+  ) : (
+    <MemberRegistration />
   );
 };
 
