@@ -157,7 +157,9 @@ export function useFetchCalendarEvent(eventId: number | null | undefined) {
 }
 
 export function useFetchPublicNoticeOrNewses(params: any) {
-  return useLocalizedAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
+  return useLocalizedAxiosSWR(
+    params ? [API_PUBLIC_NOTICE_OR_NEWS, params] : null,
+  );
 }
 
 export function useFetchPublicNoticeOrNews(noticeId: number | null) {

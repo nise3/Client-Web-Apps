@@ -19,7 +19,7 @@ import {
   Share,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {Body1, H5, H6, Link} from '../common';
+import {Body1, Body2, H5, H6, Link} from '../common';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getIntlDateFromString} from '../../utilities/helpers';
 import {
@@ -126,6 +126,10 @@ const StyledCard = styled(Card)(({theme}) => ({
     whiteSpace: 'break-spaces',
     maxHeight: '100px',
     overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: 4,
+    WebkitBoxOrient: 'vertical',
+    textOverflow: 'ellipsis',
   },
   [`& .${classes.salaryIcon}`]: {
     background: '#616161',
@@ -140,6 +144,7 @@ interface JobCardComponentProps {
   isGridView?: boolean;
   onPopupClose?: () => void;
   isShowingInMyJobs?: boolean;
+  size?: 'small' | 'large';
 }
 
 const JobCardComponent: FC<JobCardComponentProps> = ({
@@ -147,6 +152,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   onPopupClose,
   isGridView = false,
   isShowingInMyJobs = false,
+  size = 'large',
 }) => {
   const {messages, formatDate, formatNumber} = useIntl();
   const [isOpenJobApplyModal, setIsOpenJobApplyModal] = useState(false);
@@ -433,23 +439,44 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                   ))}
               </Box>
             }
-            title={<H5 fontWeight={'bold'}>{job.job_title}</H5>}
+            title={
+              <H5
+                fontWeight={'bold'}
+                sx={size == 'small' ? {fontSize: '1.3rem !important'} : {}}>
+                {job.job_title}
+              </H5>
+            }
             subheader={
-              <H6
-                sx={{
-                  ...customStyle.body2,
-                  marginTop: '5px',
-                }}>
-                {getJobProviderTitle()}
-              </H6>
+              <>
+                <H6
+                  sx={{
+                    ...customStyle.body2,
+                    marginTop: '5px',
+                  }}>
+                  {getJobProviderTitle()}
+                </H6>
+                {job?.application_deadline && size == 'small' && (
+                  <Body2 fontWeight={'bold'}>
+                    {`${
+                      messages['common.publication_deadline']
+                    } : ${getIntlDateFromString(
+                      formatDate,
+                      job.application_deadline,
+                      'short',
+                    )}`}
+                  </Body2>
+                )}
+              </>
             }
           />
           <CardContent>
-            <Body1 className={classes.details}>
+            <Body1
+              className={classes.details}
+              sx={size == 'small' ? {WebkitLineClamp: '2 !important'} : {}}>
               {job?.additional_job_information?.job_responsibilities}
             </Body1>
             <Box className={classes.marginTop10}>
-              {job?.application_deadline ? (
+              {job?.application_deadline && size != 'small' ? (
                 <TagChip
                   label={
                     messages['common.publication_deadline'] +

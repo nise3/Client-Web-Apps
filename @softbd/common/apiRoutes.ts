@@ -164,6 +164,7 @@ export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
+export const API_YOUTH_FEED_DATA_LIST = YOUTH_SERVICE_PATH + '/youth-feed';
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 export const API_YOUTH_COURSES = YOUTH_SERVICE_PATH + '/youth-my-courses';
@@ -385,6 +386,13 @@ export const API_CANDIDATE_STEP_SCHEDULE = API_JOBS + '/step-schedule';
 export const API_CANDIDATE_SCHEDULE = API_JOBS + '/step-schedule';
 export const API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE =
   API_JOBS + '/show-in-landing-page-status-change';
+export const API__PUBLIC_NASCIB_MEMBER_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/public/nascib-members/open-registration';
+export const API_PUBLIC_NASCIB_MEMBER_STATIC_DATA =
+  ORGANIZATION_SERVICE_PATH + '/public/nascib-members/get-static-data';
+export const API_PUBLIC_NASCIB_MEMBER_REGISTRATION_PAYMENT_PAGE =
+  ORGANIZATION_SERVICE_PATH +
+  '/public/nascib-members/payment/pay-via-ssl/pay-now';
 
 //Industry Association section end
 
@@ -466,7 +474,7 @@ export const API_PUBLIC_NISE_STATICS =
 
 /** CMS service public routes section end */
 
-/**             Registered Training Organizations             */
+/** Registered Training Organizations */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';

@@ -2,7 +2,7 @@ import IndustryDefaultFrontPage from '../../../@softbd/layouts/hoc/IndustryDefau
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 
 const MemberRegistrationPage = asyncComponent(
-  () => import('../../../modules/industry/memberRegistration'),
+  () => import('../../../modules/industry/memberRegistration/index'),
 );
 
 export default IndustryDefaultFrontPage(() => {
