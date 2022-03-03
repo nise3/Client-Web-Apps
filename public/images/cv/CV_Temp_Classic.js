@@ -1,4 +1,4 @@
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.276 841.89">
+const svg = `<svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.276 841.89">
   <g id="classic-graphics">
     <g>
       <path d="M245.379,24.368a7.779,7.779,0,0,1-3.2.576c-3.421,0-6-2.161-6-6.14a6.039,6.039,0,0,1,6.337-6.374,6.505,6.505,0,0,1,2.881.54l-.378,1.279a5.691,5.691,0,0,0-2.449-.5c-2.845,0-4.735,1.818-4.735,5.005,0,2.971,1.711,4.879,4.664,4.879a6.268,6.268,0,0,0,2.556-.5Z" fill="#231f20"/>
