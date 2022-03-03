@@ -4,8 +4,7 @@ import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInpu
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {getErrorObject} from '../../../utilities/helpers';
 import {styled} from '@mui/material/styles';
-import {MessageFormatElement, useIntl} from 'react-intl';
-import LocaleLanguage from '../../../utilities/LocaleLanguage';
+import {MessageFormatElement} from 'react-intl';
 
 interface FieldValueInterface {
   id: string | number;
@@ -61,8 +60,6 @@ const CustomChipTextInput = ({
   helperText,
   ...rest
 }: Props) => {
-  const {locale} = useIntl();
-
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -71,7 +68,7 @@ const CustomChipTextInput = ({
         label={chipLabel}
         sx={{
           borderRadius: '4px 0 0 4px',
-          height: locale == LocaleLanguage.EN ? '37px' : '40px',
+          height: '100%',
           maxWidth: '100px',
           textOverflow: 'ellipsis',
         }}
