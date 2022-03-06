@@ -796,14 +796,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
     if (hasAuthorizedAuthority) {
       let otherAuthority = data?.authorized_authority
-        .filter((item: any) => item.id == 'other_authority')
         .map((item: any) => {
           return {
             authority_type: 'other_authority',
             authority_name: item?.name,
             registration_number: item?.value,
           };
-        });
+        })
+        .filter((item: any) => item.id == 'other_authority');
+
       data.authorized_authority = data?.authorized_authority
         .filter((item: any) => item.id != 'other_authority' && item?.value)
         .map((item: any) => {
