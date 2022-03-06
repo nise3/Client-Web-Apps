@@ -37,6 +37,7 @@ interface RTOQuestionAddEditPopupProps {
 const initialValues = {
   title: "",
   title_en: "",
+  subject_id:"",
   difficulty_level:"1",
   option_1: "",
   option_2: "",
@@ -51,10 +52,10 @@ const initialValues = {
 };
 
 const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
-                                                                     itemId,
-                                                                     refreshDataTable,
-                                                                     ...props
-                                                                   }) => {
+                                                                      itemId,
+                                                                      refreshDataTable,
+                                                                      ...props
+                                                                    }) => {
   const { messages } = useIntl();
   const { errorStack } = useNotiStack();
   const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
@@ -139,8 +140,6 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     [messages]
   );
 
-  //const [subjectList, setSubjectList] = useState<any>([]);
-
   const [isMCQ, setIsMCQ] = useState<boolean>(true);
 
   const validationSchema = useMemo(() => {
@@ -149,14 +148,42 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages["question.label"] as string),
-      /*subject_id: yup
+        .label(messages["common.title"] as string),
+      answer: yup
         .string()
         .trim()
         .required()
-        .label(messages["question.label"] as string)*/
+        .label(messages["question.answer"] as string),
+      subject_id: yup
+        .string()
+        .required()
+        .label(messages["subject.label"] as string),
+      option_1: isMCQ
+        ? yup
+          .string()
+          .required()
+          .label(messages['option.option1'] as string)
+        : yup.string(),
+      option_2: isMCQ
+        ? yup
+          .string()
+          .required()
+          .label(messages['option.option2'] as string)
+        : yup.string(),
+      option_3: isMCQ
+        ? yup
+          .string()
+          .required()
+          .label(messages['option.option3'] as string)
+        : yup.string(),
+      option_4: isMCQ
+        ? yup
+          .string()
+          .required()
+          .label(messages['option.option4'] as string)
+        : yup.string(),
     });
-  }, [messages]);
+  }, [messages, isMCQ]);
 
   const {
     register,
@@ -196,11 +223,6 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  // useEffect(() => {
-  //   setSubjectList(subjects);
-  // }, [subjects]);
-
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isMCQ) {
       data.option_1 = "";
@@ -212,8 +234,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
       data.option_4 = "";
       data.option_4_en = "";
     }
-    console.log(data);
-    // return;
+
     try {
       if (itemId) {
         console.log(data);
@@ -234,9 +255,6 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
   const changeType = (e: any) => {
     if (e == "1") {
       setIsMCQ(true);
-      /*reset({
-        answer_yn_id: ''
-      })*/
     } else {
       setIsMCQ(false);
     }
@@ -273,6 +291,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id={"title"}
             label={messages["common.title"]}
             register={register}
@@ -292,6 +311,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <CustomFilterableFormSelect
+            required
             id={"subject_id"}
             label={messages["subject.label"]}
             isLoading={isFetchingSubjects}
@@ -318,6 +338,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FormRadioButtons
+            required
             id="type"
             label={"question.type"}
             radios={questionTypes}
@@ -332,6 +353,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         {isMCQ && (<>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={"option_1"}
               label={messages["option.option1"]}
               register={register}
@@ -350,6 +372,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={"option_2"}
               label={messages["option.option2"]}
               register={register}
@@ -368,6 +391,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={"option_3"}
               label={messages["option.option3"]}
               register={register}
@@ -386,6 +410,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={"option_4"}
               label={messages["option.option4"]}
               register={register}
@@ -406,6 +431,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
 
         {isMCQ ? <Grid item xs={6}>
             <CustomFormSelect
+              required
               id="answer"
               label={messages["question.answer"]}
               isLoading={isLoading}
@@ -419,6 +445,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           :
           <Grid item xs={6}>
             <FormRadioButtons
+              required
               id="answer"
               label={"question.answer"}
               radios={answerTypes}
