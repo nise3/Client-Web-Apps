@@ -1,6 +1,7 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_QUESTION_BANK,
+  API_ASSESSMENTS,
   API_REGISTERED_TRAINING_ORGANIZATIONS,
   API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
@@ -54,7 +55,9 @@ export function useFetchSubjects(params: any) {
 }
 
 export function useFetchAssessment(assessmentId: number | null) {
-  return useAxiosSWR(assessmentId ? API_RPL_LEVELS + '/' + assessmentId : null);
+  return useAxiosSWR(
+    assessmentId ? API_ASSESSMENTS + '/' + assessmentId : null,
+  );
 }
 
 export function useFetchQuestionBank(params: number | null) {
