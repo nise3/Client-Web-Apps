@@ -129,7 +129,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       );
     };
 
-    const objective = setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
+    setAreaText(svgNode, 'objective', userData[getProps('bio', locale)]);
     const experiance = setAreaText(
       svgNode,
       'experience',
