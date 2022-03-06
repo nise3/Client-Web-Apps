@@ -1,13 +1,14 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_QUESTION_BANK,
   API_ASSESSMENTS,
   API_REGISTERED_TRAINING_ORGANIZATIONS,
   API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
-  API_SUBJECTS,
-} from '../../@softbd/common/apiRoutes';
+  API_SUBJECTS
+} from "../../@softbd/common/apiRoutes";
 
 export function useFetchRTO(rtoId: number | null) {
   return useAxiosSWR(
@@ -58,3 +59,9 @@ export function useFetchAssessment(assessmentId: number | null) {
     assessmentId ? API_ASSESSMENTS + '/' + assessmentId : null,
   );
 }
+
+export function useFetchQuestionBank(params: number | null) {
+  return useAxiosSWR(params ? [API_QUESTION_BANK, params] : null);
+}
+
+

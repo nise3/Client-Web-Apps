@@ -123,7 +123,7 @@ export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
 export const API_INSTITUTE_QUESTION_BANK =
-  INSTITUTE_SERVICE_PATH + 'question-bank';
+  INSTITUTE_SERVICE_PATH + 'question-bank1';
 
 export const API_INSTITUTE_TRAINEE_YOUTHS =
   INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
@@ -485,3 +485,5 @@ export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
 
 export const API_CA_ASSIGNED_BATCHES =
   INSTITUTE_SERVICE_PATH + '/certificate-authority-assigned-batches';
+
+export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';

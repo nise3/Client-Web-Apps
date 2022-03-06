@@ -6,7 +6,7 @@ import { useIntl } from "react-intl";
 // import {useIntl} from 'react-intl';
 
 const QuestionPage = asyncComponent(
-  () => import('../../../modules/dashboard/rtoQuestions/RTOQuestionPage'),
+  () => import('../../../modules/dashboard/questionBanks/QuestionBankPage'),
 
 );
 export default DashboardPage(() => {
