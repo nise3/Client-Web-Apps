@@ -344,6 +344,15 @@ const routesConfig: NavItemProps[] = [
             url: '/rto-countries',
           },
           {
+            id: 'rto-batches',
+            title: 'RTO Batches',
+            messageId: 'rto_batch.label',
+            permissionKey: 'view_any_rto_batch',
+            type: 'item',
+            icon: 'flag',
+            url: '/rto-batches',
+          },
+          {
             id: 'subjects',
             title: 'Subjects',
             messageId: 'subject.label',

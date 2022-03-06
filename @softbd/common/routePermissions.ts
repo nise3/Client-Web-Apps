@@ -203,6 +203,10 @@ export const routePermissions: any = {
     routePrefix: '/rto-countries',
     permissionKeys: ['view_any_rto_country'],
   },
+  '/rto-batches': {
+    routePrefix: '/rto-batches',
+    permissionKeys: ['view_any_rto_batch'],
+  },
   '/certificate-authorities': {
     routePrefix: '/certificate-authorities',
     permissionKeys: ['view_any_certificate_authority'],
