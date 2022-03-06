@@ -11,10 +11,10 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
 import TransferListComponent from './TransferListComponent';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchAssessment} from '../../../services/CertificateAuthorityManagement/hooks';
 
 interface AssignBatchPopup {
   itemId: number | null;
@@ -34,7 +34,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const isEdit = itemId != null;
-  const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+  const {data: itemData, isLoading} = useFetchAssessment(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

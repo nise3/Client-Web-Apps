@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {SyntheticEvent, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -12,6 +13,15 @@ import {
   AccordionSummary,
   Typography,
 } from '@mui/material';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {
+  useFetchQuestionBanks,
+  useFetchSubjects,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useIntl} from 'react-intl';
+import {useForm} from 'react-hook-form';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -22,13 +32,47 @@ function intersection(a: any[], b: any[]) {
 }
 
 export default function TransferList() {
+  const {messages} = useIntl();
+  const [accordionExpandedState, setAccordionExpandedState] = useState<
+    string | false
+  >(false);
+
+  const handleAccordionExpandedChange =
+    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
+      setAccordionExpandedState(isExpanded ? panel : false);
+    };
+
   const [checked, setChecked] = React.useState<any[]>([]);
-  const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([
-    0, 1, 2, 3,
-  ]);
+  const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
   const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([
     4, 5, 6, 7,
   ]);
+
+  const [subjectId, setSubjectId] = useState(null);
+  const [subjectFilters] = useState({});
+  const {data: subjects, isLoading: isFetchingSubjects} =
+    useFetchSubjects(subjectFilters);
+
+  const [questionFilter, setQuestionFilter] = useState({});
+  const {data: questions, isLoading: isFetchingQuestions} =
+    useFetchQuestionBanks(questionFilter);
+
+  useEffect(() => {
+    setQuestionFilter({subject_id: subjectId});
+  }, [subjectId]);
+
+  useEffect(() => {
+    setLeftQuestionList(questions);
+  }, [questions]);
+
+  const handleSubjectChange = (subId: any) => {
+    setSubjectId(subId);
+  };
+
+  const {
+    control,
+    formState: {},
+  } = useForm<any>();
 
   const leftChecked = intersection(checked, leftQuestionList);
   const rightChecked = intersection(checked, rightQuestionList);
@@ -71,7 +115,7 @@ export default function TransferList() {
   const customList = (items: any[]) => (
     <Paper sx={{width: 375, overflow: 'auto'}}>
       <List dense component='div' role='list'>
-        {items.map((value: any) => {
+        {items?.map((value: any) => {
           const labelId = `transfer-list-item-${value}-label`;
 
           return (
@@ -87,9 +131,18 @@ export default function TransferList() {
                   onClick={handleToggle(value)}
                 />
               </ListItemIcon>
-              <Accordion>
+              <Accordion
+                expanded={accordionExpandedState === value}
+                onChange={handleAccordionExpandedChange(value)}
+                key={value}>
                 <AccordionSummary
-                  expandIcon={<>Icon</>}
+                  expandIcon={
+                    accordionExpandedState === value ? (
+                      <RemoveIcon />
+                    ) : (
+                      <AddIcon />
+                    )
+                  }
                   aria-controls='panel2a-content'
                   id='panel2a-header'>
                   <Typography>{`List item ${value + 1}`}</Typography>
@@ -111,49 +164,72 @@ export default function TransferList() {
   );
 
   return (
-    <Grid container spacing={2} justifyContent='center' alignItems='center'>
-      <Grid item>{customList(leftQuestionList)}</Grid>
-      <Grid item>
-        <Grid container direction='column' alignItems='center'>
-          <Button
-            sx={{my: 0.5}}
-            variant='outlined'
-            size='small'
-            onClick={handleAllRight}
-            disabled={leftQuestionList.length === 0}
-            aria-label='move all right'>
-            ≫
-          </Button>
-          <Button
-            sx={{my: 0.5}}
-            variant='outlined'
-            size='small'
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-            aria-label='move selected right'>
-            &gt;
-          </Button>
-          <Button
-            sx={{my: 0.5}}
-            variant='outlined'
-            size='small'
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-            aria-label='move selected left'>
-            &lt;
-          </Button>
-          <Button
-            sx={{my: 0.5}}
-            variant='outlined'
-            size='small'
-            onClick={handleAllLeft}
-            disabled={rightQuestionList.length === 0}
-            aria-label='move all left'>
-            ≪
-          </Button>
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <CustomFilterableFormSelect
+          id={'subject_id'}
+          label={messages['subject.label']}
+          isLoading={isFetchingSubjects}
+          control={control}
+          options={subjects}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
+          onChange={handleSubjectChange}
+        />
       </Grid>
-      <Grid item>{customList(rightQuestionList)}</Grid>
+      <Grid item>
+        {leftQuestionList?.length > 0 && (
+          <Grid
+            container
+            spacing={2}
+            justifyContent='center'
+            /*alignItems='center'*/
+          >
+            <Grid item>{customList(leftQuestionList)}</Grid>
+            <Grid item>
+              <Grid container direction='column' alignItems='center'>
+                <Button
+                  sx={{my: 0.5}}
+                  variant='outlined'
+                  size='small'
+                  onClick={handleAllRight}
+                  disabled={leftQuestionList?.length === 0}
+                  aria-label='move all right'>
+                  ≫
+                </Button>
+                <Button
+                  sx={{my: 0.5}}
+                  variant='outlined'
+                  size='small'
+                  onClick={handleCheckedRight}
+                  disabled={leftChecked?.length === 0}
+                  aria-label='move selected right'>
+                  &gt;
+                </Button>
+                <Button
+                  sx={{my: 0.5}}
+                  variant='outlined'
+                  size='small'
+                  onClick={handleCheckedLeft}
+                  disabled={rightChecked?.length === 0}
+                  aria-label='move selected left'>
+                  &lt;
+                </Button>
+                <Button
+                  sx={{my: 0.5}}
+                  variant='outlined'
+                  size='small'
+                  onClick={handleAllLeft}
+                  disabled={rightQuestionList?.length === 0}
+                  aria-label='move all left'>
+                  ≪
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>{customList(rightQuestionList)}</Grid>
+          </Grid>
+        )}
+      </Grid>
     </Grid>
   );
 }
