@@ -5,6 +5,7 @@ import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
 import {Religion} from '../../@softbd/utilities/Religions';
 import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {ICreateUpdateAt, IIdHolder, IIdTitles} from './common.interface';
+import { TYouthAuthUserSSOResponse } from './IAuthentication';
 
 export interface IYouthJobExperience extends IIdHolder {
   youth_id?: number;
@@ -56,6 +57,10 @@ export interface IYouthPersonalInfo {
   cv_path?: string;
   nid?: string;
   bid?: string;
+}
+
+export interface IYouthPersonalInfoCV extends TYouthAuthUserSSOResponse{
+  youth_addresses: any[] | undefined;
 }
 
 export interface IYouthEducation extends IIdHolder {
