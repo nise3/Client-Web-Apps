@@ -1,32 +1,32 @@
-import { Grid } from "@mui/material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useEffect, useMemo, useState } from "react";
-import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconFAQ from "../../../@softbd/icons/IconFAQ";
-import yup from "../../../@softbd/libs/yup";
-import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import {Grid} from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import yup from '../../../@softbd/libs/yup';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchQuestionBank,
-  useFetchSubjects
-} from "../../../services/CertificateAuthorityManagement/hooks";
-import { LEVEL } from "../courses/CourseEnums";
-import { AnswerType, OPTIONS, QuestionType } from "./QuestionEnums";
-import CustomFormSelect from "../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect";
-import FormRadioButtons from "../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons";
+  useFetchSubjects,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import {LEVEL} from '../courses/CourseEnums';
+import {AnswerType, OPTIONS, QuestionType} from './QuestionEnums';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   createQuestion,
   updateQuestion,
-} from "../../../services/CertificateAuthorityManagement/QuestionBankService";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
+} from '../../../services/CertificateAuthorityManagement/QuestionBankService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 interface RTOQuestionAddEditPopupProps {
   itemId: number | null;
@@ -35,30 +35,30 @@ interface RTOQuestionAddEditPopupProps {
 }
 
 const initialValues = {
-  title: "",
-  title_en: "",
-  subject_id:"",
-  difficulty_level:"1",
-  option_1: "",
-  option_2: "",
-  option_3: "",
-  option_4: "",
-  option_1_en: "",
-  option_2_en: "",
-  option_3_en: "",
-  option_4_en: "",
-  type: "1",
-  answer: "1"
+  title: '',
+  title_en: '',
+  subject_id: '',
+  difficulty_level: '1',
+  option_1: '',
+  option_2: '',
+  option_3: '',
+  option_4: '',
+  option_1_en: '',
+  option_2_en: '',
+  option_3_en: '',
+  option_4_en: '',
+  type: '1',
+  answer: '1',
 };
 
 const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
-                                                                      itemId,
-                                                                      refreshDataTable,
-                                                                      ...props
-                                                                    }) => {
-  const { messages } = useIntl();
-  const { errorStack } = useNotiStack();
-  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
+  const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const [subjectFilters] = useState({});
 
@@ -66,78 +66,78 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateRTOQuestion
+    mutate: mutateRTOQuestion,
   } = useFetchQuestionBank(itemId);
 
-  const { data: subjects, isLoading: isFetchingSubjects } =
+  const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
 
   const levels = useMemo(
     () => [
       {
         id: LEVEL.BEGINNER,
-        label: messages["level.easy"]
+        label: messages['level.easy'],
       },
       {
         id: LEVEL.INTERMEDIATE,
-        label: messages["level.intermediate"]
+        label: messages['level.intermediate'],
       },
       {
         id: LEVEL.EXPERT,
-        label: messages["level.hard"]
-      }
+        label: messages['level.hard'],
+      },
     ],
-    [messages]
+    [messages],
   );
 
   const option = useMemo(
     () => [
       {
         id: OPTIONS.OPTION_1,
-        label: messages["option.option1"]
+        label: messages['option.option1'],
       },
       {
         id: OPTIONS.OPTION_2,
-        label: messages["option.option2"]
+        label: messages['option.option2'],
       },
       {
         id: OPTIONS.OPTION_3,
-        label: messages["option.option3"]
+        label: messages['option.option3'],
       },
       {
         id: OPTIONS.OPTION_4,
-        label: messages["option.option4"]
-      }
+        label: messages['option.option4'],
+      },
     ],
-    [messages]
+    [messages],
   );
 
   const questionTypes = useMemo(
     () => [
       {
         key: QuestionType.MCQ,
-        label: messages["question.type.mcq"]
+        label: messages['question.type.mcq'],
       },
       {
         key: QuestionType.YES_NO,
-        label: messages["question.type.y_n"]
-      }
+        label: messages['question.type.y_n'],
+      },
     ],
-    [messages]
+    [messages],
   );
 
   const answerTypes = useMemo(
     () => [
       {
         key: AnswerType.YES,
-        label: messages["answer.type.yes"]
+        label: messages['answer.type.yes'],
       },
       {
         key: AnswerType.NO,
-        label: messages["answer.type.no"]
-      }
+        label: messages['answer.type.no'],
+      },
     ],
-    [messages]
+    [messages],
   );
 
   const [isMCQ, setIsMCQ] = useState<boolean>(true);
@@ -148,39 +148,39 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages["common.title"] as string),
+        .label(messages['common.title'] as string),
       answer: yup
         .string()
         .trim()
         .required()
-        .label(messages["question.answer"] as string),
+        .label(messages['question.answer'] as string),
       subject_id: yup
         .string()
         .required()
-        .label(messages["subject.label"] as string),
+        .label(messages['subject.label'] as string),
       option_1: isMCQ
         ? yup
-          .string()
-          .required()
-          .label(messages['option.option1'] as string)
+            .string()
+            .required()
+            .label(messages['option.option1'] as string)
         : yup.string(),
       option_2: isMCQ
         ? yup
-          .string()
-          .required()
-          .label(messages['option.option2'] as string)
+            .string()
+            .required()
+            .label(messages['option.option2'] as string)
         : yup.string(),
       option_3: isMCQ
         ? yup
-          .string()
-          .required()
-          .label(messages['option.option3'] as string)
+            .string()
+            .required()
+            .label(messages['option.option3'] as string)
         : yup.string(),
       option_4: isMCQ
         ? yup
-          .string()
-          .required()
-          .label(messages['option.option4'] as string)
+            .string()
+            .required()
+            .label(messages['option.option4'] as string)
         : yup.string(),
     });
   }, [messages, isMCQ]);
@@ -191,9 +191,9 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: {errors, isSubmitting},
   } = useForm<any>({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
@@ -215,9 +215,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         answer: itemData?.answer,
       };
 
-
       reset(data);
-
     } else {
       reset(initialValues);
     }
@@ -225,35 +223,35 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isMCQ) {
-      data.option_1 = "";
-      data.option_1_en = "";
-      data.option_2 = "";
-      data.option_2_en = "";
-      data.option_3 = "";
-      data.option_3_en = "";
-      data.option_4 = "";
-      data.option_4_en = "";
+      data.option_1 = '';
+      data.option_1_en = '';
+      data.option_2 = '';
+      data.option_2_en = '';
+      data.option_3 = '';
+      data.option_3_en = '';
+      data.option_4 = '';
+      data.option_4_en = '';
     }
 
     try {
       if (itemId) {
         console.log(data);
         await updateQuestion(itemId, data);
-        updateSuccessMessage("question.label");
+        updateSuccessMessage('question.label');
         mutateRTOQuestion();
       } else {
         await createQuestion(data);
-        createSuccessMessage("question.label");
+        createSuccessMessage('question.label');
       }
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({ error, setError, validationSchema, errorStack });
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
   const changeType = (e: any) => {
-    if (e == "1") {
+    if (e == '1') {
       setIsMCQ(true);
     } else {
       setIsMCQ(false);
@@ -264,19 +262,19 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
-      maxWidth={isBreakPointUp("xl") ? "lg" : "md"}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconFAQ />
           {isEdit ? (
             <IntlMessages
-              id="common.edit"
-              values={{ subject: <IntlMessages id="question.label" /> }}
+              id='common.edit'
+              values={{subject: <IntlMessages id='question.label' />}}
             />
           ) : (
             <IntlMessages
-              id="common.add_new"
-              values={{ subject: <IntlMessages id="question.label" /> }}
+              id='common.add_new'
+              values={{subject: <IntlMessages id='question.label' />}}
             />
           )}
         </>
@@ -292,8 +290,8 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id={"title"}
-            label={messages["common.title"]}
+            id={'title'}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -301,8 +299,8 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id={"title_en"}
-            label={messages["common.title_en"]}
+            id={'title_en'}
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -312,26 +310,26 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"subject_id"}
-            label={messages["subject.label"]}
+            id={'subject_id'}
+            label={messages['subject.label']}
             isLoading={isFetchingSubjects}
             control={control}
             options={subjects}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
 
         <Grid item xs={6}>
           <CustomFormSelect
-            id="difficulty_level"
-            label={messages["question.difficulty_level"]}
+            id='difficulty_level'
+            label={messages['question.difficulty_level']}
             isLoading={isLoading}
             control={control}
             options={levels}
-            optionValueProp="id"
-            optionTitleProp={["label"]}
+            optionValueProp='id'
+            optionTitleProp={['label']}
             errorInstance={errors}
           />
         </Grid>
@@ -339,8 +337,8 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         <Grid item xs={12}>
           <FormRadioButtons
             required
-            id="type"
-            label={"question.type"}
+            id='type'
+            label={'question.type'}
             radios={questionTypes}
             control={control}
             defaultValue={initialValues.type}
@@ -349,113 +347,114 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           />
         </Grid>
 
+        {isMCQ && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_1'}
+                label={messages['option.option1']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_1_en'}
+                label={messages['option.option1_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_2'}
+                label={messages['option.option2']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_2_en'}
+                label={messages['option.option2_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_3'}
+                label={messages['option.option3']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_3_en'}
+                label={messages['option.option3_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_4'}
+                label={messages['option.option4']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_4_en'}
+                label={messages['option.option4_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
 
-        {isMCQ && (<>
+        {isMCQ ? (
           <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id={"option_1"}
-              label={messages["option.option1"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={"option_1_en"}
-              label={messages["option.option1_en"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id={"option_2"}
-              label={messages["option.option2"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={"option_2_en"}
-              label={messages["option.option2_en"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id={"option_3"}
-              label={messages["option.option3"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={"option_3_en"}
-              label={messages["option.option3_en"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id={"option_4"}
-              label={messages["option.option4"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={"option_4_en"}
-              label={messages["option.option4_en"]}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid></>)}
-
-
-        {isMCQ ? <Grid item xs={6}>
             <CustomFormSelect
               required
-              id="answer"
-              label={messages["question.answer"]}
+              id='answer'
+              label={messages['question.answer']}
               isLoading={isLoading}
               control={control}
               options={option}
-              optionValueProp="id"
-              optionTitleProp={["label"]}
+              optionValueProp='id'
+              optionTitleProp={['label']}
               errorInstance={errors}
             />
           </Grid>
-          :
+        ) : (
           <Grid item xs={6}>
             <FormRadioButtons
               required
-              id="answer"
-              label={"question.answer"}
+              id='answer'
+              label={'question.answer'}
               radios={answerTypes}
               control={control}
               defaultValue={initialValues.answer}
               isLoading={isLoading}
             />
           </Grid>
-        }
-
+        )}
       </Grid>
     </HookFormMuiModal>
   );
