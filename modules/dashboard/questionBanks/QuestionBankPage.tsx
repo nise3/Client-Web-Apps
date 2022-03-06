@@ -123,7 +123,7 @@ const QuestionBankPage = () => {
       type = 'Yes/No';
     }
 
-    title = question?.title ? question?.title.substr(0, 25) + '.....' : '';
+    title =  question?.title.length>18 ? question?.title.substr(0, 17) + '.....' : question?.title;
 
     return {
       ...question,
