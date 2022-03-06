@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import PageMeta from '../../../@crema/core/PageMeta';
 
 const QuestionBankPage = asyncComponent(
-  () => import('../../../modules/dashboard/questionBank/QuestionBankPage'),
+  () => import('../../../modules/dashboard/questionBank1/QuestionBankPage'),
 );
 
 export default DashboardPage(() => {
