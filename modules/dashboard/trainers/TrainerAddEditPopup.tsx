@@ -536,17 +536,21 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='email'
-            label={messages['common.email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
+
+        {!isEdit && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='email'
+              label={messages['common.email']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              placeholder='example@gmail.com'
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='about_me'
@@ -565,17 +569,20 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='mobile'
-            label={messages['common.mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='017xxxxxxxx'
-          />
-        </Grid>
+        {!isEdit && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='mobile'
+              label={messages['common.mobile']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              placeholder='017xxxxxxxx'
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
             required
