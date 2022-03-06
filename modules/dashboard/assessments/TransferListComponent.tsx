@@ -12,33 +12,28 @@ import {
   AccordionSummary,
   Typography,
 } from '@mui/material';
-import {SyntheticEvent, useState} from 'react';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 
-function not(a: readonly number[], b: readonly number[]) {
+function not(a: any[], b: any[]) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
 
-function intersection(a: readonly number[], b: readonly number[]) {
+function intersection(a: any[], b: any[]) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferListComponent() {
-  const [expandedState, setExpanded] = useState<string | false>(false);
-  const [checked, setChecked] = React.useState<readonly number[]>([]);
-  const [left, setLeft] = React.useState<readonly number[]>([0, 1, 2, 3]);
-  const [right, setRight] = React.useState<readonly number[]>([4, 5, 6, 7]);
+export default function TransferList() {
+  const [checked, setChecked] = React.useState<any[]>([]);
+  const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([
+    0, 1, 2, 3,
+  ]);
+  const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([
+    4, 5, 6, 7,
+  ]);
 
-  const handleChange =
-    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  const leftChecked = intersection(checked, leftQuestionList);
+  const rightChecked = intersection(checked, rightQuestionList);
 
-  const leftChecked = intersection(checked, left);
-  const rightChecked = intersection(checked, right);
-
-  const handleToggle = (value: number) => () => {
+  const handleToggle = (value: any) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -52,31 +47,31 @@ export default function TransferListComponent() {
   };
 
   const handleAllRight = () => {
-    setRight(right.concat(left));
-    setLeft([]);
+    setRightQuestionList(rightQuestionList.concat(leftQuestionList));
+    setLeftQuestionList([]);
   };
 
   const handleCheckedRight = () => {
-    setRight(right.concat(leftChecked));
-    setLeft(not(left, leftChecked));
+    setRightQuestionList(rightQuestionList.concat(leftChecked));
+    setLeftQuestionList(not(leftQuestionList, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
   const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
+    setLeftQuestionList(leftQuestionList.concat(rightChecked));
+    setRightQuestionList(not(rightQuestionList, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
   const handleAllLeft = () => {
-    setLeft(left.concat(right));
-    setRight([]);
+    setLeftQuestionList(leftQuestionList.concat(rightQuestionList));
+    setRightQuestionList([]);
   };
 
-  const customList = (items: readonly number[]) => (
-    <Paper sx={{width: 385, height: 400, overflow: 'auto'}}>
+  const customList = (items: any[]) => (
+    <Paper sx={{width: 375, overflow: 'auto'}}>
       <List dense component='div' role='list'>
-        {items.map((value: number) => {
+        {items.map((value: any) => {
           const labelId = `transfer-list-item-${value}-label`;
 
           return (
@@ -92,14 +87,9 @@ export default function TransferListComponent() {
                   onClick={handleToggle(value)}
                 />
               </ListItemIcon>
-              <Accordion
-                expanded={expandedState === value.id}
-                onChange={handleChange(value.id)}
-                key={value.id}>
+              <Accordion>
                 <AccordionSummary
-                  expandIcon={
-                    expandedState === value.id ? <RemoveIcon /> : <AddIcon />
-                  }
+                  expandIcon={<>Icon</>}
                   aria-controls='panel2a-content'
                   id='panel2a-header'>
                   <Typography>{`List item ${value + 1}`}</Typography>
@@ -121,8 +111,8 @@ export default function TransferListComponent() {
   );
 
   return (
-    <Grid container justifyContent='space-between' alignItems='center'>
-      <Grid item>{customList(left)}</Grid>
+    <Grid container spacing={2} justifyContent='center' alignItems='center'>
+      <Grid item>{customList(leftQuestionList)}</Grid>
       <Grid item>
         <Grid container direction='column' alignItems='center'>
           <Button
@@ -130,7 +120,7 @@ export default function TransferListComponent() {
             variant='outlined'
             size='small'
             onClick={handleAllRight}
-            disabled={left.length === 0}
+            disabled={leftQuestionList.length === 0}
             aria-label='move all right'>
             ≫
           </Button>
@@ -157,13 +147,13 @@ export default function TransferListComponent() {
             variant='outlined'
             size='small'
             onClick={handleAllLeft}
-            disabled={right.length === 0}
+            disabled={rightQuestionList.length === 0}
             aria-label='move all left'>
             ≪
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList(right)}</Grid>
+      <Grid item>{customList(rightQuestionList)}</Grid>
     </Grid>
   );
 }
