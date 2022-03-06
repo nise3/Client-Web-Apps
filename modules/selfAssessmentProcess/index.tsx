@@ -153,7 +153,7 @@ const AssessmentProcessPage = () => {
     control,
     setValue,
     getValues,
-    formState: {errors, isSubmitting, isDirty},
+    formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
