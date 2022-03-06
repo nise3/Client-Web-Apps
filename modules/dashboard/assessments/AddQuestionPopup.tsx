@@ -13,7 +13,8 @@ import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import TransferListComponent from './TransferListComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface AssignBatchPopup {
   itemId: number | null;
@@ -30,7 +31,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   refreshDataTable,
   ...props
 }) => {
-  const {messages, locale} = useIntl();
+  const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const isEdit = itemId != null;
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
@@ -93,7 +94,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
           <IconOccupation />
           {isEdit ? (
             <IntlMessages
-              id='applicationManagement.assignBatch'
+              id='assessment.addQuestion'
               values={{
                 subject: <IntlMessages id='applicationManagement.label' />,
               }}
@@ -108,7 +109,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -118,12 +119,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <div>
-            {messages['common.preferred_training_center']}:{' '}
-            {locale == LocaleLanguage.BN
-              ? itemData?.training_center_title
-              : itemData?.training_center_title_en}
-          </div>
+          <TransferListComponent />
         </Grid>
       </Grid>
     </HookFormMuiModal>
