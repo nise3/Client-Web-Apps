@@ -846,7 +846,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
           <Paper className={classes.PaperBox}>
             <Grid container py={2}>
               <Grid item xs={12}>
-                <Grid container>
+                <Grid container mb={2}>
                   <Grid item xs={12}>
                     <H1 centered={true} sx={{color: 'red'}}>
                       {messages['industry.sme_header_main']}
