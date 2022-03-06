@@ -1622,5 +1622,6 @@
   "answer.type.no": "না",
   "common.assessment": "মূল্যায়ন",
   "common.self_assessment": "নিজেকে যাচাইকরণ",
-  "common.assessment_result": "মূল্যায়ন ফলাফল"
+  "common.assessment_result": "মূল্যায়ন ফলাফল",
+  "rto_country.label": "আরটিও দেশ"
 }

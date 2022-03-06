@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Box,
   Button,
@@ -55,11 +55,18 @@ const AssessmentProcessPage = () => {
   ]);
   const [isSuccessSubmit] = useState<boolean>(false);
 
+  const [hasCountryId, setHasCountryId] = useState(null);
+  const [hasSectorId, setHasSectorId] = useState(null);
+  const [hasOccupationId, setHasOccupationId] = useState(null);
+  const [hasLevelId, setHasLevelId] = useState(null);
+  const [hasRtoCountryId, setHasRtoCountryId] = useState(null);
+
   const getCurrentFormContent = () => {
     switch (activeStepKey) {
       case AssessmentKeys.SECTOR_OCCUPATION:
         return (
           <SectorAndOccupationForm
+            onChanged={onChanged}
             register={register}
             errors={errors}
             control={control}
@@ -85,19 +92,112 @@ const AssessmentProcessPage = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({});
-  }, []);
+  const validationSchema: any = useMemo(() => {
+    console.log('hasCountryId: ', hasCountryId);
+    switch (activeStepKey) {
+      case AssessmentKeys.SECTOR_OCCUPATION:
+        return yup.object().shape({
+          country_id: yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.country'] as string),
+          rpl_sector_id: hasCountryId
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['rpl_sector.label'] as string)
+            : yup.string().trim().nullable(),
+          rpl_occupation_id: hasSectorId
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['rpl_occupation.label'] as string)
+            : yup.string().trim().nullable(),
+          rpl_level_id: hasOccupationId
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['rpl_level.label'] as string)
+            : yup.string().trim().nullable(),
+          rto_country_id: hasLevelId
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['rto_country.label'] as string)
+            : yup.string().trim().nullable(),
+          rto_id: hasRtoCountryId
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['rto.label'] as string)
+            : yup.string().trim().nullable(),
+        });
+    }
+  }, [
+    activeStepKey,
+    hasCountryId,
+    hasSectorId,
+    hasOccupationId,
+    hasLevelId,
+    hasRtoCountryId,
+  ]);
   const {
     handleSubmit,
     register,
     control,
     setValue,
     getValues,
-    formState: {errors, isSubmitting},
+    formState: {errors, isSubmitting, isDirty},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  console.log('getValues: ', getValues());
+
+  const [changedState, setChangedState] = useState(0);
+  const onChanged = useCallback(() => {
+    console.log('ONCH >>>>>>>>: ');
+    setChangedState(Math.random() * 1e6);
+  }, []);
+
+  useEffect(() => {
+    let countryId = getValues('country_id');
+    let sectorId = getValues('rpl_sector_id');
+    let occupationId = getValues('rpl_occupation_id');
+    let levelId = getValues('rpl_level_id');
+    let rtoCountryId = getValues('rto_country_id');
+
+    console.log('countryId: ', countryId);
+    if (countryId) {
+      setHasCountryId(countryId);
+    }
+    if (sectorId) {
+      setHasSectorId(sectorId);
+    }
+    if (occupationId) {
+      setHasOccupationId(occupationId);
+    }
+    if (levelId) {
+      setHasLevelId(levelId);
+    }
+    if (rtoCountryId) {
+      setHasRtoCountryId(rtoCountryId);
+    }
+  }, [
+    getValues,
+    hasCountryId,
+    hasRtoCountryId,
+    hasSectorId,
+    hasLevelId,
+    hasOccupationId,
+    changedState,
+  ]);
   return (
     <StyledContainer maxWidth={'lg'}>
       <Paper className={classes.paperBox}>
@@ -134,15 +234,17 @@ const AssessmentProcessPage = () => {
                   {getCurrentFormContent()}
                 </Box>
                 <Box className={classes.btnGroup}>
+                  {activeStep > 0 && (
+                    <Button
+                      onClick={handleBack}
+                      variant={'outlined'}
+                      color={'primary'}>
+                      {messages['common.previous']}
+                    </Button>
+                  )}
+
                   <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    variant={'outlined'}
-                    color={'primary'}>
-                    {messages['common.previous']}
-                  </Button>
-                  <Button
-                    sx={{marginLeft: 3}}
+                    sx={{marginLeft: 'auto'}}
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
