@@ -1,23 +1,23 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_RPL_SECTORS} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import RTOQuestionDetailsPopup from './RTOQuestionDetailsPopup';
-import RTOQuestionAddEditPopup from './RTOQuestionAddEditPopup';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+import React, { useCallback, useMemo, useState } from "react";
+import PageBlock from "../../../@softbd/utilities/PageBlock";
+import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
+import { useIntl } from "react-intl";
+import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
+import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
+import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
+import { API_QUESTION_BANK } from "../../../@softbd/common/apiRoutes";
+import ReactTable from "../../../@softbd/table/Table/ReactTable";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import QuestionBankDetailsPopup from "./QuestionBankDetailsPopup";
+import QuestionBankAddEditPopup from "./QuestionBankAddEditPopup";
+import IconFAQ from "../../../@softbd/icons/IconFAQ";
+import { deleteQuestion } from "../../../services/CertificateAuthorityManagement/QuestionBankService";
 
-const RTOQuestionPage = () => {
+const QuestionBankPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -47,8 +47,8 @@ const RTOQuestionPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteRPLSectorItem = async (itemId: number) => {
-    let response = await deleteRPLSector(itemId);
+  const deleteRTOQuestionItem = async (itemId: number) => {
+    let response = await deleteQuestion(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -56,7 +56,6 @@ const RTOQuestionPage = () => {
           values={{subject: <IntlMessages id='question.label' />}}
         />,
       );
-
       refreshDataTable();
     }
   };
@@ -77,9 +76,19 @@ const RTOQuestionPage = () => {
       },
 
       {
-        Header: messages['common.title'],
+        Header: messages['subject.label'],
+        accessor: 'subject_title',
+      },
+      {
+        Header: messages['question.label'],
         accessor: 'title',
       },
+
+      {
+        Header: messages['question.type'],
+        accessor: 'type',
+      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -89,7 +98,7 @@ const RTOQuestionPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteRPLSectorItem(data.id)}
+                deleteAction={() => deleteRTOQuestionItem(data.id)}
                 deleteTitle='Are you sure?'
               />
             </DatatableButtonGroup>
@@ -103,15 +112,32 @@ const RTOQuestionPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_RPL_SECTORS,
+      urlPath: API_QUESTION_BANK,
     });
+
+  let modifiedData = data?.map((question: any) => {
+    let type: string, title: string;
+    if (parseInt(question?.type) === 1) {
+      type = 'MCQ';
+    } else {
+      type = 'Yes/No';
+    }
+
+    title = question?.title ? question?.title.substr(0, 25) + '.....' : '';
+
+    return {
+      ...question,
+      type,
+      title
+    };
+  });
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='questions.label' />
+            <IconFAQ /> <IntlMessages id='question-bank.label' />
           </>
         }
         extra={[
@@ -129,18 +155,18 @@ const RTOQuestionPage = () => {
             }
           />,
         ]}>
-        <ReactTable
+        {modifiedData && <ReactTable
           columns={columns}
-          data={data}
+          data={modifiedData}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
-        />
+        />}
 
         {isOpenAddEditModal && (
-          <RTOQuestionAddEditPopup
+          <QuestionBankAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -148,7 +174,7 @@ const RTOQuestionPage = () => {
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
-          <RTOQuestionDetailsPopup
+          <QuestionBankDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -160,4 +186,4 @@ const RTOQuestionPage = () => {
   );
 };
 
-export default RTOQuestionPage;
+export default QuestionBankPage;
