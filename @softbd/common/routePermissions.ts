@@ -243,4 +243,8 @@ export const routePermissions: any = {
     routePrefix: '/question-banks',
     permissionKeys: ['view_any_question_bank'],
   },
+  '/ca-assigned-batches': {
+    routePrefix: '/ca-assigned-batches',
+    permissionKeys: ['view_any_ca_assigned_batches'],
+  },
 };
