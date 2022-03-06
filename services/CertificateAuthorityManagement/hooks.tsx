@@ -93,8 +93,9 @@ export function useFetchPublicRTOS(params: any) {
   );
 }
 
-export function useFetchQuestionBank(params: number | null) {
-  return useAxiosSWR(params ? [API_QUESTION_BANK, params] : null);
+export function useFetchQuestionBank(questionId: number | null) {
+  return useAxiosSWR(questionId ? API_QUESTION_BANK + '/' + questionId : null);
 }
+
 
 
