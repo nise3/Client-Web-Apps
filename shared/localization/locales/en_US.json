@@ -1609,5 +1609,6 @@
   "common.indirect": "Indirect",
   "payment.incomplete_text": "Your haven't complete your payment  yet",
   "common.objective": "Objective",
-  "specialized_area.select_at_least_one": "Select at least one specialized area"
+  "specialized_area.select_at_least_one": "Select at least one specialized area",
+  "registration_success.thanks_text": "Thanks for your Registration"
 }
