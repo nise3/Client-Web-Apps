@@ -92,7 +92,6 @@ const AssessmentProcessPage = () => {
     console.log('formData: ', formData);
   };
 
-
   const handleNext = () => {
     setActiveStepKey(stepKeys[activeStep + 1]);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
