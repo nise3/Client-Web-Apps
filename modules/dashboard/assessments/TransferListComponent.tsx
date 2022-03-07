@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SyntheticEvent, useEffect, useState} from 'react';
+import {FC, SyntheticEvent, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -25,14 +25,18 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 function not(a: any[], b: any[]) {
-  return a.filter((value) => b.indexOf(value) === -1);
+  return a.filter((value) => b?.indexOf(value) === -1);
 }
 
-function intersection(a: any[], b: any[]) {
-  return a.filter((value) => b.indexOf(value) !== -1);
+function intersection(checked: any[], questionList: any[]) {
+  return checked?.filter((value) => questionList?.indexOf(value) !== -1);
 }
 
-export default function TransferList() {
+interface TransferListProps {
+  getQuestionSet: any;
+}
+
+const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
@@ -45,26 +49,43 @@ export default function TransferList() {
 
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
-  const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([
-    4, 5, 6, 7,
-  ]);
+  const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([]);
 
   const [subjectId, setSubjectId] = useState(null);
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
 
-  const [questionFilter, setQuestionFilter] = useState({});
+  const [questionFilter, setQuestionFilter] = useState<any>(null);
+
+  useEffect(() => {
+    if (subjectId) {
+      setQuestionFilter({
+        subject_id: subjectId,
+      });
+    }
+  }, [subjectId]);
+
   const {data: questions, isLoading: isFetchingQuestions} =
     useFetchQuestionBanks(questionFilter);
 
   useEffect(() => {
-    setQuestionFilter({subject_id: subjectId});
-  }, [subjectId]);
+    if (rightQuestionList?.length > 0) {
+      const filteredQuestions = questions?.filter((ques: any) =>
+        rightQuestionList?.every(
+          (rightSideQuestion: any) => rightSideQuestion?.id !== ques?.id,
+        ),
+      );
+
+      setLeftQuestionList(filteredQuestions);
+    } else {
+      setLeftQuestionList(questions);
+    }
+  }, [questions]);
 
   useEffect(() => {
-    setLeftQuestionList(questions);
-  }, [questions]);
+    getQuestionSet(rightQuestionList);
+  }, [rightQuestionList]);
 
   const handleSubjectChange = (subId: any) => {
     setSubjectId(subId);
@@ -79,15 +100,15 @@ export default function TransferList() {
   const rightChecked = intersection(checked, rightQuestionList);
 
   const handleToggle = (value: any) => () => {
-    const currentIndex = checked.indexOf(value);
+    const found = checked?.some((item) => item?.id === value?.id);
     const newChecked = [...checked];
 
-    if (currentIndex === -1) {
+    if (!found) {
       newChecked.push(value);
     } else {
-      newChecked.splice(currentIndex, 1);
+      const index = newChecked?.findIndex((item) => item?.id === value?.id);
+      newChecked.splice(index, 1);
     }
-
     setChecked(newChecked);
   };
 
@@ -96,13 +117,13 @@ export default function TransferList() {
     setLeftQuestionList([]);
   };
 
-  const handleCheckedRight = () => {
+  const moveCheckedToRight = () => {
     setRightQuestionList(rightQuestionList.concat(leftChecked));
     setLeftQuestionList(not(leftQuestionList, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
-  const handleCheckedLeft = () => {
+  const moveCheckedToLeft = () => {
     setLeftQuestionList(leftQuestionList.concat(rightChecked));
     setRightQuestionList(not(rightQuestionList, rightChecked));
     setChecked(not(checked, rightChecked));
@@ -113,52 +134,53 @@ export default function TransferList() {
     setRightQuestionList([]);
   };
 
-  const customList = (items: any[]) => (
+  const customList = (questions: any[]) => (
     <Paper sx={{width: 375, overflow: 'auto'}}>
       <List dense component='div' role='list'>
-        {items?.map((value: any) => {
-          const labelId = `transfer-list-item-${value}-label`;
+        {questions?.length <= 0 ? (
+          <ListItem>{messages['common.no_data_found']}</ListItem>
+        ) : (
+          questions?.map((value: any) => {
+            const labelId = `transfer-list-item-${value?.id}-label`;
 
-          return (
-            <ListItem key={value} role='listitem'>
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked.indexOf(value) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{
-                    'aria-labelledby': labelId,
-                  }}
-                  onClick={handleToggle(value)}
-                />
-              </ListItemIcon>
-              <Accordion
-                expanded={accordionExpandedState === value}
-                onChange={handleAccordionExpandedChange(value)}
-                key={value}>
-                <AccordionSummary
-                  expandIcon={
-                    accordionExpandedState === value ? (
-                      <RemoveIcon />
-                    ) : (
-                      <AddIcon />
-                    )
-                  }
-                  aria-controls='panel2a-content'
-                  id='panel2a-header'>
-                  <Typography>{`List item ${value + 1}`}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            </ListItem>
-          );
-        })}
+            return (
+              <ListItem key={value?.id} role='listitem'>
+                <ListItemIcon>
+                  <Checkbox
+                    checked={checked?.some((item) => item?.id === value?.id)}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{
+                      'aria-labelledby': labelId,
+                    }}
+                    onClick={handleToggle(value)}
+                  />
+                </ListItemIcon>
+                <Accordion
+                  expanded={accordionExpandedState === value}
+                  onChange={handleAccordionExpandedChange(value)}
+                  key={value}>
+                  <AccordionSummary
+                    expandIcon={
+                      accordionExpandedState === value ? (
+                        <RemoveIcon />
+                      ) : (
+                        <AddIcon />
+                      )
+                    }
+                    aria-controls='panel2a-content'
+                    id='panel2a-header'>
+                    <Typography>{value?.title}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>{value?.answer}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </ListItem>
+            );
+          })
+        )}
+
         <ListItem />
       </List>
     </Paper>
@@ -169,7 +191,7 @@ export default function TransferList() {
       <Grid item xs={12}>
         <CustomFilterableFormSelect
           id={'subject_id'}
-          label={messages['subject.label']}
+          label={messages['subject.select_first']}
           isLoading={isFetchingSubjects}
           control={control}
           options={subjects}
@@ -178,12 +200,16 @@ export default function TransferList() {
           onChange={handleSubjectChange}
         />
       </Grid>
-
-      <Grid item>
-        {isFetchingQuestions ? (
-          <Skeleton variant='rectangular' width={'80%'} height={300} />
+      {subjectId &&
+        (isFetchingQuestions ? (
+          <Skeleton
+            variant='rectangular'
+            width={'80%'}
+            height={300}
+            sx={{margin: 'auto', marginTop: 5}}
+          />
         ) : (
-          leftQuestionList?.length > 0 && (
+          <Grid item>
             <Grid
               container
               spacing={2}
@@ -206,7 +232,7 @@ export default function TransferList() {
                     sx={{my: 0.5}}
                     variant='outlined'
                     size='small'
-                    onClick={handleCheckedRight}
+                    onClick={moveCheckedToRight}
                     disabled={leftChecked?.length === 0}
                     aria-label='move selected right'>
                     &gt;
@@ -215,7 +241,7 @@ export default function TransferList() {
                     sx={{my: 0.5}}
                     variant='outlined'
                     size='small'
-                    onClick={handleCheckedLeft}
+                    onClick={moveCheckedToLeft}
                     disabled={rightChecked?.length === 0}
                     aria-label='move selected left'>
                     &lt;
@@ -233,9 +259,10 @@ export default function TransferList() {
               </Grid>
               <Grid item>{customList(rightQuestionList)}</Grid>
             </Grid>
-          )
-        )}
-      </Grid>
+          </Grid>
+        ))}
     </Grid>
   );
-}
+};
+
+export default TransferList;

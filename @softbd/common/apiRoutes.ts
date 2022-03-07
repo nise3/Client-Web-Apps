@@ -148,6 +148,8 @@ export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
 export const API_CA_ASSIGNED_BATCHES =
   INSTITUTE_SERVICE_PATH + '/certificate-authority-assigned-batches';
 export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
+export const API_ASSESSMENT_QUESTIONS =
+  INSTITUTE_SERVICE_PATH + '/assessment-questions';
 
 /**             eRPL End         */
 
