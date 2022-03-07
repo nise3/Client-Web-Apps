@@ -858,9 +858,13 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     </H2>
                   </Grid>
                   <Grid item xs={12}>
-                    <Body1 centered={true}>
-                      {messages['industry.sme_header_body_text']}
-                    </Body1>
+                    <Grid container justifyContent={'center'}>
+                      <Grid item xs={10}>
+                        <Body1 centered={true}>
+                          {messages['industry.sme_header_body_text']}
+                        </Body1>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
