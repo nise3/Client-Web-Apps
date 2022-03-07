@@ -23,7 +23,6 @@ import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchCountries,
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
@@ -38,14 +37,17 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {useFetchRTO} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  useFetchPublicRTOCountries,
+  useFetchRTO,
+} from '../../../services/CertificateAuthorityManagement/hooks';
 import {
   createRTO,
   updateRTO,
@@ -119,11 +121,11 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const [countryFilters] = useState<any>({});
   const {data: countries, isLoading: isLoadingCountries} =
-    useFetchCountries(countryFilters);
+    useFetchPublicRTOCountries(countryFilters);
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INSTITUTE_KEY,
+    key: PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
@@ -191,7 +193,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['common.rto-rtoCountries'] as string),
+        .label(messages['rto-country.label'] as string),
       phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
       primary_mobile: yup
         .string()
@@ -588,11 +590,11 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               <CustomFilterableFormSelect
                 required
                 id={'country_id'}
-                label={messages['common.rto-rtoCountries']}
+                label={messages['rto-country.label']}
                 isLoading={isLoadingCountries}
                 control={control}
                 options={countries}
-                optionValueProp={'id'}
+                optionValueProp={'country_id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
               />
