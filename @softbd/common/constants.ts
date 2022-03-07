@@ -3,6 +3,9 @@ export const APP_TITLE = 'NISE TMS';
 export const PERMISSION_GROUP_ORGANIZATION_KEY = 'organization';
 export const PERMISSION_GROUP_INSTITUTE_KEY = 'institute';
 export const PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY = 'industry_association';
+
+export const PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY =
+  'registered_training_organization';
 export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 export const GOOGLE_MAP_API_KEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
 export const RESEND_CODE_RETRY_TIME_IN_MILLIS = 1000 * 180;
