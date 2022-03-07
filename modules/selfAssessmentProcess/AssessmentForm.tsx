@@ -4,10 +4,10 @@ import {Body1} from '../../@softbd/elements/common';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useIntl} from 'react-intl';
 
-/*const questions: any = [
+/*const assessments: any = [
   {
     id: 1,
-    title: 'Whats your name?',
+    question_title: 'Whats your name?',
     type: 1,
     option_1: 'a',
     option_2: 'b',
@@ -17,7 +17,7 @@ import {useIntl} from 'react-intl';
   },
   {
     id: 2,
-    title: 'Whats your Age?',
+    question_title: 'Whats your Age?',
     type: 1,
     option_1: '20-30',
     option_2: '30-40',

@@ -1,11 +1,12 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_QUESTION_BANK,
   API_ASSESSMENTS,
   API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS,
   API_PUBLIC_RPL_OCCUPATIONS,
   API_PUBLIC_RPL_SECTORS,
   API_PUBLIC_RTO_COUNTRIES,
+  API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS,
+  API_QUESTION_BANK,
   API_REGISTERED_TRAINING_ORGANIZATIONS,
   API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
@@ -13,7 +14,6 @@ import {
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
   API_SUBJECTS,
-  API_PUBLIC_YOUTH_ASSESSMENTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -98,6 +98,8 @@ export function useFetchQuestionBank(questionId: number | null) {
   return useAxiosSWR(questionId ? API_QUESTION_BANK + '/' + questionId : null);
 }
 
-export function useFetchPublicYouthAssessments(params: any) {
-  return useAxiosSWR(params ? [API_PUBLIC_YOUTH_ASSESSMENTS, params] : null);
+export function useFetchPublicYouthAssessmentQuestions(params: any) {
+  return useAxiosSWR(
+    params ? [API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS, params] : null,
+  );
 }
