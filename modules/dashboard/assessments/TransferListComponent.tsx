@@ -135,51 +135,48 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
   };
 
   const customList = (questions: any[]) => (
-    <Paper sx={{width: 375, overflow: 'auto'}}>
+    <Paper sx={{width: 375, overflow: 'auto', height: '100%'}}>
       <List dense component='div' role='list'>
-        {questions?.length <= 0 ? (
-          <ListItem>{messages['common.no_data_found']}</ListItem>
-        ) : (
-          questions?.map((value: any) => {
-            const labelId = `transfer-list-item-${value?.id}-label`;
+        {questions?.map((value: any) => {
+          const labelId = `transfer-list-item-${value?.id}-label`;
 
-            return (
-              <ListItem key={value?.id} role='listitem'>
-                <ListItemIcon>
-                  <Checkbox
-                    checked={checked?.some((item) => item?.id === value?.id)}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{
-                      'aria-labelledby': labelId,
-                    }}
-                    onClick={handleToggle(value)}
-                  />
-                </ListItemIcon>
-                <Accordion
-                  expanded={accordionExpandedState === value}
-                  onChange={handleAccordionExpandedChange(value)}
-                  key={value}>
-                  <AccordionSummary
-                    expandIcon={
-                      accordionExpandedState === value ? (
-                        <RemoveIcon />
-                      ) : (
-                        <AddIcon />
-                      )
-                    }
-                    aria-controls='panel2a-content'
-                    id='panel2a-header'>
-                    <Typography>{value?.title}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>{value?.answer}</Typography>
-                  </AccordionDetails>
-                </Accordion>
-              </ListItem>
-            );
-          })
-        )}
+          return (
+            <ListItem key={value?.id} role='listitem'>
+              <ListItemIcon>
+                <Checkbox
+                  checked={checked?.some((item) => item?.id === value?.id)}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{
+                    'aria-labelledby': labelId,
+                  }}
+                  onClick={handleToggle(value)}
+                />
+              </ListItemIcon>
+              <Accordion
+                sx={{width: '100%'}}
+                expanded={accordionExpandedState === value}
+                onChange={handleAccordionExpandedChange(value)}
+                key={value}>
+                <AccordionSummary
+                  expandIcon={
+                    accordionExpandedState === value ? (
+                      <RemoveIcon />
+                    ) : (
+                      <AddIcon />
+                    )
+                  }
+                  aria-controls='panel2a-content'
+                  id='panel2a-header'>
+                  <Typography>{value?.title}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>{value?.answer}</Typography>
+                </AccordionDetails>
+              </Accordion>
+            </ListItem>
+          );
+        })}
 
         <ListItem />
       </List>
@@ -202,12 +199,14 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
       </Grid>
       {subjectId &&
         (isFetchingQuestions ? (
-          <Skeleton
-            variant='rectangular'
-            width={'80%'}
-            height={300}
-            sx={{margin: 'auto', marginTop: 5}}
-          />
+          <Grid item xs={12}>
+            <Skeleton
+              variant='rectangular'
+              width={'100%'}
+              height={300}
+              sx={{margin: 'auto', marginTop: 5}}
+            />
+          </Grid>
         ) : (
           <Grid item>
             <Grid
