@@ -213,7 +213,7 @@ export const routePermissions: any = {
   },
   '/rto': {
     routePrefix: '/rto',
-    permissionKeys: ['view_any_rto'],
+    permissionKeys: ['view_any_registered_training_organization'],
   },
   '/country': {
     routePrefix: '/country',

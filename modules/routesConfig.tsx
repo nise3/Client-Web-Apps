@@ -302,7 +302,7 @@ const routesConfig: NavItemProps[] = [
             id: 'rto',
             title: 'RTO',
             messageId: 'rto.label',
-            permissionKey: 'view_any_rto',
+            permissionKey: 'view_any_registered_training_organization',
             type: 'item',
             icon: 'home',
             url: '/rto',
