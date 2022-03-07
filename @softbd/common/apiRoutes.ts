@@ -175,6 +175,9 @@ export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
 export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 
+export const API_PUBLIC_YOUTH_ASSESSMENTS =
+  TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
+
 /** All institute service public routes section end */
 
 /** Youth service routes section start */

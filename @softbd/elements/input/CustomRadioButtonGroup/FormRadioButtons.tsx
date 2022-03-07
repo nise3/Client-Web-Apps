@@ -39,7 +39,9 @@ const FormRadioButtons = ({
   errorInstance,
 }: Props) => {
   const {messages} = useIntl();
+  console.log('errorInstance: ', id, errorInstance);
   let errorObj = getErrorObject(id, errorInstance);
+  console.log('errorObj: ', errorObj);
   let helperText =
     errorObj && errorObj.message ? (
       errorObj.message.hasOwnProperty('key') ? (
@@ -54,7 +56,7 @@ const FormRadioButtons = ({
     ) : (
       ''
     );
-
+  console.log('helperText: ', helperText);
   return isLoading ? (
     <TextInputSkeleton />
   ) : (

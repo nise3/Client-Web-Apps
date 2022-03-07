@@ -13,6 +13,7 @@ import {
   API_RPL_SECTORS,
   API_RTO_COUNTRIES,
   API_SUBJECTS,
+  API_PUBLIC_YOUTH_ASSESSMENTS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -97,5 +98,6 @@ export function useFetchQuestionBank(questionId: number | null) {
   return useAxiosSWR(questionId ? API_QUESTION_BANK + '/' + questionId : null);
 }
 
-
-
+export function useFetchPublicYouthAssessments(params: any) {
+  return useAxiosSWR(params ? [API_PUBLIC_YOUTH_ASSESSMENTS, params] : null);
+}
