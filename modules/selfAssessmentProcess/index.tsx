@@ -16,6 +16,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import AssessmentKeys from './AssessmentKeys';
 import SectorAndOccupationForm from './SectorAndOccupationForm';
 import yup from '../../@softbd/libs/yup';
+import AssessmentForm from './AssessmentForm';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -74,12 +75,21 @@ const AssessmentProcessPage = () => {
             setValue={setValue}
           />
         );
+      case AssessmentKeys.ASSESSMENT:
+        return (
+          <AssessmentForm
+            control={control}
+            register={register}
+            getValues={getValues}
+          />
+        );
     }
   };
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     if (activeStep < stepKeys.length - 1) {
       handleNext();
     }
+    console.log('formData: ', formData);
   };
 
   const handleNext = () => {
@@ -93,7 +103,6 @@ const AssessmentProcessPage = () => {
   };
 
   const validationSchema: any = useMemo(() => {
-    console.log('hasCountryId: ', hasCountryId);
     switch (activeStepKey) {
       case AssessmentKeys.SECTOR_OCCUPATION:
         return yup.object().shape({
@@ -130,13 +139,13 @@ const AssessmentProcessPage = () => {
                 .required()
                 .label(messages['rto_country.label'] as string)
             : yup.string().trim().nullable(),
-          rto_id: hasRtoCountryId
+          rto_id: /*hasRtoCountryId
             ? yup
                 .string()
                 .trim()
                 .required()
                 .label(messages['rto.label'] as string)
-            : yup.string().trim().nullable(),
+              :*/ yup.string().trim().nullable(),
         });
     }
   }, [
@@ -162,7 +171,6 @@ const AssessmentProcessPage = () => {
 
   const [changedState, setChangedState] = useState(0);
   const onChanged = useCallback(() => {
-    console.log('ONCH >>>>>>>>: ');
     setChangedState(Math.random() * 1e6);
   }, []);
 
@@ -173,7 +181,6 @@ const AssessmentProcessPage = () => {
     let levelId = getValues('rpl_level_id');
     let rtoCountryId = getValues('rto_country_id');
 
-    console.log('countryId: ', countryId);
     if (countryId) {
       setHasCountryId(countryId);
     }
