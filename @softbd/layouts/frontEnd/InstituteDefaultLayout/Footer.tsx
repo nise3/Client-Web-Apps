@@ -101,7 +101,6 @@ const StyledFoot = styled(Grid)(({ theme }) => ({
 }));
 
 // const langConst: LanguageCodes;
-const size = 'large';
 const Footer = () => {
   const { messages, locale } = useIntl();
   const [instituteFilter] = useState({});
