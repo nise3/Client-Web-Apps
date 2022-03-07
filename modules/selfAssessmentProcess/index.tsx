@@ -17,7 +17,10 @@ import AssessmentKeys from './AssessmentKeys';
 import SectorAndOccupationForm from './SectorAndOccupationForm';
 import yup from '../../@softbd/libs/yup';
 import AssessmentForm from './AssessmentForm';
-import {useFetchPublicYouthAssessments} from '../../services/CertificateAuthorityManagement/hooks';
+import {useFetchPublicYouthAssessmentQuestions} from '../../services/CertificateAuthorityManagement/hooks';
+import {useAuthUser} from '../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
+import {createYouthAssessment} from '../../services/CertificateAuthorityManagement/YouthAssessmentService';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -46,6 +49,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const AssessmentProcessPage = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
   const [activeStep, setActiveStep] = useState(0);
   const [activeStepKey, setActiveStepKey] = useState<string>(
     AssessmentKeys.SECTOR_OCCUPATION.toString(),
@@ -55,7 +59,7 @@ const AssessmentProcessPage = () => {
     AssessmentKeys.ASSESSMENT.toString(),
     AssessmentKeys.ASSESSMENT_RESULT.toString(),
   ]);
-  const [isSuccessSubmit] = useState<boolean>(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
 
   const [hasCountryId, setHasCountryId] = useState<any>(null);
   const [hasSectorId, setHasSectorId] = useState<any>(null);
@@ -65,7 +69,7 @@ const AssessmentProcessPage = () => {
   const [assessmentFilter, setAssessmentFilter] = useState<any>(null);
 
   const {data: assessments, isLoading: isLoadingAssessments} =
-    useFetchPublicYouthAssessments(assessmentFilter);
+    useFetchPublicYouthAssessmentQuestions(assessmentFilter);
 
   useEffect(() => {
     if (hasLevelId && hasOccupationId) {
@@ -109,6 +113,12 @@ const AssessmentProcessPage = () => {
       if (activeStep < stepKeys.length - 1) {
         handleNext();
       } else {
+        if (assessments) {
+          formData.assessment_id = assessments.assessment_id;
+        }
+        formData.youth_id = authUser?.youthId;
+        await createYouthAssessment(formData);
+        setIsSuccessSubmit(true);
       }
       console.log('formData: ', formData);
     } catch (error: any) {}
