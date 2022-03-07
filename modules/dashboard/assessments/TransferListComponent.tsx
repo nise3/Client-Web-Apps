@@ -11,6 +11,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Skeleton,
   Typography,
 } from '@mui/material';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -177,59 +178,63 @@ export default function TransferList() {
           onChange={handleSubjectChange}
         />
       </Grid>
-      <Grid item>
-        {leftQuestionList?.length > 0 && (
-          <Grid
-            container
-            spacing={2}
-            justifyContent='center'
-            /*alignItems='center'*/
-          >
-            <Grid item>{customList(leftQuestionList)}</Grid>
-            <Grid item>
-              <Grid container direction='column' alignItems='center'>
-                <Button
-                  sx={{my: 0.5}}
-                  variant='outlined'
-                  size='small'
-                  onClick={handleAllRight}
-                  disabled={leftQuestionList?.length === 0}
-                  aria-label='move all right'>
-                  ≫
-                </Button>
-                <Button
-                  sx={{my: 0.5}}
-                  variant='outlined'
-                  size='small'
-                  onClick={handleCheckedRight}
-                  disabled={leftChecked?.length === 0}
-                  aria-label='move selected right'>
-                  &gt;
-                </Button>
-                <Button
-                  sx={{my: 0.5}}
-                  variant='outlined'
-                  size='small'
-                  onClick={handleCheckedLeft}
-                  disabled={rightChecked?.length === 0}
-                  aria-label='move selected left'>
-                  &lt;
-                </Button>
-                <Button
-                  sx={{my: 0.5}}
-                  variant='outlined'
-                  size='small'
-                  onClick={handleAllLeft}
-                  disabled={rightQuestionList?.length === 0}
-                  aria-label='move all left'>
-                  ≪
-                </Button>
+      {isFetchingQuestions ? (
+        <Skeleton variant='rectangular' width={'80%'} height={300} />
+      ) : (
+        <Grid item>
+          {leftQuestionList?.length > 0 && (
+            <Grid
+              container
+              spacing={2}
+              justifyContent='center'
+              /*alignItems='center'*/
+            >
+              <Grid item>{customList(leftQuestionList)}</Grid>
+              <Grid item>
+                <Grid container direction='column' alignItems='center'>
+                  <Button
+                    sx={{my: 0.5}}
+                    variant='outlined'
+                    size='small'
+                    onClick={handleAllRight}
+                    disabled={leftQuestionList?.length === 0}
+                    aria-label='move all right'>
+                    ≫
+                  </Button>
+                  <Button
+                    sx={{my: 0.5}}
+                    variant='outlined'
+                    size='small'
+                    onClick={handleCheckedRight}
+                    disabled={leftChecked?.length === 0}
+                    aria-label='move selected right'>
+                    &gt;
+                  </Button>
+                  <Button
+                    sx={{my: 0.5}}
+                    variant='outlined'
+                    size='small'
+                    onClick={handleCheckedLeft}
+                    disabled={rightChecked?.length === 0}
+                    aria-label='move selected left'>
+                    &lt;
+                  </Button>
+                  <Button
+                    sx={{my: 0.5}}
+                    variant='outlined'
+                    size='small'
+                    onClick={handleAllLeft}
+                    disabled={rightQuestionList?.length === 0}
+                    aria-label='move all left'>
+                    ≪
+                  </Button>
+                </Grid>
               </Grid>
+              <Grid item>{customList(rightQuestionList)}</Grid>
             </Grid>
-            <Grid item>{customList(rightQuestionList)}</Grid>
-          </Grid>
-        )}
-      </Grid>
+          )}
+        </Grid>
+      )}
     </Grid>
   );
 }
