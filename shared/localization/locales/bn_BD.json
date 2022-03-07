@@ -1600,5 +1600,7 @@
   "membership.type": "সদস্যতা ধরণ",
   "common.direct": "প্রত্যক্ষ",
   "common.indirect": "পরোক্ষ",
-  "payment.incomplete_text": "আপনার পেমেন্ট এখনও সম্পূর্ণ হয়নি"
+  "payment.incomplete_text": "আপনার পেমেন্ট এখনও সম্পূর্ণ হয়নি",
+  "specialized_area.select_at_least_one": " অন্তত একটি বিশেষায়িত অঞ্চল নির্বাচন করুন",
+  "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ"
 }
