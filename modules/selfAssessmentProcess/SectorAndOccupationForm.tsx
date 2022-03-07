@@ -11,7 +11,7 @@ import {
   useFetchPublicRTOS,
 } from '../../services/CertificateAuthorityManagement/hooks';
 
-interface Step1FormProps {
+interface SectorAndOccupationFormProps {
   register: any;
   errors: any;
   control: any;
@@ -20,7 +20,7 @@ interface Step1FormProps {
   onChanged: () => void;
 }
 
-const SectorAndOccupationForm: FC<Step1FormProps> = ({
+const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
   register,
   errors,
   control,
