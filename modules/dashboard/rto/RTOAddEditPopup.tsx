@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Chip, Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -45,6 +45,8 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
+  useFetchPublicRPLOccupations,
+  useFetchPublicRPLSectors,
   useFetchPublicRTOCountries,
   useFetchRTO,
 } from '../../../services/CertificateAuthorityManagement/hooks';
@@ -52,6 +54,9 @@ import {
   createRTO,
   updateRTO,
 } from '../../../services/CertificateAuthorityManagement/RTOService';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import {Box} from '@mui/system';
+import {cloneDeep} from 'lodash';
 
 export enum InstituteType {
   GOVERNMENT = '1',
@@ -92,6 +97,7 @@ const initialValues = {
   contact_person_designation_en: '',
   contact_person_email: '',
   contact_person_mobile: '',
+  rto_occupation_exceptions: [],
 };
 
 const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
@@ -147,9 +153,21 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
+  const [selectedAllRplOccupations, setSelectedAllRplOccupations] =
+    useState<any>([]);
+  const [selectedRtoSectorId, setSelectedRtoSectorId] = useState<any>(null);
+
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
   );
+
+  const [rplSectorFilter] = useState<any>({});
+  const {data: rplSectors, isLoading: isFetchingRPLSectors} =
+    useFetchPublicRPLSectors(rplSectorFilter);
+
+  const [rplOccupationFilters, setRplOccupationFilters] = useState<any>({});
+  const {data: rplOccupations, isLoading: isLoadingOccupations} =
+    useFetchPublicRPLOccupations(rplOccupationFilters);
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
@@ -275,6 +293,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     control,
     reset,
     setError,
+    getValues,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -350,17 +369,114 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     [upazilas],
   );
 
+  const onRplSectorChange = useCallback(
+    (rtoSectorId: number) => {
+      let selectedForRplSectors: Array<any> = [...selectedAllRplOccupations];
+
+      if (rtoSectorId) {
+        selectedForRplSectors = selectedAllRplOccupations.filter(
+          (occupation: any) => occupation.rpl_sector_id == rtoSectorId,
+        );
+
+        reset({
+          ...getValues(),
+          rto_occupation_exceptions: selectedForRplSectors,
+        });
+
+        setRplOccupationFilters({
+          rpl_sector_id: rtoSectorId,
+        });
+        setSelectedRtoSectorId(rtoSectorId);
+      } else {
+        reset({
+          ...getValues(),
+          rto_occupation_exceptions: selectedForRplSectors,
+        });
+
+        setRplOccupationFilters({});
+
+        setSelectedRtoSectorId(null);
+      }
+    },
+    [selectedAllRplOccupations],
+  );
+
+  const onRplOccupationChange = useCallback(
+    (options: any) => {
+      let selectedOccupations: Array<any> = [...selectedAllRplOccupations];
+
+      if (selectedRtoSectorId) {
+        selectedOccupations = selectedOccupations.filter(
+          (occupation: any) => occupation.rpl_sector_id != selectedRtoSectorId,
+        );
+
+        selectedOccupations = [...selectedOccupations, ...options];
+
+        reset({
+          ...getValues(),
+          rto_occupation_exceptions: selectedOccupations,
+        });
+      } else {
+        reset({
+          ...getValues(),
+          rto_occupation_exceptions: options,
+        });
+        selectedOccupations = options;
+      }
+
+      setSelectedAllRplOccupations(selectedOccupations);
+    },
+    [selectedRtoSectorId, selectedAllRplOccupations],
+  );
+
+  const onOccupationDelete = useCallback(
+    (deletedOccupation) => () => {
+      if (deletedOccupation) {
+        let selectedOccupations: Array<any> = [...selectedAllRplOccupations];
+        selectedOccupations = selectedOccupations.filter(
+          (occupation: any) => occupation.id != deletedOccupation.id,
+        );
+        setSelectedAllRplOccupations(selectedOccupations);
+
+        if (selectedRtoSectorId) {
+          let occupations = selectedOccupations.filter(
+            (occupation: any) =>
+              occupation.rpl_sector_id == selectedRtoSectorId,
+          );
+          reset({
+            ...getValues(),
+            rto_occupation_exceptions: occupations,
+          });
+        } else {
+          reset({
+            ...getValues(),
+            rto_occupation_exceptions: selectedOccupations,
+          });
+        }
+      }
+    },
+    [selectedAllRplOccupations, selectedRtoSectorId],
+  );
+
   const onSubmit: SubmitHandler<IInstitute> = async (data: IInstitute) => {
+    const formData = cloneDeep(data);
+
+    formData.rto_occupation_exceptions = (selectedAllRplOccupations || []).map(
+      (occupation: any) => occupation.id,
+    );
+
     try {
-      data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
-      data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
+      formData.phone_numbers = getValuesFromObjectArray(formData.phone_numbers);
+      formData.mobile_numbers = getValuesFromObjectArray(
+        formData.mobile_numbers,
+      );
 
       if (itemId) {
-        await updateRTO(itemId, data);
+        await updateRTO(itemId, formData);
         updateSuccessMessage('rto.label');
         mutateRTO();
       } else {
-        await createRTO(data);
+        await createRTO(formData);
         createSuccessMessage('rto.label');
       }
       props.onClose();
@@ -426,6 +542,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 placeholder='example@gmail.com'
               />
             </Grid>
+
             {!isEdit && (
               <Grid item xs={12}>
                 <CustomFormSelect
@@ -557,6 +674,51 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='rto_sector_exceptions'
+                label={messages['common.rto_sector_exceptions']}
+                isLoading={isFetchingRPLSectors}
+                control={control}
+                options={rplSectors}
+                optionValueProp='id'
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={onRplSectorChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomSelectAutoComplete
+                id='rto_occupation_exceptions'
+                label={messages['common.rto_occupation_exceptions']}
+                isLoading={isLoadingOccupations}
+                control={control}
+                options={rplOccupations}
+                optionValueProp='id'
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={onRplOccupationChange}
+              />
+            </Grid>
+
+            {selectedAllRplOccupations.length > 0 && (
+              <Grid item xs={12}>
+                <Typography>Selected occupation</Typography>
+                <Box>
+                  {selectedAllRplOccupations.map((occupation: any) => {
+                    return (
+                      <React.Fragment key={occupation.id}>
+                        <Chip
+                          label={occupation.title}
+                          sx={{marginLeft: '5px', marginBottom: '5px'}}
+                          onDelete={onOccupationDelete(occupation)}
+                        />
+                      </React.Fragment>
+                    );
+                  })}
+                </Box>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <CustomTextInput
                 id='title_en'
@@ -620,6 +782,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 errors={errors}
               />
             </Grid>
+
             <Grid item xs={12}>
               <CustomFormSelect
                 required
