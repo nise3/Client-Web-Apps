@@ -80,10 +80,9 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
           <IntlMessages
             id='common.add_new'
             values={{
-              subject: <IntlMessages id='applicationManagement.label' />,
+              subject: <IntlMessages id='assessment.addQuestion' />,
             }}
-          />
-          ){' '}
+          />{' '}
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
