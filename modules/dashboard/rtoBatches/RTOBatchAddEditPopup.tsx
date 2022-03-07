@@ -34,6 +34,7 @@ const initialValues = {
   title: "",
   title_en: "",
   institute_id:"",
+  rpl_sector_id:"",
   rpl_level_id:"",
   rpl_occupation_id: "",
 };
@@ -95,15 +96,18 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages["common.title"] as string),
-      answer: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages["question.answer"] as string),
-      subject_id: yup
+      institute_id: yup
         .string()
         .required()
-        .label(messages["subject.label"] as string),
+        .label(messages["institute.label"] as string),
+      rpl_occupation_id: yup
+        .string()
+        .required()
+        .label(messages["rpl_occupation.label"] as string),
+      rpl_level_id: yup
+        .string()
+        .required()
+        .label(messages["rpl_level.label"] as string),
     });
   }, [messages]);
 
@@ -124,8 +128,9 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         title: itemData?.title,
         title_en: itemData?.title_en,
         institute_id: itemData?.institute_id,
-        rpl_level_id: itemData?.rpl_level_id,
+        rpl_sector_id: itemData?.rpl_sector_id,
         rpl_occupation_id: itemData?.rpl_occupation_id,
+        rpl_level_id: itemData?.rpl_level_id,
       };
 
 
@@ -137,10 +142,8 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-
     try {
       if (itemId) {
-        console.log(data);
         await updateRTOBatch(itemId, data);
         updateSuccessMessage("rto_batch.label");
         mutateRTOBatch();
@@ -223,20 +226,6 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"rpl_level_id"}
-            label={messages["rpl_level.label"]}
-            isLoading={isFetchingRPLLevels}
-            control={control}
-            options={rplLevels}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
-            errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFilterableFormSelect
-            required
             id={"rpl_sector_id"}
             label={messages["rpl_sector.label"]}
             isLoading={isFetchingRPLSectors}
@@ -264,6 +253,19 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
           />
         </Grid>
 
+        <Grid item xs={6}>
+          <CustomFilterableFormSelect
+            required
+            id={"rpl_level_id"}
+            label={messages["rpl_level.label"]}
+            isLoading={isFetchingRPLLevels}
+            control={control}
+            options={rplLevels}
+            optionValueProp={"id"}
+            optionTitleProp={["title"]}
+            errorInstance={errors}
+          />
+        </Grid>
 
       </Grid>
     </HookFormMuiModal>

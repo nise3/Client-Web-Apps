@@ -7,8 +7,6 @@ import IntlMessages from "../../../@crema/utility/IntlMessages";
 import IconFAQ from "../../../@softbd/icons/IconFAQ";
 import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
 import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { QuestionType } from "./QuestionEnums";
-import { LEVEL } from "../courses/CourseEnums";
 import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
 import { useFetchRTOBatch } from "../../../services/CertificateAuthorityManagement/hooks";
 
@@ -24,7 +22,7 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
   const { data: itemData, isLoading } = useFetchRTOBatch(itemId);
 
 
-  const getQuestionTypeTitle = (typeID: any) => {
+  /*const getQuestionTypeTitle = (typeID: any) => {
     switch (typeID) {
       case parseInt(QuestionType.MCQ):
         return messages["question.type.mcq"];
@@ -44,7 +42,7 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
       default:
         return messages["level.easy"];
     }
-  };
+  };*/
 
 
   return (
@@ -70,6 +68,7 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
             />
           </>
         }>
+
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <Grid container spacing={5}>
@@ -100,7 +99,7 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
               <Grid item xs={12}>
                 <DetailsInputView
                   label={messages["institute.label"]}
-                  value={itemData?.subject_title}
+                  value={itemData?.institute_id}
                   isLoading={isLoading}
                 />
               </Grid>
@@ -111,8 +110,8 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <DetailsInputView
-                  label={messages["rpl_level.label"]}
-                  value={getDifficultyLevelTitle(itemData?.difficulty_level)}
+                  label={messages["rpl_sector.label"]}
+                  value={itemData?.rpl_sector_id}
                   isLoading={isLoading}
                 />
               </Grid>
@@ -124,7 +123,19 @@ const RTOBatchDetailsPopup = ({ itemId, openEditModal, ...props }: Props) => {
               <Grid item xs={12}>
                 <DetailsInputView
                   label={messages["rpl_occupation.label"]}
-                  value={getQuestionTypeTitle(itemData?.type)}
+                  value={itemData?.rpl_occupation_id}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={6}>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages["rpl_level.label"]}
+                  value={itemData?.rpl_level_id}
                   isLoading={isLoading}
                 />
               </Grid>

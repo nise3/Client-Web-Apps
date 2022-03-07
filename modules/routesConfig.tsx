@@ -349,7 +349,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rto_batch.label',
             permissionKey: 'view_any_rto_batch',
             type: 'item',
-            icon: 'flag',
+            icon: 'business',
             url: '/rto-batches',
           },
           {
