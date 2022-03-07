@@ -104,9 +104,6 @@ export function useFetchRTOBatch(rtoBatchId: number | null) {
 }
 
 
-/*export function useFetchCertificateAuthorities(serviceType: number | null) {
-  return useAxiosSWR(serviceType ? API_INSTITUTES + '/' + serviceType : null);
-}*/
 
 
 

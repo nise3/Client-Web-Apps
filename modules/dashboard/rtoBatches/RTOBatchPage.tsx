@@ -14,8 +14,8 @@ import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
 import RTOBatchDetailsPopup from "./RTOBatchDetailsPopup";
 import RTOBatchAddEditPopup from "./RTOBatchAddEditPopup";
-import IconFAQ from "../../../@softbd/icons/IconFAQ";
 import { deleteRTOBatch } from "../../../services/CertificateAuthorityManagement/RTOBatchService";
+import IconBatch from "../../../@softbd/icons/IconBatch";
 
 const RTOBatchPage = () => {
   const {messages, locale} = useIntl();
@@ -76,17 +76,21 @@ const RTOBatchPage = () => {
       },
 
       {
-        Header: messages['institute.label'],
-        accessor: 'subject_title',
-      },
-      {
-        Header: messages['rpl_level.label'],
+        Header: messages['common.title'],
         accessor: 'title',
+      },
+/*      {
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
+      },*/
+      {
+        Header: messages['rpl_occupation.label'],
+        accessor: 'rpl_occupation_title',
       },
 
       {
-        Header: messages['rpl_occupation.label'],
-        accessor: 'type',
+        Header: messages['rpl_level.label'],
+        accessor: 'rpl_level_title',
       },
 
       {
@@ -115,31 +119,12 @@ const RTOBatchPage = () => {
       urlPath: API_RTO_BATCH,
     });
 
-
-  let modifiedData = data?.map((batch: any) => {
-    let type: string, title: string;
-    if (parseInt(batch?.type) === 1) {
-      type = 'MCQ';
-    } else {
-      type = 'Yes/No';
-    }
-
-    title =  batch?.title.length>18 ? batch?.title.substr(0, 17) + '.....' : batch?.title;
-
-    return {
-      ...batch,
-      type,
-      title
-    };
-  });
-
-
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='rto_batch.label' />
+            <IconBatch /> <IntlMessages id='rto_batch.label' />
           </>
         }
         extra={[
@@ -159,7 +144,7 @@ const RTOBatchPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={modifiedData}
+          data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
