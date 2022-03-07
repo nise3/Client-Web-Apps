@@ -1,25 +1,31 @@
-import React, { useCallback, useMemo, useState } from "react";
-import PageBlock from "../../../@softbd/utilities/PageBlock";
-import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
-import { useIntl } from "react-intl";
-import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
-import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
-import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
-import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
-import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
-import { API_RTO_BATCH } from "../../../@softbd/common/apiRoutes";
-import ReactTable from "../../../@softbd/table/Table/ReactTable";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import RTOBatchDetailsPopup from "./RTOBatchDetailsPopup";
-import RTOBatchAddEditPopup from "./RTOBatchAddEditPopup";
-import { deleteRTOBatch } from "../../../services/CertificateAuthorityManagement/RTOBatchService";
-import IconBatch from "../../../@softbd/icons/IconBatch";
+import React, {useCallback, useMemo, useState} from 'react';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {useIntl} from 'react-intl';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_RTO_BATCH} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import RTOBatchDetailsPopup from './RTOBatchDetailsPopup';
+import RTOBatchAddEditPopup from './RTOBatchAddEditPopup';
+import {deleteRTOBatch} from '../../../services/CertificateAuthorityManagement/RTOBatchService';
+import IconBatch from '../../../@softbd/icons/IconBatch';
+import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
+import { FiUserCheck } from "react-icons/fi";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const RTOBatchPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -79,10 +85,7 @@ const RTOBatchPage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
-/*      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-      },*/
+
       {
         Header: messages['rpl_occupation.label'],
         accessor: 'rpl_occupation_title',
@@ -105,6 +108,15 @@ const RTOBatchPage = () => {
                 deleteAction={() => deleteRTOBatchItem(data.id)}
                 deleteTitle='Are you sure?'
               />
+              <Link href={`${path}/${data?.id}/youths`} passHref={true}>
+                <CommonButton
+                  btnText='youth.label'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  style={{marginLeft: '10px'}}
+                  variant='outlined'
+                  color='primary'
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },

@@ -134,6 +134,8 @@ export const API_INSTITUTE_USER_REJECTION =
 export const API_INSTITUTE_USER_APPROVAL =
   INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
 
+export const API_YOUTH_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/youth-assessment';
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */

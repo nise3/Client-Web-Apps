@@ -1,28 +1,31 @@
-import { Grid } from "@mui/material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconFAQ from "../../../@softbd/icons/IconFAQ";
-import yup from "../../../@softbd/libs/yup";
-import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import {Grid} from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import yup from '../../../@softbd/libs/yup';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchPublicRPLLevels,
   useFetchPublicRPLOccupations,
   useFetchPublicRPLSectors,
-  useFetchRTOBatch
-} from "../../../services/CertificateAuthorityManagement/hooks";
-import { createRTOBatch, updateRTOBatch } from "../../../services/CertificateAuthorityManagement/RTOBatchService";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
-import { useFetchPublicInstitutes } from "../../../services/instituteManagement/hooks";
+  useFetchRTOBatch,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  createRTOBatch,
+  updateRTOBatch,
+} from '../../../services/CertificateAuthorityManagement/RTOBatchService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {useFetchPublicInstitutes} from '../../../services/instituteManagement/hooks';
 
 interface RTOBatchAddEditPopupProps {
   itemId: number | null;
@@ -31,47 +34,44 @@ interface RTOBatchAddEditPopupProps {
 }
 
 const initialValues = {
-  title: "",
-  title_en: "",
-  institute_id:"",
-  rpl_sector_id:"",
-  rpl_level_id:"",
-  rpl_occupation_id: "",
+  title: '',
+  title_en: '',
+  institute_id: '',
+  rpl_sector_id: '',
+  rpl_level_id: '',
+  rpl_occupation_id: '',
 };
 
 const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
-                                                                      itemId,
-                                                                      refreshDataTable,
-                                                                      ...props
-                                                                    }) => {
-  const { messages } = useIntl();
-  const { errorStack } = useNotiStack();
-  const { createSuccessMessage, updateSuccessMessage } = useSuccessMessage();
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
+  const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const [institutesFilters] = useState({
-    service_type: 2
+    service_type: 2,
   });
   const [rplSectorsFilters] = useState({});
-  const [rplOccupationsFilters,setOccupationsFilter] = useState({});
-  const [rplLevelsFilters,setLevelsFilter] = useState({});
-
-/*  const [rplSectorFilter] = useState<any>({});
-  const [occupationFilter, setOccupationFilter] = useState<any>(null);*/
+  const [rplOccupationsFilters, setOccupationsFilter] = useState({});
+  const [rplLevelsFilters, setLevelsFilter] = useState({});
 
   const isEdit = itemId != null;
   const {
     data: itemData,
     isLoading,
-    mutate: mutateRTOBatch
+    mutate: mutateRTOBatch,
   } = useFetchRTOBatch(itemId);
 
-  const { data: institutes, isLoading: isFetchingInstitutes } =
+  const {data: institutes, isLoading: isFetchingInstitutes} =
     useFetchPublicInstitutes(institutesFilters);
-  const { data: rplLevels, isLoading: isFetchingRPLLevels } =
+  const {data: rplLevels, isLoading: isFetchingRPLLevels} =
     useFetchPublicRPLLevels(rplLevelsFilters);
-  const { data: rplSectors, isLoading: isFetchingRPLSectors } =
+  const {data: rplSectors, isLoading: isFetchingRPLSectors} =
     useFetchPublicRPLSectors(rplSectorsFilters);
-  const { data: rplOccupations, isLoading: isFetchingRPLOccupations } =
+  const {data: rplOccupations, isLoading: isFetchingRPLOccupations} =
     useFetchPublicRPLOccupations(rplOccupationsFilters);
 
   const handleRplSectorChange = useCallback(
@@ -88,26 +88,25 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
     [rplLevelsFilters],
   );
 
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .trim()
         .required()
-        .label(messages["common.title"] as string),
+        .label(messages['common.title'] as string),
       institute_id: yup
         .string()
         .required()
-        .label(messages["institute.label"] as string),
+        .label(messages['institute.label'] as string),
       rpl_occupation_id: yup
         .string()
         .required()
-        .label(messages["rpl_occupation.label"] as string),
+        .label(messages['rpl_occupation.label'] as string),
       rpl_level_id: yup
         .string()
         .required()
-        .label(messages["rpl_level.label"] as string),
+        .label(messages['rpl_level.label'] as string),
     });
   }, [messages]);
 
@@ -117,9 +116,9 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: {errors, isSubmitting},
   } = useForm<any>({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
@@ -133,9 +132,7 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         rpl_level_id: itemData?.rpl_level_id,
       };
 
-
       reset(data);
-
     } else {
       reset(initialValues);
     }
@@ -145,38 +142,36 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
     try {
       if (itemId) {
         await updateRTOBatch(itemId, data);
-        updateSuccessMessage("rto_batch.label");
+        updateSuccessMessage('rto_batch.label');
         mutateRTOBatch();
       } else {
         await createRTOBatch(data);
-        createSuccessMessage("rto_batch.label");
+        createSuccessMessage('rto_batch.label');
       }
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({ error, setError, validationSchema, errorStack });
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
-
 
   return (
     <HookFormMuiModal
       {...props}
       open={true}
-      maxWidth={isBreakPointUp("xl") ? "lg" : "md"}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconFAQ />
           {isEdit ? (
             <IntlMessages
-              id="common.edit"
-              values={{ subject: <IntlMessages id="rto_batch.label" /> }}
+              id='common.edit'
+              values={{subject: <IntlMessages id='rto_batch.label' />}}
             />
           ) : (
             <IntlMessages
-              id="common.add_new"
-              values={{ subject: <IntlMessages id="rto_batch.label" /> }}
+              id='common.add_new'
+              values={{subject: <IntlMessages id='rto_batch.label' />}}
             />
           )}
         </>
@@ -192,8 +187,8 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id={"title"}
-            label={messages["common.title"]}
+            id={'title'}
+            label={messages['common.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -201,8 +196,8 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            id={"title_en"}
-            label={messages["common.title_en"]}
+            id={'title_en'}
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -212,13 +207,13 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"institute_id"}
-            label={messages["institute.label"]}
+            id={'institute_id'}
+            label={messages['institute.label']}
             isLoading={isFetchingInstitutes}
             control={control}
             options={institutes}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -226,13 +221,13 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"rpl_sector_id"}
-            label={messages["rpl_sector.label"]}
+            id={'rpl_sector_id'}
+            label={messages['rpl_sector.label']}
             isLoading={isFetchingRPLSectors}
             control={control}
             options={rplSectors}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={handleRplSectorChange}
           />
@@ -241,13 +236,13 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"rpl_occupation_id"}
-            label={messages["rpl_occupation.label"]}
+            id={'rpl_occupation_id'}
+            label={messages['rpl_occupation.label']}
             isLoading={isFetchingRPLOccupations}
             control={control}
             options={rplOccupations}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={handleRplOccupationChange}
           />
@@ -256,17 +251,16 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             required
-            id={"rpl_level_id"}
-            label={messages["rpl_level.label"]}
+            id={'rpl_level_id'}
+            label={messages['rpl_level.label']}
             isLoading={isFetchingRPLLevels}
             control={control}
             options={rplLevels}
-            optionValueProp={"id"}
-            optionTitleProp={["title"]}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
-
       </Grid>
     </HookFormMuiModal>
   );
