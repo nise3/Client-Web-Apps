@@ -73,6 +73,7 @@ const FormRadioButtons = ({
             row
             aria-label={id}
             value={value}
+            name={id}
             onChange={(e) => {
               onChange(e.target.value);
               if (onChangeCallback && typeof onChangeCallback === 'function') {
