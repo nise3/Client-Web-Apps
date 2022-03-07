@@ -178,11 +178,12 @@ export default function TransferList() {
           onChange={handleSubjectChange}
         />
       </Grid>
-      {isFetchingQuestions ? (
-        <Skeleton variant='rectangular' width={'80%'} height={300} />
-      ) : (
-        <Grid item>
-          {leftQuestionList?.length > 0 && (
+
+      <Grid item>
+        {isFetchingQuestions ? (
+          <Skeleton variant='rectangular' width={'80%'} height={300} />
+        ) : (
+          leftQuestionList?.length > 0 && (
             <Grid
               container
               spacing={2}
@@ -232,9 +233,9 @@ export default function TransferList() {
               </Grid>
               <Grid item>{customList(rightQuestionList)}</Grid>
             </Grid>
-          )}
-        </Grid>
-      )}
+          )
+        )}
+      </Grid>
     </Grid>
   );
 }
