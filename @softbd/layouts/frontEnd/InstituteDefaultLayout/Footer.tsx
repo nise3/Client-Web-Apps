@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
-import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import { H6, Link, Text } from '../../../elements/common';
 import {
   ArrowForwardIos,
   ArrowRightAlt,
   Email,
   Home,
   LocalPhone,
+  PhoneAndroid
 } from '@mui/icons-material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import GoToTop from '../../../../modules/goToTop';
+import { useFetchStaticPageBlock } from '../../../../services/cmsManagement/hooks';
+import { useFetchPublicInstituteDetailsWithParams } from '../../../../services/instituteManagement/hooks';
+import { FILE_SERVER_FILE_VIEW_ENDPOINT } from '../../../common/apiRoutes';
 import {
   LINK_FRONTEND_INSTITUTE_CONTACT,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_NOTICE_BOARD,
   LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES,
-  LINK_INSTITUTE_FRONTEND_STATIC_CONTENT,
+  LINK_INSTITUTE_FRONTEND_STATIC_CONTENT
 } from '../../../common/appLinks';
+import { H6, Link, Text } from '../../../elements/common';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {
+  BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_PRIVACY_POLICY,
-  CONTENT_ID_TERMS_AND_CONDITIONS,
+  CONTENT_ID_TERMS_AND_CONDITIONS
 } from '../../../utilities/StaticContentConfigs';
-import { useFetchPublicInstituteDetailsWithParams } from '../../../../services/instituteManagement/hooks';
-import { FILE_SERVER_FILE_VIEW_ENDPOINT } from '../../../common/apiRoutes';
-import LanguageCodes from '../../../utilities/LocaleLanguage';
 
 const PREFIX = 'Footer';
 
@@ -38,7 +40,10 @@ const classes = {
   primary: `${PREFIX}-primary`,
   bullet: `${PREFIX}-bullet`,
   textColor: `${PREFIX}-textColor`,
+  textLineClamp: `${PREFIX}-textColor`,
 };
+
+const textColor = (theme:any) => ({ color: theme.palette.grey[700] });
 
 const StyledContainer = styled(Grid)(({ theme }) => ({
   marginTop: '80px',
@@ -55,12 +60,20 @@ const StyledContainer = styled(Grid)(({ theme }) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
-    color: theme.palette.grey[700],
+    ...textColor(theme),
   },
 
   [`& .${classes.textColor}`]: {
-    color: theme.palette.grey[700],
+    ...textColor(theme),
   },
+  [`& .${classes.textLineClamp}`]: {
+    ...textColor(theme),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    '-webkitLineClamp': '4',
+    '-webkitBoxOrient': 'vertical'
+  }
 }));
 
 const StyledFoot = styled(Grid)(({ theme }) => ({
@@ -87,12 +100,25 @@ const StyledFoot = styled(Grid)(({ theme }) => ({
   },
 }));
 
+// const langConst: LanguageCodes;
+const size = 'large';
 const Footer = () => {
   const { messages, locale } = useIntl();
   const [instituteFilter] = useState({});
+  const [staticPageParams] = useState<any>({
+    selected_language: locale
+  });
   const { data: institute } =
     useFetchPublicInstituteDetailsWithParams(instituteFilter);
-  console.info('institute details: ', institute)
+    
+    // const [staticPageParams] = useState<any>({});
+
+    const {data: blockData} = useFetchStaticPageBlock(
+      BLOCK_ID_INSTITUTE_DETAILS,
+      staticPageParams,
+    );
+
+    console.log('public institute details ', blockData)
 
   const getAddress = () => {
     let address = '';
@@ -123,15 +149,14 @@ const Footer = () => {
           <Grid container spacing={8}>
             <Grid item xs={12} md={4} lg={4} p={0}>
               <LogoCustomizable
-                instituteName={(locale === LanguageCodes.BN) ? institute?.title : institute?.title_en}
+                instituteName={institute?.title}
                 instituteLogo={institute?.logo}
               />
-              <Box mt={4}>
-                <Text className={classes.textColor}>
-                  গনপ্রজাতন্ত্রী বাংলাদেশ সরকারের রূপকল্প ২০২১ বাস্তবায়নে
-                  যুবকদের আত্মকর্মসংস্থান ও স্বাবলম্বী করে তোলার লক্ষে "অনলাইনে
-                  বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।
-                </Text>
+              <Box className={classes.textLineClamp} mt={4}
+               dangerouslySetInnerHTML={{__html: blockData?.content}}>
+                  {/* <Text className={classes.textColor} >*/}
+                  
+                  {/* </Text> */}
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
                 <Link
@@ -167,7 +192,7 @@ const Footer = () => {
               {
                 institute?.primary_mobile ?
                   <Box display='flex' mt={4}>
-                    <LocalPhone className={classes.primary} />
+                    <PhoneAndroid className={classes.primary} />
                     <Text style={{ marginLeft: '6px' }} className={classes.textColor}>
                      {institute?.primary_mobile}
                     </Text>
