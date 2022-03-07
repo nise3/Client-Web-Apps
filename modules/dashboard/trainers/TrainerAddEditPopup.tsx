@@ -15,11 +15,8 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import {
-  genders,
   getMomentDateFormat,
-  marital_status,
   objectFilter,
-  religions,
 } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -56,6 +53,7 @@ import {useFetchRoles} from '../../../services/userManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
+import {Gender} from '../../industry/enrollment/constants/GenderEnums';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -75,8 +73,8 @@ const initialValues = {
   about_me: '',
   about_me_en: '',
   gender: '1',
-  marital_status: '1',
-  religion: '1',
+  marital_status: '0',
+  religion: '',
   nationality: '',
   role_id: '',
   nid: '',
@@ -111,6 +109,56 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const authUser = useAuthUser<CommonAuthUser>();
+
+  const genders = [
+    {
+      key: Gender.MALE,
+      label: messages['common.male'],
+    },
+    {
+      key: Gender.FEMALE,
+      label: messages['common.female'],
+    },
+    {
+      key: Gender.OTHERS,
+      label: messages['common.others'],
+    },
+  ];
+
+  const marital_status = [
+    {
+      key: 0,
+      label: messages['common.unmarried'],
+    },
+    {
+      key: 1,
+      label: messages['common.marital_status_married'],
+    },
+  ];
+
+  const religions = [
+    {
+      id: 1,
+      label: messages['common.religion_islam'],
+    },
+    {
+      id: 2,
+      label: messages['common.religion_hinduism'],
+    },
+    {
+      id: 3,
+      label: messages['common.religion_christianity'],
+    },
+    {
+      id: 4,
+      label: messages['common.religion_buddhism'],
+    },
+    {
+      id: 5,
+      label: messages['common.notDefined'],
+    },
+  ];
+
   const {
     data: itemData,
     isLoading: isLoading,
@@ -488,17 +536,21 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='email'
-            label={messages['common.email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
+
+        {!isEdit && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='email'
+              label={messages['common.email']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              placeholder='example@gmail.com'
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='about_me'
@@ -517,17 +569,20 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='mobile'
-            label={messages['common.mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='017xxxxxxxx'
-          />
-        </Grid>
+        {!isEdit && (
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='mobile'
+              label={messages['common.mobile']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+              placeholder='017xxxxxxxx'
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
             required

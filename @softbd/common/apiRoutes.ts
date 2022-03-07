@@ -133,6 +133,7 @@ export const API_INSTITUTE_USER_REJECTION =
   INSTITUTE_SERVICE_PATH + '/institute-registration-rejection';
 export const API_INSTITUTE_USER_APPROVAL =
   INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -144,6 +145,7 @@ export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_COURSE_DETAILS = TSP_PUBLIC_SERVICE_PATH + '/courses';
 export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
+
 
 /** All institute service public routes section end */
 
