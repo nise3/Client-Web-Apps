@@ -303,7 +303,7 @@ const InstituteProfile = () => {
               })}
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.rto-rtoCountries']}
+                label={messages['rto-country.label']}
                 value={profileData?.country}
                 isLoading={false}
               />
