@@ -67,7 +67,7 @@ const CustomFilterableFormSelect = ({
 
   let errorObj = getErrorObject(id, errorInstance);
 
-  return 1 ? (
+  return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <FormControl fullWidth={true}>
