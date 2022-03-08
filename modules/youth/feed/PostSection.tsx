@@ -44,7 +44,7 @@ const PostSection = ({
     useFetchYouthFeedDataList(feedDataFilters);
 
   useEffect(() => {
-    setLoadingMainPostData(isLoading || feedData.length == 0);
+    setLoadingMainPostData(isLoading || (feedData && feedData.length == 0));
   }, [isLoading]);
 
   useEffect(() => {
