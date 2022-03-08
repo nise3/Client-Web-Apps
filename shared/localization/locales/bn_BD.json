@@ -1021,7 +1021,6 @@
   "common.is_button_available": "বাটন আছে?",
   "visitor_feedback.label": "ভিজিটর ফিডব্যাক",
   "common.read_at": "পড়া হইয়াছে",
-  "common.achieved_date": "অর্জিতর তারিখ",
   "common.comment": "কমেন্ট",
   "common.comment_en": "ইংরেজী কমেন্ট",
   "organization_association.label": "সংস্থা সংঘ",
@@ -1603,5 +1602,6 @@
   "common.indirect": "পরোক্ষ",
   "payment.incomplete_text": "আপনার পেমেন্ট এখনও সম্পূর্ণ হয়নি",
   "specialized_area.select_at_least_one": " অন্তত একটি বিশেষায়িত অঞ্চল নির্বাচন করুন",
-  "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ"
+  "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ",
+  "common.select_valid_status": "একটি বৈধ অবস্থা নির্বাচন করুন"
 }

@@ -160,7 +160,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     } else {
       return [rowStatusArr[2], rowStatusArr[3]];
     }
-  }, [itemData]);
+  }, [isEdit]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -227,8 +227,21 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           is: (value: string) => value == 'training center',
           then: yup.string().required(),
         }),
+      row_status: yup
+        .string()
+        .required()
+        .test({
+          message: messages['common.select_valid_status'] as string,
+          test: (rowStatusValue: any) => {
+            return (
+              isEdit &&
+              rowStatusValue != RowStatus.PENDING &&
+              rowStatusValue != RowStatus.CANCEL
+            );
+          },
+        }),
     });
-  }, [itemId, messages]);
+  }, [itemId, messages, isEdit]);
 
   const {
     register,
@@ -583,6 +596,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             radios={getPossibleRowStatus()}
             control={control}
             defaultValue={RowStatus.ACTIVE}
+            errorInstance={errors}
           />
         </Grid>
 
