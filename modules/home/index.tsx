@@ -7,7 +7,7 @@ import Nise3WorkProcess from './Nise3WorkProcess';
 import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import PopularJobs from './PopularJobs';
-// import Partners from './Partners';
+import Partners from './Partners';
 import BdMap from './BdMap';
 
 const Home = () => {
@@ -22,9 +22,7 @@ const Home = () => {
       <BdMap />
       <PopularCourse />
       <PopularJobs />
-
-      {/*Todo: Partners section is hided on feedback demand*/}
-      {/*<Partners />*/}
+      <Partners />
     </div>
   );
 };
