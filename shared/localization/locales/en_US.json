@@ -1630,5 +1630,6 @@
   "common.assessment_result": "Assessment Result",
   "common.self_assessment": "Self Assessment",
   "common.sector_occupation": "Sector and Occupation",
-  "rto_country.label": "Rto Country"
+  "rto_country.label": "Rto Country",
+  "rto_batch.label": "Rto Batch"
 }

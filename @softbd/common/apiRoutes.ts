@@ -134,22 +134,7 @@ export const API_INSTITUTE_USER_REJECTION =
 export const API_INSTITUTE_USER_APPROVAL =
   INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
 
-/**             eRPL            */
-
-export const API_REGISTERED_TRAINING_ORGANIZATIONS =
-  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
-
-export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
-export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
-export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
-export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
-export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
-export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
-export const API_CA_ASSIGNED_BATCHES =
-  INSTITUTE_SERVICE_PATH + '/certificate-authority-assigned-batches';
-export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
-
-/**             eRPL End         */
+export const API_YOUTH_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/youth-assessment';
 
 /** All institute service privates routes section end */
 
@@ -163,17 +148,6 @@ export const API_PUBLIC_COURSE_DETAILS = TSP_PUBLIC_SERVICE_PATH + '/courses';
 export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
 
-export const API_PUBLIC_RTO_COUNTRIES =
-  TSP_PUBLIC_SERVICE_PATH + '/rto-countries';
-export const API_PUBLIC_RPL_SECTORS = TSP_PUBLIC_SERVICE_PATH + '/rpl-sectors';
-
-export const API_PUBLIC_RPL_OCCUPATIONS =
-  TSP_PUBLIC_SERVICE_PATH + '/rpl-occupations';
-
-export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
-
-export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
-  TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 
 /** All institute service public routes section end */
 
@@ -495,3 +469,40 @@ export const API_PUBLIC_NISE_STATICS =
   CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
 
 /** CMS service public routes section end */
+
+/**             eRPL            */
+
+export const API_REGISTERED_TRAINING_ORGANIZATIONS =
+  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
+
+export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
+
+export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
+
+export const API_PUBLIC_RTO_COUNTRIES =
+  TSP_PUBLIC_SERVICE_PATH + '/rto-countries';
+
+export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
+
+export const API_PUBLIC_RPL_SECTORS = TSP_PUBLIC_SERVICE_PATH + '/rpl-sectors';
+
+export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
+
+export const API_PUBLIC_RPL_OCCUPATIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/rpl-occupations';
+
+export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
+
+export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
+
+export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
+
+export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
+
+export const API_CA_ASSIGNED_BATCHES =
+  INSTITUTE_SERVICE_PATH + '/certificate-authority-assigned-batches';
+
+export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
+
+export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
