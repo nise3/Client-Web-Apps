@@ -18,6 +18,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
 
 const CertificateAuthorityPage = () => {
   const {messages, locale} = useIntl();
@@ -61,7 +62,7 @@ const CertificateAuthorityPage = () => {
           }
           refreshDataTable();
         };
-      
+
         const ReApproveAction = async (itemId: number) => {
           let response = await ReApproveInstitute(itemId);
           if (isResponseSuccess(response)) {
@@ -179,7 +180,7 @@ const CertificateAuthorityPage = () => {
     useReactTableFetchData({
       urlPath: API_INSTITUTES,
       paramsValueModifier: (params: any) => {
-        params['service_type'] = 2;
+        params['service_type'] = InstituteServiceTypes.CERTIFICATE;
         return params;
       },
     });
