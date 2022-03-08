@@ -243,11 +243,11 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
 
       if (itemId) {
         await updateRPLLevel(itemId, data);
-        updateSuccessMessage('rpl_sector.label');
+        updateSuccessMessage('rpl_level.label');
         mutateRPLLevel();
       } else {
         await createRPLLevel(data);
-        createSuccessMessage('rpl_sector.label');
+        createSuccessMessage('rpl_level.label');
       }
       props.onClose();
       refreshDataTable();

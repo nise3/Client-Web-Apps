@@ -103,6 +103,7 @@ const RPLOccupationsAddEditPopup: FC<RPLOccupationAddEditPopupProps> = ({
     control,
     reset,
     setError,
+    getValues,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
@@ -193,6 +194,16 @@ const RPLOccupationsAddEditPopup: FC<RPLOccupationAddEditPopupProps> = ({
         setSelectedIds((prev) =>
           prev.filter((id: any) => id != country.country_id),
         );
+
+        let formCountries = getValues('country');
+        formCountries = formCountries.filter(
+          (country: any) => country.country_id != country.country_id,
+        );
+
+        reset({
+          ...getValues(),
+          country: formCountries,
+        });
       }
     },
     [selectedCountryList, countryList, selectedIds],
