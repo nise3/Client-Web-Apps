@@ -17,6 +17,10 @@ import AssessmentKeys from './AssessmentKeys';
 import SectorAndOccupationForm from './SectorAndOccupationForm';
 import yup from '../../@softbd/libs/yup';
 import AssessmentForm from './AssessmentForm';
+import {useFetchPublicYouthAssessmentQuestions} from '../../services/CertificateAuthorityManagement/hooks';
+import {useAuthUser} from '../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
+import {createYouthAssessment} from '../../services/CertificateAuthorityManagement/YouthAssessmentService';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -45,6 +49,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const AssessmentProcessPage = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
   const [activeStep, setActiveStep] = useState(0);
   const [activeStepKey, setActiveStepKey] = useState<string>(
     AssessmentKeys.SECTOR_OCCUPATION.toString(),
@@ -54,13 +59,26 @@ const AssessmentProcessPage = () => {
     AssessmentKeys.ASSESSMENT.toString(),
     AssessmentKeys.ASSESSMENT_RESULT.toString(),
   ]);
-  const [isSuccessSubmit] = useState<boolean>(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
 
-  const [hasCountryId, setHasCountryId] = useState(null);
-  const [hasSectorId, setHasSectorId] = useState(null);
-  const [hasOccupationId, setHasOccupationId] = useState(null);
-  const [hasLevelId, setHasLevelId] = useState(null);
-  const [hasRtoCountryId, setHasRtoCountryId] = useState(null);
+  const [hasCountryId, setHasCountryId] = useState<any>(null);
+  const [hasSectorId, setHasSectorId] = useState<any>(null);
+  const [hasOccupationId, setHasOccupationId] = useState<any>(null);
+  const [hasLevelId, setHasLevelId] = useState<any>(null);
+  const [hasRtoCountryId, setHasRtoCountryId] = useState<any>(null);
+  const [assessmentFilter, setAssessmentFilter] = useState<any>(null);
+
+  const {data: assessments, isLoading: isLoadingAssessments} =
+    useFetchPublicYouthAssessmentQuestions(assessmentFilter);
+
+  useEffect(() => {
+    if (hasLevelId && hasOccupationId) {
+      setAssessmentFilter({
+        rpl_occupation_id: hasOccupationId,
+        rpl_level_id: hasLevelId,
+      });
+    }
+  }, [hasLevelId, hasOccupationId]);
 
   const getCurrentFormContent = () => {
     switch (activeStepKey) {
@@ -78,18 +96,32 @@ const AssessmentProcessPage = () => {
       case AssessmentKeys.ASSESSMENT:
         return (
           <AssessmentForm
+            isLoadingAssessments={isLoadingAssessments}
+            assessments={assessments}
             control={control}
             register={register}
             getValues={getValues}
+            errors={errors}
           />
         );
+      default:
+        return <></>;
     }
   };
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    if (activeStep < stepKeys.length - 1) {
-      handleNext();
-    }
-    console.log('formData: ', formData);
+    try {
+      if (activeStep < stepKeys.length - 1) {
+        handleNext();
+      } else {
+        if (assessments) {
+          formData.assessment_id = assessments.assessment_id;
+        }
+        formData.youth_id = authUser?.youthId;
+        await createYouthAssessment(formData);
+        setIsSuccessSubmit(true);
+      }
+      console.log('formData: ', formData);
+    } catch (error: any) {}
   };
 
   const handleNext = () => {
@@ -139,14 +171,28 @@ const AssessmentProcessPage = () => {
                 .required()
                 .label(messages['rto_country.label'] as string)
             : yup.string().trim().nullable(),
-          rto_id: /*hasRtoCountryId
+          rto_id: hasRtoCountryId
             ? yup
                 .string()
                 .trim()
                 .required()
                 .label(messages['rto.label'] as string)
-              :*/ yup.string().trim().nullable(),
+            : yup.string().trim().nullable(),
         });
+      case AssessmentKeys.ASSESSMENT:
+        return yup.object().shape({
+          answers: yup.array().of(
+            yup.object().shape({
+              answer: yup
+                .string()
+                .trim()
+                .required()
+                .label(messages['common.answer'] as string),
+            }),
+          ),
+        });
+      default:
+        return yup.object().shape({});
     }
   }, [
     activeStepKey,
@@ -166,6 +212,7 @@ const AssessmentProcessPage = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+  console.log('errors: ', errors);
 
   console.log('getValues: ', getValues());
 

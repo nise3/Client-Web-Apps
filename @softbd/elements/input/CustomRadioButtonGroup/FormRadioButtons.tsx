@@ -54,7 +54,6 @@ const FormRadioButtons = ({
     ) : (
       ''
     );
-
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
