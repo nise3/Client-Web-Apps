@@ -14,7 +14,7 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   logo: string;
   primary_phone: string;
   phone_numbers: Array<object>;
-  rto_occupation_exceptions: Array<any>;
+  rto_occupation_exceptions?: Array<any>;
   primary_mobile: string;
   mobile_numbers: Array<object>;
   email: string;
