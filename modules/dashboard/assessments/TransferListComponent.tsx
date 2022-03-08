@@ -23,6 +23,7 @@ import {useIntl} from 'react-intl';
 import {useForm} from 'react-hook-form';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import {Edit} from '@mui/icons-material';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -99,6 +100,8 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
   const leftChecked = intersection(checked, leftQuestionList);
   const rightChecked = intersection(checked, rightQuestionList);
 
+  console.log('right checked: ', rightChecked);
+
   const handleToggle = (value: any) => () => {
     const found = checked?.some((item) => item?.id === value?.id);
     const newChecked = [...checked];
@@ -169,6 +172,11 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                   aria-controls='panel2a-content'
                   id='panel2a-header'>
                   <Typography>{value?.title}</Typography>
+                  <Edit
+                    onClick={() => {
+                      console.log('aaaaa');
+                    }}
+                  />
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>{value?.answer}</Typography>

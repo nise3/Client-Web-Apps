@@ -452,6 +452,7 @@
   "rto.details": "RTO Details",
   "rpl_level.label": "RPL Levels",
   "rpl_level.name": "RPL Level",
+  "rpl_level.passing_score": "Minimum Pass Marks",
   "rpl_level.sequence_order": "RPL Sequence order",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",

@@ -393,6 +393,7 @@
   "subject.title_en": "সাবজেক্টের নাম (ইংরেজি)",
   "rpl_level.label": "আরপিএল লেভেল",
   "rpl_level.name": "আরপিএল লেভেল",
+  "rpl_level.passing_score": "ন্যূনতম পাস নম্বর",
   "rpl_level.sequence_order": "আরপিএল লেভেল ক্রম",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
