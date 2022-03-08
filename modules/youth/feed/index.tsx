@@ -95,6 +95,7 @@ const YouthFeedPage = () => {
     },
     [filters],
   );
+  console.log('pageIndex');
 
   const onScrollMainPostContent = (e: any) => {
     if (!loadingMainPostData) {
