@@ -85,6 +85,10 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['rpl_level.name'] as string),
+      passing_score: yup
+        .number()
+        .required()
+        .label(messages['rpl_level.passing_score'] as string),
     });
   }, [messages]);
 
@@ -107,6 +111,7 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
         rpl_sector_id: itemData?.rpl_sector_id,
         rpl_occupation_id: itemData?.rpl_occupation_id,
         rpl_level_id: itemData?.rpl_level_id,
+        passing_score: itemData?.passing_score,
       };
       reset(data);
     } else {
@@ -233,6 +238,16 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'passing_score'}
+            label={messages['rpl_level.passing_score']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>
