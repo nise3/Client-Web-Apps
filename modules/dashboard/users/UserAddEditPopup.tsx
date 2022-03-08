@@ -134,6 +134,14 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const rowStatusArr = useMemo(() => {
     return [
       {
+        key: RowStatus.ACTIVE,
+        label: messages['common.active'],
+      },
+      {
+        key: RowStatus.INACTIVE,
+        label: messages['common.inactive'],
+      },
+      {
         key: RowStatus.PENDING,
         label: messages['common.pending'],
         disabled: true,
@@ -142,14 +150,6 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         key: RowStatus.CANCEL,
         label: messages['common.cancel'],
         disabled: true,
-      },
-      {
-        key: RowStatus.ACTIVE,
-        label: messages['common.active'],
-      },
-      {
-        key: RowStatus.INACTIVE,
-        label: messages['common.inactive'],
       },
     ];
   }, []);
