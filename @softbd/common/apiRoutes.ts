@@ -115,6 +115,8 @@ export const API_REJECT_COURSE_ENROLLMENT =
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
+export const API_ASSESSMENT_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH + '/assessment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
