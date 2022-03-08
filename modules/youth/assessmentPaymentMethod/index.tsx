@@ -77,7 +77,6 @@ const AssessmentPaymentMethods = () => {
               let data = {
                 payment_gateway_type: method,
                 assessment_id: assessmentId,
-                course_enrollment_id: 8,
                 feed_uri: {
                   success: paymentRedirectTo + 'success',
                   failed: paymentRedirectTo + 'failed',
