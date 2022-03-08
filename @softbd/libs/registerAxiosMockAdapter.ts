@@ -5,6 +5,7 @@ import {
   API_INSTITUTE_QUESTION_BANK,
 } from '../common/apiRoutes';
 import questionBank from '../mock-db/question-bank';
+import {youthDomain} from '../common/constants';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
@@ -63,9 +64,10 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .onGet(new RegExp(API_INSTITUTE_QUESTION_BANK + '/(.*)'))
     .reply(200, {data: questionBank[0]});
 
-  mock
-    .onPost(API_ASSESSMENT_PAYMENT_PAY)
-    .reply(200, {redirect_url: 'http://redirect_url'});
+  const paymentRedirectTo = youthDomain() + '/assessment-payment/';
+  mock.onPost(API_ASSESSMENT_PAYMENT_PAY).reply(200, {
+    redirect_url: paymentRedirectTo + 'success',
+  });
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();
