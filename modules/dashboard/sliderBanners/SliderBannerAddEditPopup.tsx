@@ -325,8 +325,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     [selectedLanguageList, languageList, selectedCodes],
   );
 
-
-
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       let data = {...formData};
@@ -367,37 +365,36 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     }
   };
 
-  let [imgwidth,setImgWidth]= useState<string>('1080');
-  let [imgheight,setImgHeight]= useState<string>('550');
+  let [imgwidth, setImgWidth] = useState<string>('1080');
+  let [imgheight, setImgHeight] = useState<string>('550');
 
-
-  const templateOnChange =(e:any)=>{
-    switch (e){
+  const templateOnChange = (e: any) => {
+    switch (e) {
       case 'BT_CB':
         setImgWidth('1080');
         setImgHeight('550');
-        break
+        break;
 
       case 'BT_LR':
         setImgWidth('720');
         setImgHeight('450');
-        break
+        break;
 
       case 'BT_RL':
-        setImgWidth('720')
-        setImgHeight('450')
-        break
+        setImgWidth('720');
+        setImgHeight('450');
+        break;
 
       case 'BT_OB':
         setImgWidth('1080');
         setImgHeight('550');
-        break
+        break;
 
       default:
         setImgWidth('1080');
         setImgHeight('550');
     }
-  }
+  };
   return (
     <HookFormMuiModal
       open={true}
@@ -427,7 +424,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item container xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
             id={'slider_id'}
@@ -462,7 +459,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item container xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id={'banner_template_code'}
             label={messages['slider.banner_template_code']}
@@ -546,8 +543,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             </Grid>
           </React.Fragment>
         )}
-
-
 
         <Grid item xs={12}>
           <Grid container spacing={5}>
