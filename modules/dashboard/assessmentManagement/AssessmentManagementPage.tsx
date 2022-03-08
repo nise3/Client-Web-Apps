@@ -9,15 +9,13 @@ import ReactTable from "../../../@softbd/table/Table/ReactTable";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
 import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
 import IconCourse from "../../../@softbd/icons/IconCourse";
-import Genders from "../../../@softbd/utilities/Genders";
 import AssessmentDetailsPopup from "./AssessmentDetailsPopup";
 import RejectButton from "./RejectButton";
 import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
 import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
 import { rejectEnrollment } from "../../../services/instituteManagement/RegistrationService";
-import AssignBatchPopup from "./AssignBatchPopup";
+import AssignBatchPopup from "./AssignAssessmentBatchPopup";
 import { FiUserCheck } from "react-icons/fi";
-import CustomChipPaymentStatus from "./CustomChipPaymentStatus";
 import LocaleLanguage from "../../../@softbd/utilities/LocaleLanguage";
 
 const AssessmentManagementPage = () => {
@@ -25,7 +23,6 @@ const AssessmentManagementPage = () => {
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenBatchAssignModal, setIsOpenBatchAssignModal] = useState(false);
@@ -42,11 +39,10 @@ const AssessmentManagementPage = () => {
 
   /** Assign Batch Modal */
   const openAssignBatchModal = useCallback(
-    (itemId: number | null = null, courseId: number | null = null) => {
+    (itemId: number | null = null) => {
       setIsOpenDetailsModal(false);
       setIsOpenBatchAssignModal(true);
       setSelectedItemId(itemId);
-      setSelectedCourseId(courseId);
     },
     [],
   );
@@ -54,19 +50,18 @@ const AssessmentManagementPage = () => {
   const closeAssignBatchModal = useCallback(() => {
     setIsOpenBatchAssignModal(false);
     setSelectedItemId(null);
-    setSelectedCourseId(null);
   }, []);
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, [isToggleTable]);
 
-  /** Method called to reject an application */
-  const rejectCourseEnrollment = async (enrollment_id: number) => {
+  /** Method called to reject an assessment */
+  const rejectYouthEnrollment = async (enrollment_id: number) => {
     let response = await rejectEnrollment(enrollment_id);
     if (isResponseSuccess(response)) {
       {
-        successStack(<IntlMessages id='applicationManagement.rejected' />);
+        successStack(<IntlMessages id='assessmentManagement.rejected' />);
       }
       refreshDataTable();
     }
@@ -82,84 +77,47 @@ const AssessmentManagementPage = () => {
           return props.row.index + 1;
         },
       },
-      {
-        Header: messages['applicationManagement.programTitle'],
-        accessor: 'program_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['applicationManagement.programTitle_en'],
-        accessor: 'program_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['menu.batch'],
-        accessor: 'batch_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['menu.batch_en'],
-        accessor: 'batch_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['applicationManagement.applicantFullName_en'],
-        accessor: 'full_name_en',
-        isVisible: locale == LocaleLanguage.EN,
-        disableFilters: true,
-      },
-      {
-        Header: messages['applicationManagement.applicantFullName'],
-        accessor: 'full_name',
-        isVisible: locale == LocaleLanguage.BN,
-        disableFilters: true,
-      },
-      {
-        Header: messages['common.paymentStatus'],
-        accessor: 'payment_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipPaymentStatus value={data?.payment_status} />;
-        },
-      },
-      {
-        Header: messages['applicationManagement.status'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
-        },
-      },
       /*{
-        Header: messages['applicationManagement.traineeDetails'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-            </DatatableButtonGroup>
-          );
-        },
-        sortable: false,
+        Header: messages['youth.label'],
+        accessor: 'youth_id',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['assessmentManagement.assessment'],
+        accessor: 'assessment_id',
+        isVisible: locale == LocaleLanguage.BN,
       },*/
+      {
+        Header: messages['rpl_occupation.label'],
+        accessor: 'rpl_occupation_title_en',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['rpl_level.label'],
+        accessor: 'rpl_level_title',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['rpl_sector.label'],
+        accessor: 'rpl_sector_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['rto_country.label'],
+        accessor: 'rto_country_title',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['assessmentManagement.target_country'],
+        accessor: 'target_country_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['rto.label'],
+        accessor: 'rto_title',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -168,7 +126,7 @@ const AssessmentManagementPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <CommonButton
-                onClick={() => openAssignBatchModal(data.id, data.course_id)}
+                onClick={() => openAssignBatchModal(data.id)}
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                 color='secondary'
@@ -176,7 +134,7 @@ const AssessmentManagementPage = () => {
 
               {data.row_status !== 3 ? (
                 <RejectButton
-                  rejectAction={() => rejectCourseEnrollment(data.id)}
+                  rejectAction={() => rejectYouthEnrollment(data.id)}
                   rejectTitle={messages['common.delete_confirm'] as string}
                 />
               ) : (
@@ -195,21 +153,6 @@ const AssessmentManagementPage = () => {
       urlPath: API_YOUTH_ASSESSMENT,
     });
 
-  const filteredData = data?.map((youth: any) => {
-    let gender_label: string;
-    if (youth?.gender === parseInt(Genders.MALE)) {
-      gender_label = 'Male';
-    } else if (youth?.gender === parseInt(Genders.FEMALE)) {
-      gender_label = 'Female';
-    } else {
-      gender_label = 'Others';
-    }
-    return {
-      ...youth,
-      gender_label,
-      full_name: youth?.first_name + ' ' + youth?.last_name,
-    };
-  });
 
   return (
     <>
@@ -221,7 +164,7 @@ const AssessmentManagementPage = () => {
         }>
         <ReactTable
           columns={columns}
-          data={filteredData}
+          data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
@@ -233,8 +176,8 @@ const AssessmentManagementPage = () => {
             key={1}
             onClose={closeAssignBatchModal}
             itemId={selectedItemId}
+            batchId={data?.rto_batch_id}
             refreshDataTable={refreshDataTable}
-            courseId={selectedCourseId}
           />
         )}
         {isOpenDetailsModal && selectedItemId && (
