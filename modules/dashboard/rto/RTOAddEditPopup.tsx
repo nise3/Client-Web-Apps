@@ -674,7 +674,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
         <Grid item xs={6}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <CustomFormSelect
                 id='rto_sector_exceptions'
                 label={messages['common.rto_sector_exceptions']}
@@ -687,7 +687,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 onChange={onRplSectorChange}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <CustomSelectAutoComplete
                 id='rto_occupation_exceptions'
                 label={messages['common.rto_occupation_exceptions']}
