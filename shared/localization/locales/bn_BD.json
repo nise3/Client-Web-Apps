@@ -179,6 +179,7 @@
   "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
   "common.no_data_found": "কোনো তথ্য পাওয়া যায়নি",
   "common.remove_one": "একটি মুছুন",
+  "subject.label": "সাবজেক্ট",
   "common.cover_image": "কভার ইমেজ",
   "common.required": "আবশ্যক",
   "common.not_required": "ঐচ্ছিক",
@@ -386,7 +387,7 @@
   "rpl_occupation.label": "আরপিএল পেশা",
   "rpl_occupation.name": "পেশার নাম",
   "rpl_occupation.name_en": "পেশার নাম (ইংরেজি)",
-  "subject.label": "সাবজেক্ট",
+  "subject.select_first": "প্রথমে সাবজেক্ট নির্বাচন করুন",
   "subjects.label": "সাবজেক্ট সমূহ",
   "subject.title": "সাবজেক্টের নাম",
   "subject.title_en": "সাবজেক্টের নাম (ইংরেজি)",
@@ -1114,6 +1115,7 @@
   "common.training_courses": "ট্রেনিং কোর্সসমূহ",
   "common.your_info": "আপনার তথ্য",
   "common.must_have_one_skill": "অন্তত একটি দক্ষতা থাকতে হবে",
+  "common.must_have_one_question": "অন্তত একটি প্রশ্ন যোগ করতে হবে",
   "common.must_have_one_area_of_experiences": "অন্তত একটি অভিজ্ঞতার ক্ষেত্র থাকতে হবে",
   "common.must_have_one_area_of_businesses": "অন্তত একটি কর্ম ক্ষেত্র থাকতে হবে",
   "common.must_have_one_sub_trade": "অন্তত একটি সাব ট্রেড থাকতে হবে",
@@ -1624,5 +1626,8 @@
   "common.self_assessment": "নিজেকে যাচাইকরণ",
   "common.assessment_result": "মূল্যায়ন ফলাফল",
   "rto_country.label": "আরটিও দেশ",
-  "rto_batch.label": "আরটিও ব্যাচ"
+  "rto_batch.label": "আরটিও ব্যাচ",
+  "common.rto_sector_exceptions": "আরটিও সেক্টর ব্যতিক্রম",
+  "common.rto_occupation_exceptions": "আরটিও পেশা ব্যতিক্রম",
+  "common.answer": "উত্তর"
 }

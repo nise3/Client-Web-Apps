@@ -72,6 +72,18 @@ export interface IAssessment {
   title_en?: string;
 }
 
+export interface IYouthAssessment {
+  rpl_sector_id: number | string;
+  youth_id: number | string;
+  assessment_id: number | string;
+  target_country_id: number | string;
+  rto_country_id: number | string;
+  rto_id: number | string;
+  rpl_occupation_id: number | string;
+  rpl_level_id: number | string;
+  rto_batch_id?: number | string;
+}
+
 export interface IPartner extends IIdTitle {
   main_image_path?: string;
   thumb_image_path?: string;

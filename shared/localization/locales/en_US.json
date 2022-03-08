@@ -445,6 +445,7 @@
   "rpl_occupation.name": "Occupation Name",
   "rpl_occupation.name_en": "Occupation Name (EN)",
   "subject.label": "Subject",
+  "subject.select_first": "Select Subject First",
   "subjects.label": "Subjects",
   "subject.title": "Subject Name",
   "subject.title_en": "Subject Name (EN)",
@@ -1131,6 +1132,7 @@
   "common.training_courses": "Training Courses",
   "common.your_info": "Your Information",
   "common.must_have_one_skill": "Must have one skill",
+  "common.must_have_one_question": "Must have at least one Question",
   "common.must_have_one_area_of_experiences": "Must have one area of experience",
   "common.must_have_one_area_of_businesses": "Must have one area of business",
   "common.must_have_one_sub_trade": "Must have one sub trade",
@@ -1631,5 +1633,8 @@
   "common.self_assessment": "Self Assessment",
   "common.sector_occupation": "Sector and Occupation",
   "rto_country.label": "Rto Country",
-  "rto_batch.label": "Rto Batch"
+  "rto_batch.label": "Rto Batch",
+  "common.rto_sector_exceptions": "RTO sector exceptions",
+  "common.rto_occupation_exceptions": "RTO occupation exceptions",
+  "common.answer": "Answer"
 }
