@@ -113,6 +113,8 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
         rpl_level_id: itemData?.rpl_level_id,
         passing_score: itemData?.passing_score,
       };
+      handleRplSectorChange(itemData?.rpl_sector_id);
+      handleRplOccupationChange(itemData?.rpl_occupation_id);
       reset(data);
     } else {
       reset(initialValues);
