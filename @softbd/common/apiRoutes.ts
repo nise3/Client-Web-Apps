@@ -149,6 +149,11 @@ export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
 
 
+export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
+export const API_PUBLIC_YOUTH_ASSESSMENTS =
+  TSP_PUBLIC_SERVICE_PATH + '/youth-assessment';
+
 /** All institute service public routes section end */
 
 /** Youth service routes section start */
