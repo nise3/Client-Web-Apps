@@ -68,7 +68,10 @@ const BdMap = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title={messages['common.map'] as string} center={true} />
+        <SectionTitle
+          title={messages['common.data_platform'] as string}
+          center={true}
+        />
 
         <Box
           sx={{
