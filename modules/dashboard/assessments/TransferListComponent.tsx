@@ -21,9 +21,8 @@ import {
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {useIntl} from 'react-intl';
 import {useForm} from 'react-hook-form';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 import {Edit} from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -162,17 +161,12 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                 onChange={handleAccordionExpandedChange(value)}
                 key={value}>
                 <AccordionSummary
-                  expandIcon={
-                    accordionExpandedState === value ? (
-                      <RemoveIcon />
-                    ) : (
-                      <AddIcon />
-                    )
-                  }
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls='panel2a-content'
                   id='panel2a-header'>
                   <Typography>{value?.title}</Typography>
                   <Edit
+                    sx={{alignSelf: 'center'}}
                     onClick={() => {
                       console.log('aaaaa');
                     }}

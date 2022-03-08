@@ -73,6 +73,13 @@ const AssessmentDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                   isLoading={isLoading}
                 />
               </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['rpl_level.passing_score']}
+                  value={itemData?.passing_score}
+                  isLoading={isLoading}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
