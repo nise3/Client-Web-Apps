@@ -1031,7 +1031,6 @@
   "common.is_button_available": "Is button available?",
   "visitor_feedback.label": "Visitor Feedback",
   "common.read_at": "Read at",
-  "common.achieved_date": "Achieved Date",
   "common.comment": "Comment",
   "common.comment_en": "English Comment",
   "organization_association.label": "Organization association",
@@ -1611,5 +1610,6 @@
   "payment.incomplete_text": "Your haven't complete your payment  yet",
   "common.objective": "Objective",
   "specialized_area.select_at_least_one": "Select at least one specialized area",
-  "registration_success.thanks_text": "Thanks for your Registration"
+  "registration_success.thanks_text": "Thanks for your Registration",
+  "common.select_valid_status": "Select a valid status"
 }
