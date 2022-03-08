@@ -82,6 +82,7 @@ const FormRadioButtons = ({
             }}>
             {radios.map((status) => (
               <FormControlLabel
+                disabled={status.disabled}
                 key={status.key}
                 value={status.key}
                 sx={styles}
