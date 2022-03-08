@@ -1637,5 +1637,9 @@
   "common.rto_sector_exceptions": "RTO sector exceptions",
   "common.rto_occupation_exceptions": "RTO occupation exceptions",
   "common.answer": "Answer",
-  "assessmentManagement.label": "Assessment Management"
+  "assessmentManagement.label": "Assessment Management",
+  "assessmentManagement.assessment": "Assessment",
+  "assessmentManagement.details": "Details",
+  "assessmentManagement.target_country": "Target Country",
+  "single_youth.label": "Youth"
 }
