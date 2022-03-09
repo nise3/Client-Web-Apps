@@ -2,6 +2,8 @@ export const APP_TITLE = 'NISE TMS';
 
 export const PERMISSION_GROUP_ORGANIZATION_KEY = 'organization';
 export const PERMISSION_GROUP_INSTITUTE_KEY = 'institute';
+export const PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY =
+  'certificate_authority';
 export const PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY = 'industry_association';
 
 export const PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY =
@@ -53,6 +55,14 @@ export const niseDomain = () => {
     : process.env.NEXT_PUBLIC_FRONTEND_PORTAL_DOMAIN
     ? process.env.NEXT_PUBLIC_FRONTEND_PORTAL_DOMAIN
     : 'https://nise.gov.bd';
+};
+
+export const erplDomain = () => {
+  return isLocalHost()
+    ? 'http://localhost:3005'
+    : process.env.NEXT_PUBLIC_FRONTEND_ERPL_DOMAIN
+    ? process.env.NEXT_PUBLIC_FRONTEND_ERPL_DOMAIN
+    : 'https://rpl.nise.gov.bd';
 };
 
 export const cookieDomain = () => {

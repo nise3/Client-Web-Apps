@@ -32,6 +32,12 @@ mod_ssl
 
 127.0.0.1	nascib.nise.asm
 ::1	nascib.nise.asm
+
+127.0.0.1	mcci.nise.asm
+::1	mcci.nise.asm
+
+127.0.0.1	rpl.nise.asm
+::1	rpl.nise.asm
 ```
 
 ### After that add the following entries in your apache virtual host file:
@@ -176,6 +182,26 @@ mod_ssl
 
 	Header set Access-Control-Allow-Origin "*"
 	#Header set Set-Cookie "institute_id=27;domain=.nise.asm; path=/;"
+
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName rpl.nise.asm
+
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+
+	ProxyPass / http://localhost:3005/
+	ProxyPassReverse / http://localhost:3005/
+
+	Header set Access-Control-Allow-Origin "*"
 
 </VirtualHost>
 ```
