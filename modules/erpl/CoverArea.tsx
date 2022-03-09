@@ -13,7 +13,7 @@ const CoverArea = () => {
     show_in: ShowInTypes.RPL,
   });
 
-  const {data: sliders, isLoading: isLoadingSliders} =
+  const {data: sliders, isLoading: isLoadingSliders}  =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
   const banners = slider?.banners;

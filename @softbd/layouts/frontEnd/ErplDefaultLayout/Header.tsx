@@ -4,8 +4,7 @@ import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import WorkIcon from '@mui/icons-material/Work';
-// import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import { Container, useMediaQuery } from '@mui/material';
+import { Button, Container, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -15,8 +14,6 @@ import { Theme } from '@mui/system';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-// import {getSSOLoginUrl} from '../../../common/SSOConfig';
-// import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import { useAuthUser } from '../../../../@crema/utility/AppHooks';
 import AppLogo from '../../../../shared/components/AppLogo';
@@ -74,43 +71,35 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_ROOT}>
+        <Link href={LINK_FRONTEND_ERPL_ROOT}>
           <HomeOutlinedIcon className={classes.menuIcons} />{' '}
           {messages['menu.home']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_TRAINING}>
+        <Link href={LINK_FRONTEND_ERPL_ROOT_WHAT_IS_ERPL}>
           <CastForEducationOutlinedIcon className={classes.menuIcons} />{' '}
-          {messages['menu.training']}
+          {messages['menu.whatisrpl']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_JOBS}>
-          <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
+        <Link href={LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE}>
+          <WorkIcon className={classes.menuIcons} /> 
+          {messages['menu.certificate_advantage']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
+        <Link href={LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS}>
           <ContentPasteOutlinedIcon className={classes.menuIcons} />{' '}
-          {messages['menu.notice']}
+          {messages['menu.rpl_occupations']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
+        <Link href={LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER}>
           <LocalActivityOutlined className={classes.menuIcons} />
-          {messages['menu.recent_activity']}
+          {messages['menu.assessment_center']}
         </Link>
       </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_CALENDAR}>
-          <CalendarViewMonth className={classes.menuIcons} />
-          {messages['menu.calendar']}
-        </Link>
-      </MenuItem>
-      {/*<MenuItem className={classes.menuItemRoot}>*/}
-      {/*  <Notifications />*/}
-      {/*</MenuItem>*/}
       <LanguageSwitcher />
     </Menu>
   );
@@ -125,7 +114,12 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           <Container maxWidth={'lg'}>
             <Box className={classes.headerMainFlex}>
               <Link href={LINK_FRONTEND_ERPL_ROOT}>
-                <AppLogo height={isMDDown ? 40 : 60} />
+                {/* <AppLogo height={isMDDown ? 40 : 60} /> */}
+                <span style={{
+                  'fontSize': '2rem',
+                  'fontWeight': 700,
+                  'color': '#5fcf80',
+                }}>{messages['common.rpl']}</span>
               </Link>
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
@@ -156,7 +150,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     {messages['menu.rpl_occupations']}
                   </Link>
                 </Box>
-                <Box component='span' className={classes.menuItem}>
+                {/* <Box component='span' className={classes.menuItem}>
                   <Link href={LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER}>
                     <ContentPasteOutlinedIcon
                       className={classes.menuIcons}
@@ -164,9 +158,19 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     />{' '}
                     {messages['menu.assessment_center']}
                   </Link>
-                </Box>
+                </Box> */}
                 {/*<Notifications />*/}
                 <LanguageSwitcher />
+                <Button
+                  style={{
+                    padding: '5px 10px', marginRight: '10px'
+                  }}
+                  sx={{height: '100%'}}
+                  id='my-self-assessment-button'
+                  variant='contained'
+                  size={'small'}>
+                  {messages['common.self_assessment']}
+                </Button>
               </Box>
 
               {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
