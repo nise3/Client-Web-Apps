@@ -1,32 +1,29 @@
-import {Grid} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import yup from '../../../@softbd/libs/yup';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import { Grid } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import yup from "../../../@softbd/libs/yup";
+import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
+import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
 import {
   useFetchPublicRPLLevels,
   useFetchPublicRPLOccupations,
   useFetchPublicRPLSectors,
-  useFetchRTOBatch,
-} from '../../../services/CertificateAuthorityManagement/hooks';
-import {
-  createRTOBatch,
-  updateRTOBatch,
-} from '../../../services/CertificateAuthorityManagement/RTOBatchService';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchPublicInstitutes} from '../../../services/instituteManagement/hooks';
-import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
+  useFetchRTOBatch
+} from "../../../services/CertificateAuthorityManagement/hooks";
+import { createRTOBatch, updateRTOBatch } from "../../../services/CertificateAuthorityManagement/RTOBatchService";
+import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
+import { useFetchPublicInstitutes } from "../../../services/instituteManagement/hooks";
+import { InstituteServiceTypes } from "../../../@softbd/utilities/InstituteServiceTypes";
+import IconBatch from "../../../@softbd/icons/IconBatch";
 
 interface RTOBatchAddEditPopupProps {
   itemId: number | null;
@@ -163,7 +160,7 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
-          <IconFAQ />
+          <IconBatch />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

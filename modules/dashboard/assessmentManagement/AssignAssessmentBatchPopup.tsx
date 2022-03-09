@@ -10,11 +10,11 @@ import { Grid } from "@mui/material";
 import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
 import CustomFormSelect from "../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconOccupation from "../../../@softbd/icons/IconOccupation";
 import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
 import { assessmentAssignBatch } from "../../../services/CertificateAuthorityManagement/YouthAssessmentService";
 import { useFetchRTOBatches } from "../../../services/CertificateAuthorityManagement/hooks";
 import { IAssessmentBatchAssign } from "../../../shared/Interface/assessmentManagement.interface";
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 interface AssignAssessmentBatchPopup {
   itemId: number | null;
@@ -85,7 +85,7 @@ const AssignBatchPopup: FC<AssignAssessmentBatchPopup> = ({
       open={true}
       title={
         <>
-          <IconOccupation />
+          <IconCourse/>
           <IntlMessages
             id="common.add_new"
             values={{

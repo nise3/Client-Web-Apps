@@ -14,11 +14,11 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AssessmentDetailsPopup from './AssessmentDetailsPopup';
 import AssessmentAddEditPopup from './AssessmentAddEditPopup';
-import IconRplLevel from '../../../@softbd/icons/IconRplLevel';
 import {deleteAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import {FiUserCheck} from 'react-icons/fi';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import AddQuestionPopup from './AddQuestionPopup';
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 const AssessmentPage = () => {
   const {messages, locale} = useIntl();
@@ -140,7 +140,7 @@ const AssessmentPage = () => {
       <PageBlock
         title={
           <>
-            <IconRplLevel /> <IntlMessages id='assessment.label' />
+            <IconCourse /> <IntlMessages id='assessment.label' />
           </>
         }
         extra={[

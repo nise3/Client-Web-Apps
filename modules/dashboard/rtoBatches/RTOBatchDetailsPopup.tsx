@@ -1,14 +1,14 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {useFetchRTOBatch} from '../../../services/CertificateAuthorityManagement/hooks';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import { useFetchRTOBatch } from "../../../services/CertificateAuthorityManagement/hooks";
+import IconBatch from "../../../@softbd/icons/IconBatch";
 
 type Props = {
   itemId: number;
@@ -28,7 +28,7 @@ const RTOBatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconFAQ />
+            <IconBatch />
             <IntlMessages id='rto_batch.label' />
           </>
         }

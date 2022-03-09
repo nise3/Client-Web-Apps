@@ -1,17 +1,14 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  useFetchRPLSector,
-  useFetchRTOCountries,
-} from '../../../services/CertificateAuthorityManagement/hooks';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import { useFetchRPLSector, useFetchRTOCountries } from "../../../services/CertificateAuthorityManagement/hooks";
+import IconInstitute from "../../../@softbd/icons/IconInstitute";
 
 type Props = {
   itemId: number;
@@ -42,7 +39,7 @@ const RPLSectorsDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconFAQ />
+            <IconInstitute />
             <IntlMessages id='rpl_sector.label' />
           </>
         }
