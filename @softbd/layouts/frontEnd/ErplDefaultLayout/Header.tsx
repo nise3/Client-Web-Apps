@@ -21,6 +21,7 @@ import {
   LINK_FRONTEND_ERPL_ROOT,
   LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER,
   LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS,
+  LINK_FRONTEND_ERPL_ROOT_RPL_ASSESSMENT,
   RPL_FRONTEND_STATIC_CONTENT,
 } from '../../../common/appLinks';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
@@ -160,17 +161,19 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 </Box> */}
                 {/*<Notifications />*/}
                 <LanguageSwitcher />
-                <Button
-                  style={{
-                    padding: '5px 10px',
-                    marginRight: '10px',
-                  }}
-                  sx={{height: '100%'}}
-                  id='my-self-assessment-button'
-                  variant='contained'
-                  size={'small'}>
-                  {messages['common.self_assessment']}
-                </Button>
+                <Link href={LINK_FRONTEND_ERPL_ROOT_RPL_ASSESSMENT}>
+                  <Button
+                    style={{
+                      padding: '5px 10px',
+                      marginRight: '10px',
+                    }}
+                    sx={{height: '100%'}}
+                    id='my-self-assessment-button'
+                    variant='contained'
+                    size={'small'}>
+                    {messages['common.self_assessment']}
+                  </Button>
+                </Link>
               </Box>
 
               {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}

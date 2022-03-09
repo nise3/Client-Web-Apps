@@ -73,6 +73,7 @@ export const LINK_FRONTEND_INDUSTRY_ENROLLMENT = '/enrollment';
 export const LINK_FRONTEND_ERPL_ROOT = '/';
 export const LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS = '/occupations';
 export const LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER = '/assessment-center';
+export const LINK_FRONTEND_ERPL_ROOT_RPL_ASSESSMENT = '/rpl-assessment';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
