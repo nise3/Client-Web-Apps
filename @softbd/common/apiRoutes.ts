@@ -119,7 +119,8 @@ export const API_ASSESSMENT_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/assessment/payment-by-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
-export const API_ASSESSMENT_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/assign-to-batch';
+export const API_ASSESSMENT_ASSIGN_BATCH =
+  INSTITUTE_SERVICE_PATH + '/assign-to-batch';
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
 
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
@@ -148,8 +149,6 @@ export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
 export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
 export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
 export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
-export const API_CA_ASSIGNED_BATCHES =
-  INSTITUTE_SERVICE_PATH + '/certificate-authority-assigned-batches';
 export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
 export const API_ASSESSMENT_QUESTIONS =
   INSTITUTE_SERVICE_PATH + '/assessment-questions';

@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_CA_ASSIGNED_BATCHES} from '../../../@softbd/common/apiRoutes';
+import {API_RTO_BATCH} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -12,6 +12,8 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -19,6 +21,7 @@ const YouthPage = () => {
   const router = useRouter();
   const path = router.asPath;
   const {batchId} = router.query;
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const columns = useMemo(
     () => [
@@ -89,9 +92,11 @@ const YouthPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_CA_ASSIGNED_BATCHES,
+      urlPath: API_RTO_BATCH,
       paramsValueModifier: (params: any) => {
         if (batchId) params['batch_id'] = batchId;
+        if (authUser?.institute_id)
+          params['institute_id'] = authUser?.institute_id;
         return params;
       },
     });
