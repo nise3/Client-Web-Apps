@@ -278,7 +278,7 @@
   "common.content_description": "কন্টেন্টের বিবরণ",
   "menu.visitor_feedback": "ভিজিটর ফিডব্যাক",
   "menu.notices_and_news": "সংবাদ এবং বিজ্ঞপ্তি",
-  "menu.nise3_partners": "NISE3 পার্টনার সমূহ",
+  "menu.nise3_partners": "নাইস পার্টনার সমূহ",
   "menu.recent_activities": "সাম্প্রতিক কার্যক্রম",
   "menu.events": "ঘটনাবলী",
   "menu.sliders": "স্লাইডার",
@@ -1603,5 +1603,7 @@
   "payment.incomplete_text": "আপনার পেমেন্ট এখনও সম্পূর্ণ হয়নি",
   "specialized_area.select_at_least_one": " অন্তত একটি বিশেষায়িত অঞ্চল নির্বাচন করুন",
   "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ",
-  "common.select_valid_status": "একটি বৈধ অবস্থা নির্বাচন করুন"
+  "common.select_valid_status": "একটি বৈধ অবস্থা নির্বাচন করুন",
+  "common.nise_publication": "নাইস প্রকাশনা"
+
 }

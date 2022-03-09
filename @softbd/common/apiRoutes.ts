@@ -448,6 +448,7 @@ export const API_VISITOR_FEEDBACKS =
 export const API_STATIC_PAGE_TYPES = CMS_SERVICE_PATH + '/static-page-types';
 export const API_STATIC_PAGE_BLOCKS = CMS_SERVICE_PATH + '/static-page-blocks/';
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
+export const API_NISE_PUBLICATIONS = CMS_SERVICE_PATH + '/publications';
 
 /** CMS service routes section end */
 

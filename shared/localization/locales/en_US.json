@@ -1611,5 +1611,6 @@
   "common.objective": "Objective",
   "specialized_area.select_at_least_one": "Select at least one specialized area",
   "registration_success.thanks_text": "Thanks for your Registration",
-  "common.select_valid_status": "Select a valid status"
+  "common.select_valid_status": "Select a valid status",
+  "common.nise_publication": "Nise Publication"
 }
