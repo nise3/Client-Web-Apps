@@ -24,6 +24,7 @@ interface Props {
   onChange?: (e: any) => any;
   styles?: any;
   errorInstance?: any;
+  optionInline?: boolean;
 }
 
 const FormRadioButtons = ({
@@ -37,6 +38,7 @@ const FormRadioButtons = ({
   onChange: onChangeCallback,
   styles = {},
   errorInstance,
+  optionInline = true,
 }: Props) => {
   const {messages} = useIntl();
   let errorObj = getErrorObject(id, errorInstance);
@@ -77,7 +79,8 @@ const FormRadioButtons = ({
               if (onChangeCallback && typeof onChangeCallback === 'function') {
                 onChangeCallback(e.target.value);
               }
-            }}>
+            }}
+            sx={{flexDirection: optionInline ? 'row' : 'column'}}>
             {radios.map((status) => (
               <FormControlLabel
                 key={status.key}

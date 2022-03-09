@@ -32,7 +32,7 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
           if (assessment?.type == 1) {
             return (
               <Grid item xs={12}>
-                <Body1>
+                <Body1 fontWeight={'bold'}>
                   {index + 1} {'. '} {assessment?.question_title}
                 </Body1>
                 <FormRadioButtons
@@ -45,6 +45,7 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
                     {label: assessment?.option_4, key: 4},
                   ]}
                   errorInstance={errors}
+                  optionInline={false}
                 />
                 <TextField
                   id={'answers[' + index + '][question_id]'}
@@ -65,7 +66,7 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
           } else {
             return (
               <Grid item xs={12}>
-                <Body1>
+                <Body1 fontWeight={'bold'}>
                   {index + 1} {'. '} {assessment?.question_title}
                 </Body1>
                 <FormRadioButtons

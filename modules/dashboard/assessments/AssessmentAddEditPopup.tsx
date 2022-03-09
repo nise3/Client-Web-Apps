@@ -1,28 +1,31 @@
-import { Grid } from "@mui/material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import yup from "../../../@softbd/libs/yup";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
-import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import {Grid} from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import yup from '../../../@softbd/libs/yup';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchAssessment,
   useFetchRPLLevels,
   useFetchRPLOccupations,
-  useFetchRPLSectors
-} from "../../../services/CertificateAuthorityManagement/hooks";
-import { IAssessment } from "../../../shared/Interface/common.interface";
-import { createAssessment, updateAssessment } from "../../../services/CertificateAuthorityManagement/AssessmentService";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+  useFetchRPLSectors,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import {IAssessment} from '../../../shared/Interface/common.interface';
+import {
+  createAssessment,
+  updateAssessment,
+} from '../../../services/CertificateAuthorityManagement/AssessmentService';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 interface AssessmentAddEditPopupProps {
   itemId: number | null;
@@ -235,7 +238,7 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
             control={control}
             options={levels}
             optionValueProp={'id'}
-            optionTitleProp={['title']}
+            optionTitleProp={['title', 'sequence_order']}
             errorInstance={errors}
           />
         </Grid>
