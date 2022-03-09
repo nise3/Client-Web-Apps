@@ -33,7 +33,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <IconUser />
-            <IntlMessages id='assessmentManagement.details' />
+            <IntlMessages id='applicationManagement.details' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -55,20 +55,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
             </Link>
           </Grid>
 
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['single_youth.label']}
-              value={itemData?.youth_id}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['assessmentManagement.assessment']}
-              value={itemData?.assessment_id}
-              isLoading={isLoading}
-            />
-          </Grid>
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['rpl_occupation.label']}
