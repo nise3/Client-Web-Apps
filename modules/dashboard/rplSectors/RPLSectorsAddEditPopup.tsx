@@ -108,6 +108,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     if (itemData) {
       let data: any = {
         title: itemData?.title,
+        title_en: itemData?.title_en,
         row_status: itemData?.row_status,
       };
 
@@ -260,11 +261,21 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <CustomTextInput
             required
             id={'title'}
             label={messages['rpl_sector.name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            required
+            id={'title_en'}
+            label={messages['rpl_sector.name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
