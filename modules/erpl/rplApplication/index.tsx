@@ -13,10 +13,10 @@ import yup from '../../../@softbd/libs/yup';
 import {Body1, H3, H4} from '../../../@softbd/elements/common';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
-import JobExperienceFieldArray from './JobExperienceFieldArray';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import JobExperienceFieldArray from './JobExperienceFieldArray';
+import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
 
 const RPLApplication = () => {
   const {messages, locale} = useIntl();
