@@ -21,6 +21,8 @@ import {useFetchPublicYouthAssessmentQuestions} from '../../services/Certificate
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../redux/types/models/CommonAuthUser';
 import {createYouthAssessment} from '../../services/CertificateAuthorityManagement/YouthAssessmentService';
+import useSuccessMessage from '../../@softbd/hooks/useSuccessMessage';
+import AssessmentResult from './AssessmentResult';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -50,6 +52,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const AssessmentProcessPage = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const {createSuccessMessage} = useSuccessMessage();
   const [activeStep, setActiveStep] = useState(0);
   const [activeStepKey, setActiveStepKey] = useState<string>(
     AssessmentKeys.SECTOR_OCCUPATION.toString(),
@@ -59,7 +62,7 @@ const AssessmentProcessPage = () => {
     AssessmentKeys.ASSESSMENT.toString(),
     AssessmentKeys.ASSESSMENT_RESULT.toString(),
   ]);
-  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
+  /*  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);*/
 
   const [hasCountryId, setHasCountryId] = useState<any>(null);
   const [hasSectorId, setHasSectorId] = useState<any>(null);
@@ -67,7 +70,7 @@ const AssessmentProcessPage = () => {
   const [hasLevelId, setHasLevelId] = useState<any>(null);
   const [hasRtoCountryId, setHasRtoCountryId] = useState<any>(null);
   const [assessmentFilter, setAssessmentFilter] = useState<any>(null);
-
+  const [responseData, setResponseData] = useState<any>({});
   const {data: assessments, isLoading: isLoadingAssessments} =
     useFetchPublicYouthAssessmentQuestions(assessmentFilter);
 
@@ -104,21 +107,23 @@ const AssessmentProcessPage = () => {
             errors={errors}
           />
         );
+      case AssessmentKeys.ASSESSMENT_RESULT:
+        return <AssessmentResult responseData={responseData} />;
       default:
         return <></>;
     }
   };
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      if (activeStep < stepKeys.length - 1) {
+      if (activeStep < stepKeys.length - 2) {
         handleNext();
       } else {
-        if (assessments) {
-          formData.assessment_id = assessments.assessment_id;
-        }
         formData.youth_id = authUser?.youthId;
-        await createYouthAssessment(formData);
-        setIsSuccessSubmit(true);
+        const response = await createYouthAssessment(formData);
+        setResponseData(response);
+        createSuccessMessage('common.self_assessment');
+        handleNext();
       }
       console.log('formData: ', formData);
     } catch (error: any) {}
@@ -138,7 +143,7 @@ const AssessmentProcessPage = () => {
     switch (activeStepKey) {
       case AssessmentKeys.SECTOR_OCCUPATION:
         return yup.object().shape({
-          country_id: yup
+          target_country_id: yup
             .string()
             .trim()
             .required()
@@ -222,7 +227,7 @@ const AssessmentProcessPage = () => {
   }, []);
 
   useEffect(() => {
-    let countryId = getValues('country_id');
+    let countryId = getValues('target_country_id');
     let sectorId = getValues('rpl_sector_id');
     let occupationId = getValues('rpl_occupation_id');
     let levelId = getValues('rpl_level_id');
@@ -252,6 +257,7 @@ const AssessmentProcessPage = () => {
     hasOccupationId,
     changedState,
   ]);
+
   return (
     <StyledContainer maxWidth={'lg'}>
       <Paper className={classes.paperBox}>
@@ -296,17 +302,18 @@ const AssessmentProcessPage = () => {
                       {messages['common.previous']}
                     </Button>
                   )}
-
-                  <Button
-                    sx={{marginLeft: 'auto'}}
-                    type={'submit'}
-                    variant={'contained'}
-                    color={'primary'}
-                    disabled={isSubmitting || isSuccessSubmit}>
-                    {activeStep == stepKeys.length - 1
-                      ? messages['common.submit']
-                      : messages['common.next']}
-                  </Button>
+                  {activeStep < stepKeys.length - 1 && (
+                    <Button
+                      sx={{marginLeft: 'auto'}}
+                      type={'submit'}
+                      variant={'contained'}
+                      color={'primary'}
+                      disabled={isSubmitting}>
+                      {activeStep == stepKeys.length - 2
+                        ? messages['common.submit']
+                        : messages['common.next']}
+                    </Button>
+                  )}
                 </Box>
               </form>
             </React.Fragment>
