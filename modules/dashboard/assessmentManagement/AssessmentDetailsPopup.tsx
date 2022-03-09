@@ -5,13 +5,13 @@ import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsView
 import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
 import { useIntl } from "react-intl";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconUser from "../../../@softbd/icons/IconUser";
 import { useFetchAssessmentDetails } from "../../../services/instituteManagement/hooks";
 import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
 import { FiUser } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 type Props = {
   itemId: number;
@@ -32,7 +32,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconUser />
+            <IconCourse />
             <IntlMessages id='assessmentManagement.details' />
           </>
         }

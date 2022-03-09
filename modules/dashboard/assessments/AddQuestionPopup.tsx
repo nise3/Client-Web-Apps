@@ -1,20 +1,20 @@
-import React, {FC, useMemo} from 'react';
-import yup from '../../../@softbd/libs/yup';
-import {useIntl} from 'react-intl';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {Grid, Typography} from '@mui/material';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import TransferListComponent from './TransferListComponent';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {addQuestionsToAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import React, { FC, useMemo } from "react";
+import yup from "../../../@softbd/libs/yup";
+import { useIntl } from "react-intl";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
+import { Grid, Typography } from "@mui/material";
+import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
+import TransferListComponent from "./TransferListComponent";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import { addQuestionsToAssessment } from "../../../services/CertificateAuthorityManagement/AssessmentService";
+import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
+import IconFAQ from "../../../@softbd/icons/IconFAQ";
 
 interface AssignBatchPopup {
   itemId: number | null;
@@ -76,7 +76,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
       open={true}
       title={
         <>
-          <IconOccupation />
+          <IconFAQ />
           <IntlMessages
             id='common.add_new'
             values={{

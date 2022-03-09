@@ -1,10 +1,10 @@
-import React from 'react';
-import {Business} from '@mui/icons-material';
+import React from "react";
+import { Group } from "@mui/icons-material";
 
 const IconBatch = () => {
   return (
     <>
-      <Business />
+      <Group />
     </>
   );
 };

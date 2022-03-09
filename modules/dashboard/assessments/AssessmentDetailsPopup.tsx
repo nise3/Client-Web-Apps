@@ -1,14 +1,14 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchAssessment} from '../../../services/CertificateAuthorityManagement/hooks';
-import IconRplLevel from '../../../@softbd/icons/IconRplLevel';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import { useFetchAssessment } from "../../../services/CertificateAuthorityManagement/hooks";
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 type Props = {
   itemId: number;
@@ -27,7 +27,7 @@ const AssessmentDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconRplLevel />
+            <IconCourse />
             <IntlMessages id='assessment.label' />
           </>
         }
