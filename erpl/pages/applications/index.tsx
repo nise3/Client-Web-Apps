@@ -11,7 +11,7 @@ export default ErplAssessmentFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.confirm_email'] as string} />
+      <PageMeta title={messages['common.application'] as string} />
       <RPLApplicationForm />
     </>
   );

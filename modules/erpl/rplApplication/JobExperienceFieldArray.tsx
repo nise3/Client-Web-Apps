@@ -12,6 +12,7 @@ type Props = {
   register: any;
   errors: any;
   control: any;
+  countries: any;
 };
 
 const JobExperienceFieldArray = ({
@@ -20,6 +21,7 @@ const JobExperienceFieldArray = ({
   register,
   errors,
   control,
+  countries,
 }: Props) => {
   const {messages} = useIntl();
 
@@ -47,7 +49,7 @@ const JobExperienceFieldArray = ({
                   label={messages['common.country']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={countries}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                 />
