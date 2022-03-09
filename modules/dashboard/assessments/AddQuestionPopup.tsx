@@ -9,12 +9,12 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import {Grid, Typography} from '@mui/material';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import TransferListComponent from './TransferListComponent';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {addQuestionsToAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
 
 interface AddQuestionPopupProps {
   itemId: number;
@@ -104,7 +104,7 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
       open={true}
       title={
         <>
-          <IconOccupation />
+          <IconFAQ />
           <IntlMessages
             id='common.add_new'
             values={{
