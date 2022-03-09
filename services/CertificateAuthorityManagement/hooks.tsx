@@ -15,6 +15,7 @@ import {
   API_RTO_BATCH,
   API_RTO_COUNTRIES,
   API_SUBJECTS,
+  API_ASSESSMENT_QUESTIONS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -115,4 +116,8 @@ export function useFetchPublicYouthAssessmentQuestions(params: any) {
   return useAxiosSWR(
     params ? [API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS, params] : null,
   );
+}
+
+export function useFetchAssessmentQuestions(params: any) {
+  return useAxiosSWR(params ? [API_ASSESSMENT_QUESTIONS, params] : null);
 }
