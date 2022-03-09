@@ -207,7 +207,7 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
             control={control}
             options={rplLevels}
             optionValueProp={'id'}
-            optionTitleProp={['title']}
+            optionTitleProp={['title', 'sequence_order']}
             errorInstance={errors}
             onChange={onLevelChange}
           />

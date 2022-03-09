@@ -11,7 +11,6 @@ import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import yup from '../../../@softbd/libs/yup';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {LEVEL} from '../courses/CourseEnums';
 import {
   AnswerType,
   OPTIONS,
@@ -34,24 +33,6 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {updateSuccessMessage} = useSuccessMessage();
-
-  const levels = useMemo(
-    () => [
-      {
-        id: LEVEL.BEGINNER,
-        label: messages['level.easy'],
-      },
-      {
-        id: LEVEL.INTERMEDIATE,
-        label: messages['level.intermediate'],
-      },
-      {
-        id: LEVEL.EXPERT,
-        label: messages['level.hard'],
-      },
-    ],
-    [messages],
-  );
 
   const option = useMemo(
     () => [
@@ -163,7 +144,6 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
       subject_id: itemData?.subject_id,
       title: itemData?.title,
       title_en: itemData?.title_en,
-      difficulty_level: itemData?.difficulty_level,
       type: itemData?.type,
       option_1: itemData?.option_1,
       option_1_en: itemData?.option_1_en,
@@ -174,6 +154,10 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
       option_4: itemData?.option_4,
       option_4_en: itemData?.option_4_en,
       answer: itemData?.answer,
+      assessment_id: itemData?.assessment_id,
+      question_id: itemData?.id,
+      id: itemData?.id,
+      row_status: 1,
     };
 
     if (itemData?.type == 1) {
@@ -246,19 +230,6 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='difficulty_level'
-            label={messages['question.difficulty_level']}
-            control={control}
-            options={levels}
-            optionValueProp='id'
-            optionTitleProp={['label']}
-            errorInstance={errors}
-            isLoading={false}
           />
         </Grid>
 

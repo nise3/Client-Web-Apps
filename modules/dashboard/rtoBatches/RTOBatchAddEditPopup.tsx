@@ -258,7 +258,7 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
             control={control}
             options={rplLevels}
             optionValueProp={'id'}
-            optionTitleProp={['title']}
+            optionTitleProp={['title', 'sequence_order']}
             errorInstance={errors}
           />
         </Grid>
