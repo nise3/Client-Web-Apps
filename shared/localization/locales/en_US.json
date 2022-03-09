@@ -452,6 +452,7 @@
   "rto.details": "RTO Details",
   "rpl_level.label": "RPL Levels",
   "rpl_level.name": "RPL Level",
+  "rpl_level.passing_score": "Minimum Pass Marks",
   "rpl_level.sequence_order": "RPL Sequence order",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
@@ -1641,5 +1642,6 @@
   "assessmentManagement.assessment": "Assessment",
   "assessmentManagement.details": "Details",
   "assessmentManagement.target_country": "Target Country",
-  "single_youth.label": "Youth"
+  "single_youth.label": "Youth",
+  "common.assessment_result_message": "Sorry! You could not pass the verification assessment"
 }

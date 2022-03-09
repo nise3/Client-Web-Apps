@@ -21,8 +21,9 @@ import {
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {useIntl} from 'react-intl';
 import {useForm} from 'react-hook-form';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import {Edit} from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import QuestionEdit from './QuestionEdit';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -134,7 +135,29 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
     setRightQuestionList([]);
   };
 
-  const customList = (questions: any[]) => (
+  /** question edit section */
+
+  const [isOpenEditForm, setIsOpenEditForm] = React.useState<boolean>(false);
+  const [editableQuestion, setEditableQuestion] = React.useState<object>({});
+
+  const handleEditQuestion = (questionId: any) => {
+    setIsOpenEditForm(true);
+    const question = rightQuestionList.find(
+      (question: any) => question?.id === questionId,
+    );
+
+    setEditableQuestion(question);
+  };
+
+  const handleCloseQuestionEdit = () => {
+    setIsOpenEditForm(false);
+  };
+
+  const getEditedQuestion = (question: any) => {
+    console.log('the edited question: ', question);
+  };
+
+  const customList = (questions: any[], isRightQuestions = false) => (
     <Paper sx={{width: 375, overflow: 'auto', height: '100%'}}>
       <List dense component='div' role='list'>
         {questions?.map((value: any) => {
@@ -159,16 +182,21 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                 onChange={handleAccordionExpandedChange(value)}
                 key={value}>
                 <AccordionSummary
-                  expandIcon={
-                    accordionExpandedState === value ? (
-                      <RemoveIcon />
-                    ) : (
-                      <AddIcon />
-                    )
-                  }
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls='panel2a-content'
-                  id='panel2a-header'>
+                  id='panel2a-header'
+                  sx={{justifyContent: 'space-between'}}>
                   <Typography>{value?.title}</Typography>
+                  {isRightQuestions && (
+                    <Edit
+                      sx={{
+                        alignSelf: 'center',
+                        position: 'absolute',
+                        right: '45px',
+                      }}
+                      onClick={() => handleEditQuestion(value?.id)}
+                    />
+                  )}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>{value?.answer}</Typography>
@@ -177,13 +205,18 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
             </ListItem>
           );
         })}
-
         <ListItem />
       </List>
     </Paper>
   );
 
-  return (
+  return isOpenEditForm ? (
+    <QuestionEdit
+      itemData={editableQuestion}
+      onClose={handleCloseQuestionEdit}
+      getEditedQuestion={getEditedQuestion}
+    />
+  ) : (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <CustomFilterableFormSelect
@@ -256,7 +289,7 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                   </Button>
                 </Grid>
               </Grid>
-              <Grid item>{customList(rightQuestionList)}</Grid>
+              <Grid item>{customList(rightQuestionList, true)}</Grid>
             </Grid>
           </Grid>
         ))}

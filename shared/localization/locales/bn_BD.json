@@ -393,6 +393,7 @@
   "subject.title_en": "সাবজেক্টের নাম (ইংরেজি)",
   "rpl_level.label": "আরপিএল লেভেল",
   "rpl_level.name": "আরপিএল লেভেল",
+  "rpl_level.passing_score": "ন্যূনতম পাস নম্বর",
   "rpl_level.sequence_order": "আরপিএল লেভেল ক্রম",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
@@ -1634,5 +1635,6 @@
   "assessmentManagement.assessment": "মূল্যায়ন",
   "assessmentManagement.details": "মূল্যায়ন বিবরণ",
   "assessmentManagement.target_country": "টার্গেট দেশ",
-  "single_youth.label": "ইউথ"
+  "single_youth.label": "ইউথ",
+  "common.assessment_result_message": "দুঃখিত! আপনি যাচাই এ উত্তীর্ণ হতে পারেন নি"
 }
