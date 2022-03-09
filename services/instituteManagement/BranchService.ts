@@ -3,9 +3,6 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_BRANCHES} from '../../@softbd/common/apiRoutes';
 import {IBranch} from '../../shared/Interface/institute.interface';
 
-/**
- * @deprecated
- */
 export const getAllBranches = async (params = {}) => {
   try {
     let response: any = await apiGet(API_BRANCHES, {params});
