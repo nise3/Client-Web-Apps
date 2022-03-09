@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
-import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import {
   useFetchPublicRPLLevels,
@@ -8,7 +8,7 @@ import {
   useFetchPublicRPLSectors,
   useFetchPublicRTOCountries,
   useFetchPublicRTOS,
-} from '../../services/CertificateAuthorityManagement/hooks';
+} from '../../../services/CertificateAuthorityManagement/hooks';
 
 interface SectorAndOccupationFormProps {
   register: any;
