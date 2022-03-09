@@ -1636,5 +1636,6 @@
   "rto_batch.label": "Rto Batch",
   "common.rto_sector_exceptions": "RTO sector exceptions",
   "common.rto_occupation_exceptions": "RTO occupation exceptions",
-  "common.answer": "Answer"
+  "common.answer": "Answer",
+  "common.assessment_result_message": "Sorry! You could not pass the verification assessment"
 }
