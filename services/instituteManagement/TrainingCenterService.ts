@@ -3,9 +3,6 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_TRAINING_CENTERS} from '../../@softbd/common/apiRoutes';
 import {ITrainingCenter} from '../../shared/Interface/institute.interface';
 
-/**
- * @deprecated
- */
 export const getAllTrainingCenters = async (params = {}) => {
   try {
     let response: any = await apiGet(API_TRAINING_CENTERS, {params});

@@ -1,19 +1,19 @@
-import React, { useCallback, useMemo, useState } from "react";
-import PageBlock from "../../../@softbd/utilities/PageBlock";
-import { useIntl } from "react-intl";
-import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
-import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
-import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
-import { API_YOUTH_ASSESSMENT } from "../../../@softbd/common/apiRoutes";
-import ReactTable from "../../../@softbd/table/Table/ReactTable";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconCourse from "../../../@softbd/icons/IconCourse";
-import AssessmentDetailsPopup from "./AssessmentDetailsPopup";
-import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import AssignBatchPopup from "./AssignAssessmentBatchPopup";
-import { FiUserCheck } from "react-icons/fi";
-import LocaleLanguage from "../../../@softbd/utilities/LocaleLanguage";
-import CustomChipStatus from "../memberList/CustomChipStatus";
+import React, {useCallback, useMemo, useState} from 'react';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import {useIntl} from 'react-intl';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_YOUTH_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconCourse from '../../../@softbd/icons/IconCourse';
+import AssessmentDetailsPopup from './AssessmentDetailsPopup';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import AssignBatchPopup from './AssignAssessmentBatchPopup';
+import {FiUserCheck} from 'react-icons/fi';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import CustomChipStatus from '../memberList/CustomChipStatus';
 
 const AssessmentManagementPage = () => {
   const {messages, locale} = useIntl();
@@ -24,6 +24,8 @@ const AssessmentManagementPage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenBatchAssignModal, setIsOpenBatchAssignModal] = useState(false);
   const [batchId, setBatchId] = useState<any>(null);
+  const [sectorId, setSectorId] = useState<any>(null);
+  const [occupationId, setOccupationId] = useState<any>(null);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -37,11 +39,18 @@ const AssessmentManagementPage = () => {
 
   /** Assign Batch Modal */
   const openAssignBatchModal = useCallback(
-    (itemId: number | null = null, batch_id: number | string) => {
+    (
+      itemId: number | null = null,
+      batch_id: number | string,
+      rpl_sector_id: number | string,
+      rpl_occupation_id: number | string,
+    ) => {
       setIsOpenDetailsModal(false);
       setIsOpenBatchAssignModal(true);
       setSelectedItemId(itemId);
       setBatchId(batch_id);
+      setSectorId(rpl_sector_id);
+      setOccupationId(rpl_occupation_id);
     },
     [],
   );
@@ -56,15 +65,15 @@ const AssessmentManagementPage = () => {
   }, [isToggleTable]);
 
   /** Method called to reject an assessment */
- /* const rejectYouthEnrollment = async (enrollment_id: number) => {
-    let response = await rejectEnrollment(enrollment_id);
-    if (isResponseSuccess(response)) {
-      {
-        successStack(<IntlMessages id='assessmentManagement.rejected' />);
-      }
-      refreshDataTable();
-    }
-  };*/
+  /* const rejectYouthEnrollment = async (enrollment_id: number) => {
+         let response = await rejectEnrollment(enrollment_id);
+         if (isResponseSuccess(response)) {
+           {
+             successStack(<IntlMessages id='assessmentManagement.rejected' />);
+           }
+           refreshDataTable();
+         }
+       };*/
 
   const columns = useMemo(
     () => [
@@ -115,7 +124,10 @@ const AssessmentManagementPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <CustomChipStatus variant={'filled'} value={data?.rto_batch_id ? 1 : 2} />
+            <CustomChipStatus
+              variant={'filled'}
+              value={data?.rto_batch_id ? 1 : 2}
+            />
           );
         },
       },
@@ -128,7 +140,14 @@ const AssessmentManagementPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data?.id)} />
               <CommonButton
-                onClick={() => openAssignBatchModal(data?.id, data?.rto_batch_id)}
+                onClick={() =>
+                  openAssignBatchModal(
+                    data?.id,
+                    data?.rto_batch_id,
+                    data?.rpl_sector_id,
+                    data?.rpl_occupation_id,
+                  )
+                }
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                 color='secondary'
@@ -155,7 +174,6 @@ const AssessmentManagementPage = () => {
       urlPath: API_YOUTH_ASSESSMENT,
     });
 
-
   return (
     <>
       <PageBlock
@@ -179,6 +197,8 @@ const AssessmentManagementPage = () => {
             onClose={closeAssignBatchModal}
             itemId={selectedItemId}
             batchId={batchId}
+            sectorId={sectorId}
+            occupationId={occupationId}
             refreshDataTable={refreshDataTable}
           />
         )}
