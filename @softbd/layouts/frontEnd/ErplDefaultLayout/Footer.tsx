@@ -155,10 +155,10 @@ const Footer = () => {
           </Grid> */}
           <Grid item md={12}>
             <Grid container columnSpacing={12}>
-              <Grid item md={6}>
+              <Grid item md={8}>
                 <Typography variant='subtitle2' gutterBottom={true}>
                   <Box component={'span'} fontWeight='fontWeightBold'>
-                    {messages['footer.in_implementation']}
+                    {messages['footer.rpl_in_implementation']}
                   </Box>
                 </Typography>
                 <a
@@ -166,6 +166,11 @@ const Footer = () => {
                   href='https://a2i.gov.bd/'
                   rel='noopener noreferrer'>
                   <Box component={'span'}>
+                  <img
+                      src={'/tecnical.png'}
+                      alt='crema-logo'
+                      className={classes.softbdImage}
+                    />
                     <img
                       src={'/images/footer-img.png'}
                       alt='crema-logo'
@@ -174,7 +179,7 @@ const Footer = () => {
                   </Box>
                 </a>
               </Grid>
-              <Grid item md={6}>
+              <Grid item md={4}>
                 <Typography variant='subtitle2' gutterBottom={true}>
                   <Box component={'span'} fontWeight='fontWeightBold'>
                     {messages['common.technical_support']}
