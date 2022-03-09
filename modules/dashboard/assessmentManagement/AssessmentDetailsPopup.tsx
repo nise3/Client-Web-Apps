@@ -33,7 +33,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <IconCourse />
-            <IntlMessages id='assessmentManagement.details' />
+            <IntlMessages id='applicationManagement.details' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}

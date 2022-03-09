@@ -58,9 +58,16 @@ const AssignBatchPopup: FC<AssignAssessmentBatchPopup> = ({
   });
 
   useEffect(() => {
-    reset({
-      rto_batch_id: batchId
-    });
+    if(batchId) {
+      reset({
+        rto_batch_id: batchId
+      });
+    }else {
+      reset({
+        rto_batch_id: '',
+      });
+    }
+
   }, [batchId]);
 
   const onSubmit: SubmitHandler<IAssessmentBatchAssign> = async (data: IAssessmentBatchAssign) => {
