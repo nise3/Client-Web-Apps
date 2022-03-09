@@ -44,3 +44,4 @@ export const assignBatch = async (
     catchBlockHandler(error);
   }
 };
+

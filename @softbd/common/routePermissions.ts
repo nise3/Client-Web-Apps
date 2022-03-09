@@ -99,6 +99,10 @@ export const routePermissions: any = {
     routePrefix: '/application-management',
     permissionKeys: ['view_any_course_enrollment'],
   },
+  '/assessment-management': {
+    routePrefix: '/assessment-management',
+    permissionKeys: ['view_any_youth_assessment'],
+  },
   '/hr-demand': {
     routePrefix: '/hr-demand',
     permissionKeys: ['view_any_institute_hr_demand'],

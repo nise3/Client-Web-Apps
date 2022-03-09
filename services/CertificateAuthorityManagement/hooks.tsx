@@ -107,6 +107,10 @@ export function useFetchRTOBatch(rtoBatchId: number | null) {
   return useAxiosSWR(rtoBatchId ? API_RTO_BATCH + '/' + rtoBatchId : null);
 }
 
+export function useFetchRTOBatches(params: any) {
+  return useAxiosSWR(params ? [API_RTO_BATCH, params] : null);
+}
+
 export function useFetchPublicYouthAssessmentQuestions(params: any) {
   return useAxiosSWR(
     params ? [API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS, params] : null,
