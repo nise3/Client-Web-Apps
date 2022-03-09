@@ -28,11 +28,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {ITrainer} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 
-import {
-  useFetchBranches,
-  useFetchTrainer,
-  useFetchTrainingCenters,
-} from '../../../services/instituteManagement/hooks';
+import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -54,6 +50,8 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {Gender} from '../../industry/enrollment/constants/GenderEnums';
+import {getAllBranches} from '../../../services/instituteManagement/BranchService';
+import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -195,16 +193,20 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const [branchFilters, setBranchFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
 
   const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchTrainingCenters(trainingCenterFilters);
+
   const [institutes, setInstitutes] = useState<Array<any>>([]);
   const [isLoadingInstitutes, setIsLoadingInstitutes] =
+    useState<boolean>(false);
+
+  const [branches, setBranches] = useState<Array<any>>([]);
+  const [isLoadingBranches, setIsLoadingBranches] = useState<boolean>(false);
+
+  const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
+  const [isLoadingTrainingCenters, setIsLoadingTrainingCenters] =
     useState<boolean>(false);
 
   const [roleFilter] = useState({});
@@ -314,6 +316,31 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
       })();
     }
   }, []);
+
+  useEffect(() => {
+    if (authUser?.institute?.service_type != 2) {
+      (async () => {
+        try {
+          setIsLoadingBranches(true);
+          setIsLoadingTrainingCenters(true);
+          let branches = await getAllBranches(branchFilters);
+          let trainingCenters = await getAllTrainingCenters(
+            trainingCenterFilters,
+          );
+
+          setIsLoadingBranches(false);
+          setIsLoadingTrainingCenters(false);
+
+          if (branches && branches?.data) {
+            setBranches(branches.data);
+          }
+          if (trainingCenters && trainingCenters?.data) {
+            setTrainingCenters(trainingCenters.data);
+          }
+        } catch (e) {}
+      })();
+    }
+  }, [authUser, branchFilters, trainingCenterFilters]);
 
   useEffect(() => {
     if (itemData) {
@@ -818,31 +845,35 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           </Grid>
         )}
 
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onBranchChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id='training_center_id'
-            label={messages['menu.training_center']}
-            isLoading={isLoadingTrainingCenters}
-            control={control}
-            options={trainingCenters}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {authUser?.institute?.service_type != 2 && (
+          <>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id='branch_id'
+                label={messages['branch.label']}
+                isLoading={isLoadingBranches}
+                control={control}
+                options={branches}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onBranchChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id='training_center_id'
+                label={messages['menu.training_center']}
+                isLoading={isLoadingTrainingCenters}
+                control={control}
+                options={trainingCenters}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
