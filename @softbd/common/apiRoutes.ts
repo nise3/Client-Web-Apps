@@ -463,6 +463,7 @@ export const API_PUBLIC_INDUSTRY_ASSOC_DETAILS =
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CMS_SERVICE_PATH + '/upazilas';
+export const API_UNIONS = CMS_SERVICE_PATH + '/unions';
 export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
