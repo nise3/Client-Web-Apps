@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Grid} from '@mui/material';
-import {H2, H6} from '../../@softbd/elements/common';
+import {H2, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 
 interface ResultProps {

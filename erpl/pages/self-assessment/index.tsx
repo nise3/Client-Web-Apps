@@ -5,7 +5,7 @@ import {useIntl} from 'react-intl';
 import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 
 const RPLAssessmentProcess = asyncComponent(
-  () => import('../../../modules/selfAssessmentProcess/index'),
+  () => import('../../../modules/erpl/selfAssessmentProcess'),
 );
 export default NiseFrontPage(() => {
   const {messages} = useIntl();

@@ -7,16 +7,17 @@ import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../../@softbd/layouts/themes/youth';
 import {useTheme} from '@mui/material/styles';
 
-const AssessmentPaymentMethods = asyncComponent(
-  () => import('../../../modules/youth/assessmentPaymentMethod'),
+const AssessmentPaymentSuccessPage = asyncComponent(
+  () => import('../../../modules/erpl/assessmentPaymentSuccess'),
 );
 export default AuthenticatedBlankPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
-      <PageMeta title={messages['common.payment_method'] as string} />
+      <PageMeta title={messages['common.assessment']} />
       <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
-        <AssessmentPaymentMethods />
+        <AssessmentPaymentSuccessPage />
       </ThemeProvider>
     </>
   );

@@ -14,7 +14,7 @@ type Props = {
   control: any;
 };
 
-const AcademicQualificationFieldArray = ({
+const JobExperienceFieldArray = ({
   id,
   isLoading,
   register,
@@ -114,4 +114,4 @@ const AcademicQualificationFieldArray = ({
   );
 };
 
-export default AcademicQualificationFieldArray;
+export default JobExperienceFieldArray;

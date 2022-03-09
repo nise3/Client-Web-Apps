@@ -1,15 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Box, Button, CardMedia, Container, Typography} from '@mui/material';
 import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import {
-  getBrowserCookie,
-  removeBrowserCookie,
-} from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_ASSESSMENT_ID} from '../../../shared/constants/AppConst';
 import {youthDomain} from '../../../@softbd/common/constants';
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -21,15 +15,6 @@ const AssessmentPaymentSuccessPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const {responseStatus} = router.query;
-  const [assessmentId, setAssessmentId] = useState<number | null>(null);
-
-  useEffect(() => {
-    const assessmentId = getBrowserCookie(COOKIE_KEY_ASSESSMENT_ID);
-    if (assessmentId) {
-      setAssessmentId(assessmentId);
-      removeBrowserCookie(COOKIE_KEY_ASSESSMENT_ID);
-    }
-  }, []);
 
   const getResponseMessage = () => {
     switch (responseStatus) {
@@ -61,19 +46,11 @@ const AssessmentPaymentSuccessPage = () => {
           style={{marginTop: '10px', marginBottom: '10px'}}>
           {getResponseMessage()}
         </Typography>
-        {assessmentId ? (
-          <Link href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + assessmentId}>
-            <Button color='primary' variant={'contained'}>
-              {messages['course_enroll.go_to_course']}
-            </Button>
-          </Link>
-        ) : (
-          <Link href={youthDomain()}>
-            <Button color='primary' variant={'contained'}>
-              {messages['common.goto_home']}
-            </Button>
-          </Link>
-        )}
+        <Link href={youthDomain()}>
+          <Button color='primary' variant={'contained'}>
+            {messages['common.goto_home']}
+          </Button>
+        </Link>
       </Box>
     </StyledContainer>
   );
