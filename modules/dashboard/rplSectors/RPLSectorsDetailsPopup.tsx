@@ -60,10 +60,17 @@ const RPLSectorsDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={12}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DetailsInputView
                   label={messages['rpl_sector.name']}
                   value={itemData?.title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['rpl_sector.name_en']}
+                  value={itemData?.title_en}
                   isLoading={isLoading}
                 />
               </Grid>
