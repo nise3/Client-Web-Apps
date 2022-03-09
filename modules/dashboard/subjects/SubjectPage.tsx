@@ -1,20 +1,20 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import SubjectAddEditPopup from './SubjectAddEditPopup';
-import SubjectDetailsPopup from './SubjectDetailsPopup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IconSkill from '../../../@softbd/icons/IconSkill';
-import {deleteSubject} from '../../../services/CertificateAuthorityManagement/SubjectService';
-import {useFetchSubjects} from '../../../services/CertificateAuthorityManagement/hooks';
+import React, { useCallback, useMemo, useState } from "react";
+import PageBlock from "../../../@softbd/utilities/PageBlock";
+import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
+import { useIntl } from "react-intl";
+import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
+import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
+import ReactTable from "../../../@softbd/table/Table/ReactTable";
+import SubjectAddEditPopup from "./SubjectAddEditPopup";
+import SubjectDetailsPopup from "./SubjectDetailsPopup";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
+import { deleteSubject } from "../../../services/CertificateAuthorityManagement/SubjectService";
+import { useFetchSubjects } from "../../../services/CertificateAuthorityManagement/hooks";
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 const SubjectPage = () => {
   const {messages} = useIntl();
@@ -115,7 +115,7 @@ const SubjectPage = () => {
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='subjects.label' />
+            <IconCourse /> <IntlMessages id='subjects.label' />
           </>
         }
         extra={[

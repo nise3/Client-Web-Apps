@@ -1,21 +1,21 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_RPL_OCCUPATIONS} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import RPLOccupationsDetailsPopup from './RPLOccupationsDetailsPopup';
-import RPLOccupationsAddEditPopup from './RPLOccupationsAddEditPopup';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import {deleteRPLOccupation} from '../../../services/CertificateAuthorityManagement/RPLOccupationService';
+import React, { useCallback, useMemo, useState } from "react";
+import PageBlock from "../../../@softbd/utilities/PageBlock";
+import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
+import { useIntl } from "react-intl";
+import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
+import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
+import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
+import { API_RPL_OCCUPATIONS } from "../../../@softbd/common/apiRoutes";
+import ReactTable from "../../../@softbd/table/Table/ReactTable";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import RPLOccupationsDetailsPopup from "./RPLOccupationsDetailsPopup";
+import RPLOccupationsAddEditPopup from "./RPLOccupationsAddEditPopup";
+import { deleteRPLOccupation } from "../../../services/CertificateAuthorityManagement/RPLOccupationService";
+import IconOccupation from "../../../@softbd/icons/IconOccupation";
 
 const RPLOccupationsPage = () => {
   const {messages, locale} = useIntl();
@@ -118,7 +118,7 @@ const RPLOccupationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='rpl_occupations.label' />
+            <IconOccupation /> <IntlMessages id='rpl_occupations.label' />
           </>
         }
         extra={[
