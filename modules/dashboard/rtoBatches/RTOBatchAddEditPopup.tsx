@@ -26,6 +26,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useFetchPublicInstitutes} from '../../../services/instituteManagement/hooks';
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
 
 interface RTOBatchAddEditPopupProps {
   itemId: number | null;
@@ -52,7 +53,7 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const [institutesFilters] = useState({
-    service_type: 2,
+    service_type: InstituteServiceTypes.CERTIFICATE,
   });
   const [rplSectorsFilters] = useState({});
   const [rplOccupationsFilters, setOccupationsFilter] = useState({});

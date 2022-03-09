@@ -57,11 +57,7 @@ import {
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {Box} from '@mui/system';
 import {cloneDeep} from 'lodash';
-
-export enum InstituteType {
-  GOVERNMENT = '1',
-  NON_GOVERNMENT = '0',
-}
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -72,7 +68,7 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  institute_type_id: '0',
+  institute_type_id: InstituteTypes.GOVERNMENT,
   country_id: '0',
   code: '',
   address: '',
@@ -111,11 +107,11 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const instituteTypes = useMemo(
     () => [
       {
-        key: InstituteType.GOVERNMENT,
+        key: InstituteTypes.GOVERNMENT,
         label: messages['common.government'],
       },
       {
-        key: InstituteType.NON_GOVERNMENT,
+        key: InstituteTypes.NON_GOVERNMENT,
         label: messages['common.non_government'],
       },
     ],
@@ -135,9 +131,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
-    useState<any>({
-      row_status: RowStatus.ACTIVE,
-    });
+    useState<any>(null);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -301,13 +295,13 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (permissionGroups && permissionGroups.length > 0) {
+    if (!isEdit && permissionGroups && permissionGroups.length > 0) {
       setPermissionSubGroupFilters({
         permission_group_id: permissionGroups[0]?.id,
         row_status: RowStatus.ACTIVE,
       });
     }
-  }, [permissionGroups]);
+  }, [isEdit, permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
