@@ -1,6 +1,6 @@
 import {Button, Container, FormLabel, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {IUser} from '../../../shared/Interface/userManagement.interface';
@@ -17,6 +17,16 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import JobExperienceFieldArray from './JobExperienceFieldArray';
 import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
+import {
+  useFetchCountries,
+  useFetchDistricts,
+  useFetchUnions,
+  useFetchUpazilas,
+} from '../../../services/locationManagement/hooks';
+import {
+  filterUnionsByUpazilaId,
+  filterUpazilasByDistrictId,
+} from '../../../services/locationManagement/locationUtils';
 
 const RPLApplication = () => {
   const {messages, locale} = useIntl();
@@ -44,6 +54,67 @@ const RPLApplication = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
+  const [unionsFilter] = useState({});
+  const [countriesFilter] = useState({});
+
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+  const {data: unions, isLoading: isLoadingUnions} =
+    useFetchUnions(unionsFilter);
+  const {data: countries, isLoading: isLoadingContries} =
+    useFetchCountries(countriesFilter);
+
+  const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
+    Array<any> | []
+  >([]);
+  const [presentAddressUnionList, setPresentAddressUnionList] = useState<
+    Array<any> | []
+  >([]);
+
+  const [permanentAddressUpazilaList, setPermanentAddressUpazilaList] =
+    useState<Array<any> | []>([]);
+  const [permanentAddressUnionList, setPermanentAddressUnionList] = useState<
+    Array<any> | []
+  >([]);
+
+  const handlePresentAddressDistrictChange = useCallback(
+    (districtId: number) => {
+      setPresentAddressUplazilaList(
+        filterUpazilasByDistrictId(upazilas, districtId),
+      );
+    },
+    [upazilas],
+  );
+
+  const handlePermanentAddressDistrictChange = useCallback(
+    (districtId: number) => {
+      setPermanentAddressUpazilaList(
+        filterUpazilasByDistrictId(upazilas, districtId),
+      );
+    },
+    [upazilas],
+  );
+
+  const handlePresentAddressUpazilaChange = useCallback(
+    (upazilaId: number) => {
+      setPresentAddressUnionList(filterUnionsByUpazilaId(unions, upazilaId));
+    },
+    [unions],
+  );
+
+  const handlePermanentAddressUpazilaChange = useCallback(
+    (upazilaId: number) => {
+      setPermanentAddressUnionList(
+        filterUpazilasByDistrictId(upazilas, upazilaId),
+      );
+    },
+    [unions],
+  );
 
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
@@ -197,11 +268,11 @@ const RPLApplication = () => {
                   label={messages['districts.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={districts}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
-                  // onChange={changeDistrictAction}
+                  onChange={handlePresentAddressDistrictChange}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -211,10 +282,11 @@ const RPLApplication = () => {
                   label={messages['upazilas.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={presentAddressUplazilaList}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
+                  onChange={handlePresentAddressUpazilaChange}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -224,7 +296,7 @@ const RPLApplication = () => {
                   label={messages['union.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={presentAddressUnionList || []}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
@@ -255,11 +327,11 @@ const RPLApplication = () => {
                   label={messages['districts.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={districts}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
-                  // onChange={changeDistrictAction}
+                  onChange={handlePermanentAddressDistrictChange}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -269,10 +341,11 @@ const RPLApplication = () => {
                   label={messages['upazilas.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={permanentAddressUpazilaList}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
+                  onChange={handlePermanentAddressUpazilaChange}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -282,7 +355,7 @@ const RPLApplication = () => {
                   label={messages['union.label']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={permanentAddressUnionList || []}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
@@ -364,6 +437,7 @@ const RPLApplication = () => {
                   register={register}
                   errors={errors}
                   control={control}
+                  countries={countries}
                 />
               </Grid>
             </Grid>

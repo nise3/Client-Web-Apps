@@ -2,16 +2,16 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
+import ErplDefaultFrontPage from '../../../@softbd/layouts/hoc/ErplDefaultFrontPage';
 
 const RPLApplicationForm = asyncComponent(
   () => import('../../../modules/erpl/rplApplication'),
 );
-export default YouthFrontPage(() => {
+export default ErplDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.confirm_email'] as string} />
+      <PageMeta title={messages['common.application'] as string} />
       <RPLApplicationForm />
     </>
   );
