@@ -108,11 +108,12 @@ const Header: React.FC<AppHeaderProps> = () => {
             className={classes.headerHalfLogo}>
             {industryAssociationDetails?.logo && (
               <Box sx={{marginRight: '10px'}}>
-                <img
+                logo
+                {/* <img
                   className={classes.logoInstitute}
                   src={industryAssociationDetails?.logo}
                   alt='industry logo'
-                />
+                /> */}
               </Box>
             )}
           </Link>
