@@ -53,7 +53,7 @@ const RPLSectorsPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='rpl_sector.label' />}}
+          values={{subject: <IntlMessages id='rpl_level.label' />}}
         />,
       );
 
