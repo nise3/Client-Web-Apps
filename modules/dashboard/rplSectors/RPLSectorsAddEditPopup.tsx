@@ -108,6 +108,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
     if (itemData) {
       let data: any = {
         title: itemData?.title,
+        title_en: itemData?.title_en,
         row_status: itemData?.row_status,
       };
 
