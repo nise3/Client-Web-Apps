@@ -1,143 +1,51 @@
 import {styled} from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 
-const PREFIX = 'Header';
+const PREFIX = 'AppHeader';
 
 export const classes = {
   appBar: `${PREFIX}-appBar`,
-  logoArea: `${PREFIX}-logoArea`,
-  header: `${PREFIX}-header`,
-  headerHalf: `${PREFIX}-headerHalf`,
-  headerHalfLogo: `${PREFIX}-headerHalfLogo`,
+  signinButton: `${PREFIX}-signinButton`,
   headerMain: `${PREFIX}-headerMain`,
   headerMainFlex: `${PREFIX}-headerMainFlex`,
-  headerFixedHeight: `${PREFIX}-headerFixedHeight`,
-  headerMenu: `${PREFIX}-headerMenu`,
-  headerMenuGroup: `${PREFIX}-headerMenuGroup`,
   menuButton: `${PREFIX}-menuButton`,
   grow: `${PREFIX}-grow`,
   sectionDesktop: `${PREFIX}-sectionDesktop`,
   sectionMobile: `${PREFIX}-sectionMobile`,
-  mobileMenuButton: `${PREFIX}-mobileMenuButton`,
   menuIcons: `${PREFIX}-menuIcons`,
   menuItem: `${PREFIX}-menuItem`,
-  firstMenuItem: `${PREFIX}-firstMenuItem`,
-  menuItemActive: `${PREFIX}-menuItemActive`,
-  menuItemAction: `${PREFIX}-menuItemAction`,
   menuItemMobile: `${PREFIX}-menuItemMobile`,
+  desktopMenu: `${PREFIX}-desktopMenu`,
   headerNav: `${PREFIX}-headerNav`,
+  menuItemRoot: `${PREFIX}-menuItemRoot`,
   pointer: `${PREFIX}-pointer`,
-  languageSwitcher: `${PREFIX}-languageSwitcher`,
-  menuItemRegOrLogin: `${PREFIX}-menuItemRegOrLogin`,
-  logoInstitute: `${PREFIX}-logoInstitute`,
-  instituteName: `${PREFIX}-instituteName`,
+  menuIconRoot: `${PREFIX}-menuIconRoot`,
+  logoRoot: `${PREFIX}-logoRoot`,
 };
-
-const headerFixedHeight = {
-  height: 60,
-  minHeight: 60,
-  boxSizing: 'border-box',
-};
-
-export const StyledBox = styled(Box)(({theme}) => ({
-  width: '100%',
-  minHeight: 80,
-  margin: '0px auto',
-
-  [`& .${classes.logoArea}`]: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-  },
-
-  [`& .${classes.headerHalf}`]: {
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-    color: theme.palette.grey[800],
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'unset',
-      textAlign: 'end',
-    },
-  },
-
-  [`& .${classes.headerHalfLogo}`]: {
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-    margin: 'auto',
-    [theme.breakpoints.up('md')]: {
-      margin: '0px',
-      justifyContent: 'unset',
-      textAlign: 'end',
-    },
-  },
-
-  [`& .${classes.menuIcons}`]: {
-    height: '0.6em',
-  },
-
-  [`& .${classes.logoInstitute}`]: {
-    width: '100%',
-    height: 48,
-    objectFit: 'contain',
-  },
-
-  [`& .${classes.instituteName}`]: {
-    margin: 'auto',
-    [theme.breakpoints.up('md')]: {
-      marginLeft: '16px',
-    },
-  },
-}));
 
 export const StyledAppBar = styled(AppBar)(({theme}) => ({
-  // boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
-  boxShadow: 'none',
+  [`&.${classes.appBar}`]: {
+    boxShadow: '4px 3px 4px 0px rgba(0,0,0,0.12)',
+  },
+
+  [`& .${classes.signinButton}`]: {
+    color: '#fff',
+    background: '#682988',
+  },
 
   [`& .${classes.headerMain}`]: {
     minHeight: 56,
+    padding: 0,
     paddingRight: 0,
     paddingLeft: 0,
     [theme.breakpoints.up('sm')]: {
       minHeight: 70,
     },
-    backgroundColor: theme.palette.primary.main,
-    // maxWidth: theme.breakpoints.values.xl,
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    width: '100%',
   },
 
   [`& .${classes.headerMainFlex}`]: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'right',
-    padding: 0,
-    width: '100%',
-  },
-
-  [`& .${classes.headerFixedHeight}`]: {
-    ...headerFixedHeight,
-  },
-
-  [`& .${classes.headerMenu}`]: {
-    width: '100%',
-    maxWidth: theme.breakpoints.values.xl,
-    justifyContent: 'space-between',
-    display: 'flex',
-  },
-
-  [`& .${classes.headerMenuGroup}`]: {
-    ...headerFixedHeight,
-    justifyContent: 'center',
-    display: 'flex',
   },
 
   [`& .${classes.menuButton}`]: {
@@ -150,8 +58,6 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.sectionDesktop}`]: {
     display: 'none',
-    width: '100%',
-    maxWidth: theme.breakpoints.values.xl,
     [theme.breakpoints.up('md')]: {
       display: 'flex',
       alignItems: 'center',
@@ -168,50 +74,47 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     },
   },
 
-  [`& .${classes.mobileMenuButton}`]: {
-    color: theme.palette.primary.contrastText,
-  },
-
   [`& .${classes.menuIcons}`]: {
     height: '0.6em',
+    marginTop: '-2px',
   },
 
   [`& .${classes.menuItem}`]: {
-    ...headerFixedHeight,
+    fontSize: '1.13rem',
     padding: '20px 10px',
-    fontSize: '1.15rem',
-    color: theme.palette.primary.contrastText,
-    '&.active': {
-      backgroundColor: theme.palette.primary.light,
+    color: '#746F6F',
+    '&>a': {
+      display: 'flex',
+    },
+    '& .active': {
+      color: theme.palette.primary.main,
+      fontWeight: 'bold',
+    },
+    '& img': {
+      marginRight: '5px',
     },
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.primary.main,
+      transition: 'all .7s ease',
+      transform: 'scale(1.2)',
+      // fontWeight: 'bold',
     },
-  },
-
-  [`& .${classes.firstMenuItem}`]: {
-    ...headerFixedHeight,
-    padding: '20px 10px',
-    fontSize: '1.15rem',
-    color: theme.palette.primary.contrastText,
-    '&.active': {
-      backgroundColor: theme.palette.primary.light,
-      // paddingLeft: 10,
-    },
-  },
-
-  [`& .${classes.menuItemActive}`]: {
-    backgroundColor: theme.palette.primary.light,
-  },
-
-  [`& .${classes.menuItemAction}`]: {
-    backgroundColor: theme.palette.warning.main,
   },
 
   [`& .${classes.menuItemMobile}`]: {
     padding: '18px 20px 18px 12px',
+    '&>a': {
+      display: 'flex',
+    },
     '& .active': {
       color: theme.palette.primary.main,
+    },
+  },
+
+  [`& .${classes.desktopMenu}`]: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
 
@@ -245,26 +148,24 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
     '& .navLinkIcon': {
       marginRight: 10,
       color: theme.palette.grey[800],
-      fontSize: 20,
+      fontSize: '1.25rem',
     },
+  },
+
+  [`& .${classes.menuItemRoot}`]: {
+    padding: 0,
   },
 
   [`& .${classes.pointer}`]: {
     cursor: 'pointer',
   },
 
-  [`& .${classes.languageSwitcher}`]: {
-    height: '100%',
-    background: theme.palette.primary.light,
-    color: theme.palette.primary.contrastText,
+  [`& .${classes.menuIconRoot}`]: {
+    width: '2.5rem',
+    height: '2.5rem',
   },
 
-  [`& .${classes.menuItemRegOrLogin}`]: {
-    background: theme.palette.warning.main,
-    color: theme.palette.primary.contrastText,
-    width: '200px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  [`& .${classes.logoRoot}`]: {
+    height: 30,
   },
 }));

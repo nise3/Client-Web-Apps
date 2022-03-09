@@ -1,41 +1,59 @@
-import React, {useState} from 'react';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import { CalendarViewMonth, LocalActivityOutlined } from '@mui/icons-material';
+import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
+import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import clsx from 'clsx';
+import WorkIcon from '@mui/icons-material/Work';
+// import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
+import { Container, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
-import {NavLink as Link, Text} from '../../../elements/common';
-import {
-  LINK_FRONTEND_FAQ,
-  LINK_FRONTEND_INDUSTRY_CONTACT,
-  LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
-  LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
-  LINK_FRONTEND_INDUSTRY_PUBLICATION,
-  LINK_FRONTEND_INDUSTRY_ROOT,
-  LINK_FRONTEND_JOBS,
-} from '../../../common/appLinks';
-import {classes, StyledAppBar, StyledBox} from './Header.style';
-import {useIntl} from 'react-intl';
-import {Container, Grid} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import { Theme } from '@mui/system';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+// import {getSSOLoginUrl} from '../../../common/SSOConfig';
+// import Notifications from '../../../../@crema/core/Notifications';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
+import { useAuthUser } from '../../../../@crema/utility/AppHooks';
+import AppLogo from '../../../../shared/components/AppLogo';
+import {
+  LINK_FRONTEND_ERPL_ROOT,
+  LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER,
+  LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE,
+  LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS,
+  LINK_FRONTEND_ERPL_ROOT_WHAT_IS_ERPL,
+  LINK_FRONTEND_JOBS,
+  LINK_FRONTEND_NISE_CALENDAR,
+  LINK_FRONTEND_NISE_NOTICE_BOARD,
+  LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
+  LINK_FRONTEND_NISE_ROOT,
+  LINK_FRONTEND_NISE_TRAINING
+} from '../../../common/appLinks';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
-import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
+import { NavLink as Link } from '../../../elements/common';
+import Hidden from '../../../elements/Hidden';
+import { classes, StyledAppBar } from './Header.style';
 
 interface AppHeaderProps {}
 
-const Header: React.FC<AppHeaderProps> = () => {
+const AppHeader: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-
-  const {data: industryAssociationDetails} =
-    useFetchPublicIndustryAssocDetails();
+  const isMDDown = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md'),
+  );
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
+
+  /*const redirectToSSO = useCallback(() => {
+      window.location.href = getSSOLoginUrl();
+    }, []);*/
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -56,164 +74,115 @@ const Header: React.FC<AppHeaderProps> = () => {
       open={Boolean(mobileMoreAnchorEl)}
       onClose={handleMobileMenuClose}>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_ROOT}>{messages['menu.home']}</Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_PUBLICATION}>
-          {messages['menu.publication']}
-        </Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_CONTACT}>
-          {messages['menu.industry_contact']}
-        </Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_JOBS}>{messages['menu.job_circular']}</Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST}>
-          {messages['menu.member_list']}
+        <Link href={LINK_FRONTEND_NISE_ROOT}>
+          <HomeOutlinedIcon className={classes.menuIcons} />{' '}
+          {messages['menu.home']}
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_FAQ}>{messages['menu.faq']}</Link>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
-          {messages['common.member_registration']}
+        <Link href={LINK_FRONTEND_NISE_TRAINING}>
+          <CastForEducationOutlinedIcon className={classes.menuIcons} />{' '}
+          {messages['menu.training']}
         </Link>
       </MenuItem>
-
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LanguageSwitcher />
+        <Link href={LINK_FRONTEND_JOBS}>
+          <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
+        </Link>
       </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_NISE_NOTICE_BOARD}>
+          <ContentPasteOutlinedIcon className={classes.menuIcons} />{' '}
+          {messages['menu.notice']}
+        </Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}>
+          <LocalActivityOutlined className={classes.menuIcons} />
+          {messages['menu.recent_activity']}
+        </Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_NISE_CALENDAR}>
+          <CalendarViewMonth className={classes.menuIcons} />
+          {messages['menu.calendar']}
+        </Link>
+      </MenuItem>
+      {/*<MenuItem className={classes.menuItemRoot}>*/}
+      {/*  <Notifications />*/}
+      {/*</MenuItem>*/}
+      <LanguageSwitcher />
     </Menu>
   );
 
   return (
     <>
-      <StyledBox>
-        <Container
-          maxWidth='lg'
-          sx={{margin: 'auto', display: 'flex'}}
-          className={classes.logoArea}
-          style={{marginTop: '16px'}}>
-          <Link
-            href={LINK_FRONTEND_INDUSTRY_ROOT}
-            className={classes.headerHalfLogo}>
-            {industryAssociationDetails?.logo && (
-              <Box sx={{marginRight: '10px'}}>
-                logo
-                {/* <img
-                  className={classes.logoInstitute}
-                  src={industryAssociationDetails?.logo}
-                  alt='industry logo'
-                /> */}
-              </Box>
-            )}
-          </Link>
-          <Grid item md={4} className={classes.instituteName}>
-            <Text
-              fontWeight={'bold'}
-              style={{color: '#6C91C5', fontWeight: '700'}}>
-              {industryAssociationDetails?.title}
-            </Text>
-          </Grid>
-          <Grid item md={4} className={classes.headerHalf}>
-            <img
-              className={classes.logoInstitute}
-              src='/images/NISE-SSP34.png'
-              alt='NISECube'
-            />
-          </Grid>
-        </Container>
-      </StyledBox>
-
       <StyledAppBar
         position='relative'
         color={'inherit'}
         className={clsx(classes.appBar, 'app-bar')}>
-        <Toolbar
-          className={clsx(classes.headerMain, classes.headerFixedHeight)}>
-          <Container
-            maxWidth={'lg'}
-            className={clsx(classes.headerMainFlex, classes.headerFixedHeight)}>
-            <Box
-              className={clsx(
-                classes.sectionDesktop,
-                classes.headerFixedHeight,
-              )}>
-              <Box className={classes.headerMenu}>
-                <Box className={classes.headerMenuGroup}>
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_ROOT}
-                    className={classes.firstMenuItem}>
-                    {messages['menu.home']}
+        <Toolbar className={classes.headerMain}>
+          <Container maxWidth={'lg'}>
+            <Box className={classes.headerMainFlex}>
+              <Link href={LINK_FRONTEND_ERPL_ROOT}>
+                <AppLogo height={isMDDown ? 40 : 60} />
+              </Link>
+              <Box className={classes.grow} />
+              <Box className={clsx(classes.sectionDesktop)}>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_ERPL_ROOT_WHAT_IS_ERPL}>
+                    {/* <HomeOutlinedIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: '2.6rem'}}
+                    />{' '} */}
+                    {messages['menu.whatisrpl']}
                   </Link>
-
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_PUBLICATION}
-                    className={classes.menuItem}>
-                    {messages['menu.publication']}
-                  </Link>
-
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_CONTACT}
-                    className={classes.menuItem}>
-                    {messages['menu.industry_contact']}
-                  </Link>
-
-                  <Link href={LINK_FRONTEND_JOBS} className={classes.menuItem}>
-                    {messages['menu.job_circular']}
-                  </Link>
-
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_MEMBER_LIST}
-                    className={classes.menuItem}>
-                    {messages['menu.member_list']}
-                  </Link>
-
-                  <Link href={LINK_FRONTEND_FAQ} className={classes.menuItem}>
-                    {messages['menu.faq']}
-                  </Link>
-
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}
-                    className={classes.menuItem}>
-                    {messages['common.member_registration']}
-                  </Link>
-
-                  {/*<Link
-                    href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
-                    className={classes.menuItem}>
-                    {messages['menu.enrollment']}
-                  </Link>*/}
                 </Box>
-              </Box>
-            </Box>
-
-            <Box className={classes.headerMenuGroup}>
-              <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE}>
+                    <CastForEducationOutlinedIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: '2.6rem'}}
+                    />{' '}
+                    {messages['menu.certificate_advantage']}
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS}>
+                    <WorkIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: '2.6rem'}}
+                    />{' '}
+                    {messages['menu.rpl_occupations']}
+                  </Link>
+                </Box>
+                <Box component='span' className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER}>
+                    <ContentPasteOutlinedIcon
+                      className={classes.menuIcons}
+                      sx={{fontSize: '2.6rem'}}
+                    />{' '}
+                    {messages['menu.assessment_center']}
+                  </Link>
+                </Box>
+                {/*<Notifications />*/}
                 <LanguageSwitcher />
               </Box>
-              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
-            </Box>
 
-            <Box ml={1} className={classes.sectionMobile}>
-              <IconButton
-                aria-label='show more'
-                aria-controls={mobileMenuId}
-                aria-haspopup='true'
-                onClick={handleMobileMenuOpen}
-                className={classes.mobileMenuButton}
-                size='large'>
-                <MoreIcon />
-              </IconButton>
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
+              <Hidden mdUp>
+                <Box className={classes.sectionMobile}>
+                  <IconButton
+                    aria-label='show more'
+                    aria-controls={mobileMenuId}
+                    aria-haspopup='true'
+                    onClick={handleMobileMenuOpen}
+                    color='inherit'
+                    size='large'>
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
+              </Hidden>
             </Box>
           </Container>
         </Toolbar>
@@ -222,4 +191,4 @@ const Header: React.FC<AppHeaderProps> = () => {
     </>
   );
 };
-export default Header;
+export default AppHeader;
