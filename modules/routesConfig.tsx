@@ -391,7 +391,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'assessment-management',
             title: 'assessment-management',
-            messageId: 'assessmentManagement.label',
+            messageId: 'applicationManagement.label',
             permissionKey: 'view_any_youth_assessment',
             type: 'item',
             icon: 'timeline',

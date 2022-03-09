@@ -48,6 +48,7 @@ const StaticPage = () => {
         categories.push(
           StaticPageCategoryTypes.NISE3,
           StaticPageCategoryTypes.YOUTH,
+          StaticPageCategoryTypes.RPL,
         );
         setShowInFilterItems([
           {
@@ -57,6 +58,10 @@ const StaticPage = () => {
           {
             id: StaticPageCategoryTypes.YOUTH,
             title: getCategoryTitle(StaticPageCategoryTypes.YOUTH),
+          },
+          {
+            id: StaticPageCategoryTypes.RPL,
+            title: getCategoryTitle(StaticPageCategoryTypes.RPL),
           },
         ]);
       } else if (authUser?.isInstituteUser) {
