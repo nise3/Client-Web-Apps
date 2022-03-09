@@ -3,6 +3,7 @@ import {Grid, TextField} from '@mui/material';
 import {Body1} from '../../@softbd/elements/common';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useIntl} from 'react-intl';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 /*const assessments: any = [
   {
@@ -42,14 +43,16 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
   register,
   errors,
   assessments,
-  isLoadingAssessments,
+  isLoadingAssessments = false,
 }) => {
   const {messages} = useIntl();
   return (
     <Grid container spacing={2}>
-      {assessments &&
+      {isLoadingAssessments ? (
+        <></> /**skeleton**/
+      ) : assessments && assessments.length ? (
         assessments.map((assessment: any, index: number) => {
-          if ((assessment.type = 1)) {
+          if (assessment?.type == 1) {
             return (
               <Grid item xs={12}>
                 <Body1>
@@ -73,6 +76,13 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
                   defaultValue={assessment?.question_id}
                   sx={{display: 'none'}}
                 />
+                <TextField
+                  id={'assessment_id'}
+                  type={'hidden'}
+                  {...register('assessment_id')}
+                  defaultValue={assessment?.assessment_id}
+                  sx={{display: 'none'}}
+                />
               </Grid>
             );
           } else {
@@ -89,10 +99,27 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
                     {label: messages['common.no'], key: 2},
                   ]}
                 />
+                <TextField
+                  id={'answers[' + index + '][question_id]'}
+                  type={'hidden'}
+                  {...register('answers[' + index + '][question_id]')}
+                  defaultValue={assessment?.question_id}
+                  sx={{display: 'none'}}
+                />
+                <TextField
+                  id={'assessment_id'}
+                  type={'hidden'}
+                  {...register('assessment_id')}
+                  defaultValue={assessment?.assessment_id}
+                  sx={{display: 'none'}}
+                />
               </Grid>
             );
           }
-        })}
+        })
+      ) : (
+        <NoDataFoundComponent />
+      )}
     </Grid>
   );
 };

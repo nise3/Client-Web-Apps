@@ -1,6 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
-import {useFetchCountries} from '../../services/locationManagement/hooks';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import {
@@ -42,7 +41,7 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
   const {messages} = useIntl();
 
   const {data: countries, isLoading: isLoadingCountries} =
-    useFetchCountries(countryFilters);
+    useFetchPublicRTOCountries(countryFilters);
 
   const {data: rplSectors, isLoading: isLoadingSectors} =
     useFetchPublicRPLSectors(rplSectorFilters);
@@ -65,7 +64,7 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
       setSelectedCountryId(countryId);
       onChanged();
     },
-    [selectedCountryId],
+    [selectedCountryId, selectedSectorId],
   );
 
   const onSectorChange = useCallback(
@@ -105,11 +104,14 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
 
   useEffect(() => {
     if (getValues) {
-      const countryId = getValues('country_id');
+      const countryId = getValues('target_country_id');
 
       if (countryId) {
         setSelectedCountryId(countryId);
         setRplSectorFilters({country_id: countryId});
+      } else {
+        setSelectedCountryId(null);
+        setRplSectorFilters(null);
       }
 
       const sectorId = getValues('rpl_sector_id');
@@ -145,19 +147,19 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
         setRtoFilters({rto_country_id: rtoCountryId});
       }
     }
-  }, [getValues, selectedSectorId, selectedOccupationId, selectedCountryId]);
+  }, [getValues]);
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <CustomFilterableFormSelect
           required
-          id='country_id'
+          id='target_country_id'
           label={messages['common.country']}
           isLoading={isLoadingCountries}
           control={control}
           options={countries}
-          optionValueProp={'id'}
+          optionValueProp={'country_id'}
           optionTitleProp={['title']}
           errorInstance={errors}
           onChange={onCountryChange}

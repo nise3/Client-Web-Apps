@@ -1630,5 +1630,6 @@
   "rto_batch.label": "আরটিও ব্যাচ",
   "common.rto_sector_exceptions": "আরটিও সেক্টর ব্যতিক্রম",
   "common.rto_occupation_exceptions": "আরটিও পেশা ব্যতিক্রম",
-  "common.answer": "উত্তর"
+  "common.answer": "উত্তর",
+  "common.assessment_result_message": "দুঃখিত! আপনি যাচাই এ উত্তীর্ণ হতে পারেন নি"
 }
