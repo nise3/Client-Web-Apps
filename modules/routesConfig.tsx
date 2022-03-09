@@ -241,7 +241,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'menu.batch',
             permissionKey: 'view_any_batch',
             type: 'item',
-            icon: 'timeline',
+            icon: 'group',
             url: '/batches',
           },
           {
@@ -259,7 +259,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'applicationManagement.label',
             permissionKey: 'view_any_course_enrollment',
             type: 'item',
-            icon: 'timeline',
+            icon: 'grading',
             url: '/application-management',
           },
           {
@@ -304,7 +304,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rto.label',
             permissionKey: 'view_any_registered_training_organization',
             type: 'item',
-            icon: 'home',
+            icon: 'business',
             url: '/rto',
           },
           {
@@ -313,7 +313,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rpl_sector.label',
             permissionKey: 'view_any_rpl_sector',
             type: 'item',
-            icon: 'home',
+            icon: 'business',
             url: '/rpl-sectors',
           },
           {
@@ -322,7 +322,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rpl_occupation.label',
             permissionKey: 'view_any_rpl_occupation',
             type: 'item',
-            icon: 'home',
+            icon: 'work',
             url: '/rpl-occupations',
           },
           {
@@ -340,7 +340,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rto-country.label',
             permissionKey: 'view_any_rto_country',
             type: 'item',
-            icon: 'flag',
+            icon: 'public',
             url: '/rto-countries',
           },
           {
@@ -349,7 +349,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'rto_batch.label',
             permissionKey: 'view_any_rto_batch',
             type: 'item',
-            icon: 'business',
+            icon: 'group',
             url: '/rto-batches',
           },
           {
@@ -358,7 +358,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'subject.label',
             permissionKey: 'view_any_subject',
             type: 'item',
-            icon: 'flag',
+            icon: 'grading',
             url: '/subjects',
           },
           {
@@ -367,7 +367,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'assessment.label',
             permissionKey: 'view_any_assessment',
             type: 'item',
-            icon: 'flag',
+            icon: 'grading',
             url: '/assessments',
           },
           {
@@ -385,7 +385,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'certificate_authority.batch',
             permissionKey: 'view_any_ca_assigned_batches',
             type: 'item',
-            icon: 'flag',
+            icon: 'group',
             url: '/ca-assigned-batches',
           },
           {
@@ -394,7 +394,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'applicationManagement.label',
             permissionKey: 'view_any_youth_assessment',
             type: 'item',
-            icon: 'timeline',
+            icon: 'grading',
             url: '/assessment-management',
           },
         ],
