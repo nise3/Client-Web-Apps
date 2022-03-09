@@ -5,7 +5,7 @@ import {useIntl} from 'react-intl';
 import YouthFrontPage from '../../../@softbd/layouts/hoc/YouthFrontPage';
 
 const RPLApplicationForm = asyncComponent(
-  () => import('../../../modules/youth/RPLApplication'),
+  () => import('../../../modules/erpl/rplApplication'),
 );
 export default YouthFrontPage(() => {
   const {messages} = useIntl();

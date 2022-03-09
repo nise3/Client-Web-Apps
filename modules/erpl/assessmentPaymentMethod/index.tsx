@@ -7,8 +7,6 @@ import clsx from 'clsx';
 import {PaymentMethods} from '../../../@softbd/utilities/PaymentMethods';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_ASSESSMENT_ID} from '../../../shared/constants/AppConst';
 import {youthDomain} from '../../../@softbd/common/constants';
 import {assessmentPaymentPay} from '../../../services/youthManagement/YouthService';
 
@@ -87,12 +85,6 @@ const AssessmentPaymentMethods = () => {
               const response = await assessmentPaymentPay(data);
 
               if (response?.redirect_url) {
-                let expireDate = new Date();
-                expireDate.setTime(new Date().getTime() + 1000 * 60 * 60);
-                setBrowserCookie(COOKIE_KEY_ASSESSMENT_ID, assessmentId, {
-                  expires: expireDate,
-                });
-
                 window.location.href = response?.redirect_url;
               }
             } else {
@@ -127,38 +119,6 @@ const AssessmentPaymentMethods = () => {
             className={clsx(classes.img, classes.imgActive)}
             onClick={() => onPaymentMethodSelect(PaymentMethods.EK_PAY)}
           />
-          {/*<CardMedia
-            component='img'
-            height='70'
-            image='/images/payment/bkash.png'
-            alt='bkash'
-            title='bkash'
-            className={classes.img}
-          />
-          <CardMedia
-            component='img'
-            height='70'
-            image='/images/payment/nagad.png'
-            alt='nagad'
-            title='nagad'
-            className={classes.img}
-          />
-          <CardMedia
-            component='img'
-            height='70'
-            image='/images/payment/rocket.jpg'
-            alt='rocket'
-            title='rocket'
-            className={classes.img}
-          />
-          <CardMedia
-            component='img'
-            height='70'
-            image='/images/payment/mycash.jpg'
-            alt='mycash'
-            title='mycash'
-            className={classes.img}
-          />*/}
         </Box>
       </Paper>
     </StyledContainer>

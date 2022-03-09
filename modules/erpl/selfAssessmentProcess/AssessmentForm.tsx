@@ -1,32 +1,9 @@
 import React, {FC} from 'react';
 import {Grid, TextField} from '@mui/material';
-import {Body1} from '../../@softbd/elements/common';
-import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import {Body1} from '../../../@softbd/elements/common';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useIntl} from 'react-intl';
-import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
-
-/*const assessments: any = [
-  {
-    id: 1,
-    question_title: 'Whats your name?',
-    type: 1,
-    option_1: 'a',
-    option_2: 'b',
-    option_3: 'c',
-    option_4: 'd',
-    answer: 1,
-  },
-  {
-    id: 2,
-    question_title: 'Whats your Age?',
-    type: 1,
-    option_1: '20-30',
-    option_2: '30-40',
-    option_3: '40-50',
-    option_4: '50-60',
-    answer: 2,
-  },
-];*/
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 interface AssessmentFormProps {
   getValues: any;
