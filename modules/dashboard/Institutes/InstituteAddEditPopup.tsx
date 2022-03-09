@@ -48,11 +48,8 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-
-export enum InstituteType {
-  GOVERNMENT = '1',
-  NON_GOVERNMENT = '0',
-}
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -63,8 +60,7 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  // domain: '',
-  institute_type_id: '0',
+  institute_type_id: InstituteTypes.GOVERNMENT,
   code: '',
   address: '',
   primary_phone: '',
@@ -101,11 +97,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const instituteTypes = useMemo(
     () => [
       {
-        key: InstituteType.GOVERNMENT,
+        key: InstituteTypes.GOVERNMENT,
         label: messages['common.government'],
       },
       {
-        key: InstituteType.NON_GOVERNMENT,
+        key: InstituteTypes.NON_GOVERNMENT,
         label: messages['common.non_government'],
       },
     ],
@@ -125,9 +121,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
-    useState<any>({
-      row_status: RowStatus.ACTIVE,
-    });
+    useState<any>(null);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -273,20 +267,19 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (permissionGroups && permissionGroups.length > 0) {
+    if (!isEdit && permissionGroups && permissionGroups.length > 0) {
       setPermissionSubGroupFilters({
         permission_group_id: permissionGroups[0]?.id,
         row_status: RowStatus.ACTIVE,
       });
     }
-  }, [permissionGroups]);
+  }, [isEdit, permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        // domain: itemData?.domain,
         institute_type_id: itemData?.institute_type_id,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
@@ -344,7 +337,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.service_type = '3';
+      data.service_type = InstituteServiceTypes.TRAINING;
 
       if (itemId) {
         await updateInstitute(itemId, data);
@@ -563,16 +556,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='domain'*/}
-            {/*    label={messages['common.domain']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    placeholder='https://example.xyz'*/}
-            {/*  />*/}
-            {/*</Grid>*/}
             <Grid item xs={12}>
               <FormRadioButtons
                 id='institute_type_id'

@@ -33,6 +33,7 @@ const AssignBatchPopup: FC<AssignAssessmentBatchPopup> = ({
   const { successStack, errorStack } = useNotiStack();
   const [batchFilters] = useState<any>({});
 
+
   const { data: rtoBatches, isLoading: isBatchesLoading } =
     useFetchRTOBatches(batchFilters);
 
@@ -63,7 +64,6 @@ const AssignBatchPopup: FC<AssignAssessmentBatchPopup> = ({
   }, [batchId]);
 
   const onSubmit: SubmitHandler<IAssessmentBatchAssign> = async (data: IAssessmentBatchAssign) => {
-    console.log("submitted aaaaaaa", data);
     try {
       await assessmentAssignBatch(data, itemId);
       successStack(
@@ -89,7 +89,7 @@ const AssignBatchPopup: FC<AssignAssessmentBatchPopup> = ({
           <IntlMessages
             id="common.add_new"
             values={{
-              subject: <IntlMessages id="assessmentManagement.label" />
+              subject: <IntlMessages id="applicationManagement.label" />
             }}
           />
         </>
