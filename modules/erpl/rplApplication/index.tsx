@@ -66,8 +66,7 @@ const RPLApplication = () => {
     useFetchUpazilas(upazilasFilter);
   const {data: unions, isLoading: isLoadingUnions} =
     useFetchUnions(unionsFilter);
-  const {data: countries, isLoading: isLoadingContries} =
-    useFetchCountries(countriesFilter);
+  const {data: countries} = useFetchCountries(countriesFilter);
 
   const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
     Array<any> | []
@@ -266,7 +265,7 @@ const RPLApplication = () => {
                   required
                   id='present_address[loc_district_id]'
                   label={messages['districts.label']}
-                  isLoading={false}
+                  isLoading={isLoadingDistricts}
                   control={control}
                   options={districts}
                   optionValueProp={'id'}
@@ -280,7 +279,7 @@ const RPLApplication = () => {
                   required
                   id='present_address[loc_upazila_id]'
                   label={messages['upazilas.label']}
-                  isLoading={false}
+                  isLoading={isLoadingUpazilas}
                   control={control}
                   options={presentAddressUplazilaList}
                   optionValueProp={'id'}
@@ -294,7 +293,7 @@ const RPLApplication = () => {
                   required
                   id='present_address[loc_union_id]'
                   label={messages['union.label']}
-                  isLoading={false}
+                  isLoading={isLoadingUnions}
                   control={control}
                   options={presentAddressUnionList || []}
                   optionValueProp={'id'}
@@ -325,7 +324,7 @@ const RPLApplication = () => {
                   required
                   id='permanent_address[loc_district_id]'
                   label={messages['districts.label']}
-                  isLoading={false}
+                  isLoading={isLoadingDistricts}
                   control={control}
                   options={districts}
                   optionValueProp={'id'}
@@ -339,7 +338,7 @@ const RPLApplication = () => {
                   required
                   id='permanent_address[loc_upazila_id]'
                   label={messages['upazilas.label']}
-                  isLoading={false}
+                  isLoading={isLoadingUpazilas}
                   control={control}
                   options={permanentAddressUpazilaList}
                   optionValueProp={'id'}
@@ -353,7 +352,7 @@ const RPLApplication = () => {
                   required
                   id='permanent_address[loc_union_id]'
                   label={messages['union.label']}
-                  isLoading={false}
+                  isLoading={isLoadingUnions}
                   control={control}
                   options={permanentAddressUnionList || []}
                   optionValueProp={'id'}
