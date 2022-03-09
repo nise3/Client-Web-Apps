@@ -10,7 +10,7 @@ import BannerTemplateBackgroundImage from '../institute/Components/BannerTemplat
 
 const CoverArea = () => {
   const [sliderFilters] = useState({
-    show_in: ShowInTypes.ERPL,
+    show_in: ShowInTypes.RPL,
   });
 
   const {data: sliders, isLoading: isLoadingSliders} =
