@@ -7,25 +7,22 @@ import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchDat
 import { API_YOUTH_ASSESSMENT } from "../../../@softbd/common/apiRoutes";
 import ReactTable from "../../../@softbd/table/Table/ReactTable";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
-import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
 import IconCourse from "../../../@softbd/icons/IconCourse";
 import AssessmentDetailsPopup from "./AssessmentDetailsPopup";
-import RejectButton from "./RejectButton";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
 import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import { rejectEnrollment } from "../../../services/instituteManagement/RegistrationService";
 import AssignBatchPopup from "./AssignAssessmentBatchPopup";
 import { FiUserCheck } from "react-icons/fi";
 import LocaleLanguage from "../../../@softbd/utilities/LocaleLanguage";
 
 const AssessmentManagementPage = () => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  // const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenBatchAssignModal, setIsOpenBatchAssignModal] = useState(false);
+  const [batchId, setBatchId] = useState<any>(null);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -39,10 +36,11 @@ const AssessmentManagementPage = () => {
 
   /** Assign Batch Modal */
   const openAssignBatchModal = useCallback(
-    (itemId: number | null = null) => {
+    (itemId: number | null = null, batch_id: number | string) => {
       setIsOpenDetailsModal(false);
       setIsOpenBatchAssignModal(true);
       setSelectedItemId(itemId);
+      setBatchId(batch_id);
     },
     [],
   );
@@ -57,7 +55,7 @@ const AssessmentManagementPage = () => {
   }, [isToggleTable]);
 
   /** Method called to reject an assessment */
-  const rejectYouthEnrollment = async (enrollment_id: number) => {
+ /* const rejectYouthEnrollment = async (enrollment_id: number) => {
     let response = await rejectEnrollment(enrollment_id);
     if (isResponseSuccess(response)) {
       {
@@ -65,7 +63,7 @@ const AssessmentManagementPage = () => {
       }
       refreshDataTable();
     }
-  };
+  };*/
 
   const columns = useMemo(
     () => [
@@ -77,16 +75,7 @@ const AssessmentManagementPage = () => {
           return props.row.index + 1;
         },
       },
-      /*{
-        Header: messages['youth.label'],
-        accessor: 'youth_id',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['assessmentManagement.assessment'],
-        accessor: 'assessment_id',
-        isVisible: locale == LocaleLanguage.BN,
-      },*/
+
       {
         Header: messages['rpl_occupation.label'],
         accessor: 'rpl_occupation_title_en',
@@ -124,22 +113,22 @@ const AssessmentManagementPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <ReadButton onClick={() => openDetailsModal(data?.id)} />
               <CommonButton
-                onClick={() => openAssignBatchModal(data.id)}
+                onClick={() => openAssignBatchModal(data?.id, data?.rto_batch_id)}
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                 color='secondary'
               />
 
-              {data.row_status !== 3 ? (
+              {/*{data?.row_status !== 3 ? (
                 <RejectButton
-                  rejectAction={() => rejectYouthEnrollment(data.id)}
+                  rejectAction={() => rejectYouthEnrollment(data?.id)}
                   rejectTitle={messages['common.delete_confirm'] as string}
                 />
               ) : (
                 ''
-              )}
+              )}*/}
             </DatatableButtonGroup>
           );
         },
@@ -159,7 +148,7 @@ const AssessmentManagementPage = () => {
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='assessmentManagement.label' />
+            <IconCourse /> <IntlMessages id='applicationManagement.label' />
           </>
         }>
         <ReactTable
@@ -176,7 +165,7 @@ const AssessmentManagementPage = () => {
             key={1}
             onClose={closeAssignBatchModal}
             itemId={selectedItemId}
-            batchId={data?.rto_batch_id}
+            batchId={batchId}
             refreshDataTable={refreshDataTable}
           />
         )}
