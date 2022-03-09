@@ -65,7 +65,7 @@ const Footer = () => {
           container
           spacing={10}
           sx={{display: 'flex', justifyContent: 'space-around'}}>
-          <Grid item xs={6} md={4}>
+          {/* <Grid item xs={6} md={4}>
             <Typography variant='subtitle2' gutterBottom={true}>
               <Box component={'span'} fontWeight='fontWeightBold'>
                 {messages['footer.important_links']}
@@ -152,8 +152,8 @@ const Footer = () => {
                 </Link>
               </Box>
             </Box>
-          </Grid>
-          <Grid item md={6}>
+          </Grid> */}
+          <Grid item md={12}>
             <Grid container columnSpacing={12}>
               <Grid item md={6}>
                 <Typography variant='subtitle2' gutterBottom={true}>
