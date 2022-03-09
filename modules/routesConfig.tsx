@@ -388,6 +388,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'flag',
             url: '/ca-assigned-batches',
           },
+          {
+            id: 'assessment-management',
+            title: 'assessment-management',
+            messageId: 'assessmentManagement.label',
+            permissionKey: 'view_any_youth_assessment',
+            type: 'item',
+            icon: 'timeline',
+            url: '/assessment-management',
+          },
         ],
       },
       {

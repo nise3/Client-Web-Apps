@@ -130,7 +130,7 @@ const FreelanceCornerPage = () => {
           /*toggleResetTable={isToggleTable}*/
         />
         {/*{isOpenDetailsModal && selectedItemId && (
-          <ApplicationDetailsPopup
+          <AssessmentDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
