@@ -23,6 +23,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 const OccupationPage = () => {
   const {messages} = useIntl();
+  const [expanded, setExpanded] = React.useState(null);
   const [sectorFilter] = useState({});
   const [occupationFilter, setOccupationFilter] = useState<any>(null);
 
@@ -35,6 +36,12 @@ const OccupationPage = () => {
   const onSectorChange = useCallback((sectorId) => {
     setOccupationFilter({rpl_sector_id: sectorId});
   }, []);
+
+  const handleChange = (sector: any) => (event: any, newExpanded: any) => {
+    const sectorId = sector?.id;
+    setExpanded(newExpanded ? sectorId : false);
+    onSectorChange(sectorId);
+  };
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -51,10 +58,8 @@ const OccupationPage = () => {
             return (
               <>
                 <Accordion
-                  onChange={(e) => {
-                    const sectorId = sector?.id;
-                    onSectorChange(sectorId);
-                  }}>
+                  expanded={expanded === sector?.id}
+                  onChange={handleChange(sector)}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls='panel1a-content'
