@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, SyntheticEvent, useEffect, useState} from 'react';
+import {FC, SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -14,16 +14,16 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
+  useFetchAssessmentQuestions,
   useFetchQuestionBanks,
   useFetchSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {useIntl} from 'react-intl';
-import {useForm} from 'react-hook-form';
 import {Edit} from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionEdit from './QuestionEdit';
+import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -34,68 +34,86 @@ function intersection(checked: any[], questionList: any[]) {
 }
 
 interface TransferListProps {
+  assessmentId: number | string;
   getQuestionSet: any;
+  onEditPopupOpenClose: (open: boolean) => void;
 }
 
-const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
+const TransferList: FC<TransferListProps> = ({
+  assessmentId,
+  getQuestionSet,
+  onEditPopupOpenClose,
+}) => {
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
   >(false);
+  const [checked, setChecked] = React.useState<any[]>([]);
+  const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
+  const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([]);
+
+  const [subjectId, setSubjectId] = useState<any>(null);
+  const [subjectFilters] = useState({});
+  const {data: subjects, isLoading: isFetchingSubjects} =
+    useFetchSubjects(subjectFilters);
+
+  const [assessmentQuestionFilter] = useState({
+    assessment_id: assessmentId,
+  });
+  const {data: assessmentQuestions, isLoading} = useFetchAssessmentQuestions(
+    assessmentQuestionFilter,
+  );
+
+  const [questionFilter, setQuestionFilter] = useState<any>(null);
+
+  const {data: questions, isLoading: isFetchingQuestions} =
+    useFetchQuestionBanks(questionFilter);
+
+  useEffect(() => {
+    if (questions && questions?.length > 0) {
+      if (rightQuestionList?.length > 0) {
+        const filteredQuestions = questions?.filter((ques: any) =>
+          rightQuestionList?.every(
+            (rightSideQuestion: any) =>
+              rightSideQuestion?.question_id !== ques?.id,
+          ),
+        );
+
+        setLeftQuestionList(filteredQuestions);
+      } else {
+        setLeftQuestionList(questions);
+      }
+    }
+  }, [questions]);
+
+  useEffect(() => {
+    if (assessmentQuestions && assessmentQuestions.length > 0) {
+      setRightQuestionList(
+        assessmentQuestions.map((question: any) => ({
+          ...question,
+          id: question.question_id,
+        })),
+      );
+    }
+  }, [assessmentQuestions]);
+
+  useEffect(() => {
+    getQuestionSet(rightQuestionList);
+  }, [rightQuestionList]);
 
   const handleAccordionExpandedChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
 
-  const [checked, setChecked] = React.useState<any[]>([]);
-  const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
-  const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([]);
-
-  const [subjectId, setSubjectId] = useState(null);
-  const [subjectFilters] = useState({});
-  const {data: subjects, isLoading: isFetchingSubjects} =
-    useFetchSubjects(subjectFilters);
-
-  const [questionFilter, setQuestionFilter] = useState<any>(null);
-
-  useEffect(() => {
+  const handleSubjectChange = (subjectId: any) => {
+    setSubjectId(subjectId ? subjectId : null);
     if (subjectId) {
       setQuestionFilter({
         subject_id: subjectId,
       });
     }
-  }, [subjectId]);
-
-  const {data: questions, isLoading: isFetchingQuestions} =
-    useFetchQuestionBanks(questionFilter);
-
-  useEffect(() => {
-    if (rightQuestionList?.length > 0) {
-      const filteredQuestions = questions?.filter((ques: any) =>
-        rightQuestionList?.every(
-          (rightSideQuestion: any) => rightSideQuestion?.id !== ques?.id,
-        ),
-      );
-
-      setLeftQuestionList(filteredQuestions);
-    } else {
-      setLeftQuestionList(questions);
-    }
-  }, [questions]);
-
-  useEffect(() => {
-    getQuestionSet(rightQuestionList);
-  }, [rightQuestionList]);
-
-  const handleSubjectChange = (subId: any) => {
-    setSubjectId(subId);
   };
-
-  const {
-    control,
-    formState: {},
-  } = useForm<any>();
 
   const leftChecked = intersection(checked, leftQuestionList);
   const rightChecked = intersection(checked, rightQuestionList);
@@ -141,24 +159,40 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
   const [editableQuestion, setEditableQuestion] = React.useState<object>({});
 
   const handleEditQuestion = (questionId: any) => {
-    setIsOpenEditForm(true);
     const question = rightQuestionList.find(
       (question: any) => question?.id === questionId,
     );
-
     setEditableQuestion(question);
+    setIsOpenEditForm(true);
+    onEditPopupOpenClose(true);
   };
 
   const handleCloseQuestionEdit = () => {
     setIsOpenEditForm(false);
+    onEditPopupOpenClose(false);
   };
 
-  const getEditedQuestion = (question: any) => {
-    console.log('the edited question: ', question);
-  };
+  const getEditedQuestion = useCallback(
+    (updatedQuestion: any) => {
+      console.log('the edited question: ', updatedQuestion);
+
+      let questionList = [...rightQuestionList];
+
+      let foundIndex = questionList.findIndex(
+        (question: any) => question.id == updatedQuestion.id,
+      );
+      questionList[foundIndex] = updatedQuestion;
+
+      console.log('foundIndex: ', foundIndex);
+
+      console.log('questionList: ', questionList);
+      setRightQuestionList(questionList);
+    },
+    [rightQuestionList],
+  );
 
   const customList = (questions: any[], isRightQuestions = false) => (
-    <Paper sx={{width: 375, overflow: 'auto', height: '100%'}}>
+    <Paper sx={{width: '100%', overflow: 'auto', height: '100%'}}>
       <List dense component='div' role='list'>
         {questions?.map((value: any) => {
           const labelId = `transfer-list-item-${value?.id}-label`;
@@ -186,7 +220,7 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                   aria-controls='panel2a-content'
                   id='panel2a-header'
                   sx={{justifyContent: 'space-between'}}>
-                  <Typography>{value?.title}</Typography>
+                  <Typography sx={{width: '90%'}}>{value?.title}</Typography>
                   {isRightQuestions && (
                     <Edit
                       sx={{
@@ -198,9 +232,7 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
                     />
                   )}
                 </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>{value?.answer}</Typography>
-                </AccordionDetails>
+                <AccordionDetails></AccordionDetails>
               </Accordion>
             </ListItem>
           );
@@ -210,90 +242,95 @@ const TransferList: FC<TransferListProps> = ({getQuestionSet}) => {
     </Paper>
   );
 
-  return isOpenEditForm ? (
-    <QuestionEdit
-      itemData={editableQuestion}
-      onClose={handleCloseQuestionEdit}
-      getEditedQuestion={getEditedQuestion}
-    />
-  ) : (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <CustomFilterableFormSelect
-          id={'subject_id'}
-          label={messages['subject.select_first']}
-          isLoading={isFetchingSubjects}
-          control={control}
-          options={subjects}
-          optionValueProp={'id'}
-          optionTitleProp={['title']}
-          onChange={handleSubjectChange}
-        />
-      </Grid>
-      {subjectId &&
-        (isFetchingQuestions ? (
-          <Grid item xs={12}>
+  return (
+    <React.Fragment>
+      <Grid container spacing={2} justifyContent='center'>
+        <Grid item xs={12} md={5}>
+          <CustomFilterableSelect
+            id={'subject_id'}
+            label={messages['subject.select_first']}
+            isLoading={isFetchingSubjects}
+            defaultValue={subjectId}
+            options={subjects}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            onChange={handleSubjectChange}
+          />
+        </Grid>
+        <Grid item xs={7} />
+        <Grid item xs={5}>
+          {isFetchingQuestions ? (
             <Skeleton
               variant='rectangular'
               width={'100%'}
               height={300}
               sx={{margin: 'auto', marginTop: 5}}
             />
+          ) : (
+            customList(leftQuestionList)
+          )}
+        </Grid>
+        <Grid item xs={2}>
+          <Grid container direction='column' alignItems='center'>
+            <Button
+              sx={{my: 0.5}}
+              variant='outlined'
+              size='small'
+              onClick={handleAllRight}
+              disabled={leftQuestionList?.length === 0}
+              aria-label='move all right'>
+              ≫
+            </Button>
+            <Button
+              sx={{my: 0.5}}
+              variant='outlined'
+              size='small'
+              onClick={moveCheckedToRight}
+              disabled={leftChecked?.length === 0}
+              aria-label='move selected right'>
+              &gt;
+            </Button>
+            <Button
+              sx={{my: 0.5}}
+              variant='outlined'
+              size='small'
+              onClick={moveCheckedToLeft}
+              disabled={rightChecked?.length === 0}
+              aria-label='move selected left'>
+              &lt;
+            </Button>
+            <Button
+              sx={{my: 0.5}}
+              variant='outlined'
+              size='small'
+              onClick={handleAllLeft}
+              disabled={rightQuestionList?.length === 0}
+              aria-label='move all left'>
+              ≪
+            </Button>
           </Grid>
-        ) : (
-          <Grid item>
-            <Grid
-              container
-              spacing={2}
-              justifyContent='center'
-              /*alignItems='center'*/
-            >
-              <Grid item>{customList(leftQuestionList)}</Grid>
-              <Grid item>
-                <Grid container direction='column' alignItems='center'>
-                  <Button
-                    sx={{my: 0.5}}
-                    variant='outlined'
-                    size='small'
-                    onClick={handleAllRight}
-                    disabled={leftQuestionList?.length === 0}
-                    aria-label='move all right'>
-                    ≫
-                  </Button>
-                  <Button
-                    sx={{my: 0.5}}
-                    variant='outlined'
-                    size='small'
-                    onClick={moveCheckedToRight}
-                    disabled={leftChecked?.length === 0}
-                    aria-label='move selected right'>
-                    &gt;
-                  </Button>
-                  <Button
-                    sx={{my: 0.5}}
-                    variant='outlined'
-                    size='small'
-                    onClick={moveCheckedToLeft}
-                    disabled={rightChecked?.length === 0}
-                    aria-label='move selected left'>
-                    &lt;
-                  </Button>
-                  <Button
-                    sx={{my: 0.5}}
-                    variant='outlined'
-                    size='small'
-                    onClick={handleAllLeft}
-                    disabled={rightQuestionList?.length === 0}
-                    aria-label='move all left'>
-                    ≪
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid item>{customList(rightQuestionList, true)}</Grid>
-            </Grid>
-          </Grid>
-        ))}
-    </Grid>
+        </Grid>
+        <Grid item xs={5}>
+          {isLoading ? (
+            <Skeleton
+              variant='rectangular'
+              width={'100%'}
+              height={300}
+              sx={{margin: 'auto', marginTop: 5}}
+            />
+          ) : (
+            customList(rightQuestionList, true)
+          )}
+        </Grid>
+      </Grid>
+      {isOpenEditForm && (
+        <QuestionEdit
+          itemData={editableQuestion}
+          onClose={handleCloseQuestionEdit}
+          getEditedQuestion={getEditedQuestion}
+        />
+      )}
+    </React.Fragment>
   );
 };
 

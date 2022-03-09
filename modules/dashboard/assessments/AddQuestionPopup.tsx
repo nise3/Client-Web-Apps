@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, useMemo, useState} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -16,13 +16,13 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {addQuestionsToAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
-interface AssignBatchPopup {
-  itemId: number | null;
+interface AddQuestionPopupProps {
+  itemId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
-const AssignBatchPopup: FC<AssignBatchPopup> = ({
+const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -30,6 +30,8 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   const {messages} = useIntl();
   const {createSuccessMessage} = useSuccessMessage();
   const {errorStack} = useNotiStack();
+  const [isQuestionEditFormOpened, setIsQuestionEditFormOpened] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -42,7 +44,6 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   }, [messages]);
 
   const {
-    // control,
     setError,
     handleSubmit,
     setValue,
@@ -52,22 +53,49 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   });
 
   const getQuestionSet = (questionList: any) => {
-    questionList.forEach((question: any) => {
-      question.assessment_id = itemId;
-      question.question_id = question?.id;
+    let questionsFormValues = questionList.map((question: any) => {
+      return {
+        answer: question.answer,
+        assessment_id: itemId,
+        option_1: question.option_1,
+        option_1_en: question.option_1_en,
+        option_2: question.option_2,
+        option_2_en: question.option_2_en,
+        option_3: question.option_3,
+        option_3_en: question.option_3_en,
+        option_4: question.option_4,
+        option_4_en: question.option_4_en,
+        question_id: question.id,
+        row_status: 1,
+        subject_id: question.subject_id,
+        title: question.title,
+        title_en: question.title_en,
+        type: question.type,
+      };
     });
-    setValue('assessment_questions', questionList);
+    setValue('assessment_questions', questionsFormValues);
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    try {
-      await addQuestionsToAssessment(data);
-      createSuccessMessage('common.question');
-      props.onClose();
-      refreshDataTable();
-    } catch (error: any) {
-      processServerSideErrors({error, validationSchema, setError, errorStack});
+    if (!isQuestionEditFormOpened) {
+      try {
+        await addQuestionsToAssessment(data);
+        createSuccessMessage('common.question');
+        props.onClose();
+        refreshDataTable();
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          validationSchema,
+          setError,
+          errorStack,
+        });
+      }
     }
+  };
+
+  const onEditPopupOpenClose = (open: boolean) => {
+    setIsQuestionEditFormOpened(open);
   };
 
   return (
@@ -95,7 +123,11 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <TransferListComponent getQuestionSet={getQuestionSet} />
+          <TransferListComponent
+            assessmentId={itemId}
+            getQuestionSet={getQuestionSet}
+            onEditPopupOpenClose={onEditPopupOpenClose}
+          />
         </Grid>
         <Grid item xs={12}>
           <Typography sx={{color: 'red', fontSize: '14px', fontWeight: '500'}}>
@@ -107,4 +139,4 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   );
 };
 
-export default AssignBatchPopup;
+export default AddQuestionPopup;

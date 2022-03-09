@@ -184,7 +184,7 @@ const AssessmentPage = () => {
             openEditModal={openAddEditModal}
           />
         )}
-        {isOpenAddQuestionModal && (
+        {isOpenAddQuestionModal && selectedItemId && (
           <AddQuestionPopup
             key={1}
             onClose={closeAddQuestionModal}
