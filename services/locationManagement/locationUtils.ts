@@ -23,3 +23,14 @@ export function filterUpazilasByDistrictId(
     return [];
   }
 }
+
+export function filterUnionsByUpazilaId(
+  unions: Array<Upazila>,
+  upazilaId: number | string | null | undefined,
+) {
+  if (unions && upazilaId) {
+    return unions.filter((union: any) => union.loc_upazila_id == upazilaId);
+  } else {
+    return [];
+  }
+}
