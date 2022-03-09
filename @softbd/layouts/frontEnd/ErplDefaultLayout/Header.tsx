@@ -1,21 +1,21 @@
-import { CalendarViewMonth, LocalActivityOutlined } from '@mui/icons-material';
+import {CalendarViewMonth, LocalActivityOutlined} from '@mui/icons-material';
 import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import WorkIcon from '@mui/icons-material/Work';
-import { Button, Container, useMediaQuery } from '@mui/material';
+import {Container, useMediaQuery} from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
-import { Theme } from '@mui/system';
+import {Theme} from '@mui/system';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
-import { useAuthUser } from '../../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {
   LINK_FRONTEND_ERPL_ROOT,
@@ -28,13 +28,18 @@ import {
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
-  LINK_FRONTEND_NISE_TRAINING
+  LINK_FRONTEND_NISE_TRAINING,
+  RPL_FRONTEND_STATIC_CONTENT,
 } from '../../../common/appLinks';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
-import { NavLink as Link } from '../../../elements/common';
+import {NavLink as Link} from '../../../elements/common';
 import Hidden from '../../../elements/Hidden';
-import { classes, StyledAppBar } from './Header.style';
+import {classes, StyledAppBar} from './Header.style';
+import {
+  CONTENT_ID_CERTIFICATE_ADVANTAGE,
+  CONTENT_ID_WHAT_IS_RPL,
+} from '../../../utilities/StaticContentConfigs';
 
 interface AppHeaderProps {}
 
@@ -84,7 +89,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE}>
-          <WorkIcon className={classes.menuIcons} /> 
+          <WorkIcon className={classes.menuIcons} />
           {messages['menu.certificate_advantage']}
         </Link>
       </MenuItem>
@@ -124,7 +129,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
                 <Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_ERPL_ROOT_WHAT_IS_ERPL}>
+                  <Link
+                    href={RPL_FRONTEND_STATIC_CONTENT + CONTENT_ID_WHAT_IS_RPL}>
                     {/* <HomeOutlinedIcon
                       className={classes.menuIcons}
                       sx={{fontSize: '2.6rem'}}
@@ -133,7 +139,11 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE}>
+                  <Link
+                    href={
+                      RPL_FRONTEND_STATIC_CONTENT +
+                      CONTENT_ID_CERTIFICATE_ADVANTAGE
+                    }>
                     <CastForEducationOutlinedIcon
                       className={classes.menuIcons}
                       sx={{fontSize: '2.6rem'}}
