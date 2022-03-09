@@ -71,9 +71,6 @@ export const LINK_FRONTEND_INDUSTRY_ENROLLMENT = '/enrollment';
 
 /** erpl links  */
 export const LINK_FRONTEND_ERPL_ROOT = '/';
-export const LINK_FRONTEND_ERPL_ROOT_WHAT_IS_ERPL = '/whatisrpl';
-export const LINK_FRONTEND_ERPL_ROOT_CERTIFICATE_ADVANTAGE =
-  '/certificate-advantage';
 export const LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS = '/occupations';
 export const LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER = '/assessment-center';
 
