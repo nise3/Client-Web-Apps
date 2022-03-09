@@ -114,12 +114,12 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
           <Container maxWidth={'lg'}>
             <Box className={classes.headerMainFlex}>
               <Link href={LINK_FRONTEND_ERPL_ROOT}>
-                {/* <AppLogo height={isMDDown ? 40 : 60} /> */}
-                <span style={{
+                <AppLogo height={isMDDown ? 40 : 60} />
+                {/* <span style={{
                   'fontSize': '2rem',
                   'fontWeight': 700,
                   'color': '#5fcf80',
-                }}>{messages['common.rpl']}</span>
+                }}>{messages['common.rpl']}</span> */}
               </Link>
               <Box className={classes.grow} />
               <Box className={clsx(classes.sectionDesktop)}>
