@@ -2,15 +2,15 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import AuthenticatedBlankPage from '../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
 import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../../@softbd/layouts/themes/youth';
 import {useTheme} from '@mui/material/styles';
+import ErplAssessmentFrontPage from '../../../@softbd/layouts/hoc/ErplAssessmentFrontPage';
 
 const AssessmentPaymentMethods = asyncComponent(
   () => import('../../../modules/erpl/assessmentPaymentMethod'),
 );
-export default AuthenticatedBlankPage(() => {
+export default ErplAssessmentFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>

@@ -42,7 +42,7 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
@@ -118,7 +118,7 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INSTITUTE_KEY,
+    key: PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
