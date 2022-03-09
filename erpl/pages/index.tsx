@@ -1,9 +1,9 @@
-import IndustryDefaultFrontPage from '../../@softbd/layouts/hoc/IndustryDefaultFrontPage';
+import ErplDefaultFrontPage from '../../@softbd/layouts/hoc/ErplDefaultFrontPage';
 import React from 'react';
 import asyncComponent from '../../@crema/utility/asyncComponent';
 
 const Industry = asyncComponent(() => import('../../modules/industry'));
 
-export default IndustryDefaultFrontPage(() => {
+export default ErplDefaultFrontPage(() => {
   return <Industry />;
 });
