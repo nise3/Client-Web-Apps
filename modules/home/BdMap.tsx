@@ -17,6 +17,7 @@ const classes = {
   mapSidePoints: `${PREFIX}-mapSidePoints`,
   mapIndicator: `${PREFIX}-mapIndicator`,
   tabListBox: `${PREFIX}-tabListBox`,
+  TabPanelBox: `${PREFIX}-TabPanelBox`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -41,7 +42,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
   },
 
   [`& .${classes.map}`]: {
-    position: 'relative',
     border: '1px solid #eee',
     borderRadius: '2px',
     backgroundColor: theme.palette.grey[50],
@@ -70,6 +70,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
     maxWidth: '50%',
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  [`& .${classes.TabPanelBox}`]: {
+    maxWidth: '50%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    border: '1px solid #eee',
+    borderRadius: '2px',
+    backgroundColor: theme.palette.grey[50],
+    minHeight: '450px',
   },
 }));
 
@@ -104,14 +113,13 @@ const BdMap = () => {
                   <Tab label={messages['menu.jobs']} value='2' />
                   <Tab label={messages['common.business']} value='3' />
                   <Tab label={messages['common.educations']} value='4' />
+                  <Tab label={messages['menu.jobs']} value='5' />
                 </TabList>
               </Box>
-              <TabPanel value='1'>
-                <Container maxWidth={'sm'} className={classes.map}>
+              <Box className={classes.TabPanelBox}>
+                <TabPanel value='1'>
                   <Grid
-                    item
                     container
-                    xs={12}
                     justifyContent={'center'}
                     alignItems={'center'}>
                     <Grid item xs={8}>
@@ -131,89 +139,10 @@ const BdMap = () => {
                       />
                     </Grid>
                   </Grid>
-
-                  <Box className={classes.mapIndicator}>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#682988',
-                                border: '1px solid #682988',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.skills']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2AC92A',
-                                border: '1px solid #2AC92A',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['menu.jobs']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.business']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.education']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Container>
-              </TabPanel>
-              <TabPanel value='2'>
-                <Container maxWidth={'sm'} className={classes.map}>
+                </TabPanel>
+                <TabPanel value='2'>
                   <Grid
-                    item
                     container
-                    xs={12}
                     justifyContent={'center'}
                     alignItems={'center'}>
                     <Grid item xs={8}>
@@ -233,87 +162,9 @@ const BdMap = () => {
                       />
                     </Grid>
                   </Grid>
-
-                  <Box className={classes.mapIndicator}>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#682988',
-                                border: '1px solid #682988',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.skills']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2AC92A',
-                                border: '1px solid #2AC92A',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['menu.jobs']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.business']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.education']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Container>
-              </TabPanel>
-              <TabPanel value='3'>
-                <Container maxWidth={'sm'} className={classes.map}>
+                </TabPanel>
+                <TabPanel value='3'>
                   <Grid
-                    item
                     container
                     xs={12}
                     justifyContent={'center'}
@@ -335,89 +186,10 @@ const BdMap = () => {
                       />
                     </Grid>
                   </Grid>
-
-                  <Box className={classes.mapIndicator}>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#682988',
-                                border: '1px solid #682988',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.skills']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2AC92A',
-                                border: '1px solid #2AC92A',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['menu.jobs']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.business']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.education']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Container>
-              </TabPanel>
-              <TabPanel value='4'>
-                <Container maxWidth={'sm'} className={classes.map}>
+                </TabPanel>
+                <TabPanel value='4'>
                   <Grid
-                    item
                     container
-                    xs={12}
                     justifyContent={'center'}
                     alignItems={'center'}>
                     <Grid item xs={8}>
@@ -437,83 +209,31 @@ const BdMap = () => {
                       />
                     </Grid>
                   </Grid>
-
-                  <Box className={classes.mapIndicator}>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#682988',
-                                border: '1px solid #682988',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.skills']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                </TabPanel>
+                <TabPanel value='5'>
+                  <Grid
+                    container
+                    justifyContent={'center'}
+                    alignItems={'center'}>
+                    <Grid item xs={8}>
+                      <CardMedia
+                        component={'img'}
+                        image={'images/map.jpg'}
+                        title={
+                          messages['common.map_of_bangladesh'] as
+                            | string
+                            | undefined
+                        }
+                        alt={
+                          messages['common.map_of_bangladesh'] as
+                            | string
+                            | undefined
+                        }
+                      />
                     </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2AC92A',
-                                border: '1px solid #2AC92A',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['menu.jobs']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.business']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item container xs={12}>
-                      <Grid item xs={6}>
-                        <Grid item container spacing={2}>
-                          <Grid item xs={4}>
-                            <Box
-                              className={classes.mapSidePoints}
-                              sx={{
-                                bgcolor: '#2A52C9',
-                                border: '1px solid #2A52C9',
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sx={{fontSize: '1.25rem'}}>
-                            {messages['common.education']}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Container>
-              </TabPanel>
+                  </Grid>
+                </TabPanel>
+              </Box>
             </TabContext>
           </Box>
         </Grid>
