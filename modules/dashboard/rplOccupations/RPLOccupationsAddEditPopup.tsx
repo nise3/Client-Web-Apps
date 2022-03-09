@@ -1,31 +1,31 @@
-import {Box, Button, Grid, IconButton} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import yup from '../../../@softbd/libs/yup';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Add, Delete} from '@mui/icons-material';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import { Box, Button, Grid, IconButton } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import yup from "../../../@softbd/libs/yup";
+import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
+import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
+import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
+import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
+import { Add, Delete } from "@mui/icons-material";
+import { objectFilter } from "../../../@softbd/utilities/helpers";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
 import {
   useFetchRPLOccupation,
   useFetchRPLSectors,
-  useFetchRTOCountries,
-} from '../../../services/CertificateAuthorityManagement/hooks';
+  useFetchRTOCountries
+} from "../../../services/CertificateAuthorityManagement/hooks";
 import {
   createRPLOccupation,
-  updateRPLOccupation,
-} from '../../../services/CertificateAuthorityManagement/RPLOccupationService';
+  updateRPLOccupation
+} from "../../../services/CertificateAuthorityManagement/RPLOccupationService";
+import IconOccupation from "../../../@softbd/icons/IconOccupation";
 
 interface RPLOccupationAddEditPopupProps {
   itemId: number | null;
@@ -251,7 +251,7 @@ const RPLOccupationsAddEditPopup: FC<RPLOccupationAddEditPopupProps> = ({
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
-          <IconFAQ />
+          <IconOccupation/>
           {isEdit ? (
             <IntlMessages
               id='common.edit'
