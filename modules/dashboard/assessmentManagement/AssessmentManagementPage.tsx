@@ -13,6 +13,7 @@ import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonBu
 import AssignBatchPopup from "./AssignAssessmentBatchPopup";
 import { FiUserCheck } from "react-icons/fi";
 import LocaleLanguage from "../../../@softbd/utilities/LocaleLanguage";
+import CustomChipStatus from "../memberList/CustomChipStatus";
 
 const AssessmentManagementPage = () => {
   const {messages, locale} = useIntl();
@@ -105,6 +106,18 @@ const AssessmentManagementPage = () => {
         Header: messages['rto.label'],
         accessor: 'rto_title',
         isVisible: locale == LocaleLanguage.EN,
+      },
+
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <CustomChipStatus variant={'filled'} value={data?.rto_batch_id ? 1 : 2} />
+          );
+        },
       },
 
       {

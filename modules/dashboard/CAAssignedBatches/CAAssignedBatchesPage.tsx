@@ -13,11 +13,15 @@ import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const CAAssignedBatchesPage = () => {
   const {messages, locale} = useIntl();
   const router = useRouter();
   const path = router.pathname;
+  const authUser = useAuthUser<CommonAuthUser>();
+  console.log('authUser now : ', authUser);
 
   const columns = useMemo(
     () => [
