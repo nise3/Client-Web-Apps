@@ -90,6 +90,7 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <CustomFilterableFormSelect
+            required
             id={'assessor_id'}
             label={messages['common.assessor']}
             isLoading={isLoadingAssessors}
@@ -103,7 +104,7 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
         <Grid item xs={12}>
           <CustomDateTimeField
             required
-            id='exam_date'
+            id='assessment_date'
             label={messages['common.exam_date']}
             register={register}
             errorInstance={errors}
