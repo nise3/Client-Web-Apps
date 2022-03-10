@@ -23,8 +23,9 @@ import {
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
   API_TRAINERS,
-  API_TRAINING_CENTERS, API_YOUTH_ASSESSMENT
-} from "../../@softbd/common/apiRoutes";
+  API_TRAINING_CENTERS,
+  API_YOUTH_ASSESSMENT,
+} from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
   return useAxiosSWR(instituteId ? API_INSTITUTES + '/' + instituteId : null);
@@ -139,7 +140,7 @@ export function useFetchTrainer(trainerId: number | null) {
 }
 
 export function useFetchTrainers(params: any) {
-  return useAxiosSWR([API_TRAINERS, params]);
+  return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
 
 export function useFetchPublicTrainingCenters(params: any) {
