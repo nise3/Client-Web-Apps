@@ -20,6 +20,7 @@ import {
   API_PUBLIC_NISE_STATICS,
   API_PUBLIC_NOTICE_OR_NEWS,
   API_PUBLIC_PARTNERS,
+  API_PUBLIC_PUBLICATIONS,
   API_PUBLIC_RECENT_ACTIVITIES,
   API_PUBLIC_SLIDERS,
   API_PUBLIC_STATIC_PAGE_BLOCKS,
@@ -193,6 +194,9 @@ export function useFetchNiseStatics() {
 
 export function useFetchPublications(params: any) {
   return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
+}
+export function useFetchPublicPublications(params: any) {
+  return useAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
 }
 
 export function useFetchPublication(publicationId: number | null) {

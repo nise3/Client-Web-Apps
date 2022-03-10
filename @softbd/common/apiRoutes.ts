@@ -472,6 +472,8 @@ export const API_PUBLIC_VISITOR_FEEDBACKS =
   CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
 export const API_PUBLIC_NISE_STATICS =
   CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
+export const API_PUBLIC_PUBLICATIONS =
+  CMS_SERVICE_PUBLIC_PATH + '/publications';
 
 /** CMS service public routes section end */
 

@@ -9,13 +9,13 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {
   useFetchCMSGlobalConfig,
-  useFetchPartner,
+  useFetchPublication,
 } from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import IconNise3Partner from '../../../@softbd/icons/IconNise3Partner';
+import IconPublication from '../../../@softbd/icons/IconPublication';
 
 type Props = {
   itemId: number;
@@ -30,7 +30,7 @@ const NisePublicationsDetailsPopup = ({
 }: Props) => {
   const {messages} = useIntl();
 
-  const {data: itemData, isLoading} = useFetchPartner(itemId);
+  const {data: itemData, isLoading} = useFetchPublication(itemId);
   const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   return (
@@ -40,8 +40,8 @@ const NisePublicationsDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconNise3Partner />
-            <IntlMessages id='nise.partners' />
+            <IconPublication />
+            <IntlMessages id='publication.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -57,29 +57,58 @@ const NisePublicationsDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
+              label={messages['common.title']}
+              value={itemData?.title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.title_en']}
+              value={itemData?.title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['publication.author']}
+              value={itemData?.author}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['publication.author_en']}
+              value={itemData?.author_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.description']}
+              value={itemData?.description}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.description_en']}
+              value={itemData?.description_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ImageView
-              label={messages['common.main_image_path']}
-              imageUrl={itemData?.main_image_path}
+              label={messages['common.logo']}
+              imageUrl={itemData?.image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ImageView
-              label={messages['common.thumb_image_path']}
-              imageUrl={itemData?.thumb_image_path}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['common.grid_image_path']}
-              imageUrl={itemData?.grid_image_path}
+              label={messages['common.pdf']}
+              imageUrl={itemData?.file_path}
               isLoading={isLoading}
             />
           </Grid>

@@ -28,6 +28,7 @@ import {
   createPublication,
   updatePublication,
 } from '../../../services/cmsManagement/PublicationsService';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface Props {
   itemId: number | null;
@@ -105,7 +106,6 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
     setError,
     handleSubmit,
     setValue,
-    watch,
     formState: {errors, isSubmitting},
   } = useForm<IPublication>({
     resolver: yupResolver(validationSchema),
@@ -356,11 +356,32 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
             defaultFileUrl={itemData?.file_path}
             setValue={setValue}
             register={register}
-            label={messages['common.cv_links']}
+            label={messages['common.pdf']}
             errorInstance={errors}
             allowMultiple={false}
             acceptedFileTypes={['application/pdf']}
-            uploadedUrls={watch('file_path')}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='published_at'
+            label={messages['common.publish_at']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+          <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+            {messages['common.give_publish_date']}
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='archived_at'
+            label={messages['common.archived_at']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 
