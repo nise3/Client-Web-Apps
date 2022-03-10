@@ -33,7 +33,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 
   [`& .${classes.image}`]: {
     width: '100%',
-    height: '100%',
+    height: '170px',
   },
   [`& .${classes.imageAlt}`]: {
     display: 'flex',
