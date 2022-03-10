@@ -1171,6 +1171,7 @@
   "menu.industry_association_management": "Industry Association Management",
   "industry.writer_name": "Writer name",
   "industry.publication_details": "Publication details",
+  "common.publication_details": "Publication details",
   "industry.publication_list": "Publication lists",
   "common.member_list": "Member list",
   "common.filter": "Filter",
@@ -1611,5 +1612,7 @@
   "common.objective": "Objective",
   "specialized_area.select_at_least_one": "Select at least one specialized area",
   "registration_success.thanks_text": "Thanks for your Registration",
-  "common.select_valid_status": "Select a valid status"
+  "common.select_valid_status": "Select a valid status",
+  "common.nise_publication": "Nise Publication",
+  "common.pdf": "PDF"
 }
