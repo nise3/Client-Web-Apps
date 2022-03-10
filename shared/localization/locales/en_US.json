@@ -1639,6 +1639,7 @@
   "answer.type.no": "No",
   "common.assessment": "Assessment",
   "common.assessment_result": "Assessment Result",
+  "common.assessment_fee": "Assessment Fee",
   "common.self_assessment": "Self Assessment",
   "common.sector_occupation": "Sector and Occupation",
   "rto_country.label": "Rto Country",
@@ -1651,5 +1652,9 @@
   "assessmentManagement.details": "Details",
   "assessmentManagement.target_country": "Target Country",
   "single_youth.label": "Youth",
-  "common.assessment_result_message": "Sorry! You could not pass the verification assessment"
+  "common.assessment_result_message": "Sorry! You could not pass the verification assessment",
+  "assessment_question_set.label": "Assessment Question Set",
+  "questionSet.label": "Question Set",
+  "questionSet.title": "Question Set Name",
+  "questionSet.title_en": "Question Set Name (EN)"
 }
