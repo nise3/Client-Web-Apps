@@ -11,6 +11,8 @@ import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useRouter} from 'next/router';
 import {useFetchPublicPublication} from '../../../services/cmsManagement/hooks';
 import {ArrowBack} from '@mui/icons-material';
+import {Skeleton} from '@mui/lab';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'PublicationDetails';
 
@@ -47,7 +49,8 @@ const PublicationDetails = () => {
   const router = useRouter();
   const {publicationId}: any = router.query;
 
-  const {data: publicationData} = useFetchPublicPublication(publicationId);
+  const {data: publicationData, isLoading: isLoadingPublication} =
+    useFetchPublicPublication(publicationId);
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -104,37 +107,57 @@ const PublicationDetails = () => {
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}>
-          <CardMedia
-            component='img'
-            height='200'
-            sx={{width: '150px'}}
-            image={publicationData?.image_path}
-            alt={publicationData?.title}
-          />
-          <H1
-            sx={{
-              ...result.h2,
-              fontWeight: 'bold',
-            }}
-            mt={3}>
-            {publicationData?.title}
-          </H1>
-        </Grid>
+        {isLoadingPublication ? (
+          <>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}>
+              <Skeleton height={400} width={180} />
+            </Grid>
+          </>
+        ) : publicationData && Object.keys(publicationData).length ? (
+          <>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}>
+              <CardMedia
+                component='img'
+                height='200'
+                sx={{width: '150px'}}
+                image={publicationData?.image_path}
+                alt={publicationData?.title}
+              />
+              <H1
+                sx={{
+                  ...result.h2,
+                  fontWeight: 'bold',
+                }}
+                mt={3}>
+                {publicationData?.title}
+              </H1>
+            </Grid>
 
-        <Grid item xs={12}>
-          <Body1 sx={{fontWeight: 'bold'}}>
-            {publicationData?.description}
-          </Body1>
-        </Grid>
+            <Grid item xs={12}>
+              <Body1 sx={{fontWeight: 'bold'}}>
+                {publicationData?.description}
+              </Body1>
+            </Grid>
+          </>
+        ) : (
+          <NoDataFoundComponent />
+        )}
       </Grid>
     </StyledContainer>
   );
