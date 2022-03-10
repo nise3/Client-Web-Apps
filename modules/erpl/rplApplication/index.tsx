@@ -579,7 +579,7 @@ const RPLApplication = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   id='birth_certificate'
-                  label={messages['common.birth_certificate']}
+                  label={messages['common.identity_type_birth_cert']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
