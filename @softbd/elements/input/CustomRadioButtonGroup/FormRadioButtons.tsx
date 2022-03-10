@@ -73,6 +73,7 @@ const FormRadioButtons = ({
             row
             aria-label={id}
             value={value}
+            name={id}
             onChange={(e) => {
               onChange(e.target.value);
               if (onChangeCallback && typeof onChangeCallback === 'function') {
@@ -81,6 +82,7 @@ const FormRadioButtons = ({
             }}>
             {radios.map((status) => (
               <FormControlLabel
+                disabled={status.disabled}
                 key={status.key}
                 value={status.key}
                 sx={styles}

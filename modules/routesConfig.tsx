@@ -542,6 +542,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'event',
             url: '/events',
           },
+          {
+            id: 'nise_publication',
+            title: 'NISE Publication',
+            messageId: 'common.nise_publication',
+            permissionKey: 'view_any_nise_publication',
+            type: 'item',
+            icon: 'group',
+            url: '/nise-publication',
+          },
         ],
       },
       {

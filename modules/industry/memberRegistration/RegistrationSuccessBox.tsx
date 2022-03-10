@@ -8,10 +8,12 @@ import {
   Typography,
 } from '@mui/material';
 import {Link} from '../../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const RegistrationSuccessBox = () => {
+  const {messages} = useIntl();
   return (
-    <Box sx={{textAlign: 'center', margin: 'auto', maxWidth: '700px'}}>
+    <Box sx={{textAlign: 'center', margin: '10px auto', maxWidth: '700px'}}>
       <Card>
         <CardContent>
           <CardMedia
@@ -24,11 +26,11 @@ const RegistrationSuccessBox = () => {
             variant={'h5'}
             align={'center'}
             style={{marginTop: '10px', marginBottom: '10px'}}>
-            Thank you for your registration!
+            {messages['registration_success.thanks_text']}
           </Typography>
           <Link href='/'>
             <Button color='primary' variant={'contained'}>
-              Go to Homepage
+              {messages['common.goto_home']}
             </Button>
           </Link>
         </CardContent>
