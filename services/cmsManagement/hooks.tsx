@@ -204,3 +204,9 @@ export function useFetchPublication(publicationId: number | null) {
     publicationId ? API_NISE_PUBLICATIONS + '/' + publicationId : null,
   );
 }
+
+export function useFetchPublicPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_PUBLIC_PUBLICATIONS + '/' + publicationId : null,
+  );
+}
