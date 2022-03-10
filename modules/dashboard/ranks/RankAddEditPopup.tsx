@@ -143,7 +143,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<IRank> = async (data: IRank) => {
-    if (authUser?.isSystemUser) {
+    if (!authUser?.isSystemUser) {
       delete data.organization_id;
     }
 

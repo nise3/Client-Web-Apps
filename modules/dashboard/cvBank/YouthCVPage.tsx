@@ -8,6 +8,10 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, Container, Grid, Typography} from '@mui/material';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import 'svg2pdf.js';
+// import 'svg-to-pdfkit';
+// import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+// import { svg2pdf } from 'svg2pdf.js';
 
 const PREFIX = 'YouthCVPage';
 
@@ -38,10 +42,12 @@ const StyledContainer = styled(Container)(({theme}) => ({
     borderColor: theme.palette.primary.main,
   },
 }));
-
+// const PRINT_WIDTH = 1000;
+// const PRINT_HIGHT = 1400;
 const YouthCVPage = () => {
-  const {messages} = useIntl();
   const router: any = useRouter();
+  // const {messages, locale} = useIntl();
+  const {messages} = useIntl();
   const {youthId} = router.query;
   const {data: youthData} = useFetchYouthDetails(youthId);
 
@@ -101,12 +107,12 @@ const YouthCVPage = () => {
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={5}>
-        <Grid item xs={8} sm={8} md={8}>
+        <Grid item xs={6} sm={6} md={6}>
           <Typography variant={'h5'} fontWeight={'bold'}>
             {messages['common.youth_cv']}
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={2} md={2}>
+        <Grid item xs={3} sm={3} md={3}>
           <Button
             startIcon={<ArrowBackIcon />}
             variant='outlined'
@@ -115,7 +121,7 @@ const YouthCVPage = () => {
             {messages['common.back']}
           </Button>
         </Grid>
-        <Grid item xs={6} sm={2} md={2}>
+        <Grid item xs={3} sm={3} md={3}>
           <Button
             variant='contained'
             onClick={printCB}
@@ -123,6 +129,15 @@ const YouthCVPage = () => {
             {messages['common.print']}
           </Button>
         </Grid>
+        {/* <Grid item xs={4} sm={2} md={2}>
+          <Button
+            variant='contained'
+            onClick={downloadCB}
+            style={{float: 'right'}}>
+            {messages['common.download']}
+          </Button>
+          <a id="lnk" download>Download</a>
+        </Grid> */}
       </Grid>
 
       <Grid container spacing={5} className={classes.rootContent}>
