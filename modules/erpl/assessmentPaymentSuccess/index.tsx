@@ -4,7 +4,6 @@ import {useRouter} from 'next/router';
 import {Link} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import {youthDomain} from '../../../@softbd/common/constants';
 
 const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
@@ -46,7 +45,7 @@ const AssessmentPaymentSuccessPage = () => {
           style={{marginTop: '10px', marginBottom: '10px'}}>
           {getResponseMessage()}
         </Typography>
-        <Link href={youthDomain()}>
+        <Link href={window.location.origin}>
           <Button color='primary' variant={'contained'}>
             {messages['common.goto_home']}
           </Button>
