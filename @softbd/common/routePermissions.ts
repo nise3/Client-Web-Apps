@@ -223,4 +223,8 @@ export const routePermissions: any = {
     routePrefix: '/industry-association-member-jobs',
     permissionKeys: ['view_any_industry_association_member_job'],
   },
+  '/nise-publication': {
+    routePrefix: '/nise-publication',
+    permissionKeys: ['view_any_nise_publication'],
+  },
 };

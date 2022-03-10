@@ -1,4 +1,4 @@
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.276 841.89">
+const svg = `<svg id='svg' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.276 841.89">
   <defs>
     <clipPath id="clip-path">
       <circle cx="108.5" cy="62.5" r="45" fill="none"/>

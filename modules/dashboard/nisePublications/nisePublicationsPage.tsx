@@ -5,29 +5,33 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_INDUSTRY_PUBLICATIONS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import PublicationAddEditPopup from './PublicationAddEditPopup';
-import PublicationDetailsPopup from './PublicationDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
+import {useFetchPublications} from '../../../services/cmsManagement/hooks';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import NisePublicationsAddEditPopup from './nisePublicationsAddEditPopup';
+import NisePublicationsDetailsPopup from './nisePublicationsDetailsPopup';
 import {Book} from '@mui/icons-material';
+import {deletePublication} from '../../../services/cmsManagement/PublicationsService';
 
-const PublicationsPage = () => {
+const NisePublicationsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
+
+  const [publicationsFilters] = useState({});
+  const {
+    data: publications,
+    isLoading,
+    mutate: mutatePublications,
+  }: any = useFetchPublications(publicationsFilters);
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -52,8 +56,8 @@ const PublicationsPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deletePublicationItem = async (publicationId: number) => {
-    let response = await deletePublication(publicationId);
+  const deletePublicationItem = async (itemId: number) => {
+    let response = await deletePublication(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -61,13 +65,14 @@ const PublicationsPage = () => {
           values={{subject: <IntlMessages id='publication.label' />}}
         />,
       );
-      refreshDataTable();
+
+      await refreshDataTable();
     }
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((isToggleTable: boolean) => !isToggleTable);
-  }, [isToggleTable]);
+    mutatePublications();
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -131,11 +136,6 @@ const PublicationsPage = () => {
     [messages, locale],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_INDUSTRY_PUBLICATIONS,
-    });
-
   return (
     <>
       <PageBlock
@@ -148,12 +148,12 @@ const PublicationsPage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['menu.publication'],
+                  subject: messages['publication.label'],
                 }}
               />
             }
@@ -161,15 +161,12 @@ const PublicationsPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
+          data={publications || []}
+          loading={isLoading}
+          skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
-          <PublicationAddEditPopup
+          <NisePublicationsAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -178,7 +175,7 @@ const PublicationsPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <PublicationDetailsPopup
+          <NisePublicationsDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -190,4 +187,4 @@ const PublicationsPage = () => {
   );
 };
 
-export default PublicationsPage;
+export default NisePublicationsPage;
