@@ -18,14 +18,14 @@ import {
   useFetchAssessmentQuestionSets,
   useFetchAssessments,
 } from '../../../services/CertificateAuthorityManagement/hooks';
-import {ISubject} from '../../../shared/Interface/institute.interface';
+import {IQuestionSet} from '../../../shared/Interface/institute.interface';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {
   createAssessmentQuestionSet,
   updateAssessmentQuestionSet,
 } from '../../../services/CertificateAuthorityManagement/AssessmentQuestionSetService';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface SubjectAddEditPopupProps {
   itemId: number | null;
@@ -36,7 +36,7 @@ interface SubjectAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  assessment_id: '',
+  row_status: '1',
 };
 
 const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
@@ -59,18 +59,22 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
   const {data: assessmentData, isLoading: isLoadingAssessment} =
     useFetchAssessments(assessmentFilters);
 
+  console.log(assessmentData);
+
   const [selectedAssessmentList, setSelectedAssessmentList] = useState<any>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      assessment_id: yup
-        .string()
-        .title()
-        .label(messages['assessment.label'] as string),
       title: yup
         .string()
         .title()
+        .required()
         .label(messages['questionSet.title'] as string),
+      assessment_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['assessment.label'] as string),
       row_status: yup.string(),
     });
   }, [messages]);
@@ -91,6 +95,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
+        row_status: itemData?.row_status,
       });
       setSelectedAssessmentList(itemData?.assessment_id);
     } else {
@@ -102,7 +107,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     setSelectedAssessmentList(options);
   }, []);
 
-  const onSubmit: SubmitHandler<ISubject> = async (data: ISubject) => {
+  const onSubmit: SubmitHandler<IQuestionSet> = async (data: IQuestionSet) => {
     console.log('submitted data: ', data);
     try {
       if (itemId) {
@@ -154,7 +159,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <CustomSelectAutoComplete
+          <CustomFilterableFormSelect
             required
             id='assessment_id'
             label={messages['assessment.label']}
@@ -188,9 +193,10 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomChipRowStatus
-            label={messages['common.status']}
-            value={itemData?.row_status}
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>
