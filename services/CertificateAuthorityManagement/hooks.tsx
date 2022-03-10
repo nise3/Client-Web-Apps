@@ -130,3 +130,9 @@ export function useFetchAssessmentQuestions(params: any) {
 export function useFetchAssessmentQuestionSets(params: any) {
   return useAxiosSWR(params ? [API_ASSESSMENT_QUESTION_SETS, params] : null);
 }
+
+export function useFetchAssessmentQuestionSet(questionSetId: number | null) {
+  return useAxiosSWR(
+    questionSetId ? API_ASSESSMENT_QUESTION_SETS + '/' + questionSetId : null,
+  );
+}

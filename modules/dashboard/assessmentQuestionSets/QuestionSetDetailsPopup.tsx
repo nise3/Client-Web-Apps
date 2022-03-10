@@ -7,7 +7,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchAssessmentQuestionSets} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchAssessmentQuestionSet} from '../../../services/CertificateAuthorityManagement/hooks';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
@@ -19,8 +19,8 @@ type Props = {
 
 const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchAssessmentQuestionSets(itemId);
-  // console.log('itemData', itemData);
+  const {data: itemData, isLoading} = useFetchAssessmentQuestionSet(itemId);
+  console.log('itemData', itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
