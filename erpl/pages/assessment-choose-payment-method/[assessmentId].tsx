@@ -5,12 +5,12 @@ import {useIntl} from 'react-intl';
 import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../../@softbd/layouts/themes/youth';
 import {useTheme} from '@mui/material/styles';
-import ErplDefaultFrontPage from '../../../@softbd/layouts/hoc/ErplDefaultFrontPage';
+import ErplAssessmentFrontPage from '../../../@softbd/layouts/hoc/ErplAssessmentFrontPage';
 
 const AssessmentPaymentMethods = asyncComponent(
   () => import('../../../modules/erpl/assessmentPaymentMethod'),
 );
-export default ErplDefaultFrontPage(() => {
+export default ErplAssessmentFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>

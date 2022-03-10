@@ -1654,11 +1654,11 @@
   "single_youth.label": "Youth",
   "common.assessment_result_message": "Sorry! You could not pass the verification assessment",
   "common.candidate_name_en": "Candidate Name(EN)",
-  "common.candidate_name_bn": "Candidate Name(BN)",
+  "common.candidate_name": "Candidate Name",
   "common.father_name_en": "Father Name(EN)",
-  "common.father_name_bn": "Father Name(BN)",
+  "common.father_name": "Father Name",
   "common.mother_name_en": "Mother Name(EN)",
-  "common.mother_name_bn": "Mother Name(BN)",
+  "common.mother_name": "Mother Name",
   "common.guardian_name": "Guardian Name",
   "common.guardian_mobile": "Guardian Mobile",
   "common.in_the_absence_of_father": "In the absence of father",
@@ -1670,5 +1670,7 @@
   "common.interested_sector_occupation_to_register": "Sectors and occupations interested in registration",
   "common.registered_training_center_institute_assessment_center": "Name of Registered Training / Educational Institution / Assessment Center",
   "common.any_one_must_be_fill_up": "Fill at least one",
-  "common.candidate_photo": "Candidate Photo"
+  "common.candidate_photo": "Candidate Photo",
+  "common.passed_text": "Contratulations! You have passed"
+
 }
