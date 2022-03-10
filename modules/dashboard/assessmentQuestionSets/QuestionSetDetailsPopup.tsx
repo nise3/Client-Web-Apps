@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetchAssessmentQuestionSets} from '../../../services/CertificateAuthorityManagement/hooks';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 type Props = {
   itemId: number;
@@ -19,7 +20,7 @@ type Props = {
 const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchAssessmentQuestionSets(itemId);
-
+  // console.log('itemData', itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -48,7 +49,7 @@ const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['assessment.label']}
-              value={itemData?.assessment_id}
+              value={itemData?.assessment_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -66,8 +67,8 @@ const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
+          <Grid item xs={12}>
+            <CustomChipRowStatus
               label={messages['common.status']}
               value={itemData?.row_status}
               isLoading={isLoading}
