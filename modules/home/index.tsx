@@ -8,7 +8,7 @@ import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import PopularJobs from './PopularJobs';
 // import Partners from './Partners';
-import BdMap from './BdMap';
+import GraphMapView from './GraphMapView';
 import Publications from './Publications';
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
       {/*<Nise3WorkProcess />*/}
 
       <RecentActivities />
-      <BdMap />
+      <GraphMapView />
       <Publications />
       <PopularCourse />
       <PopularJobs />

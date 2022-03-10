@@ -1,26 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Container} from '@mui/material';
 import SectionTitle from './SectionTitle';
-import Districts from '../../shared/json/Districts.json';
-import Map from '../../shared/json/Map.json';
-import Demand from '../../shared/json/Demand.json';
-import Supply from '../../shared/json/Supply.json';
-import {useIntl} from 'react-intl';
 import Chartist from 'chartist';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 
-import {
-  StyledBox,
-  StyledGrid,
-  classes,
-  SVG,
-  DIV,
-  centerPoint,
-} from './GraphMapView';
+import {classes, DIV, StyledBox, StyledGrid} from './GraphMapView';
 
 const GraphMapView = () => {
   // const {messages} = useIntl();
@@ -34,6 +21,7 @@ const GraphMapView = () => {
   // const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     document.head.innerHTML +=
+      // @ts-ignore
       '<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">';
     return () => {
       // elem.remove();
@@ -81,7 +69,7 @@ const GraphMapView = () => {
         data.element.attr({
           // style: `stroke-width: 15px; cursor:pointer;`,
         });
-        data.element._node.onclick = (e: any) => {};
+        data.element._node.onclick = () => {};
         const txt = new Chartist.Svg(
           'text',
           {
