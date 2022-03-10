@@ -6,18 +6,18 @@ variables:
   imageRepository: "registry.nise.gov.bd"
 
   #admin frontend
-  imageAdminRelease: "false"
-  imageAdminAppVersion: "2.0.7"
+  imageAdminRelease: "true"
+  imageAdminAppVersion: "2.0.8"
   imageAdminRepository: "registry.nise.gov.bd/nise3-cube-client-web-admin"
 
   #Industry frontend
-  imagIndustryeRelease: "true"
+  imagIndustryeRelease: "false"
   imageIndustryAppVersion: "2.0.8"
   imageIndustryRepository: "registry.nise.gov.bd/nise3-cube-client-web-industry"
 
   #nise frontend
-  imageNiseRelease: "false"
-  imageNiseAppVersion: "2.0.7"
+  imageNiseRelease: "true"
+  imageNiseAppVersion: "2.0.8"
   imageNiseRepository: "registry.nise.gov.bd/nise3-cube-client-web-nise"
 
   #ssp frontend
