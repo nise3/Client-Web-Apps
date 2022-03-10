@@ -166,6 +166,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                     style={{
                       padding: '5px 10px',
                       marginRight: '10px',
+                      paddingBottom: '6px'
                     }}
                     sx={{height: '100%'}}
                     id='my-self-assessment-button'
