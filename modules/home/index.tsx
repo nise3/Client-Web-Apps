@@ -1,9 +1,9 @@
 import React from 'react';
 import CoverArea from './CoverArea';
-import InfoCardSection from './InfoCardSection';
-import SelfAssessment from './SelfAssessment';
-import StatisticsCardSection from './StatisticsCardSection';
-import Nise3WorkProcess from './Nise3WorkProcess';
+// import InfoCardSection from './InfoCardSection';
+// import SelfAssessment from './SelfAssessment';
+// import StatisticsCardSection from './StatisticsCardSection';
+// import Nise3WorkProcess from './Nise3WorkProcess';
 import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import PopularJobs from './PopularJobs';
@@ -15,10 +15,13 @@ const Home = () => {
   return (
     <div style={{background: '#fff', paddingBottom: '80px'}}>
       <CoverArea />
-      <InfoCardSection />
-      <SelfAssessment />
-      <StatisticsCardSection />
-      <Nise3WorkProcess />
+
+      {/*Todo: These sections are hided on feedback demand*/}
+      {/*<InfoCardSection />*/}
+      {/*<SelfAssessment />*/}
+      {/*<StatisticsCardSection />*/}
+      {/*<Nise3WorkProcess />*/}
+
       <RecentActivities />
       <BdMap />
       <Publications />

@@ -157,6 +157,20 @@ const NisePublicationsDetailsPopup = ({
                     </Grid>
                     <Grid item xs={12} md={6}>
                       <DetailsInputView
+                        label={messages['publication.author']}
+                        value={itemData.other_language_fields[key]?.author}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <DetailsInputView
+                        label={messages['common.description']}
+                        value={itemData.other_language_fields[key]?.description}
+                        isLoading={isLoading}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <DetailsInputView
                         label={messages['common.image_alt_title']}
                         value={
                           itemData.other_language_fields[key]?.image_alt_title

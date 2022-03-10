@@ -2,9 +2,9 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
+// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+// import ShareIcon from '@mui/icons-material/Share';
+// import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
@@ -20,6 +20,7 @@ const classes = {
   date: `${PREFIX}-date`,
   icon: `${PREFIX}-icon`,
   container: `${PREFIX}-container`,
+  buttons: `${PREFIX}-buttons`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -39,6 +40,11 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
   [`& .${classes.container}`]: {
     marginTop: '50px',
+  },
+  [`& .${classes.buttons}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
   },
 }));
 
@@ -69,8 +75,13 @@ const PublicationDetails = () => {
                 </Button>
               </Box>
             </Grid>
-            <Grid item xs={12} md={7} textAlign={'right'}>
-              <Tooltip title={messages['common.like']}>
+            <Grid
+              item
+              xs={12}
+              md={7}
+              textAlign={'right'}
+              className={classes.buttons}>
+              {/*<Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
                   sx={{backgroundColor: '#008fff'}}
@@ -87,7 +98,12 @@ const PublicationDetails = () => {
                   className={classes.icon}
                   sx={{backgroundColor: '#ffb700b8'}}
                 />
-              </Tooltip>
+              </Tooltip>*/}
+
+              <Body1 sx={{fontWeight: 'bold', padding: '10px'}}>
+                {messages['common.download']}
+              </Body1>
+
               {publicationData?.file_path ? (
                 <Link target={'_blank'} href={publicationData?.file_path}>
                   <Tooltip title={messages['common.download_label']}>

@@ -29,6 +29,7 @@ import {
   updatePublication,
 } from '../../../services/cmsManagement/PublicationsService';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 interface Props {
   itemId: number | null;
@@ -46,6 +47,8 @@ const initialValues = {
   industry_association_id: '',
   image_path: '',
   file_path: '',
+  published_at: '',
+  archived_at: '',
   row_status: '1',
 };
 
@@ -96,8 +99,50 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
         .string()
         .required()
         .label(messages['common.logo'] as string),
+      language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+          }),
+      language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+          }),
+      language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
+        ? yup.object().shape({})
+        : yup.object().shape({
+            title: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+            description: yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.title'] as string),
+          }),
     });
-  }, []);
+  }, [messages]);
 
   const {
     register,
@@ -124,6 +169,12 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
         image_path: itemData?.image_path,
         file_path: itemData?.file_path,
         show_in: itemData?.show_in,
+        published_at: itemData?.published_at
+          ? getMomentDateFormat(itemData.published_at, 'YYYY-MM-DD')
+          : '',
+        archived_at: itemData?.archived_at
+          ? getMomentDateFormat(itemData.archived_at, 'YYYY-MM-DD')
+          : '',
         row_status: String(itemData?.row_status),
       };
 
@@ -135,6 +186,8 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
           data['language_' + key] = {
             code: key,
             title: otherLangData[key].title,
+            author: otherLangData[key].author,
+            description: otherLangData[key].description,
             image_alt_title: otherLangData[key].image_alt_title,
           };
         });
@@ -213,17 +266,20 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
       let data = {...formData};
-      let otherLanguagesFields: any = {};
-      delete data.language_list;
 
       //Todo: nise for now
       data.show_in = 1;
+
+      let otherLanguagesFields: any = {};
+      delete data.language_list;
 
       selectedLanguageList.map((language: any) => {
         const langObj = formData['language_' + language.code];
 
         otherLanguagesFields[language.code] = {
           title: langObj.title,
+          author: langObj.author,
+          description: langObj.description,
           image_alt_title: langObj.image_alt_title,
         };
       });
@@ -422,6 +478,24 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
                       required
                       id={'language_' + language.code + '[title]'}
                       label={messages['common.title']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={10} md={6}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[author]'}
+                      label={messages['publication.author']}
+                      register={register}
+                      errorInstance={errors}
+                    />
+                  </Grid>
+                  <Grid item xs={10} md={6}>
+                    <CustomTextInput
+                      required
+                      id={'language_' + language.code + '[description]'}
+                      label={messages['common.description']}
                       register={register}
                       errorInstance={errors}
                     />
