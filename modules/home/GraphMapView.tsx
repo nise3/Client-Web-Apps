@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Container, Grid} from '@mui/material';
 import SectionTitle from './SectionTitle';
@@ -8,6 +8,7 @@ import Demand from '../../shared/json/Demand.json';
 import Supply from '../../shared/json/Supply.json';
 import Youths from '../../shared/json/Youths.json';
 import Chartist from 'chartist';
+import {useIntl} from 'react-intl';
 
 const DemandColor = 'rgb(36,141,36)';
 const SupplyColor = 'rgb(104, 41, 136)';
@@ -103,7 +104,7 @@ export const StyledGrid = styled(Grid)(({theme}) => ({
   },
 }));
 
-export const StyledBox = styled(Box)(({theme}) => ({
+export const StyledBox = styled(Box)(() => ({
   border: '2px solid #d3d4d4',
   background: '#fff',
   padding: 20,
@@ -178,6 +179,20 @@ export const StyledBox = styled(Box)(({theme}) => ({
     display: 'block',
     position: 'relative',
     pointerEvents: 'all',
+  },
+
+  [`& .map-ui .data-source`]: {
+    display: 'block',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    borderRadius: 0,
+    width: '100%',
+    height: 'auto',
+    overflow: 'auto',
+    padding: '6px 12px 3px',
+    background: '#ddd8',
+    transform: 'translateZ(0px)',
   },
 
   [`& .map-ui .toggle-ds`]: {
@@ -291,13 +306,16 @@ export const centerPoint = ({x, y, width, height}: SVGRect) => ({
 });
 
 const GraphMapView = () => {
-  // const {messages} = useIntl();
+  const {messages} = useIntl();
 
   // const [isOpened, setIsOpened] = useState(false);
   // const [isReady, setIsReady] = useState(false);
   useEffect(() => {
-    document.head.innerHTML +=
+    const link = document.createElement('div');
+    link.innerHTML +=
+      // @ts-ignore
       '<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">';
+    document.head.appendChild(link.children[0]);
     return () => {
       // elem.remove();
       // document.documentElement.removeEventListener('mousemove', mousemoveCB);
@@ -310,7 +328,7 @@ const GraphMapView = () => {
     const labels = ['Jobs', 'Skills'];
     let currentDistrict = '';
 
-    const defocusDistrict = (e: MouseEvent) => {
+    const defocusDistrict = () => {
       div.style.transform = 'none';
       div.style.pointerEvents = 'all';
       L1Div.classList.add('hidden');
@@ -322,7 +340,8 @@ const GraphMapView = () => {
       const g = e.target.parentElement;
       const forDemand = g.getAttribute('demand-district-name');
       const forSupply = g.getAttribute('supply-district-name');
-      let district: any = '';
+      // @ts-ignore
+      let district: string;
       if (forDemand) {
         district = forDemand;
       } else {
@@ -345,12 +364,6 @@ const GraphMapView = () => {
         0.8 * Math.sqrt((rc1.width * rc1.height) / (rc2.width * rc2.height))
       })`;
       div.style.pointerEvents = 'none';
-      // svg1.style.transformOrigin = `${toX}px ${toY}px`;
-      // svg1.style.transform = `rotate(30deg)`;
-      // svg2.style.transformOrigin = `${toX}px ${toY}px`;
-      // svg2.style.transform = `rotate(30deg)`;
-      // svg3.style.transformOrigin = `${toX}px ${toY}px`;
-      // svg3.style.transform = `rotate(30deg)`;
 
       L1DivTitle.innerHTML = `<h3>${district.trim()} <br><span style="font-size:16px;">Total youth: ${
         // @ts-ignore
@@ -358,7 +371,7 @@ const GraphMapView = () => {
       }</span></h3>`;
       L1DivChart.innerHTML = ``;
       // console.log(Chartist, [DemandTotals[currentDistrict], SupplyTotals[currentDistrict]]);
-      const chart = new Chartist.Bar(
+      new Chartist.Bar(
         L1DivChart,
         {
           labels,
@@ -394,7 +407,7 @@ const GraphMapView = () => {
             '',
           );
           data.group.append(cir);
-          cir._node.onclick = (e: any) => {
+          cir._node.onclick = () => {
             showLevelTwo(isDemand);
           };
           const txt = new Chartist.Svg(
@@ -450,7 +463,7 @@ const GraphMapView = () => {
           // @ts-ignore
           series: Object.keys(dataSet[currentDistrict]).map((ind) =>
             Object.values(dataSet[currentDistrict][ind]).reduce(
-              (p: any, c: any, i) => p + c,
+              (p: any, c: any) => p + c,
               0,
             ),
           ),
@@ -466,7 +479,7 @@ const GraphMapView = () => {
               isDemand ? DemandColor : SupplyColor
             };`,
           });
-          data.element._node.onclick = (e: any) => {
+          data.element._node.onclick = () => {
             showLevelThree(isDemand, data.axisX.ticks[data.seriesIndex]);
           };
           const txt = new Chartist.Svg(
@@ -595,7 +608,7 @@ const GraphMapView = () => {
     svg3.appendChild(G3);
 
     const MapIndexed: any = {};
-    Map.features.forEach((v, i) => {
+    Map.features.forEach((v) => {
       MapIndexed[v.properties.ADM2_EN] = v;
       if (v.geometry.type == 'MultiPolygon' && null) console.log('');
 
@@ -607,9 +620,9 @@ const GraphMapView = () => {
       g2.setAttribute('supply-district-name', v.properties.ADM2_EN);
       G2.appendChild(g2);
 
-      v.geometry.coordinates.forEach((c, j) => {
+      v.geometry.coordinates.forEach((c) => {
         // draw
-        const poly = `<polygon xfill="#FILL#" points="${c
+        const poly = `<polygon points="${c
           .map((d: any) =>
             v.geometry.type != 'MultiPolygon'
               ? [d[0] * svgScale, -d[1] * svgScale]
@@ -705,6 +718,11 @@ const GraphMapView = () => {
     const L3DivChart = DIV('level-chart');
     L3Div.appendChild(L3DivChart);
 
+    const dataSource = DIV('data-source');
+    UI.appendChild(dataSource);
+    dataSource.innerHTML =
+      'Source: Unemployment Free District (UFD) Initiative of a2i & Field Administration';
+
     // setIsReady(true);
   }, []);
 
@@ -712,7 +730,7 @@ const GraphMapView = () => {
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
         <SectionTitle
-          title={`District wise skills and job` as string}
+          title={messages['common.graph_map_title'] as string}
           center={true}
         />
 
