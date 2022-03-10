@@ -1171,6 +1171,7 @@
   "menu.industry_association_management": "Industry Association Management",
   "industry.writer_name": "Writer name",
   "industry.publication_details": "Publication details",
+  "common.publication_details": "Publication details",
   "industry.publication_list": "Publication lists",
   "common.member_list": "Member list",
   "common.filter": "Filter",
