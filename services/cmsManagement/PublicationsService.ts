@@ -13,12 +13,12 @@ export const createPublication = async (data: IPublication) => {
 };
 
 export const updatePublication = async (
-  partnerId: number,
+  publicationId: number,
   data: IPublication,
 ) => {
   try {
     let response: any = await apiPut(
-      API_NISE_PUBLICATIONS + '/' + partnerId,
+      API_NISE_PUBLICATIONS + '/' + publicationId,
       data,
     );
     return response.data;

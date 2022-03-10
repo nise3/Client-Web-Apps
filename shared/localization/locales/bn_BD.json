@@ -1604,6 +1604,7 @@
   "specialized_area.select_at_least_one": " অন্তত একটি বিশেষায়িত অঞ্চল নির্বাচন করুন",
   "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ",
   "common.select_valid_status": "একটি বৈধ অবস্থা নির্বাচন করুন",
-  "common.nise_publication": "নাইস প্রকাশনা"
+  "common.nise_publication": "নাইস প্রকাশনা",
+  "common.pdf": "পিডিএফ"
 
 }

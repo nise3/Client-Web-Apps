@@ -9,6 +9,7 @@ import PopularCourse from './PopularCourse';
 import PopularJobs from './PopularJobs';
 // import Partners from './Partners';
 import BdMap from './BdMap';
+import Publications from './Publications';
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <Nise3WorkProcess />
       <RecentActivities />
       <BdMap />
+      <Publications />
       <PopularCourse />
       <PopularJobs />
 
