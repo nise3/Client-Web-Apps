@@ -439,7 +439,7 @@
   "certificate_authority.label": "Certificate Authority",
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
-  "certificate_authority.batch": "C.A. Batch",
+  "certificate_authority.batch": "RPL batch",
   "rto.label": "RTO",
   "rto.name": "RTO Name",
   "rpl_sectors.label": "RPL Sectors",

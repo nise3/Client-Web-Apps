@@ -134,6 +134,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
     if (itemData) {
       let data: any = {
         title: itemData?.title,
+        title_en: itemData?.title_en,
         rpl_sector_id: itemData?.rpl_sector_id,
         rpl_occupation_id: itemData?.rpl_occupation_id,
         sequence_order: itemData?.sequence_order,
@@ -290,6 +291,16 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
             required
             id={'title'}
             label={messages['common.title']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'title_en'}
+            label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

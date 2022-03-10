@@ -386,7 +386,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_ca_assigned_batches',
             type: 'item',
             icon: 'group',
-            url: '/ca-assigned-batches',
+            url: '/rpl-batches',
           },
           {
             id: 'assessment-management',
