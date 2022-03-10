@@ -1639,6 +1639,7 @@
   "common.assessment": "মূল্যায়ন",
   "common.self_assessment": "নিজেকে যাচাইকরণ",
   "common.assessment_result": "মূল্যায়ন ফলাফল",
+  "common.assessment_fee": "মূল্যায়ন ফি",
   "rto_country.label": "আরটিও দেশ",
   "rto_batch.label": "আরটিও ব্যাচ",
   "common.rto_sector_exceptions": "আরটিও সেক্টর ব্যতিক্রম",
@@ -1667,5 +1668,9 @@
   "common.interested_sector_occupation_to_register": "রেজিস্ট্রেশনে ইচ্ছুক সেক্টর ও অকুপেশন",
   "common.registered_training_center_institute_assessment_center": "রেজিস্টার্ড ট্রেনিং/শিক্ষা প্রতিষ্ঠান / অ্যাসেসমেন্ট সেন্টার এর নাম",
   "common.any_one_must_be_fill_up": "যে কোনো একটি পূরণ করতে হবে",
-  "common.candidate_photo": "প্রার্থীর ছবি"
+  "common.candidate_photo": "প্রার্থীর ছবি",
+  "assessment_question_set.label": "অ্যাসেসমেন্ট প্রশ্ন সেট",
+  "questionSet.label": "প্রশ্ন সেট",
+  "questionSet.title": "প্রশ্ন সেট",
+  "questionSet.title_en": "প্রশ্ন সেট (ইংরেজি)"
 }

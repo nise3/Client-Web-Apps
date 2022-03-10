@@ -299,6 +299,15 @@ const routesConfig: NavItemProps[] = [
             url: '/certificate-authorities',
           },
           {
+            id: 'rto-countries',
+            title: 'RTO Countries',
+            messageId: 'rto-country.label',
+            permissionKey: 'view_any_rto_country',
+            type: 'item',
+            icon: 'public',
+            url: '/rto-countries',
+          },
+          {
             id: 'rto',
             title: 'RTO',
             messageId: 'rto.label',
@@ -335,15 +344,6 @@ const routesConfig: NavItemProps[] = [
             url: '/rpl-levels',
           },
           {
-            id: 'rto-countries',
-            title: 'RTO Countries',
-            messageId: 'rto-country.label',
-            permissionKey: 'view_any_rto_country',
-            type: 'item',
-            icon: 'public',
-            url: '/rto-countries',
-          },
-          {
             id: 'rto-batches',
             title: 'RTO Batches',
             messageId: 'rto_batch.label',
@@ -362,15 +362,6 @@ const routesConfig: NavItemProps[] = [
             url: '/subjects',
           },
           {
-            id: 'assessments',
-            title: 'Assessments',
-            messageId: 'assessment.label',
-            permissionKey: 'view_any_assessment',
-            type: 'item',
-            icon: 'grading',
-            url: '/assessments',
-          },
-          {
             id: 'question_bank',
             title: 'Question Bank',
             messageId: 'question-bank.label',
@@ -379,6 +370,25 @@ const routesConfig: NavItemProps[] = [
             icon: 'help',
             url: '/question-banks',
           },
+          {
+            id: 'assessment_question_set',
+            title: 'Assessment Question Set',
+            messageId: 'assessment_question_set.label',
+            permissionKey: 'view_any_assessment_question_set',
+            type: 'item',
+            icon: 'help',
+            url: '/assessment-question-sets',
+          },
+          {
+            id: 'assessments',
+            title: 'Assessments',
+            messageId: 'assessment.label',
+            permissionKey: 'view_any_assessment',
+            type: 'item',
+            icon: 'grading',
+            url: '/assessments',
+          },
+
           {
             id: 'ca_assigned_batches',
             title: 'CA Assigned Batches',

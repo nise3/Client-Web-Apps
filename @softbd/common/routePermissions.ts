@@ -251,6 +251,10 @@ export const routePermissions: any = {
     routePrefix: '/question-banks',
     permissionKeys: ['view_any_question_bank'],
   },
+  '/assessment-question-sets': {
+    routePrefix: '/assessment-question-sets',
+    permissionKeys: ['view_any_assessment_question_set'],
+  },
   '/ca-assigned-batches': {
     routePrefix: '/ca-assigned-batches',
     permissionKeys: ['view_any_ca_assigned_batches'],
