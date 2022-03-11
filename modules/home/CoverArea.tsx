@@ -36,8 +36,8 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.niseFullForm}`]: {
     [theme.breakpoints.up('md')]: {
       position: 'absolute',
-      right: '135px',
-      top: '20px',
+      right: '48px',
+      top: '17px',
     },
     [theme.breakpoints.only('md')]: {
       right: '-18px',
@@ -45,6 +45,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     right: '40px',
   },
   [`& .${classes.niseFullFormImage}`]: {
+    width: '450px',
     [theme.breakpoints.only('md')]: {
       width: '90%',
     },
