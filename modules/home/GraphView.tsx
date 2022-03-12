@@ -317,9 +317,9 @@ const GraphView = () => {
     node.appendChild(toggleDS);
     toggleDS.innerHTML = `
         <input type="radio" id="graph_type_toggle_fourth_4" name="graph_type_toggle_4" checked />
-        <label for="graph_type_toggle_fourth_4">Future Skills</label>
+        <label for="graph_type_toggle_fourth_4">Future Occupations (Research Data)</label>
         <input type="radio" id="graph_type_toggle_fifth_4" name="graph_type_toggle_4" />
-        <label for="graph_type_toggle_fifth_4">Future Occupations</label>
+        <label for="graph_type_toggle_fifth_4">Future Occupations (Real-time Data)</label>
       `;
     toggleDS.onclick = () => {
       // @ts-ignore
@@ -611,7 +611,7 @@ const GraphView = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title={messages['common.title'] + ''} center={true} />
+        <SectionTitle title='Projection of Future Jobs' center={true} />
 
         <Box
           sx={{

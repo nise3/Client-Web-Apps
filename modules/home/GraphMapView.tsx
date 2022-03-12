@@ -197,7 +197,7 @@ export const StyledBox = styled(Box)(() => ({
     transform: 'translateZ(0px)',
   },
 
-  [`& .map-ui .toggle-ds, .toggle-4ir`]: {
+  [`& .map-ui .toggle-ds, & .toggle-4ir`]: {
     display: 'flex',
     alignItems: 'center',
     position: 'absolute',
@@ -210,6 +210,9 @@ export const StyledBox = styled(Box)(() => ({
     background: '#eee',
     filter: 'drop-shadow(0px 0px 4px #0008)',
     transform: 'translateZ(0px)',
+    [`&.toggle-ds`]: {
+      display: 'none',
+    },
     [`& input`]: {
       display: 'none',
     },
@@ -218,6 +221,8 @@ export const StyledBox = styled(Box)(() => ({
       alignItems: 'center',
       cursor: 'pointer',
       lineHeight: '1',
+      fontSize: '14px',
+      transform: 'translateY(2px)',
     },
     [`& label::after`]: {
       content: '""',
@@ -226,6 +231,7 @@ export const StyledBox = styled(Box)(() => ({
       height: '14px',
       borderRadius: '14px',
       marginLeft: '10px',
+      transform: 'translateY(-2px)',
       boxShadow: `0 0 0 2px ${DemandColor} inset`,
       backgroundColor: DemandColor,
     },
@@ -565,7 +571,7 @@ const GraphMapView = () => {
     );
     const labels = [
       messages['common.jobs'] as string,
-      messages['common.skills'] as string,
+      // messages['common.skills'] as string,
     ];
     let currentDistrict = '';
 
@@ -623,7 +629,7 @@ const GraphMapView = () => {
           labels,
           series: [
             DemandTotals[currentDistrict],
-            SupplyTotals[currentDistrict],
+            // SupplyTotals[currentDistrict],
           ],
         },
         {
@@ -882,14 +888,14 @@ const GraphMapView = () => {
 
     const svg1 = SVG('svg', 'demand-map');
     svg1.setAttribute('viewBox', svgViewBox);
-    svg1.setAttribute('class', 'demand-map hidden');
+    svg1.setAttribute('class', 'demand-map');
     div.appendChild(svg1);
     const G1 = SVG('g', 'top-group-1');
     svg1.appendChild(G1);
 
     const svg2 = SVG('svg', 'supply-map');
     svg2.setAttribute('viewBox', svgViewBox);
-    svg2.setAttribute('class', 'supply-map');
+    svg2.setAttribute('class', 'supply-map hidden');
     div.appendChild(svg2);
     const G2 = SVG('g', 'top-group-2');
     svg2.appendChild(G2);
@@ -970,11 +976,11 @@ const GraphMapView = () => {
     UI.appendChild(toggleDS);
     toggleDS.innerHTML = messages['common.show_skills'] as string;
     toggleDS.innerHTML = `
-        <input type="radio" id="map_type_toggle_jobs" name="map_type_toggle_jobs_skills" />
+        <input type="radio" id="map_type_toggle_jobs" name="map_type_toggle_jobs_skills" checked />
         <label for="map_type_toggle_jobs">${
           messages['common.jobs'] as string
         }</label>
-        <input type="radio" id="map_type_toggle_skills" name="map_type_toggle_jobs_skills" checked />
+        <input type="radio" id="map_type_toggle_skills" name="map_type_toggle_jobs_skills" />
         <label for="map_type_toggle_skills">${
           messages['common.skills'] as string
         }</label>
