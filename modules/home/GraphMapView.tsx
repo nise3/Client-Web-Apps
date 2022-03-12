@@ -394,6 +394,9 @@ export const StyledBox = styled(Box)(() => ({
   [`& .toggle-4ir+div`]: {
     marginTop: '48px',
   },
+  [`&.graph-five-visible+p`]: {
+    display: 'none',
+  },
 }));
 
 const svgNS = 'http://www.w3.org/2000/svg';
@@ -439,6 +442,25 @@ export const centerPoint = ({x, y, width, height}: SVGRect) => ({
   x: x + width / 2,
   y: y + height / 2,
 });
+
+export const verticalLabel = (height = 360, label = '') => {
+  const {x, y} = {x: 10, y: height / 2};
+  const tx2 = new Chartist.Svg(
+    'text',
+    {
+      x: 0,
+      y: 0,
+      'dominant-baseline': `middle`,
+      'text-anchor': `middle`,
+      style: `transform:translate(${x}px,${y + 8}px) rotate(-90deg);`,
+      fill: 'rgba(0,0,0,.4)',
+      'font-size': 12,
+    },
+    '',
+  );
+  tx2._node.innerHTML = label;
+  return tx2;
+};
 
 export const createTipContext = (title = '') => {
   let tipElement: HTMLElement | null;
@@ -681,6 +703,7 @@ const GraphMapView = () => {
       // console.log(Chartist, [DemandTotals[currentDistrict], SupplyTotals[currentDistrict]]);
       const dataSet: any = isDemand ? Demand : Supply;
       const dataLabels = Object.keys(dataSet[currentDistrict]);
+      let didDrawVerticalLabel = false;
       // @ts-ignore
       new Chartist.Bar(
         L2DivChart,
@@ -697,8 +720,19 @@ const GraphMapView = () => {
         {
           distributeSeries: true,
           height: '300px',
+          chartPadding: {
+            left: 20,
+          },
         },
       ).on('draw', (data: any) => {
+        if (data.type === 'label' && !didDrawVerticalLabel) {
+          const msg =
+            messages[
+              isDemand ? 'common.number_of_jobs' : 'common.number_of_skills'
+            ];
+          data.group.append(verticalLabel(300 - 40, msg + ''));
+          didDrawVerticalLabel = true;
+        }
         if (data.type === 'label') {
           if (data.element?._node?.children?.[0]?.innerHTML && !isEN)
             data.element._node.children[0].innerHTML = numberBN(
@@ -752,6 +786,7 @@ const GraphMapView = () => {
       console.log(
         dataLabels.map((name) => dataSet[currentDistrict][industry][name]),
       );
+      let didDrawVerticalLabel = false;
       new Chartist.Bar(
         L3DivChart,
         {
@@ -763,8 +798,19 @@ const GraphMapView = () => {
         {
           distributeSeries: true,
           height: '300px',
+          chartPadding: {
+            left: 20,
+          },
         },
       ).on('draw', (data: any) => {
+        if (data.type === 'label' && !didDrawVerticalLabel) {
+          const msg =
+            messages[
+              isDemand ? 'common.number_of_jobs' : 'common.number_of_skills'
+            ];
+          data.group.append(verticalLabel(300 - 40, msg + ''));
+          didDrawVerticalLabel = true;
+        }
         if (data.type === 'label') {
           if (data.element?._node?.children?.[0]?.innerHTML && !isEN)
             data.element._node.children[0].innerHTML = numberBN(
