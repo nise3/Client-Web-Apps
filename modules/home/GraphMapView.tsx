@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Container, Grid} from '@mui/material';
 import SectionTitle from './SectionTitle';
@@ -94,6 +94,7 @@ export const StyledGrid = styled(Grid)(({theme}) => ({
     height: '100%',
     minHeight: '480px',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -191,21 +192,63 @@ export const StyledBox = styled(Box)(() => ({
     height: 'auto',
     overflow: 'auto',
     padding: '6px 12px 3px',
+    fontSize: '12px',
     background: '#ddd8',
     transform: 'translateZ(0px)',
   },
 
-  [`& .map-ui .toggle-ds`]: {
-    display: 'block',
+  [`& .map-ui .toggle-ds, .toggle-4ir`]: {
+    display: 'flex',
+    alignItems: 'center',
     position: 'absolute',
     top: 16,
     right: 16,
     borderRadius: 4,
     height: 'auto',
     overflow: 'auto',
-    padding: '6px 12px',
-    background: '#ddd',
+    padding: '8px 16px',
+    background: '#eee',
+    filter: 'drop-shadow(0px 0px 4px #0008)',
     transform: 'translateZ(0px)',
+    [`& input`]: {
+      display: 'none',
+    },
+    [`& label`]: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      cursor: 'pointer',
+      lineHeight: '1',
+    },
+    [`& label::after`]: {
+      content: '""',
+      display: 'inline-block',
+      width: '14px',
+      height: '14px',
+      borderRadius: '14px',
+      marginLeft: '10px',
+      boxShadow: `0 0 0 2px ${DemandColor} inset`,
+      backgroundColor: DemandColor,
+    },
+    [`& label~label`]: {
+      marginLeft: '16px',
+    },
+    [`& label~label::after`]: {
+      boxShadow: `0 0 0 2px ${SupplyColor} inset`,
+      backgroundColor: SupplyColor,
+    },
+    [`& input:not(:checked)+label::after`]: {
+      backgroundColor: 'transparent',
+    },
+    [`&.supply-type label::after`]: {
+      backgroundColor: SupplyColor,
+    },
+    [`&.toggle-4ir label::after, &.toggle-4ir label~label::after`]: {
+      boxShadow: `0 0 0 2px ${SupplyColor} inset`,
+      backgroundColor: SupplyColor,
+    },
+    [`&.toggle-4ir input:not(:checked)+label::after`]: {
+      backgroundColor: 'transparent',
+    },
   },
 
   [`& .map-ui .level-wrap`]: {
@@ -230,9 +273,12 @@ export const StyledBox = styled(Box)(() => ({
     borderRadius: 8,
     padding: '16px',
     margin: '16px',
+    minWidth: '70%',
+    minHeight: '280px',
     pointerEvents: 'all',
     filter: 'drop-shadow(0px 0px 5px #0008)',
     transform: 'translateZ(0px)',
+    [`.ct-labels .ct-label.ct-horizontal`]: {opacity: 0},
   },
 
   [`& .map-ui .level-1.first-level`]: {
@@ -244,7 +290,7 @@ export const StyledBox = styled(Box)(() => ({
     display: 'block',
   },
 
-  [`& .map-ui .level-1:last-child:first-child`]: {
+  [`& .map-ui .level-1:last-child:first-of-type`]: {
     display: 'block !important',
   },
 
@@ -263,15 +309,90 @@ export const StyledBox = styled(Box)(() => ({
       content: '""',
       display: 'block',
       position: 'absolute',
-      top: 15,
-      left: 15,
+      top: 14,
+      left: 16,
       width: '10px',
       height: '10px',
       border: '1px solid black',
-      borderTopColor: 'transparent',
-      borderRightColor: 'transparent',
+      borderTop: 'none',
+      borderRight: 'none',
       transform: 'rotate(45deg)',
     },
+  },
+
+  [`& .series-pager`]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  [`& .series-pager .series-name`]: {
+    textAlign: 'center',
+  },
+
+  [`& .series-pager .back-btn`]: {
+    position: 'relative',
+    width: '40px',
+    height: '40px',
+    cursor: 'pointer',
+    [`&::before`]: {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      top: 14,
+      left: 16,
+      width: '10px',
+      height: '10px',
+      border: '1px solid black',
+      borderTop: 'none',
+      borderRight: 'none',
+      transform: 'rotate(45deg)',
+    },
+  },
+
+  [`& .series-pager .next-btn`]: {
+    position: 'relative',
+    width: '40px',
+    height: '40px',
+    cursor: 'pointer',
+    [`&::before`]: {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      top: 14,
+      left: 16,
+      width: '10px',
+      height: '10px',
+      border: '1px solid black',
+      borderTop: 'none',
+      borderRight: 'none',
+      transform: 'rotate(225deg)',
+    },
+  },
+
+  [`& .series-legend`]: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [`&>div`]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    [`&>div>div`]: {
+      display: 'inline-block',
+      width: '14px',
+      height: '14px',
+      borderRadius: '14px',
+      marginRight: '10px',
+      marginTop: '-3px',
+    },
+    [`&>div~div`]: {
+      marginLeft: '40px',
+    },
+  },
+  [`& .toggle-4ir+div`]: {
+    marginTop: '48px',
   },
 }));
 
@@ -300,37 +421,137 @@ export const DIV = (className = '', id = '') => {
   return el;
 };
 
+export const numberBN = (num: string | number | any) => {
+  return ('' + num)
+    .replace(/0/g, '০')
+    .replace(/1/g, '১')
+    .replace(/2/g, '২')
+    .replace(/3/g, '৩')
+    .replace(/4/g, '৪')
+    .replace(/5/g, '৫')
+    .replace(/6/g, '৬')
+    .replace(/7/g, '৭')
+    .replace(/8/g, '৮')
+    .replace(/9/g, '৯');
+};
+
 export const centerPoint = ({x, y, width, height}: SVGRect) => ({
   x: x + width / 2,
   y: y + height / 2,
 });
 
+export const createTipContext = (title = '') => {
+  let tipElement: HTMLElement | null;
+
+  const mousemoveCB = (e: any) => {
+    // console.log('mousemove', e);
+    if (tipElement) {
+      tipElement.style.top = e?.y + 8 + 'px';
+      tipElement.style.left = e?.x + 8 + 'px';
+    }
+  };
+
+  const TIP = (element: HTMLElement, content: any) => {
+    element.addEventListener('mouseenter', () => {
+      // console.log('ENTER',tipElement?.style.display);
+      if (tipElement) {
+        tipElement.innerHTML = content;
+        tipElement.style.display = 'block';
+      }
+    });
+    element.addEventListener('mouseleave', () => {
+      // console.log('exit',tipElement?.style.display);
+      if (tipElement) {
+        tipElement.innerHTML = '';
+        tipElement.style.display = 'none';
+      }
+    });
+  };
+
+  const mount = () => {
+    // console.log('MOUNTING CONTEXT: '+title);
+    let elem: any = document.createElement('div');
+    elem.className = '4px';
+    elem.style.height = 'auto';
+    elem.style.width = 'auto';
+    elem.style.maxWidth = '300px';
+    elem.style.padding = '8px 12px';
+    elem.style.borderRadius = '4px';
+    elem.style.backgroundColor = '#fff';
+    elem.style.filter = 'drop-shadow(0px 0px 4px #888)';
+    elem.style.transformOrigin = 'top left';
+    elem.style.transform = 'scale(0.8) translateZ(0px)';
+    elem.style.position = 'fixed';
+    elem.style.left = '0px';
+    elem.style.top = '-100px';
+    elem.style.display = 'none';
+    elem.style.zIndex = '999999';
+    elem.style.pointerEvents = 'none';
+    elem.id = 'tip-context-' + title;
+    document.body.appendChild(elem);
+    document.documentElement.addEventListener('mousemove', mousemoveCB);
+    tipElement = elem;
+    return tipElement;
+  };
+
+  const unmount = () => {
+    if (tipElement) {
+      tipElement.remove();
+      document.documentElement.removeEventListener('mousemove', mousemoveCB);
+      tipElement = null;
+    }
+  };
+
+  const isMounted = () => {
+    return !!tipElement;
+  };
+
+  return {TIP, mount, unmount, isMounted};
+};
+
+const {TIP, mount, unmount, isMounted} = createTipContext('mapview');
+
 const GraphMapView = () => {
   const {messages} = useIntl();
 
+  const [isEN, setIsEN] = useState(messages['common.jobs'] == 'Jobs');
   // const [isOpened, setIsOpened] = useState(false);
   // const [isReady, setIsReady] = useState(false);
   useEffect(() => {
+    if (!isMounted()) mount();
     const link = document.createElement('div');
     link.innerHTML +=
       // @ts-ignore
       '<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">';
     document.head.appendChild(link.children[0]);
+    setIsEN(messages['common.jobs'] == 'Jobs');
+    console.log('EFF >>', isEN);
     return () => {
-      // elem.remove();
-      // document.documentElement.removeEventListener('mousemove', mousemoveCB);
+      unmount();
     };
-  }, []);
+  }, [messages]);
 
-  const graph1RefCB = useCallback((node) => {
+  const deps = [messages, isEN];
+
+  const graph1CB = useCallback((node) => {
     if (!node || node.children.length > 0) return;
     // console.clear();
-    const labels = ['Jobs', 'Skills'];
+    console.log(
+      'LANG >>',
+      messages['common.jobs'] as string,
+      messages['common.skills'],
+    );
+    const labels = [
+      messages['common.jobs'] as string,
+      messages['common.skills'] as string,
+    ];
     let currentDistrict = '';
 
     const defocusDistrict = () => {
       div.style.transform = 'none';
-      div.style.pointerEvents = 'all';
+      setTimeout(() => {
+        div.style.pointerEvents = 'all';
+      }, 1100);
       L1Div.classList.add('hidden');
     };
 
@@ -365,9 +586,12 @@ const GraphMapView = () => {
       })`;
       div.style.pointerEvents = 'none';
 
-      L1DivTitle.innerHTML = `<h3>${district.trim()} <br><span style="font-size:16px;">Total youth: ${
+      L1DivTitle.innerHTML = `<h3>${
         // @ts-ignore
-        Youths[district]
+        isEN ? district.trim() : Districts[district.trim()]
+      } <br><span style="font-size:16px;">${messages['common.total_youth']}: ${
+        // @ts-ignore
+        isEN ? Youths[district] : numberBN(Youths[district])
       }</span></h3>`;
       L1DivChart.innerHTML = ``;
       // console.log(Chartist, [DemandTotals[currentDistrict], SupplyTotals[currentDistrict]]);
@@ -423,7 +647,7 @@ const GraphMapView = () => {
             },
             '',
           );
-          txt._node.innerHTML = data.value.y;
+          txt._node.innerHTML = isEN ? data.value.y : numberBN(data.value.y);
           data.group.append(txt);
           const txt2 = new Chartist.Svg(
             'text',
@@ -449,19 +673,21 @@ const GraphMapView = () => {
     };
 
     const showLevelTwo = (isDemand = false) => {
-      L2DivTitle.innerHTML = `<h3>${currentDistrict.trim()}: ${
-        isDemand ? 'Jobs' : 'Skills'
-      }</h3>`;
+      L2DivTitle.innerHTML = `<h3>${
+        // @ts-ignore
+        isEN ? currentDistrict.trim() : Districts[currentDistrict.trim()]
+      }: ${isDemand ? labels[0] : labels[1]}</h3>`;
       L2DivChart.innerHTML = ``;
       // console.log(Chartist, [DemandTotals[currentDistrict], SupplyTotals[currentDistrict]]);
       const dataSet: any = isDemand ? Demand : Supply;
+      const dataLabels = Object.keys(dataSet[currentDistrict]);
       // @ts-ignore
       new Chartist.Bar(
         L2DivChart,
         {
-          labels: Object.keys(dataSet[currentDistrict]),
+          labels: dataLabels,
           // @ts-ignore
-          series: Object.keys(dataSet[currentDistrict]).map((ind) =>
+          series: dataLabels.map((ind) =>
             Object.values(dataSet[currentDistrict][ind]).reduce(
               (p: any, c: any) => p + c,
               0,
@@ -470,8 +696,15 @@ const GraphMapView = () => {
         },
         {
           distributeSeries: true,
+          height: '300px',
         },
       ).on('draw', (data: any) => {
+        if (data.type === 'label') {
+          if (data.element?._node?.children?.[0]?.innerHTML && !isEN)
+            data.element._node.children[0].innerHTML = numberBN(
+              data.element?._node?.children?.[0]?.innerHTML,
+            );
+        }
         if (data.type === 'bar') {
           console.log(data);
           data.element.attr({
@@ -489,46 +722,59 @@ const GraphMapView = () => {
               y: `${data.y2 - 7}`,
               'dominant-baseline': `middle`,
               'text-anchor': `middle`,
+              style: `cursor:pointer;`,
               fill: `${isDemand ? DemandColor : SupplyColor}`,
               'font-size': 12,
             },
             '',
           );
-          txt._node.innerHTML = data.value.y;
+          txt._node.innerHTML = isEN ? data.value.y : numberBN(data.value.y);
+          txt._node.onclick = () => {
+            showLevelThree(isDemand, data.axisX.ticks[data.seriesIndex]);
+          };
           data.group.append(txt);
+          TIP(data.element._node, dataLabels[data.seriesIndex]);
+          TIP(txt._node, dataLabels[data.seriesIndex]);
         }
       });
       Levels.appendChild(L2Div);
     };
 
     const showLevelThree = (isDemand = false, industry = '') => {
-      L3DivTitle.innerHTML = `<h3>${currentDistrict.trim()}: ${
-        isDemand ? 'Jobs' : 'Skills'
-      } (${industry.trim()})</h3>`;
+      L3DivTitle.innerHTML = `<h3>${
+        // @ts-ignore
+        isEN ? currentDistrict.trim() : Districts[currentDistrict.trim()]
+      }: ${isDemand ? labels[0] : labels[1]} (${industry.trim()})</h3>`;
       L3DivChart.innerHTML = ``;
       const dataSet: any = isDemand ? Demand : Supply;
-      console.log(Object.keys(dataSet[currentDistrict][industry]));
+      const dataLabels = Object.keys(dataSet[currentDistrict][industry]);
+      console.log(dataLabels);
       console.log(
-        Object.keys(dataSet[currentDistrict][industry]).map(
-          (name) => dataSet[currentDistrict][industry][name],
-        ),
+        dataLabels.map((name) => dataSet[currentDistrict][industry][name]),
       );
       new Chartist.Bar(
         L3DivChart,
         {
-          labels: Object.keys(dataSet[currentDistrict][industry]),
-          series: Object.keys(dataSet[currentDistrict][industry]).map(
+          labels: dataLabels,
+          series: dataLabels.map(
             (name) => dataSet[currentDistrict][industry][name],
           ),
         },
         {
           distributeSeries: true,
+          height: '300px',
         },
       ).on('draw', (data: any) => {
+        if (data.type === 'label') {
+          if (data.element?._node?.children?.[0]?.innerHTML && !isEN)
+            data.element._node.children[0].innerHTML = numberBN(
+              data.element?._node?.children?.[0]?.innerHTML,
+            );
+        }
         if (data.type === 'bar') {
           console.log(data);
           data.element.attr({
-            style: `stroke-width: 10px; cursor:pointer; stroke:${
+            style: `stroke-width: 10px; stroke:${
               isDemand ? DemandColor : SupplyColor
             };`,
           });
@@ -544,8 +790,10 @@ const GraphMapView = () => {
             },
             '',
           );
-          txt._node.innerHTML = data.value.y;
+          txt._node.innerHTML = isEN ? data.value.y : numberBN(data.value.y);
           data.group.append(txt);
+          TIP(data.element._node, dataLabels[data.seriesIndex]);
+          TIP(txt._node, dataLabels[data.seriesIndex]);
         }
       });
       Levels.appendChild(L3Div);
@@ -639,8 +887,10 @@ const GraphMapView = () => {
       g2.onclick = focusDistrict;
       // g1.innerHTML = g1.innerHTML.replace(/#FILL#/g, DemandColor);
       // g2.innerHTML = g2.innerHTML.replace(/#FILL#/g, SupplyColor);
-      g1.setAttribute('title', v.properties.ADM2_EN);
-      g2.setAttribute('title', v.properties.ADM2_EN);
+      // @ts-ignore
+      TIP(g1, isEN ? v.properties.ADM2_EN : Districts[v.properties.ADM2_EN]);
+      // @ts-ignore
+      TIP(g2, isEN ? v.properties.ADM2_EN : Districts[v.properties.ADM2_EN]);
       g1.setAttribute(
         'opacity',
         `${
@@ -662,24 +912,36 @@ const GraphMapView = () => {
           y="${center.y}"
           dominant-baseline="middle"
           text-anchor="middle"
-      >${v.properties.ADM2_EN}</text>`;
+      >${
+        // @ts-ignore
+        isEN ? v.properties.ADM2_EN : Districts[v.properties.ADM2_EN]
+      }</text>`;
     });
 
     //////////////////
 
     const toggleDS = DIV('toggle-ds');
     UI.appendChild(toggleDS);
-    toggleDS.innerHTML = 'Show Supply';
+    toggleDS.innerHTML = messages['common.show_skills'] as string;
+    toggleDS.innerHTML = `
+        <input type="radio" id="map_type_toggle_jobs" name="map_type_toggle_jobs_skills" />
+        <label for="map_type_toggle_jobs">${
+          messages['common.jobs'] as string
+        }</label>
+        <input type="radio" id="map_type_toggle_skills" name="map_type_toggle_jobs_skills" checked />
+        <label for="map_type_toggle_skills">${
+          messages['common.skills'] as string
+        }</label>
+      `;
     toggleDS.onclick = () => {
-      if (toggleDS.innerHTML == 'Show Demand') {
-        toggleDS.innerHTML = 'Show Supply';
-        // toggleDS.style.backgroundColor = SupplyColor;
+      // @ts-ignore
+      if (toggleDS?.children?.[0]?.checked) {
+        svg1.classList.remove('hidden');
+        svg2.classList.add('hidden');
       } else {
-        toggleDS.innerHTML = 'Show Demand';
-        // toggleDS.style.backgroundColor = DemandColor;
+        svg1.classList.add('hidden');
+        svg2.classList.remove('hidden');
       }
-      svg1.classList.toggle('hidden');
-      svg2.classList.toggle('hidden');
     };
 
     const Levels = DIV('level-wrap');
@@ -724,7 +986,10 @@ const GraphMapView = () => {
       'Source: Unemployment Free District (UFD) Initiative of a2i & Field Administration';
 
     // setIsReady(true);
-  }, []);
+  }, deps);
+
+  const graph1RefCB1 = useCallback(graph1CB, [graph1CB, messages, isEN]);
+  const graph1RefCB2 = useCallback(graph1CB, [graph1CB, messages, isEN]);
 
   return (
     <StyledGrid container xl={12}>
@@ -740,7 +1005,8 @@ const GraphMapView = () => {
             flexDirection: 'column',
             alignItems: 'center',
           }}>
-          <StyledBox ref={graph1RefCB} />
+          {!isEN ? <StyledBox ref={graph1RefCB1} /> : null}
+          {!isEN ? null : <StyledBox ref={graph1RefCB2} />}
         </Box>
       </Container>
     </StyledGrid>
