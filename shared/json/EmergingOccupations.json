@@ -1,0 +1,71 @@
+{
+	"Pharmaceuticals": {
+		"PPE Sewing Operators": 20000,
+		"Finishing ": 10000,
+		"Cutting and Packing": 10000,
+		"Line Supervisor": 5000,
+		"Numerically Controlled Machine Operator": 1000,
+		"Medical Goods Merchandiser": 5000
+	},
+	"ICT and E-Commerce": {
+		"IT Consultants": 3000,
+		"Software Developers": 7000,
+		"Back End and Front End Developers": 8000,
+		"Technical Support Engineers": 4500,
+		"E-Commerce Marketing Coordinator": 6000,
+		"Rich Content Developer": 4000,
+		"Robotics Engineer": 200,
+		"E-Commerce Project Manager": 3000,
+		"Python Developer": 3000,
+		"Artificial Intelligence Specialist ": 4000,
+		"Block Chain Engineer": 7000,
+		"Full Stack Engineer": 4000,
+		"Data Engineer": 10000,
+		"Big Data Developer": 5000,
+		"Site Reliability Engineer": 7000,
+		"Cloud Engineer": 8000,
+		"Cyber Security Specialist": 10000,
+		"Web Designer": 8500,
+		"C# Developer": 9000,
+		"Food Delivery Manager": 3000,
+		"Product Delivery Manager": 5000,
+		"Food Delivery Man": 13000,
+		"Product Delivery Man": 16000,
+		"Order Placement and Coordination Manager": 1000,
+		"Call Center Operators (Food and Product Delivery)": 5000,
+		"Product Purchase and Inventory Management": 15000
+	},
+	"Healthcare Services": {
+		"Online Counsellors": 20000,
+		"Data Manager": 18000,
+		"Biomedical technicians": 128000,
+		"Maintenance/Operation Technicians": 45000,
+		"Telehealth Consultant": 16000,
+		"Online Doctors": 13000,
+		"Mental Health Coordinator": 10000
+	},
+	"Agro-Food": {
+		"Essential Goods Farmers": 130000,
+		"Processing": 39000,
+		"Hot Water Treatment Plant Operator": 23000,
+		"Dehydration Plant Operator": 8000,
+		"Contact farmers": 6000,
+		"Packaging Operator": 20000,
+		"Dry Section Operator": 9000,
+		"Food Technologist": 2000,
+		"Food Chemist": 5000,
+		"Vegetable Grading": 5000,
+		"Fruit Grading": 5000,
+		"Farmers": 40000
+	},
+	"Creative Media": {
+		"Digital Marketing Consultant": 1000,
+		"Freelancer (Designers and Content Creators)": 10000,
+		"Interior Designer": 1000,
+		"Video Editor and Graphics Designer": 3000,
+		"Digital Content Creator": 2000,
+		"Digital Campaign Manager": 1000,
+		"Digital Branding Manager": 1000,
+		"Social Media Coordinator": 1000
+	}
+}
