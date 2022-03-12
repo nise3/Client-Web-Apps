@@ -416,6 +416,7 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
             errorInstance={errors}
             allowMultiple={false}
             acceptedFileTypes={['application/pdf']}
+            sizeLimitText='500MB'
           />
         </Grid>
 

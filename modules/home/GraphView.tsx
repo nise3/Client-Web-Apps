@@ -11,6 +11,7 @@ import EmergingOccupations from '../../shared/json/EmergingOccupations.json';
 import {
   classes,
   createTipContext,
+  verticalLabel,
   DIV,
   StyledBox,
   StyledGrid,
@@ -62,6 +63,7 @@ const GraphView = () => {
       `Estimated (with \n20% Growth Rate)`,
       `Estimated (with \n30% Growth Rate)`,
     ];
+    let didDrawVerticalLabel = false;
 
     new Chartist.Line(
       div,
@@ -78,7 +80,7 @@ const GraphView = () => {
         fullWidth: true,
         chartPadding: {
           right: 110,
-          left: 30,
+          left: 35,
         },
         height: '360px',
         // low: 100000,
@@ -86,6 +88,10 @@ const GraphView = () => {
       },
     ).on('draw', (data: any) => {
       // console.log('DRAW >>', data.type, data);
+      if (data.type === 'label' && !didDrawVerticalLabel) {
+        data.group.append(verticalLabel(360 - 50, `Number of Job Demand`));
+        didDrawVerticalLabel = true;
+      }
       if (data.type === 'point') {
         // console.log('point', data);
         data.element.attr({
@@ -191,6 +197,7 @@ const GraphView = () => {
       const dataLabels = Object.keys(EmergingOccupations[pageName]);
       // @ts-ignore
       const dataSeries = Object.values(EmergingOccupations[pageName]);
+      let didDrawVerticalLabel = false;
       // @ts-ignore
       new Chartist.Bar(
         div,
@@ -204,7 +211,7 @@ const GraphView = () => {
           chartPadding: {
             // bottom: 250,
             right: 20,
-            left: 20,
+            left: 25,
             top: 25,
           },
           height: '360px', // '520px',
@@ -218,6 +225,11 @@ const GraphView = () => {
           // seriesBarDistance: 15,
         },
       ).on('draw', (data: any) => {
+        // console.log('DRAW >>', data.type);
+        if (data.type === 'label' && !didDrawVerticalLabel) {
+          data.group.append(verticalLabel(360 - 50, `Number of Job Demand`));
+          didDrawVerticalLabel = true;
+        }
         if (data.type === 'bar') {
           // console.log('bar', data);
           data.element.attr({
@@ -314,11 +326,13 @@ const GraphView = () => {
       if (checked5th && toggleDS?.children?.[0]?.checked) {
         node.children[2].remove();
         node.children[1].remove();
+        node.classList.remove('graph-five-visible');
         graph4();
         // @ts-ignore
       } else if (!checked5th && toggleDS?.children?.[2]?.checked) {
         node.children[2].remove();
         node.children[1].remove();
+        node.classList.add('graph-five-visible');
         graph5();
       }
       // @ts-ignore
@@ -531,6 +545,7 @@ const GraphView = () => {
         <div><div style="background: ${colors[1]};"></div> ${dataYears[1]}</div>
         <div><div style="background: ${colors[2]};"></div> ${dataYears[2]}</div>
       `;
+      let didDrawVerticalLabel = false;
 
       new Chartist.Bar(
         div,
@@ -550,6 +565,10 @@ const GraphView = () => {
           // showArea: true,
         },
       ).on('draw', (data: any) => {
+        if (data.type === 'label' && !didDrawVerticalLabel) {
+          data.group.append(verticalLabel(360 - 50, `Number of Occupations`));
+          didDrawVerticalLabel = true;
+        }
         if (data.type === 'bar') {
           // console.log(data);
           data.element.attr({
@@ -592,7 +611,7 @@ const GraphView = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title={messages['common.data'] as string} center={true} />
+        <SectionTitle title={messages['common.title'] + ''} center={true} />
 
         <Box
           sx={{
