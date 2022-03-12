@@ -17,7 +17,7 @@ variables:
 
   #nise frontend
   imageNiseRelease: "true"
-  imageNiseAppVersion: "2.0.9"
+  imageNiseAppVersion: "2.0.10"
   imageNiseRepository: "registry.nise.gov.bd/nise3-cube-client-web-nise"
 
   #ssp frontend
