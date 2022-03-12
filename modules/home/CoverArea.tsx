@@ -40,14 +40,17 @@ const StyledBox = styled(Box)(({theme}) => ({
       top: '17px',
     },
     [theme.breakpoints.only('md')]: {
-      right: '-18px',
+      right: '10px',
     },
     right: '40px',
   },
   [`& .${classes.niseFullFormImage}`]: {
     width: '450px',
     [theme.breakpoints.only('md')]: {
-      width: '90%',
+      width: '350px',
+    },
+    [theme.breakpoints.only('sm')]: {
+      width: '220px',
     },
   },
 }));
