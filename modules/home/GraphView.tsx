@@ -21,9 +21,12 @@ import {Body1} from '../../@softbd/elements/common';
 const colors = ['#ed1c24', '#84a856', '#f9a867', '#00aeef', '#890adc'];
 
 const sources = [
-  'International  Job Demand Study',
-  'Post COVID Jobs and Skills in Bangladesh  Study',
-  'A Study by a2i on 4th Industrial Revolution',
+  // 'International  Job Demand Study',
+  // 'Post COVID Jobs and Skills in Bangladesh  Study',
+  // 'A Study by a2i on 4th Industrial Revolution',
+  'International Job Market Demand Analysis',
+  'Post COVID Jobs and Skills in Bangladesh',
+  'Future Skills - Finding emerging skills to tackle the challenges of automaton in Bangladesh',
 ];
 
 const {TIP, mount, unmount, isMounted} = createTipContext('graphview');
@@ -84,9 +87,23 @@ const GraphView = () => {
     ).on('draw', (data: any) => {
       // console.log('DRAW >>', data.type, data);
       if (data.type === 'point') {
+        // console.log('point', data);
         data.element.attr({
           style: `stroke: ${colors[data.seriesIndex]};`,
         });
+        const cir = new Chartist.Svg(
+          'circle',
+          {
+            cx: data.x,
+            cy: data.y,
+            r: 25,
+            style: `fill:transparent;`,
+          },
+          '',
+        );
+        data.group.append(cir);
+        TIP(cir._node, data.series[data.index]);
+        TIP(data.element._node, data.series[data.index]);
       }
       if (data.type === 'line') {
         // console.log(data);
@@ -185,11 +202,12 @@ const GraphView = () => {
         {
           fullWidth: true,
           chartPadding: {
+            // bottom: 250,
             right: 20,
             left: 20,
             top: 25,
           },
-          height: '360px',
+          height: '360px', // '520px',
           // Default mobile configuration
           stackBars: false,
           axisX: {
@@ -201,7 +219,7 @@ const GraphView = () => {
         },
       ).on('draw', (data: any) => {
         if (data.type === 'bar') {
-          // console.log(data);
+          // console.log('bar', data);
           data.element.attr({
             style: `stroke-width: 2px; cursor:auto; stroke:${
               colors[data.index % colors.length]
@@ -249,10 +267,30 @@ const GraphView = () => {
           txt._node.innerHTML = data.value.y;
           data.group.append(txt);
 
+          /*
+          const {x1, y1} = data;
+          const tx2 = new Chartist.Svg(
+            'text',
+            {
+              x: 0, // `${data.x1}`,
+              y: 0, // `${data.y1 + 5}`,
+              'dominant-baseline': `middle`,
+              'text-anchor': `start`,
+              style: `transform:translate(${x1}px,${y1 + 8}px) rotate(90deg);`,
+              fill: 'rgba(0,0,0,.4)',
+              'font-size': 12,
+            },
+            '',
+          );
+          tx2._node.innerHTML = dataLabels[data.index];
+          data.group.append(tx2);
+          */
+
           TIP(data.element._node, dataLabels[data.index]);
           TIP(lin._node, dataLabels[data.index]);
           TIP(cir._node, dataLabels[data.index]);
           TIP(txt._node, dataLabels[data.index]);
+          // TIP(tx2._node, dataLabels[data.index]);
         }
       });
     };
@@ -350,7 +388,7 @@ const GraphView = () => {
         },
       ).on('draw', (data: any) => {
         if (data.type === 'slice') {
-          console.log('slice', data);
+          // console.log('slice', data);
           data.element.attr({
             style: `fill: ${data.index === 0 ? colors[index] : '#bbb'};`,
           });
@@ -413,7 +451,7 @@ const GraphView = () => {
         [
           `RMG & Textiles`,
           60,
-          `3D printer operator, Workers with skills on automation and robotics control experts on modeling and simulation`,
+          `3D printer operator, Workers with skills on automation and robotics control experts on modeling and simulation`,
         ],
         [
           `Furniture`,
@@ -554,7 +592,7 @@ const GraphView = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title={`Data` as string} center={true} />
+        <SectionTitle title={messages['common.data'] as string} center={true} />
 
         <Box
           sx={{
@@ -579,7 +617,6 @@ const GraphView = () => {
             </Box>
             <Box className={classes.TabPanelBox}>
               <TabPanel value='1'>
-                {/*<GraphMapView />*/}
                 <StyledBox ref={graph2RefCB} sx={{minWidth: '1000px'}} />
                 <Body1 sx={{fontSize: '12px !important', mt: 4}} centered>
                   Source: {sources[0]}
