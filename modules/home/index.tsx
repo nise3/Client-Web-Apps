@@ -8,6 +8,7 @@ import RecentActivities from './RecentActivities';
 import PopularCourse from './PopularCourse';
 import PopularJobs from './PopularJobs';
 // import Partners from './Partners';
+import GraphView from './GraphView';
 import GraphMapView from './GraphMapView';
 import Publications from './Publications';
 
@@ -22,6 +23,7 @@ const Home = () => {
       {/*<StatisticsCardSection />*/}
       {/*<Nise3WorkProcess />*/}
 
+      <GraphView />
       <RecentActivities />
       <GraphMapView />
       <Publications />
