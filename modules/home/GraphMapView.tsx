@@ -183,7 +183,7 @@ export const StyledBox = styled(Box)(() => ({
   },
 
   [`& .map-ui .data-source`]: {
-    display: 'block',
+    display: 'none',
     position: 'absolute',
     bottom: 0,
     right: 0,
