@@ -45,7 +45,7 @@ const StyledBox = styled(Box)(({theme}) => ({
     right: '40px',
   },
   [`& .${classes.niseFullFormImage}`]: {
-    width: '450px',
+    width: '430px', // '450px',
     [theme.breakpoints.only('md')]: {
       width: '350px',
     },
