@@ -13,7 +13,7 @@ const PREFIX = 'Publications';
 
 const classes = {
   vBar: `${PREFIX}-vBar`,
-  cardItem: `${PREFIX}-courseItem`,
+  cardItem: `${PREFIX}-cardItem`,
   image: `${PREFIX}-image`,
   imageAlt: `${PREFIX}-imageAlt`,
   title: `${PREFIX}-title`,
@@ -23,12 +23,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   marginTop: '60px',
 
   [`& .${classes.cardItem}`]: {
-    // position: 'relative',
-    /*boxShadow: '2px 8px 7px #ddd',*/
-    /*border: '1px solid #ddd',*/
-    // display: 'flex',
     justifyContent: 'center',
-    maxHeight: '235px',
+    maxHeight: '245px',
   },
 
   [`& .${classes.image}`]: {
@@ -50,7 +46,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    padding: '10px',
     fontWeight: 'bold',
   },
 }));
@@ -81,7 +76,11 @@ const Publications = () => {
                 title={publication?.title}
               />
             </Box>
-            <Box mt={1} height={100}>
+            <Box
+              sx={{
+                height: '75px',
+                padding: '15px',
+              }}>
               <Body2 title={publication?.title} className={classes.title}>
                 {publication?.title}
               </Body2>
