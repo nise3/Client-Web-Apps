@@ -19,7 +19,13 @@ const AssessmentResult: FC<ResultProps> = ({responseData}) => {
             <>
               <H2 centered={true}>{messages['common.passed_text']}</H2>
               <Grid container justifyContent={'center'}>
-                <Link passHref href={window.location.origin + '/applications'}>
+                <Link
+                  passHref
+                  href={
+                    window.location.origin +
+                    '/applications?assessment_id=' +
+                    responseData?.data?.assessmentId
+                  }>
                   <Button variant='outlined' color='primary' size={'small'}>
                     {messages['common.application']}
                   </Button>

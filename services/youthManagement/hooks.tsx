@@ -21,6 +21,7 @@ import {
   API_PUBLIC_GET_EXPERIENCE_AREAS,
   API_PUBLIC_GET_BUSINESS_AREAS,
   API_YOUTH_MY_JOBS,
+  API_YOUTH_SELF_ASSESSMENT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSkill(skillId: number | null) {
@@ -160,4 +161,9 @@ export function useFetchYouthAddresses(params: any) {
 
 export function useFetchYouthAddress(addressId: number | null) {
   return useAxiosSWR(addressId ? API_YOUTH_ADDRESSES + '/' + addressId : null);
+}
+export function useFetchYouthAssessment(assessmentId: number | null) {
+  return useAxiosSWR(
+    assessmentId ? API_YOUTH_SELF_ASSESSMENT + '/' + assessmentId : null,
+  );
 }
