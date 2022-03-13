@@ -1651,5 +1651,8 @@
   "assessmentManagement.details": "Details",
   "assessmentManagement.target_country": "Target Country",
   "single_youth.label": "Youth",
-  "common.assessment_result_message": "Sorry! You could not pass the verification assessment"
+  "common.assessment_result_message": "Sorry! You could not pass the verification assessment",
+  "common.assessor": "Assessor",
+  "common.assign_assessor": "Assessor assign",
+  "common.exam_date": "Exam date"
 }
