@@ -1,11 +1,18 @@
-import React from 'react';
-import {Button, ButtonGroup, Grid} from '@mui/material';
-import {useFieldArray} from 'react-hook-form';
+import React, {useCallback, useState} from 'react';
+import {Divider, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {
+  EducationLevelCodePHD,
+  EducationLevelCodeWithBoard,
+  EducationLevelCodeWithGroup,
+  EducationLevelForMajorGroup,
+  ResultCodeAppeared,
+  ResultCodeDivisions,
+  ResultCodeGrade,
+} from '../../youth/profile/utilities/EducationEnums';
+import {passingYears} from '../../../@softbd/utilities/helpers';
 
 type Props = {
   id: string;
@@ -13,6 +20,7 @@ type Props = {
   register: any;
   errors: any;
   control: any;
+  educationsData: any;
 };
 
 const AcademicQualificationFieldArray = ({
@@ -21,118 +29,302 @@ const AcademicQualificationFieldArray = ({
   register,
   errors,
   control,
+  educationsData,
 }: Props) => {
   const {messages} = useIntl();
 
-  const {fields, append, remove} = useFieldArray({
-    control,
-    name: id,
-  });
+  const [selectedEducationLevel, setSelectedEducationLevel] =
+    useState<any>(null);
+  const [selectedResult, setSelectedResult] = useState<any>(null);
 
-  return isLoading ? (
-    <TextInputSkeleton />
-  ) : (
-    <>
-      {fields.map((item: any, index: any) => {
-        let examName = `${id}.${index}.exam_name`;
-        let examGroup = `${id}.${index}.exam_group`;
-        let examInstitute = `${id}.${index}.exam_institute`;
-        let examPassingYear = `${id}.${index}.exam_passing_year`;
-        let achievedGrade = `${id}.${index}.achieved_grade`;
-        let division = `${id}.${index}.division`;
+  const onEducationLevelChange = useCallback(
+    (eduLevelId: number | undefined) => {
+      if (eduLevelId) {
+        const educationLevel =
+          educationsData?.education_level_with_degrees.filter(
+            (educationLevel: any) => educationLevel.id == eduLevelId,
+          );
 
-        return (
-          <React.Fragment key={item.id}>
-            <Grid container item spacing={4}>
-              <Grid item xs={12} md={2} style={{paddingBottom: 20}}>
+        setSelectedEducationLevel(
+          Array.isArray(educationLevel) ? educationLevel[0] : educationLevel,
+        );
+      } else {
+        setSelectedEducationLevel(null);
+      }
+    },
+    [educationsData],
+  );
+
+  const onResultChange = useCallback(
+    (resultId: number | undefined) => {
+      if (resultId) {
+        const result = educationsData?.result.filter(
+          (res: any) => res.id == resultId,
+        );
+        setSelectedResult(Array.isArray(result) ? result[0] : result);
+      } else {
+        setSelectedResult(null);
+      }
+    },
+    [educationsData],
+  );
+
+  return (
+    <Grid item xs={12}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <CustomFilterableFormSelect
+            required
+            id={`${id}[education_level_id]`}
+            label={messages['education.education_level']}
+            isLoading={false}
+            control={control}
+            options={educationsData?.education_level_with_degrees}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={onEducationLevelChange}
+          />
+        </Grid>
+
+        {selectedEducationLevel &&
+          selectedEducationLevel.code != EducationLevelCodePHD && (
+            <Grid item xs={12} md={3}>
+              <CustomFilterableFormSelect
+                required
+                id={`${id}[exam_degree_id]`}
+                label={messages['education.education_exam_degree']}
+                isLoading={false}
+                control={control}
+                options={selectedEducationLevel?.exam_degrees}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          )}
+
+        {selectedEducationLevel &&
+          selectedEducationLevel.code == EducationLevelCodePHD && (
+            <React.Fragment>
+              <Grid item xs={12} md={3}>
                 <CustomTextInput
-                  id={examName}
-                  label={messages['academic_qualification.exam']}
+                  id={`${id}[exam_degree_name]`}
+                  label={messages['education.education_exam_degree_name_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
                 />
               </Grid>
 
-              <Grid item xs={12} md={2} style={{paddingBottom: 20}}>
+              <Grid item xs={12} md={3}>
                 <CustomTextInput
-                  id={examGroup}
-                  label={messages['academic_qualification.group']}
+                  id={`${id}[exam_degree_name_en]`}
+                  label={messages['education.education_exam_degree_name_en']}
                   register={register}
                   errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={2} style={{paddingBottom: 20}}>
-                <CustomTextInput
-                  id={examInstitute}
-                  label={messages['common.institute_name_en']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={2} style={{paddingBottom: 20}}>
-                <CustomTextInput
-                  id={examPassingYear}
-                  type={'number'}
-                  label={messages['education.passing_year']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={2} style={{paddingBottom: 20}}>
-                <CustomTextInput
-                  id={achievedGrade}
-                  type={'number'}
-                  label={messages['education.gpa']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={2}>
-                <CustomFormSelect
-                  id={division}
-                  label={messages['academic_qualification.division']}
                   isLoading={false}
-                  control={control}
-                  options={[
-                    {id: 1, title: 'Dhaka'},
-                    {id: 2, title: 'Rajshahi'},
-                  ]}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                />
+              </Grid>
+            </React.Fragment>
+          )}
+
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            required={
+              selectedEducationLevel &&
+              EducationLevelForMajorGroup.includes(selectedEducationLevel.code)
+            }
+            id={`${id}[major_or_concentration]`}
+            label={messages['education.major_group_name_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            id={`${id}[major_or_concentration_en]`}
+            label={messages['education.major_group_name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        {selectedEducationLevel &&
+          EducationLevelCodeWithBoard.includes(selectedEducationLevel.code) && (
+            <Grid item xs={12} md={3}>
+              <CustomFilterableFormSelect
+                required
+                id={`${id}[edu_board_id]`}
+                label={messages['education.board']}
+                isLoading={false}
+                control={control}
+                options={educationsData?.edu_boards}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          )}
+        {selectedEducationLevel &&
+          EducationLevelCodeWithGroup.includes(selectedEducationLevel.code) && (
+            <Grid item xs={12} md={3}>
+              <CustomFilterableFormSelect
+                required
+                id={`${id}[edu_group_id]`}
+                label={messages['education.group']}
+                isLoading={false}
+                control={control}
+                options={educationsData?.edu_groups}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          )}
+
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            required
+            id={`${id}[institute_name]`}
+            label={messages['common.institute_name_bn']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            id={`${id}[institute_name_en]`}
+            label={messages['common.institute_name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <CustomFilterableFormSelect
+            required
+            id={`${id}[result]`}
+            label={messages['education.result']}
+            isLoading={false}
+            control={control}
+            options={educationsData?.result}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={onResultChange}
+          />
+        </Grid>
+
+        {selectedResult && ResultCodeDivisions.includes(selectedResult.code) && (
+          <Grid item xs={12} md={3}>
+            <CustomTextInput
+              required
+              id={`${id}[marks_in_percentage]`}
+              type={'number'}
+              label={messages['education.marks']}
+              register={register}
+              errorInstance={errors}
+              isLoading={false}
+            />
+          </Grid>
+        )}
+
+        {selectedResult && selectedResult.code == ResultCodeGrade && (
+          <Grid item xs={12} md={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id={`${id}[cgpa_scale]`}
+                  type={'number'}
+                  inputProps={{
+                    step: 0.01,
+                  }}
+                  label={messages['education.cgpa_scale']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id={`${id}[cgpa]`}
+                  type={'number'}
+                  inputProps={{
+                    step: 0.01,
+                  }}
+                  label={messages['education.cgpa']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
                 />
               </Grid>
             </Grid>
-          </React.Fragment>
-        );
-      })}
+          </Grid>
+        )}
 
-      <Grid container justifyContent='flex-end'>
-        <ButtonGroup color='primary' aria-label='outlined primary button group'>
-          <Button
-            onClick={() => {
-              append({});
-            }}>
-            <AddCircleOutline />
-          </Button>
-          <Button
-            onClick={() => {
-              if (fields.length > 0) remove(fields.length - 1);
+        {selectedResult && selectedResult.code != ResultCodeAppeared && (
+          <Grid item xs={12} md={3}>
+            <CustomFilterableFormSelect
+              required
+              id={`${id}[year_of_passing]`}
+              label={messages['education.passing_year']}
+              isLoading={false}
+              control={control}
+              options={passingYears()}
+              optionValueProp={'year'}
+              optionTitleProp={['year']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+
+        {selectedResult && selectedResult.code == ResultCodeAppeared && (
+          <Grid item xs={12} md={3}>
+            <CustomFilterableFormSelect
+              required
+              id={`${id}[expected_year_of_passing]`}
+              label={messages['education.expected_passing_year']}
+              isLoading={false}
+              control={control}
+              options={passingYears()}
+              optionValueProp={'year'}
+              optionTitleProp={['year']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            id={`${id}[duration]`}
+            label={messages['education.duration']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider
+            orientation={'vertical'}
+            sx={{
+              width: '100%',
+              height: '2px',
+              background: '#bcbcbc',
+              border: 'none',
             }}
-            disabled={fields.length < 1}>
-            <RemoveCircleOutline />
-          </Button>
-        </ButtonGroup>
+          />
+        </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

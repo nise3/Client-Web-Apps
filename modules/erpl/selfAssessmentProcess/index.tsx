@@ -115,6 +115,8 @@ const AssessmentProcessPage = () => {
   };
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    console.log('formData: ', formData);
+
     try {
       if (activeStep < stepKeys.length - 2) {
         handleNext();
@@ -125,7 +127,6 @@ const AssessmentProcessPage = () => {
         createSuccessMessage('common.self_assessment');
         handleNext();
       }
-      console.log('formData: ', formData);
     } catch (error: any) {}
   };
 
@@ -217,6 +218,8 @@ const AssessmentProcessPage = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  console.log('errors: ', errors);
 
   const [changedState, setChangedState] = useState(0);
   const onChanged = useCallback(() => {

@@ -1676,6 +1676,7 @@
   "common.assessor": "মূল্যায়নকারী",
   "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
   "common.exam_date": "পরীক্ষার দিন",
+  "rpl_application.label": "আরপিএল আবেদন",
   "assessment_question_set.label": "অ্যাসেসমেন্ট প্রশ্ন সেট",
   "question_set.label": "প্রশ্ন সেট",
   "question_set.title": "প্রশ্ন সেট",
