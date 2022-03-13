@@ -97,7 +97,7 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
             control={control}
             options={assessors}
             optionValueProp={'id'}
-            optionTitleProp={['title']}
+            optionTitleProp={['trainer_name']}
             errorInstance={errors}
           />
         </Grid>
