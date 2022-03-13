@@ -1679,5 +1679,14 @@
   "assessment_question_set.label": "Assessment Question Set",
   "questionSet.label": "Question Set",
   "questionSet.title": "Question Set Name",
-  "questionSet.title_en": "Question Set Name (EN)"
+  "questionSet.title_en": "Question Set Name (EN)",
+  "dashboard.total_batches": "Total batches",
+  "dashboard.total_rpl_applications": "Total Rpl applications",
+  "dashboard.total_youths": "Total youths",
+  "dashboard.total_rpl_batches": "Total RPL batches",
+  "dashboard.total_provided_certificates": "Total provided certificates",
+  "dashboard.total_rtos": "Total RTOs",
+  "dashboard.total_sectors": "Total sectors",
+  "dashboard.total_occupations": "Total occupations",
+  "dashboard.total_trainers": "Total trainers"
 }
