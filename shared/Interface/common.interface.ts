@@ -72,7 +72,7 @@ export interface IAssessment {
   title_en?: string;
 }
 
-export interface IYouthAssessment {
+export interface IRplAssessment {
   rpl_sector_id: number | string;
   youth_id: number | string;
   assessment_id: number | string;

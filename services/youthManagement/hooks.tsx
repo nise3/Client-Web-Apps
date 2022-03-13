@@ -6,9 +6,9 @@ import {
   API_LANGUAGES,
   API_PUBLIC_GET_BUSINESS_AREAS,
   API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_PUBLIC_RPL_APPLICATIONS,
   API_SKILLS,
   API_YOUTH_ADDRESSES,
-  API_YOUTH_ASSESSMENT,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_COURSES,
   API_YOUTH_EDUCATION,
@@ -162,8 +162,9 @@ export function useFetchYouthAddresses(params: any) {
 export function useFetchYouthAddress(addressId: number | null) {
   return useAxiosSWR(addressId ? API_YOUTH_ADDRESSES + '/' + addressId : null);
 }
-export function useFetchYouthAssessment(assessmentId: number | null) {
+
+export function useFetchPublicRplApplication(application_id: number | null) {
   return useAxiosSWR(
-    assessmentId ? API_YOUTH_ASSESSMENT + '/' + assessmentId : null,
+    application_id ? API_PUBLIC_RPL_APPLICATIONS + '/' + application_id : null,
   );
 }
