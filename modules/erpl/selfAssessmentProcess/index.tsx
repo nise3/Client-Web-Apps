@@ -217,9 +217,6 @@ const AssessmentProcessPage = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-  console.log('errors: ', errors);
-
-  console.log('getValues: ', getValues());
 
   const [changedState, setChangedState] = useState(0);
   const onChanged = useCallback(() => {

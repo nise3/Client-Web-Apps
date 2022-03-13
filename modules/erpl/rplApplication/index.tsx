@@ -20,15 +20,19 @@ import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
 import {
   useFetchCountries,
   useFetchDistricts,
+  useFetchDivisions,
   useFetchUnions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
+  filterDistrictsByDivisionId,
   filterUnionsByUpazilaId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
+import Religions from '../../../@softbd/utilities/Religions';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
-const RPLApplication = () => {
+const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
 
@@ -55,11 +59,52 @@ const RPLApplication = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  const religions = useMemo(
+    () => [
+      {
+        id: Religions.ISLAM,
+        label: messages['common.religion_islam'],
+      },
+      {
+        id: Religions.HINDUISM,
+        label: messages['common.religion_hinduism'],
+      },
+      {
+        id: Religions.CHRISTIANITY,
+        label: messages['common.religion_christianity'],
+      },
+      {
+        id: Religions.BUDDHISM,
+        label: messages['common.religion_buddhism'],
+      },
+      {
+        id: Religions.JUDAISM,
+        label: messages['common.religion_judaism'],
+      },
+      {
+        id: Religions.SIKHISM,
+        label: messages['common.religion_sikhism'],
+      },
+      {
+        id: Religions.ETHNIC,
+        label: messages['common.religion_ethnic'],
+      },
+      {
+        id: Religions.ATHEIST,
+        label: messages['common.religion_atheist'],
+      },
+    ],
+    [messages],
+  );
+
+  const [divisionFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
   const [unionsFilter] = useState({});
   const [countriesFilter] = useState({});
 
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
@@ -67,6 +112,12 @@ const RPLApplication = () => {
   const {data: unions, isLoading: isLoadingUnions} =
     useFetchUnions(unionsFilter);
   const {data: countries} = useFetchCountries(countriesFilter);
+
+  const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
+    Array<any> | []
+  >([]);
+  const [permanentAddressDistrictList, setPermanentAddressDistrictList] =
+    useState<Array<any> | []>([]);
 
   const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
     Array<any> | []
@@ -81,18 +132,18 @@ const RPLApplication = () => {
     Array<any> | []
   >([]);
 
-  const handlePresentAddressDistrictChange = useCallback(
-    (districtId: number) => {
-      setPresentAddressUplazilaList(
-        filterUpazilasByDistrictId(upazilas, districtId),
+  const handlePresentAddressDivisionChange = useCallback(
+    (divisionId: number) => {
+      setPresentAddressDistrictList(
+        filterDistrictsByDivisionId(districts, divisionId),
       );
     },
     [upazilas],
   );
 
-  const handlePermanentAddressDistrictChange = useCallback(
+  const handlePresentAddressDistrictChange = useCallback(
     (districtId: number) => {
-      setPermanentAddressUpazilaList(
+      setPresentAddressUplazilaList(
         filterUpazilasByDistrictId(upazilas, districtId),
       );
     },
@@ -104,6 +155,24 @@ const RPLApplication = () => {
       setPresentAddressUnionList(filterUnionsByUpazilaId(unions, upazilaId));
     },
     [unions],
+  );
+
+  const handlePermanentAddressDivisionChange = useCallback(
+    (divisionId: number) => {
+      setPermanentAddressDistrictList(
+        filterDistrictsByDivisionId(districts, divisionId),
+      );
+    },
+    [districts],
+  );
+
+  const handlePermanentAddressDistrictChange = useCallback(
+    (districtId: number) => {
+      setPermanentAddressUpazilaList(
+        filterUpazilasByDistrictId(upazilas, districtId),
+      );
+    },
+    [upazilas],
   );
 
   const handlePermanentAddressUpazilaChange = useCallback(
@@ -141,13 +210,14 @@ const RPLApplication = () => {
           </Grid>
         </Grid>
         <Grid item xs={10}>
-          <H3 centered={true}>বাংলাদেশ কারিগরি শিক্ষা বোর্ড, ঢাকা</H3>
-          <H4 centered={true}>
-            জাতীয় কারিগরি ও বৃত্তিমূলক যোগ্যতা কাঠামোর (NTVQF) আওতায়
-            প্রশিক্ষণার্থী ভর্তির আবেদনপত্র
-          </H4>
+          <H3 centered={true}>
+            {messages['common.bangladesh_technical_education_board_dhaka']}
+          </H3>
+          <H4 centered={true}>{messages['common.application_header_text']}</H4>
           <Body1 centered={true}>
-            (শিক্ষাগত যোগ্যতার সনদ অনুসারে স্বহস্তে পূরণ করতে হবে)
+            {'(' +
+              messages['common.fill_according_to_educational_certificate'] +
+              ')'}
           </Body1>
         </Grid>
       </Grid>
@@ -168,8 +238,8 @@ const RPLApplication = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='candidate_name_en'
-              label={messages['common.candidate_name_en']}
+              id='candidate_name'
+              label={messages['common.candidate_name']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -178,8 +248,19 @@ const RPLApplication = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='candidate_name_bn'
-              label={messages['common.candidate_name_bn']}
+              id='candidate_name_en'
+              label={messages['common.candidate_name_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <CustomTextInput
+              required
+              id='father_name'
+              label={messages['common.father_name']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -196,32 +277,22 @@ const RPLApplication = () => {
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='father_name_bn'
-              label={messages['common.father_name_bn']}
+              id='mother_name'
+              label={messages['common.mother_name']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <CustomTextInput
               required
               id='mother_name_en'
               label={messages['common.mother_name_en']}
-              register={register}
-              errorInstance={errors}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id='mother_name_bn'
-              label={messages['common.mother_name_bn']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -263,11 +334,26 @@ const RPLApplication = () => {
               <Grid item xs={6}>
                 <CustomFormSelect
                   required
+                  id='present_address[loc_division_id]'
+                  label={messages['divisions.label']}
+                  isLoading={isLoadingDivisions}
+                  control={control}
+                  options={divisions}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={handlePresentAddressDivisionChange}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <CustomFormSelect
+                  required
                   id='present_address[loc_district_id]'
                   label={messages['districts.label']}
                   isLoading={isLoadingDistricts}
                   control={control}
-                  options={districts}
+                  options={presentAddressDistrictList}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
@@ -322,11 +408,25 @@ const RPLApplication = () => {
               <Grid item xs={6}>
                 <CustomFormSelect
                   required
+                  id='permanent_address[loc_division_id]'
+                  label={messages['divisions.label']}
+                  isLoading={isLoadingDivisions}
+                  control={control}
+                  options={divisions}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={handlePermanentAddressDivisionChange}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomFormSelect
+                  required
                   id='permanent_address[loc_district_id]'
                   label={messages['districts.label']}
                   isLoading={isLoadingDistricts}
                   control={control}
-                  options={districts}
+                  options={permanentAddressDistrictList}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
@@ -394,16 +494,16 @@ const RPLApplication = () => {
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <CustomFormSelect
+          <Grid item xs={12} md={6}>
+            <CustomFilterableFormSelect
               required
               id='religion'
               label={messages['common.religion']}
               isLoading={false}
               control={control}
-              options={[]}
+              options={religions}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['label']}
               errorInstance={errors}
             />
           </Grid>
@@ -569,6 +669,7 @@ const RPLApplication = () => {
             <Grid container spacing={2}>
               <Grid item xs={4}>
                 <CustomTextInput
+                  type={'number'}
                   id='national_identity'
                   label={messages['common.national_identity']}
                   register={register}
@@ -578,8 +679,9 @@ const RPLApplication = () => {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextInput
+                  type={'number'}
                   id='birth_certificate'
-                  label={messages['common.birth_certificate']}
+                  label={messages['common.identity_type_birth_cert']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -587,6 +689,7 @@ const RPLApplication = () => {
               </Grid>
               <Grid item xs={4}>
                 <CustomTextInput
+                  type={'number'}
                   id='passport_number'
                   label={messages['common.passport_number']}
                   register={register}
@@ -624,4 +727,4 @@ const RPLApplication = () => {
   );
 };
 
-export default RPLApplication;
+export default RPLApplicationForm;
