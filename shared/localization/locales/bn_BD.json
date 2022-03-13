@@ -1677,7 +1677,7 @@
   "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
   "common.exam_date": "পরীক্ষার দিন",
   "assessment_question_set.label": "অ্যাসেসমেন্ট প্রশ্ন সেট",
-  "questionSet.label": "প্রশ্ন সেট",
-  "questionSet.title": "প্রশ্ন সেট",
-  "questionSet.title_en": "প্রশ্ন সেট (ইংরেজি)"
+  "question_set.label": "প্রশ্ন সেট",
+  "question_set.title": "প্রশ্ন সেট",
+  "question_set.title_en": "প্রশ্ন সেট (ইংরেজি)"
 }

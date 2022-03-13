@@ -55,14 +55,14 @@ const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['questionSet.title']}
+              label={messages['question_set.title']}
               value={itemData?.title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['questionSet.title_en']}
+              label={messages['question_set.title_en']}
               value={itemData?.title_en}
               isLoading={isLoading}
             />
