@@ -27,6 +27,12 @@ export interface ISubject extends IIdTitleCreateUpdateAt {
   title_en: string;
 }
 
+export interface IQuestionSet extends IIdTitleCreateUpdateAt {
+  assessment_id: string | number;
+  title: string;
+  title_en: string;
+}
+
 export interface IProgramme extends IIdTitleCreateUpdateAt {
   institute_id?: string | number;
   institute_title_en?: string;

@@ -16,6 +16,7 @@ import {
   API_RTO_COUNTRIES,
   API_SUBJECTS,
   API_ASSESSMENT_QUESTIONS,
+  API_ASSESSMENT_QUESTION_SETS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -78,6 +79,10 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_SUBJECTS, params]);
 }
 
+export function useFetchAssessments(params: any) {
+  return useAxiosSWR([API_ASSESSMENTS, params]);
+}
+
 export function useFetchAssessment(assessmentId: number | null) {
   return useAxiosSWR(
     assessmentId ? API_ASSESSMENTS + '/' + assessmentId : null,
@@ -120,4 +125,14 @@ export function useFetchPublicYouthAssessmentQuestions(params: any) {
 
 export function useFetchAssessmentQuestions(params: any) {
   return useAxiosSWR(params ? [API_ASSESSMENT_QUESTIONS, params] : null);
+}
+
+export function useFetchAssessmentQuestionSets(params: any) {
+  return useAxiosSWR(params ? [API_ASSESSMENT_QUESTION_SETS, params] : null);
+}
+
+export function useFetchAssessmentQuestionSet(questionSetId: number | null) {
+  return useAxiosSWR(
+    questionSetId ? API_ASSESSMENT_QUESTION_SETS + '/' + questionSetId : null,
+  );
 }
