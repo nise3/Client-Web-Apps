@@ -101,7 +101,7 @@ export const routePermissions: any = {
   },
   '/assessment-management': {
     routePrefix: '/assessment-management',
-    permissionKeys: ['view_any_youth_assessment'],
+    permissionKeys: ['view_any_rpl_application'],
   },
   '/hr-demand': {
     routePrefix: '/hr-demand',

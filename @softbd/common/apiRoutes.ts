@@ -117,7 +117,7 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 export const API_ASSESSMENT_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH +
-  '/youth-assessment-certification/payment/payment-via-ek-pay/pay-now';
+  '/rpl-application-certification/payment/payment-via-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
@@ -156,7 +156,7 @@ export const API_ASSESSMENT_QUESTIONS =
 export const API_ASSESSMENT_QUESTION_SETS =
   INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
 export const API_YOUTH_ASSESSMENT =
-  INSTITUTE_SERVICE_PATH + '/youth-assessment';
+  INSTITUTE_SERVICE_PATH + '/rpl-applications';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
 /**             eRPL End         */
@@ -183,7 +183,7 @@ export const API_PUBLIC_RPL_OCCUPATIONS =
 export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
   TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
 export const API_PUBLIC_YOUTH_ASSESSMENTS =
-  TSP_PUBLIC_SERVICE_PATH + '/youth-assessment';
+  TSP_PUBLIC_SERVICE_PATH + '/rpl-applications';
 export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
