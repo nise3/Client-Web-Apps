@@ -255,4 +255,8 @@ export const routePermissions: any = {
     routePrefix: '/rpl-batches',
     permissionKeys: ['view_any_ca_assigned_batches'],
   },
+  '/assessment-question-sets': {
+    routePrefix: '/assessment-question-sets',
+    permissionKeys: ['view_any_assessment_question_set'],
+  },
 };
