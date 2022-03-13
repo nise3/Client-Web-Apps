@@ -648,7 +648,7 @@ export const setAreaText = (
   const lh = 1.25 * fs;
   const bl = 0.8;
   let lastCord = 0;
-  if (Array.isArray(text)) {
+  if (text && Array.isArray(text)) {
     //last item
     // console.log('last text element ', textElement[ text.length - 1 ]);
     const SVG_NS = "http://www.w3.org/2000/svg";
@@ -687,7 +687,7 @@ export const setAreaText = (
   // console.log('textElement ', textElement);
 
   g.children[0].setAttribute('fill', 'transparent');
-  const lastElem = textElement[ text.length - 1 ];
+  const lastElem = text ? textElement[ text.length - 1 ] : textElement[0];
   return {
     textElement,
     lastElement: lastElem,
