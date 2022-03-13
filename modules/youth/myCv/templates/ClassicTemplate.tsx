@@ -212,10 +212,11 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     //@ts-ignore
     const langulageRect = languageReact.rectCord?.children[0].getBBox();
     const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
+    const bottomPadding = 20;
     console.log('lang rectangle ', languageLastBoxBottomY);
     // update svg if less then last cord
     let svg = document.getElementById('svg') as Element;
-    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY}`);
+    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
   }, [locale]);
 
   return (
