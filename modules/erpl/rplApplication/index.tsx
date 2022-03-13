@@ -134,7 +134,7 @@ const RPLApplicationForm = () => {
               .required()
               .label(messages['common.designation'] as string)
           : yup.string(),
-        institute_type: isCurrentlyEmployed
+        company_type: isCurrentlyEmployed
           ? yup
               .string()
               .trim()
@@ -507,6 +507,8 @@ const RPLApplicationForm = () => {
       formData.youth_details.education_info = data.education_info;
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
+
+      formData.youth_details.identity_number = String(formData.youth_details.identity_number);
 
       console.log('data: ', formData);
 
@@ -1024,7 +1026,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomFormSelect
                   required
-                  id='youth_details[institute_type]'
+                  id='youth_details[company_type]'
                   label={messages['common.institute_type']}
                   isLoading={false}
                   control={control}
