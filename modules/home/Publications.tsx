@@ -48,7 +48,10 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     fontWeight: 'bold',
+    whiteSpace: 'nowrap',
     padding: '10px',
+    WebkitLineClamp: '2',
+    WebkitBoxOrient: 'vertical',
   },
 }));
 
@@ -78,7 +81,7 @@ const Publications = () => {
                 title={publication?.title}
               />
             </Box>
-            <Box sx={{width: '150px'}} mt={1}>
+            <Box mt={1}>
               <Body2 className={classes.title}>{publication?.title}</Body2>
             </Box>
           </Card>
