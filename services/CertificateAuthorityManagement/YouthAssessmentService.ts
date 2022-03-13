@@ -16,6 +16,15 @@ export const createYouthAssessment = async (data: IYouthAssessment) => {
   }
 };
 
+export const createRPLApplication = async (data: any) => {
+  try {
+    let response: any = await apiPost(API_RPL_APPLICATION, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
 export const assessmentAssignBatch = async (
   data: IAssessmentBatchAssign,
   youth_assessment_id: number | null,

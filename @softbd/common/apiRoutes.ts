@@ -153,9 +153,9 @@ export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
 export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
 export const API_ASSESSMENT_QUESTIONS =
   INSTITUTE_SERVICE_PATH + '/assessment-questions';
+export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
 export const API_ASSESSMENT_QUESTION_SETS =
   INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
-export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
 export const API_YOUTH_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/rpl-assessment';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
@@ -182,7 +182,6 @@ export const API_PUBLIC_RPL_OCCUPATIONS =
 
 export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
   TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
-
 export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
