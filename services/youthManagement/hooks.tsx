@@ -4,7 +4,11 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_LANGUAGES,
+  API_PUBLIC_GET_BUSINESS_AREAS,
+  API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_SKILLS,
   API_YOUTH_ADDRESSES,
+  API_YOUTH_ASSESSMENT,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_COURSES,
   API_YOUTH_EDUCATION,
@@ -13,15 +17,11 @@ import {
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
-  API_YOUTHS,
+  API_YOUTH_MY_JOBS,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
-  API_SKILLS,
-  API_PUBLIC_GET_EXPERIENCE_AREAS,
-  API_PUBLIC_GET_BUSINESS_AREAS,
-  API_YOUTH_MY_JOBS,
-  API_YOUTH_SELF_ASSESSMENT,
+  API_YOUTHS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSkill(skillId: number | null) {
@@ -164,6 +164,6 @@ export function useFetchYouthAddress(addressId: number | null) {
 }
 export function useFetchYouthAssessment(assessmentId: number | null) {
   return useAxiosSWR(
-    assessmentId ? API_YOUTH_SELF_ASSESSMENT + '/' + assessmentId : null,
+    assessmentId ? API_YOUTH_ASSESSMENT + '/' + assessmentId : null,
   );
 }

@@ -1674,5 +1674,6 @@
   "common.fill_according_to_educational_certificate": "শিক্ষাগত যোগ্যতার সনদ অনুসারে স্বহস্তে পূরণ করতে হবে",
   "common.assessor": "মূল্যায়নকারী",
   "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
-  "common.exam_date": "পরীক্ষার দিন"
+  "common.exam_date": "পরীক্ষার দিন",
+  "rpl_application.label": "আরপিএল আবেদন"
 }

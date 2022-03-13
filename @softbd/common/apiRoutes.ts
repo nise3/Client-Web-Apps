@@ -155,6 +155,7 @@ export const API_ASSESSMENT_QUESTIONS =
   INSTITUTE_SERVICE_PATH + '/assessment-questions';
 export const API_YOUTH_ASSESSMENT =
   INSTITUTE_SERVICE_PATH + '/youth-assessment';
+export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
 /**             eRPL End         */
@@ -227,8 +228,6 @@ export const API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE =
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
-export const API_YOUTH_SELF_ASSESSMENT =
-  INDUSTRY_ASSOCIATION_SERVICE_PATH + '/youth-assessment';
 
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';
