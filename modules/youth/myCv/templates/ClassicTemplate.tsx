@@ -215,7 +215,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     // update svg if less then last cord
     let svg = document.getElementById('svg') as Element;
     svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     console.log('inside effect ', locale);
