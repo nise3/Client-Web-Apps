@@ -152,24 +152,6 @@ const JobExperienceFieldArray = ({
           </React.Fragment>
         );
       })}
-
-      <Grid container justifyContent='flex-end'>
-        <ButtonGroup color='primary' aria-label='outlined primary button group'>
-          <Button
-            onClick={() => {
-              append({});
-            }}>
-            <AddCircleOutline />
-          </Button>
-          <Button
-            onClick={() => {
-              if (fields.length > 0) remove(fields.length - 1);
-            }}
-            disabled={fields.length < 1}>
-            <RemoveCircleOutline />
-          </Button>
-        </ButtonGroup>
-      </Grid>
     </>
   );
 };
