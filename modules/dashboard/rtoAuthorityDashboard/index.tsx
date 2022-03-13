@@ -64,6 +64,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 const RtoAuthorityDashboard = () => {
   const [dashStatistics, setDashStatistics] =
     useState<IRtoDashboardStatistics>();
+  //TODO: api is not ready, this not relevant api
   let {data: statistics} = useFetchDashboardStatistics();
 
   // debugger
