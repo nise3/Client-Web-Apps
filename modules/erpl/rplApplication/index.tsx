@@ -143,7 +143,7 @@ const RPLApplicationForm = () => {
               'cgpa_scale_validation',
               messages['common.cgpa_scale'] as string,
               (value) =>
-                value == 'undefined' ||
+                value == undefined ||
                 value == '' ||
                 Boolean(Number(value) <= 5),
             ),
@@ -158,7 +158,7 @@ const RPLApplicationForm = () => {
               'cgpa_scale_validation',
               messages['common.cgpa_scale'] as string,
               (value) =>
-                value == 'undefined' ||
+                value == undefined ||
                 value == '' ||
                 Boolean(Number(value) <= 5),
             ),
@@ -186,6 +186,7 @@ const RPLApplicationForm = () => {
     register,
     control,
     setError,
+    getValues,
     handleSubmit,
     setValue,
     formState: {errors, isSubmitting},
@@ -361,13 +362,20 @@ const RPLApplicationForm = () => {
   }, []);
 
   const removeEducation = useCallback(() => {
+    let educationInfos = getValues('education_info');
+
     setEducations((prev: any) => [...prev, prev.length + 1]);
     let array = [...educations];
     if (educations.length > 1) {
+      educationInfos.splice(educations.length - 1, 1);
+      setValue('education_info', educationInfos);
       array.splice(educations.length - 1, 1);
       setEducations(array);
     }
   }, [educations]);
+
+  console.log('getValues: ', getValues());
+  console.log('errors: ', errors);
 
   return (
     <Container maxWidth={'md'}>
