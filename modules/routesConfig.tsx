@@ -402,7 +402,7 @@ const routesConfig: NavItemProps[] = [
             id: 'assessment-management',
             title: 'assessment-management',
             messageId: 'applicationManagement.label',
-            permissionKey: 'view_any_youth_assessment',
+            permissionKey: 'view_any_rpl_application',
             type: 'item',
             icon: 'grading',
             url: '/assessment-management',
