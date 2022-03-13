@@ -21,12 +21,10 @@ import {
   useFetchCountries,
   useFetchDistricts,
   useFetchDivisions,
-  useFetchUnions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
-  filterUnionsByUpazilaId,
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import Religions from '../../../@softbd/utilities/Religions';
@@ -41,12 +39,17 @@ import {
   ResultCodeDivisionIds,
   ResultCodeGradeId,
 } from '../../youth/profile/utilities/EducationEnums';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
+import {useFetchYouthAssessment} from '../../../services/youthManagement/hooks';
+import {router} from 'next/client';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
 
   const {createSuccessMessage} = useSuccessMessage();
+  const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -178,8 +181,150 @@ const RPLApplicationForm = () => {
             }),
         }),
       ),
+      father_name: yup
+        .string()
+        .required()
+        .label(messages['common.father_name'] as string),
+      father_name_en: yup
+        .string()
+        .label(messages['common.father_name_en'] as string),
+      mother_name: yup
+        .string()
+        .required()
+        .label(messages['common.mother_name'] as string),
+      mother_name_en: yup
+        .string()
+        .label(messages['common.mother_name_en'] as string),
+      guardian_name: yup
+        .string()
+        .required()
+        .label(messages['common.guardian_name'] as string),
+      guardian_name_en: yup
+        .string()
+        .label(messages['common.guardian_name_en'] as string),
+      guardian_mobile: yup
+        .string()
+        .required()
+        .label(messages['common.guardian_mobile'] as string),
+      date_of_birth: yup
+        .string()
+        .required()
+        .label(messages['common.date_of_birth'] as string),
+      mobile: yup
+        .string()
+        .required()
+        .label(messages['common.mobile'] as string),
+      identity_number_type: yup
+        .string()
+        .required()
+        .label(messages['common.identity_number_type'] as string),
+      identity_number: yup
+        .number()
+        .required()
+        .label(messages['common.identity_number'] as string),
+      religion: yup
+        .string()
+        .required()
+        .label(messages['common.religion'] as string),
+      photo: yup
+        .string()
+        .required()
+        .label(messages['common.photo'] as string),
+      present_address: yup.object().shape({
+        loc_division_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['divisions.label'] as string),
+        loc_district_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['districts.label'] as string),
+        loc_upazila_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['upazilas.label'] as string),
+        village_or_area: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.village_or_area_bn'] as string),
+        house_n_road: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.house_n_road_bn'] as string),
+        zip_or_postal_code: yup
+          .string()
+          .label(messages['common.zip_or_postal_code'] as string)
+          .required()
+          .test(
+            'min_max_check',
+            messages['common.four_digit'] as string,
+            (value) => !value || Boolean(value.length === 4),
+          ),
+      }),
+      permanent_address: yup.object().shape({
+        loc_division_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['divisions.label'] as string),
+        loc_district_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['districts.label'] as string),
+        loc_upazila_id: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['upazilas.label'] as string),
+        village_or_area: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.village_or_area_bn'] as string),
+        house_n_road: yup
+          .string()
+          .trim()
+          .required()
+          .label(messages['common.house_n_road_bn'] as string),
+        zip_or_postal_code: yup
+          .string()
+          .required()
+          .label(messages['common.zip_or_postal_code'] as string)
+          .test(
+            'min_max_check',
+            messages['common.four_digit'] as string,
+            (value) => !value || Boolean(value.length === 4),
+          ),
+      }),
+      company_name: isCurrentlyEmployed
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.company_name_bn'] as string)
+        : yup.string(),
+      job_responsibilities: isCurrentlyEmployed
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.designation'] as string)
+        : yup.string(),
+      institute_type: isCurrentlyEmployed
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.institute_type'] as string)
+        : yup.string(),
     });
-  }, [locale]);
+  }, [locale, isCurrentlyEmployed]);
   const isLoading = false;
 
   const {
@@ -232,11 +377,29 @@ const RPLApplicationForm = () => {
     [messages],
   );
 
+  const instituteTypes = useMemo(() => {
+    return [
+      {id: InstituteTypes.GOVERNMENT, title: messages['common.government']},
+      {
+        id: InstituteTypes.NON_GOVERNMENT,
+        title: messages['common.non_government'],
+      },
+      {
+        id: InstituteTypes.OTHERS,
+        title: messages['common.others'],
+      },
+    ];
+  }, [messages]);
+
   const [divisionFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
-  const [unionsFilter] = useState({});
   const [countriesFilter] = useState({});
+
+  const assessmentId = router.query;
+  const {data: youthAssessmentData} = useFetchYouthAssessment(
+    Number(assessmentId),
+  );
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionFilter);
@@ -244,8 +407,7 @@ const RPLApplicationForm = () => {
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
-  const {data: unions, isLoading: isLoadingUnions} =
-    useFetchUnions(unionsFilter);
+
   const {data: countries} = useFetchCountries(countriesFilter);
 
   const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
@@ -257,15 +419,9 @@ const RPLApplicationForm = () => {
   const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
     Array<any> | []
   >([]);
-  const [presentAddressUnionList, setPresentAddressUnionList] = useState<
-    Array<any> | []
-  >([]);
 
   const [permanentAddressUpazilaList, setPermanentAddressUpazilaList] =
     useState<Array<any> | []>([]);
-  const [permanentAddressUnionList, setPermanentAddressUnionList] = useState<
-    Array<any> | []
-  >([]);
 
   const handlePresentAddressDivisionChange = useCallback(
     (divisionId: number) => {
@@ -285,13 +441,6 @@ const RPLApplicationForm = () => {
     [upazilas],
   );
 
-  const handlePresentAddressUpazilaChange = useCallback(
-    (upazilaId: number) => {
-      setPresentAddressUnionList(filterUnionsByUpazilaId(unions, upazilaId));
-    },
-    [unions],
-  );
-
   const handlePermanentAddressDivisionChange = useCallback(
     (divisionId: number) => {
       setPermanentAddressDistrictList(
@@ -308,15 +457,6 @@ const RPLApplicationForm = () => {
       );
     },
     [upazilas],
-  );
-
-  const handlePermanentAddressUpazilaChange = useCallback(
-    (upazilaId: number) => {
-      setPermanentAddressUnionList(
-        filterUpazilasByDistrictId(upazilas, upazilaId),
-      );
-    },
-    [unions],
   );
 
   const [identityNumberType, setIdentityNumberType] = useState<
@@ -345,9 +485,6 @@ const RPLApplicationForm = () => {
     }
   }, [identityNumberType]);
 
-  const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
-    useState<boolean>(false);
-
   const onSubmit: SubmitHandler<any> = async (data: IUser) => {
     try {
       await createUser(data);
@@ -373,9 +510,6 @@ const RPLApplicationForm = () => {
       setEducations(array);
     }
   }, [educations]);
-
-  console.log('getValues: ', getValues());
-  console.log('errors: ', errors);
 
   return (
     <Container maxWidth={'md'}>
@@ -571,30 +705,55 @@ const RPLApplicationForm = () => {
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
-                  onChange={handlePresentAddressUpazilaChange}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomFormSelect
-                  required
-                  id='present_address[loc_union_id]'
-                  label={messages['union.label']}
-                  isLoading={isLoadingUnions}
-                  control={control}
-                  options={presentAddressUnionList || []}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
-                  errorInstance={errors}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomTextInput
                   required
-                  id={'present_address[village]'}
+                  id={'present_address[village_or_area]'}
                   label={messages['common.village_or_area_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id={'present_address[village_or_area_en]'}
+                  label={messages['common.village_or_area_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id={'present_address[house_n_road]'}
+                  label={messages['common.house_n_road_bn']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id={'present_address[house_n_road_en]'}
+                  label={messages['common.house_n_road_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  type={'number'}
+                  id={'present_address[zip_or_postal_code]'}
+                  label={messages['common.zip_or_postal_code']}
+                  register={register}
+                  isLoading={isLoading}
+                  errorInstance={errors}
                 />
               </Grid>
             </Grid>
@@ -644,30 +803,55 @@ const RPLApplicationForm = () => {
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
-                  onChange={handlePermanentAddressUpazilaChange}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomFormSelect
-                  required
-                  id='permanent_address[loc_union_id]'
-                  label={messages['union.label']}
-                  isLoading={isLoadingUnions}
-                  control={control}
-                  options={permanentAddressUnionList || []}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
-                  errorInstance={errors}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CustomTextInput
                   required
-                  id={'permanent_address[village]'}
+                  id={'permanent_address[village_or_area]'}
                   label={messages['common.village_or_area_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id={'permanent_address[village_or_area_en]'}
+                  label={messages['common.village_or_area_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id={'permanent_address[house_n_road]'}
+                  label={messages['common.house_n_road_bn']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  id={'permanent_address[house_n_road_en]'}
+                  label={messages['common.house_n_road_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  type={'number'}
+                  id={'permanent_address[zip_or_postal_code]'}
+                  label={messages['common.zip_or_postal_code']}
+                  register={register}
+                  isLoading={isLoading}
+                  errorInstance={errors}
                 />
               </Grid>
             </Grid>
@@ -762,7 +946,7 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={12}>
             <CustomCheckbox
-              id='is_currently_employed'
+              id='is_youth_employed'
               label={messages['common.currently_working'] + '?'}
               register={register}
               errorInstance={errors}
@@ -779,11 +963,11 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomFormSelect
                   required
-                  id='currently_employer[type]'
+                  id='institute_type'
                   label={messages['common.institute_type']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={instituteTypes}
                   optionValueProp={'id'}
                   optionTitleProp={['title_en', 'title']}
                   errorInstance={errors}
@@ -793,8 +977,8 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='currently_employer[designation]'
-                  label={messages['common.designation']}
+                  id='company_name'
+                  label={messages['common.company_name_bn']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
@@ -804,8 +988,8 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='currently_employer[name]'
-                  label={messages['common.institute_name']}
+                  id='job_responsibilities'
+                  label={messages['common.designation']}
                   register={register}
                   errorInstance={errors}
                   isLoading={isLoading}
