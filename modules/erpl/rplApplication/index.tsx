@@ -513,21 +513,21 @@ const RPLApplicationForm = () => {
   }, [educations]);
 
   const addJobExperience = useCallback(() => {
-    setEducations((prev: any) => [...prev, prev.length + 1]);
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
   }, []);
 
   const removeJobExperience = useCallback(() => {
-    let educationInfos = getValues('education_info');
+    let jobExperienceInfos = getValues('job_experience');
 
     setJobExperiences((prev: any) => [...prev, prev.length + 1]);
     let array = [...educations];
-    if (educations.length > 1) {
-      educationInfos.splice(educations.length - 1, 1);
-      setValue('education_info', educationInfos);
-      array.splice(educations.length - 1, 1);
+    if (jobExperiences.length > 1) {
+      jobExperienceInfos.splice(educations.length - 1, 1);
+      setValue('job_experience', jobExperienceInfos);
+      array.splice(jobExperiences.length - 1, 1);
       setJobExperiences(array);
     }
-  }, [educations]);
+  }, [jobExperiences]);
 
   return (
     <Container maxWidth={'md'}>
@@ -954,7 +954,7 @@ const RPLApplicationForm = () => {
                 {jobExperiences.map((jobExperience: any, index: number) => (
                   <JobExperienceFieldArray
                     key={index}
-                    id={'job_experience'}
+                    id={`job_experience[${index}]`}
                     register={register}
                     errors={errors}
                     control={control}
