@@ -7,7 +7,6 @@ import {IUser} from '../../../shared/Interface/userManagement.interface';
 import {yupResolver} from '@hookform/resolvers/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {createUser} from '../../../services/userManagement/UserService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../@softbd/libs/yup';
 import {Body1, H3, H4} from '../../../@softbd/elements/common';
@@ -42,6 +41,7 @@ import {
 import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 import {useFetchYouthAssessment} from '../../../services/youthManagement/hooks';
 import {router} from 'next/client';
+import {createRPLApplication} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -471,6 +471,7 @@ const RPLApplicationForm = () => {
     useFetchEducationExamsBoardsEduGroupsAndSubjects();
 
   const [educations, setEducations] = useState<any>([1]);
+  const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
   const getIdentityNumberFieldCaption = useCallback(() => {
     switch (String(identityNumberType)) {
@@ -487,8 +488,8 @@ const RPLApplicationForm = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: IUser) => {
     try {
-      await createUser(data);
-      createSuccessMessage('user.label');
+      await createRPLApplication(data);
+      createSuccessMessage('rpl_application.label');
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -508,6 +509,23 @@ const RPLApplicationForm = () => {
       setValue('education_info', educationInfos);
       array.splice(educations.length - 1, 1);
       setEducations(array);
+    }
+  }, [educations]);
+
+  const addJobExperience = useCallback(() => {
+    setEducations((prev: any) => [...prev, prev.length + 1]);
+  }, []);
+
+  const removeJobExperience = useCallback(() => {
+    let educationInfos = getValues('education_info');
+
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+    let array = [...educations];
+    if (educations.length > 1) {
+      educationInfos.splice(educations.length - 1, 1);
+      setValue('education_info', educationInfos);
+      array.splice(educations.length - 1, 1);
+      setJobExperiences(array);
     }
   }, [educations]);
 
@@ -933,13 +951,31 @@ const RPLApplicationForm = () => {
             <Grid container>
               <FormLabel>{messages['common.job_experience']}</FormLabel>
               <Grid item xs={12}>
-                <JobExperienceFieldArray
-                  id={'job_experience'}
-                  register={register}
-                  errors={errors}
-                  control={control}
-                  countries={countries}
-                />
+                {jobExperiences.map((jobExperience: any, index: number) => (
+                  <JobExperienceFieldArray
+                    key={index}
+                    id={'job_experience'}
+                    register={register}
+                    errors={errors}
+                    control={control}
+                    countries={countries}
+                  />
+                ))}
+
+                <Grid item xs={12} display={'flex'} justifyContent='flex-end'>
+                  <ButtonGroup
+                    color='primary'
+                    aria-label='outlined primary button group'>
+                    <Button onClick={addJobExperience}>
+                      <AddCircleOutline />
+                    </Button>
+                    <Button
+                      onClick={removeJobExperience}
+                      disabled={jobExperiences.length < 2}>
+                      <RemoveCircleOutline />
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
