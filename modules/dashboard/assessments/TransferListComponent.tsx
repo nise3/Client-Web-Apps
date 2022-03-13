@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import {
   useFetchAssessmentQuestions,
+  useFetchAssessmentQuestionSets,
   useFetchQuestionBanks,
   useFetchSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
@@ -54,8 +55,12 @@ const TransferList: FC<TransferListProps> = ({
 
   const [subjectId, setSubjectId] = useState<any>(null);
   const [subjectFilters] = useState({});
+  const [questionSetFilters] = useState({});
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
+
+  const {data: questionSets, isLoading: isFetchingQuestionSets} =
+    useFetchAssessmentQuestionSets(questionSetFilters);
 
   const [assessmentQuestionFilter] = useState({
     assessment_id: assessmentId,
@@ -105,6 +110,15 @@ const TransferList: FC<TransferListProps> = ({
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
+
+  const handleAssessmentChange = (assessmentId: any) => {
+    setSubjectId(assessmentId ? assessmentId : null);
+    if (assessmentId) {
+      setQuestionFilter({
+        assessmentId: assessmentId,
+      });
+    }
+  };
 
   const handleSubjectChange = (subjectId: any) => {
     setSubjectId(subjectId ? subjectId : null);
@@ -245,7 +259,19 @@ const TransferList: FC<TransferListProps> = ({
   return (
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12}>
+          <CustomFilterableSelect
+            id={'assessment_question_set_id'}
+            label={messages['assessment.label']}
+            isLoading={isFetchingQuestionSets}
+            // defaultValue={subjectId}
+            options={questionSets}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            onChange={handleAssessmentChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
           <CustomFilterableSelect
             id={'subject_id'}
             label={messages['subject.select_first']}

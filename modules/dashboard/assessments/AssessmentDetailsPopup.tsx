@@ -1,14 +1,14 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
-import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { useFetchAssessment } from "../../../services/CertificateAuthorityManagement/hooks";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import React from 'react';
+import {Grid} from '@mui/material';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchAssessment} from '../../../services/CertificateAuthorityManagement/hooks';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number;
@@ -77,6 +77,13 @@ const AssessmentDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 <DetailsInputView
                   label={messages['rpl_level.passing_score']}
                   value={itemData?.passing_score}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.assessment_fee']}
+                  value={itemData?.assessment_fee}
                   isLoading={isLoading}
                 />
               </Grid>
