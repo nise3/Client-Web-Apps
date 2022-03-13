@@ -117,7 +117,7 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 export const API_ASSESSMENT_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH +
-  '/youth-assessment-certification/payment/payment-via-ek-pay/pay-now';
+  '/rpl-application-certification/payment/payment-via-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
@@ -153,9 +153,10 @@ export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
 export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
 export const API_ASSESSMENT_QUESTIONS =
   INSTITUTE_SERVICE_PATH + '/assessment-questions';
-export const API_YOUTH_ASSESSMENT =
-  INSTITUTE_SERVICE_PATH + '/youth-assessment';
 export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
+export const API_ASSESSMENT_QUESTION_SETS =
+  INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
+export const API_YOUTH_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/rpl-assessment';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
 /**             eRPL End         */

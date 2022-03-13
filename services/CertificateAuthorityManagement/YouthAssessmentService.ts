@@ -31,7 +31,7 @@ export const assessmentAssignBatch = async (
 ) => {
   try {
     let response: any = await apiPost(
-      API_YOUTH_ASSESSMENT + '/' + youth_assessment_id + '/assign-to-batch',
+      API_RPL_APPLICATION + '/' + youth_assessment_id + '/assign-to-batch',
       data,
     );
     return response.data;

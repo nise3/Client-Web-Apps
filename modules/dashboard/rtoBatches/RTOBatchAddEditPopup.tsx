@@ -141,6 +141,8 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      let rtoId = 1;
+      data.rto_id = rtoId;
       if (itemId) {
         await updateRTOBatch(itemId, data);
         updateSuccessMessage('rto_batch.label');

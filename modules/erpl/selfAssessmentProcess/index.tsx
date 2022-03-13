@@ -293,28 +293,30 @@ const AssessmentProcessPage = () => {
                 <Box sx={{p: '10px 0px', marginTop: 3}}>
                   {getCurrentFormContent()}
                 </Box>
-                <Box className={classes.btnGroup}>
-                  {activeStep > 0 && (
-                    <Button
-                      onClick={handleBack}
-                      variant={'outlined'}
-                      color={'primary'}>
-                      {messages['common.previous']}
-                    </Button>
-                  )}
-                  {activeStep < stepKeys.length - 1 && (
-                    <Button
-                      sx={{marginLeft: 'auto'}}
-                      type={'submit'}
-                      variant={'contained'}
-                      color={'primary'}
-                      disabled={isSubmitting}>
-                      {activeStep == stepKeys.length - 2
-                        ? messages['common.submit']
-                        : messages['common.next']}
-                    </Button>
-                  )}
-                </Box>
+                <Container maxWidth={'md'}>
+                  <Box className={classes.btnGroup}>
+                    {activeStep > 0 && (
+                      <Button
+                        onClick={handleBack}
+                        variant={'outlined'}
+                        color={'primary'}>
+                        {messages['common.previous']}
+                      </Button>
+                    )}
+                    {activeStep < stepKeys.length - 1 && (
+                      <Button
+                        sx={{marginLeft: 'auto'}}
+                        type={'submit'}
+                        variant={'contained'}
+                        color={'primary'}
+                        disabled={isSubmitting}>
+                        {activeStep == stepKeys.length - 2
+                          ? messages['common.submit']
+                          : messages['common.next']}
+                      </Button>
+                    )}
+                  </Box>
+                </Container>
               </form>
             </React.Fragment>
           )}
