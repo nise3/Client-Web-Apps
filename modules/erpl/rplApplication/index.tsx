@@ -1,4 +1,4 @@
-import {Button, Container, FormLabel, Grid} from '@mui/material';
+import {Button, ButtonGroup, Container, FormLabel, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -33,6 +33,14 @@ import Religions from '../../../@softbd/utilities/Religions';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
+import {useFetchEducationExamsBoardsEduGroupsAndSubjects} from '../../../services/youthManagement/hooks';
+import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
+import {
+  EducationLevelId,
+  ResultCodeAppearedId,
+  ResultCodeDivisionIds,
+  ResultCodeGradeId,
+} from '../../youth/profile/utilities/EducationEnums';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -59,6 +67,117 @@ const RPLApplicationForm = () => {
       last_name_en: yup
         .string()
         .label(messages['common.last_name_en'] as string),
+      education_info: yup.array().of(
+        yup.object().shape({
+          education_level_id: yup
+            .string()
+            .required()
+            .label(messages['education.education_level'] as string),
+          exam_degree_id: yup
+            .mixed()
+            .label(messages['education.education_exam_degree'] as string)
+            .when('education_level_id', {
+              is: (value: any) =>
+                value && Number(value) != EducationLevelId.PHD,
+              then: yup.string().required(),
+            }),
+          exam_degree_name: yup
+            .mixed()
+            .label(
+              messages['education.education_exam_degree_name_bn'] as string,
+            )
+            .when('education_level_id', {
+              is: (value: any) =>
+                value && Number(value) == EducationLevelId.PHD,
+              then: yup.string().required(),
+            }),
+          edu_group_id: yup
+            .mixed()
+            .label(messages['education.group'] as string)
+            .when('education_level_id', {
+              is: (value: any) =>
+                value &&
+                [
+                  EducationLevelId.SSC,
+                  EducationLevelId.HSC,
+                  EducationLevelId.DIPLOMA,
+                ].includes(Number(value)),
+              then: yup.string().required(),
+            }),
+          edu_board_id: yup
+            .mixed()
+            .label(messages['education.board'] as string)
+            .when('education_level_id', {
+              is: (value: any) =>
+                value &&
+                [
+                  EducationLevelId.SSC,
+                  EducationLevelId.HSC,
+                  EducationLevelId.DIPLOMA,
+                ].includes(Number(value)),
+              then: yup.string().required(),
+            }),
+          institute_name: yup
+            .string()
+            .title()
+            .label(messages['common.institute_name_bn'] as string),
+          result: yup
+            .string()
+            .required()
+            .label(messages['education.result'] as string),
+          marks_in_percentage: yup
+            .mixed()
+            .label(messages['education.marks'] as string)
+            .when('result', {
+              is: (value: any) => ResultCodeDivisionIds.includes(String(value)),
+              then: yup.string().max(3).required(),
+            }),
+          cgpa_scale: yup
+            .mixed()
+            .label(messages['education.cgpa_scale'] as string)
+            .when('result', {
+              is: (value: any) => value == ResultCodeGradeId,
+              then: yup.string().max(1).required(),
+            })
+            .test(
+              'cgpa_scale_validation',
+              messages['common.cgpa_scale'] as string,
+              (value) =>
+                value == 'undefined' ||
+                value == '' ||
+                Boolean(Number(value) <= 5),
+            ),
+          cgpa: yup
+            .mixed()
+            .label(messages['education.cgpa'] as string)
+            .when('result', {
+              is: (value: any) => value == ResultCodeGradeId,
+              then: yup.string().max(4).required(),
+            })
+            .test(
+              'cgpa_scale_validation',
+              messages['common.cgpa_scale'] as string,
+              (value) =>
+                value == 'undefined' ||
+                value == '' ||
+                Boolean(Number(value) <= 5),
+            ),
+          year_of_passing: yup
+            .mixed()
+            .label(messages['education.passing_year'] as string)
+            .when('result', {
+              is: (value: any) => value != ResultCodeAppearedId,
+              then: yup.string().required(),
+            }),
+          expected_year_of_passing: yup
+            .mixed()
+            .label(messages['education.expected_passing_year'] as string)
+            .when('result', {
+              is: (value: any) => value == ResultCodeAppearedId,
+              then: yup.string().required(),
+            }),
+        }),
+      ),
     });
   }, [locale]);
   const isLoading = false;
@@ -207,6 +326,11 @@ const RPLApplicationForm = () => {
     setIdentityNumberType(value);
   }, []);
 
+  const {data: educationsData, isLoading: isLoadingEducationsData} =
+    useFetchEducationExamsBoardsEduGroupsAndSubjects();
+
+  const [educations, setEducations] = useState<any>([1]);
+
   const getIdentityNumberFieldCaption = useCallback(() => {
     switch (String(identityNumberType)) {
       case IdentityNumberTypes.NID:
@@ -231,6 +355,19 @@ const RPLApplicationForm = () => {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
+  const addNewEducation = useCallback(() => {
+    setEducations((prev: any) => [...prev, prev.length + 1]);
+  }, []);
+
+  const removeEducation = useCallback(() => {
+    setEducations((prev: any) => [...prev, prev.length + 1]);
+    let array = [...educations];
+    if (educations.length > 1) {
+      array.splice(educations.length - 1, 1);
+      setEducations(array);
+    }
+  }, [educations]);
 
   return (
     <Container maxWidth={'md'}>
@@ -564,20 +701,38 @@ const RPLApplicationForm = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Grid container>
-              <FormLabel required={true}>
-                {
-                  ((messages['user.academic_qualification'] as string) +
-                    messages['academic_qualification.fill_up_hint']) as string
-                }
-              </FormLabel>
-              <Grid item xs={12}>
+            <FormLabel required={true}>
+              {
+                ((messages['user.academic_qualification'] as string) +
+                  messages['academic_qualification.fill_up_hint']) as string
+              }
+            </FormLabel>
+
+            <Grid container spacing={2}>
+              {educations.map((education: any, index: number) => (
                 <AcademicQualificationFieldArray
-                  id={'academic_qualifications'}
+                  id={`education_info[${index}]`}
+                  key={index}
                   register={register}
                   errors={errors}
                   control={control}
+                  educationsData={educationsData}
+                  isLoading={isLoadingEducationsData}
                 />
+              ))}
+              <Grid item xs={12} display={'flex'} justifyContent='flex-end'>
+                <ButtonGroup
+                  color='primary'
+                  aria-label='outlined primary button group'>
+                  <Button onClick={addNewEducation}>
+                    <AddCircleOutline />
+                  </Button>
+                  <Button
+                    onClick={removeEducation}
+                    disabled={educations.length < 2}>
+                    <RemoveCircleOutline />
+                  </Button>
+                </ButtonGroup>
               </Grid>
             </Grid>
           </Grid>
