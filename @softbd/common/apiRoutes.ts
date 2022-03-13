@@ -180,8 +180,6 @@ export const API_PUBLIC_RPL_OCCUPATIONS =
 
 export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
   TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
-export const API_PUBLIC_YOUTH_ASSESSMENTS =
-  TSP_PUBLIC_SERVICE_PATH + '/youth-assessment';
 export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
