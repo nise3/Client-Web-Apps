@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Button, ButtonGroup, Grid} from '@mui/material';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {
+  useFetchPublicRPLLevels,
+  useFetchPublicRPLOccupations,
+  useFetchPublicRPLSectors,
+} from '../../../services/CertificateAuthorityManagement/hooks';
 
 type Props = {
   id: string;
@@ -24,6 +29,56 @@ const JobExperienceFieldArray = ({
   countries,
 }: Props) => {
   const {messages} = useIntl();
+  const [countryFilters] = useState<any>({});
+  const [rplSectorFilters, setRplSectorFilters] = useState<any>(null);
+  const [rplOccupationFilters, setRplOccupationFilters] = useState<any>(null);
+  const [rplLevelFilters, setRplLevelFilters] = useState<any>(null);
+  const [rtoCountryFilters] = useState<any>({});
+  const [selectedCountryId, setSelectedCountryId] = useState(null);
+  const [selectedSectorId, setSelectedSectorId] = useState(null);
+  const [selectedOccupationId, setSelectedOccupationId] = useState(null);
+  const [selectedLevelId, setSelectedLevelId] = useState(null);
+
+  const {data: rplSectors, isLoading: isLoadingSectors} =
+    useFetchPublicRPLSectors(rplSectorFilters);
+
+  const {data: rplOccupations, isLoading: isLoadingOccupations} =
+    useFetchPublicRPLOccupations(rplOccupationFilters);
+
+  const {data: rplLevels, isLoading: isLoadingLevels} =
+    useFetchPublicRPLLevels(rplLevelFilters);
+
+  const onCountryChange = useCallback(
+    (countryId: any) => {
+      console.log(countryId);
+      setRplSectorFilters({country_id: countryId});
+      setSelectedCountryId(countryId);
+    },
+    [selectedCountryId, selectedSectorId],
+  );
+
+  const onSectorChange = useCallback(
+    (sectorId: any) => {
+      setRplOccupationFilters({rpl_sector_id: sectorId});
+      setSelectedSectorId(sectorId);
+    },
+    [selectedSectorId],
+  );
+
+  const onOccupationChange = useCallback(
+    (occupationId: any) => {
+      setRplLevelFilters({rpl_occupation_id: occupationId});
+      setSelectedOccupationId(occupationId);
+    },
+    [selectedOccupationId],
+  );
+
+  const onLevelChange = useCallback(
+    (levelId: any) => {
+      setSelectedLevelId(levelId);
+    },
+    [selectedOccupationId],
+  );
 
   const {fields, append, remove} = useFieldArray({
     control,
@@ -52,6 +107,7 @@ const JobExperienceFieldArray = ({
                   options={countries}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  onChange={onCountryChange}
                 />
               </Grid>
 
@@ -61,9 +117,10 @@ const JobExperienceFieldArray = ({
                   label={messages['common.sector']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={rplSectors}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  onChange={onSectorChange}
                 />
               </Grid>
 
@@ -73,9 +130,10 @@ const JobExperienceFieldArray = ({
                   label={messages['common.occupation']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={rplOccupations}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
+                  onChange={onOccupationChange}
                 />
               </Grid>
 
@@ -85,7 +143,7 @@ const JobExperienceFieldArray = ({
                   label={messages['common.skill_level']}
                   isLoading={false}
                   control={control}
-                  options={[]}
+                  options={rplLevels}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                 />

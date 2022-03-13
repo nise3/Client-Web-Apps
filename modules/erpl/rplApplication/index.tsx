@@ -31,6 +31,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import Religions from '../../../@softbd/utilities/Religions';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -42,8 +44,21 @@ const RPLApplicationForm = () => {
     return yup.object().shape({
       registration_number: yup
         .string()
-        .required()
         .label(messages['common.registration_number'] as string),
+      first_name: yup
+        .string()
+        .required()
+        .label(messages['common.first_name'] as string),
+      first_name_en: yup
+        .string()
+        .label(messages['common.first_name_en'] as string),
+      last_name: yup
+        .string()
+        .required()
+        .label(messages['common.last_name'] as string),
+      last_name_en: yup
+        .string()
+        .label(messages['common.last_name_en'] as string),
     });
   }, [locale]);
   const isLoading = false;
@@ -184,6 +199,27 @@ const RPLApplicationForm = () => {
     [unions],
   );
 
+  const [identityNumberType, setIdentityNumberType] = useState<
+    string | undefined
+  >(IdentityNumberTypes.NID);
+
+  const onIdentityTypeChange = useCallback((value: string) => {
+    setIdentityNumberType(value);
+  }, []);
+
+  const getIdentityNumberFieldCaption = useCallback(() => {
+    switch (String(identityNumberType)) {
+      case IdentityNumberTypes.NID:
+        return messages['common.identity_type_nid'];
+      case IdentityNumberTypes.BIRTH_CERT:
+        return messages['common.identity_type_birth_cert'];
+      case IdentityNumberTypes.PASSPORT:
+        return messages['common.identity_type_passport'];
+      default:
+        return messages['common.identity_type_nid'];
+    }
+  }, [identityNumberType]);
+
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
 
@@ -238,8 +274,8 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='candidate_name'
-              label={messages['common.candidate_name']}
+              id='first_name'
+              label={messages['common.first_name']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -247,9 +283,28 @@ const RPLApplicationForm = () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              id='first_name_en'
+              label={messages['common.first_name_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <CustomTextInput
               required
-              id='candidate_name_en'
-              label={messages['common.candidate_name_en']}
+              id='last_name'
+              label={messages['common.last_name']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomTextInput
+              id='last_name_en'
+              label={messages['common.last_name_en']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -659,51 +714,47 @@ const RPLApplicationForm = () => {
               optionTitleProp={['title']}
             />
           </Grid>
-          <Grid item xs={12}>
-            <FormLabel required={true}>
-              {messages['common.identity_number'] +
-                '(' +
-                messages['common.any_one_must_be_fill_up'] +
-                ')'}
-            </FormLabel>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <CustomTextInput
-                  type={'number'}
-                  id='national_identity'
-                  label={messages['common.national_identity']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomTextInput
-                  type={'number'}
-                  id='birth_certificate'
-                  label={messages['common.identity_type_birth_cert']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomTextInput
-                  type={'number'}
-                  id='passport_number'
-                  label={messages['common.passport_number']}
-                  register={register}
-                  errorInstance={errors}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </Grid>
+
+          <Grid item xs={12} md={6}>
+            <FormRadioButtons
+              id='identity_number_type'
+              label={'common.identity_number_type'}
+              radios={[
+                {
+                  key: IdentityNumberTypes.NID,
+                  label: messages['common.identity_type_nid'],
+                },
+                {
+                  key: IdentityNumberTypes.BIRTH_CERT,
+                  label: messages['common.identity_type_birth_cert'],
+                },
+                {
+                  key: IdentityNumberTypes.PASSPORT,
+                  label: messages['common.identity_type_passport'],
+                },
+              ]}
+              control={control}
+              defaultValue={IdentityNumberTypes.NID}
+              isLoading={false}
+              onChange={onIdentityTypeChange}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <CustomTextInput
+              required
+              id='identity_number'
+              label={getIdentityNumberFieldCaption()}
+              isLoading={false}
+              register={register}
+              errorInstance={errors}
+            />
           </Grid>
 
           <Grid item xs={12}>
             <FileUploadComponent
               required
-              id={'candidate_photo'}
+              id={'photo'}
               errorInstance={errors}
               setValue={setValue}
               register={register}
