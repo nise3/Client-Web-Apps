@@ -769,7 +769,7 @@
   "education.result": "Result",
   "education.marks": "Marks (%)",
   "education.cgpa": "CGPA",
-  "education.cgpa": "GPA",
+  "education.gpa": "GPA",
   "education.cgpa_scale": "Scale",
   "education.passing_year": "Year of passing",
   "education.expected_passing_year": "Expected passing year",
@@ -1640,6 +1640,7 @@
   "answer.type.no": "No",
   "common.assessment": "Assessment",
   "common.assessment_result": "Assessment Result",
+  "common.assessment_fee": "Assessment Fee",
   "common.self_assessment": "Self Assessment",
   "common.sector_occupation": "Sector and Occupation",
   "rto_country.label": "Rto Country",
@@ -1674,5 +1675,9 @@
   "common.passed_text": "Congratulations! You have passed",
   "common.assessor": "Assessor",
   "common.assign_assessor": "Assessor assign",
-  "common.exam_date": "Exam date"
+  "common.exam_date": "Exam date",
+  "assessment_question_set.label": "Assessment Question Set",
+  "question_set.label": "Question Set",
+  "question_set.title": "Question Set Name",
+  "question_set.title_en": "Question Set Name (EN)"
 }

@@ -46,6 +46,7 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   const {
     setError,
     handleSubmit,
+    control,
     setValue,
     formState: {errors, isSubmitting},
   } = useForm({
@@ -77,6 +78,15 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    let assessments = data?.assessment_questions;
+    let questionSetId = data?.assessment_question_set_id;
+
+    if (assessments && questionSetId) {
+      assessments.map((assessment: any) => {
+        assessment.assessment_question_set_id = questionSetId;
+      });
+    }
+    delete data.assessment_question_set_id;
     if (!isQuestionEditFormOpened) {
       try {
         await addQuestionsToAssessment(data);
@@ -127,6 +137,8 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
             assessmentId={itemId}
             getQuestionSet={getQuestionSet}
             onEditPopupOpenClose={onEditPopupOpenClose}
+            control={control}
+            errors={errors}
           />
         </Grid>
         <Grid item xs={12}>

@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import {
   useFetchAssessmentQuestions,
+  useFetchAssessmentQuestionSets,
   useFetchQuestionBanks,
   useFetchSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
@@ -24,6 +25,7 @@ import {Edit} from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionEdit from './QuestionEdit';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -37,12 +39,16 @@ interface TransferListProps {
   assessmentId: number | string;
   getQuestionSet: any;
   onEditPopupOpenClose: (open: boolean) => void;
+  control: any;
+  errors: any;
 }
 
 const TransferList: FC<TransferListProps> = ({
   assessmentId,
   getQuestionSet,
   onEditPopupOpenClose,
+  control,
+  errors,
 }) => {
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
@@ -56,6 +62,19 @@ const TransferList: FC<TransferListProps> = ({
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
+
+  const [assessmentQuestionSetFilter] = useState({
+    assessment_id: assessmentId,
+  });
+
+  const [selectedSet, setSelectedSet] = useState<any>([]);
+
+  const onQuestionSetChange = (questionSetId: any) => {
+    setSelectedSet(questionSetId);
+  };
+
+  const {data: questionSetData, isLoading: isLoadingAssessment} =
+    useFetchAssessmentQuestionSets(assessmentQuestionSetFilter);
 
   const [assessmentQuestionFilter] = useState({
     assessment_id: assessmentId,
@@ -174,8 +193,6 @@ const TransferList: FC<TransferListProps> = ({
 
   const getEditedQuestion = useCallback(
     (updatedQuestion: any) => {
-      console.log('the edited question: ', updatedQuestion);
-
       let questionList = [...rightQuestionList];
 
       let foundIndex = questionList.findIndex(
@@ -183,9 +200,6 @@ const TransferList: FC<TransferListProps> = ({
       );
       questionList[foundIndex] = updatedQuestion;
 
-      console.log('foundIndex: ', foundIndex);
-
-      console.log('questionList: ', questionList);
       setRightQuestionList(questionList);
     },
     [rightQuestionList],
@@ -232,7 +246,9 @@ const TransferList: FC<TransferListProps> = ({
                     />
                   )}
                 </AccordionSummary>
-                <AccordionDetails></AccordionDetails>
+                <AccordionDetails>
+                  <Typography>{value?.answer}</Typography>
+                </AccordionDetails>
               </Accordion>
             </ListItem>
           );
@@ -245,7 +261,23 @@ const TransferList: FC<TransferListProps> = ({
   return (
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'assessment_question_set_id'}
+            label={messages['question_set.label']}
+            isLoading={isLoadingAssessment}
+            control={control}
+            options={questionSetData}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            defaultValue={selectedSet}
+            errorInstance={errors}
+            onChange={onQuestionSetChange}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <CustomFilterableSelect
             id={'subject_id'}
             label={messages['subject.select_first']}
@@ -257,7 +289,6 @@ const TransferList: FC<TransferListProps> = ({
             onChange={handleSubjectChange}
           />
         </Grid>
-        <Grid item xs={7} />
         <Grid item xs={5}>
           {isFetchingQuestions ? (
             <Skeleton

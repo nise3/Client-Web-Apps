@@ -1639,6 +1639,7 @@
   "common.assessment": "মূল্যায়ন",
   "common.self_assessment": "নিজেকে যাচাইকরণ",
   "common.assessment_result": "মূল্যায়ন ফলাফল",
+  "common.assessment_fee": "মূল্যায়ন ফি",
   "rto_country.label": "আরটিও দেশ",
   "rto_batch.label": "আরটিও ব্যাচ",
   "common.rto_sector_exceptions": "আরটিও সেক্টর ব্যতিক্রম",
@@ -1675,5 +1676,9 @@
   "common.assessor": "মূল্যায়নকারী",
   "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
   "common.exam_date": "পরীক্ষার দিন",
-  "rpl_application.label": "আরপিএল আবেদন"
+  "rpl_application.label": "আরপিএল আবেদন",
+  "assessment_question_set.label": "অ্যাসেসমেন্ট প্রশ্ন সেট",
+  "question_set.label": "প্রশ্ন সেট",
+  "question_set.title": "প্রশ্ন সেট",
+  "question_set.title_en": "প্রশ্ন সেট (ইংরেজি)"
 }

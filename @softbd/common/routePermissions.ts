@@ -101,7 +101,7 @@ export const routePermissions: any = {
   },
   '/assessment-management': {
     routePrefix: '/assessment-management',
-    permissionKeys: ['view_any_youth_assessment'],
+    permissionKeys: ['view_any_rpl_application'],
   },
   '/hr-demand': {
     routePrefix: '/hr-demand',
@@ -254,5 +254,9 @@ export const routePermissions: any = {
   '/rpl-batches': {
     routePrefix: '/rpl-batches',
     permissionKeys: ['view_any_ca_assigned_batches'],
+  },
+  '/assessment-question-sets': {
+    routePrefix: '/assessment-question-sets',
+    permissionKeys: ['view_any_assessment_question_set'],
   },
 };
