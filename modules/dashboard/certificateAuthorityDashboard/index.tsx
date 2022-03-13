@@ -2,7 +2,7 @@ import {styled} from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {ICertificateAuthorityDashboardStatistics} from '../../../shared/Interface/dashboard.interface';
-import {useFetchDashboardStatistics} from '../../../services/global/hooks';
+import {useFetchCertificationAuthorityDashboardStatistics} from '../../../services/global/hooks';
 import StyledTile from '../../../@softbd/Tile/StyledTile';
 import clsx from 'clsx';
 
@@ -85,8 +85,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 const CertificateAuthorityDashboard = () => {
   const [dashStatistics, setDashStatistics] =
     useState<ICertificateAuthorityDashboardStatistics>();
-  //TODO: api is not ready, this not relevant api
-  let {data: statistics} = useFetchDashboardStatistics();
+  let {data: statistics} = useFetchCertificationAuthorityDashboardStatistics();
 
   // debugger
   useEffect(() => {

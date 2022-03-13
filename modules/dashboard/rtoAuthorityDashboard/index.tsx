@@ -2,7 +2,7 @@ import {styled} from '@mui/material/styles';
 import {Box, Grid} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {IRtoDashboardStatistics} from '../../../shared/Interface/dashboard.interface';
-import {useFetchDashboardStatistics} from '../../../services/global/hooks';
+import {useFetchRTODashboardStatistics} from '../../../services/global/hooks';
 import StyledTile from '../../../@softbd/Tile/StyledTile';
 import clsx from 'clsx';
 
@@ -64,8 +64,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 const RtoAuthorityDashboard = () => {
   const [dashStatistics, setDashStatistics] =
     useState<IRtoDashboardStatistics>();
-  //TODO: api is not ready, this not relevant api
-  let {data: statistics} = useFetchDashboardStatistics();
+  let {data: statistics} = useFetchRTODashboardStatistics();
 
   // debugger
   useEffect(() => {
