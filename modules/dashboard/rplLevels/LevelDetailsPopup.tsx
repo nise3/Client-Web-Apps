@@ -69,6 +69,13 @@ const LevelDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <DetailsInputView
+                  label={messages['common.title_en']}
+                  value={itemData?.title_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
                   label={messages['occupations.label']}
                   value={itemData?.rpl_occupation_title}
                   isLoading={isLoading}

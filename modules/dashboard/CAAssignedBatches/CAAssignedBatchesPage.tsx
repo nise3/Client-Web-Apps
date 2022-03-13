@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -14,13 +14,31 @@ import {useRouter} from 'next/router';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import CABatchManagePopup from './CABatchManagePopup';
+import EditIcon from '@mui/icons-material/Edit';
 
 const CAAssignedBatchesPage = () => {
   const {messages, locale} = useIntl();
   const router = useRouter();
   const path = router.pathname;
   const authUser = useAuthUser<CommonAuthUser>();
-  console.log('authUser now : ', authUser);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenBatchManageModal, setIsOpenBatchManageModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const closeBatchManageModal = useCallback(() => {
+    setIsOpenBatchManageModal(false);
+    setSelectedItemId(null);
+  }, []);
+
+  const openBatchManageModal = useCallback((itemId: number | null = null) => {
+    setIsOpenBatchManageModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prevToggle: any) => !prevToggle);
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -56,8 +74,19 @@ const CAAssignedBatchesPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let itemId = data?.id;
           return (
             <DatatableButtonGroup>
+              <CommonButton
+                onClick={() => {
+                  openBatchManageModal(itemId);
+                }}
+                btnText='common.manage'
+                startIcon={<EditIcon style={{marginLeft: '5px'}} />}
+                style={{marginLeft: '10px'}}
+                variant='outlined'
+                color='primary'
+              />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton
                   btnText='youth.label'
@@ -101,7 +130,15 @@ const CAAssignedBatchesPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
+        {isOpenBatchManageModal && (
+          <CABatchManagePopup
+            onClose={closeBatchManageModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
       </PageBlock>
     </>
   );
