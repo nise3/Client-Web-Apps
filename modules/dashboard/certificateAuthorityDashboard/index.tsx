@@ -85,6 +85,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 const CertificateAuthorityDashboard = () => {
   const [dashStatistics, setDashStatistics] =
     useState<ICertificateAuthorityDashboardStatistics>();
+  //TODO: api is not ready, this not relevant api
   let {data: statistics} = useFetchDashboardStatistics();
 
   // debugger
