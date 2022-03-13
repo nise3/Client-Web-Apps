@@ -14,3 +14,18 @@ export interface IDashboardMostDemandableCourse {
   value: number;
   name: string;
 }
+
+export interface ICertificateAuthorityDashboardStatistics {
+  total_rpl_batches: number | bigint;
+  total_provided_certificates: number | bigint;
+  total_rtos: number | bigint;
+  total_sectors: number | bigint;
+  total_occupations: number | bigint;
+  total_trainers: number | bigint;
+}
+
+export interface IRtoDashboardStatistics {
+  total_batches: number | bigint;
+  total_rpl_applications: number | bigint;
+  total_youths: number | bigint;
+}
