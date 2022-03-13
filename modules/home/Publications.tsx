@@ -51,6 +51,7 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     padding: '10px',
+    fontWeight: 'bold',
   },
 }));
 
