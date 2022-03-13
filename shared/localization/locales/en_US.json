@@ -439,7 +439,7 @@
   "certificate_authority.label": "Certificate Authority",
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
-  "certificate_authority.batch": "C.A. Batch",
+  "certificate_authority.batch": "RPL batch",
   "rto.label": "RTO",
   "rto.name": "RTO Name",
   "rpl_sectors.label": "RPL Sectors",
@@ -1671,5 +1671,8 @@
   "common.registered_training_center_institute_assessment_center": "Name of Registered Training / Educational Institution / Assessment Center",
   "common.any_one_must_be_fill_up": "Fill at least one",
   "common.candidate_photo": "Candidate Photo",
-  "common.passed_text": "Congratulations! You have passed"
+  "common.passed_text": "Congratulations! You have passed",
+  "common.assessor": "Assessor",
+  "common.assign_assessor": "Assessor assign",
+  "common.exam_date": "Exam date"
 }

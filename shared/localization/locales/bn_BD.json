@@ -381,7 +381,7 @@
   "certificate_authority.label": "সার্টিফিকেট অথোরিটি",
   "certificate_authority.details": "সার্টিফিকেট অথোরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথোরিটি ব্যবস্থাপনা",
-  "certificate_authority.batch": "সি. এ. ব্যাচ",
+  "certificate_authority.batch": "আর পি এল ব্যাচ",
   "rto.label": "আরটিও",
   "rto.name": "আরটিও নাম",
   "common.number_of_youth": "ইউথ এর সংখ্যা",
@@ -1671,5 +1671,8 @@
   "common.passed_text": "অভিনন্দন! আপনি পাস করেছেন",
   "common.bangladesh_technical_education_board_dhaka": "বাংলাদেশ কারিগরি শিক্ষা বোর্ড, ঢাকা",
   "common.application_header_text": "জাতীয় কারিগরি ও বৃত্তিমূলক যোগ্যতা কাঠামোর (NTVQF) আওতায় প্রশিক্ষণার্থী ভর্তির আবেদনপত্র",
-  "common.fill_according_to_educational_certificate": "শিক্ষাগত যোগ্যতার সনদ অনুসারে স্বহস্তে পূরণ করতে হবে"
+  "common.fill_according_to_educational_certificate": "শিক্ষাগত যোগ্যতার সনদ অনুসারে স্বহস্তে পূরণ করতে হবে",
+  "common.assessor": "মূল্যায়নকারী",
+  "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
+  "common.exam_date": "পরীক্ষার দিন"
 }
