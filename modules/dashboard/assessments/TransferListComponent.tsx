@@ -55,12 +55,21 @@ const TransferList: FC<TransferListProps> = ({
 
   const [subjectId, setSubjectId] = useState<any>(null);
   const [subjectFilters] = useState({});
-  const [questionSetFilters] = useState({});
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
 
-  const {data: questionSets, isLoading: isFetchingQuestionSets} =
-    useFetchAssessmentQuestionSets(questionSetFilters);
+  const [assessmentQuestionSetFilter] = useState({
+    assessment_id: assessmentId,
+  });
+
+  const [selectedAssessmentList, setSelectedAssessmentList] = useState<any>([]);
+
+  const onAssessmentChange = useCallback((options) => {
+    setSelectedAssessmentList(options);
+  }, []);
+
+  const {data: questionSetData, isLoading: isLoadingAssessment} =
+    useFetchAssessmentQuestionSets(assessmentQuestionSetFilter);
 
   const [assessmentQuestionFilter] = useState({
     assessment_id: assessmentId,
@@ -110,15 +119,6 @@ const TransferList: FC<TransferListProps> = ({
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
-
-  const handleAssessmentChange = (assessmentId: any) => {
-    setSubjectId(assessmentId ? assessmentId : null);
-    if (assessmentId) {
-      setQuestionFilter({
-        assessmentId: assessmentId,
-      });
-    }
-  };
 
   const handleSubjectChange = (subjectId: any) => {
     setSubjectId(subjectId ? subjectId : null);
@@ -188,8 +188,6 @@ const TransferList: FC<TransferListProps> = ({
 
   const getEditedQuestion = useCallback(
     (updatedQuestion: any) => {
-      console.log('the edited question: ', updatedQuestion);
-
       let questionList = [...rightQuestionList];
 
       let foundIndex = questionList.findIndex(
@@ -197,9 +195,6 @@ const TransferList: FC<TransferListProps> = ({
       );
       questionList[foundIndex] = updatedQuestion;
 
-      console.log('foundIndex: ', foundIndex);
-
-      console.log('questionList: ', questionList);
       setRightQuestionList(questionList);
     },
     [rightQuestionList],
@@ -246,7 +241,9 @@ const TransferList: FC<TransferListProps> = ({
                     />
                   )}
                 </AccordionSummary>
-                <AccordionDetails></AccordionDetails>
+                <AccordionDetails>
+                  <Typography>{value?.answer}</Typography>
+                </AccordionDetails>
               </Accordion>
             </ListItem>
           );
@@ -259,19 +256,23 @@ const TransferList: FC<TransferListProps> = ({
   return (
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableSelect
-            id={'assessment_question_set_id'}
-            label={messages['assessment.label']}
-            isLoading={isFetchingQuestionSets}
-            // defaultValue={subjectId}
-            options={questionSets}
-            optionValueProp={'id'}
+            required
+            id='assessment_id'
+            label={messages['question_set.label']}
+            isLoading={isLoadingAssessment}
+            // control={control}
+            options={questionSetData}
+            optionValueProp='id'
             optionTitleProp={['title']}
-            onChange={handleAssessmentChange}
+            defaultValue={selectedAssessmentList}
+            // errorInstance={errors}
+            onChange={onAssessmentChange}
           />
         </Grid>
-        <Grid item xs={12}>
+
+        <Grid item xs={12} md={6}>
           <CustomFilterableSelect
             id={'subject_id'}
             label={messages['subject.select_first']}
@@ -283,7 +284,6 @@ const TransferList: FC<TransferListProps> = ({
             onChange={handleSubjectChange}
           />
         </Grid>
-        <Grid item xs={7} />
         <Grid item xs={5}>
           {isFetchingQuestions ? (
             <Skeleton
