@@ -25,6 +25,7 @@ import {Edit} from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionEdit from './QuestionEdit';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -38,12 +39,16 @@ interface TransferListProps {
   assessmentId: number | string;
   getQuestionSet: any;
   onEditPopupOpenClose: (open: boolean) => void;
+  control: any;
+  errors: any;
 }
 
 const TransferList: FC<TransferListProps> = ({
   assessmentId,
   getQuestionSet,
   onEditPopupOpenClose,
+  control,
+  errors,
 }) => {
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
@@ -62,11 +67,11 @@ const TransferList: FC<TransferListProps> = ({
     assessment_id: assessmentId,
   });
 
-  const [selectedAssessmentList, setSelectedAssessmentList] = useState<any>([]);
+  const [selectedSet, setSelectedSet] = useState<any>([]);
 
-  const onAssessmentChange = useCallback((options) => {
-    setSelectedAssessmentList(options);
-  }, []);
+  const onQuestionSetChange = (questionSetId: any) => {
+    setSelectedSet(questionSetId);
+  };
 
   const {data: questionSetData, isLoading: isLoadingAssessment} =
     useFetchAssessmentQuestionSets(assessmentQuestionSetFilter);
@@ -257,18 +262,18 @@ const TransferList: FC<TransferListProps> = ({
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
         <Grid item xs={12} md={6}>
-          <CustomFilterableSelect
+          <CustomFilterableFormSelect
             required
-            id='assessment_id'
+            id={'assessment_question_set_id'}
             label={messages['question_set.label']}
             isLoading={isLoadingAssessment}
-            // control={control}
+            control={control}
             options={questionSetData}
-            optionValueProp='id'
+            optionValueProp={'id'}
             optionTitleProp={['title']}
-            defaultValue={selectedAssessmentList}
-            // errorInstance={errors}
-            onChange={onAssessmentChange}
+            defaultValue={selectedSet}
+            errorInstance={errors}
+            onChange={onQuestionSetChange}
           />
         </Grid>
 
