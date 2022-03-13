@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {Grid} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import {
@@ -150,102 +150,104 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
   }, [getValues]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
-        <CustomFilterableFormSelect
-          required
-          id='target_country_id'
-          label={messages['common.country']}
-          isLoading={isLoadingCountries}
-          control={control}
-          options={countries}
-          optionValueProp={'country_id'}
-          optionTitleProp={['title']}
-          errorInstance={errors}
-          onChange={onCountryChange}
-        />
-      </Grid>
-      {selectedCountryId && (
-        <Grid item xs={12} md={6}>
+    <Container maxWidth={'md'}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
           <CustomFilterableFormSelect
             required
-            id='rpl_sector_id'
-            label={messages['rpl_sector.label']}
-            isLoading={isLoadingSectors}
+            id='target_country_id'
+            label={messages['common.country']}
+            isLoading={isLoadingCountries}
             control={control}
-            options={rplSectors}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-            onChange={onSectorChange}
-          />
-        </Grid>
-      )}
-      {selectedSectorId && (
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='rpl_occupation_id'
-            label={messages['rpl_occupation.label']}
-            isLoading={isLoadingOccupations}
-            control={control}
-            options={rplOccupations}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-            onChange={onOccupationChange}
-          />
-        </Grid>
-      )}
-      {selectedOccupationId && (
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='rpl_level_id'
-            label={messages['rpl_level.label']}
-            isLoading={isLoadingLevels}
-            control={control}
-            options={rplLevels}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'sequence_order']}
-            errorInstance={errors}
-            onChange={onLevelChange}
-          />
-        </Grid>
-      )}
-      {selectedLevelId && (
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='rto_country_id'
-            label={messages['rto_country.label']}
-            isLoading={isLoadingRtoCountries}
-            control={control}
-            options={rtoCountries}
+            options={countries}
             optionValueProp={'country_id'}
             optionTitleProp={['title']}
             errorInstance={errors}
-            onChange={onRtoCountryChange}
+            onChange={onCountryChange}
           />
         </Grid>
-      )}
+        {selectedCountryId && (
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
+              id='rpl_sector_id'
+              label={messages['rpl_sector.label']}
+              isLoading={isLoadingSectors}
+              control={control}
+              options={rplSectors}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+              onChange={onSectorChange}
+            />
+          </Grid>
+        )}
+        {selectedSectorId && (
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
+              id='rpl_occupation_id'
+              label={messages['rpl_occupation.label']}
+              isLoading={isLoadingOccupations}
+              control={control}
+              options={rplOccupations}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+              onChange={onOccupationChange}
+            />
+          </Grid>
+        )}
+        {selectedOccupationId && (
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
+              id='rpl_level_id'
+              label={messages['rpl_level.label']}
+              isLoading={isLoadingLevels}
+              control={control}
+              options={rplLevels}
+              optionValueProp={'id'}
+              optionTitleProp={['title', 'sequence_order']}
+              errorInstance={errors}
+              onChange={onLevelChange}
+            />
+          </Grid>
+        )}
+        {selectedLevelId && (
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
+              id='rto_country_id'
+              label={messages['rto_country.label']}
+              isLoading={isLoadingRtoCountries}
+              control={control}
+              options={rtoCountries}
+              optionValueProp={'country_id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+              onChange={onRtoCountryChange}
+            />
+          </Grid>
+        )}
 
-      {selectedRtoCountryId && (
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='rto_id'
-            label={messages['rto.label']}
-            isLoading={isLoadingRtoLists}
-            control={control}
-            options={rtoList}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-          />
-        </Grid>
-      )}
-    </Grid>
+        {selectedRtoCountryId && (
+          <Grid item xs={12}>
+            <CustomFilterableFormSelect
+              required
+              id='rto_id'
+              label={messages['rto.label']}
+              isLoading={isLoadingRtoLists}
+              control={control}
+              options={rtoList}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+      </Grid>
+    </Container>
   );
 };
 

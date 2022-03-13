@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import {PaymentMethods} from '../../../@softbd/utilities/PaymentMethods';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {youthDomain} from '../../../@softbd/common/constants';
 import {assessmentPaymentPay} from '../../../services/youthManagement/YouthService';
 
 const PREFIX = 'ChoosePayment';
@@ -22,6 +21,7 @@ const classes = {
 
 const StyledContainer = styled(Container)(({theme}) => ({
   display: 'flex',
+  margin: '10px auto',
 
   [`& .${classes.paperBox}`]: {
     margin: 'auto',
@@ -70,11 +70,12 @@ const AssessmentPaymentMethods = () => {
           try {
             setIsDisableLayout(true);
             if (assessmentId) {
-              const paymentRedirectTo = youthDomain() + '/assessment-payment/';
+              const paymentRedirectTo =
+                window.location.origin + '/assessment-payment/';
 
               let data = {
                 payment_gateway_type: method,
-                assessment_id: assessmentId,
+                youth_assessment_id: assessmentId,
                 feed_uri: {
                   success: paymentRedirectTo + 'success',
                   failed: paymentRedirectTo + 'failed',
