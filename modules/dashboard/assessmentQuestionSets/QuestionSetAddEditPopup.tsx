@@ -15,7 +15,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ISkill} from '../../../shared/Interface/organization.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchAssessmentQuestionSets,
+  useFetchAssessmentQuestionSet,
   useFetchAssessments,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {IQuestionSet} from '../../../shared/Interface/institute.interface';
@@ -52,7 +52,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateSubject,
-  } = useFetchAssessmentQuestionSets(itemId);
+  } = useFetchAssessmentQuestionSet(itemId);
 
   const [assessmentFilters] = useState<any>({});
 
@@ -69,7 +69,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
         .string()
         .title()
         .required()
-        .label(messages['questionSet.title'] as string),
+        .label(messages['question_set.title'] as string),
       assessment_id: yup
         .string()
         .trim()
@@ -112,11 +112,11 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     try {
       if (itemId) {
         await updateAssessmentQuestionSet(itemId, data);
-        updateSuccessMessage('questionSet.label');
+        updateSuccessMessage('question_set.label');
         mutateSubject();
       } else {
         await createAssessmentQuestionSet(data);
-        createSuccessMessage('questionSet.label');
+        createSuccessMessage('question_set.label');
       }
       props.onClose();
       refreshDataTable();
@@ -177,7 +177,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='title'
-            label={messages['questionSet.title']}
+            label={messages['question_set.title']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -186,7 +186,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
         <Grid item xs={12}>
           <CustomTextInput
             id='title_en'
-            label={messages['questionSet.title_en']}
+            label={messages['question_set.title_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
