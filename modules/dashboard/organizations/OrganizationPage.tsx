@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -18,6 +18,8 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 
 const OrganizationPage = () => {
   const {successStack} = useNotiStack();
@@ -27,6 +29,27 @@ const OrganizationPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [organizationTypeFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [organizationTypeFilterItems, setOrganizationTypeFilterItems] =
+    useState([]);
+  const {data: organizationTypes} = useFetchOrganizationTypes(
+    organizationTypeFilters,
+  );
+
+  useEffect(() => {
+    if (organizationTypes) {
+      setOrganizationTypeFilterItems(
+        organizationTypes.map((type: any) => {
+          return {
+            id: type?.id,
+            title: type?.title,
+          };
+        }),
+      );
+    }
+  }, [organizationTypes]);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -107,7 +130,11 @@ const OrganizationPage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['organization_type.label_en'],
+        Header: messages['common.memberId'],
+        accessor: 'membership_id',
+      },
+      {
+        Header: messages['organization_type.label'],
         accessor: 'organization_type_title_en',
         disableFilters: true,
         disableSortBy: true,
@@ -115,10 +142,15 @@ const OrganizationPage = () => {
       },
       {
         Header: messages['organization_type.label'],
-        accessor: 'organization_type_title',
-        disableFilters: true,
+        accessor: 'organization_type_id',
+        filter: 'selectFilter',
+        selectFilterItems: organizationTypeFilterItems,
         disableSortBy: true,
         isVisible: locale == LocaleLanguage.BN,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.organization_type_title}</>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -160,7 +192,7 @@ const OrganizationPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale, organizationTypeFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

@@ -47,7 +47,7 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 }
 
 export function useFetchAllInstitutes(params: any) {
-  return useAxiosSWR([API_INSTITUTES, params]);
+  return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
 }
 
 export function useFetchBranch(branchId: number | null) {
@@ -143,7 +143,9 @@ export function useFetchTrainers(params: any) {
 }
 
 export function useFetchPublicTrainingCenters(params: any) {
-  return useDataLocalizationAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_TRAINING_CENTERS, params] : null,
+  );
 }
 
 /** fetches a single application's details */

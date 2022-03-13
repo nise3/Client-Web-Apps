@@ -365,6 +365,36 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     }
   };
 
+  let [imgwidth, setImgWidth] = useState<string>('1080');
+  let [imgheight, setImgHeight] = useState<string>('550');
+
+  const templateOnChange = (e: any) => {
+    switch (e) {
+      case 'BT_CB':
+        setImgWidth('1080');
+        setImgHeight('550');
+        break;
+
+      case 'BT_LR':
+        setImgWidth('720');
+        setImgHeight('450');
+        break;
+
+      case 'BT_RL':
+        setImgWidth('720');
+        setImgHeight('450');
+        break;
+
+      case 'BT_OB':
+        setImgWidth('1080');
+        setImgHeight('550');
+        break;
+
+      default:
+        setImgWidth('1080');
+        setImgHeight('550');
+    }
+  };
   return (
     <HookFormMuiModal
       open={true}
@@ -394,7 +424,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item container xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
             id={'slider_id'}
@@ -430,6 +460,20 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id={'banner_template_code'}
+            label={messages['slider.banner_template_code']}
+            isLoading={false}
+            control={control}
+            options={templateCodes}
+            optionValueProp={'code'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={templateOnChange}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='banner_image_path'
             defaultFileUrl={itemData?.banner_image_path}
@@ -438,8 +482,8 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             register={register}
             label={messages['common.image_path']}
             required={true}
-            height={'550'}
-            width={'1080'}
+            height={imgheight}
+            width={imgwidth}
           />
         </Grid>
 
@@ -499,19 +543,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             </Grid>
           </React.Fragment>
         )}
-
-        <Grid item container xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id={'banner_template_code'}
-            label={messages['slider.banner_template_code']}
-            isLoading={false}
-            control={control}
-            options={templateCodes}
-            optionValueProp={'code'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-          />
-        </Grid>
 
         <Grid item xs={12}>
           <Grid container spacing={5}>

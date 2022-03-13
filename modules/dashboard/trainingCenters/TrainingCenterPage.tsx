@@ -17,9 +17,13 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 const TrainingCenterPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -82,17 +86,24 @@ const TrainingCenterPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
+        Header: messages['institute.label'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
       {
         Header: messages['institute.label'],
-        accessor: 'institute_title_en',
+        accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
       },
       {
         Header: messages['branch.label'],
-        accessor: 'branch_title_en',
+        accessor: 'branch_title',
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
       },
       {
         Header: messages['common.status'],

@@ -164,6 +164,7 @@ export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
+export const API_YOUTH_FEED_DATA_LIST = YOUTH_SERVICE_PATH + '/youth-feed';
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
 export const API_YOUTH_COURSES = YOUTH_SERVICE_PATH + '/youth-my-courses';
@@ -195,6 +196,7 @@ export const API_YOUTH_SETTINGS_CHANGE_PASSWORD =
   YOUTH_SERVICE_PATH + '/settings/changePassword';
 
 export const API_YOUTH_APPLY_JOB = YOUTH_SERVICE_PATH + '/apply-job';
+export const API_YOUTH_JOB_RESPONSE = YOUTH_SERVICE_PATH + '/respond-to-job';
 
 /** Youth service routes section end */
 
@@ -294,6 +296,8 @@ export const API_INDUSTRY_ASSOCIATION_MEMBERS =
   ORGANIZATION_SERVICE_PATH + '/industry-association-members';
 
 export const API_JOBS = ORGANIZATION_SERVICE_PATH + '/jobs';
+export const API_MEMBER_JOBS =
+  ORGANIZATION_SERVICE_PATH + '/jobs/industry-association-member-jobs';
 export const API_JOB_ID = API_JOBS + '/job-id';
 
 export const API_JOB_STORE_PRIMARY_INFORMATION =
@@ -380,6 +384,15 @@ export const API_CANDIDATE_UPDATE = API_JOBS + '/candidate/';
 
 export const API_CANDIDATE_STEP_SCHEDULE = API_JOBS + '/step-schedule';
 export const API_CANDIDATE_SCHEDULE = API_JOBS + '/step-schedule';
+export const API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE =
+  API_JOBS + '/show-in-landing-page-status-change';
+export const API__PUBLIC_NASCIB_MEMBER_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/public/nascib-members/open-registration';
+export const API_PUBLIC_NASCIB_MEMBER_STATIC_DATA =
+  ORGANIZATION_SERVICE_PATH + '/public/nascib-members/get-static-data';
+export const API_PUBLIC_NASCIB_MEMBER_REGISTRATION_PAYMENT_PAGE =
+  ORGANIZATION_SERVICE_PATH +
+  '/public/nascib-members/payment/pay-via-ssl/pay-now';
 
 //Industry Association section end
 
@@ -435,6 +448,7 @@ export const API_VISITOR_FEEDBACKS =
 export const API_STATIC_PAGE_TYPES = CMS_SERVICE_PATH + '/static-page-types';
 export const API_STATIC_PAGE_BLOCKS = CMS_SERVICE_PATH + '/static-page-blocks/';
 export const API_CALENDAR_EVENTS = CMS_SERVICE_PATH + '/calender-events';
+export const API_NISE_PUBLICATIONS = CMS_SERVICE_PATH + '/publications';
 
 /** CMS service routes section end */
 
@@ -458,10 +472,16 @@ export const API_PUBLIC_VISITOR_FEEDBACKS =
   CMS_SERVICE_PUBLIC_PATH + '/visitor-feedback-suggestions';
 export const API_PUBLIC_NISE_STATICS =
   CMS_SERVICE_PUBLIC_PATH + '/nise-statistics';
+export const API_PUBLIC_PUBLICATIONS =
+  CMS_SERVICE_PUBLIC_PATH + '/publications';
 
 /** CMS service public routes section end */
 
-/**             Registered Training Organizations             */
+/** Registered Training Organizations */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =
   INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
+
+export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
+
+export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';

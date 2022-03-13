@@ -1,5 +1,5 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack} from '@mui/material';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Button, Grid, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import TrainingCenterCard from './components/TrainingCenterCard';
@@ -11,6 +11,12 @@ import {styled} from '@mui/material/styles';
 import {H2, Link} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
+import {useRouter} from 'next/router';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import {
+  getFilteredQueryParams,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -35,13 +41,11 @@ const NearbyTrainingCenterSection = ({
 }: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const page = useRef<any>(1);
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
-    useState<any>({
-      district_id: authUser?.loc_district_id,
-      upazila_id: authUser?.loc_upazila_id,
-      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
-    });
+    useState<any>(null);
 
   const {
     data: nearbyTrainingCenters,
@@ -49,13 +53,84 @@ const NearbyTrainingCenterSection = ({
     metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
 
-  const page = useRef<any>(1);
-  const onPaginationChange = useCallback((event: any, currentPage: number) => {
-    page.current = currentPage;
-    setNearbyTrainingCenterFilters((params: any) => {
-      return {...params, ...{page: currentPage}};
-    });
-  }, []);
+  useEffect(() => {
+    let params: any = {
+      district_id: authUser?.loc_district_id,
+      upazila_id: authUser?.loc_upazila_id,
+      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
+    };
+
+    if (showAllNearbyTrainingCenter) {
+      let modifiedParams = getFilteredQueryParams(
+        router.query,
+        PageSizes.EIGHT,
+        page.current,
+      );
+
+      if (Object.keys(modifiedParams).length > 0)
+        urlParamsUpdate(modifiedParams);
+      params = {...params, ...modifiedParams};
+      if (modifiedParams.page) {
+        page.current = modifiedParams.page;
+      }
+    }
+    setNearbyTrainingCenterFilters(objectFilter(params));
+  }, [authUser]);
+
+  useEffect(() => {
+    if (
+      Number(router.query?.page) &&
+      trainingCentersMetaData &&
+      trainingCentersMetaData.total > 0 &&
+      trainingCentersMetaData.total_page < Number(router.query.page)
+    ) {
+      page.current = 1;
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: page.current,
+      }));
+      urlParamsUpdate({...router.query, page: page.current});
+    }
+  }, [trainingCentersMetaData, router.query]);
+
+  const urlParamsUpdate = (params: any) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: params,
+      },
+      undefined,
+      {shallow: true},
+    );
+  };
+
+  const onPaginationChange = useCallback(
+    (event: any, currentPage: number) => {
+      page.current = currentPage;
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: currentPage,
+      }));
+      urlParamsUpdate({...router.query, page: currentPage});
+    },
+    [router.query],
+  );
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllNearbyTrainingCenter
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate({...router.query, page_size: event.target.value});
+    },
+    [router.query],
+  );
+
   return (
     <StyledGrid container spacing={3}>
       <Grid item xs={12} sm={12} md={12}>
@@ -103,12 +178,13 @@ const NearbyTrainingCenterSection = ({
                     display={'flex'}
                     justifyContent={'center'}>
                     <Stack spacing={2}>
-                      <Pagination
-                        page={page.current}
+                      <CustomPaginationWithPageNumber
                         count={trainingCentersMetaData.total_page}
-                        color={'primary'}
-                        shape='rounded'
-                        onChange={onPaginationChange}
+                        currentPage={1}
+                        queryPageNumber={page.current}
+                        onPaginationChange={onPaginationChange}
+                        rowsPerPage={Number(router.query.page_size)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                       />
                     </Stack>
                   </Grid>

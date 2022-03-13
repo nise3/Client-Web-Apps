@@ -15,6 +15,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useRouter} from 'next/router';
 import {gotoLoginSignUpPage} from '../../../../@softbd/common/constants';
 import JobApplyPopup from '../../../../@softbd/components/JobApplyPopup';
+import {SHOW} from '../../../dashboard/jobLists/jobPost/enums/JobPostEnums';
 
 const PREFIX = 'RecentJobComponent';
 
@@ -32,6 +33,9 @@ const StyledBox = styled(Box)(({theme}) => ({
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
+    '& img': {
+      objectFit: 'contain',
+    },
   },
 
   [`& .${classes.jobTitle}`]: {
@@ -71,11 +75,46 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
     }
   }, []);
 
+  const getJobProviderTitle = () => {
+    if (data?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (data?.industry_association_id) {
+        if (data?.organization_id) {
+          return data?.organization_title;
+        } else {
+          return data?.industry_association_title;
+        }
+      } else if (data?.organization_id) {
+        return data?.organization_title;
+      } else {
+        return '';
+      }
+    } else {
+      return data?.company_info_visibility?.company_name;
+    }
+  };
+
+  const getCompanyAddress = () => {
+    let address: string = '';
+
+    if (data?.industry_association_id) {
+      if (data?.organization_id) {
+        address = data?.organization_address;
+      } else {
+        address = data?.industry_association_address;
+      }
+    } else if (data?.organization_id) {
+      address = data?.organization_address;
+    }
+
+    return address;
+  };
+
   return (
     <StyledBox display={'flex'}>
       <Box>
         <Avatar
           alt='provider image'
+          variant={'square'}
           src={data.industry_association_logo}
           className={classes.jobProviderImage}
         />
@@ -85,8 +124,7 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
           {data?.job_title}
         </H3>
         <Box className={classes.jobProviderName}>
-          {data?.industry_association_title ?? data?.industry_title} &#8226;{' '}
-          {data.industry_association_address ?? messages['no_location']}
+          {getJobProviderTitle()} &#8226; {getCompanyAddress()}
         </Box>
         <Box>
           <Link passHref href={`${LINK_FRONTEND_JOB_DETAILS}${data.job_id}`}>
@@ -99,7 +137,7 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
               <CustomChip
                 label={messages['common.applied']}
                 color={'primary'}
-                sx={{marginLeft: '15px'}}
+                sx={{marginLeft: '15px', borderRadius: '5px', height: '35px'}}
               />
             ) : (
               <Button

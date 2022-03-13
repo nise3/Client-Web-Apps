@@ -1,4 +1,4 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import { useAxiosSWR } from "../../@softbd/hooks/useAxiosSWR";
 import {
   API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
@@ -14,8 +14,8 @@ import {
   API_PUBLIC_JOB_SECTORS,
   API_PUBLIC_ORGANIZATION_TYPES,
   API_RANK_TYPES,
-  API_RANKS,
-} from '../../@softbd/common/apiRoutes';
+  API_RANKS
+} from "../../@softbd/common/apiRoutes";
 
 export function useFetchOccupation(occupationId: number | null) {
   return useAxiosSWR(

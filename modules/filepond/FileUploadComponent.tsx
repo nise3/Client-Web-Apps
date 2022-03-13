@@ -36,6 +36,7 @@ interface FilepondComponentProps {
   acceptedFileTypes?: any;
   allowMultiple?: boolean;
   uploadedUrls?: any;
+  sizeLimitText?: string;
   height?: any;
   width?: any;
 }
@@ -57,6 +58,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   ],
+  sizeLimitText = '1MB',
   uploadedUrls,
   height,
   width,
@@ -174,7 +176,10 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       </FormControl>
       {
         <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
-          {messages['file_size.maximum_size_warning_text']}
+          {(messages['file_size.maximum_size_warning_text'] as string).replace(
+            '1MB',
+            sizeLimitText,
+          )}
           {height &&
             width &&
             ` and required image size ${width} px * ${height} px`}

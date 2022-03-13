@@ -4,9 +4,11 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const ERPLInstitutePage = asyncComponent(
+const CertificateAuthorityPage = asyncComponent(
   () =>
-    import('../../../modules/dashboard/certificateAuthority/ERPLInstitutePage'),
+    import(
+      '../../../modules/dashboard/certificateAuthority/CertificateAuthorityPage'
+    ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
@@ -14,7 +16,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['certificate_authority.label']} />
-      <ERPLInstitutePage />
+      <CertificateAuthorityPage />
     </>
   );
 });
