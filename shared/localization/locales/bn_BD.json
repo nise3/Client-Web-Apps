@@ -1689,5 +1689,6 @@
   "dashboard.total_trainers": "মোট প্রশিক্ষক",
   "question_set.label": "প্রশ্ন সেট",
   "question_set.title": "প্রশ্ন সেট",
-  "question_set.title_en": "প্রশ্ন সেট (ইংরেজি)"
+  "question_set.title_en": "প্রশ্ন সেট (ইংরেজি)",
+  "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে"
 }
