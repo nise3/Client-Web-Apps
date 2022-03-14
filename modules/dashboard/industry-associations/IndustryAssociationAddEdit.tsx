@@ -212,6 +212,10 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .matches(MOBILE_NUMBER_REGEX)
         .required()
         .label(messages['common.contact_person_mobile'] as string),
+      logo: yup
+        .string()
+        .required()
+        .label(messages['common.logo'] as string),
       // domain: yup
       //   .string()
       //   .trim()
@@ -273,6 +277,7 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         contact_person_mobile: itemData?.contact_person_mobile,
         row_status: String(itemData?.row_status),
         trade_number: itemData?.trade_number,
+        logo: itemData?.logo,
       });
 
       setDistrictsList(
@@ -495,13 +500,13 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
             </Grid>
             <Grid item xs={12}>
               <FileUploadComponent
+                required={true}
                 id='logo'
                 defaultFileUrl={itemData?.logo}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}
                 label={messages['common.logo']}
-                required={true}
               />
             </Grid>
           </Grid>

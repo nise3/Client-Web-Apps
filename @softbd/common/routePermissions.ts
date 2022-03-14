@@ -107,10 +107,6 @@ export const routePermissions: any = {
     routePrefix: '/hr-demand',
     permissionKeys: ['view_any_institute_hr_demand'],
   },
-  '/question-bank1': {
-    routePrefix: '/question-bank1',
-    permissionKeys: ['view_any_question_bank1'],
-  },
   '/association-profile': {
     routePrefix: '/association-profile',
     permissionKeys: ['view_any_association_profile'],
@@ -230,6 +226,10 @@ export const routePermissions: any = {
   '/industry-association-member-jobs': {
     routePrefix: '/industry-association-member-jobs',
     permissionKeys: ['view_any_industry_association_member_job'],
+  },
+  '/nise-publication': {
+    routePrefix: '/nise-publication',
+    permissionKeys: ['view_any_nise_publication'],
   },
   '/rpl-occupations': {
     routePrefix: '/rpl-occupations',

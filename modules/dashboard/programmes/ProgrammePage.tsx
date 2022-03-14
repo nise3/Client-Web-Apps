@@ -21,6 +21,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../users/RowStatus';
 
 const ProgrammePage = () => {
   const {messages, locale} = useIntl();
@@ -35,11 +36,17 @@ const ProgrammePage = () => {
     [],
   );
 
-  const [instituteFilter] = useState({});
+  const [instituteFilter, setInstituteFilter] = useState<any>(null);
   const {data: institutes} = useFetchAllInstitutes(instituteFilter);
 
   useEffect(() => {
-    if (institutes) {
+    if (authUser && authUser.isSystemUser) {
+      setInstituteFilter({row_status: RowStatus.ACTIVE});
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    if (authUser && authUser.isSystemUser && institutes) {
       setInstituteFilterItems(
         institutes.map((institute: any) => {
           return {

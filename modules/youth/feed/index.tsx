@@ -10,6 +10,7 @@ import {Container, Grid} from '@mui/material';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {debounce} from 'lodash';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'YouthFeedPage';
 
@@ -76,12 +77,12 @@ const YouthFeedPage = () => {
 
   const [filters, setFilters] = useState<any>({
     page: 1,
-    page_size: PageSizes.FIVE,
+    page_size: PageSizes.TEN,
   });
   const pageIndex = useRef(1);
 
   const filterPost = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
       pageIndex.current = 1;
@@ -89,11 +90,12 @@ const YouthFeedPage = () => {
       isSearching.current = true;
 
       setFilters((prev: any) => {
-        return {...prev, ...newFilter};
+        return objectFilter({...prev, ...newFilter});
       });
     },
     [filters],
   );
+  console.log('pageIndex');
 
   const onScrollMainPostContent = (e: any) => {
     if (!loadingMainPostData) {

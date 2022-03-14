@@ -1,3 +1,4 @@
+
 const fn = {
   text(str = '') {
     let div = document.createElement('div');
@@ -41,7 +42,7 @@ class jElement {
     this._ = elem;
     this[0] = elem;
   }
-  __buildStyles() {}
+  __buildStyles() { }
   after(htmlString: string) {
     this._.insertAdjacentHTML('afterend', htmlString);
     return this;
@@ -179,7 +180,7 @@ class jElement {
     return this._.parentNode;
   }
   position() {
-    return {left: this._.offsetLeft, top: this._.offsetTop};
+    return { left: this._.offsetLeft, top: this._.offsetTop };
   }
   prepend(el: HTMLElement | jElement) {
     const elm = el instanceof jElement ? el[0] : el;
@@ -357,11 +358,11 @@ function svg$(sel = 'g', att = {}) {
   let cl =
     sel.match(/\.[\w\d-_]+/g) !== null
       ? sel
-          .match(/\.[\w\d-_]+/g)
-          ?.map((v) => {
-            return v.replace('.', '');
-          })
-          .join(' ')
+        .match(/\.[\w\d-_]+/g)
+        ?.map((v) => {
+          return v.replace('.', '');
+        })
+        .join(' ')
       : '';
   let $e = $(document.createElementNS('http://www.w3.org/2000/svg', tg));
   if ((id + '').length > 0) $e.attr('id', id);
@@ -409,7 +410,7 @@ export function areaText(
       ),
       style: 'will-change: transform;',
     }).insertBefore($tex),
-    cll = $tex.clone().empty().attr({x: 0, y: 0, fill: `$000`, transform: ``}),
+    cll = $tex.clone().empty().attr({ x: 0, y: 0, fill: `$000`, transform: `` }),
     // @ts-ignore
     tag = cll[0].outerHTML.replace('</text>', ''), //'<text x="0" y="0">',
     wid = rect.width,
@@ -461,7 +462,7 @@ export function areaText(
       cbx.push(tar[i] == ' ' ? sxx : el.getBBox());
       return el;
     }), ///-------------------
-    lns = [{w: 0, c: [], u: 0, x: cbx.length > 0 ? cbx[0].x : 0}]; ///-------------------
+    lns = [{ w: 0, c: [], u: 0, x: cbx.length > 0 ? cbx[0].x : 0 }]; ///-------------------
   // $tex.attr('xml:space', 'preserve')
 
   for (let c = 0, s = 0; c < cpy.length; c++) {
@@ -479,7 +480,7 @@ export function areaText(
     if (tar[c] == ' ') {
       // res.push(`<tspan x="${cln}" y="${fbl + lht*(lnm-1)}"> </tspan>`)
       // @ts-ignore
-      lns[lnm - 1].c.push({x: cln, t: ' '});
+      lns[lnm - 1].c.push({ x: cln, t: ' ' });
       cln += sln;
       continue;
     }
@@ -497,7 +498,7 @@ export function areaText(
       // res.push(`${ttx}`)
       // cln += Math.ceil(w);
       // @ts-ignore
-      lns[lnm - 1].c.push({x: cln, t: ttx});
+      lns[lnm - 1].c.push({ x: cln, t: ttx });
       lns[lnm - 1].w = cln + w;
       cln += w;
     } else {
@@ -529,7 +530,7 @@ export function areaText(
             // add hyphen & break it///-------------------
             if (i != 0) {
               // @ts-ignore
-              lns[lnm - 1].c.push({x: cln, t: `-`});
+              lns[lnm - 1].c.push({ x: cln, t: `-` });
             } //&& res.push(`<tspan x="${cln}" y="${fbl + lht*(lnm-1)}">-</tspan>`)
             // res.push(`-`)
             // new line
@@ -537,14 +538,14 @@ export function areaText(
             if (cutOff && (lnm + 1) * lht + tof > rect.height) break;
             cln = 0;
             lnm++;
-            lns[lnm - 1] = {w: 0, c: [], u: 0, x: llb.x};
+            lns[lnm - 1] = { w: 0, c: [], u: 0, x: llb.x };
           }
           // in any case
           // res.push(`<tspan x="${cln}" y="${fbl + lht*(lnm-1)}">${l}</tspan>`)
           // res.push(`${l}`)
           // cln += Math.ceil(llw);
           // @ts-ignore
-          lns[lnm - 1].c.push({x: cln, t: l});
+          lns[lnm - 1].c.push({ x: cln, t: l });
           lns[lnm - 1].w = cln + llw;
           cln += llw;
         } //);
@@ -559,12 +560,12 @@ export function areaText(
             cbx[c - s - 1].x; // last word's extra length ///-------------------
         cln = 0;
         lnm++;
-        lns[lnm - 1] = {w: 0, c: [], u: 0, x: bbx.x};
+        lns[lnm - 1] = { w: 0, c: [], u: 0, x: bbx.x };
         // res.push(`<tspan x="${cln}" y="${fbl + lht*(lnm-1)}">${ttx}</tspan>`)
         // res.push(`${ttx}`)
         // cln += Math.ceil(w);
         // @ts-ignore
-        lns[lnm - 1].c.push({x: cln, t: ttx});
+        lns[lnm - 1].c.push({ x: cln, t: ttx });
         lns[lnm - 1].w = cln + w;
         cln += w;
       }
@@ -641,11 +642,55 @@ export const setAreaText = (
   textAlign = 'lt',
 ) => {
   const g: any = svgNode.querySelector(`g[id="${id}"]`);
+  let textElement:any = [];
   const rect = g.children[0].getBBox();
-  g.children[1].innerHTML = text;
   const fs = 1 * g.children[1].getAttribute('font-size');
   const lh = 1.25 * fs;
   const bl = 0.8;
-  areaText(g.children[1], rect, {fs, lh, bl, ta: textAlign});
+  let lastCord = 0;
+  if (text && Array.isArray(text)) {
+    //last item
+    // console.log('last text element ', textElement[ text.length - 1 ]);
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    // let lineHeight = rect.y;
+    // text[0] = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s";
+    // text[0] = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s";
+    text.map((item, i, row) => {
+      let text = document.createElementNS(SVG_NS, "text");
+      if (i > 0) {
+        const previousTxt = textElement[i-1];
+        console.log(`${id} :`, previousTxt.getBBox());
+        const previousBoxHeight = previousTxt.getBBox().height;
+        const heightWithPrev = previousBoxHeight + 5;
+        // text.setAttributeNS(null, 'x', rect.x);
+        // text.setAttributeNS(null, 'y', rect.y);
+        text.setAttributeNS(null, 'transform', `translate(18 ${heightWithPrev})`);
+        text.setAttributeNS(null, 'font-size', `${fs}`);
+        g.appendChild(text);
+        rect.y += heightWithPrev;
+        if (i == row.length -1) {
+          lastCord = rect.y;
+        }
+      }
+
+      let currentChildren = g.children[i + 1];
+      currentChildren.innerHTML = `${i+1}. ${item}`
+
+      areaText(currentChildren, rect, { fs, lh, bl, ta: textAlign });
+      textElement.push(currentChildren);
+    });
+  } else {
+    g.children[1].innerHTML = text;
+    areaText(g.children[1], rect, { fs, lh, bl, ta: textAlign });
+    textElement.push(g.children[1]);
+  }
+  // console.log('textElement ', textElement);
+
   g.children[0].setAttribute('fill', 'transparent');
+  const lastElem = text ? textElement[ text.length - 1 ] : textElement[0];
+  return {
+    textElement,
+    lastElement: lastElem,
+    lastCord
+  }
 };
