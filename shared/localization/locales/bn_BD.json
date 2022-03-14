@@ -1732,5 +1732,6 @@
   "certification_status.label": "প্রত্যয়িত স্ট্যাটাস",
   "association.association_information": "সমিতির তথ্য",
   "common.view_cv": "সিভি ভিউ",
-  "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে"
+  "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে",
+  "graph_view_title.projection_of_future_jobs": "ভবিষ্যত চাকরির প্রজেকশন"
 }
