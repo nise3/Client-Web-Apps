@@ -41,7 +41,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     return valWithNullCheck;
   }
 
-  const createHeaderAndLine = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
+  const setHeaderAndLinePosition = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
     // update langulage rect, line and heading from the last cord
     const lastCords = innerCordObj.lastCord + 40;
     let languageHead = document.getElementById(headerId);
@@ -55,6 +55,18 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     return {
       rectCord
     }
+  }
+
+  const setHeaderLanguage = (headerId: string, languageKey: string) => {
+    let languageHead = document.getElementById(headerId);
+    let tspan = languageHead?.querySelector('tspan')?.querySelector('tspan') as SVGTSpanElement;
+    if (tspan) {
+      tspan.textContent = messages[languageKey] as string | null;
+    }
+    // console.log('setHeaderLanguage ', "hi");
+    // languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
+    // languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
+    // languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
   }
 
   /** present address */
@@ -126,18 +138,18 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
       getValue(userData, 'first_name', language) + ' ' + getValue(userData, 'last_name', language),
       'lt',
     );
+    setHeaderLanguage('contact-address', "common.contact_and_address");
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
-
-
 
     setAreaText(
       svgNode,
       'address',
       addressText(userData, language)
     );
-
+    setHeaderLanguage('objective-headling', "common.objective");
     setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
+    setHeaderLanguage('jobexperiance-headling', "common.job_experience");
     const experiance = setAreaText(
       svgNode,
       'experience',
@@ -161,8 +173,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
         );
       }),
     );
-    createHeaderAndLine(experiance, 'education-headling', 'education-headling-line', 'education');
-
+    setHeaderAndLinePosition(experiance, 'education-headling', 'education-headling-line', 'education');
+    setHeaderLanguage('education-headling', "common.educations");
     const education = setAreaText(
       svgNode,
       'education',
@@ -171,8 +183,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
       }),
       'lt',
     );
-    createHeaderAndLine(education, 'computerskill-headling', 'computerskill-headling-line', 'computerskill')
-
+    setHeaderAndLinePosition(education, 'computerskill-headling', 'computerskill-headling-line', 'computerskill')
+    setHeaderLanguage('computerskill-headling', "common.skills");
     const skill = setAreaText(
       svgNode,
       'computerskill',
@@ -180,7 +192,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
         return skill?.title ? skill[getProps('title', language)] as any + ' ' : ' ';
       }),
     );
-    let languageReact = createHeaderAndLine(skill, 'language-headling', 'language-headling-line', 'language');
+    let languageReact = setHeaderAndLinePosition(skill, 'language-headling', 'language-headling-line', 'language');
+    setHeaderLanguage('language-headling', "language.proficiency");
     setAreaText(
       svgNode,
       'language',
