@@ -237,7 +237,7 @@ const RPLApplicationForm = () => {
           institute_name: yup
             .string()
             .title()
-            .label(messages['common.institute_name_bn'] as string),
+            .label(messages['common.institute_name'] as string),
           result: yup
             .string()
             .required()

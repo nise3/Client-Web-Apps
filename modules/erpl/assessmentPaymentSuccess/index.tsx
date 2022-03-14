@@ -15,14 +15,18 @@ const AssessmentPaymentSuccessPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const {responseStatus} = router.query;
+  let responseMsgColor = '';
 
   const getResponseMessage = () => {
     switch (responseStatus) {
       case 'success':
+        responseMsgColor = '#2e7d32';
         return messages['assessment_payment.success'];
       case 'failed':
+        responseMsgColor = '#ed6c02';
         return messages['course_enroll.failed'];
       case 'cancelled':
+        responseMsgColor = '#d32f2f';
         return messages['course_enroll.cancelled'];
       default:
         return '';
@@ -43,7 +47,11 @@ const AssessmentPaymentSuccessPage = () => {
         <Typography
           variant={'h5'}
           align={'center'}
-          style={{marginTop: '10px', marginBottom: '10px'}}>
+          style={{
+            marginTop: '10px',
+            marginBottom: '10px',
+            color: responseMsgColor,
+          }}>
           {getResponseMessage()}
         </Typography>
         <Link href={erplDomain()}>
