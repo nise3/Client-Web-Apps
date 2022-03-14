@@ -214,7 +214,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         option_4_en: itemData?.option_4_en,
         answer: itemData?.answer,
       };
-      setIsMCQ(Number(itemData?.type) == QuestionType.MCQ);
+      setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
 
       reset(data);
     } else {
@@ -251,7 +251,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
   };
 
   const onChangeType = (value: any) => {
-    setIsMCQ(Number(value) == QuestionType.MCQ);
+    setIsMCQ(String(value) == QuestionType.MCQ);
   };
 
   return (
