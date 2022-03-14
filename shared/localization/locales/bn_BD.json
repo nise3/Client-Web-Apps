@@ -1734,5 +1734,6 @@
   "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে",
   "graph_view_title.projection_of_future_jobs": "ভবিষ্যত চাকরির প্রজেকশন",
   "rpl_batch.title": "ব্যাচ টাইটেল",
-  "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)"
+  "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)",
+  "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে"
 }

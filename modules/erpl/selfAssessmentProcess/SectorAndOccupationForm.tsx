@@ -81,7 +81,10 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
 
   const onOccupationChange = useCallback(
     (occupationId: any) => {
-      setRplLevelFilters({rpl_occupation_id: occupationId});
+      setRplLevelFilters({
+        rpl_occupation_id: occupationId,
+        youth_id: authUser?.youthId,
+      });
       setSelectedOccupationId(occupationId);
       onChanged();
     },
