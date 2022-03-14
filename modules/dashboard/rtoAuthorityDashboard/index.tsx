@@ -22,6 +22,7 @@ const classes = {
 const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.cardColors}`]: {
     position: 'relative',
+    height: '100%',
     '&::before, &::after': {
       content: "''",
       display: 'block',
