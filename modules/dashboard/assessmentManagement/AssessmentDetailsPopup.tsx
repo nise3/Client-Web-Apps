@@ -95,6 +95,58 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
           ) : (
             <></>
           )}
+          {/** addresses */}
+          {youthDetails?.permanent_address && (
+            <Grid item xs={6}>
+              <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                  {messages['common.addresses']}
+                </legend>
+                <div>
+                  <h2>{messages['common.permanent_address']}</h2>
+                  <ul>
+                    {youthDetails?.permanent_address?.loc_division_title && (
+                      <li>
+                        Division:{' '}
+                        {youthDetails?.permanent_address?.loc_division_title}
+                      </li>
+                    )}
+                    {youthDetails?.permanent_address?.loc_district_title && (
+                      <li>
+                        District:{' '}
+                        {youthDetails?.permanent_address?.loc_district_title}
+                      </li>
+                    )}
+                    {youthDetails?.permanent_address?.loc_upazila_title && (
+                      <li>
+                        Upazila:{' '}
+                        {youthDetails?.permanent_address?.loc_upazila_title}
+                      </li>
+                    )}
+                    {youthDetails?.permanent_address?.village_or_area && (
+                      <li>
+                        Village Area:{' '}
+                        {youthDetails?.permanent_address?.village_or_area}
+                      </li>
+                    )}
+                    {youthDetails?.permanent_address?.house_n_road && (
+                      <li>
+                        House & Road:{' '}
+                        {youthDetails?.permanent_address?.house_n_road}
+                      </li>
+                    )}
+                    {youthDetails?.permanent_address?.zip_or_postal_code && (
+                      <li>
+                        Zip or postal code:{' '}
+                        {youthDetails?.permanent_address?.zip_or_postal_code}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </fieldset>
+            </Grid>
+          )}
+
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['rpl_occupation.label']}
