@@ -3,7 +3,6 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {IUser} from '../../../shared/Interface/userManagement.interface';
 import {yupResolver} from '@hookform/resolvers/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -14,10 +13,8 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import JobExperienceFieldArray from './JobExperienceFieldArray';
 import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
 import {
-  useFetchCountries,
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
@@ -30,17 +27,20 @@ import Religions from '../../../@softbd/utilities/Religions';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
-import {useFetchEducationExamsBoardsEduGroupsAndSubjects} from '../../../services/youthManagement/hooks';
+import {
+  useFetchEducationExamsBoardsEduGroupsAndSubjects,
+  useFetchPublicRplApplication,
+} from '../../../services/youthManagement/hooks';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
+import {router} from 'next/client';
+import {nationalities} from '../../../@softbd/utilities/Nationalities';
 import {
   EducationLevelId,
   ResultCodeAppearedId,
   ResultCodeDivisionIds,
   ResultCodeGradeId,
 } from '../../youth/profile/utilities/EducationEnums';
-import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
-import {useFetchYouthAssessment} from '../../../services/youthManagement/hooks';
-import {router} from 'next/client';
 import {createRPLApplication} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
 
 const RPLApplicationForm = () => {
@@ -53,23 +53,95 @@ const RPLApplicationForm = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      registration_number: yup
-        .string()
-        .label(messages['common.registration_number'] as string),
-      first_name: yup
-        .string()
-        .required()
-        .label(messages['common.first_name'] as string),
-      first_name_en: yup
-        .string()
-        .label(messages['common.first_name_en'] as string),
-      last_name: yup
-        .string()
-        .required()
-        .label(messages['common.last_name'] as string),
-      last_name_en: yup
-        .string()
-        .label(messages['common.last_name_en'] as string),
+      youth_details: yup.object().shape({
+        registration_number: yup
+          .string()
+          .label(messages['common.registration_number'] as string),
+        first_name: yup
+          .string()
+          .required()
+          .label(messages['common.first_name'] as string),
+        first_name_en: yup
+          .string()
+          .label(messages['common.first_name_en'] as string),
+        last_name: yup
+          .string()
+          .required()
+          .label(messages['common.last_name'] as string),
+        last_name_en: yup
+          .string()
+          .label(messages['common.last_name_en'] as string),
+        father_name: yup
+          .string()
+          .required()
+          .label(messages['common.father_name'] as string),
+        father_name_en: yup
+          .string()
+          .label(messages['common.father_name_en'] as string),
+        mother_name: yup
+          .string()
+          .required()
+          .label(messages['common.mother_name'] as string),
+        mother_name_en: yup
+          .string()
+          .label(messages['common.mother_name_en'] as string),
+        guardian_name: yup
+          .string()
+          .required()
+          .label(messages['common.guardian_name'] as string),
+        guardian_name_en: yup
+          .string()
+          .label(messages['common.guardian_name_en'] as string),
+        mobile: yup
+          .string()
+          .required()
+          .label(messages['common.mobile'] as string),
+        nationality: yup
+          .string()
+          .required()
+          .label(messages['common.nationality'] as string),
+        date_of_birth: yup
+          .string()
+          .required()
+          .label(messages['common.date_of_birth'] as string),
+        identity_number_type: yup
+          .string()
+          .required()
+          .label(messages['common.identity_number_type'] as string),
+        identity_number: yup
+          .number()
+          .required()
+          .label(messages['common.identity_number'] as string),
+        religion: yup
+          .string()
+          .required()
+          .label(messages['common.religion'] as string),
+        photo: yup
+          .string()
+          .required()
+          .label(messages['common.photo'] as string),
+        company_name: isCurrentlyEmployed
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.company_name_bn'] as string)
+          : yup.string(),
+        job_responsibilities: isCurrentlyEmployed
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.designation'] as string)
+          : yup.string(),
+        company_type: isCurrentlyEmployed
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['common.institute_type'] as string)
+          : yup.string(),
+      }),
       education_info: yup.array().of(
         yup.object().shape({
           education_level_id: yup
@@ -181,55 +253,6 @@ const RPLApplicationForm = () => {
             }),
         }),
       ),
-      father_name: yup
-        .string()
-        .required()
-        .label(messages['common.father_name'] as string),
-      father_name_en: yup
-        .string()
-        .label(messages['common.father_name_en'] as string),
-      mother_name: yup
-        .string()
-        .required()
-        .label(messages['common.mother_name'] as string),
-      mother_name_en: yup
-        .string()
-        .label(messages['common.mother_name_en'] as string),
-      guardian_name: yup
-        .string()
-        .required()
-        .label(messages['common.guardian_name'] as string),
-      guardian_name_en: yup
-        .string()
-        .label(messages['common.guardian_name_en'] as string),
-      guardian_mobile: yup
-        .string()
-        .required()
-        .label(messages['common.guardian_mobile'] as string),
-      date_of_birth: yup
-        .string()
-        .required()
-        .label(messages['common.date_of_birth'] as string),
-      mobile: yup
-        .string()
-        .required()
-        .label(messages['common.mobile'] as string),
-      identity_number_type: yup
-        .string()
-        .required()
-        .label(messages['common.identity_number_type'] as string),
-      identity_number: yup
-        .number()
-        .required()
-        .label(messages['common.identity_number'] as string),
-      religion: yup
-        .string()
-        .required()
-        .label(messages['common.religion'] as string),
-      photo: yup
-        .string()
-        .required()
-        .label(messages['common.photo'] as string),
       present_address: yup.object().shape({
         loc_division_id: yup
           .string()
@@ -302,27 +325,6 @@ const RPLApplicationForm = () => {
             (value) => !value || Boolean(value.length === 4),
           ),
       }),
-      company_name: isCurrentlyEmployed
-        ? yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.company_name_bn'] as string)
-        : yup.string(),
-      job_responsibilities: isCurrentlyEmployed
-        ? yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.designation'] as string)
-        : yup.string(),
-      institute_type: isCurrentlyEmployed
-        ? yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.institute_type'] as string)
-        : yup.string(),
     });
   }, [locale, isCurrentlyEmployed]);
   const isLoading = false;
@@ -394,11 +396,10 @@ const RPLApplicationForm = () => {
   const [divisionFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
-  const [countriesFilter] = useState({});
 
-  const assessmentId = router.query;
-  const {data: youthAssessmentData} = useFetchYouthAssessment(
-    Number(assessmentId),
+  const {application_id} = router.query;
+  const {data: rplApplication} = useFetchPublicRplApplication(
+    Number(application_id),
   );
 
   const {data: divisions, isLoading: isLoadingDivisions} =
@@ -408,7 +409,10 @@ const RPLApplicationForm = () => {
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const {data: countries} = useFetchCountries(countriesFilter);
+  /*  const [countriesFilter] = useState({});
+    const {data: countries} = useFetchCountries(countriesFilter);
+      const [jobExperiences, setJobExperiences] = useState<any>([1]);
+    */
 
   const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
     Array<any> | []
@@ -471,7 +475,6 @@ const RPLApplicationForm = () => {
     useFetchEducationExamsBoardsEduGroupsAndSubjects();
 
   const [educations, setEducations] = useState<any>([1]);
-  const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
   const getIdentityNumberFieldCaption = useCallback(() => {
     switch (String(identityNumberType)) {
@@ -486,9 +489,31 @@ const RPLApplicationForm = () => {
     }
   }, [identityNumberType]);
 
-  const onSubmit: SubmitHandler<any> = async (data: IUser) => {
+  console.log('errors: ', errors);
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      await createRPLApplication(data);
+      let formData: any = {};
+      formData.rpl_application_id = rplApplication?.id;
+      formData.rpl_sector_id = rplApplication?.rpl_sector_id;
+      formData.rpl_occupation_id = rplApplication?.rpl_occupation_id;
+      formData.rpl_level_id = rplApplication?.rpl_level_id;
+      formData.rto_country_id = rplApplication?.rto_country_id;
+      formData.rto_id = rplApplication?.rto_id;
+      formData.target_country_id = rplApplication?.target_country_id;
+      formData.youth_id = rplApplication?.youth_id;
+      formData.assessment_id = rplApplication?.assessment_id;
+
+      formData.youth_details = data.youth_details;
+      formData.youth_details.education_info = data.education_info;
+      formData.youth_details.present_address = data.present_address;
+      formData.youth_details.permanent_address = data.permanent_address;
+
+      formData.youth_details.identity_number = String(formData.youth_details.identity_number);
+
+      console.log('data: ', formData);
+
+      await createRPLApplication(formData);
+
       createSuccessMessage('rpl_application.label');
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -512,22 +537,22 @@ const RPLApplicationForm = () => {
     }
   }, [educations]);
 
-  const addJobExperience = useCallback(() => {
-    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-  }, []);
+  /*  const addJobExperience = useCallback(() => {
+      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+    }, []);
 
-  const removeJobExperience = useCallback(() => {
-    let jobExperienceInfos = getValues('job_experience');
+    const removeJobExperience = useCallback(() => {
+      let jobExperienceInfos = getValues('job_experience');
 
-    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-    let array = [...educations];
-    if (jobExperiences.length > 1) {
-      jobExperienceInfos.splice(educations.length - 1, 1);
-      setValue('job_experience', jobExperienceInfos);
-      array.splice(jobExperiences.length - 1, 1);
-      setJobExperiences(array);
-    }
-  }, [jobExperiences]);
+      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+      let array = [...educations];
+      if (jobExperiences.length > 1) {
+        jobExperienceInfos.splice(educations.length - 1, 1);
+        setValue('job_experience', jobExperienceInfos);
+        array.splice(jobExperiences.length - 1, 1);
+        setJobExperiences(array);
+      }
+    }, [jobExperiences]);*/
 
   return (
     <Container maxWidth={'md'}>
@@ -559,7 +584,7 @@ const RPLApplicationForm = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <CustomTextInput
-              id='registration_number'
+              id='youth_details[registration_number]'
               type={'number'}
               label={messages['common.registration_number']}
               register={register}
@@ -571,7 +596,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='first_name'
+              id='youth_details[first_name]'
               label={messages['common.first_name']}
               register={register}
               errorInstance={errors}
@@ -580,7 +605,7 @@ const RPLApplicationForm = () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='first_name_en'
+              id='youth_details[first_name_en]'
               label={messages['common.first_name_en']}
               register={register}
               errorInstance={errors}
@@ -591,7 +616,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='last_name'
+              id='youth_details[last_name]'
               label={messages['common.last_name']}
               register={register}
               errorInstance={errors}
@@ -600,7 +625,7 @@ const RPLApplicationForm = () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='last_name_en'
+              id='youth_details[last_name_en]'
               label={messages['common.last_name_en']}
               register={register}
               errorInstance={errors}
@@ -611,7 +636,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='father_name'
+              id='youth_details[father_name]'
               label={messages['common.father_name']}
               register={register}
               errorInstance={errors}
@@ -622,7 +647,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='father_name_en'
+              id='youth_details[father_name_en]'
               label={messages['common.father_name_en']}
               register={register}
               errorInstance={errors}
@@ -633,7 +658,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='mother_name'
+              id='youth_details[mother_name]'
               label={messages['common.mother_name']}
               register={register}
               errorInstance={errors}
@@ -643,7 +668,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='mother_name_en'
+              id='youth_details[mother_name_en]'
               label={messages['common.mother_name_en']}
               register={register}
               errorInstance={errors}
@@ -654,7 +679,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='guardian_name'
+              id='youth_details[guardian_name]'
               label={
                 messages['common.guardian_name'] +
                 '(' +
@@ -670,8 +695,8 @@ const RPLApplicationForm = () => {
           <Grid item xs={6}>
             <CustomTextInput
               required
-              id='guardian_mobile'
-              label={messages['common.guardian_mobile']}
+              id='youth_details[mobile]'
+              label={messages['common.mobile']}
               register={register}
               errorInstance={errors}
               isLoading={isLoading}
@@ -876,20 +901,22 @@ const RPLApplicationForm = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <CustomTextInput
-              required
-              id='nationality'
+            <CustomFilterableFormSelect
+              id='youth_details[nationality]'
               label={messages['common.nationality']}
-              register={register}
+              isLoading={false}
+              control={control}
+              options={nationalities}
+              optionValueProp={'id'}
+              optionTitleProp={['title', 'title_en']}
               errorInstance={errors}
-              isLoading={isLoading}
             />
           </Grid>
 
           <Grid item xs={6}>
             <CustomDateTimeField
               required
-              id='date_of_birth'
+              id='youth_details[date_of_birth]'
               label={messages['common.date_of_birth']}
               register={register}
               errorInstance={errors}
@@ -899,7 +926,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
               required
-              id='religion'
+              id='youth_details[religion]'
               label={messages['common.religion']}
               isLoading={false}
               control={control}
@@ -947,7 +974,7 @@ const RPLApplicationForm = () => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}>
             <Grid container>
               <FormLabel>{messages['common.job_experience']}</FormLabel>
               <Grid item xs={12}>
@@ -978,11 +1005,11 @@ const RPLApplicationForm = () => {
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          </Grid>*/}
 
           <Grid item xs={12}>
             <CustomCheckbox
-              id='is_youth_employed'
+              id='youth_details[is_youth_employed]'
               label={messages['common.currently_working'] + '?'}
               register={register}
               errorInstance={errors}
@@ -999,7 +1026,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomFormSelect
                   required
-                  id='institute_type'
+                  id='youth_details[company_type]'
                   label={messages['common.institute_type']}
                   isLoading={false}
                   control={control}
@@ -1013,7 +1040,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='company_name'
+                  id='youth_details[company_name]'
                   label={messages['common.company_name_bn']}
                   register={register}
                   errorInstance={errors}
@@ -1024,7 +1051,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='job_responsibilities'
+                  id='youth_details[job_responsibilities]'
                   label={messages['common.designation']}
                   register={register}
                   errorInstance={errors}
@@ -1034,7 +1061,7 @@ const RPLApplicationForm = () => {
             </>
           )}
 
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}>
             <FormLabel required={true}>
               {messages['common.interested_sector_occupation_to_register']}
             </FormLabel>
@@ -1096,11 +1123,11 @@ const RPLApplicationForm = () => {
               optionValueProp={'id'}
               optionTitleProp={['title']}
             />
-          </Grid>
+          </Grid>*/}
 
           <Grid item xs={12} md={6}>
             <FormRadioButtons
-              id='identity_number_type'
+              id='youth_details[identity_number_type]'
               label={'common.identity_number_type'}
               radios={[
                 {
@@ -1126,7 +1153,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={12} md={6}>
             <CustomTextInput
               required
-              id='identity_number'
+              id='youth_details[identity_number]'
               label={getIdentityNumberFieldCaption()}
               isLoading={false}
               register={register}
@@ -1137,7 +1164,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={12}>
             <FileUploadComponent
               required
-              id={'photo'}
+              id={'youth_details[photo]'}
               errorInstance={errors}
               setValue={setValue}
               register={register}
