@@ -1,11 +1,10 @@
 import {Button, ButtonGroup, Container, FormLabel, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import yup from '../../../@softbd/libs/yup';
 import {Body1, H3, H4} from '../../../@softbd/elements/common';
@@ -42,11 +41,14 @@ import {
 } from '../../youth/profile/utilities/EducationEnums';
 import {createRPLApplication} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
 import {useRouter} from 'next/router';
+import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/common/appLinks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {erplDomain} from '../../../@softbd/common/constants';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
-  const {errorStack} = useNotiStack();
-  const {createSuccessMessage} = useSuccessMessage();
+  const {errorStack, successStack} = useNotiStack();
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
   const router = useRouter();
@@ -54,6 +56,20 @@ const RPLApplicationForm = () => {
   const {data: rplApplication} = useFetchPublicRplApplication(
     Number(application_id),
   );
+  const [showApplicationForm, setShowApplicationForm] =
+    useState<boolean>(false);
+
+  const authYouth = useAuthUser<YouthAuthUser>();
+
+  useEffect(() => {
+    if (!application_id && rplApplication?.youth_id != authYouth?.youthId) {
+      router.push({pathname: erplDomain()}).then((r) => {});
+    }
+
+    setShowApplicationForm(
+      !!application_id && rplApplication?.youth_id == authYouth?.youthId,
+    );
+  }, [rplApplication]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -492,7 +508,7 @@ const RPLApplicationForm = () => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let formData: any = {};
-      formData.rpl_application_id = rplApplication?.id;
+      formData.id = rplApplication?.id;
       formData.rpl_sector_id = rplApplication?.rpl_sector_id;
       formData.rpl_occupation_id = rplApplication?.rpl_occupation_id;
       formData.rpl_level_id = rplApplication?.rpl_level_id;
@@ -510,12 +526,17 @@ const RPLApplicationForm = () => {
       formData.youth_details.identity_number = String(
         formData.youth_details.identity_number,
       );
-
       console.log('data: ', formData);
 
-      await createRPLApplication(formData);
-
-      createSuccessMessage('rpl_application.label');
+      const response = await createRPLApplication(formData);
+      successStack(messages['rpl.application_submitted_successfully']);
+      router
+        .push({
+          pathname:
+            LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE +
+            response?.data?.assessment_id,
+        })
+        .then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -555,7 +576,9 @@ const RPLApplicationForm = () => {
       }
     }, [jobExperiences]);*/
 
-  return (
+  return !showApplicationForm ? (
+    <></>
+  ) : (
     <Container maxWidth={'md'}>
       <Grid container spacing={2} my={2} justifyContent={'center'}>
         <Grid item xs={12}>
@@ -903,6 +926,7 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={6}>
             <CustomFilterableFormSelect
+              required
               id='youth_details[nationality]'
               label={messages['common.nationality']}
               isLoading={false}
@@ -1154,6 +1178,7 @@ const RPLApplicationForm = () => {
           <Grid item xs={12} md={6}>
             <CustomTextInput
               required
+              type={'number'}
               id='youth_details[identity_number]'
               label={getIdentityNumberFieldCaption()}
               isLoading={false}

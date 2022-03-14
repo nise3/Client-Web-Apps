@@ -78,6 +78,8 @@ export const LINK_FRONTEND_ERPL_ROOT = '/';
 export const LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS = '/occupations';
 export const LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER = '/assessment-center';
 export const LINK_FRONTEND_ERPL_ROOT_RPL_ASSESSMENT = '/rpl-assessment';
+export const LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE =
+  '/assessment-choose-payment-method/';
 
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
