@@ -1734,5 +1734,6 @@
   "rpl_application.label": "RPL Application",
   "graph_view_title.projection_of_future_jobs": "Projection of Future Jobs",
   "rpl_batch.title": "Batch Title",
-  "rpl_batch.title_en": "Batch Title (En)"
+  "rpl_batch.title_en": "Batch Title (En)",
+  "validation.cgpa_range": "CGPA must be within 5"
 }

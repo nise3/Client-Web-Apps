@@ -190,7 +190,7 @@ const AcademicQualificationFieldArray = ({
           <CustomTextInput
             required
             id={`${id}[institute_name]`}
-            label={messages['common.institute_name_bn']}
+            label={messages['common.institute_name']}
             register={register}
             errorInstance={errors}
             isLoading={false}
