@@ -1688,5 +1688,6 @@
   "dashboard.total_trainers": "Total trainers",
   "question_set.label": "Question Set",
   "question_set.title": "Question Set Name",
-  "question_set.title_en": "Question Set Name (EN)"
+  "question_set.title_en": "Question Set Name (EN)",
+  "rpl.application_submitted_successfully": "RPL application submitted successfully"
 }
