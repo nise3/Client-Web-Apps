@@ -581,6 +581,7 @@
   "common.download": "ডাউনলোড ",
   "common.certificate": "সনদপত্র",
   "common.company_name_bn": "কোম্পানির নাম",
+  "common.company_name": "কোম্পানির নাম",
   "common.company_name_en": "কোম্পানির নাম (ইংরেজি)",
   "common.company_address": "কোম্পানির ঠিকানা",
   "common.organizationInfoText": "সংস্থার তথ্য",

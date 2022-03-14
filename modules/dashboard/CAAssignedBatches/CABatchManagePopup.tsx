@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
@@ -17,6 +17,8 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {createAssignAssessor} from '../../../services/CertificateAuthorityManagement/CABatchService';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {yupResolver} from '@hookform/resolvers/yup';
+import yup from '../../../@softbd/libs/yup';
 
 interface CABatchManagePopupProps {
   onClose: () => void;
@@ -46,6 +48,21 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
     }
   }, [authUser]);
 
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      assessor_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.assessor'] as string),
+      assessment_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.exam_date'] as string),
+    });
+  }, []);
+
   const onSubmit: SubmitHandler<Division> = async (data: any) => {
     try {
       await createAssignAssessor(itemId, data);
@@ -63,7 +80,7 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
     setError,
     register,
     formState: {errors, isSubmitting},
-  } = useForm<any>({});
+  } = useForm<any>({resolver: yupResolver(validationSchema)});
   return (
     <HookFormMuiModal
       open={true}
