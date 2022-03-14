@@ -1598,7 +1598,6 @@
   "bank_account_type.label": "ব্যাঙ্ক অ্যাকাউন্টের ধরন",
   "bank_account_type.personal": "ব্যক্তিগত",
   "bank_account_type.of_the_organization": "প্রতিষ্ঠানের",
-  "common.number": "নাম্বার",
   "industry.sme_header_main": "ক্ষুদ্র ও মাঝারি শিল্প ফাউন্ডেশন",
   "industry.sme_header_second": "এসএমই উদ্যোক্তা ই-ডেটাবেজ",
   "common.objective": "অব্জেক্টিভ",
@@ -1725,5 +1724,13 @@
   "registration_success.thanks_text": "আপনার নিবন্ধনের জন্য ধন্যবাদ",
   "common.select_valid_status": "একটি বৈধ অবস্থা নির্বাচন করুন",
   "common.nise_publication": "নাইস প্রকাশনা",
-  "common.pdf": "পিডিএফ"
+  "common.pdf": "পিডিএফ",
+  "common.submitted": "জমা দেওয়া হয়েছে",
+  "common.not_submitted": "জমা দেওয়া হয়নি",
+  "common.certified": "প্রত্যয়িত",
+  "common.not_certified": "প্রত্যয়িত না",
+  "certification_status.label": "প্রত্যয়িত স্ট্যাটাস",
+  "association.association_information": "সমিতির তথ্য",
+  "common.view_cv": "সিভি ভিউ",
+  "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে"
 }
