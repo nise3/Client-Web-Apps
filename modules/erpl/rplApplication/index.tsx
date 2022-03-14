@@ -254,8 +254,8 @@ const RPLApplicationForm = () => {
               then: yup.string().max(4).required(),
             })
             .test(
-              'cgpa_scale_validation',
-              messages['common.cgpa_scale'] as string,
+              'cgpa_validation',
+              messages['validation.cgpa_range'] as string,
               (value) =>
                 value == undefined ||
                 value == '' ||
@@ -675,7 +675,6 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={6}>
             <CustomTextInput
-              required
               id='youth_details[father_name_en]'
               label={messages['common.father_name_en']}
               register={register}
@@ -696,7 +695,6 @@ const RPLApplicationForm = () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              required
               id='youth_details[mother_name_en]'
               label={messages['common.mother_name_en']}
               register={register}
