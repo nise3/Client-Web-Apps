@@ -1369,7 +1369,7 @@
   "common.four_digit": "Must be four digit",
   "label.new_address": "New Address",
   "label.address_type": "Address type",
-  "common.cgpa_scale": "Should be within 5",
+  "common.cgpa_scale": "valid scale is 4 or 5",
   "common.vacancy": "Vacancy",
   "course_enroll.submitted": "Your application has been submitted. Please, check your mobile for the verification code. Press \"Next\" and then enter the code and proceed with payment.",
   "course_enroll.success": "Congratulations! You have enrolled your course!",

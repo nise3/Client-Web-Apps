@@ -51,6 +51,7 @@ const RPLApplicationForm = () => {
   const {errorStack, successStack} = useNotiStack();
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const router = useRouter();
   const {application_id} = router.query;
   const {data: rplApplication} = useFetchPublicRplApplication(
@@ -533,6 +534,7 @@ const RPLApplicationForm = () => {
 
       const response = await createRPLApplication(formData);
       successStack(messages['rpl.application_submitted_successfully']);
+      setIsFormSubmitted(true);
       router
         .push({
           pathname:
@@ -1205,7 +1207,7 @@ const RPLApplicationForm = () => {
             <Grid container justifyContent={'center'}>
               <Button
                 type={'submit'}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isFormSubmitted}
                 variant='contained'>
                 {messages['common.submit']}
               </Button>
