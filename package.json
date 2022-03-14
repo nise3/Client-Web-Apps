@@ -39,6 +39,7 @@
     "start:youth": "next start youth -p 3002",
     "start:institute": "next start institute -p 3003",
     "start:industry": "next start industry -p 3004",
+    "start:erpl": "next start erpl -p 3005",
     "symlink:create": "mklink /J dashboard\\public public && mklink /J industry\\public public && mklink /J nise\\public public && mklink /J youth\\public public && mklink /J institute\\public public && mklink /J industry\\public public && mklink /J erpl\\public public",
     "symlink:remove": "rmdir dashboard\\public && rmdir industry\\public && rmdir nise\\public && rmdir youth\\public && rmdir institute\\public && rmdir industry\\public && rmdir erpl\\public",
     "lint": "next lint",
