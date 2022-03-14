@@ -7,25 +7,27 @@ import {
   API_BANNERS,
   API_CALENDAR_EVENTS,
   API_CMS_GLOBAL_CONFIG,
+  API_FAQS,
   API_GALLERY_ALBUM_CONTENTS,
   API_GALLERY_ALBUMS,
+  API_NISE_PUBLICATIONS,
+  API_NOTICE_OR_NEWSES,
   API_PARTNERS,
   API_PUBLIC_CALENDAR_EVENTS,
+  API_PUBLIC_FAQ,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
   API_PUBLIC_GALLERY_ALBUMS,
+  API_PUBLIC_NISE_STATICS,
   API_PUBLIC_NOTICE_OR_NEWS,
   API_PUBLIC_PARTNERS,
+  API_PUBLIC_PUBLICATIONS,
+  API_PUBLIC_RECENT_ACTIVITIES,
+  API_PUBLIC_SLIDERS,
   API_PUBLIC_STATIC_PAGE_BLOCKS,
+  API_RECENT_ACTIVITIES,
   API_SLIDERS,
   API_STATIC_PAGE_TYPES,
-  API_NOTICE_OR_NEWSES,
-  API_RECENT_ACTIVITIES,
-  API_PUBLIC_SLIDERS,
-  API_PUBLIC_FAQ,
   API_VISITOR_FEEDBACKS,
-  API_FAQS,
-  API_PUBLIC_RECENT_ACTIVITIES,
-  API_PUBLIC_NISE_STATICS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSliders(params: any) {
@@ -157,7 +159,9 @@ export function useFetchCalendarEvent(eventId: number | null | undefined) {
 }
 
 export function useFetchPublicNoticeOrNewses(params: any) {
-  return useLocalizedAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
+  return useLocalizedAxiosSWR(
+    params ? [API_PUBLIC_NOTICE_OR_NEWS, params] : null,
+  );
 }
 
 export function useFetchPublicNoticeOrNews(noticeId: number | null) {
@@ -186,4 +190,23 @@ export function useFetchVisitorFeedback(visitorId: number | null) {
 
 export function useFetchNiseStatics() {
   return useDataLocalizationAxiosSWR(API_PUBLIC_NISE_STATICS);
+}
+
+export function useFetchPublications(params: any) {
+  return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
+}
+export function useFetchPublicPublications(params: any) {
+  return useAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
+}
+
+export function useFetchPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_NISE_PUBLICATIONS + '/' + publicationId : null,
+  );
+}
+
+export function useFetchPublicPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_PUBLIC_PUBLICATIONS + '/' + publicationId : null,
+  );
 }

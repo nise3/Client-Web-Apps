@@ -128,7 +128,9 @@ const StaticContent = () => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <div dangerouslySetInnerHTML={{__html: data.content}} />
+                {data.content ? <div dangerouslySetInnerHTML={{__html: data.content}} />:
+                <NoDataFoundComponent/>}
+
               </Grid>
             </Grid>
           ) : (

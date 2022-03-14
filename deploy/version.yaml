@@ -1,29 +1,31 @@
 variables:
 
+  frontStateImage: "registry.nise.gov.bd:$CI_COMMIT_SHORT_SHA"
+
   #repository library
-  imageRepository: "registry.nise3.xyz"
+  imageRepository: "registry.nise.gov.bd"
 
   #admin frontend
-  imageAdminRelease: "true"
-  imageAdminAppVersion: "2.0.3"
-  imageAdminRepository: "registry.nise3.xyz/nise3-cube-client-web-admin"
+  imageAdminRelease: "false"
+  imageAdminAppVersion: "2.0.8"
+  imageAdminRepository: "registry.nise.gov.bd/nise3-cube-client-web-admin"
 
   #Industry frontend
-  imagIndustryeRelease: "true"
-  imageIndustryAppVersion: "2.0.3"
-  imageIndustryRepository: "registry.nise3.xyz/nise3-cube-client-web-industry"
+  imagIndustryeRelease: "false"
+  imageIndustryAppVersion: "2.0.8"
+  imageIndustryRepository: "registry.nise.gov.bd/nise3-cube-client-web-industry"
 
   #nise frontend
   imageNiseRelease: "true"
-  imageNiseAppVersion: "2.0.3"
-  imageNiseRepository: "registry.nise3.xyz/nise3-cube-client-web-nise"
+  imageNiseAppVersion: "2.0.11"
+  imageNiseRepository: "registry.nise.gov.bd/nise3-cube-client-web-nise"
 
   #ssp frontend
-  imageSSPRelease: "true"
-  imageSSPAppVersion: "2.0.3"
-  imageSSPRepository: "registry.nise3.xyz/nise3-cube-client-web-ssp"
+  imageSSPRelease: "false"
+  imageSSPAppVersion: "2.0.7"
+  imageSSPRepository: "registry.nise.gov.bd/nise3-cube-client-web-ssp"
 
   #youth frontend
-  imageYouthRelease: "true"
-  imageYouthAppVersion: "2.0.3"
-  imageYouthRepository: "registry.nise3.xyz/nise3-cube-client-web-youth"
+  imageYouthRelease: "false"
+  imageYouthAppVersion: "2.0.7"
+  imageYouthRepository: "registry.nise.gov.bd/nise3-cube-client-web-youth"
