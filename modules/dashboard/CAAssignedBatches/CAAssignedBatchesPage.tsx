@@ -16,6 +16,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CABatchManagePopup from './CABatchManagePopup';
 import EditIcon from '@mui/icons-material/Edit';
+import CustomChipCertificationStatus from './CustomChipCertificationStatus';
 
 const CAAssignedBatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -68,6 +69,16 @@ const CAAssignedBatchesPage = () => {
         Header: messages['rpl_occupation.label'],
         accessor: 'rpl_occupation_title',
         isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['certification_status.label'],
+        accessor: 'certification_status',
+        Cell: (props: any) => {
+          const data = props.row.original;
+          return (
+            <CustomChipCertificationStatus value={data?.certification_status} />
+          );
+        },
       },
 
       {
