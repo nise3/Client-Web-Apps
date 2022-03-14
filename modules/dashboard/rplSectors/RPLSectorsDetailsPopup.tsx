@@ -1,17 +1,14 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  useFetchRPLSector,
-  useFetchRTOCountries,
-} from '../../../services/CertificateAuthorityManagement/hooks';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import { useFetchRPLSector, useFetchRTOCountries } from "../../../services/CertificateAuthorityManagement/hooks";
+import IconInstitute from "../../../@softbd/icons/IconInstitute";
 
 type Props = {
   itemId: number;
@@ -42,7 +39,7 @@ const RPLSectorsDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconFAQ />
+            <IconInstitute />
             <IntlMessages id='rpl_sector.label' />
           </>
         }
@@ -60,20 +57,20 @@ const RPLSectorsDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12} md={12}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DetailsInputView
-                  label={messages['common.title']}
+                  label={messages['rpl_sector.name']}
                   value={itemData?.title}
                   isLoading={isLoading}
                 />
               </Grid>
-              {/*<Grid item xs={12}>
+              <Grid item xs={6}>
                 <DetailsInputView
-                  label={messages['common.title_en']}
+                  label={messages['rpl_sector.name_en']}
                   value={itemData?.title_en}
                   isLoading={isLoading}
                 />
-              </Grid>*/}
+              </Grid>
             </Grid>
           </Grid>
 
@@ -86,7 +83,7 @@ const RPLSectorsDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                     <Grid container spacing={5}>
                       <Grid item xs={12}>
                         <DetailsInputView
-                          label={messages['common.title']}
+                          label={messages['rpl_sector.name']}
                           value={itemData?.translations[country_id]?.title}
                           isLoading={isLoading}
                         />

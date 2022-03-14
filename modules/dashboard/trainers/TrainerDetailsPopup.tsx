@@ -8,11 +8,9 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
-import {genders} from '../../../@softbd/utilities/helpers';
-import {religions} from '../../../@softbd/utilities/helpers';
-import {marital_status} from '../../../@softbd/utilities/helpers';
 import {useFetchTrainer} from '../../../services/instituteManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {Gender} from '../../industry/enrollment/constants/GenderEnums';
 
 type Props = {
   itemId: number;
@@ -23,6 +21,55 @@ type Props = {
 const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchTrainer(itemId);
   const {messages} = useIntl();
+
+  const genders = [
+    {
+      key: Gender.MALE,
+      label: messages['common.male'],
+    },
+    {
+      key: Gender.FEMALE,
+      label: messages['common.female'],
+    },
+    {
+      key: Gender.OTHERS,
+      label: messages['common.others'],
+    },
+  ];
+
+  const marital_status = [
+    {
+      key: 0,
+      label: messages['common.unmarried'],
+    },
+    {
+      key: 1,
+      label: messages['common.marital_status_married'],
+    },
+  ];
+
+  const religions = [
+    {
+      id: 1,
+      label: messages['common.religion_islam'],
+    },
+    {
+      id: 2,
+      label: messages['common.religion_hinduism'],
+    },
+    {
+      id: 3,
+      label: messages['common.religion_christianity'],
+    },
+    {
+      id: 4,
+      label: messages['common.religion_buddhism'],
+    },
+    {
+      id: 5,
+      label: messages['common.notDefined'],
+    },
+  ];
 
   return (
     <>
@@ -72,7 +119,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['branch.label']}
-              value={itemData?.branches_title}
+              value={itemData?.branch_title}
               isLoading={isLoading}
             />
           </Grid>
@@ -142,6 +189,13 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
+              label={messages['common.mobile']}
+              value={itemData?.mobile}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
               label={messages['common.gender']}
               value={genders[itemData?.gender - 1]?.label}
               isLoading={isLoading}
@@ -150,7 +204,9 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['institute.label']}
-              value={itemData?.institutes_title}
+              value={(itemData?.institutes || [])
+                .map((institute: any) => institute.title)
+                .join(', ')}
               isLoading={isLoading}
             />
           </Grid>
@@ -207,7 +263,9 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['menu.skill']}
-              value={itemData?.skills}
+              value={(itemData?.skills || [])
+                .map((skill: any) => skill.title)
+                .join(', ')}
               isLoading={isLoading}
             />
           </Grid>
@@ -215,7 +273,7 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['training_center.label']}
-              value={itemData?.training_centers_title}
+              value={itemData?.training_center_title}
               isLoading={isLoading}
             />
           </Grid>

@@ -1,21 +1,21 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_RPL_SECTORS} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import RPLSectorsDetailsPopup from './RPLSectorsDetailsPopup';
-import RPLSectorsAddEditPopup from './RPLSectorsAddEditPopup';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
-import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+import React, { useCallback, useMemo, useState } from "react";
+import PageBlock from "../../../@softbd/utilities/PageBlock";
+import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
+import { useIntl } from "react-intl";
+import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
+import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
+import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
+import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
+import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
+import { API_RPL_SECTORS } from "../../../@softbd/common/apiRoutes";
+import ReactTable from "../../../@softbd/table/Table/ReactTable";
+import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
+import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import RPLSectorsDetailsPopup from "./RPLSectorsDetailsPopup";
+import RPLSectorsAddEditPopup from "./RPLSectorsAddEditPopup";
+import { deleteRPLSector } from "../../../services/CertificateAuthorityManagement/RPLSectorService";
+import IconInstitute from "../../../@softbd/icons/IconInstitute";
 
 const RPLSectorsPage = () => {
   const {messages, locale} = useIntl();
@@ -80,19 +80,6 @@ const RPLSectorsPage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
-      /*{
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-      },*/
-      /*{
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -124,7 +111,7 @@ const RPLSectorsPage = () => {
       <PageBlock
         title={
           <>
-            <IconFAQ /> <IntlMessages id='rpl_sectors.label' />
+            <IconInstitute /> <IntlMessages id='rpl_sectors.label' />
           </>
         }
         extra={[

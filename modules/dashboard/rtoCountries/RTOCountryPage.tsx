@@ -84,7 +84,7 @@ const RTOCountryPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['rto-country.label'],
+                  subject: messages['rto_country.label'],
                 }}
               />
             }

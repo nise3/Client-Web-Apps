@@ -27,6 +27,7 @@ export interface TAuthUserSSOResponse {
   isInstituteUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
+  isRegisteredTrainingOrganizationUser: boolean;
   institute_id?: string | number;
   organization_id?: string | number;
   institute?: IInstitute;
@@ -43,6 +44,8 @@ export interface TAuthUserSSOResponse {
   branch_id?: number;
   industry_association_id?: number;
   industry_association?: any;
+  registered_training_organization_id?: number;
+  registered_training_organization?: any;
   domain?: string;
 }
 

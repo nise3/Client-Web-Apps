@@ -115,15 +115,20 @@ export const API_REJECT_COURSE_ENROLLMENT =
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
+export const API_ASSESSMENT_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH +
+  '/rpl-applications/payment/payment-via-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
+export const API_ASSESSMENT_ASSIGN_BATCH =
+  INSTITUTE_SERVICE_PATH + '/assign-to-batch';
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
 
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
 export const COURSE_ENROLL_RESEND_VERIFICATION = '/resend-verification-code';
 
 export const API_INSTITUTE_QUESTION_BANK =
-  INSTITUTE_SERVICE_PATH + 'question-bank';
+  INSTITUTE_SERVICE_PATH + 'question-bank1';
 
 export const API_INSTITUTE_TRAINEE_YOUTHS =
   INSTITUTE_SERVICE_PATH + '/institute_trainee_youths';
@@ -133,6 +138,33 @@ export const API_INSTITUTE_USER_REJECTION =
   INSTITUTE_SERVICE_PATH + '/institute-registration-rejection';
 export const API_INSTITUTE_USER_APPROVAL =
   INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
+export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
+  INSTITUTE_SERVICE_PATH + '/certification-authority-dashboard-statistics';
+export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
+  INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
+
+/**             eRPL            */
+
+export const API_REGISTERED_TRAINING_ORGANIZATIONS =
+  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
+
+export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
+export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
+export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
+export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
+export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
+export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
+export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
+export const API_ASSESSMENT_QUESTIONS =
+  INSTITUTE_SERVICE_PATH + '/assessment-questions';
+export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
+export const API_ASSESSMENT_QUESTION_SETS =
+  INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
+export const API_RPL_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/rpl-assessment';
+export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
+
+/**             eRPL End         */
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -144,6 +176,21 @@ export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_COURSE_DETAILS = TSP_PUBLIC_SERVICE_PATH + '/courses';
 export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
+
+export const API_PUBLIC_RTO_COUNTRIES =
+  TSP_PUBLIC_SERVICE_PATH + '/rto-countries';
+export const API_PUBLIC_RPL_SECTORS = TSP_PUBLIC_SERVICE_PATH + '/rpl-sectors';
+
+export const API_PUBLIC_RPL_OCCUPATIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/rpl-occupations';
+
+export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
+export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
+export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
+export const API_PUBLIC_RPL_APPLICATIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/rpl-applications';
 
 /** All institute service public routes section end */
 
@@ -431,6 +478,7 @@ export const API_PUBLIC_INDUSTRY_ASSOC_DETAILS =
 export const API_DIVISIONS = CMS_SERVICE_PATH + '/divisions';
 export const API_DISTRICTS = CMS_SERVICE_PATH + '/districts';
 export const API_UPAZILAS = CMS_SERVICE_PATH + '/upazilas';
+export const API_UNIONS = CMS_SERVICE_PATH + '/unions';
 export const API_COUNTRIES = CMS_SERVICE_PATH + '/countries';
 
 export const API_GALLERY_ALBUMS = CMS_SERVICE_PATH + '/gallery-albums';
@@ -476,12 +524,3 @@ export const API_PUBLIC_PUBLICATIONS =
   CMS_SERVICE_PUBLIC_PATH + '/publications';
 
 /** CMS service public routes section end */
-
-/** Registered Training Organizations */
-
-export const API_REGISTERED_TRAINING_ORGANIZATIONS =
-  INSTITUTE_SERVICE_PATH + '/registered-training-organizations';
-
-export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
-
-export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
