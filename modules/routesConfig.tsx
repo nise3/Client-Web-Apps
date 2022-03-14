@@ -371,15 +371,6 @@ const routesConfig: NavItemProps[] = [
             url: '/question-banks',
           },
           {
-            id: 'assessment_question_set',
-            title: 'Assessment Question Set',
-            messageId: 'assessment_question_set.label',
-            permissionKey: 'view_any_assessment_question_set',
-            type: 'item',
-            icon: 'help',
-            url: '/assessment-question-sets',
-          },
-          {
             id: 'assessments',
             title: 'Assessments',
             messageId: 'assessment.label',
@@ -388,7 +379,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'grading',
             url: '/assessments',
           },
-
+          {
+            id: 'assessment_question_set',
+            title: 'Assessment Question Set',
+            messageId: 'assessment_question_set.label',
+            permissionKey: 'view_any_assessment_question_set',
+            type: 'item',
+            icon: 'help',
+            url: '/assessment-question-sets',
+          },
           {
             id: 'ca_assigned_batches',
             title: 'CA Assigned Batches',

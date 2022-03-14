@@ -18,12 +18,14 @@ import IconFAQ from '../../../@softbd/icons/IconFAQ';
 
 interface AddQuestionPopupProps {
   itemId: number;
+  assessmentId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   itemId,
+  assessmentId,
   refreshDataTable,
   ...props
 }) => {
@@ -57,7 +59,8 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
     let questionsFormValues = questionList.map((question: any) => {
       return {
         answer: question.answer,
-        assessment_id: itemId,
+        assessment_id: assessmentId,
+        assessment_question_set_id: itemId,
         option_1: question.option_1,
         option_1_en: question.option_1_en,
         option_2: question.option_2,
@@ -78,15 +81,6 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    let assessments = data?.assessment_questions;
-    let questionSetId = data?.assessment_question_set_id;
-
-    if (assessments && questionSetId) {
-      assessments.map((assessment: any) => {
-        assessment.assessment_question_set_id = questionSetId;
-      });
-    }
-    delete data.assessment_question_set_id;
     if (!isQuestionEditFormOpened) {
       try {
         await addQuestionsToAssessment(data);
@@ -134,7 +128,7 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
       <Grid container spacing={5}>
         <Grid item xs={12}>
           <TransferListComponent
-            assessmentId={itemId}
+            assessmentQuestionSetId={itemId}
             getQuestionSet={getQuestionSet}
             onEditPopupOpenClose={onEditPopupOpenClose}
             control={control}

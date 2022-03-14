@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import {
   useFetchAssessmentQuestions,
-  useFetchAssessmentQuestionSets,
   useFetchQuestionBanks,
   useFetchSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
@@ -25,7 +24,6 @@ import {Edit} from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionEdit from './QuestionEdit';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 function not(a: any[], b: any[]) {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -36,7 +34,7 @@ function intersection(checked: any[], questionList: any[]) {
 }
 
 interface TransferListProps {
-  assessmentId: number | string;
+  assessmentQuestionSetId: number | string;
   getQuestionSet: any;
   onEditPopupOpenClose: (open: boolean) => void;
   control: any;
@@ -44,7 +42,7 @@ interface TransferListProps {
 }
 
 const TransferList: FC<TransferListProps> = ({
-  assessmentId,
+  assessmentQuestionSetId,
   getQuestionSet,
   onEditPopupOpenClose,
   control,
@@ -63,21 +61,8 @@ const TransferList: FC<TransferListProps> = ({
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
 
-  const [assessmentQuestionSetFilter] = useState({
-    assessment_id: assessmentId,
-  });
-
-  const [selectedSet, setSelectedSet] = useState<any>([]);
-
-  const onQuestionSetChange = (questionSetId: any) => {
-    setSelectedSet(questionSetId);
-  };
-
-  const {data: questionSetData, isLoading: isLoadingAssessment} =
-    useFetchAssessmentQuestionSets(assessmentQuestionSetFilter);
-
   const [assessmentQuestionFilter] = useState({
-    assessment_id: assessmentId,
+    assessment_question_set_id: assessmentQuestionSetId,
   });
   const {data: assessmentQuestions, isLoading} = useFetchAssessmentQuestions(
     assessmentQuestionFilter,
@@ -261,23 +246,7 @@ const TransferList: FC<TransferListProps> = ({
   return (
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id={'assessment_question_set_id'}
-            label={messages['question_set.label']}
-            isLoading={isLoadingAssessment}
-            control={control}
-            options={questionSetData}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            defaultValue={selectedSet}
-            errorInstance={errors}
-            onChange={onQuestionSetChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomFilterableSelect
             id={'subject_id'}
             label={messages['subject.select_first']}
