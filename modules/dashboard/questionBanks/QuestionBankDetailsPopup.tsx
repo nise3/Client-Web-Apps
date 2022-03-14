@@ -157,7 +157,7 @@ const QuestionBankDetailsPopup = ({ itemId, openEditModal, ...props }: Props) =>
             </Grid>
           </Grid>
 
-          {itemData?.type == "1" && (
+          {itemData?.type == QuestionType.MCQ && (
             <>
               <Grid item xs={6}>
                 <Grid container spacing={5}>
