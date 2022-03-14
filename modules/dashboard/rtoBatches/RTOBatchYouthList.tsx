@@ -12,6 +12,8 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
+import {Button} from '@mui/material';
+import {ArrowBack} from '@mui/icons-material';
 
 const RTOBatchYouthPage = () => {
   const {messages} = useIntl();
@@ -122,7 +124,18 @@ const RTOBatchYouthPage = () => {
           <>
             <IconUser /> <IntlMessages id='youth.label' />
           </>
-        }>
+        }
+        extra={[
+          <Button
+            key={1}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={() => router.back()}>
+            <ArrowBack />
+            {messages['common.back']}
+          </Button>,
+        ]}>
         <ReactTable
           columns={columns}
           data={filteredData}

@@ -14,6 +14,8 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUser} from 'react-icons/fi';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {Button} from '@mui/material';
+import {ArrowBack} from '@mui/icons-material';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -128,7 +130,18 @@ const YouthPage = () => {
           <>
             <IconUser /> <IntlMessages id='youth.label' />
           </>
-        }>
+        }
+        extra={[
+          <Button
+            key={1}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={() => router.back()}>
+            <ArrowBack />
+            {messages['common.back']}
+          </Button>,
+        ]}>
         <ReactTable
           columns={columns}
           data={filteredData}
