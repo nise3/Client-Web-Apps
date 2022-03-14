@@ -190,6 +190,24 @@ const RPLApplicationForm = () => {
                 value && Number(value) == EducationLevelId.PHD,
               then: yup.string().required(),
             }),
+          major_or_concentration: yup
+            .string()
+            .label(messages['education.major_group_name_bn'] as string)
+            .when('education_level_id', {
+              is: (educationLevelId: any) => {
+                const DEGREE_ARR = [
+                  EducationLevelId.DIPLOMA,
+                  EducationLevelId.HONOURS,
+                  EducationLevelId.MASTERS,
+                  EducationLevelId.PHD,
+                ];
+                return (
+                  educationLevelId &&
+                  DEGREE_ARR.includes(Number(educationLevelId))
+                );
+              },
+              then: yup.string().required(),
+            }),
           edu_group_id: yup
             .mixed()
             .label(messages['education.group'] as string)
@@ -526,6 +544,10 @@ const RPLApplicationForm = () => {
       formData.youth_details.education_info = data.education_info;
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
+      formData.youth_details.is_youth_employed = data.youth_details
+        .is_youth_employed
+        ? 1
+        : 0;
 
       formData.youth_details.identity_number = String(
         formData.youth_details.identity_number,
