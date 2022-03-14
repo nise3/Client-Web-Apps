@@ -9,6 +9,8 @@ import {
   useFetchPublicRTOCountries,
   useFetchPublicRTOS,
 } from '../../../services/CertificateAuthorityManagement/hooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface SectorAndOccupationFormProps {
   register: any;
@@ -39,6 +41,7 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
   const [selectedRtoCountryId, setSelectedRtoCountryId] = useState(null);
   const [selectedLevelId, setSelectedLevelId] = useState(null);
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
 
   const {data: countries, isLoading: isLoadingCountries} =
     useFetchPublicRTOCountries(countryFilters);
@@ -128,7 +131,10 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
 
       if (occupationId) {
         setSelectedOccupationId(occupationId);
-        setRplLevelFilters({rpl_occupation_id: occupationId});
+        setRplLevelFilters({
+          rpl_occupation_id: occupationId,
+          youth_id: authUser?.youthId,
+        });
       } else {
         setSelectedOccupationId(null);
         setRplLevelFilters(null);
