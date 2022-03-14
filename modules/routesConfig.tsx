@@ -301,7 +301,7 @@ const routesConfig: NavItemProps[] = [
           {
             id: 'rto-countries',
             title: 'RTO Countries',
-            messageId: 'rto-country.label',
+            messageId: 'rto_country.label',
             permissionKey: 'view_any_rto_country',
             type: 'item',
             icon: 'public',
