@@ -40,6 +40,11 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
         .of(yup.object())
         .min(1, messages['common.must_have_one_question'] as string)
         .label(messages['assessment.addQuestion'] as string),
+      assessment_question_set_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['question_set.label'] as string),
     });
   }, [messages]);
 

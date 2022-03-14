@@ -735,6 +735,7 @@
   "common.settings": "Settings",
   "common.year": "Year",
   "common.company_name_bn": "Company Name",
+  "common.company_name": "Company Name",
   "common.country": "Country",
   "common.phone_code": "Phone Code",
   "common.verification_message_on_mobile": "Verification code has been send to {subject}",
