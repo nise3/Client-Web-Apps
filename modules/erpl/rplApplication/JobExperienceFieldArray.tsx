@@ -1,8 +1,7 @@
 import React, {useCallback, useState} from 'react';
-import {Button, ButtonGroup, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
-import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
@@ -29,24 +28,19 @@ const JobExperienceFieldArray = ({
   countries,
 }: Props) => {
   const {messages} = useIntl();
-  const [countryFilters] = useState<any>({});
   const [rplSectorFilters, setRplSectorFilters] = useState<any>(null);
   const [rplOccupationFilters, setRplOccupationFilters] = useState<any>(null);
   const [rplLevelFilters, setRplLevelFilters] = useState<any>(null);
-  const [rtoCountryFilters] = useState<any>({});
   const [selectedCountryId, setSelectedCountryId] = useState(null);
   const [selectedSectorId, setSelectedSectorId] = useState(null);
   const [selectedOccupationId, setSelectedOccupationId] = useState(null);
-  const [selectedLevelId, setSelectedLevelId] = useState(null);
 
-  const {data: rplSectors, isLoading: isLoadingSectors} =
-    useFetchPublicRPLSectors(rplSectorFilters);
+  const {data: rplSectors} = useFetchPublicRPLSectors(rplSectorFilters);
 
-  const {data: rplOccupations, isLoading: isLoadingOccupations} =
+  const {data: rplOccupations} =
     useFetchPublicRPLOccupations(rplOccupationFilters);
 
-  const {data: rplLevels, isLoading: isLoadingLevels} =
-    useFetchPublicRPLLevels(rplLevelFilters);
+  const {data: rplLevels} = useFetchPublicRPLLevels(rplLevelFilters);
 
   const onCountryChange = useCallback(
     (countryId: any) => {
@@ -73,14 +67,14 @@ const JobExperienceFieldArray = ({
     [selectedOccupationId],
   );
 
-  const onLevelChange = useCallback(
+  /*const onLevelChange = useCallback(
     (levelId: any) => {
       setSelectedLevelId(levelId);
     },
     [selectedOccupationId],
-  );
+  );*/
 
-  const {fields, append, remove} = useFieldArray({
+  const {fields} = useFieldArray({
     control,
     name: id,
   });
