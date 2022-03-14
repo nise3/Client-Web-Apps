@@ -138,6 +138,10 @@ export const API_INSTITUTE_USER_REJECTION =
   INSTITUTE_SERVICE_PATH + '/institute-registration-rejection';
 export const API_INSTITUTE_USER_APPROVAL =
   INSTITUTE_SERVICE_PATH + '/institute-registration-approval';
+export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
+  INSTITUTE_SERVICE_PATH + '/certification-authority-dashboard-statistics';
+export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
+  INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
 
 /**             eRPL            */
 
