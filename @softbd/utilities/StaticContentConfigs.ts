@@ -10,3 +10,5 @@ export const CONTENT_ID_TERMS_AND_CONDITIONS = 'terms-and-conditions';
 export const CONTENT_ID_PRIVACY_POLICY = 'privacy-policy';
 export const CONTENT_ID_CAREER_ADVICE = 'career-advice';
 export const CONTENT_ID_GUIDELINES = 'guidelines';
+export const CONTENT_ID_WHAT_IS_RPL = 'what-is-rpl';
+export const CONTENT_ID_CERTIFICATE_ADVANTAGE = 'rpl-certificate-benefits';

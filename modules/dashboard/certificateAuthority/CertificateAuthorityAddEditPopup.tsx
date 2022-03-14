@@ -42,17 +42,14 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-
-export enum InstituteType {
-  GOVERNMENT = '1',
-  NON_GOVERNMENT = '0',
-}
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -63,9 +60,8 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  // domain: '',
-  institute_type_id: '0',
-  service_type: '2',
+  institute_type_id: InstituteTypes.GOVERNMENT,
+  service_type: InstituteServiceTypes.CERTIFICATE,
   code: '',
   address: '',
   primary_phone: '',
@@ -102,11 +98,11 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const instituteTypes = useMemo(
     () => [
       {
-        key: InstituteType.GOVERNMENT,
+        key: InstituteTypes.GOVERNMENT,
         label: messages['common.government'],
       },
       {
-        key: InstituteType.NON_GOVERNMENT,
+        key: InstituteTypes.NON_GOVERNMENT,
         label: messages['common.non_government'],
       },
     ],
@@ -122,13 +118,11 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INSTITUTE_KEY,
+    key: PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
-    useState<any>({
-      row_status: RowStatus.ACTIVE,
-    });
+    useState<any>(null);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -274,13 +268,13 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (permissionGroups && permissionGroups.length > 0) {
+    if (!isEdit && permissionGroups && permissionGroups.length > 0) {
       setPermissionSubGroupFilters({
         permission_group_id: permissionGroups[0]?.id,
         row_status: RowStatus.ACTIVE,
       });
     }
-  }, [permissionGroups]);
+  }, [isEdit, permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
@@ -346,7 +340,7 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.service_type = '2';
+      data.service_type = InstituteServiceTypes.CERTIFICATE;
 
       if (itemId) {
         await updateInstitute(itemId, data);
@@ -569,16 +563,6 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='domain'*/}
-            {/*    label={messages['common.domain']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    placeholder='https://example.xyz'*/}
-            {/*  />*/}
-            {/*</Grid>*/}
             <Grid item xs={12}>
               <FormRadioButtons
                 id='institute_type_id'
