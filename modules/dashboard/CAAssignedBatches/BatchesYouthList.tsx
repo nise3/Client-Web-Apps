@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_RTO_BATCH} from '../../../@softbd/common/apiRoutes';
+import {API_RPL_APPLICATION} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -92,9 +92,9 @@ const YouthPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_RTO_BATCH,
+      urlPath: API_RPL_APPLICATION,
       paramsValueModifier: (params: any) => {
-        if (batchId) params['batch_id'] = batchId;
+        if (batchId) params['rto_batch_id'] = batchId;
         if (authUser?.institute_id)
           params['institute_id'] = authUser?.institute_id;
         return params;
@@ -113,7 +113,11 @@ const YouthPage = () => {
     return {
       ...youth,
       gender_label,
-      full_name: youth.first_name + ' ' + youth.last_name,
+      full_name:
+        youth?.youth_details?.first_name +
+        ' ' +
+        youth?.youth_details?.last_name,
+      mobile: youth?.youth_details?.mobile,
     };
   });
 
