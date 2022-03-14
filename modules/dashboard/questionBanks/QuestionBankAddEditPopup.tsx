@@ -214,6 +214,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         option_4_en: itemData?.option_4_en,
         answer: itemData?.answer,
       };
+      setIsMCQ(Number(itemData?.type) == QuestionType.MCQ);
 
       reset(data);
     } else {
@@ -235,7 +236,6 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
 
     try {
       if (itemId) {
-        console.log(data);
         await updateQuestion(itemId, data);
         updateSuccessMessage('question.label');
         mutateRTOQuestion();
@@ -250,12 +250,8 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     }
   };
 
-  const changeType = (e: any) => {
-    if (e == '1') {
-      setIsMCQ(true);
-    } else {
-      setIsMCQ(false);
-    }
+  const onChangeType = (value: any) => {
+    setIsMCQ(Number(value) == QuestionType.MCQ);
   };
 
   return (
@@ -343,7 +339,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
             control={control}
             defaultValue={initialValues.type}
             isLoading={isLoading}
-            onChange={changeType}
+            onChange={onChangeType}
           />
         </Grid>
 
