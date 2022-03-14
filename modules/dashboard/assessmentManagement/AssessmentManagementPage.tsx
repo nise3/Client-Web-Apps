@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_YOUTH_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
+import {API_RPL_APPLICATION} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconCourse from '../../../@softbd/icons/IconCourse';
@@ -171,7 +171,7 @@ const AssessmentManagementPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_YOUTH_ASSESSMENT,
+      urlPath: API_RPL_APPLICATION,
     });
 
   return (

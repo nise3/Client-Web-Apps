@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import { API_YOUTH_ASSESSMENT } from "../../../@softbd/common/apiRoutes";
+import {API_RPL_APPLICATION} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -90,7 +90,7 @@ const RTOBatchYouthPage = () => {
   // TODO:: Change the api route whenever its ready
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_YOUTH_ASSESSMENT,
+      urlPath: API_RPL_APPLICATION,
       paramsValueModifier: (params: any) => {
         if (rtobatchId) params['rto_batch_id'] = rtobatchId;
         return params;

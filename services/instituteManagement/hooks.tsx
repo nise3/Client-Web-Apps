@@ -22,9 +22,9 @@ import {
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
+  API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_YOUTH_ASSESSMENT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -158,7 +158,7 @@ export function useFetchApplicationDetails(applicationId: number | null) {
 /** fetches a single assessment's details */
 export function useFetchAssessmentDetails(assessmentId: number | null) {
   return useAxiosSWR(
-    assessmentId ? API_YOUTH_ASSESSMENT + '/' + assessmentId : null,
+    assessmentId ? API_RPL_APPLICATION + '/' + assessmentId : null,
   );
 }
 

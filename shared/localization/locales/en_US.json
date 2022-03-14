@@ -1677,9 +1677,6 @@
   "common.assign_assessor": "Assessor assign",
   "common.exam_date": "Exam date",
   "assessment_question_set.label": "Assessment Question Set",
-  "questionSet.label": "Question Set",
-  "questionSet.title": "Question Set Name",
-  "questionSet.title_en": "Question Set Name (EN)",
   "dashboard.total_batches": "Total batches",
   "dashboard.total_rpl_applications": "Total Rpl applications",
   "dashboard.total_youths": "Total youths",
@@ -1688,5 +1685,8 @@
   "dashboard.total_rtos": "Total RTOs",
   "dashboard.total_sectors": "Total sectors",
   "dashboard.total_occupations": "Total occupations",
-  "dashboard.total_trainers": "Total trainers"
+  "dashboard.total_trainers": "Total trainers",
+  "question_set.label": "Question Set",
+  "question_set.title": "Question Set Name",
+  "question_set.title_en": "Question Set Name (EN)"
 }
