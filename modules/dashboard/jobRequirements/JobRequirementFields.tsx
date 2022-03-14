@@ -45,11 +45,20 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={3}>
           <CustomDateTimeField
             required
             id={'hr_demands[' + index + '][end_date]'}
             label={messages['common.end_date']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            required
+            id={'hr_demands[' + index + '][vacancy]'}
+            label={messages['common.vacancy']}
             register={register}
             errorInstance={errors}
           />
@@ -76,15 +85,6 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title']}
             control={control}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id={'hr_demands[' + index + '][vacancy]'}
-            label={messages['common.vacancy']}
-            register={register}
             errorInstance={errors}
           />
         </Grid>
