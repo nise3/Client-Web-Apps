@@ -390,7 +390,7 @@ export function areaText(
   const $tex = $(textRoot);
   // console.log($tex[0]);
   // $tex.clone().attr({ fill: '#f00', x: 0, y: 0 }).insertBefore($tex).prevAll('[pseudo="area"],[data-name*="::a;"]').attr('fill', '#bbb');
-  console.time('AreaText');
+  // console.time('AreaText');
   // if(!(prop.ff in FD)) return [];
   // @ts-ignore
   let NBS = '&#160;',
@@ -630,7 +630,7 @@ export function areaText(
       })
       .join(''),
   );
-  console.timeEnd('AreaText');
+  // console.timeEnd('AreaText');
   // console.log(clg);
   return lns;
 }
@@ -659,7 +659,7 @@ export const setAreaText = (
       let text = document.createElementNS(SVG_NS, "text");
       if (i > 0) {
         const previousTxt = textElement[i-1];
-        console.log(`${id} :`, previousTxt.getBBox());
+        // console.log(`${id} :`, previousTxt.getBBox());
         const previousBoxHeight = previousTxt.getBBox().height;
         const heightWithPrev = previousBoxHeight + 5;
         // text.setAttributeNS(null, 'x', rect.x);
