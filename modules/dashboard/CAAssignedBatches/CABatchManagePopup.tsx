@@ -15,7 +15,7 @@ import {Division} from '../../../shared/Interface/location.interface';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {CreateAssignAssessor} from '../../../services/CertificateAuthorityManagement/CABatchService';
+import {createAssignAssessor} from '../../../services/CertificateAuthorityManagement/CABatchService';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface CABatchManagePopupProps {
@@ -48,7 +48,7 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
 
   const onSubmit: SubmitHandler<Division> = async (data: any) => {
     try {
-      await CreateAssignAssessor(itemId, data);
+      await createAssignAssessor(itemId, data);
       createSuccessMessage('common.assign_assessor');
       onClose();
       refreshDataTable();

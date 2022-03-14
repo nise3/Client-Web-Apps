@@ -1688,5 +1688,10 @@
   "dashboard.total_trainers": "Total trainers",
   "question_set.label": "Question Set",
   "question_set.title": "Question Set Name",
-  "question_set.title_en": "Question Set Name (EN)"
+  "question_set.title_en": "Question Set Name (EN)",
+  "common.submitted": "Submitted",
+  "common.not_submitted": "Not submitted",
+  "common.certified": "Certified",
+  "common.not_certified": "Not certified",
+  "certification_status.label": "Certificate status"
 }
