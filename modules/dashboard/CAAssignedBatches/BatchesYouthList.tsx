@@ -113,7 +113,11 @@ const YouthPage = () => {
     return {
       ...youth,
       gender_label,
-      full_name: youth.first_name + ' ' + youth.last_name,
+      full_name:
+        youth?.youth_details?.first_name +
+        ' ' +
+        youth?.youth_details?.last_name,
+      mobile: youth?.youth_details?.mobile,
     };
   });
 
