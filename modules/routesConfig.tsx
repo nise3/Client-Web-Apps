@@ -392,7 +392,7 @@ const routesConfig: NavItemProps[] = [
             id: 'ca_assigned_batches',
             title: 'CA Assigned Batches',
             messageId: 'certificate_authority.batch',
-            permissionKey: 'view_any_ca_assigned_batches',
+            permissionKey: 'view_any_rpl_batch',
             type: 'item',
             icon: 'group',
             url: '/rpl-batches',
