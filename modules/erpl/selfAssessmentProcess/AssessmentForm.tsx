@@ -30,8 +30,8 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
           <></> /**skeleton**/
         ) : assessments && assessments.length ? (
           assessments.map((assessment: any, index: number) => {
-            if (assessment?.type == 1) {
-              return (
+            return assessment?.type == 1 ? (
+              <React.Fragment key={assessment?.question_id}>
                 <Grid item xs={12}>
                   <Body1 fontWeight={'bold'}>
                     {index + 1} {'. '} {assessment?.question_title}
@@ -63,38 +63,36 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
                     sx={{display: 'none'}}
                   />
                 </Grid>
-              );
-            } else {
-              return (
-                <Grid item xs={12}>
-                  <Body1 fontWeight={'bold'}>
-                    {index + 1} {'. '} {assessment?.question_title}
-                  </Body1>
-                  <FormRadioButtons
-                    id={'answers[' + index + '][answer]'}
-                    control={control}
-                    radios={[
-                      {label: messages['common.yes'], key: 1},
-                      {label: messages['common.no'], key: 2},
-                    ]}
-                  />
-                  <TextField
-                    id={'answers[' + index + '][question_id]'}
-                    type={'hidden'}
-                    {...register('answers[' + index + '][question_id]')}
-                    defaultValue={assessment?.question_id}
-                    sx={{display: 'none'}}
-                  />
-                  <TextField
-                    id={'assessment_id'}
-                    type={'hidden'}
-                    {...register('assessment_id')}
-                    defaultValue={assessment?.assessment_id}
-                    sx={{display: 'none'}}
-                  />
-                </Grid>
-              );
-            }
+              </React.Fragment>
+            ) : (
+              <Grid item xs={12}>
+                <Body1 fontWeight={'bold'}>
+                  {index + 1} {'. '} {assessment?.question_title}
+                </Body1>
+                <FormRadioButtons
+                  id={'answers[' + index + '][answer]'}
+                  control={control}
+                  radios={[
+                    {label: messages['common.yes'], key: 1},
+                    {label: messages['common.no'], key: 2},
+                  ]}
+                />
+                <TextField
+                  id={'answers[' + index + '][question_id]'}
+                  type={'hidden'}
+                  {...register('answers[' + index + '][question_id]')}
+                  defaultValue={assessment?.question_id}
+                  sx={{display: 'none'}}
+                />
+                <TextField
+                  id={'assessment_id'}
+                  type={'hidden'}
+                  {...register('assessment_id')}
+                  defaultValue={assessment?.assessment_id}
+                  sx={{display: 'none'}}
+                />
+              </Grid>
+            );
           })
         ) : (
           <NoDataFoundComponent />
