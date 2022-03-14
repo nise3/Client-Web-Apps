@@ -17,7 +17,7 @@ import {useFetchAssessmentQuestionSets} from '../../../services/CertificateAutho
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
-import AddQuestionPopup from '../assessments/AddQuestionPopup';
+import AddQuestionPopup from './AddQuestionPopup';
 
 const QuestionSetPage = () => {
   const {messages} = useIntl();
