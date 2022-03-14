@@ -1671,7 +1671,6 @@
   "common.assessment_fee": "Assessment Fee",
   "common.self_assessment": "Self Assessment",
   "common.sector_occupation": "Sector and Occupation",
-  "rto_country.label": "RTO Country",
   "rto_batch.label": "RTO Batch",
   "common.rto_sector_exceptions": "RTO sector exceptions",
   "common.rto_occupation_exceptions": "RTO occupation exceptions",
@@ -1733,5 +1732,7 @@
   "common.application_header_text": "Application for admission of trainees under National Technical and Vocational Qualification Framework (NTVQF)",
   "common.fill_according_to_educational_certificate": "Fill according to educational certificate",
   "rpl_application.label": "RPL Application",
-  "graph_view_title.projection_of_future_jobs": "Projection of Future Jobs"
+  "graph_view_title.projection_of_future_jobs": "Projection of Future Jobs",
+  "rpl_batch.title": "Batch Title",
+  "rpl_batch.title_en": "Batch Title (En)"
 }

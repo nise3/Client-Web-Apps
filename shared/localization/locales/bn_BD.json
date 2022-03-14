@@ -1650,7 +1650,6 @@
   "common.self_assessment": "নিজেকে যাচাইকরণ",
   "common.assessment_result": "মূল্যায়ন ফলাফল",
   "common.assessment_fee": "মূল্যায়ন ফি",
-  "rto_country.label": "আরটিও দেশ",
   "rto_batch.label": "আরটিও ব্যাচ",
   "common.rto_sector_exceptions": "আরটিও সেক্টর ব্যতিক্রম",
   "common.rto_occupation_exceptions": "আরটিও পেশা ব্যতিক্রম",
@@ -1733,5 +1732,7 @@
   "association.association_information": "সমিতির তথ্য",
   "common.view_cv": "সিভি ভিউ",
   "rpl.application_submitted_successfully": "আবেদন সফলভাবে জমা দেওয়া হয়েছে",
-  "graph_view_title.projection_of_future_jobs": "ভবিষ্যত চাকরির প্রজেকশন"
+  "graph_view_title.projection_of_future_jobs": "ভবিষ্যত চাকরির প্রজেকশন",
+  "rpl_batch.title": "ব্যাচ টাইটেল",
+  "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)"
 }
