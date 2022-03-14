@@ -33,7 +33,6 @@ import {
 } from '../../../services/youthManagement/hooks';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
-import {router} from 'next/client';
 import {nationalities} from '../../../@softbd/utilities/Nationalities';
 import {
   EducationLevelId,
@@ -42,14 +41,19 @@ import {
   ResultCodeGradeId,
 } from '../../youth/profile/utilities/EducationEnums';
 import {createRPLApplication} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
+import {useRouter} from 'next/router';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
-
   const {createSuccessMessage} = useSuccessMessage();
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
+  const router = useRouter();
+  const {application_id} = router.query;
+  const {data: rplApplication} = useFetchPublicRplApplication(
+    Number(application_id),
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -397,11 +401,6 @@ const RPLApplicationForm = () => {
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
 
-  const {application_id} = router.query;
-  const {data: rplApplication} = useFetchPublicRplApplication(
-    Number(application_id),
-  );
-
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
@@ -508,7 +507,9 @@ const RPLApplicationForm = () => {
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
 
-      formData.youth_details.identity_number = String(formData.youth_details.identity_number);
+      formData.youth_details.identity_number = String(
+        formData.youth_details.identity_number,
+      );
 
       console.log('data: ', formData);
 
