@@ -107,25 +107,25 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
             .string()
             .required()
             .label(messages['option.option1'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_2: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option2'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_3: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option3'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_4: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option4'] as string)
-        : yup.string(),
+        : yup.mixed(),
     });
   }, [messages, isMCQ]);
 
