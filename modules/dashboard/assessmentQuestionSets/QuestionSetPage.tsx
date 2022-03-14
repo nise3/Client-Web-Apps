@@ -82,14 +82,14 @@ const QuestionSetPage = () => {
       },
       {
         Header: messages['assessment.label'],
-        accessor: 'assessment_id',
+        accessor: 'assessment_title',
       },
       {
-        Header: messages['questionSet.title'],
+        Header: messages['question_set.title'],
         accessor: 'title',
       },
       {
-        Header: messages['questionSet.title_en'],
+        Header: messages['question_set.title_en'],
         accessor: 'title_en',
       },
       {

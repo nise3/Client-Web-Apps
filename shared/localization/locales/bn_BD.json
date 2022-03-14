@@ -1676,10 +1676,8 @@
   "common.assessor": "মূল্যায়নকারী",
   "common.assign_assessor": "মূল্যায়নকারী নিয়োগ",
   "common.exam_date": "পরীক্ষার দিন",
+  "rpl_application.label": "আরপিএল আবেদন",
   "assessment_question_set.label": "অ্যাসেসমেন্ট প্রশ্ন সেট",
-  "questionSet.label": "প্রশ্ন সেট",
-  "questionSet.title": "প্রশ্ন সেট",
-  "questionSet.title_en": "প্রশ্ন সেট (ইংরেজি)",
   "dashboard.total_batches": "মোট ব্যাচ",
   "dashboard.total_rpl_applications": "মোট আর.পি.এল. অ্যাপ্লিকেশন",
   "dashboard.total_youths": "মোট যুবক",
@@ -1688,5 +1686,8 @@
   "dashboard.total_rtos": "মোট আরটিও",
   "dashboard.total_sectors": "মোট সেক্টর",
   "dashboard.total_occupations": "মোট পেশা",
-  "dashboard.total_trainers": "মোট প্রশিক্ষক"
+  "dashboard.total_trainers": "মোট প্রশিক্ষক",
+  "question_set.label": "প্রশ্ন সেট",
+  "question_set.title": "প্রশ্ন সেট",
+  "question_set.title_en": "প্রশ্ন সেট (ইংরেজি)"
 }

@@ -9,7 +9,6 @@ interface ResultProps {
 
 const AssessmentResult: FC<ResultProps> = ({responseData}) => {
   const {messages} = useIntl();
-  console.log('response: ', responseData);
 
   return (
     <Grid container spacing={2}>
@@ -17,9 +16,13 @@ const AssessmentResult: FC<ResultProps> = ({responseData}) => {
         {responseData && Object.keys(responseData).length ? (
           responseData?.data?.result == 1 ? (
             <>
-              <H2 centered={true}>{messages['common.passed_text']}</H2>
+              <H2 centered={true} sx={{color: 'green'}}>{messages['common.passed_text']}</H2>
               <Grid container justifyContent={'center'}>
-                <Link passHref href={window.location.origin + '/applications'}>
+                <Link
+                  passHref
+                  href={
+                    '/applications?application_id=' + responseData?.data?.id
+                  }>
                   <Button variant='outlined' color='primary' size={'small'}>
                     {messages['common.application']}
                   </Button>
@@ -27,7 +30,7 @@ const AssessmentResult: FC<ResultProps> = ({responseData}) => {
               </Grid>
             </>
           ) : (
-            <H6 centered={true}>
+            <H6 centered={true} sx={{color: 'red'}}>
               {messages['common.assessment_result_message']}
             </H6>
           )

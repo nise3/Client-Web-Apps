@@ -20,8 +20,7 @@ import AssessmentForm from './AssessmentForm';
 import {useFetchPublicYouthAssessmentQuestions} from '../../../services/CertificateAuthorityManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {createYouthAssessment} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {createRplAssessment} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
 import AssessmentResult from './AssessmentResult';
 
 const PREFIX = 'YouthCourseRegistrationPage';
@@ -52,7 +51,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const AssessmentProcessPage = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
-  const {createSuccessMessage} = useSuccessMessage();
   const [activeStep, setActiveStep] = useState(0);
   const [activeStepKey, setActiveStepKey] = useState<string>(
     AssessmentKeys.SECTOR_OCCUPATION.toString(),
@@ -62,7 +60,6 @@ const AssessmentProcessPage = () => {
     AssessmentKeys.ASSESSMENT.toString(),
     AssessmentKeys.ASSESSMENT_RESULT.toString(),
   ]);
-  /*  const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);*/
 
   const [hasCountryId, setHasCountryId] = useState<any>(null);
   const [hasSectorId, setHasSectorId] = useState<any>(null);
@@ -73,71 +70,6 @@ const AssessmentProcessPage = () => {
   const [responseData, setResponseData] = useState<any>({});
   const {data: assessments, isLoading: isLoadingAssessments} =
     useFetchPublicYouthAssessmentQuestions(assessmentFilter);
-
-  useEffect(() => {
-    if (hasLevelId && hasOccupationId) {
-      setAssessmentFilter({
-        rpl_occupation_id: hasOccupationId,
-        rpl_level_id: hasLevelId,
-      });
-    }
-  }, [hasLevelId, hasOccupationId]);
-
-  const getCurrentFormContent = () => {
-    switch (activeStepKey) {
-      case AssessmentKeys.SECTOR_OCCUPATION:
-        return (
-          <SectorAndOccupationForm
-            onChanged={onChanged}
-            register={register}
-            errors={errors}
-            control={control}
-            getValues={getValues}
-            setValue={setValue}
-          />
-        );
-      case AssessmentKeys.ASSESSMENT:
-        return (
-          <AssessmentForm
-            isLoadingAssessments={isLoadingAssessments}
-            assessments={assessments}
-            control={control}
-            register={register}
-            getValues={getValues}
-            errors={errors}
-          />
-        );
-      case AssessmentKeys.ASSESSMENT_RESULT:
-        return <AssessmentResult responseData={responseData} />;
-      default:
-        return <></>;
-    }
-  };
-
-  const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    try {
-      if (activeStep < stepKeys.length - 2) {
-        handleNext();
-      } else {
-        formData.youth_id = authUser?.youthId;
-        const response = await createYouthAssessment(formData);
-        setResponseData(response);
-        createSuccessMessage('common.self_assessment');
-        handleNext();
-      }
-      console.log('formData: ', formData);
-    } catch (error: any) {}
-  };
-
-  const handleNext = () => {
-    setActiveStepKey(stepKeys[activeStep + 1]);
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStepKey(stepKeys[activeStep - 1]);
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   const validationSchema: any = useMemo(() => {
     switch (activeStepKey) {
@@ -218,6 +150,72 @@ const AssessmentProcessPage = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    if (hasLevelId && hasOccupationId) {
+      setAssessmentFilter({
+        rpl_occupation_id: hasOccupationId,
+        rpl_level_id: hasLevelId,
+      });
+    }
+  }, [hasLevelId, hasOccupationId]);
+
+  const getCurrentFormContent = () => {
+    switch (activeStepKey) {
+      case AssessmentKeys.SECTOR_OCCUPATION:
+        return (
+          <SectorAndOccupationForm
+            onChanged={onChanged}
+            register={register}
+            errors={errors}
+            control={control}
+            getValues={getValues}
+            setValue={setValue}
+          />
+        );
+      case AssessmentKeys.ASSESSMENT:
+        return (
+          <AssessmentForm
+            isLoadingAssessments={isLoadingAssessments}
+            assessments={assessments}
+            control={control}
+            register={register}
+            getValues={getValues}
+            errors={errors}
+          />
+        );
+      case AssessmentKeys.ASSESSMENT_RESULT:
+        return <AssessmentResult responseData={responseData} />;
+      default:
+        return <></>;
+    }
+  };
+
+  console.log('errors: ', errors);
+  const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    console.log('formData: ', formData);
+
+    try {
+      if (activeStep < stepKeys.length - 2) {
+        handleNext();
+      } else {
+        formData.youth_id = authUser?.youthId;
+        const response = await createRplAssessment(formData);
+        setResponseData(response);
+        handleNext();
+      }
+    } catch (error: any) {}
+  };
+
+  const handleNext = () => {
+    setActiveStepKey(stepKeys[activeStep + 1]);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStepKey(stepKeys[activeStep - 1]);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
   const [changedState, setChangedState] = useState(0);
   const onChanged = useCallback(() => {
     setChangedState(Math.random() * 1e6);
@@ -290,28 +288,30 @@ const AssessmentProcessPage = () => {
                 <Box sx={{p: '10px 0px', marginTop: 3}}>
                   {getCurrentFormContent()}
                 </Box>
-                <Box className={classes.btnGroup}>
-                  {activeStep > 0 && (
-                    <Button
-                      onClick={handleBack}
-                      variant={'outlined'}
-                      color={'primary'}>
-                      {messages['common.previous']}
-                    </Button>
-                  )}
-                  {activeStep < stepKeys.length - 1 && (
-                    <Button
-                      sx={{marginLeft: 'auto'}}
-                      type={'submit'}
-                      variant={'contained'}
-                      color={'primary'}
-                      disabled={isSubmitting}>
-                      {activeStep == stepKeys.length - 2
-                        ? messages['common.submit']
-                        : messages['common.next']}
-                    </Button>
-                  )}
-                </Box>
+                <Container maxWidth={'md'}>
+                  <Box className={classes.btnGroup}>
+                    {activeStep > 0 && activeStep < stepKeys.length - 1 && (
+                      <Button
+                        onClick={handleBack}
+                        variant={'outlined'}
+                        color={'primary'}>
+                        {messages['common.previous']}
+                      </Button>
+                    )}
+                    {activeStep < stepKeys.length - 1 && (
+                      <Button
+                        sx={{marginLeft: 'auto'}}
+                        type={'submit'}
+                        variant={'contained'}
+                        color={'primary'}
+                        disabled={isSubmitting}>
+                        {activeStep == stepKeys.length - 2
+                          ? messages['common.submit']
+                          : messages['common.next']}
+                      </Button>
+                    )}
+                  </Box>
+                </Container>
               </form>
             </React.Fragment>
           )}
