@@ -120,7 +120,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
       skills: yup
         .array()
         .of(yup.object().shape({}))
-        .min(1)
+        .min(1, messages['common.must_have_one_skill'] as string)
         .label(messages['common.skills'] as string),
     });
   }, []);
