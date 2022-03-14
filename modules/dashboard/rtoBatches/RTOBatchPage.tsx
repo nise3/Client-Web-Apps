@@ -16,10 +16,11 @@ import RTOBatchDetailsPopup from './RTOBatchDetailsPopup';
 import RTOBatchAddEditPopup from './RTOBatchAddEditPopup';
 import {deleteRTOBatch} from '../../../services/CertificateAuthorityManagement/RTOBatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
-import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import { FiUserCheck } from "react-icons/fi";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUserCheck} from 'react-icons/fi';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
+import CustomChipCertificationStatus from '../CAAssignedBatches/CustomChipCertificationStatus';
 
 const RTOBatchPage = () => {
   const {messages, locale} = useIntl();
@@ -87,13 +88,14 @@ const RTOBatchPage = () => {
       },
 
       {
-        Header: messages['rpl_occupation.label'],
-        accessor: 'rpl_occupation_title',
-      },
-
-      {
-        Header: messages['rpl_level.label'],
-        accessor: 'rpl_level_title',
+        Header: messages['certification_status.label'],
+        accessor: 'certification_status',
+        Cell: (props: any) => {
+          const data = props.row.original;
+          return (
+            <CustomChipCertificationStatus value={data?.certification_status} />
+          );
+        },
       },
 
       {
