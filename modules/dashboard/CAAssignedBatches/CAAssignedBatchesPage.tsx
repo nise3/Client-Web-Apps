@@ -13,7 +13,6 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CABatchManagePopup from './CABatchManagePopup';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomChipCertificationStatus from './CustomChipCertificationStatus';
@@ -61,14 +60,20 @@ const CAAssignedBatchesPage = () => {
         accessor: 'number_of_youths',
       },*/
       {
+        Header: messages['rpl_batch.title'],
+        accessor: 'title',
+      },
+      {
+        Header: messages['rpl_batch.title_en'],
+        accessor: 'title_en',
+      },
+      {
         Header: messages['rpl_sector.label'],
         accessor: 'rpl_sector_title',
-        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['rpl_occupation.label'],
         accessor: 'rpl_occupation_title',
-        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['certification_status.label'],
