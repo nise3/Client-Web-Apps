@@ -1615,7 +1615,7 @@
   "common.per_page": "প্রতি পেজ",
   "permissions.method_delete": "ডিলেট",
   "country.label": "দেশ",
-  "rto-country.label": "আরটিওভুক্ত দেশ",
+  "rto_country.label": "আরটিওভুক্ত দেশ",
   "question-bank.label": "প্রশ্নব্যাংক",
   "common.rto-countries": "আরটিওভুক্ত দেশসমূহ",
   "common.confirmation": "নিশ্চিতকরণ",
