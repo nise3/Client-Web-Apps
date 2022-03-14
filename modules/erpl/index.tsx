@@ -5,11 +5,6 @@ const Erpl = () => {
   return (
     <>
       <CoverArea />
-      {/* <JobCircularSection />
-      <NoticeAndEventSection />
-      <AboutUsSection />
-      <TrainingSection />
-      <AssociationMembersSection /> */}
     </>
   );
 };
