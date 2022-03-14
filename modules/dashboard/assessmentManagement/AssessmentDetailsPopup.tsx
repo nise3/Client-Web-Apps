@@ -61,6 +61,49 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               />
             </Link>
           </Grid>
+
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['rpl_occupation.label']}
+              value={itemData?.rpl_occupation_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['rpl_level.label']}
+              value={itemData?.rpl_level_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['rpl_sector.label']}
+              value={itemData?.rpl_sector_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['rto_country.label']}
+              value={itemData?.rto_country_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['assessmentManagement.target_country']}
+              value={itemData?.target_country_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['rto.label']}
+              value={itemData?.rto_title}
+              isLoading={isLoading}
+            />
+          </Grid>
           {youthDetails && Object.keys(youthDetails).length ? (
             <>
               <Grid item xs={6}>
@@ -146,49 +189,6 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               </fieldset>
             </Grid>
           )}
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rpl_occupation.label']}
-              value={itemData?.rpl_occupation_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rpl_level.label']}
-              value={itemData?.rpl_level_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rpl_sector.label']}
-              value={itemData?.rpl_sector_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rto_country.label']}
-              value={itemData?.rto_country_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['assessmentManagement.target_country']}
-              value={itemData?.target_country_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['rto.label']}
-              value={itemData?.rto_title}
-              isLoading={isLoading}
-            />
-          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
