@@ -1,17 +1,17 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
-import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import { useFetchAssessmentDetails } from "../../../services/instituteManagement/hooks";
-import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import { FiUser } from "react-icons/fi";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import React, {useEffect, useState} from 'react';
+import {Grid} from '@mui/material';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useFetchAssessmentDetails} from '../../../services/instituteManagement/hooks';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number;
@@ -21,6 +21,13 @@ type Props = {
 const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchAssessmentDetails(itemId);
+  const [youthDetails, setYouthDetails] = useState<any>({});
+
+  useEffect(() => {
+    if (itemData) {
+      setYouthDetails(itemData?.youth_details);
+    }
+  }, [itemData]);
 
   const router = useRouter();
   const path = router.pathname;
@@ -54,8 +61,40 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               />
             </Link>
           </Grid>
-
-
+          {youthDetails && Object.keys(youthDetails).length ? (
+            <>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.first_name']}
+                  value={youthDetails?.first_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.last_name']}
+                  value={youthDetails?.last_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.mobile']}
+                  value={youthDetails?.mobile}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.company_name']}
+                  value={youthDetails?.company_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </>
+          ) : (
+            <></>
+          )}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['rpl_occupation.label']}
@@ -98,8 +137,6 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
-
         </Grid>
       </CustomDetailsViewMuiModal>
     </>
