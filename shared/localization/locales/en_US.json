@@ -1732,5 +1732,6 @@
   "common.bangladesh_technical_education_board_dhaka": "Bangladesh technical education board, dhaka",
   "common.application_header_text": "Application for admission of trainees under National Technical and Vocational Qualification Framework (NTVQF)",
   "common.fill_according_to_educational_certificate": "Fill according to educational certificate",
-  "rpl_application.label": "RPL Application"
+  "rpl_application.label": "RPL Application",
+  "graph_view_title.projection_of_future_jobs": "Projection of Future Jobs"
 }
