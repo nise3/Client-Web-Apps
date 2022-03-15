@@ -84,6 +84,7 @@ const RPLApplicationForm = () => {
   useEffect(() => {
     if (
       !application_id ||
+      !rplApplication ||
       (rplApplication && rplApplication?.youth_id != authYouth?.youthId)
     ) {
       router.push({pathname: erplDomain()}).then((r) => {});
