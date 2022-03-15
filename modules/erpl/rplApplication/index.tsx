@@ -45,6 +45,7 @@ import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {erplDomain} from '../../../@softbd/common/constants';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -54,17 +55,29 @@ const RPLApplicationForm = () => {
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const router = useRouter();
   const {application_id} = router.query;
-  const {data: rplApplication} = useFetchPublicRplApplication(
-    Number(application_id),
-  );
+  const {data: rplApplication, isLoading: isLoadingRPLApplication} =
+    useFetchPublicRplApplication(Number(application_id));
   const [showApplicationForm, setShowApplicationForm] =
     useState<boolean>(false);
 
   const authYouth = useAuthUser<YouthAuthUser>();
 
+  /*  const [countryFilters] = useState<any>({});
+    const [rplSectorFilters] = useState<any>({});
+    const [rplOccupationFilters] = useState<any>({});
+    const [rplLevelFilters] = useState<any>({});
+   const {data: countries} = useFetchCountries(countryFilters);
+    const {data: rplSectors} = useFetchPublicRPLSectors(rplSectorFilters);
+
+    const {data: rplOccupations} =
+      useFetchPublicRPLOccupations(rplOccupationFilters);
+
+    const {data: rplLevels} = useFetchPublicRPLLevels(rplLevelFilters);*/
+
   useEffect(() => {
     if (
       !application_id ||
+      (!isLoadingRPLApplication && !rplApplication) ||
       (rplApplication && rplApplication?.youth_id != authYouth?.youthId)
     ) {
       router.push({pathname: erplDomain()}).then((r) => {});
@@ -73,7 +86,7 @@ const RPLApplicationForm = () => {
     setShowApplicationForm(
       !!application_id && rplApplication?.youth_id == authYouth?.youthId,
     );
-  }, [rplApplication]);
+  }, [rplApplication, isLoadingRPLApplication]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -119,6 +132,7 @@ const RPLApplicationForm = () => {
         mobile: yup
           .string()
           .required()
+          .matches(MOBILE_NUMBER_REGEX)
           .label(messages['common.mobile'] as string),
         nationality: yup
           .string()
@@ -228,6 +242,7 @@ const RPLApplicationForm = () => {
               is: (value: any) =>
                 value &&
                 [
+                  EducationLevelId.JSC,
                   EducationLevelId.SSC,
                   EducationLevelId.HSC,
                   EducationLevelId.DIPLOMA,
@@ -446,10 +461,7 @@ const RPLApplicationForm = () => {
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  /*  const [countriesFilter] = useState({});
-    const {data: countries} = useFetchCountries(countriesFilter);
-      const [jobExperiences, setJobExperiences] = useState<any>([1]);
-    */
+  // const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
   const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
     Array<any> | []
@@ -561,7 +573,7 @@ const RPLApplicationForm = () => {
         .push({
           pathname:
             LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE +
-            response?.data?.assessment_id,
+            response?.data?.id,
         })
         .then((r) => {});
     } catch (error: any) {
@@ -587,21 +599,21 @@ const RPLApplicationForm = () => {
   }, [educations]);
 
   /*  const addJobExperience = useCallback(() => {
-      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-    }, []);
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+  }, []);
 
-    const removeJobExperience = useCallback(() => {
-      let jobExperienceInfos = getValues('job_experience');
+  const removeJobExperience = useCallback(() => {
+    let jobExperienceInfos = getValues('job_experience');
 
-      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-      let array = [...educations];
-      if (jobExperiences.length > 1) {
-        jobExperienceInfos.splice(educations.length - 1, 1);
-        setValue('job_experience', jobExperienceInfos);
-        array.splice(jobExperiences.length - 1, 1);
-        setJobExperiences(array);
-      }
-    }, [jobExperiences]);*/
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+    let array = [...educations];
+    if (jobExperiences.length > 1) {
+      jobExperienceInfos.splice(educations.length - 1, 1);
+      setValue('job_experience', jobExperienceInfos);
+      array.splice(jobExperiences.length - 1, 1);
+      setJobExperiences(array);
+    }
+  }, [jobExperiences]);*/
 
   return !showApplicationForm ? (
     <></>
@@ -1024,38 +1036,41 @@ const RPLApplicationForm = () => {
             </Grid>
           </Grid>
 
-          {/*<Grid item xs={12}>
-            <Grid container>
-              <FormLabel>{messages['common.job_experience']}</FormLabel>
-              <Grid item xs={12}>
-                {jobExperiences.map((jobExperience: any, index: number) => (
-                  <JobExperienceFieldArray
-                    key={index}
-                    id={`job_experience[${index}]`}
-                    register={register}
-                    errors={errors}
-                    control={control}
-                    countries={countries}
-                  />
-                ))}
+          {/*<Grid item xs={12}>*/}
+          {/*  <Grid container>*/}
+          {/*    <FormLabel>{messages['common.job_experience']}</FormLabel>*/}
+          {/*    <Grid item xs={12}>*/}
+          {/*      {jobExperiences.map((jobExperience: any, index: number) => (*/}
+          {/*        <JobExperienceFieldArray*/}
+          {/*          key={index}*/}
+          {/*          id={`job_experience[${index}]`}*/}
+          {/*          register={register}*/}
+          {/*          errors={errors}*/}
+          {/*          control={control}*/}
+          {/*          countries={countries}*/}
+          {/*          sectors={rplSectors}*/}
+          {/*          occupations={rplOccupations}*/}
+          {/*          levels={rplLevels}*/}
+          {/*        />*/}
+          {/*      ))}*/}
 
-                <Grid item xs={12} display={'flex'} justifyContent='flex-end'>
-                  <ButtonGroup
-                    color='primary'
-                    aria-label='outlined primary button group'>
-                    <Button onClick={addJobExperience}>
-                      <AddCircleOutline />
-                    </Button>
-                    <Button
-                      onClick={removeJobExperience}
-                      disabled={jobExperiences.length < 2}>
-                      <RemoveCircleOutline />
-                    </Button>
-                  </ButtonGroup>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>*/}
+          {/*      <Grid item xs={12} display={'flex'} justifyContent='flex-end'>*/}
+          {/*        <ButtonGroup*/}
+          {/*          color='primary'*/}
+          {/*          aria-label='outlined primary button group'>*/}
+          {/*          <Button onClick={addJobExperience}>*/}
+          {/*            <AddCircleOutline />*/}
+          {/*          </Button>*/}
+          {/*          <Button*/}
+          {/*            onClick={removeJobExperience}*/}
+          {/*            disabled={jobExperiences.length < 2}>*/}
+          {/*            <RemoveCircleOutline />*/}
+          {/*          </Button>*/}
+          {/*        </ButtonGroup>*/}
+          {/*      </Grid>*/}
+          {/*    </Grid>*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
 
           <Grid item xs={12}>
             <CustomCheckbox
