@@ -65,7 +65,7 @@ const Footer = () => {
                   rel='noopener noreferrer'>
                   <Box component={'span'}>
                     <img
-                      src={'/tecnical.png'}
+                      src={'/images/tecnical.png'}
                       alt='crema-logo'
                       className={classes.softbdImage}
                     />
