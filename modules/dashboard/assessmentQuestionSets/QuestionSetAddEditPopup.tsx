@@ -12,7 +12,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {ISkill} from '../../../shared/Interface/organization.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchAssessmentQuestionSet,
@@ -37,6 +36,7 @@ const initialValues = {
   title_en: '',
   title: '',
   row_status: '1',
+  assessment_id: '',
 };
 
 const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
@@ -58,8 +58,6 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
 
   const {data: assessmentData, isLoading: isLoadingAssessment} =
     useFetchAssessments(assessmentFilters);
-
-  console.log(assessmentData);
 
   const [selectedAssessment, setSelectedAssessment] = useState<any>([]);
 
@@ -85,19 +83,18 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     control,
     setError,
     handleSubmit,
-    getValues,
     formState: {errors, isSubmitting},
-  } = useForm<ISkill>({
+  } = useForm<IQuestionSet>({
     resolver: yupResolver(validationSchema),
   });
-  console.log('getValues: ', getValues());
-  console.log('errors: ', errors);
+
   useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
         row_status: itemData?.row_status,
+        assessment_id: itemData?.assessment_id,
       });
       console.log('(itemData?.assessment_id: ', itemData?.assessment_id);
       setSelectedAssessment(itemData?.assessment_id);

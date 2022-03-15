@@ -101,9 +101,9 @@ const RTOBatchYouthPage = () => {
 
   const filteredData = data.map((youth: any) => {
     let gender_label: string;
-    if (youth.gender === parseInt(Genders.MALE)) {
+    if (youth?.gender === parseInt(Genders.MALE)) {
       gender_label = 'Male';
-    } else if (youth.gender === parseInt(Genders.FEMALE)) {
+    } else if (youth?.gender === parseInt(Genders.FEMALE)) {
       gender_label = 'Female';
     } else {
       gender_label = 'Others';
@@ -112,8 +112,8 @@ const RTOBatchYouthPage = () => {
       ...youth,
       gender_label,
       full_name:
-        youth.youth_details.first_name + ' ' + youth.youth_details.last_name,
-      mobile: youth.youth_details.mobile,
+        youth?.youth_details?.first_name + ' ' + youth?.youth_details?.last_name,
+      mobile: youth?.youth_details?.mobile,
     };
   });
 
@@ -122,7 +122,7 @@ const RTOBatchYouthPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser /> <IntlMessages id='youth.label' />
+            <IconUser /> <IntlMessages id='youth?.label' />
           </>
         }
         extra={[
