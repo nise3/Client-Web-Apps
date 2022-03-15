@@ -16,7 +16,7 @@ variables:
   imageIndustryRepository: "registry.nise.gov.bd/nise3-cube-client-web-industry"
 
   #nise frontend
-  imageNiseRelease: "true"
+  imageNiseRelease: "false"
   imageNiseAppVersion: "2.0.12"
   imageNiseRepository: "registry.nise.gov.bd/nise3-cube-client-web-nise"
 
@@ -31,6 +31,6 @@ variables:
   imageYouthRepository: "registry.nise.gov.bd/nise3-cube-client-web-youth"
 
   #erpl frontend
-  imageYouthRelease: "false"
+  imageYouthRelease: "true"
   imageYouthAppVersion: "1.0.0"
   imageYouthRepository: "registry.nise.gov.bd/nise3-cube-client-web-erpl"
