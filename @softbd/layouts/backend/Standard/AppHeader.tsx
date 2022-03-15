@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -16,8 +16,12 @@ import AppLogo from '../../../../shared/components/AppLogo';
 import clsx from 'clsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {Theme} from '@mui/system';
-import { Link } from '@mui/material';
-import { useAuthUser } from '../../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {useIntl} from 'react-intl';
+import {Body1} from '../../../elements/common';
+import {Link} from '../../../elements/common';
+import {Button} from '@mui/material';
+import {CommonAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 
 interface AppHeaderProps {}
 
@@ -25,10 +29,26 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
   const dispatch = useDispatch();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
-  const authUser = useAuthUser<any>();
-  const homePageUrl = `${window?.location?.protocol}//${authUser?.domain ? authUser?.domain : ''}`;
-  // console.log('window ', window.location.protocol)
-  // console.log('authUser 4', authUser)
+  const authUser = useAuthUser<CommonAuthUser>();
+  const {messages} = useIntl();
+  const [paymentURL, setPaymentURL] = useState<string | null>(null);
+
+  const homePageUrl = `${window?.location?.protocol}//${
+    authUser?.domain ? authUser?.domain : ''
+  }`;
+
+  useEffect(() => {
+    if (
+      authUser &&
+      authUser?.organization &&
+      authUser.organization?.additional_information
+    ) {
+      setPaymentURL(
+        authUser.organization.additional_information.payment_page_url,
+      );
+    }
+  }, [authUser]);
+
   const breakpointMDUp = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
@@ -80,7 +100,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
             <AppLogo />
           </AppNavLink> */}
           <Link href={homePageUrl}>
-          < AppLogo />
+            <AppLogo />
           </Link>
           <Box className={classes.grow} />
           <SearchBar borderLight placeholder='Search…' />
@@ -100,6 +120,46 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
               <MoreIcon />
             </IconButton>
           </Box>
+
+          {paymentURL && (
+            <>
+              {/*<Box*/}
+              {/*  mx={'auto'}*/}
+              {/*  sx={{*/}
+              {/*    color: '#0069BC',*/}
+              {/*    width: '0',*/}
+              {/*    height: '0',*/}
+              {/*    borderLeft: '12px solid transparent',*/}
+              {/*    borderRight: '12px solid transparent',*/}
+              {/*    borderTop: '18px solid',*/}
+              {/*    zIndex: 1,*/}
+              {/*  }}*/}
+              {/*/>*/}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  background: 'red',
+                  padding: '3px',
+                  width: '500px',
+                  border: '1px solid red',
+                  color: '#fff',
+                  top: '10px',
+                  left: 'calc(50vw - 250px)',
+                  zIndex: '1101',
+                  textAlign: 'center',
+                  borderRadius: '5px',
+                }}>
+                <Body1 centered={true}>
+                  {messages['payment.incomplete_text']}
+                </Body1>
+                <Button variant={'contained'} color={'primary'}>
+                  <Link href={paymentURL} passHref={true}>
+                    {messages['common.pay_now']}
+                  </Link>
+                </Button>
+              </Box>
+            </>
+          )}
         </StyledToolbar>
       </StyledAppBar>
       {renderMobileMenu}

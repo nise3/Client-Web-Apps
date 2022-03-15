@@ -48,7 +48,7 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 }
 
 export function useFetchAllInstitutes(params: any) {
-  return useAxiosSWR([API_INSTITUTES, params]);
+  return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
 }
 
 export function useFetchBranch(branchId: number | null) {

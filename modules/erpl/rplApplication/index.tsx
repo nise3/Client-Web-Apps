@@ -51,6 +51,7 @@ const RPLApplicationForm = () => {
   const {errorStack, successStack} = useNotiStack();
   const [isCurrentlyEmployed, setIsCurrentlyEmployed] =
     useState<boolean>(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const router = useRouter();
   const {application_id} = router.query;
   const {data: rplApplication} = useFetchPublicRplApplication(
@@ -62,7 +63,10 @@ const RPLApplicationForm = () => {
   const authYouth = useAuthUser<YouthAuthUser>();
 
   useEffect(() => {
-    if (!application_id && rplApplication?.youth_id != authYouth?.youthId) {
+    if (
+      !application_id ||
+      (rplApplication && rplApplication?.youth_id != authYouth?.youthId)
+    ) {
       router.push({pathname: erplDomain()}).then((r) => {});
     }
 
@@ -186,6 +190,24 @@ const RPLApplicationForm = () => {
                 value && Number(value) == EducationLevelId.PHD,
               then: yup.string().required(),
             }),
+          major_or_concentration: yup
+            .string()
+            .label(messages['education.major_group_name_bn'] as string)
+            .when('education_level_id', {
+              is: (educationLevelId: any) => {
+                const DEGREE_ARR = [
+                  EducationLevelId.DIPLOMA,
+                  EducationLevelId.HONOURS,
+                  EducationLevelId.MASTERS,
+                  EducationLevelId.PHD,
+                ];
+                return (
+                  educationLevelId &&
+                  DEGREE_ARR.includes(Number(educationLevelId))
+                );
+              },
+              then: yup.string().required(),
+            }),
           edu_group_id: yup
             .mixed()
             .label(messages['education.group'] as string)
@@ -215,7 +237,7 @@ const RPLApplicationForm = () => {
           institute_name: yup
             .string()
             .title()
-            .label(messages['common.institute_name_bn'] as string),
+            .label(messages['common.institute_name'] as string),
           result: yup
             .string()
             .required()
@@ -250,8 +272,8 @@ const RPLApplicationForm = () => {
               then: yup.string().max(4).required(),
             })
             .test(
-              'cgpa_scale_validation',
-              messages['common.cgpa_scale'] as string,
+              'cgpa_validation',
+              messages['validation.cgpa_range'] as string,
               (value) =>
                 value == undefined ||
                 value == '' ||
@@ -522,6 +544,10 @@ const RPLApplicationForm = () => {
       formData.youth_details.education_info = data.education_info;
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
+      formData.youth_details.is_youth_employed = data.youth_details
+        .is_youth_employed
+        ? 1
+        : 0;
 
       formData.youth_details.identity_number = String(
         formData.youth_details.identity_number,
@@ -530,6 +556,7 @@ const RPLApplicationForm = () => {
 
       const response = await createRPLApplication(formData);
       successStack(messages['rpl.application_submitted_successfully']);
+      setIsFormSubmitted(true);
       router
         .push({
           pathname:
@@ -670,7 +697,6 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={6}>
             <CustomTextInput
-              required
               id='youth_details[father_name_en]'
               label={messages['common.father_name_en']}
               register={register}
@@ -691,7 +717,6 @@ const RPLApplicationForm = () => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              required
               id='youth_details[mother_name_en]'
               label={messages['common.mother_name_en']}
               register={register}
@@ -1202,7 +1227,7 @@ const RPLApplicationForm = () => {
             <Grid container justifyContent={'center'}>
               <Button
                 type={'submit'}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isFormSubmitted}
                 variant='contained'>
                 {messages['common.submit']}
               </Button>

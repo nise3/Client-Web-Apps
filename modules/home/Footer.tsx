@@ -143,8 +143,7 @@ const Footer = () => {
                   </Typography>
                   <Typography gutterBottom={true}>
                     <Box component={'span'} mt={2}>
-                      {messages['common.email']}: contactus@nise.gov.bd,
-                      nise@a2i.gov.bd
+                      {messages['common.email']}: nise@a2i.gov.bd
                     </Box>
                   </Typography>
                 </Grid>

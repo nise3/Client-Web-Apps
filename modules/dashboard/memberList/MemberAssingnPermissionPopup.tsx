@@ -18,7 +18,7 @@ import {
 } from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {IPermissionSubGroupAssignInstitute} from '../../../shared/Interface/institute.interface';
-import {PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
 import {approveOrgMemberShip} from '../../../services/organaizationManagement/OrganizationService';
 import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
 
@@ -44,7 +44,7 @@ const MemberAssignPermissionPopup: FC<AssignPermissionSubGroupPopup> = ({
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY,
+    key: PERMISSION_GROUP_ORGANIZATION_KEY,
   });
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,

@@ -68,8 +68,8 @@ const CustomChipTextInput = ({
         label={chipLabel}
         sx={{
           borderRadius: '4px 0 0 4px',
-          height: '40px',
-          maxWidth: '120px',
+          height: '100%',
+          maxWidth: '100px',
           textOverflow: 'ellipsis',
         }}
         title={chipLabel as string}
@@ -107,7 +107,7 @@ const CustomChipTextInput = ({
               inputProps={{...inputProps, ...{required: false}}}
               {...register(field.id)}
               {...rest}
-              sx={{maxWidth: '100px'}}
+              sx={{maxWidth: '110px'}}
             />
             {field.helperText && (
               <FormHelperText sx={{color: 'primary.main'}}>

@@ -22,6 +22,7 @@ import {
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
   API_YOUTHS,
+  API_YOUTH_FEED_DATA_LIST,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchSkill(skillId: number | null) {
@@ -38,6 +39,12 @@ export function useFetchPublicSkills(params: any) {
 
 export function useFetchYouthProfile() {
   return useAxiosSWR(API_YOUTH_PROFILE);
+}
+
+export function useFetchYouthFeedDataList(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_YOUTH_FEED_DATA_LIST, params] : null,
+  );
 }
 
 export function useFetchMyJobs(params: any) {

@@ -310,6 +310,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         video_url: itemData?.video_url,
+        image_path: itemData?.image_path,
         video_id: itemData?.video_id,
         image_alt_title: itemData?.image_alt_title,
         row_status: String(itemData?.row_status),
@@ -411,7 +412,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       if (data.attachment_type == ContentTypes.IMAGE) {
         delete data.video_id;
         delete data.video_url;
-      } else if (data.attachment_type == ContentTypes.IMAGE) {
+      } else if (data.attachment_type != ContentTypes.IMAGE) {
         delete data.image_path;
         delete data.image_alt_title;
       }

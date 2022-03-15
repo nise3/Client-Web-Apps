@@ -5,7 +5,7 @@
 include: '/deploy/version.yaml'
 docker-build:
   # Use the official docker image.
-  image: docker:latest
+  image: docker:19.03.6
   stage: build
   services:
     - docker:dind
@@ -23,78 +23,44 @@ docker-build:
       if [[ "$imageAdminRelease" == true ]]; then
         tag=":$imageAdminAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageAdminRepository${tag}" -f DockerAdmin .
+        DOCKER_BUILDKIT=1 docker build -t "$imageAdminRepository${tag}" -f DockerAdmin .
         docker push "$imageAdminRepository${tag}"
       fi
 
       if [[ "$imagIndustryeRelease" == true ]]; then
         tag=":$imageIndustryAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageIndustryRepository${tag}" -f DockerIndustry .
+        DOCKER_BUILDKIT=1 docker build -t "$imageIndustryRepository${tag}" -f DockerIndustry .
         docker push "$imageIndustryRepository${tag}"
       fi
 
       if [[ "$imageNiseRelease" == true ]]; then
         tag=":$imageNiseAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageNiseRepository${tag}" -f DockerNise .
+        DOCKER_BUILDKIT=1 docker build -t "$imageNiseRepository${tag}" -f DockerNise .
         docker push "$imageNiseRepository${tag}"
       fi
 
       if [[ "$imageSSPRelease" == true ]]; then
         tag=":$imageSSPAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageSSPRepository${tag}" -f DockerSSP .
+        DOCKER_BUILDKIT=1 docker build -t "$imageSSPRepository${tag}" -f DockerSSP .
         docker push "$imageSSPRepository${tag}"
       fi
 
       if [[ "$imageYouthRelease" == true ]]; then
         tag=":$imageYouthAppVersion"
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
-        docker build --pull -t "$imageYouthRepository${tag}" -f DockerYouth .
+        DOCKER_BUILDKIT=1 DOCKER_BUILDKIT=1 docker build -t "$imageYouthRepository${tag}" -f DockerYouth .
         docker push "$imageYouthRepository${tag}"
       fi
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
 
-codestyle:
-  stage: test
-  dependencies: []
-  script:
-    - echo "Code quality check will be added later"
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-phpunit:
-  stage: test
-  dependencies:
-    - docker-build
-  script:
-    - echo "unit test will be added later."
-  when: manual
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-staging:
-  stage: deploy
-  dependencies:
-    - docker-build
-  script:
-    #- curl https://cd.bus.softbd.xyz/api/webhook
-    - echo "wait untill server go online"
-  when: manual
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
-      when: always
-
-production:
-  stage: deploy
-  script:
-   - echo "production is not ready yet!"
-  when: manual
+      if [[ "$imageRplRelease" == true ]]; then
+        tag=":$imageRplAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 DOCKER_BUILDKIT=1 docker build -t "$imageRplRepository${tag}" -f DockerRpl .
+        docker push "$imageRplRepository${tag}"
+      fi
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
       when: always

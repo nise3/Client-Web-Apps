@@ -18,7 +18,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import { Book } from '@mui/icons-material';
+import {Book} from '@mui/icons-material';
 
 const PublicationsPage = () => {
   const {messages, locale} = useIntl();

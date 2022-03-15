@@ -42,7 +42,6 @@ const NearbyTrainingCenterSection = ({
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
-  const {page: queryPageNumber} = router.query;
   const page = useRef<any>(1);
 
   const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
@@ -58,7 +57,7 @@ const NearbyTrainingCenterSection = ({
     let params: any = {
       district_id: authUser?.loc_district_id,
       upazila_id: authUser?.loc_upazila_id,
-      page_size: PageSizes.FOUR,
+      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
     };
 
     if (showAllNearbyTrainingCenter) {
@@ -71,6 +70,9 @@ const NearbyTrainingCenterSection = ({
       if (Object.keys(modifiedParams).length > 0)
         urlParamsUpdate(modifiedParams);
       params = {...params, ...modifiedParams};
+      if (modifiedParams.page) {
+        page.current = modifiedParams.page;
+      }
     }
     setNearbyTrainingCenterFilters(objectFilter(params));
   }, [authUser]);
@@ -82,11 +84,12 @@ const NearbyTrainingCenterSection = ({
       trainingCentersMetaData.total > 0 &&
       trainingCentersMetaData.total_page < Number(router.query.page)
     ) {
+      page.current = 1;
       setNearbyTrainingCenterFilters((prev: any) => ({
         ...prev,
-        page: 1,
+        page: page.current,
       }));
-      urlParamsUpdate({...router.query, page: 1});
+      urlParamsUpdate({...router.query, page: page.current});
     }
   }, [trainingCentersMetaData, router.query]);
 
@@ -178,7 +181,7 @@ const NearbyTrainingCenterSection = ({
                       <CustomPaginationWithPageNumber
                         count={trainingCentersMetaData.total_page}
                         currentPage={1}
-                        queryPageNumber={Number(queryPageNumber)}
+                        queryPageNumber={page.current}
                         onPaginationChange={onPaginationChange}
                         rowsPerPage={Number(router.query.page_size)}
                         onRowsPerPageChange={handleChangeRowsPerPage}

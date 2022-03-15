@@ -108,7 +108,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<IQuestionSet> = async (data: IQuestionSet) => {
-    console.log('submitted data: ', data);
+
     try {
       if (itemId) {
         await updateAssessmentQuestionSet(itemId, data);

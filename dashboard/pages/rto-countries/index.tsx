@@ -12,7 +12,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['rto-country.label']} />
+      <PageMeta title={messages['rto_country.label']} />
       <CountryPage />
     </>
   );
