@@ -34,9 +34,11 @@ const JobExperienceFieldArray = ({
 
   const onCountryChange = useCallback(
     (countryId: any) => {
-      const filteredSectors: any = sectors.map(
-        (sector: any) => sector.country_id == countryId,
-      );
+      const filteredSectors: any =
+        sectors &&
+        sectors.length > 0 &&
+        sectors.filter((sector: any) => sector.country_id == countryId);
+      console.log('sectors:', filteredSectors);
       setSectorList(filteredSectors);
     },
     [sectorList],
@@ -44,9 +46,12 @@ const JobExperienceFieldArray = ({
 
   const onSectorChange = useCallback(
     (sectorId: any) => {
-      const filteredOccupations: any = occupations.map(
-        (occupation: any) => occupation.sector_id == sectorId,
-      );
+      const filteredOccupations: any =
+        occupations &&
+        occupations.length > 0 &&
+        occupations.filter(
+          (occupation: any) => occupation.sector_id == sectorId,
+        );
       setOccupationList(filteredOccupations);
     },
     [occupationList],
@@ -54,9 +59,10 @@ const JobExperienceFieldArray = ({
 
   const onOccupationChange = useCallback(
     (occupationId: any) => {
-      const filteredLevels: any = levels.map(
-        (level: any) => level.occupation_id == occupationId,
-      );
+      const filteredLevels: any =
+        levels &&
+        levels.length > 0 &&
+        levels.filter((level: any) => level.occupation_id == occupationId);
       setLevelList(filteredLevels);
     },
     [levelList],
@@ -87,7 +93,7 @@ const JobExperienceFieldArray = ({
           control={control}
           options={sectorList}
           optionValueProp={'id'}
-          optionTitleProp={['title']}
+          optionTitleProp={['title', 'title_en']}
           onChange={onSectorChange}
         />
       </Grid>
