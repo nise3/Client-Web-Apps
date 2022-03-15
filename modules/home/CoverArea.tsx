@@ -18,6 +18,8 @@ const PREFIX = 'CoverArea';
 const classes = {
   root: `${PREFIX}-root`,
   trendWrapper: `${PREFIX}-trendWrapper`,
+  niseFullForm: `${PREFIX}-niseFullForm`,
+  niseFullFormImage: `${PREFIX}-niseFullFormImage`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -30,6 +32,26 @@ const StyledBox = styled(Box)(({theme}) => ({
   [`& .${classes.trendWrapper}`]: {
     position: 'relative',
     background: '#ddd',
+  },
+  [`& .${classes.niseFullForm}`]: {
+    [theme.breakpoints.up('md')]: {
+      position: 'absolute',
+      right: '48px',
+      top: '17px',
+    },
+    [theme.breakpoints.only('md')]: {
+      right: '10px',
+    },
+    right: '40px',
+  },
+  [`& .${classes.niseFullFormImage}`]: {
+    width: '430px', // '450px',
+    [theme.breakpoints.only('md')]: {
+      width: '350px',
+    },
+    [theme.breakpoints.only('sm')]: {
+      width: '220px',
+    },
   },
 }));
 
@@ -93,6 +115,13 @@ const CoverArea = () => {
                     messages['nise.health_care'],
                   ]}
                 />
+                <Box className={classes.niseFullForm}>
+                  <img
+                    className={classes.niseFullFormImage}
+                    src='/images/Nise3-orginal-size.png'
+                    alt='nise full form'
+                  />
+                </Box>
               </Grid>
             </Container>
           </Slide>

@@ -131,6 +131,37 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     }
   }, [authUser]);
 
+  const rowStatusArr = useMemo(() => {
+    return [
+      {
+        key: RowStatus.PENDING,
+        label: messages['common.pending'],
+        disabled: true,
+      },
+      {
+        key: RowStatus.CANCEL,
+        label: messages['common.cancel'],
+        disabled: true,
+      },
+      {
+        key: RowStatus.ACTIVE,
+        label: messages['common.active'],
+      },
+      {
+        key: RowStatus.INACTIVE,
+        label: messages['common.inactive'],
+      },
+    ];
+  }, []);
+
+  const getPossibleRowStatus = useCallback(() => {
+    if (isEdit) {
+      return rowStatusArr;
+    } else {
+      return [rowStatusArr[2], rowStatusArr[3]];
+    }
+  }, [isEdit]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       name_en: yup
@@ -196,8 +227,13 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           is: (value: string) => value == 'training center',
           then: yup.string().required(),
         }),
+      row_status: yup
+        .string()
+        .required()
+        .label(messages['common.status'] as string)
+      ,
     });
-  }, [itemId, messages]);
+  }, [itemId, messages, isEdit]);
 
   const {
     register,
@@ -549,22 +585,10 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <FormRadioButtons
             id={'row_status'}
             label={'common.status'}
-            radios={[
-              {
-                key: RowStatus.PENDING,
-                label: messages['common.pending'],
-              },
-              {
-                key: RowStatus.ACTIVE,
-                label: messages['common.active'],
-              },
-              {
-                key: RowStatus.INACTIVE,
-                label: messages['common.inactive'],
-              },
-            ]}
+            radios={getPossibleRowStatus()}
             control={control}
             defaultValue={RowStatus.ACTIVE}
+            errorInstance={errors}
           />
         </Grid>
 

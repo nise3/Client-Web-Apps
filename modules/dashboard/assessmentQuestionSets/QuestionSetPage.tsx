@@ -15,14 +15,21 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {deleteAssessmentQuestionSet} from '../../../services/CertificateAuthorityManagement/AssessmentQuestionSetService';
 import {useFetchAssessmentQuestionSets} from '../../../services/CertificateAuthorityManagement/hooks';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUserCheck} from 'react-icons/fi';
+import AddQuestionPopup from './AddQuestionPopup';
 
 const QuestionSetPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedAssessmentId, setSelectedAssessmentId] = useState<
+    number | null
+  >(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] = useState(false);
   const [subjectFilters] = useState({});
   const {
     data: subjects,
@@ -33,25 +40,47 @@ const QuestionSetPage = () => {
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    setSelectedAssessmentId(null);
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  const openAddEditModal = useCallback(
+    (itemId: number | null = null, assessmentId: number | null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenAddEditModal(true);
+      setSelectedItemId(itemId);
+      setSelectedAssessmentId(assessmentId);
+    },
+    [],
+  );
 
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (itemId: number, assessmentId: number | null) => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
+      setSelectedAssessmentId(assessmentId);
     },
-    [selectedItemId],
+    [selectedItemId, selectedAssessmentId],
   );
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
+
+  const closeAddQuestionModal = useCallback(() => {
+    setIsAddQuestionAssignModal(false);
+    setSelectedItemId(null);
+    setSelectedAssessmentId(null);
+  }, []);
+
+  const openAddQuestionModal = useCallback(
+    (itemId: number | null = null, assessmentId: number | null) => {
+      setIsOpenDetailsModal(false);
+      setIsAddQuestionAssignModal(true);
+      setSelectedItemId(itemId);
+      setSelectedAssessmentId(assessmentId);
+    },
+    [],
+  );
 
   const deleteSubjectItem = async (subjectId: number) => {
     let response = await deleteAssessmentQuestionSet(subjectId);
@@ -98,8 +127,20 @@ const QuestionSetPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ReadButton
+                onClick={() => openDetailsModal(data.id, data?.assessment_id)}
+              />
+              <EditButton
+                onClick={() => openAddEditModal(data.id, data?.assessment_id)}
+              />
+              <CommonButton
+                onClick={() =>
+                  openAddQuestionModal(data.id, data?.assessment_id)
+                }
+                btnText='assessment.addQuestion'
+                startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                color='secondary'
+              />
               <DeleteButton
                 deleteAction={() => deleteSubjectItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -124,7 +165,7 @@ const QuestionSetPage = () => {
         extra={[
           <AddButton
             key={1}
-            onClick={() => openAddEditModal(null)}
+            onClick={() => openAddEditModal(null, null)}
             isLoading={isLoadingSubjects}
             tooltip={
               <IntlMessages
@@ -157,6 +198,16 @@ const QuestionSetPage = () => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+          />
+        )}
+
+        {isOpenAddQuestionModal && selectedItemId && selectedAssessmentId && (
+          <AddQuestionPopup
+            key={1}
+            onClose={closeAddQuestionModal}
+            itemId={selectedItemId}
+            assessmentId={selectedAssessmentId}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

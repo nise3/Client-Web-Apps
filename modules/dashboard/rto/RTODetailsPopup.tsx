@@ -90,7 +90,7 @@ const ERPLInstituteDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['rto-country.label']}
+              label={messages['rto_country.label']}
               value={itemData?.country_title_en}
               isLoading={isLoading}
             />

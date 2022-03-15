@@ -54,4 +54,4 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 
 
 
-deploy build commit is - RELEASE = any message
+deploy build commit is - RELEASE = any message 

@@ -3,7 +3,7 @@ import CoverArea from '../industry/CoverArea';
 import JobCircularSection from './JobCircularSection';
 import NoticeAndEventSection from './NoticeAndEventSection';
 import AboutUsSection from './AboutUsSection';
-import TrainingSection from './TrainingSection';
+/*import TrainingSection from './TrainingSection';*/
 import AssociationMembersSection from './AssociationMembersSection';
 
 const Industry = () => {
@@ -13,7 +13,7 @@ const Industry = () => {
       <JobCircularSection />
       <NoticeAndEventSection />
       <AboutUsSection />
-      <TrainingSection />
+      {/*<TrainingSection />*/}
       <AssociationMembersSection />
     </>
   );

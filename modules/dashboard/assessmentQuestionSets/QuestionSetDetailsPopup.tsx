@@ -14,13 +14,13 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 type Props = {
   itemId: number;
   onClose: () => void;
-  openEditModal: (id: number) => void;
+  openEditModal: (id: number, assessmentId: number) => void;
 };
 
 const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchAssessmentQuestionSet(itemId);
-  console.log('itemData', itemData);
+
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -39,7 +39,9 @@ const QuestionSetDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             {itemData && (
               <EditButton
                 variant='contained'
-                onClick={() => openEditModal(itemData.id)}
+                onClick={() =>
+                  openEditModal(itemData.id, itemData?.assessment_id)
+                }
                 isLoading={isLoading}
               />
             )}

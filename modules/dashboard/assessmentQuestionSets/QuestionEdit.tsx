@@ -107,25 +107,25 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
             .string()
             .required()
             .label(messages['option.option1'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_2: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option2'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_3: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option3'] as string)
-        : yup.string(),
+        : yup.mixed(),
       option_4: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option4'] as string)
-        : yup.string(),
+        : yup.mixed(),
     });
   }, [messages, isMCQ]);
 
@@ -160,11 +160,8 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
       row_status: 1,
     };
 
-    if (itemData?.type == 1) {
-      setIsMCQ(true);
-    } else {
-      setIsMCQ(false);
-    }
+    setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
+
     reset(data);
   }, [itemData]);
 
@@ -185,12 +182,8 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
     props.onClose();
   };
 
-  const changeType = (e: any) => {
-    if (e == '1') {
-      setIsMCQ(true);
-    } else {
-      setIsMCQ(false);
-    }
+  const onChangeType = (value: any) => {
+    setIsMCQ(String(value) == QuestionType.MCQ);
   };
 
   return (
@@ -241,7 +234,7 @@ const QuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
             radios={questionTypes}
             control={control}
             defaultValue={itemData?.type}
-            onChange={changeType}
+            onChange={onChangeType}
           />
         </Grid>
 

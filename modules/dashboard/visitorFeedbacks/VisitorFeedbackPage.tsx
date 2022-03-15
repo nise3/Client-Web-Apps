@@ -70,8 +70,8 @@ const VisitorFeedbackPage = () => {
       },
 
       {
-        Header: messages['common.achieved_at'],
-        accessor: 'achieved_at',
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
         filter: 'dateTimeFilter',
         isVisible: false,
       },

@@ -13,6 +13,7 @@ import {
   LINK_FRONTEND_COURSE_DETAILS,
   LINK_FRONTEND_COURSE_LIST,
 } from '../../@softbd/common/appLinks';
+import BoxCardsSkeleton from "../institute/Components/BoxCardsSkeleton";
 
 const PREFIX = 'PopularCourse';
 
@@ -46,7 +47,7 @@ const PopularCourse = () => {
 
   const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
-  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
+  const {data: courseList, isLoading:isLoadingCourses} = useFetchCourseList(pathValue, courseFilters);
 
   return (
     <StyledGrid container xl={12}>
@@ -55,8 +56,10 @@ const PopularCourse = () => {
           title={messages['common.popular_courses'] as string}
           center={true}
         />
-        <Box mb={2} sx={{marginTop: '-16px'}}>
-          {courseList && courseList.length > 0 ? (
+        <Box mb={2} sx={{marginTop: '-16px'}}>{isLoadingCourses ? (
+            <BoxCardsSkeleton />
+          ):
+          courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
                 <Link

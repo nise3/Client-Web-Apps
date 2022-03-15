@@ -15,10 +15,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AssessmentDetailsPopup from './AssessmentDetailsPopup';
 import AssessmentAddEditPopup from './AssessmentAddEditPopup';
 import {deleteAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
-import {FiUserCheck} from 'react-icons/fi';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import AddQuestionPopup from './AddQuestionPopup';
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 const AssessmentPage = () => {
   const {messages, locale} = useIntl();
@@ -29,7 +26,6 @@ const AssessmentPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-  const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -45,17 +41,6 @@ const AssessmentPage = () => {
   const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
-  }, []);
-
-  const openAddQuestionModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsAddQuestionAssignModal(true);
-    setSelectedItemId(itemId);
-  }, []);
-
-  const closeAddQuestionModal = useCallback(() => {
-    setIsAddQuestionAssignModal(false);
-    setSelectedItemId(null);
   }, []);
 
   const closeDetailsModal = useCallback(() => {
@@ -111,12 +96,6 @@ const AssessmentPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <CommonButton
-                onClick={() => openAddQuestionModal(data.id)}
-                btnText='assessment.addQuestion'
-                startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
               <DeleteButton
                 deleteAction={() => deleteAssessmentItem(data.id)}
                 deleteTitle='Are you sure?'
@@ -182,14 +161,6 @@ const AssessmentPage = () => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
-          />
-        )}
-        {isOpenAddQuestionModal && selectedItemId && (
-          <AddQuestionPopup
-            key={1}
-            onClose={closeAddQuestionModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>
