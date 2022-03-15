@@ -38,7 +38,6 @@ const JobExperienceFieldArray = ({
         sectors &&
         sectors.length > 0 &&
         sectors.filter((sector: any) => sector.country_id == countryId);
-      console.log('sectors:', filteredSectors);
       setSectorList(filteredSectors);
     },
     [sectorList],
