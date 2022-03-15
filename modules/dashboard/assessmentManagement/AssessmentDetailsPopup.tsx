@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Grid} from '@mui/material';
+import {Grid, Box} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
@@ -10,7 +10,10 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUser} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  getNationalityTitle,
+  isBreakPointUp,
+} from '../../../@crema/utility/Utils';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
@@ -23,11 +26,42 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchAssessmentDetails(itemId);
   const [youthDetails, setYouthDetails] = useState<any>({});
 
+  const religions = [
+    {
+      id: 1,
+      label: messages['common.religion_islam'],
+    },
+    {
+      id: 2,
+      label: messages['common.religion_hinduism'],
+    },
+    {
+      id: 3,
+      label: messages['common.religion_christianity'],
+    },
+    {
+      id: 4,
+      label: messages['common.religion_buddhism'],
+    },
+    {
+      id: 5,
+      label: messages['common.notDefined'],
+    },
+  ];
+
   useEffect(() => {
     if (itemData) {
       setYouthDetails(itemData?.youth_details);
     }
   }, [itemData]);
+
+  const getEmploymentStatusTitle = (id: any) => {
+    if (id == 0) {
+      return messages['common.unemployed'];
+    } else {
+      return messages['common.employed'];
+    }
+  };
 
   const router = useRouter();
   const path = router.pathname;
@@ -61,7 +95,98 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               />
             </Link>
           </Grid>
-
+          {youthDetails && Object.keys(youthDetails).length ? (
+            <>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.first_name']}
+                  value={youthDetails?.first_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.last_name']}
+                  value={youthDetails?.last_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.father_name']}
+                  value={youthDetails?.father_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.mother_name']}
+                  value={youthDetails?.mother_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.guardian_name']}
+                  value={youthDetails?.guardian_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.mobile']}
+                  value={youthDetails?.mobile}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.nationality']}
+                  value={getNationalityTitle(youthDetails?.nationality)}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.nid']}
+                  value={youthDetails?.identity_number}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.registration_number']}
+                  value={youthDetails?.registration_number}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.date_of_birth']}
+                  value={youthDetails?.date_of_birth}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.employment_status']}
+                  value={getEmploymentStatusTitle(
+                    youthDetails?.employment_status,
+                  )}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['common.religion']}
+                  value={religions[youthDetails?.religion - 1]?.label}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </>
+          ) : (
+            <></>
+          )}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['rpl_occupation.label']}
@@ -104,40 +229,82 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {youthDetails && Object.keys(youthDetails).length ? (
-            <>
-              <Grid item xs={6}>
-                <DetailsInputView
-                  label={messages['common.first_name']}
-                  value={youthDetails?.first_name}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <DetailsInputView
-                  label={messages['common.last_name']}
-                  value={youthDetails?.last_name}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <DetailsInputView
-                  label={messages['common.mobile']}
-                  value={youthDetails?.mobile}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <DetailsInputView
-                  label={messages['common.company_name']}
-                  value={youthDetails?.company_name}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </>
-          ) : (
-            <></>
-          )}
+
+          {/* Educations
+          {youthDetails?.education_info &&
+            youthDetails?.education_info?.map((education: any) => {
+              return (
+                <Grid item xs={6} key={education.id}>
+                  <fieldset style={{backgroundColor: '#e7e5e2'}}>
+                    <legend style={{fontSize: '25px', color: '#4d39bf'}}>
+                      {education?.education_level_title}
+                    </legend>
+                    <ul>
+                      {education?.edu_board_title && (
+                        <li>Education Board: {education?.edu_board_title}</li>
+                      )}
+                      {education?.institute_name && (
+                        <li>Institute name: {education?.institute_name}</li>
+                      )}
+                      {education?.edu_group_title && (
+                        <li>Education Group: {education?.edu_group_title}</li>
+                      )}
+                      <li>
+                        Is foreign institute:{' '}
+                        {education?.is_foreign_institute === 1 ? 'Yes' : 'No'}
+                      </li>
+                      {education?.is_foreign_institute === 1 &&
+                        education?.foreign_institute_country_title && (
+                          <li>
+                            Country Name:{' '}
+                            {education?.foreign_institute_country_title}
+                          </li>
+                        )}
+                      {education?.result?.title &&
+                        education?.result?.title !== 'Grade' && (
+                          <li>Result: {education?.result?.title}</li>
+                        )}
+                      {education?.marks_in_percentage && (
+                        <li>
+                          Marks: {parseInt(education?.marks_in_percentage)}%
+                        </li>
+                      )}
+                      {education?.cgpa && education?.cgpa_scale && (
+                        <li>
+                          CGPA: {parseFloat(education?.cgpa)} (out of{' '}
+                          {parseInt(education?.cgpa_scale)})
+                        </li>
+                      )}
+                      {education?.duration && (
+                        <li>Duration: {education?.duration}</li>
+                      )}
+                      <li>
+                        Exam Title:{' '}
+                        {education?.exam_degree_id
+                          ? education?.exam_degree_title
+                          : education?.exam_degree_name}
+                      </li>
+                      {education?.year_of_passing && (
+                        <li>
+                          Year of passing:{' '}
+                          {parseInt(education?.year_of_passing)}
+                        </li>
+                      )}
+                      {education?.expected_year_of_passing && (
+                        <li>
+                          Expected year of passing:{' '}
+                          {parseInt(education?.expected_year_of_passing)}
+                        </li>
+                      )}
+                      {education?.achievements && (
+                        <li>Achievements: {education?.achievements}</li>
+                      )}
+                    </ul>
+                  </fieldset>
+                </Grid>
+              );
+            })}*/}
+
           {/** addresses */}
           {youthDetails?.permanent_address && (
             <Grid item xs={6}>
@@ -145,7 +312,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
                 <legend style={{fontSize: '25px', color: '#4d39bf'}}>
                   {messages['common.addresses']}
                 </legend>
-                <div>
+                <Box>
                   <h2>{messages['common.permanent_address']}</h2>
                   <ul>
                     {youthDetails?.permanent_address?.loc_division_title && (
@@ -185,7 +352,48 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
                       </li>
                     )}
                   </ul>
-                </div>
+                </Box>
+                <Box>
+                  <h2>{messages['common.present_address']}</h2>
+                  <ul>
+                    {youthDetails?.present_address?.loc_division_title && (
+                      <li>
+                        Division:{' '}
+                        {youthDetails?.present_address?.loc_division_title}
+                      </li>
+                    )}
+                    {youthDetails?.present_address?.loc_district_title && (
+                      <li>
+                        District:{' '}
+                        {youthDetails?.present_address?.loc_district_title}
+                      </li>
+                    )}
+                    {youthDetails?.present_address?.loc_upazila_title && (
+                      <li>
+                        Upazila:{' '}
+                        {youthDetails?.present_address?.loc_upazila_title}
+                      </li>
+                    )}
+                    {youthDetails?.present_address?.village_or_area && (
+                      <li>
+                        Village Area:{' '}
+                        {youthDetails?.present_address?.village_or_area}
+                      </li>
+                    )}
+                    {youthDetails?.present_address?.house_n_road && (
+                      <li>
+                        House & Road:{' '}
+                        {youthDetails?.present_address?.house_n_road}
+                      </li>
+                    )}
+                    {youthDetails?.present_address?.zip_or_postal_code && (
+                      <li>
+                        Zip or postal code:{' '}
+                        {youthDetails?.present_address?.zip_or_postal_code}
+                      </li>
+                    )}
+                  </ul>
+                </Box>
               </fieldset>
             </Grid>
           )}

@@ -42,11 +42,6 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
         .of(yup.object())
         .min(1, messages['common.must_have_one_question'] as string)
         .label(messages['assessment.addQuestion'] as string),
-      assessment_question_set_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['question_set.label'] as string),
     });
   }, [messages]);
 
@@ -60,7 +55,9 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  console.log('error: ', errors);
   const getQuestionSet = (questionList: any) => {
+    console.log('itemId: ', itemId);
     let questionsFormValues = questionList.map((question: any) => {
       return {
         answer: question.answer,
@@ -82,6 +79,8 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
         type: question.type,
       };
     });
+
+    console.log('questionsFormValues: ', questionsFormValues);
     setValue('assessment_questions', questionsFormValues);
   };
 

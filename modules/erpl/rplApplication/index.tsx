@@ -45,6 +45,7 @@ import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {erplDomain} from '../../../@softbd/common/constants';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -131,6 +132,7 @@ const RPLApplicationForm = () => {
         mobile: yup
           .string()
           .required()
+          .matches(MOBILE_NUMBER_REGEX)
           .label(messages['common.mobile'] as string),
         nationality: yup
           .string()
