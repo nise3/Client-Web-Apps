@@ -31,6 +31,7 @@ export interface IQuestionSet extends IIdTitleCreateUpdateAt {
   assessment_id: string | number;
   title: string;
   title_en: string;
+  row_status?: string;
 }
 
 export interface IProgramme extends IIdTitleCreateUpdateAt {
