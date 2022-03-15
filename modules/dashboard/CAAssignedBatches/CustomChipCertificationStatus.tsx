@@ -32,9 +32,9 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
       )}
       <CustomChip
         icon={
-          value == 1 || value == 3 ? (
+          value == 2 || value == 3 ? (
             <CheckCircleOutline />
-          ) : value == 2 || value == 4 ? (
+          ) : value == 1 || value == 4 ? (
             <CancelIcon />
           ) : (
             <></>
