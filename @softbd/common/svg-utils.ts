@@ -696,5 +696,3 @@ export const setAreaText = (
   }
 };
 
-
-// export const 
