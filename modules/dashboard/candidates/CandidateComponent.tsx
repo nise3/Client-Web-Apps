@@ -475,7 +475,9 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
       neg_icon: any;
     switch (candidate?.apply_status) {
       case ApplyStatuses.APPLIED:
-        pos_title = `Shortlist for $`;
+        pos_title = `Shortlist for ${
+          nextStep ? nextStep?.title : 'final hiring'
+        }`;
         pos_onClick = () => shortlistCandidate(candidate.id);
         neg_title = messages['applicationManagement.reject'] as string;
         neg_onClick = () => rejectCandidate(candidate.id);

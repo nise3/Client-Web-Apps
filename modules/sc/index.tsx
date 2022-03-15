@@ -93,6 +93,7 @@ const StaticContent = () => {
                   <Grid item>
                     <H3>{data?.title}</H3>
                   </Grid>
+                  {}
                   <Grid item>
                     <Tooltip title={messages['common.like']}>
                       <ThumbUpAltIcon

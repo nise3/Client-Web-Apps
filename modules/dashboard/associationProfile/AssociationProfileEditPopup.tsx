@@ -119,7 +119,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .label(messages['common.contact_person_designation'] as string),
       skills: yup
         .array()
-        .of(yup.object())
+        .of(yup.object().shape({}))
         .min(1, messages['common.must_have_one_skill'] as string)
         .label(messages['common.skills'] as string),
     });
@@ -194,11 +194,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     try {
       await updateIndustryAssocProfile(data);
       updateSuccessMessage('industry_association_reg.label');
+      props.onClose();
       mutateAssociation();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
-    props.onClose();
   };
 
   return (
