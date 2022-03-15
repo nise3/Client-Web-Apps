@@ -1,24 +1,30 @@
-import { Box, Button, Grid, IconButton } from "@mui/material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import yup from "../../../@softbd/libs/yup";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
-import CustomFilterableFormSelect from "../../../@softbd/elements/input/CustomFilterableFormSelect";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import { Add, Delete } from "@mui/icons-material";
-import { objectFilter } from "../../../@softbd/utilities/helpers";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { useFetchRPLSector, useFetchRTOCountries } from "../../../services/CertificateAuthorityManagement/hooks";
-import { createRPLSector, updateRPLSector } from "../../../services/CertificateAuthorityManagement/RPLSectorService";
-import IconInstitute from "../../../@softbd/icons/IconInstitute";
+import {Box, Button, Grid, IconButton} from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import yup from '../../../@softbd/libs/yup';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {Add, Delete} from '@mui/icons-material';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  useFetchRPLSector,
+  useFetchRTOCountries,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  createRPLSector,
+  updateRPLSector,
+} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+import IconInstitute from '../../../@softbd/icons/IconInstitute';
 
 interface RPLSectorsAddEditPopupProps {
   itemId: number | null;
@@ -267,7 +273,6 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
-            required
             id={'title_en'}
             label={messages['rpl_sector.name_en']}
             register={register}

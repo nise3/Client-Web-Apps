@@ -36,32 +36,44 @@ const YouthPage = () => {
         },
       },
       {
-        Header: messages['youth.username'],
-        accessor: 'username',
-        disableFilters: true,
-        isVisible: false,
-      },
-      {
         Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        accessor: 'first_name',
         disableFilters: true,
-      },
-      {
-        Header: messages['youth.gender'],
-        accessor: 'gender_label',
-        disableFilters: true,
-        isVisible: false,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return (
+              data?.youth_details?.first_name +
+              ' ' +
+              data?.youth_details?.last_name
+            );
+          } else {
+            return '';
+          }
+        },
       },
       {
         Header: messages['youth.mobile'],
         accessor: 'mobile',
         disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return data?.youth_details?.mobile;
+          } else {
+            return '';
+          }
+        },
       },
       {
-        Header: messages['youth.email'],
-        accessor: 'email',
+        Header: messages['common.country'],
+        accessor: 'target_country_title',
         disableFilters: true,
-        isVisible: false,
+      },
+      {
+        Header: messages['common.score'],
+        accessor: 'score',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
@@ -112,6 +124,7 @@ const YouthPage = () => {
     } else {
       gender_label = 'Others';
     }
+
     return {
       ...youth,
       gender_label,

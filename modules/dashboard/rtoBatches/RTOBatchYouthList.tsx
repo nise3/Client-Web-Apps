@@ -32,33 +32,48 @@ const RTOBatchYouthPage = () => {
           return props.row.index + 1;
         },
       },
-      {
-        Header: messages['youth.username'],
-        accessor: 'username',
-        disableFilters: true,
-        isVisible: false,
-      },
+
       {
         Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        accessor: 'first_name',
         disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return (
+              data?.youth_details?.first_name +
+              ' ' +
+              data?.youth_details?.last_name
+            );
+          } else {
+            return '';
+          }
+        },
       },
-      {
-        Header: messages['youth.gender'],
-        accessor: 'gender_label',
-        disableFilters: true,
-        isVisible: false,
-      },
-      {
-        Header: messages['youth.mobile'],
-        accessor: 'mobile',
-        disableFilters: true,
-      },
+
       {
         Header: messages['youth.email'],
         accessor: 'email',
         disableFilters: true,
         isVisible: false,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return data?.youth_details?.email;
+          } else {
+            return '';
+          }
+        },
+      },
+      {
+        Header: messages['common.country'],
+        accessor: 'target_country_title',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.score'],
+        accessor: 'score',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
@@ -112,7 +127,9 @@ const RTOBatchYouthPage = () => {
       ...youth,
       gender_label,
       full_name:
-        youth?.youth_details?.first_name + ' ' + youth?.youth_details?.last_name,
+        youth?.youth_details?.first_name +
+        ' ' +
+        youth?.youth_details?.last_name,
       mobile: youth?.youth_details?.mobile,
     };
   });
@@ -122,7 +139,7 @@ const RTOBatchYouthPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser /> <IntlMessages id='youth?.label' />
+            <IconUser /> <IntlMessages id='youth.label' />
           </>
         }
         extra={[
