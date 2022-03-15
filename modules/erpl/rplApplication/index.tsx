@@ -14,6 +14,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
 import {
+  useFetchCountries,
   useFetchDistricts,
   useFetchDivisions,
   useFetchUpazilas,
@@ -45,6 +46,12 @@ import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {erplDomain} from '../../../@softbd/common/constants';
+import {
+  useFetchPublicRPLLevels,
+  useFetchPublicRPLOccupations,
+  useFetchPublicRPLSectors,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import JobExperienceFieldArray from './JobExperienceFieldArray';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -61,6 +68,18 @@ const RPLApplicationForm = () => {
     useState<boolean>(false);
 
   const authYouth = useAuthUser<YouthAuthUser>();
+  const [countryFilters] = useState<any>({});
+  const [rplSectorFilters] = useState<any>(null);
+  const [rplOccupationFilters] = useState<any>(null);
+  const [rplLevelFilters] = useState<any>(null);
+
+  const {data: countries} = useFetchCountries(countryFilters);
+  const {data: rplSectors} = useFetchPublicRPLSectors(rplSectorFilters);
+
+  const {data: rplOccupations} =
+    useFetchPublicRPLOccupations(rplOccupationFilters);
+
+  const {data: rplLevels} = useFetchPublicRPLLevels(rplLevelFilters);
 
   useEffect(() => {
     if (
@@ -446,10 +465,7 @@ const RPLApplicationForm = () => {
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  /*  const [countriesFilter] = useState({});
-    const {data: countries} = useFetchCountries(countriesFilter);
-      const [jobExperiences, setJobExperiences] = useState<any>([1]);
-    */
+  const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
   const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
     Array<any> | []
@@ -586,22 +602,22 @@ const RPLApplicationForm = () => {
     }
   }, [educations]);
 
-  /*  const addJobExperience = useCallback(() => {
-      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-    }, []);
+  const addJobExperience = useCallback(() => {
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+  }, []);
 
-    const removeJobExperience = useCallback(() => {
-      let jobExperienceInfos = getValues('job_experience');
+  const removeJobExperience = useCallback(() => {
+    let jobExperienceInfos = getValues('job_experience');
 
-      setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-      let array = [...educations];
-      if (jobExperiences.length > 1) {
-        jobExperienceInfos.splice(educations.length - 1, 1);
-        setValue('job_experience', jobExperienceInfos);
-        array.splice(jobExperiences.length - 1, 1);
-        setJobExperiences(array);
-      }
-    }, [jobExperiences]);*/
+    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+    let array = [...educations];
+    if (jobExperiences.length > 1) {
+      jobExperienceInfos.splice(educations.length - 1, 1);
+      setValue('job_experience', jobExperienceInfos);
+      array.splice(jobExperiences.length - 1, 1);
+      setJobExperiences(array);
+    }
+  }, [jobExperiences]);
 
   return !showApplicationForm ? (
     <></>
@@ -1036,6 +1052,9 @@ const RPLApplicationForm = () => {
                     errors={errors}
                     control={control}
                     countries={countries}
+                    sectors={rplSectors}
+                    occupations={rplOccupations}
+                    levels={rplLevels}
                   />
                 ))}
 
