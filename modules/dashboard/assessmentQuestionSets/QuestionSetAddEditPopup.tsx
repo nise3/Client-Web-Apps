@@ -12,7 +12,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {ISkill} from '../../../shared/Interface/organization.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   useFetchAssessmentQuestionSet,
@@ -37,6 +36,7 @@ const initialValues = {
   title_en: '',
   title: '',
   row_status: '1',
+  assessment_id: '',
 };
 
 const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
@@ -59,9 +59,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
   const {data: assessmentData, isLoading: isLoadingAssessment} =
     useFetchAssessments(assessmentFilters);
 
-  console.log(assessmentData);
-
-  const [selectedAssessmentList, setSelectedAssessmentList] = useState<any>([]);
+  const [selectedAssessment, setSelectedAssessment] = useState<any>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -86,7 +84,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<ISkill>({
+  } = useForm<IQuestionSet>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -96,19 +94,20 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         row_status: itemData?.row_status,
+        assessment_id: itemData?.assessment_id,
       });
-      setSelectedAssessmentList(itemData?.assessment_id);
+      console.log('(itemData?.assessment_id: ', itemData?.assessment_id);
+      setSelectedAssessment(itemData?.assessment_id);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
   const onAssessmentChange = useCallback((options) => {
-    setSelectedAssessmentList(options);
+    setSelectedAssessment(options);
   }, []);
 
   const onSubmit: SubmitHandler<IQuestionSet> = async (data: IQuestionSet) => {
-
     try {
       if (itemId) {
         await updateAssessmentQuestionSet(itemId, data);
@@ -168,7 +167,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
             options={assessmentData}
             optionValueProp='id'
             optionTitleProp={['title']}
-            defaultValue={selectedAssessmentList}
+            defaultValue={selectedAssessment}
             errorInstance={errors}
             onChange={onAssessmentChange}
           />
