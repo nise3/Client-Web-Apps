@@ -3,9 +3,10 @@ import { styled } from '@mui/material/styles';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { setAreaText } from '../../../../@softbd/common/svg-utils';
+import { getStructureData } from '../../../../@softbd/common/svg-d3-util';
 import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
-import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   border: '2px solid #d3d4d4',
@@ -143,84 +144,90 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
       'address',
       addressText(userData, language)
     );
-    setHeaderLanguage('objective-headling', "common.objective");
-    const objective = setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
-    setHeaderLanguage('jobexperiance-headling', "common.job_experience");
-    const experiance = setAreaText(
-      svgNode,
-      'experience',
-      userData?.youth_job_experiences.map((experience: any) => {
-        return (
-          (experience?.company_name
-            ? `${messages['common.company_name_bn']}: ` + experience[getProps('company_name', language)] + ', '
-            : ' ') +
-          (experience?.position
-            ? `${messages['common.position']}: ` + experience[getProps('position', language)] + ', '
-            : ' ') +
-          (experience?.start_date
-            ? 'Start Date: ' +
-            new Date(experience?.start_date).toLocaleDateString('en-US') +
-            ', '
-            : ' ') +
-          (experience?.is_currently_working === 1
-            ? 'Currently working here' + ', '
-            : 'End Date: ' +
-            new Date(experience?.end_date).toLocaleDateString('en-US'))
-        );
-      }),
-    );
-    setHeaderAndLinePosition(experiance, 'education-headling', 'education-headling-line', 'education');
-    setHeaderLanguage('education-headling', "common.educations");
-    const education = setAreaText(
-      svgNode,
-      'education',
-      userData?.youth_educations.map((education: any) => {
-        return educationText(education, language);
-      }),
-      'lt',
-    );
-    setHeaderAndLinePosition(education, 'computerskill-headling', 'computerskill-headling-line', 'computerskill')
-    setHeaderLanguage('computerskill-headling', "common.skills");
-    const skill = setAreaText(
-      svgNode,
-      'computerskill',
-      userData?.skills.map((skill: any, index: number) => {
-        return skill?.title ? skill[getProps('title', language)] as any + ' ' : ' ';
-      }),
-    );
-    let languageReact = setHeaderAndLinePosition(skill, 'language-headling', 'language-headling-line', 'language');
-    setHeaderLanguage('language-headling', "language.proficiency");
-    setAreaText(
-      svgNode,
-      'language',
-      userData?.youth_languages_proficiencies.map((language: any) => {
-        return (
-          (language?.language_title
-            ? `${messages['common.language']}: ` + language?.language_title + ', '
-            : ' ') +
-          (language?.reading_proficiency_level
-            ? `${messages['language.read']}: ` +
-            LanguageProficiencyType[language?.reading_proficiency_level] +
-            ', '
-            : ' ') +
-          (language?.speaking_proficiency_level
-            ? `${messages['language.speak']}: ` +
-            LanguageProficiencySpeakingType[
-            language?.speaking_proficiency_level
-            ] +
-            ', '
-            : ' ')
-        );
-      }),
-    );
-    //@ts-ignore
-    const langulageRect = languageReact.rectCord?.children[0].getBBox();
-    const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
-    const bottomPadding = 20;
 
-    // update svg if less then last cord
-    let svg = document.getElementById('svg') as Element;
-    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
+
+    // setHeaderLanguage('objective-headling', "common.objective");
+    // setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
+    // setHeaderLanguage('jobexperiance-headling', "common.job_experience");
+    // const experiance = setAreaText(
+    //   svgNode,
+    //   'experience',
+    //   userData?.youth_job_experiences.map((experience: any) => {
+    //     return (
+    //       (experience?.company_name
+    //         ? `${messages['common.company_name_bn']}: ` + experience[getProps('company_name', language)] + ', '
+    //         : ' ') +
+    //       (experience?.position
+    //         ? `${messages['common.position']}: ` + experience[getProps('position', language)] + ', '
+    //         : ' ') +
+    //       (experience?.start_date
+    //         ? 'Start Date: ' +
+    //         new Date(experience?.start_date).toLocaleDateString('en-US') +
+    //         ', '
+    //         : ' ') +
+    //       (experience?.is_currently_working === 1
+    //         ? 'Currently working here' + ', '
+    //         : 'End Date: ' +
+    //         new Date(experience?.end_date).toLocaleDateString('en-US'))
+    //     );
+    //   }),
+    // );
+    // setHeaderAndLinePosition(experiance, 'education-headling', 'education-headling-line', 'education');
+    // setHeaderLanguage('education-headling', "common.educations");
+    // const education = setAreaText(
+    //   svgNode,
+    //   'education',
+    //   userData?.youth_educations.map((education: any) => {
+    //     return educationText(education, language);
+    //   }),
+    //   'lt',
+    // );
+    // setHeaderAndLinePosition(education, 'computerskill-headling', 'computerskill-headling-line', 'computerskill')
+    // setHeaderLanguage('computerskill-headling', "common.skills");
+    // const skill = setAreaText(
+    //   svgNode,
+    //   'computerskill',
+    //   userData?.skills.map((skill: any, index: number) => {
+    //     return skill?.title ? skill[getProps('title', language)] as any + ' ' : ' ';
+    //   }),
+    // );
+    // let languageReact = setHeaderAndLinePosition(skill, 'language-headling', 'language-headling-line', 'language');
+    // setHeaderLanguage('language-headling', "language.proficiency");
+    // setAreaText(
+    //   svgNode,
+    //   'language',
+    //   userData?.youth_languages_proficiencies.map((language: any) => {
+    //     return (
+    //       (language?.language_title
+    //         ? `${messages['common.language']}: ` + language?.language_title + ', '
+    //         : ' ') +
+    //       (language?.reading_proficiency_level
+    //         ? `${messages['language.read']}: ` +
+    //         LanguageProficiencyType[language?.reading_proficiency_level] +
+    //         ', '
+    //         : ' ') +
+    //       (language?.speaking_proficiency_level
+    //         ? `${messages['language.speak']}: ` +
+    //         LanguageProficiencySpeakingType[
+    //         language?.speaking_proficiency_level
+    //         ] +
+    //         ', '
+    //         : ' ')
+    //     );
+    //   }),
+    // );
+    // //@ts-ignore
+    // const langulageRect = languageReact.rectCord?.children[0].getBBox();
+    // const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
+    // const bottomPadding = 20;
+
+    // // update svg if less then last cord
+    // let svg = document.getElementById('svg') as Element;
+    // svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
+
+    // let cvBody = document.getElementById('classic-data') as HTMLElement;
+    getStructureData();
+    
   }
   
 
@@ -235,7 +242,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
   // console.log(messages, locale)
   // const theCB = useCallback((node) => {
   const theCB = useCallback((node: any) => {
-    console.log('inside CB: ', locale);
+    // console.log('inside CB: ', locale);
 
     // const language = locale;
     // setCurrentLang(language);

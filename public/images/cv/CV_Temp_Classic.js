@@ -58,7 +58,6 @@ const svg = `<svg id='svg' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http:
     </g>
     <g id="language-headling-line">
       <line x1="18" y1="790.854" x2="578" y2="790.854" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>
-<!--      <line x1="18" y1="681.82" x2="578" y2="681.82" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>-->
     </g>
   </g>
   <g id="classic-data">
