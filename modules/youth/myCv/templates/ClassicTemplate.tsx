@@ -63,10 +63,6 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     if (tspan) {
       tspan.textContent = messages[languageKey] as string | null;
     }
-    // console.log('setHeaderLanguage ', "hi");
-    // languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
-    // languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
-    // languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
   }
 
   /** present address */
@@ -148,7 +144,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
       addressText(userData, language)
     );
     setHeaderLanguage('objective-headling', "common.objective");
-    setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
+    const objective = setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
     setHeaderLanguage('jobexperiance-headling', "common.job_experience");
     const experiance = setAreaText(
       svgNode,

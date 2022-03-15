@@ -18,7 +18,7 @@ const svg = `<svg id='svg' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http:
     <line x1="18" y1="188.808" x2="578" y2="188.808" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>
     <g id="objective-headling">
       <text transform="translate(18 170)" font-size="14" fill="#231f20" font-family="ArialMT, Arial" x="0" y="0"><tspan x="0" y="10">
-        <tspan>Objective</tspan>
+        <tspan><!--Objective--></tspan>
       </text>
     </g>
     <g id="objective-headling-line">

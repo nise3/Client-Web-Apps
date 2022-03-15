@@ -680,7 +680,8 @@ export const setAreaText = (
       textElement.push(currentChildren);
     });
   } else {
-    g.children[1].innerHTML = text;
+    if(text)
+      g.children[1].innerHTML = text;
     areaText(g.children[1], rect, { fs, lh, bl, ta: textAlign });
     textElement.push(g.children[1]);
   }
@@ -694,3 +695,6 @@ export const setAreaText = (
     lastCord
   }
 };
+
+
+// export const 
