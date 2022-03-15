@@ -577,7 +577,7 @@ const RPLApplicationForm = () => {
         .push({
           pathname:
             LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE +
-            response?.data?.assessment_id,
+            response?.data?.id,
         })
         .then((r) => {});
     } catch (error: any) {
