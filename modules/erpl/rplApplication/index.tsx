@@ -1024,7 +1024,7 @@ const RPLApplicationForm = () => {
             </Grid>
           </Grid>
 
-          {/*<Grid item xs={12}>
+          <Grid item xs={12}>
             <Grid container>
               <FormLabel>{messages['common.job_experience']}</FormLabel>
               <Grid item xs={12}>
@@ -1055,7 +1055,7 @@ const RPLApplicationForm = () => {
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>*/}
+          </Grid>
 
           <Grid item xs={12}>
             <CustomCheckbox
