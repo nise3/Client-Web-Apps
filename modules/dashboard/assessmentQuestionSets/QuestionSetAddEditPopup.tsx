@@ -61,7 +61,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
 
   console.log(assessmentData);
 
-  const [selectedAssessmentList, setSelectedAssessmentList] = useState<any>([]);
+  const [selectedAssessment, setSelectedAssessment] = useState<any>([]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -85,11 +85,13 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     control,
     setError,
     handleSubmit,
+    getValues,
     formState: {errors, isSubmitting},
   } = useForm<ISkill>({
     resolver: yupResolver(validationSchema),
   });
-
+  console.log('getValues: ', getValues());
+  console.log('errors: ', errors);
   useEffect(() => {
     if (itemData) {
       reset({
@@ -97,18 +99,18 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
         title: itemData?.title,
         row_status: itemData?.row_status,
       });
-      setSelectedAssessmentList(itemData?.assessment_id);
+      console.log('(itemData?.assessment_id: ', itemData?.assessment_id);
+      setSelectedAssessment(itemData?.assessment_id);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
   const onAssessmentChange = useCallback((options) => {
-    setSelectedAssessmentList(options);
+    setSelectedAssessment(options);
   }, []);
 
   const onSubmit: SubmitHandler<IQuestionSet> = async (data: IQuestionSet) => {
-
     try {
       if (itemId) {
         await updateAssessmentQuestionSet(itemId, data);
@@ -168,7 +170,7 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
             options={assessmentData}
             optionValueProp='id'
             optionTitleProp={['title']}
-            defaultValue={selectedAssessmentList}
+            defaultValue={selectedAssessment}
             errorInstance={errors}
             onChange={onAssessmentChange}
           />

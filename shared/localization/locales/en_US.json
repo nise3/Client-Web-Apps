@@ -1271,6 +1271,7 @@
   "job_posting.no_of_vacancy": "No. of Vacancy",
   "job_posting.not_applicable": "Not Applicable",
   "job_posting.employment_status": "Employment Status",
+  "common.employment_status": "Employment Status",
   "job_posting.employment_status_full_time": "Full time",
   "job_posting.employment_status_part_time": "Part time",
   "job_posting.employment_status_internship": "Internship",
