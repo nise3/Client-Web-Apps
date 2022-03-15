@@ -31,6 +31,6 @@ variables:
   imageYouthRepository: "registry.nise.gov.bd/nise3-cube-client-web-youth"
 
   #erpl frontend
-  imageYouthRelease: "true"
-  imageYouthAppVersion: "1.0.0"
-  imageYouthRepository: "registry.nise.gov.bd/nise3-cube-client-web-erpl"
+  imageRplRelease: "true"
+  imageRplAppVersion: "1.0.0"
+  imageRplRepository: "registry.nise.gov.bd/nise3-cube-client-web-erpl"
