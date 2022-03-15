@@ -1,14 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import {Grid} from '@mui/material';
-import {useFieldArray} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {
-  useFetchPublicRPLLevels,
-  useFetchPublicRPLOccupations,
-  useFetchPublicRPLSectors,
-} from '../../../services/CertificateAuthorityManagement/hooks';
 
 type Props = {
   id: string;
@@ -17,6 +11,9 @@ type Props = {
   errors: any;
   control: any;
   countries: any;
+  sectors: any;
+  occupations: any;
+  levels: any;
 };
 
 const JobExperienceFieldArray = ({
@@ -26,127 +23,105 @@ const JobExperienceFieldArray = ({
   errors,
   control,
   countries,
+  sectors,
+  occupations,
+  levels,
 }: Props) => {
   const {messages} = useIntl();
-  const [rplSectorFilters, setRplSectorFilters] = useState<any>(null);
-  const [rplOccupationFilters, setRplOccupationFilters] = useState<any>(null);
-  const [rplLevelFilters, setRplLevelFilters] = useState<any>(null);
-  const [selectedCountryId, setSelectedCountryId] = useState(null);
-  const [selectedSectorId, setSelectedSectorId] = useState(null);
-  const [selectedOccupationId, setSelectedOccupationId] = useState(null);
-
-  const {data: rplSectors} = useFetchPublicRPLSectors(rplSectorFilters);
-
-  const {data: rplOccupations} =
-    useFetchPublicRPLOccupations(rplOccupationFilters);
-
-  const {data: rplLevels} = useFetchPublicRPLLevels(rplLevelFilters);
+  const [sectorList, setSectorList] = useState<any>([]);
+  const [occupationList, setOccupationList] = useState<any>([]);
+  const [levelList, setLevelList] = useState<any>([]);
 
   const onCountryChange = useCallback(
     (countryId: any) => {
-      console.log(countryId);
-      setRplSectorFilters({country_id: countryId});
-      setSelectedCountryId(countryId);
+      const filteredSectors: any =
+        sectors &&
+        sectors.length > 0 &&
+        sectors.filter((sector: any) => sector.country_id == countryId);
+      setSectorList(filteredSectors);
     },
-    [selectedCountryId, selectedSectorId],
+    [sectorList],
   );
 
   const onSectorChange = useCallback(
     (sectorId: any) => {
-      setRplOccupationFilters({rpl_sector_id: sectorId});
-      setSelectedSectorId(sectorId);
+      const filteredOccupations: any =
+        occupations &&
+        occupations.length > 0 &&
+        occupations.filter(
+          (occupation: any) => occupation.sector_id == sectorId,
+        );
+      setOccupationList(filteredOccupations);
     },
-    [selectedSectorId],
+    [occupationList],
   );
 
   const onOccupationChange = useCallback(
     (occupationId: any) => {
-      setRplLevelFilters({rpl_occupation_id: occupationId});
-      setSelectedOccupationId(occupationId);
+      const filteredLevels: any =
+        levels &&
+        levels.length > 0 &&
+        levels.filter((level: any) => level.occupation_id == occupationId);
+      setLevelList(filteredLevels);
     },
-    [selectedOccupationId],
+    [levelList],
   );
-
-  /*const onLevelChange = useCallback(
-    (levelId: any) => {
-      setSelectedLevelId(levelId);
-    },
-    [selectedOccupationId],
-  );*/
-
-  const {fields} = useFieldArray({
-    control,
-    name: id,
-  });
 
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <>
-      {fields.map((item: any, index: any) => {
-        let country = `${id}.${index}.country`;
-        let sector = `${id}.${index}.sector`;
-        let occupation = `${id}.${index}.occupation`;
-        let level = `${id}.${index}.level`;
+    <Grid container item spacing={4}>
+      <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
+        <CustomFormSelect
+          id={`${id}[rto_country_id]`}
+          label={messages['common.country']}
+          isLoading={false}
+          control={control}
+          options={countries}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
+          onChange={onCountryChange}
+        />
+      </Grid>
 
-        return (
-          <React.Fragment key={item.id}>
-            <Grid container item spacing={4}>
-              <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-                <CustomFormSelect
-                  id={country}
-                  label={messages['common.country']}
-                  isLoading={false}
-                  control={control}
-                  options={countries}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  onChange={onCountryChange}
-                />
-              </Grid>
+      <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
+        <CustomFormSelect
+          id={`${id}[rpl_sector_id]`}
+          label={messages['common.sector']}
+          isLoading={false}
+          control={control}
+          options={sectorList}
+          optionValueProp={'id'}
+          optionTitleProp={['title', 'title_en']}
+          onChange={onSectorChange}
+        />
+      </Grid>
 
-              <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-                <CustomFormSelect
-                  id={sector}
-                  label={messages['common.sector']}
-                  isLoading={false}
-                  control={control}
-                  options={rplSectors}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  onChange={onSectorChange}
-                />
-              </Grid>
+      <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
+        <CustomFormSelect
+          id={`${id}[rpl_occupation_id]`}
+          label={messages['common.occupation']}
+          isLoading={false}
+          control={control}
+          options={occupationList || []}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
+          onChange={onOccupationChange}
+        />
+      </Grid>
 
-              <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-                <CustomFormSelect
-                  id={occupation}
-                  label={messages['common.occupation']}
-                  isLoading={false}
-                  control={control}
-                  options={rplOccupations}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                  onChange={onOccupationChange}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-                <CustomFormSelect
-                  id={level}
-                  label={messages['common.skill_level']}
-                  isLoading={false}
-                  control={control}
-                  options={rplLevels}
-                  optionValueProp={'id'}
-                  optionTitleProp={['title']}
-                />
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        );
-      })}
-    </>
+      <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
+        <CustomFormSelect
+          id={`${id}[rpl_level_id]`}
+          label={messages['common.skill_level']}
+          isLoading={false}
+          control={control}
+          options={levelList || []}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
+        />
+      </Grid>
+    </Grid>
   );
 };
 
