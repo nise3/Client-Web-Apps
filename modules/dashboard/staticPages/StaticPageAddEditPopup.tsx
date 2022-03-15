@@ -30,6 +30,7 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import {IStaticPageContent} from '../../../shared/Interface/common.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import showInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 // import {IStaticPage} from '../../../shared/Interface/common.interface';
 
@@ -143,6 +144,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         case StaticPageCategoryTypes.YOUTH:
           setShowIn(ShowInTypes.YOUTH);
           break;
+        case StaticPageCategoryTypes.RPL:
+          setShowIn(ShowInTypes.RPL);
+          break;
         default:
           setShowIn(null);
       }
@@ -189,7 +193,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, showInTypes.RPL].includes(
+          item.id,
+        ),
       );
 
       setShowInList(filteredShowIn);

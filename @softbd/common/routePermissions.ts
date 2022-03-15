@@ -99,13 +99,13 @@ export const routePermissions: any = {
     routePrefix: '/application-management',
     permissionKeys: ['view_any_course_enrollment'],
   },
+  '/assessment-management': {
+    routePrefix: '/assessment-management',
+    permissionKeys: ['view_any_rpl_application'],
+  },
   '/hr-demand': {
     routePrefix: '/hr-demand',
     permissionKeys: ['view_any_institute_hr_demand'],
-  },
-  '/question-bank': {
-    routePrefix: '/question-bank',
-    permissionKeys: ['view_any_question_bank'],
   },
   '/association-profile': {
     routePrefix: '/association-profile',
@@ -203,13 +203,17 @@ export const routePermissions: any = {
     routePrefix: '/rto-countries',
     permissionKeys: ['view_any_rto_country'],
   },
+  '/rto-batches': {
+    routePrefix: '/rto-batches',
+    permissionKeys: ['view_any_rto_batch'],
+  },
   '/certificate-authorities': {
     routePrefix: '/certificate-authorities',
     permissionKeys: ['view_any_certificate_authority'],
   },
   '/rto': {
     routePrefix: '/rto',
-    permissionKeys: ['view_any_rto'],
+    permissionKeys: ['view_any_registered_training_organization'],
   },
   '/country': {
     routePrefix: '/country',
@@ -226,5 +230,33 @@ export const routePermissions: any = {
   '/nise-publication': {
     routePrefix: '/nise-publication',
     permissionKeys: ['view_any_nise_publication'],
+  },
+  '/rpl-occupations': {
+    routePrefix: '/rpl-occupations',
+    permissionKeys: ['view_any_rpl_occupation'],
+  },
+  '/subjects': {
+    routePrefix: '/subjects',
+    permissionKeys: ['view_any_subject'],
+  },
+  '/rpl-levels': {
+    routePrefix: '/rpl-levels',
+    permissionKeys: ['view_any_rpl_level'],
+  },
+  '/assessments': {
+    routePrefix: '/assessments',
+    permissionKeys: ['view_any_assessment'],
+  },
+  '/question-banks': {
+    routePrefix: '/question-banks',
+    permissionKeys: ['view_any_question_bank'],
+  },
+  '/rpl-batches': {
+    routePrefix: '/rpl-batches',
+    permissionKeys: ['view_any_rpl_batch'],
+  },
+  '/assessment-question-sets': {
+    routePrefix: '/assessment-question-sets',
+    permissionKeys: ['view_any_assessment_question_set'],
   },
 };

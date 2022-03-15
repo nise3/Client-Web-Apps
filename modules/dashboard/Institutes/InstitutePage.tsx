@@ -15,7 +15,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_INSTITUTES} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
-import InstituteAddEditPopup, {InstituteType} from './InstituteAddEditPopup';
+import InstituteAddEditPopup from './InstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -28,6 +28,8 @@ import InstituteAssingnPermissionPopup from './InstituteAssingnPermissionPopup';
 import CustomChipStatus from '../memberList/CustomChipStatus';
 import ApproveButton from '../industry-associations/ApproveButton';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 const InstitutePage = () => {
   const {messages, locale} = useIntl();
@@ -42,11 +44,11 @@ const InstitutePage = () => {
 
   const instituteTypeFilterItems = [
     {
-      id: InstituteType.GOVERNMENT,
+      id: InstituteTypes.GOVERNMENT,
       title: messages['common.government'] as string,
     },
     {
-      id: InstituteType.NON_GOVERNMENT,
+      id: InstituteTypes.NON_GOVERNMENT,
       title: messages['common.non_government'] as string,
     },
   ];
@@ -167,7 +169,7 @@ const InstitutePage = () => {
         selectFilterItems: instituteTypeFilterItems,
         Cell: (props: any) => {
           let data = props.row.original;
-          if ((data.institute_type_id = InstituteType.GOVERNMENT)) {
+          if ((data.institute_type_id = InstituteTypes.GOVERNMENT)) {
             return <>{messages['common.government']}</>;
           } else {
             return <>{messages['common.non_government']}</>;
@@ -235,7 +237,7 @@ const InstitutePage = () => {
     useReactTableFetchData({
       urlPath: API_INSTITUTES,
       paramsValueModifier: (params: any) => {
-        params['service_type'] = 3;
+        params['service_type'] = InstituteServiceTypes.TRAINING;
         return params;
       },
     });

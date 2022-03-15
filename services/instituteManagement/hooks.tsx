@@ -22,6 +22,7 @@ import {
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
+  API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
 } from '../../@softbd/common/apiRoutes';
@@ -139,7 +140,7 @@ export function useFetchTrainer(trainerId: number | null) {
 }
 
 export function useFetchTrainers(params: any) {
-  return useAxiosSWR([API_TRAINERS, params]);
+  return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
 
 export function useFetchPublicTrainingCenters(params: any) {
@@ -152,6 +153,12 @@ export function useFetchPublicTrainingCenters(params: any) {
 export function useFetchApplicationDetails(applicationId: number | null) {
   return useAxiosSWR(
     applicationId ? API_COURSE_ENROLLMENTS + '/' + applicationId : null,
+  );
+}
+/** fetches a single assessment's details */
+export function useFetchAssessmentDetails(assessmentId: number | null) {
+  return useAxiosSWR(
+    assessmentId ? API_RPL_APPLICATION + '/' + assessmentId : null,
   );
 }
 

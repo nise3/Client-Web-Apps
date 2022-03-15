@@ -1,13 +1,13 @@
-import {Box, Slide} from '@mui/material';
-import {styled} from '@mui/material/styles';
-import React, {FC, useCallback} from 'react';
-import {useIntl} from 'react-intl';
-import {setAreaText} from '../../../../@softbd/common/svg-utils';
-import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
+import { Box, Slide } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React, { FC, useCallback, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { setAreaText } from '../../../../@softbd/common/svg-utils';
+import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
 
-const StyledBox = styled(Box)(({theme}) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   border: '2px solid #d3d4d4',
   background: '#fff',
   padding: 20,
@@ -17,7 +17,7 @@ interface ClassicTemplateProps {
   userData: any;
 }
 
-const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
+const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
   const LanguageProficiencyType: any = {
     '1': 'Easily',
     '2': 'Not Easily',
@@ -28,16 +28,53 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     var imgElem = elem.childNodes[1] as any;
     imgElem.setAttribute('xlink:href', data.photo);
   }
+
+  const getProps = (propsName: string, locale: string): string => {
+    const props = (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
+    console.log(`getProps method:- ${locale}: ${props}`)
+    return props;
+  }
+  const getValue = (obj: any, propsName: string, locale: string): string => {
+    const propsKey = getProps(propsName, locale);
+    let val = `${obj[propsKey]}`;
+    let valWithNullCheck = val !== 'null' ? val : "";
+    return valWithNullCheck;
+  }
+
+  const createHeaderAndLine = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
+    // update langulage rect, line and heading from the last cord
+    const lastCords = innerCordObj.lastCord + 40;
+    let languageHead = document.getElementById(headerId);
+    let languageHeadLine = document.getElementById(headlineId);
+    languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
+    languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
+    languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
+    // langular rectangle cord change
+    let rectCord = document.getElementById(rectAreaId);
+    rectCord?.children[0].setAttribute('y', (lastCords + 20) + '');
+    return {
+      rectCord
+    }
+  }
+
   const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
     '2': 'Not Fluently',
   };
-  const {messages, locale} = useIntl();
+  const { messages, locale } = useIntl();
+  let svgNodeRef: HTMLElement;
   // console.log(messages, locale)
   const theCB = useCallback((node) => {
-
+    if (node) {
+      svgNodeRef = node;
+    } else {
+      node = svgNodeRef;
+      let exNode = document.getElementById("svg-div");
+      node.removeChild(exNode);
+    }
     if (!node || node.children.length > 0) return;
     const div = document.createElement('div');
+    div.setAttribute("id", "svg-div");
     div.innerHTML = pageSVG;
     // console.log('PAGE >> ', pageSVG);
     node.appendChild(div);
@@ -45,37 +82,10 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     const rects = svgNode.querySelectorAll('g[id]>text');
     for (let r = 0; r < rects.length; r++)
       // @ts-ignore
-      if(rects[r].previousElementSibling){
+      if (rects[r].previousElementSibling) {
         // @ts-ignore
         rects[r].previousElementSibling.setAttribute('fill', 'transparent');
       }
-
-    // setAreaText(svgNode, 'image', userData?.photo);
-    // console.log(svgNode)
-    const getProps = (propsName: string, locale: string): string =>{
-      return (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
-    }
-    const getValue = (presentAddress: any, propsName: string, locale: string): string =>{
-      let val = `${presentAddress[getProps(propsName, locale)]}`;
-      let valWithNullCheck = val !== 'null' ? val : "";
-      return valWithNullCheck;
-    }
-
-    const createHeaderAndLine = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
-      // update langulage rect, line and heading from the last cord
-      const lastCords = innerCordObj.lastCord + 40;
-      let languageHead = document.getElementById(headerId);
-      let languageHeadLine = document.getElementById(headlineId);
-      languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
-      languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
-      languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
-      // langular rectangle cord change
-      let rectCord = document.getElementById(rectAreaId);
-      rectCord?.children[0].setAttribute('y', (lastCords + 20) + '');
-      return {
-        rectCord
-      }
-    }
 
     setPhoto(userData);
     setAreaText(
@@ -90,10 +100,10 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
 
     /** present address */
     const addressText = (userData: any, locale: string) => {
-      let presentAddress = userData?.youth_addresses.filter((item:any)=> item.address_type == AddressTypes.PRESENT)[0];
-      const propsArray = ['house_n_road', 'village_or_area', 'loc_upazila_title', 'loc_district_title', 'loc_division_title' ];
+      let presentAddress = userData?.youth_addresses.filter((item: any) => item.address_type == AddressTypes.PRESENT)[0];
+      const propsArray = ['house_n_road', 'village_or_area', 'loc_upazila_title', 'loc_district_title', 'loc_division_title'];
 
-      let addresstxt:string = `${messages['common.address']}: `;
+      let addresstxt: string = `${messages['common.address']}: `;
       let addressArray = [];
       for (let i = 0; i < propsArray.length; i++) {
         const element = propsArray[i];
@@ -103,6 +113,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         }
       }
       addresstxt += addressArray.join() + (locale === LocaleLanguage.BN ? '।' : '.');
+      console.log(`${locale}: ${addresstxt}`)
       return addresstxt;
     }
     setAreaText(
@@ -172,19 +183,6 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
         return skill?.title ? skill[getProps('title', locale)] as any + ' ' : ' ';
       }),
     );
-
-
-    // // svg.setAttribute('viewBox', `0 0 595.276 ${skill.lastCord + 20}`)
-    // // update langulage rect, line and heading from the last cord
-    // const lastCords = skill.lastCord + 40;
-    // let languageHead = document.getElementById('language-headling');
-    // let languageHeadLine = document.getElementById('language-headling-line');
-    // languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
-    // languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
-    // languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
-    // // langular rectangle cord change
-    // let languageReact = document.getElementById('language');
-    // languageReact?.children[0].setAttribute('y', (skill.lastCord + 20) + '');
     let languageReact = createHeaderAndLine(skill, 'language-headling', 'language-headling-line', 'language');
     setAreaText(
       svgNode,
@@ -202,8 +200,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
           (language?.speaking_proficiency_level
             ? `${messages['language.speak']}: ` +
             LanguageProficiencySpeakingType[
-              language?.speaking_proficiency_level
-              ] +
+            language?.speaking_proficiency_level
+            ] +
             ', '
             : ' ')
         );
@@ -212,15 +210,22 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     //@ts-ignore
     const langulageRect = languageReact.rectCord?.children[0].getBBox();
     const languageLastBoxBottomY = langulageRect.y + langulageRect.height;
-    console.log('lang rectangle ', languageLastBoxBottomY);
+    const bottomPadding = 20;
+    
     // update svg if less then last cord
     let svg = document.getElementById('svg') as Element;
-    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY}`);
+    svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
   }, [locale]);
+
+  useEffect(() => {
+    console.log('inside effect ', locale);
+    // console.log('svgNodeRef before assign ', svgNodeRef);
+    theCB(svgNodeRef);
+  }, [locale])
 
   return (
     <Slide direction={'right'} in={true}>
-      <StyledBox sx={{padding: '0 !important'}} ref={theCB} />
+      <StyledBox sx={{ padding: '0 !important' }} ref={theCB} />
     </Slide>
   );
 };
