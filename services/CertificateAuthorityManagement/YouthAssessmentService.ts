@@ -2,6 +2,7 @@ import {IRplAssessment} from '../../shared/Interface/common.interface';
 import {apiPost} from '../../@softbd/common/api';
 import {
   API_RPL_APPLICATION,
+  API_RPL_APPLICATION_POST,
   API_RPL_ASSESSMENT,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
@@ -18,7 +19,7 @@ export const createRplAssessment = async (data: IRplAssessment) => {
 
 export const createRPLApplication = async (data: any) => {
   try {
-    let response: any = await apiPost(API_RPL_APPLICATION, data);
+    let response: any = await apiPost(API_RPL_APPLICATION_POST, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

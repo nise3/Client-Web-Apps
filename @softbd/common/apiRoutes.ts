@@ -157,7 +157,9 @@ export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
 export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
 export const API_ASSESSMENT_QUESTIONS =
   INSTITUTE_SERVICE_PATH + '/assessment-questions';
-export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-application';
+export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
+export const API_RPL_APPLICATION_POST =
+  INSTITUTE_SERVICE_PATH + '/rpl-application';
 export const API_ASSESSMENT_QUESTION_SETS =
   INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
 export const API_RPL_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/rpl-assessment';
