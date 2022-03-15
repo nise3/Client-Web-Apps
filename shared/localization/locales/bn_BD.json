@@ -1193,7 +1193,7 @@
   "common.total_result": "মোট ফলাফল পাওয়া গেছে",
   "member.total_result": "মোট মেম্বার পাওয়া গেছে",
   "member.be_our_member": "আমাদের মেম্বার হতে রেজিস্ট্রেশন করুন",
-  "common.employed": "নিযুক্ত",
+  "common.employed": "চাকুরীজিবী",
   "common.unemployed": "বেকার",
   "common.job_vacancy": "চাকুরি খালি আছে",
   "common.job": "চাকুরি",
@@ -1268,6 +1268,7 @@
   "job_posting.no_of_vacancy": "শূন্যপদের সংখ্যা",
   "job_posting.not_applicable": "প্রযোজ্য নয়",
   "job_posting.employment_status": "কর্মসংস্থানের অবস্থা",
+  "common.employment_status": "কর্মসংস্থানের অবস্থা",
   "job_posting.employment_status_full_time": "পূর্ণকাল",
   "job_posting.employment_status_part_time": "খন্ডকালীন",
   "job_posting.employment_status_internship": "ইন্টার্নশীপ",
@@ -1737,5 +1738,6 @@
   "rpl_batch.title": "ব্যাচ টাইটেল",
   "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)",
   "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে",
+  "common.score": "প্রাপ্ত নাম্বার(%)",
   "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না"
 }

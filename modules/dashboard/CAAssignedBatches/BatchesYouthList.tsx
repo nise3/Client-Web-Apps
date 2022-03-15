@@ -4,7 +4,6 @@ import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_RPL_APPLICATION} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
@@ -36,41 +35,44 @@ const YouthPage = () => {
         },
       },
       {
-        Header: messages['youth.username'],
-        accessor: 'username',
-        disableFilters: true,
-        isVisible: false,
-      },
-      {
         Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        accessor: 'first_name',
         disableFilters: true,
-      },
-      {
-        Header: messages['youth.gender'],
-        accessor: 'gender_label',
-        disableFilters: true,
-        isVisible: false,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return (
+              data?.youth_details?.first_name +
+              ' ' +
+              data?.youth_details?.last_name
+            );
+          } else {
+            return '';
+          }
+        },
       },
       {
         Header: messages['youth.mobile'],
         accessor: 'mobile',
         disableFilters: true,
-      },
-      {
-        Header: messages['youth.email'],
-        accessor: 'email',
-        disableFilters: true,
-        isVisible: false,
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          if (data?.youth_details) {
+            return data?.youth_details?.mobile;
+          } else {
+            return '';
+          }
         },
+      },
+      {
+        Header: messages['common.country'],
+        accessor: 'target_country_title',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.score'],
+        accessor: 'score',
+        disableFilters: true,
       },
       {
         Header: messages['common.actions'],

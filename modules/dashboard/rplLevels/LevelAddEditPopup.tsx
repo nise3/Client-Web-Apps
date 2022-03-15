@@ -163,7 +163,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
           ),
         );
       }
-
+      setOccupationFilter(itemData?.rpl_sector_id);
       reset(data);
     } else {
       reset(initialValues);
