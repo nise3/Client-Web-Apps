@@ -230,7 +230,7 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>
 
-          {/** Educations */}
+          {/* Educations
           {youthDetails?.education_info &&
             youthDetails?.education_info?.map((education: any) => {
               return (
@@ -303,7 +303,8 @@ const AssessmentDetailsPopup = ({itemId, ...props}: Props) => {
                   </fieldset>
                 </Grid>
               );
-            })}
+            })}*/}
+
           {/** addresses */}
           {youthDetails?.permanent_address && (
             <Grid item xs={6}>
