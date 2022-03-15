@@ -240,6 +240,7 @@ const RPLApplicationForm = () => {
               is: (value: any) =>
                 value &&
                 [
+                  EducationLevelId.JSC,
                   EducationLevelId.SSC,
                   EducationLevelId.HSC,
                   EducationLevelId.DIPLOMA,
