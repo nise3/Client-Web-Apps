@@ -1736,5 +1736,6 @@
   "graph_view_title.projection_of_future_jobs": "ভবিষ্যত চাকরির প্রজেকশন",
   "rpl_batch.title": "ব্যাচ টাইটেল",
   "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)",
-  "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে"
+  "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে",
+  "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না"
 }
