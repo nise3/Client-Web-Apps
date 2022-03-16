@@ -44,6 +44,7 @@ import {
 } from '../profile/utilities/EducationEnums';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {AddressTypeId} from '../profile/utilities/AddressType';
+import moment from 'moment';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -281,7 +282,15 @@ const YouthCourseRegistrationPage = () => {
             .string()
             .trim()
             .required()
-            .label(messages['common.date_of_birth'] as string),
+            .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+            .label(messages['common.date_of_birth'] as string)
+            .test(
+              'DOB',
+              messages['common.invalid_date_of_birth'] as string,
+              (value) => {
+                return moment().diff(moment(value), 'years') >= 13;
+              },
+            ),
           physical_disability_status: isPhysicalDisabilitiesRequired
             ? yup
                 .string()

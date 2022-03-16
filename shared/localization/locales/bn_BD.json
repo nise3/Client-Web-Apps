@@ -154,7 +154,7 @@
   "common.bbs_code": "বিবিএস কোড",
   "common.mobile": "মোবাইল নাম্বার",
   "common.invalid_mobile": "মোবাইল নাম্বার সঠিক নয়",
-  "common.invalid_date_of_birth": "জন্ম তারিখ বৈধ নয়",
+  "common.invalid_date_of_birth": "Date of birth must be 13 years ago",
   "common.invalid_phone": "ফোন নাম্বার সঠিক নয়",
   "common.notice_and_news": "সংবাদ ও বিজ্ঞপ্তি",
   "common.nid_validation": "এন আই ডি ফরমেট সঠিক নয়",
