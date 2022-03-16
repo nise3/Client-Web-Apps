@@ -106,9 +106,12 @@ const PortfolioSection = () => {
         <Box>
           <CustomCarousel itemsInDesktop={3}>
             {(portfolios || []).map((portfolio: any) => {
+              let filepath = portfolio?.file_path;
+              let fileType = filepath.substring(filepath.length - 3);
               return (
                 <React.Fragment key={portfolio?.id}>
                   <CardItemWithButton
+                    fileType={fileType}
                     portfolio={portfolio}
                     onDeletePortfolio={onDeletePortfolio}
                     onClick={() => openPortfolioAddEditForm(portfolio?.id)}

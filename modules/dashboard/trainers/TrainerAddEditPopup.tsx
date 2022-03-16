@@ -52,6 +52,7 @@ import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {Gender} from '../../industry/enrollment/constants/GenderEnums';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
+import moment from 'moment';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -284,7 +285,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.date_of_birth'] as string),
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) => {
+            return moment().diff(moment(value), 'years') >= 13;
+          },
+        ),
     });
   }, [messages]);
 
