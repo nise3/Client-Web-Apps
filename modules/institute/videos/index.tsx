@@ -321,7 +321,7 @@ const InstituteVideos = () => {
               </Grid>
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.video']} />
           )}
         </Grid>
         {openDialog && videoData && (

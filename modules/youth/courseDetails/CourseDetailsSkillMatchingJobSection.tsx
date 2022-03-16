@@ -77,7 +77,9 @@ const CourseDetailsSkillMatchingJobSection = ({
               })}
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.skill_matching_job']}
+            />
           )}
         </Grid>
       </Grid>

@@ -2,11 +2,12 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {H6, Link} from '../../@softbd/elements/common';
+import {Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {useFetchPublicIndustryMembers} from '../../services/IndustryManagement/hooks';
 import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../@softbd/common/appLinks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'Partners';
 
@@ -94,9 +95,10 @@ const AssociationMembersSection = () => {
               )}
             </CustomCarousel>
           ) : (
-            <H6 style={{textAlign: 'center'}}>
-              {messages['common.no_data_found']}
-            </H6>
+            <NoDataFoundComponent
+              messageType={messages['common.member']}
+              messageTextType={'h6'}
+            />
           )}
         </Box>
       </Container>

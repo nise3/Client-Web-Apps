@@ -87,7 +87,9 @@ const OccupationPage = () => {
                         );
                       })
                     ) : (
-                      <NoDataFoundComponent />
+                      <NoDataFoundComponent
+                        messageType={messages['occupations.label']}
+                      />
                     )}{' '}
                     {/**occupations**/}
                   </AccordionDetails>
@@ -96,7 +98,7 @@ const OccupationPage = () => {
             );
           })
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['occupations.label']} />
         )}
       </Grid>
     </StyledContainer>

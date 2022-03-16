@@ -14,6 +14,7 @@ import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const PREFIX = 'GuardianSection';
 const classes = {
@@ -100,7 +101,13 @@ const GuardianSection = () => {
             <Avatar>G</Avatar>
             <Box sx={{marginLeft: '15px'}}>
               {!guardians || guardians?.length == 0 ? (
-                <Typography>{messages['common.no_data_found']}</Typography>
+                <Typography>
+                  {' '}
+                  <NoDataFoundComponent
+                    messageType={messages['guardian.title']}
+                    messageTextType={'inherit'}
+                  />
+                </Typography>
               ) : (
                 <React.Fragment>
                   <StyledBox sx={{display: 'flex'}}>
