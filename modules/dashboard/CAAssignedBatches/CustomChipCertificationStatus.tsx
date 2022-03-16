@@ -33,15 +33,22 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
       )}
       <CustomChip
         icon={
-          value == 2 || value == 3 ? (
+          value == CertificationStatus.SUBMITTED ||
+          value == CertificationStatus.CERTIFIED ? (
             <CheckCircleOutline />
-          ) : value == 1 || value == 4 ? (
+          ) : value == CertificationStatus.NOTSUBMITTED ||
+            value == CertificationStatus.NOTCERTIFIED ? (
             <CancelIcon />
           ) : (
             <></>
           )
         }
-        color={value == 2 || value == 3 ? 'primary' : 'secondary'}
+        color={
+          value == CertificationStatus.SUBMITTED ||
+          value == CertificationStatus.CERTIFIED
+            ? 'primary'
+            : 'secondary'
+        }
         label={
           value == CertificationStatus.NOTSUBMITTED ? (
             <IntlMessages id='common.not_submitted' />
