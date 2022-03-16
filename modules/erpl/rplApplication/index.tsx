@@ -623,7 +623,7 @@ const RPLApplicationForm = () => {
         <Grid item xs={12}>
           <Grid container justifyContent={'center'}>
             <img
-              src='http://rpl.skills.gov.bd/assets/logo/bteb_logo.jpg'
+              src='/images/bteb_logo.jpg'
               alt='RPL logo'
               height={75}
               width={75}
