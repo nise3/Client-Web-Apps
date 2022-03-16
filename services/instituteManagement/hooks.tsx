@@ -135,7 +135,7 @@ export function useFetchBatches(params: any) {
   return useAxiosSWR([API_BATCHES, params]);
 }
 
-export function useFetchTrainer(trainerId: number | null) {
+export function useFetchTrainer(trainerId: any) {
   return useAxiosSWR(trainerId ? API_TRAINERS + '/' + trainerId : null);
 }
 

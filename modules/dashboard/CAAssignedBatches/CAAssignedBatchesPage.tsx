@@ -23,18 +23,35 @@ const CAAssignedBatchesPage = () => {
   const path = router.pathname;
   const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedAssessmentDate, setSelectedAssessmentDate] = useState<
+    number | null
+  >(null);
+  const [selectedAssessorId, setSelectedAssessorId] = useState<number | null>(
+    null,
+  );
   const [isOpenBatchManageModal, setIsOpenBatchManageModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeBatchManageModal = useCallback(() => {
     setIsOpenBatchManageModal(false);
     setSelectedItemId(null);
+    setSelectedAssessorId(null);
+    setSelectedAssessmentDate(null);
   }, []);
 
-  const openBatchManageModal = useCallback((itemId: number | null = null) => {
-    setIsOpenBatchManageModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  const openBatchManageModal = useCallback(
+    (
+      itemId: number | null = null,
+      assessorId: number | null = null,
+      assessmentDate: any = '',
+    ) => {
+      setIsOpenBatchManageModal(true);
+      setSelectedItemId(itemId);
+      setSelectedAssessorId(assessorId);
+      setSelectedAssessmentDate(assessmentDate);
+    },
+    [],
+  );
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -91,11 +108,13 @@ const CAAssignedBatchesPage = () => {
         Cell: (props: any) => {
           let data = props.row.original;
           let itemId = data?.id;
+          let assessorId = data?.assessor_id;
+          let assessmentDate = data?.assessment_date;
           return (
             <DatatableButtonGroup>
               <CommonButton
                 onClick={() => {
-                  openBatchManageModal(itemId);
+                  openBatchManageModal(itemId, assessorId, assessmentDate);
                 }}
                 btnText='common.manage'
                 startIcon={<EditIcon style={{marginLeft: '5px'}} />}
@@ -152,6 +171,8 @@ const CAAssignedBatchesPage = () => {
           <CABatchManagePopup
             onClose={closeBatchManageModal}
             itemId={selectedItemId}
+            assessorId={selectedAssessorId}
+            assessmentDate={selectedAssessmentDate}
             refreshDataTable={refreshDataTable}
           />
         )}
