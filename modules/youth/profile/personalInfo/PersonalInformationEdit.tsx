@@ -154,7 +154,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
           'DOB',
           messages['common.invalid_date_of_birth'] as string,
           (value) => {
-            return moment().diff(moment(value), 'days') >= 1;
+            return moment().diff(moment(value), 'years') >= 13;
           },
         ),
       skills: yup

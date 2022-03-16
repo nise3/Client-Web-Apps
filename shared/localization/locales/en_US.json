@@ -554,7 +554,7 @@
   "user.type.industry_association": "Industry association",
   "common.type_of_identity_card": "Type of Identity card",
   "common.registration_number": "Registration number",
-  "common.invalid_date_of_birth": "Please provide a valid date of birth",
+  "common.invalid_date_of_birth": "Date of birth must be bef",
   "common.nid_validation": "NID format is not correct",
   "common.registration": "Registration",
   "common.register": "Register",

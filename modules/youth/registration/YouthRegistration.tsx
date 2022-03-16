@@ -39,6 +39,7 @@ import {Link} from '../../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import moment from 'moment';
 
 const PREFIX = 'YouthRegistration';
 
@@ -133,7 +134,14 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.date_of_birth'] as string),
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) => {
+            return moment().diff(moment(value), 'years') >= 13;
+          },
+        ),
       physical_disability_status: yup
         .string()
         .trim()
