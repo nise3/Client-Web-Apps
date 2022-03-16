@@ -7,6 +7,7 @@ import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextIn
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import CertificationStatus from '../../../@softbd/utilities/CertificationStatus';
 
 type Props = {
   value: number;
@@ -32,23 +33,30 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
       )}
       <CustomChip
         icon={
-          value == 2 || value == 3 ? (
+          value == CertificationStatus.SUBMITTED ||
+          value == CertificationStatus.CERTIFIED ? (
             <CheckCircleOutline />
-          ) : value == 1 || value == 4 ? (
+          ) : value == CertificationStatus.NOTSUBMITTED ||
+            value == CertificationStatus.NOTCERTIFIED ? (
             <CancelIcon />
           ) : (
             <></>
           )
         }
-        color={value == 2 || value == 3 ? 'primary' : 'secondary'}
+        color={
+          value == CertificationStatus.SUBMITTED ||
+          value == CertificationStatus.CERTIFIED
+            ? 'primary'
+            : 'secondary'
+        }
         label={
-          value == 1 ? (
+          value == CertificationStatus.NOTSUBMITTED ? (
             <IntlMessages id='common.not_submitted' />
-          ) : value == 2 ? (
+          ) : value == CertificationStatus.SUBMITTED ? (
             <IntlMessages id='common.submitted' />
-          ) : value == 3 ? (
+          ) : value == CertificationStatus.CERTIFIED ? (
             <IntlMessages id='common.certified' />
-          ) : value == 4 ? (
+          ) : value == CertificationStatus.NOTCERTIFIED ? (
             <IntlMessages id='common.not_certified' />
           ) : (
             <></>
