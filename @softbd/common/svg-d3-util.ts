@@ -1,38 +1,32 @@
 
+import { Biotech } from "@mui/icons-material";
 import * as d3 from "d3";
 
-export const getStructureData = () => {
+interface IcvPosition{
+    rectDefaultWidth: number;
+    rectDefaultHeight: number;
+    startPositionX: number;
+    startPositionY: number;
+    headerHeight: number;
+}
 
-    const data = {
-        bio: "বাংলায় ক্যারিয়ার অব্জেক্টিভ",
-        bio_en: "A resourceful individual with a proven track record in implementing successful marketing strategies,boosting organic traffic, and improving search rankings seeks a position of Marketing Associate at ABCcompany to maximize brand awareness and revenue through integrated marketing communications.",
-        youth_educations: [
-            {
-                institute_name: "ঢাকা স্কুল এন্ড কলেজ",
-                institute_name_en: "Dhaka school and collage",
-                cgpa: "3.5"
-            },
-            {
-                institute_name: "ABC",
-                institute_name_en: "abc",
-                cgpa: "4"
-            }
-        ]
-    }
+interface ITextDesign{
+    // headline: number;
+    bodyFontSize: number;
+}
+
+interface IRenderSVG extends IcvPosition, ITextDesign{
+}
 
 
-    const startPositionX: number = 18;
-    const startPositionY: number = 185;
-    const rectDefaultWidth: number = 560;
-    const rectDefaultHeight: number = 100;
-    const headerHeight: number = 20;
-    const bodyFontSize: number = 12;
+const getCVData = (data: any, options: IcvPosition) => {
+    
 
     const rect = {
-        width: rectDefaultWidth,
-        height: rectDefaultHeight,
-        x: startPositionX,
-        y: startPositionY
+        width: options.rectDefaultWidth,
+        height: options.rectDefaultHeight,
+        x: options.startPositionX,
+        y: options.startPositionY
     }
 
     const d3Value = [
@@ -42,54 +36,68 @@ export const getStructureData = () => {
             position: { x: rect.x, y: rect.y }
         },
         {
+            id: 'JobExperiance',
             headline: 'Experiance',
-            body: data.bio_en,
+            body: data.youth_job_experiences.map(e => {
+                let duration = "";
+                if (e.is_currently_working) {
+                    duration += `Currently working here`;
+                } else {
+                    duration += `Start Date: ${e.start_date}, End Date: ${e.end_date}`;
+                }
+                return `
+                    Company Name: ${e.company_name}, 
+                    Position:${e.position},
+                    ${duration}
+                `
+            }),
             position: { x: rect.x, y: rect.y }
         },
         {
+            id: 'Education',
             headline: 'Education',
-            body: data.youth_educations,
+            body: data.youth_educations.map(e => {
+                let resultTxt = "Result: ";
+                if (e.cgpa) {
+                    resultTxt += ` ${e.cgpa}`;
+                } else {
+                    resultTxt += ` ${e.result.title}`;
+                }
+                return `
+                Institute Name: ${e.institute_name_en}, 
+                Duration (Years):${e.duration}, 
+                Result: ${e.cgpa},
+                Year of passing: ${e.year_of_passing}
+                `
+            }),
             position: { x: rect.x, y: rect.y }
         }
     ]
 
-    const objective = d3Value.filter(item => item.headline == 'Objective');
-    const experiance = d3Value.filter(item => item.headline == 'Experiance')[0];
+    const objective = d3Value.filter(item => item.id == 'Objective');
+    const experiance = d3Value.filter(item => item.id == 'JobExperiance')[0];
     // if (objective.length > 0) {
-    d3Value.filter(item => item.headline == 'Experiance')[0].position.y += rectDefaultHeight;
-    d3Value.filter(item => item.headline == 'Education')[0].position.y = experiance.position.y + rectDefaultHeight;
-    // }
+    d3Value.filter(item => item.id == 'JobExperiance')[0].position.y += options.rectDefaultHeight;
+    d3Value.filter(item => item.id == 'Education')[0].position.y = experiance.position.y + options.rectDefaultHeight;
 
+    return d3Value;
+}
 
-
-    // const strValue = {
-    //   objective: {
-    //     headline: {
-    //       position: {x: rect.x, y: rect.y},
-    //       text: "Objective"
-    //     },
-    //     body: {
-    //       position: {x: rect.x, y: rect.y + headerHeight},
-    //       text: data.bio
-    //     }
-    //   }
-    // }
-
-
+const renderSVG = (data: any, options: IRenderSVG) =>{
     const dthree = d3.select('g[id="cv-body"]');
     const allSections = dthree
         .selectAll('g')
-        .data(d3Value)
+        .data(data)
         .enter()
 
     // rectangle
     allSections.append('rect')
-        .attr('x', startPositionX)
+        .attr('x', options.startPositionX)
         .attr('y', (e: any) => {
             return e.position.y
         })
-        .attr('width', rectDefaultWidth)
-        .attr('height', rectDefaultHeight)
+        .attr('width', options.rectDefaultWidth)
+        .attr('height', options.rectDefaultHeight)
         // .attr('fill', 'transparent')
         .attr('fill', '#ccc')
 
@@ -107,53 +115,141 @@ export const getStructureData = () => {
         })
 
     // body
-    allSections
+    const textElem = allSections
         .append('text')
         .attr("y", (e: any) => {
-            return e.position.y + headerHeight
+            return e.position.y + options.headerHeight
         })
         .attr("x", (e: any) => {
             return e.position.x
         })
-        .text((txt: any) => {
-            if (!Array.isArray(txt.body)) {
-                return txt.body;
-            }
-        })
-        .attr('font-size', bodyFontSize)
+
+    textElem.text((txt: any) => {
+        if (!Array.isArray(txt.body)) {
+            return txt.body;
+        }
+    })
+        .attr('font-size', options.bodyFontSize)
         .attr('fill', '#231f20')
-        .call(wrap, rectDefaultWidth)
+        .call(wrap, options.rectDefaultWidth)
 
     allSections
         .filter((d: any) => {
             return Array.isArray(d.body);
         })
-        .append('text')
+        // .enter()
+        .append('g')
         .attr("y", (e: any) => {
-            return e.position.y + headerHeight
+            return e.position.y + options.headerHeight
         })
-        .attr("x", (e: any) => {    
+        .attr("x", (e: any) => {
             return e.position.x
         })
-        .text((txt: any) => {
-            // return txt.body[0].institute_name;
-            var text = d3.select(this);
-            const body = txt.body.map((item:any)=> {
-                return `${item.institute_name}, ${item.cgpa}`
-            });
-            // console.log(text, body)
-            // txt.body.map((item:any)=> {
-            //     const innertext = `${item.institute_name}, ${item.cgpa}`;
-                text
-                .append('ul')
-            // });
-            // return txt.body.map((item:any)=> {
-            //     return `${item.institute_name}, ${item.cgpa}`
-            // });
-        })
-        .attr('font-size', bodyFontSize)
+        // .text(setArrayText)
+        .attr('font-size', options.bodyFontSize)
         .attr('fill', '#231f20')
+        .call(setArrayText, options.rectDefaultWidth)
+}
 
+export const getStructureData = () => {
+
+    const startPositionX: number = 18;
+    const startPositionY: number = 185;
+    const rectDefaultWidth: number = 560;
+    const rectDefaultHeight: number = 100;
+    const headerHeight: number = 20;
+    const bodyFontSize: number = 12;
+
+    const data = {
+        bio: "বাংলায় ক্যারিয়ার অব্জেক্টিভ",
+        bio_en: "A resourceful individual with a proven track record in implementing successful marketing strategies,boosting organic traffic, and improving search rankings seeks a position of Marketing Associate at ABCcompany to maximize brand awareness and revenue through integrated marketing communications.",
+        youth_educations: [
+            {
+                institute_name: "ঢাকা স্কুল এন্ড কলেজ",
+                institute_name_en: "Dhaka school and collage",
+                cgpa: null,
+                cgpa_scale: null,
+                duration: 2,
+                result: {
+                    code: "FIRST_DIVISION",
+                    id: 1,
+                    title: "First Division/Class",
+                    title_en: "First Division/Class"
+                },
+                year_of_passing: "2013"
+            },
+            {
+                institute_name: "বিশ্ব জাকের মঞ্জিল সরকারী উচ্চ বিদ্যালয়",
+                institute_name_en: "Bisewa jaker manjil govt. heigh school",
+                cgpa: 3.5,
+                cgpa_scale: 4,
+                duration: 2,
+                result: {
+                    code: "GRADE",
+                    id: 4,
+                    title: "Grade",
+                    title_en: "Grade"
+                },
+                year_of_passing: "2021"
+            }
+        ],
+        youth_job_experiences: [
+            {
+                company_name: "সফটবিডি",
+                company_name_en: "SoftBD",
+                position: "সফটওয়্যার ইঞ্জিনিয়ার",
+                position_en: "Software Engineer",
+                is_currently_working: 1,
+                end_date: "2022-02-16T18:00:00.000000Z",
+                start_date: "2020-12-31T18:00:00.000000Z"
+            },
+            {
+                company_name: "NewCred",
+                company_name_en: null,
+                position: "Software Engr.",
+                position_en: null,
+                is_currently_working: 0,
+                end_date: "2022-01-31T18:00:00.000000Z",
+                start_date: "2021-12-31T18:00:00.000000Z"
+            }
+        ]
+    }
+
+
+    const cvDataOptions = {
+        headerHeight: headerHeight,
+        rectDefaultHeight: rectDefaultHeight,
+        rectDefaultWidth: rectDefaultWidth,
+        startPositionX: startPositionX,
+        startPositionY: startPositionY
+    }
+    
+    const d3Value = getCVData(data, cvDataOptions);
+
+    renderSVG(d3Value, {...cvDataOptions, ...{
+        bodyFontSize: bodyFontSize
+    }})
+
+}
+
+function setArrayText(txtElem, width) {
+    const lineHeight = 18;
+    txtElem.each(function (e) {
+        let txtElem = d3.select(this);
+        for (let i = 0; i < e.body.length; i++) {
+            const element = `${i + 1}. ${e.body[i]}`;
+            txtElem
+                .append('text')
+                .attr("y", (e: any) => {
+                    return e.position.y + (lineHeight * (i + 1))
+                })
+                .attr("x", (e: any) => {
+                    return e.position.x
+                })
+                .text(element)
+                .call(wrap, width)
+        }
+    })
 }
 
 function wrap(text, width) {
@@ -163,7 +259,7 @@ function wrap(text, width) {
             word,
             line = [],
             lineNumber = 0,
-            lineHeight = 1.1, // ems
+            lineHeight = 1.2, // ems
             x = text.attr("x"),
             y = text.attr("y"),
             dy = 0, //parseFloat(text.attr("dy")),
