@@ -82,7 +82,7 @@ const CardItemWithButton = ({
   portfolio,
   onClick: onclickHandler,
   onDeletePortfolio,
-  fileType,
+  fileType = 'img',
 }: cardItemWithButtonProps) => {
   const {messages} = useIntl();
 
