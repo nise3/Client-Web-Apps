@@ -1740,5 +1740,6 @@
   "rpl_batch.title_en": "Batch Title (En)",
   "validation.cgpa_range": "CGPA must be within 5",
   "common.score": "Score(%)",
-  "yup_validation_invalid_row_status": "Row status is not valid"
+  "yup_validation_invalid_row_status": "Row status is not valid",
+  "common.no_data_found_dynamic": "No {messageType} found"
 }

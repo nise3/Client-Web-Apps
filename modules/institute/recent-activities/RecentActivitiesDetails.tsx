@@ -151,7 +151,9 @@ const RecentActivitiesDetails = () => {
               </Grid>
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['recent_activities.label']}
+            />
           )}
         </>
       )}

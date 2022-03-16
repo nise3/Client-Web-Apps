@@ -1740,5 +1740,6 @@
   "rpl_batch.title_en": "ব্যাচ টাইটেল (ইংরেজি)",
   "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে",
   "common.score": "প্রাপ্ত নাম্বার(%)",
-  "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না"
+  "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না",
+  "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি"
 }

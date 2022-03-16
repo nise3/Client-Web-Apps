@@ -73,7 +73,7 @@ const PopularJobs = () => {
               ))}
             </CustomCarousel>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.job']} />
           )}
         </Box>
         {jobs && jobs?.length > 0 && (

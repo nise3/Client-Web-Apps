@@ -9,6 +9,7 @@ import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useFetchYouthFeedDataList} from '../../../services/youthManagement/hooks';
 import {FeedItemTypes} from '../../../@softbd/utilities/FeedItemTypes';
 import JobCardComponent from '../../../@softbd/elements/JobCardComponent';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const PREFIX = 'PostSection';
 
@@ -135,7 +136,10 @@ const PostSection = ({
       ) : (
         <Grid item xs={12}>
           <Box sx={{textAlign: 'center', fontSize: 20}}>
-            {messages['common.no_data_found']}
+            <NoDataFoundComponent
+              messageType={messages['youth_feed.recent_post']}
+              messageTextType={'h6'}
+            />
           </Box>
         </Grid>
       )}

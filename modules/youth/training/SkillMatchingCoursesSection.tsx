@@ -139,7 +139,9 @@ const SkillMatchingCoursesSection = ({
               )}
             </>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.skill_matching_course']}
+            />
           )}
         </Grid>
       </Grid>
