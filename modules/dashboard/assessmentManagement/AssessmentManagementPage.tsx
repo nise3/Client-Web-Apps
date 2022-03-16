@@ -85,10 +85,26 @@ const AssessmentManagementPage = () => {
           return props.row.index + 1;
         },
       },
+      {
+        Header: messages['youth.fullName'],
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.youth_details) {
+            return (
+              data?.youth_details?.first_name +
+              ' ' +
+              data?.youth_details?.last_name
+            );
+          } else {
+            return '';
+          }
+        },
+      },
 
       {
         Header: messages['rpl_occupation.label'],
-        accessor: 'rpl_occupation_title_en',
+        accessor: 'rpl_occupation_title',
         isVisible: locale == LocaleLanguage.BN,
       },
       {

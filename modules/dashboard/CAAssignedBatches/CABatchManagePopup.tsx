@@ -19,14 +19,25 @@ import {createAssignAssessor} from '../../../services/CertificateAuthorityManage
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 interface CABatchManagePopupProps {
   onClose: () => void;
   itemId: number | string | null;
+  assessorId?: number | string | null;
+  assessmentDate?: number | string | null;
   refreshDataTable: () => void;
 }
+
+const initialValues = {
+  assessor_id: '',
+  assessment_date: '',
+};
+
 const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
   onClose,
+  assessorId,
+  assessmentDate,
   itemId,
   refreshDataTable,
   ...props
@@ -35,6 +46,9 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage} = useSuccessMessage();
+
+  const isEdit = assessorId != null;
+
   const [assessorFilter, setAssessorFilter] = useState<any>(null);
   const {data: assessors, isLoading: isLoadingAssessors} =
     useFetchTrainers(assessorFilter);
@@ -63,6 +77,19 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
     });
   }, []);
 
+  useEffect(() => {
+    if (assessorId) {
+      reset({
+        assessor_id: assessorId,
+        assessment_date: assessmentDate
+          ? getMomentDateFormat(assessmentDate, 'YYYY-MM-DD')
+          : '',
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [assessorId]);
+
   const onSubmit: SubmitHandler<Division> = async (data: any) => {
     try {
       await createAssignAssessor(itemId, data);
@@ -79,8 +106,10 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
     handleSubmit,
     setError,
     register,
+    reset,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
+
   return (
     <HookFormMuiModal
       open={true}
@@ -90,10 +119,17 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
         <>
           <IconBranch />
 
-          <IntlMessages
-            id='common.add_new'
-            values={{subject: <IntlMessages id='common.assign_assessor' />}}
-          />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='common.assign_assessor' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='common.assign_assessor' />}}
+            />
+          )}
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
