@@ -75,12 +75,14 @@ interface cardItemWithButtonProps {
   portfolio: any;
   onClick: () => void;
   onDeletePortfolio: (itemId: number) => void;
+  fileType?: string;
 }
 
 const CardItemWithButton = ({
   portfolio,
   onClick: onclickHandler,
   onDeletePortfolio,
+  fileType,
 }: cardItemWithButtonProps) => {
   const {messages} = useIntl();
 
@@ -109,9 +111,13 @@ const CardItemWithButton = ({
           </div>
           <CardMedia
             component='img'
-            alt='port folio'
+            alt='portfolio'
             className={classes.image}
-            image={portfolio?.file_path + '?id=' + portfolio?.id}
+            image={
+              fileType == 'pdf'
+                ? '/images/pdf.png'
+                : portfolio?.file_path + '?id=' + portfolio?.id
+            }
           />
           {/*<Image
             className={classes.image}
