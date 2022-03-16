@@ -124,7 +124,10 @@ const RecentActivities = () => {
               items={recentActivitiesMasonryList}
             />
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['recent_activities.label']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
         <Grid item mt={8} xs={12}>
@@ -154,7 +157,10 @@ const RecentActivities = () => {
               ))}
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['recent_activities.label']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
       </Grid>

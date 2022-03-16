@@ -85,7 +85,9 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
             </Grid>
           </Grid>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent
+            messageType={messages['common.similar_course']}
+          />
         )}
       </Grid>
     </Container>

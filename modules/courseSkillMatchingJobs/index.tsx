@@ -170,7 +170,7 @@ const CourseSkillMatchingJobs = () => {
 
               {(!jobs || (jobs && jobs.length <= 0)) && (
                 <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
+                  messageType={messages['common.skill_matching_job']}
                 />
               )}
               {jobsMetaData?.total_page > 1 && (

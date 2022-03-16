@@ -152,7 +152,7 @@ const NoticeAndEventSection = () => {
                 </List>
               ) : (
                 <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
+                  messageType={messages['industry.notice_and_events']}
                   messageTextType={'h6'}
                 />
               )}

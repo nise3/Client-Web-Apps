@@ -210,9 +210,7 @@ const JobList = () => {
               )}
 
               {(!jobs || (jobs && jobs.length <= 0)) && (
-                <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
-                />
+                <NoDataFoundComponent messageType={messages['common.job']} />
               )}
               {jobsMetaData?.total_page > 1 && (
                 <Grid

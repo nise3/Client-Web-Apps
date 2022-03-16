@@ -143,7 +143,7 @@ const CourseList = () => {
               })}
           </Grid>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['course.label']} />
         )}
 
         {metaData && metaData.total_page && metaData.total_page > 1 && (

@@ -18,6 +18,7 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const JobExperienceSection = () => {
   const {messages} = useIntl();
@@ -95,7 +96,10 @@ const JobExperienceSection = () => {
           <Box sx={{display: 'flex'}}>
             <Avatar>C</Avatar>
             <Typography style={{marginLeft: '15px'}}>
-              {messages['common.no_data_found']}
+              <NoDataFoundComponent
+                messageType={messages['common.job_experience']}
+                messageTextType={'inherit'}
+              />
             </Typography>
           </Box>
         </>

@@ -179,7 +179,7 @@ const MemberListPage = () => {
         </React.Fragment>
       ) : (
         <Grid item xs={12} marginY={15}>
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['common.member']} />
         </Grid>
       )}
       {metaData?.total_page > 1 && (
