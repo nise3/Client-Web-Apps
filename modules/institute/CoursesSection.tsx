@@ -115,7 +115,9 @@ const CoursesSection = () => {
               ) : runningCourseList && runningCourseList.length ? (
                 <CourseSectionCarousel courses={runningCourseList} />
               ) : (
-                <NoDataFoundComponent />
+                <NoDataFoundComponent
+                  messageType={messages['common.courses']}
+                />
               )}
             </Box>
           </TabPanel>
@@ -136,7 +138,9 @@ const CoursesSection = () => {
               ) : upcomingCourses && upcomingCourses.length ? (
                 <CourseSectionCarousel courses={upcomingCourses} />
               ) : (
-                <NoDataFoundComponent />
+                <NoDataFoundComponent
+                  messageType={messages['common.courses']}
+                />
               )}
             </Box>
           </TabPanel>

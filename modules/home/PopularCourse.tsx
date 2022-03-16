@@ -1,4 +1,4 @@
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
@@ -13,7 +13,8 @@ import {
   LINK_FRONTEND_COURSE_DETAILS,
   LINK_FRONTEND_COURSE_LIST,
 } from '../../@softbd/common/appLinks';
-import BoxCardsSkeleton from "../institute/Components/BoxCardsSkeleton";
+import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'PopularCourse';
 
@@ -47,7 +48,10 @@ const PopularCourse = () => {
 
   const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
-  const {data: courseList, isLoading:isLoadingCourses} = useFetchCourseList(pathValue, courseFilters);
+  const {data: courseList, isLoading: isLoadingCourses} = useFetchCourseList(
+    pathValue,
+    courseFilters,
+  );
 
   return (
     <StyledGrid container xl={12}>
@@ -56,10 +60,10 @@ const PopularCourse = () => {
           title={messages['common.popular_courses'] as string}
           center={true}
         />
-        <Box mb={2} sx={{marginTop: '-16px'}}>{isLoadingCourses ? (
+        <Box mb={2} sx={{marginTop: '-16px'}}>
+          {isLoadingCourses ? (
             <BoxCardsSkeleton />
-          ):
-          courseList && courseList.length > 0 ? (
+          ) : courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
                 <Link
@@ -74,9 +78,10 @@ const PopularCourse = () => {
             </CustomCarousel>
           ) : (
             <Grid container sx={{justifyContent: 'center'}}>
-              <Typography variant={'h6'}>
-                {messages['common.no_data_found']}
-              </Typography>
+              <NoDataFoundComponent
+                messageType={messages['course.label']}
+                messageTextType={'h6'}
+              />
             </Grid>
           )}
         </Box>

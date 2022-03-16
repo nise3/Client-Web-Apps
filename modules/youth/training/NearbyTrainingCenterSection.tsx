@@ -191,7 +191,9 @@ const NearbyTrainingCenterSection = ({
                 )}
             </>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.nearby_training_center']}
+            />
           )}
         </Grid>
       </Grid>

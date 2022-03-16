@@ -224,7 +224,7 @@ const AboutSection = () => {
       ) : (
         <Grid container sx={{marginTop: '-35px'}}>
           <NoDataFoundComponent
-            message={messages['common.no_data_found'] as string}
+            messageType={messages['common.institute']}
             messageTextType={'h6'}
           />
         </Grid>

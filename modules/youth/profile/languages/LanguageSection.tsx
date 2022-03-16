@@ -21,6 +21,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const PREFIX = 'LanguageSection';
 const classes = {
@@ -122,7 +123,12 @@ const LanguageSection = () => {
             <Box sx={{marginLeft: '15px'}}>
               {(!languageProficiencies ||
                 languageProficiencies?.length == 0) && (
-                <Typography>{messages['common.no_data_found']}</Typography>
+                <Typography>
+                  <NoDataFoundComponent
+                    messageType={messages['language_proficiency.title']}
+                    messageTextType={'inherit'}
+                  />
+                </Typography>
               )}
               {languageProficiencies && (
                 <React.Fragment>
