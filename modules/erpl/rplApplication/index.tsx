@@ -46,6 +46,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {erplDomain} from '../../../@softbd/common/constants';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import moment from 'moment';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -140,8 +141,17 @@ const RPLApplicationForm = () => {
           .label(messages['common.nationality'] as string),
         date_of_birth: yup
           .string()
+          .trim()
           .required()
-          .label(messages['common.date_of_birth'] as string),
+          .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+          .label(messages['common.date_of_birth'] as string)
+          .test(
+            'DOB',
+            messages['common.invalid_date_of_birth'] as string,
+            (value) => {
+              return moment().diff(moment(value), 'years') >= 13;
+            },
+          ),
         identity_number_type: yup
           .string()
           .required()

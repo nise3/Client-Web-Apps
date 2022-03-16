@@ -24,6 +24,7 @@ import {
 } from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import moment from 'moment';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -89,6 +90,15 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           'nid_validation',
           messages['common.nid_validation'] as string,
           (value) => !value || Boolean(value.match(NID_REGEX)),
+        ),
+      date_of_birth: yup
+        .mixed()
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) =>
+            !value || Boolean(moment().diff(moment(value), 'years') >= 13),
         ),
     });
   }, [messages, showOther]);
