@@ -88,7 +88,7 @@ const YouthRegistration = () => {
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
-
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [filters] = useState({});
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -106,6 +106,7 @@ const YouthRegistration = () => {
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
@@ -297,6 +298,7 @@ const YouthRegistration = () => {
 
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
+      setIsFormSubmitted(true);
       router
         .push({
           pathname: LINK_YOUTH_REGISTRATION_VERIFICATION,
@@ -510,6 +512,7 @@ const YouthRegistration = () => {
                 isSubmitting={isSubmitting}
                 label={messages['common.create_account'] as string}
                 size='large'
+                isDisable={isSubmitting || isFormSubmitted}
               />
               <Typography
                 sx={{
