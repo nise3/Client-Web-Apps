@@ -36,8 +36,8 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
           value == CertificationStatus.SUBMITTED ||
           value == CertificationStatus.CERTIFIED ? (
             <CheckCircleOutline />
-          ) : value == CertificationStatus.NOTSUBMITTED ||
-            value == CertificationStatus.NOTCERTIFIED ? (
+          ) : value == CertificationStatus.NOT_SUBMITTED ||
+            value == CertificationStatus.NOT_CERTIFIED ? (
             <CancelIcon />
           ) : (
             <></>
@@ -50,13 +50,13 @@ const CustomChipPaymentStatusStatus = ({value, isLoading, label}: Props) => {
             : 'secondary'
         }
         label={
-          value == CertificationStatus.NOTSUBMITTED ? (
+          value == CertificationStatus.NOT_SUBMITTED ? (
             <IntlMessages id='common.not_submitted' />
           ) : value == CertificationStatus.SUBMITTED ? (
             <IntlMessages id='common.submitted' />
           ) : value == CertificationStatus.CERTIFIED ? (
             <IntlMessages id='common.certified' />
-          ) : value == CertificationStatus.NOTCERTIFIED ? (
+          ) : value == CertificationStatus.NOT_CERTIFIED ? (
             <IntlMessages id='common.not_certified' />
           ) : (
             <></>
