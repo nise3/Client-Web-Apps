@@ -113,23 +113,6 @@ const getCVData = (data: any, messages, options: IcvPosition) => {
     const skills = d3Value.filter(item => item.id == 'Skills')[0];
     const languages_proficiencies = d3Value.filter(item => item.id == 'languages_proficiencies')[0];
 
-    console.log('objective.body.length ', objective.body.length)
-
-    // let word;
-    // const words = objective.body.split(/\s+/).reverse();
-    // let wordCount = 0;
-    // let line = 0;
-    // while (word = words.pop()) {
-    //     wordCount += word.length * 14.5;
-    //     // console.log(word, word.length, wordCount, options.rectDefaultWidth);
-    //     if(wordCount > options.rectDefaultWidth){
-    //         line += 1;
-    //         wordCount = 0;
-    //     }
-    // }
-    //         console.log('line total ', line)
-    
-
     experiance.position.y += options.rectDefaultHeight;
     education.position.y = experiance.position.y + options.rectDefaultHeight;
     
@@ -154,10 +137,6 @@ const getCVData = (data: any, messages, options: IcvPosition) => {
         languages_proficiencies['height'] = languageHeight;
     }
     
-
-
-    
-
     return d3Value;
 }
 
