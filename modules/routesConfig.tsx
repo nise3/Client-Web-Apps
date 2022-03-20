@@ -479,6 +479,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'business',
             url: '/contact-info',
           },
+          {
+            id: 'job-requirements',
+            title: 'Job requirement',
+            messageId: 'job_requirement.label',
+            permissionKey: 'view_any_organization_hr_demand',
+            type: 'item',
+            icon: 'work',
+            url: '/job-requirement',
+          },
         ],
       },
       {
