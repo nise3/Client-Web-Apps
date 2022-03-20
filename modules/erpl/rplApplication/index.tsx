@@ -44,7 +44,10 @@ import {useRouter} from 'next/router';
 import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {erplDomain} from '../../../@softbd/common/constants';
+import {
+  DATE_OF_BIRTH_MIN_AGE,
+  erplDomain,
+} from '../../../@softbd/common/constants';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import moment from 'moment';
 
@@ -148,9 +151,8 @@ const RPLApplicationForm = () => {
           .test(
             'DOB',
             messages['common.invalid_date_of_birth'] as string,
-            (value) => {
-              return moment().diff(moment(value), 'years') >= 13;
-            },
+            (value) =>
+              moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
           ),
         identity_number_type: yup
           .string()
