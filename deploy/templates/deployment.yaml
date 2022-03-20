@@ -22,5 +22,12 @@ spec:
           imagePullPolicy: {{ .Values.variables.imagePullPolicy }}
           ports:
             - containerPort: 3001
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "200m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
       imagePullSecrets:
         - name: regcred
