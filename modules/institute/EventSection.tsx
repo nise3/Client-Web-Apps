@@ -166,7 +166,7 @@ const EventSection = () => {
                 </List>
               ) : (
                 <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
+                  messageType={messages['menu.events']}
                   messageTextType={'h6'}
                 />
               )}

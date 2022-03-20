@@ -13,6 +13,7 @@ import {objectFilter} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {FilterItem} from '../../../shared/Interface/common.interface';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 
 const PREFIX = 'CourseList';
 
@@ -45,10 +46,11 @@ const CourseList = () => {
   const [courseFilters, setCourseFilters] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(PageSizes.EIGHT);
-  const {data: courseList, metaData} = useFetchCourseList(
-    courseCategory,
-    courseFilters,
-  );
+  const {
+    data: courseList,
+    isLoading,
+    metaData,
+  } = useFetchCourseList(courseCategory, courseFilters);
 
   useEffect(() => {
     setCourseFilters({page: currentPage, page_size: pageSize});
@@ -116,7 +118,9 @@ const CourseList = () => {
         routeParamsFilters={filterCoursesListByRouteParams}
       />
       <StyledContainer>
-        {courseList && courseList.length > 0 ? (
+        {isLoading ? (
+          <BoxCardsSkeleton />
+        ) : courseList && courseList.length > 0 ? (
           <Grid container spacing={3} padding={5}>
             <Grid item xs={12}>
               <Grid container>
@@ -139,7 +143,7 @@ const CourseList = () => {
               })}
           </Grid>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['course.label']} />
         )}
 
         {metaData && metaData.total_page && metaData.total_page > 1 && (

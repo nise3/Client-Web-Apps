@@ -39,7 +39,6 @@ const CustomFilterableFormSelect = ({
   optionTitleProp,
 }: Props) => {
   const {messages} = useIntl();
-
   const getTitle = (
     option: any,
     optionTitleProp: Array<string> | undefined,

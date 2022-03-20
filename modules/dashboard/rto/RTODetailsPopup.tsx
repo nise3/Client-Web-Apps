@@ -9,8 +9,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchRTO} from '../../../services/CertificateAuthorityManagement/hooks';
-import {InstituteType} from './RTOAddEditPopup';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 type Props = {
   itemId: number;
@@ -79,6 +79,24 @@ const ERPLInstituteDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['institute.type']}
+              value={
+                itemData?.institute_type_id == InstituteTypes.GOVERNMENT
+                  ? messages['common.government']
+                  : messages['common.non_government']
+              }
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['rto_country.label']}
+              value={itemData?.country_title_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.phone']}
               value={itemData?.primary_phone}
               isLoading={isLoading}
@@ -99,15 +117,15 @@ const ERPLInstituteDetailsPopup = ({
             })}
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['divisions.label']}
+              value={itemData?.division_title_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['divisions.label']}
-              value={itemData?.division_title_en}
+              label={messages['districts.label']}
+              value={itemData?.district_title_en}
               isLoading={isLoading}
             />
           </Grid>
@@ -120,27 +138,8 @@ const ERPLInstituteDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.status']}
-              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
-              isLoading={isLoading}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['institute.type']}
-              value={
-                itemData?.institute_type_id == InstituteType.GOVERNMENT
-                  ? messages['common.government']
-                  : messages['common.non_government']
-              }
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.rto-rtoCountries']}
-              value={itemData?.country_title_en}
+              label={messages['common.address']}
+              value={itemData?.address}
               isLoading={isLoading}
             />
           </Grid>
@@ -166,15 +165,15 @@ const ERPLInstituteDetailsPopup = ({
             })}
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['districts.label']}
-              value={itemData?.district_title_en}
+              label={messages['common.google_map_src']}
+              value={itemData?.google_map_src}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
+              label={messages['common.status']}
+              value={<DecoratedRowStatus rowStatus={itemData?.row_status} />}
               isLoading={isLoading}
             />
           </Grid>

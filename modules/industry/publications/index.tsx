@@ -247,7 +247,9 @@ const Publications = () => {
                     })
                   ) : (
                     <Grid item xs={12}>
-                      <NoDataFoundComponent />
+                      <NoDataFoundComponent
+                        messageType={messages['publication.label']}
+                      />
                     </Grid>
                   )}
                   {metaData.total_page > 1 && (

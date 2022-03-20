@@ -11,6 +11,7 @@ const ERRORS: any = {
   39003: 'yup_validation_text_length',
   42003: 'yup_validation_digit_length',
   3000: 'yup_validation_date',
+  30000: 'yup_validation_invalid_row_status',
 };
 
 interface TProcessServerSideErrors {

@@ -94,7 +94,7 @@ const GallerySection = () => {
               </Box>
             ) : (
               <NoDataFoundComponent
-                message={messages['common.no_data_found'] as string}
+                messageType={messages['institute.label']}
                 messageTextType={'h6'}
               />
             )}

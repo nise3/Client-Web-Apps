@@ -114,7 +114,7 @@ const InstituteFAQ = () => {
                 </Accordion>
               ))
             ) : (
-              <NoDataFoundComponent />
+              <NoDataFoundComponent messageType={messages['faq.institute']} />
             )}
           </Grid>
         </Grid>
