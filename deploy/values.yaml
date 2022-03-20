@@ -16,9 +16,9 @@ variables:
     # is lts acme, value is boolean
   ltsAcme: false
 
-  # app version, changing version will auto deploy the app to current version
+  # app version, changing version will auto deploy the app to current version "2.0.13"
 
-  imageAppVersion: "2.0.13"
+  imageAppVersion: "prod-1.6"
 
   # increase this when you need scale up
   replicaCount: 1
