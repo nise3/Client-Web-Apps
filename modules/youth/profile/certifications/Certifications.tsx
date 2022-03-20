@@ -114,7 +114,8 @@ const Certifications: FC<CertificationsProps> = ({
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                   <Link
                     href={certificate?.certificate_file_path}
-                    target={'_blank'}>
+                    target={'_blank'}
+                    style={{marginRight: '10px'}}>
                     <IconButton
                       color='primary'
                       aria-label='view certificate'
