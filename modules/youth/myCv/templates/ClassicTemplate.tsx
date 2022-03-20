@@ -1,9 +1,9 @@
 import { Box, Slide } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { setAreaText } from '../../../../@softbd/common/svg-utils';
 import { getStructureData } from '../../../../@softbd/common/svg-d3-util';
+import { setAreaText } from '../../../../@softbd/common/svg-utils';
 import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
@@ -73,13 +73,16 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
 
     let addresstxt: string = `${messages['common.address']}: `;
     let addressArray = [];
-    for (let i = 0; i < propsArray.length; i++) {
-      const element = propsArray[i];
-      let propValue = getValue(presentAddress, element, locale);
-      if (propValue) {
-        addressArray.push(propValue);
+    if(presentAddress){
+      for (let i = 0; i < propsArray.length; i++) {
+        const element = propsArray[i];
+        let propValue = getValue(presentAddress, element, locale);
+        if (propValue) {
+          addressArray.push(propValue);
+        }
       }
     }
+    
     addresstxt += addressArray.join() + (locale === LocaleLanguage.BN ? '।' : '.');
     // console.log(`${locale}: ${addresstxt}`)
     return addresstxt;
@@ -226,7 +229,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     // svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
 
     // let cvBody = document.getElementById('classic-data') as HTMLElement;
-    getStructureData();
+    getStructureData(userData);
     
   }
   

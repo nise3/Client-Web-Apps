@@ -2,25 +2,28 @@
 import { Biotech } from "@mui/icons-material";
 import * as d3 from "d3";
 
-interface IcvPosition{
+interface IcvPosition {
     rectDefaultWidth: number;
     rectDefaultHeight: number;
     startPositionX: number;
     startPositionY: number;
     headerHeight: number;
+    lineHeight: number;
 }
 
-interface ITextDesign{
+interface ITextDesign {
     // headline: number;
     bodyFontSize: number;
 }
 
-interface IRenderSVG extends IcvPosition, ITextDesign{
+interface IRenderSVG extends IcvPosition, ITextDesign {
 }
 
 
 const getCVData = (data: any, options: IcvPosition) => {
-    
+
+    const textPadding: number = 10;
+    const bottomPadding: number = 15;
 
     const rect = {
         width: options.rectDefaultWidth,
@@ -31,6 +34,7 @@ const getCVData = (data: any, options: IcvPosition) => {
 
     const d3Value = [
         {
+            id: 'Objective',
             headline: 'Objective',
             body: data.bio,
             position: { x: rect.x, y: rect.y }
@@ -38,7 +42,7 @@ const getCVData = (data: any, options: IcvPosition) => {
         {
             id: 'JobExperiance',
             headline: 'Experiance',
-            body: data.youth_job_experiences.map(e => {
+            body: data.youth_job_experiences.map((e:any) => {
                 let duration = "";
                 if (e.is_currently_working) {
                     duration += `Currently working here`;
@@ -71,19 +75,79 @@ const getCVData = (data: any, options: IcvPosition) => {
                 `
             }),
             position: { x: rect.x, y: rect.y }
+        },
+        {
+            id: 'Skills',
+            headline: 'Skills',
+            body: data.skills.map((e:any) => {
+                return `${e.title}`
+            }),
+            position: { x: rect.x, y: rect.y }
+        },
+        {
+            id: 'languages_proficiencies',
+            headline: 'Language',
+            body: data.youth_languages_proficiencies.map((e:any) => {
+                return `${e.language_title}`
+            }),
+            position: { x: rect.x, y: rect.y }
         }
     ]
 
-    const objective = d3Value.filter(item => item.id == 'Objective');
+    const objective = d3Value.filter(item => item.id == 'Objective')[0];
     const experiance = d3Value.filter(item => item.id == 'JobExperiance')[0];
-    // if (objective.length > 0) {
-    d3Value.filter(item => item.id == 'JobExperiance')[0].position.y += options.rectDefaultHeight;
-    d3Value.filter(item => item.id == 'Education')[0].position.y = experiance.position.y + options.rectDefaultHeight;
+    const education = d3Value.filter(item => item.id == 'Education')[0];
+    const skills = d3Value.filter(item => item.id == 'Skills')[0];
+    const languages_proficiencies = d3Value.filter(item => item.id == 'languages_proficiencies')[0];
+
+    // let word;
+    // const words = objective.body.split(/\s+/).reverse();
+    // let wordCount = 0;
+    // let line = 0;
+    // while (word = words.pop()) {
+    //     wordCount += word.length * 14.5;
+    //     // console.log(word, word.length, wordCount, options.rectDefaultWidth);
+    //     if(wordCount > options.rectDefaultWidth){
+    //         line += 1;
+    //         wordCount = 0;
+    //     }
+    // }
+    //         console.log('line total ', line)
+    
+
+    experiance.position.y += options.rectDefaultHeight;
+    education.position.y = experiance.position.y + options.rectDefaultHeight;
+    
+    skills.position.y = education.position.y + options.rectDefaultHeight;
+    const heightPerLine = options.rectDefaultHeight / options.headerHeight; // 5.5
+
+    let skillsHeight = options.rectDefaultHeight;
+    if (skills.body && skills.body.length > heightPerLine) {
+        skillsHeight = (skills.body.length * options.lineHeight) + textPadding + bottomPadding ;
+        skills['height'] = skillsHeight;
+    }
+
+    if (skillsHeight !== options.rectDefaultHeight) {
+        languages_proficiencies.position.y = skills.position.y + skillsHeight;
+    } else {
+        languages_proficiencies.position.y = skills.position.y + options.rectDefaultHeight;
+    }
+
+    let languageHeight = options.rectDefaultHeight;
+    if (languages_proficiencies.body && languages_proficiencies.body.length > heightPerLine) {
+        languageHeight = (languages_proficiencies.body.length * options.lineHeight) + textPadding + bottomPadding ;
+        languages_proficiencies['height'] = languageHeight;
+    }
+    
+
+
+    
 
     return d3Value;
 }
 
-const renderSVG = (data: any, options: IRenderSVG) =>{
+const renderSVG = (data: any, options: IRenderSVG) => {
+    
     const dthree = d3.select('g[id="cv-body"]');
     const allSections = dthree
         .selectAll('g')
@@ -97,9 +161,11 @@ const renderSVG = (data: any, options: IRenderSVG) =>{
             return e.position.y
         })
         .attr('width', options.rectDefaultWidth)
-        .attr('height', options.rectDefaultHeight)
-        // .attr('fill', 'transparent')
-        .attr('fill', '#ccc')
+        .attr('height', (d:any)=> {
+            return d.height || options.rectDefaultHeight
+        })
+        .attr('fill', 'transparent')
+        // .attr('fill', '#ccc')
 
     // headline
     allSections.append("g")
@@ -148,10 +214,10 @@ const renderSVG = (data: any, options: IRenderSVG) =>{
         // .text(setArrayText)
         .attr('font-size', options.bodyFontSize)
         .attr('fill', '#231f20')
-        .call(setArrayText, options.rectDefaultWidth)
+        .call(setArrayText, options.rectDefaultWidth, options.lineHeight)
 }
 
-export const getStructureData = () => {
+export const getStructureData = (data) => {
 
     const startPositionX: number = 18;
     const startPositionY: number = 185;
@@ -159,81 +225,148 @@ export const getStructureData = () => {
     const rectDefaultHeight: number = 100;
     const headerHeight: number = 20;
     const bodyFontSize: number = 12;
+    const lineHeight = 18;
 
-    const data = {
-        bio: "বাংলায় ক্যারিয়ার অব্জেক্টিভ",
-        bio_en: "A resourceful individual with a proven track record in implementing successful marketing strategies,boosting organic traffic, and improving search rankings seeks a position of Marketing Associate at ABCcompany to maximize brand awareness and revenue through integrated marketing communications.",
-        youth_educations: [
-            {
-                institute_name: "ঢাকা স্কুল এন্ড কলেজ",
-                institute_name_en: "Dhaka school and collage",
-                cgpa: null,
-                cgpa_scale: null,
-                duration: 2,
-                result: {
-                    code: "FIRST_DIVISION",
-                    id: 1,
-                    title: "First Division/Class",
-                    title_en: "First Division/Class"
-                },
-                year_of_passing: "2013"
-            },
-            {
-                institute_name: "বিশ্ব জাকের মঞ্জিল সরকারী উচ্চ বিদ্যালয়",
-                institute_name_en: "Bisewa jaker manjil govt. heigh school",
-                cgpa: 3.5,
-                cgpa_scale: 4,
-                duration: 2,
-                result: {
-                    code: "GRADE",
-                    id: 4,
-                    title: "Grade",
-                    title_en: "Grade"
-                },
-                year_of_passing: "2021"
-            }
-        ],
-        youth_job_experiences: [
-            {
-                company_name: "সফটবিডি",
-                company_name_en: "SoftBD",
-                position: "সফটওয়্যার ইঞ্জিনিয়ার",
-                position_en: "Software Engineer",
-                is_currently_working: 1,
-                end_date: "2022-02-16T18:00:00.000000Z",
-                start_date: "2020-12-31T18:00:00.000000Z"
-            },
-            {
-                company_name: "NewCred",
-                company_name_en: null,
-                position: "Software Engr.",
-                position_en: null,
-                is_currently_working: 0,
-                end_date: "2022-01-31T18:00:00.000000Z",
-                start_date: "2021-12-31T18:00:00.000000Z"
-            }
-        ]
-    }
-
+    // const data = {
+    //     // bio: null,
+    //     bio: "বাংলায় ক্যারিয়ার অব্জেক্টিভ",
+    //     bio_en: "A resourceful individual with a proven track record in implementing successful marketing strategies,boosting organic traffic, and improving search rankings seeks a position of Marketing Associate at ABCcompany to maximize brand awareness and revenue through integrated marketing communications. A resourceful individual with a proven track record in implementing successful marketing strategies,boosting organic traffic, and improving search rankings seeks a position of Marketing Associate at ABCcompany to maximize brand awareness and revenue through integrated marketing communications.",
+    //     youth_educations: [
+    //         {
+    //             institute_name: "ঢাকা স্কুল এন্ড কলেজ",
+    //             institute_name_en: "Dhaka school and collage",
+    //             cgpa: null,
+    //             cgpa_scale: null,
+    //             duration: 2,
+    //             result: {
+    //                 code: "FIRST_DIVISION",
+    //                 id: 1,
+    //                 title: "First Division/Class",
+    //                 title_en: "First Division/Class"
+    //             },
+    //             year_of_passing: "2013"
+    //         },
+    //         {
+    //             institute_name: "বিশ্ব জাকের মঞ্জিল সরকারী উচ্চ বিদ্যালয়",
+    //             institute_name_en: "Bisewa jaker manjil govt. heigh school",
+    //             cgpa: 3.5,
+    //             cgpa_scale: 4,
+    //             duration: 2,
+    //             result: {
+    //                 code: "GRADE",
+    //                 id: 4,
+    //                 title: "Grade",
+    //                 title_en: "Grade"
+    //             },
+    //             year_of_passing: "2021"
+    //         }
+    //     ],
+    //     youth_job_experiences: [
+    //         {
+    //             company_name: "সফটবিডি",
+    //             company_name_en: "SoftBD",
+    //             position: "সফটওয়্যার ইঞ্জিনিয়ার",
+    //             position_en: "Software Engineer",
+    //             is_currently_working: 1,
+    //             end_date: "2022-02-16T18:00:00.000000Z",
+    //             start_date: "2020-12-31T18:00:00.000000Z"
+    //         },
+    //         {
+    //             company_name: "NewCred",
+    //             company_name_en: null,
+    //             position: "Software Engr.",
+    //             position_en: null,
+    //             is_currently_working: 0,
+    //             end_date: "2022-01-31T18:00:00.000000Z",
+    //             start_date: "2021-12-31T18:00:00.000000Z"
+    //         }
+    //     ],
+    //     skills: [
+    //         {
+    //             title: "সাংগঠনিক সংস্কৃতি",
+    //             title_en: "Organizational Culture"
+    //         }
+    //         , {
+    //             title: "ব্যবসায়িক লেখা",
+    //             title_en: "Business Writing"
+    //         }, {
+    //             title: "কুকিং",
+    //             title_en: "Cooking"
+    //         }, 
+    //         {
+    //             title: "টেক্সটাইল প্রযুক্তি",
+    //             title_en: "Textile Technology"
+    //         },
+    //         {
+    //             title: "সাংগঠনিক সংস্কৃতি",
+    //             title_en: "Organizational Culture"
+    //         }
+    //         , {
+    //             title: "ব্যবসায়িক লেখা",
+    //             title_en: "Business Writing"
+    //         }, {
+    //             title: "কুকিং",
+    //             title_en: "Cooking"
+    //         }, {
+    //             title: "টেক্সটাইল প্রযুক্তি",
+    //             title_en: "Textile Technology"
+    //         }, {
+    //             title: "কুকিং",
+    //             title_en: "Cooking"
+    //         }, {
+    //             title: "টেক্সটাইল প্রযুক্তি",
+    //             title_en: "Textile Technology"
+    //         }
+    //     ],
+    //     youth_languages_proficiencies: [
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         },
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         },
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         },
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         },
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         },
+    //         {
+    //             language_title: "বাংলা",
+    //             language_title_en: "Bengali"
+    //         }
+    //     ]
+    // }
 
     const cvDataOptions = {
         headerHeight: headerHeight,
         rectDefaultHeight: rectDefaultHeight,
         rectDefaultWidth: rectDefaultWidth,
         startPositionX: startPositionX,
-        startPositionY: startPositionY
+        startPositionY: startPositionY,
+        lineHeight: lineHeight
     }
-    
+
     const d3Value = getCVData(data, cvDataOptions);
 
-    renderSVG(d3Value, {...cvDataOptions, ...{
-        bodyFontSize: bodyFontSize
-    }})
+    renderSVG(d3Value, {
+        ...cvDataOptions, ...{
+            bodyFontSize: bodyFontSize
+        }
+    })
 
 }
 
-function setArrayText(txtElem, width) {
-    const lineHeight = 18;
+function setArrayText(txtElem, width, lineHeight) {
+    
     txtElem.each(function (e) {
         let txtElem = d3.select(this);
         for (let i = 0; i < e.body.length; i++) {
