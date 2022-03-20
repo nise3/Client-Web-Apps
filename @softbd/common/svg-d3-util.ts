@@ -1,6 +1,7 @@
 
 import { Biotech } from "@mui/icons-material";
 import * as d3 from "d3";
+import moment from "moment";
 
 interface IcvPosition {
     rectDefaultWidth: number;
@@ -12,13 +13,17 @@ interface IcvPosition {
 }
 
 interface ITextDesign {
-    // headline: number;
+    headlineSize: number;
     bodyFontSize: number;
 }
 
 interface IRenderSVG extends IcvPosition, ITextDesign {
 }
 
+const LanguageProficiencyType: any = {
+    '1': 'Easily',
+    '2': 'Not Easily',
+  };
 
 const getCVData = (data: any, options: IcvPosition) => {
 
@@ -41,15 +46,15 @@ const getCVData = (data: any, options: IcvPosition) => {
         },
         {
             id: 'JobExperiance',
-            headline: 'Experiance',
-            body: data.youth_job_experiences.map((e:any) => {
+            headline: 'Job Experience',
+            body: data.youth_job_experiences.map((e:any, i) => {
                 let duration = "";
                 if (e.is_currently_working) {
                     duration += `Currently working here`;
                 } else {
-                    duration += `Start Date: ${e.start_date}, End Date: ${e.end_date}`;
+                    duration += `Start Date: ${moment(e.start_date).format('DD-MM-YYYY')}, End Date: ${moment(e.end_date).format('DD-MM-YYYY')}`;
                 }
-                return `
+                return `${i+1}. 
                     Company Name: ${e.company_name}, 
                     Position:${e.position},
                     ${duration}
@@ -60,14 +65,14 @@ const getCVData = (data: any, options: IcvPosition) => {
         {
             id: 'Education',
             headline: 'Education',
-            body: data.youth_educations.map(e => {
+            body: data.youth_educations.map((e, i) => {
                 let resultTxt = "Result: ";
                 if (e.cgpa) {
                     resultTxt += ` ${e.cgpa}`;
                 } else {
                     resultTxt += ` ${e.result.title}`;
                 }
-                return `
+                return `${i+1}. 
                 Institute Name: ${e.institute_name_en}, 
                 Duration (Years):${e.duration}, 
                 Result: ${e.cgpa},
@@ -79,16 +84,18 @@ const getCVData = (data: any, options: IcvPosition) => {
         {
             id: 'Skills',
             headline: 'Skills',
-            body: data.skills.map((e:any) => {
-                return `${e.title}`
+            body: data.skills.map((e:any, i: number) => {
+                return `${i+1}. ${e.title}`
             }),
             position: { x: rect.x, y: rect.y }
         },
         {
             id: 'languages_proficiencies',
-            headline: 'Language',
+            headline: 'Language Proficiency',
             body: data.youth_languages_proficiencies.map((e:any) => {
-                return `${e.language_title}`
+                return `Language: ${e.language_title}
+                ${e.reading_proficiency_level ? LanguageProficiencyType[e.reading_proficiency_level] : ''}
+                `
             }),
             position: { x: rect.x, y: rect.y }
         }
@@ -99,6 +106,8 @@ const getCVData = (data: any, options: IcvPosition) => {
     const education = d3Value.filter(item => item.id == 'Education')[0];
     const skills = d3Value.filter(item => item.id == 'Skills')[0];
     const languages_proficiencies = d3Value.filter(item => item.id == 'languages_proficiencies')[0];
+
+    console.log('objective.body.length ', objective.body.length)
 
     // let word;
     // const words = objective.body.split(/\s+/).reverse();
@@ -179,6 +188,21 @@ const renderSVG = (data: any, options: IRenderSVG) => {
         .text((txt: any) => {
             return txt.headline;
         })
+        .attr('font-size', options.headlineSize)
+    const lineBottomSpace = 5;
+    allSections.append("line")
+        .attr("x1", (e: any) => {
+            console.log('line pos', e)
+            return e.position.x
+        }).attr("y1", (e: any) => {
+            return e.position.y + lineBottomSpace
+        })
+        .attr("x2", (e: any) => {
+            return options.rectDefaultWidth
+        }).attr("y2", (e: any) => {
+            return e.position.y + lineBottomSpace
+        }).attr("style", "stroke:#bcbec0;stroke-width:1")
+
 
     // body
     const textElem = allSections
@@ -225,6 +249,7 @@ export const getStructureData = (data) => {
     const rectDefaultHeight: number = 100;
     const headerHeight: number = 20;
     const bodyFontSize: number = 12;
+    const headlineSize: number = bodyFontSize + 3;
     const lineHeight = 18;
 
     // const data = {
@@ -346,6 +371,7 @@ export const getStructureData = (data) => {
     //     ]
     // }
 
+
     const cvDataOptions = {
         headerHeight: headerHeight,
         rectDefaultHeight: rectDefaultHeight,
@@ -359,7 +385,8 @@ export const getStructureData = (data) => {
 
     renderSVG(d3Value, {
         ...cvDataOptions, ...{
-            bodyFontSize: bodyFontSize
+            bodyFontSize: bodyFontSize,
+            headlineSize: headlineSize
         }
     })
 
@@ -370,7 +397,7 @@ function setArrayText(txtElem, width, lineHeight) {
     txtElem.each(function (e) {
         let txtElem = d3.select(this);
         for (let i = 0; i < e.body.length; i++) {
-            const element = `${i + 1}. ${e.body[i]}`;
+            const element =  `${e.body[i]}`;
             txtElem
                 .append('text')
                 .attr("y", (e: any) => {
