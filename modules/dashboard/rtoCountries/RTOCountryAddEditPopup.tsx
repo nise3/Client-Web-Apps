@@ -97,7 +97,7 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({ refreshDataTable
           <IconCountry />
           <IntlMessages
             id="common.add_new"
-            values={{ subject: <IntlMessages id="rto-country.label" /> }}
+            values={{ subject: <IntlMessages id="rto_country.label" /> }}
           />
         </>
       }

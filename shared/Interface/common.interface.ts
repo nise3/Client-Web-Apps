@@ -42,10 +42,46 @@ export interface IFAQ {
   row_status: number;
   other_language_fields?: object;
 }
+
 export interface IRPLSector {
   title: string;
+  row_status?: number;
+  translations?: object;
+}
+
+export interface IRPLOccupation {
+  rpl_sector_id: number | string;
+  title: string;
+  title_en?: string;
   row_status: number;
-  other_country_fields?: object;
+  translations?: object;
+}
+export interface IRPLLevel {
+  rpl_sector_id: number | string;
+  title: string;
+  title_en?: string;
+  translations?: object;
+  rpl_occupation_id: number | string;
+  sequence_order: number;
+}
+
+export interface IAssessment {
+  rpl_occupation_id: number | string;
+  rpl_level_id: number | string;
+  title: string;
+  title_en?: string;
+}
+
+export interface IRplAssessment {
+  rpl_sector_id: number | string;
+  youth_id: number | string;
+  assessment_id: number | string;
+  target_country_id: number | string;
+  rto_country_id: number | string;
+  rto_id: number | string;
+  rpl_occupation_id: number | string;
+  rpl_level_id: number | string;
+  rto_batch_id?: number | string;
 }
 
 export interface IPartner extends IIdTitle {

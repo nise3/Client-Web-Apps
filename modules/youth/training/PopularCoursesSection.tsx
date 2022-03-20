@@ -133,7 +133,9 @@ const PopularCoursesSection = ({
               )}
             </>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.popular_courses']}
+            />
           )}
         </Grid>
       </Grid>

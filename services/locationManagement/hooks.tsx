@@ -2,9 +2,13 @@ import {
   API_COUNTRIES,
   API_DISTRICTS,
   API_DIVISIONS,
+  API_UNIONS,
   API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
-import {useAxiosSWR, useLocalizedAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useLocalizedAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);
@@ -24,6 +28,10 @@ export function useFetchDistrict(districtId: number | null) {
 
 export function useFetchUpazilas(params: any) {
   return useAxiosSWR([API_UPAZILAS, params]);
+}
+
+export function useFetchUnions(params: any) {
+  return useAxiosSWR([API_UNIONS, params]);
 }
 
 export function useFetchUpazila(upazilaId: number | null) {

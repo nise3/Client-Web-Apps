@@ -238,6 +238,9 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         case StaticPageCategoryTypes.YOUTH:
           setShowIn(ShowInTypes.YOUTH);
           break;
+        case StaticPageCategoryTypes.RPL:
+          setShowIn(ShowInTypes.RPL);
+          break;
         default:
           setShowIn(null);
       }
@@ -284,7 +287,9 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL].includes(
+          item.id,
+        ),
       );
 
       setShowInList(filteredShowIn);

@@ -14,12 +14,24 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   logo: string;
   primary_phone: string;
   phone_numbers: Array<object>;
+  rto_occupation_exceptions?: Array<any>;
   primary_mobile: string;
   mobile_numbers: Array<object>;
   email: string;
   config: string;
   row_status?: string;
   deleted_at?: string;
+}
+export interface ISubject extends IIdTitleCreateUpdateAt {
+  title: string;
+  title_en: string;
+}
+
+export interface IQuestionSet extends IIdTitleCreateUpdateAt {
+  assessment_id: string | number;
+  title: string;
+  title_en: string;
+  row_status?: string;
 }
 
 export interface IProgramme extends IIdTitleCreateUpdateAt {
@@ -106,6 +118,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   trainer_name_en?: string;
   trainer_name: string;
   branch_id?: number | string;
+  role_id: number | string;
   training_center_id?: number | string;
   trainer_registration_number: number | string;
   email: string;
@@ -133,8 +146,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   educational_qualification_en?: string;
   photo?: string;
   signature?: string;
-  skills?: string;
-  skills_en?: string;
+  skills?: Array<any>;
   row_status?: string;
 }
 

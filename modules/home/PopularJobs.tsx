@@ -6,13 +6,13 @@ import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useFetchPublicJobs} from '../../services/IndustryManagement/hooks';
 import JobCardComponent from '../../@softbd/elements/JobCardComponent';
-import BoxContentSkeleton from '../youth/profile/component/BoxContentSkeleton';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import JobCategory from '../../@softbd/utilities/JobCategorie';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import Link from 'next/link';
 import {LINK_FRONTEND_JOBS} from '../../@softbd/common/appLinks';
 import SectionTitle from './SectionTitle';
+import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
 
 const PREFIX = 'NisePopularJobs';
 
@@ -63,7 +63,7 @@ const PopularJobs = () => {
 
         <Box mb={2} sx={{marginTop: '-16px'}}>
           {isLoading ? (
-            <BoxContentSkeleton />
+            <BoxCardsSkeleton />
           ) : jobs && jobs.length > 0 ? (
             <CustomCarousel>
               {jobs.map((job: any, index: number) => (
@@ -73,7 +73,7 @@ const PopularJobs = () => {
               ))}
             </CustomCarousel>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.job']} />
           )}
         </Box>
         {jobs && jobs?.length > 0 && (
