@@ -1,7 +1,7 @@
 
-import { Biotech } from "@mui/icons-material";
 import * as d3 from "d3";
 import moment from "moment";
+import LocaleLanguage from "../utilities/LocaleLanguage";
 
 interface IcvPosition {
     rectDefaultWidth: number;
@@ -10,6 +10,7 @@ interface IcvPosition {
     startPositionY: number;
     headerHeight: number;
     lineHeight: number;
+    locale: string;
 }
 
 interface ITextDesign {
@@ -25,7 +26,12 @@ const LanguageProficiencyType: any = {
     '2': 'Not Easily',
   };
 
-const getCVData = (data: any, options: IcvPosition) => {
+  export const getProps = (propsName: string, locale: string): string => {
+    const props = (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
+    return props;
+  }
+
+const getCVData = (data: any, messages, options: IcvPosition) => {
 
     const textPadding: number = 10;
     const bottomPadding: number = 15;
@@ -41,7 +47,7 @@ const getCVData = (data: any, options: IcvPosition) => {
         {
             id: 'Objective',
             headline: 'Objective',
-            body: data.bio,
+            body: data[getProps('bio', options.locale)],
             position: { x: rect.x, y: rect.y }
         },
         {
@@ -50,7 +56,7 @@ const getCVData = (data: any, options: IcvPosition) => {
             body: data.youth_job_experiences.map((e:any, i) => {
                 let duration = "";
                 if (e.is_currently_working) {
-                    duration += `Currently working here`;
+                    duration += messages['common.present']// `Currently working here`;
                 } else {
                     duration += `Start Date: ${moment(e.start_date).format('DD-MM-YYYY')}, End Date: ${moment(e.end_date).format('DD-MM-YYYY')}`;
                 }
@@ -241,14 +247,14 @@ const renderSVG = (data: any, options: IRenderSVG) => {
         .call(setArrayText, options.rectDefaultWidth, options.lineHeight)
 }
 
-export const getStructureData = (data) => {
+export const getStructureData = (data, messages, locale) => {
 
     const startPositionX: number = 18;
     const startPositionY: number = 185;
     const rectDefaultWidth: number = 560;
     const rectDefaultHeight: number = 100;
     const headerHeight: number = 20;
-    const bodyFontSize: number = 12;
+    const bodyFontSize: number = 11;
     const headlineSize: number = bodyFontSize + 3;
     const lineHeight = 18;
 
@@ -378,10 +384,11 @@ export const getStructureData = (data) => {
         rectDefaultWidth: rectDefaultWidth,
         startPositionX: startPositionX,
         startPositionY: startPositionY,
-        lineHeight: lineHeight
+        lineHeight: lineHeight,
+        locale: locale
     }
 
-    const d3Value = getCVData(data, cvDataOptions);
+    const d3Value = getCVData(data, messages, cvDataOptions);
 
     renderSVG(d3Value, {
         ...cvDataOptions, ...{
