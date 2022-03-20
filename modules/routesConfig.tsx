@@ -227,6 +227,15 @@ const routesConfig: NavItemProps[] = [
             url: '/training-centers',
           },
           {
+            id: 'training_center_survey',
+            title: 'Training Center Survey',
+            messageId: 'training_center_survey.label',
+            permissionKey: 'view_any_training_center_survey',
+            type: 'item',
+            icon: 'business',
+            url: '/training-center-survey',
+          },
+          {
             id: 'course',
             title: 'Course',
             messageId: 'course.label',

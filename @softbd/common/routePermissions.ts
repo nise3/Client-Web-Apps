@@ -83,6 +83,10 @@ export const routePermissions: any = {
     routePrefix: '/training-centers',
     permissionKeys: ['view_any_training_center'],
   },
+  '/training-center-survey': {
+    routePrefix: '/training-centers-survey',
+    permissionKeys: ['view_any_training_center_survey'],
+  },
   '/courses': {
     routePrefix: '/courses',
     permissionKeys: ['view_any_course'],
