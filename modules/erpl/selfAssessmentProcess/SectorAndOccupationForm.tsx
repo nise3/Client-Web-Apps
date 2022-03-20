@@ -219,6 +219,9 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
               optionValueProp={'id'}
               optionTitleProp={['title', 'sequence_order']}
               errorInstance={errors}
+              getOptionDisabled={(option) => {
+                return option.eligible ? false : true;
+              }}
               onChange={onLevelChange}
             />
           </Grid>
