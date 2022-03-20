@@ -177,7 +177,7 @@ const RPLApplicationForm = () => {
               .required()
               .label(messages['common.company_name_bn'] as string)
           : yup.string(),
-        job_responsibilities: isCurrentlyEmployed
+        position: isCurrentlyEmployed
           ? yup
               .string()
               .trim()
@@ -568,8 +568,8 @@ const RPLApplicationForm = () => {
       formData.youth_details.education_info = data.education_info;
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
-      formData.youth_details.is_youth_employed = data.youth_details
-        .is_youth_employed
+      formData.youth_details.is_currently_working = data.youth_details
+        .is_currently_working
         ? 1
         : 0;
 
@@ -1086,7 +1086,7 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={12}>
             <CustomCheckbox
-              id='youth_details[is_youth_employed]'
+              id='youth_details[is_currently_working]'
               label={messages['common.currently_working'] + '?'}
               register={register}
               errorInstance={errors}
@@ -1128,7 +1128,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='youth_details[job_responsibilities]'
+                  id='youth_details[position]'
                   label={messages['common.designation']}
                   register={register}
                   errorInstance={errors}
