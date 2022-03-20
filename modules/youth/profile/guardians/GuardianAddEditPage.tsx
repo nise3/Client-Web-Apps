@@ -25,6 +25,7 @@ import {
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -98,7 +99,10 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           'DOB',
           messages['common.invalid_date_of_birth'] as string,
           (value) =>
-            !value || Boolean(moment().diff(moment(value), 'years') >= 13),
+            !value ||
+            Boolean(
+              moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+            ),
         ),
     });
   }, [messages, showOther]);

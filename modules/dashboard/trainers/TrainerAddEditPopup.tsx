@@ -53,6 +53,7 @@ import {Gender} from '../../industry/enrollment/constants/GenderEnums';
 import {getAllBranches} from '../../../services/instituteManagement/BranchService';
 import {getAllTrainingCenters} from '../../../services/instituteManagement/TrainingCenterService';
 import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
 
 interface TrainerAddEditPopupProps {
   itemId: number | null;
@@ -289,9 +290,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .test(
           'DOB',
           messages['common.invalid_date_of_birth'] as string,
-          (value) => {
-            return moment().diff(moment(value), 'years') >= 13;
-          },
+          (value) =>
+            moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
         ),
     });
   }, [messages]);
