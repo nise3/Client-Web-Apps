@@ -45,6 +45,7 @@ import {
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {AddressTypeId} from '../profile/utilities/AddressType';
 import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -287,9 +288,8 @@ const YouthCourseRegistrationPage = () => {
             .test(
               'DOB',
               messages['common.invalid_date_of_birth'] as string,
-              (value) => {
-                return moment().diff(moment(value), 'years') >= 13;
-              },
+              (value) =>
+                moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
             ),
           physical_disability_status: isPhysicalDisabilitiesRequired
             ? yup
