@@ -131,9 +131,7 @@ const TrendingCoursesSection = ({
               )}
             </>
           ) : (
-            <NoDataFoundComponent
-              messageType={messages['common.trending_courses']}
-            />
+            <NoDataFoundComponent messageType={messages['course.label']} />
           )}
         </Grid>
       </Grid>

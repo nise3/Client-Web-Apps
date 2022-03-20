@@ -191,7 +191,13 @@ const MemberDetails = () => {
             {messages['common.organization_details']}
           </H4>
           <Body1>
-            {data?.description ? data?.description : <NoDataFoundComponent />}
+            {data?.description ? (
+              data?.description
+            ) : (
+              <NoDataFoundComponent
+                messageType={messages['common.organization_details']}
+              />
+            )}
           </Body1>
         </Grid>
         <Grid
