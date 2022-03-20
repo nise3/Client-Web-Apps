@@ -2,7 +2,7 @@ import { Box, Slide } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { FC, useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getStructureData } from '../../../../@softbd/common/svg-d3-util';
+import { getProps, getStructureData } from '../../../../@softbd/common/svg-d3-util';
 import { setAreaText } from '../../../../@softbd/common/svg-utils';
 import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
@@ -30,11 +30,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     imgElem.setAttribute('xlink:href', data.photo);
   }
 
-  const getProps = (propsName: string, locale: string): string => {
-    const props = (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
-    // console.log(`getProps method:- ${locale}: ${props}`)
-    return props;
-  }
+  
   const getValue = (obj: any, propsName: string, locale: string): string => {
     const propsKey = getProps(propsName, locale);
     let val = `${obj[propsKey]}`;
@@ -229,7 +225,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     // svg.setAttribute('viewBox', `0 0 595.276 ${languageLastBoxBottomY + bottomPadding}`);
 
     // let cvBody = document.getElementById('classic-data') as HTMLElement;
-    getStructureData(userData);
+    getStructureData(userData, messages, language);
     
   }
   
