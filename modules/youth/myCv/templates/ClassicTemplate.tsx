@@ -134,6 +134,8 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
       getValue(userData, 'first_name', language) + ' ' + getValue(userData, 'last_name', language),
       'lt',
     );
+    
+    setHeaderLanguage('cv-header', "personal_info.curriculum_vitae");
     setHeaderLanguage('contact-address', "common.contact_and_address");
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
