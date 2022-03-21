@@ -112,10 +112,15 @@ const InstituteContact = () => {
     let newArr: any = [...filterData];
     setMapLocations(newArr);
     if (newArr.length > 0) {
-      setMapCenter({
-        lat: parseFloat(newArr[0].location_latitude),
-        lng: parseFloat(newArr[0].location_longitude),
-      });
+      if (
+        !isNaN(parseFloat(newArr[0]?.location_latitude)) &&
+        !isNaN(typeof parseFloat(newArr[0]?.location_longitude))
+      ) {
+        setMapCenter({
+          lat: parseFloat(newArr[0].location_latitude),
+          lng: parseFloat(newArr[0].location_longitude),
+        });
+      }
     }
   };
 
