@@ -84,7 +84,7 @@ const AssignPermissionSubGroupPopup: FC<AssignPermissionSubGroupPopup> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
