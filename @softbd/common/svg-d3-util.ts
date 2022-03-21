@@ -3,6 +3,19 @@ import * as d3 from "d3";
 import moment from "moment";
 import LocaleLanguage from "../utilities/LocaleLanguage";
 
+interface IPosition{
+    x: number;
+    y: number;
+}
+interface Id3Value {
+        id: string,
+        headline: string,
+        body: string | any[],
+        position: IPosition,
+        height?: number,
+        width?: number
+        
+}
 interface IcvPosition {
     rectDefaultWidth: number;
     rectDefaultHeight: number;
@@ -21,15 +34,15 @@ interface ITextDesign {
 interface IRenderSVG extends IcvPosition, ITextDesign {
 }
 
-const LanguageProficiencyType: any = {
-    '1': 'Easily',
-    '2': 'Not Easily',
-  };
+// const LanguageProficiencyType: any = {
+//     '1': 'Easily',
+//     '2': 'Not Easily',
+// };
 
-  export const getProps = (propsName: string, locale: string): string => {
+export const getProps = (propsName: string, locale: string): string => {
     const props = (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
     return props;
-  }
+}
 
 const getCVData = (data: any, messages:any, options: IcvPosition) => {
 
@@ -46,23 +59,23 @@ const getCVData = (data: any, messages:any, options: IcvPosition) => {
     const d3Value = [
         {
             id: 'Objective',
-            headline: 'Objective',
+            headline: messages["common.objective"],
             body: data[getProps('bio', options.locale)],
             position: { x: rect.x, y: rect.y }
         },
         {
             id: 'JobExperiance',
-            headline: 'Job Experience',
-            body: data.youth_job_experiences.map((e:any, i: number) => {
+            headline: messages["common.job_experience"],
+            body: data.youth_job_experiences.map((e: any, i: number) => {
                 let duration = "";
                 if (e.is_currently_working) {
-                    duration += messages['common.present']// `Currently working here`;
+                    duration += messages['common.present'];
                 } else {
-                    duration += `Start Date: ${moment(e.start_date).format('DD-MM-YYYY')}, End Date: ${moment(e.end_date).format('DD-MM-YYYY')}`;
+                    duration += `${messages["common.start_date"]}: ${moment(e.start_date).format('DD-MM-YYYY')}, ${messages["common.end_date"]}: ${moment(e.end_date).format('DD-MM-YYYY')}`;
                 }
-                return `${i+1}. 
-                    Company Name: ${e.company_name}, 
-                    Position:${e.position},
+                return `${i + 1}. 
+                    ${messages["common.company_name"]}: ${e[getProps('company_name', options.locale)]}, 
+                    ${messages["common.designation"]}:${e[getProps('position', options.locale)]},
                     ${duration}
                 `
             }),
@@ -70,59 +83,60 @@ const getCVData = (data: any, messages:any, options: IcvPosition) => {
         },
         {
             id: 'Education',
-            headline: 'Education',
+            headline: messages["education.label"],
             body: data.youth_educations.map((e: any, i: number) => {
-                let resultTxt = "Result: ";
+                let resultTxt = `${messages["education.result"]}: `;
                 if (e.cgpa) {
                     resultTxt += ` ${e.cgpa}`;
                 } else {
                     resultTxt += ` ${e.result.title}`;
                 }
-                return `${i+1}. 
-                Institute Name: ${e.institute_name_en}, 
-                Duration (Years):${e.duration}, 
-                Result: ${e.cgpa},
-                Year of passing: ${e.year_of_passing}
+                return `${i + 1}. 
+                ${messages["common.institute_name"]}: ${e[getProps('institute_name', options.locale)]}, 
+                ${messages["education.duration"]}:${e.duration || ""}, ${resultTxt},
+                ${messages["education.passing_year"]}: ${e.year_of_passing}
                 `
             }),
             position: { x: rect.x, y: rect.y }
         },
         {
             id: 'Skills',
-            headline: 'Skills',
-            body: data.skills.map((e:any, i: number) => {
-                return `${i+1}. ${e.title}`
+            headline: messages["menu.skill"],
+            body: data.skills.map((e: any, i: number) => {
+                return `${i + 1}. ${e[getProps('title', options.locale)]}`
             }),
             position: { x: rect.x, y: rect.y }
         },
         {
             id: 'languages_proficiencies',
-            headline: 'Language Proficiency',
-            body: data.youth_languages_proficiencies.map((e:any) => {
-                return `Language: ${e.language_title}
-                ${e.reading_proficiency_level ? LanguageProficiencyType[e.reading_proficiency_level] : ''}
+            headline: messages["language_proficiency.title"],
+            body: data.youth_languages_proficiencies.map((e: any) => {
+                return `${messages["language.label"]}: ${e[getProps('language_title', options.locale)]},
+                ${messages["language.read"]}: ${e.reading_proficiency_level ? messages["common.easily"] : messages["common.easily"]},
+                ${messages["language.write"]}: ${e.writing_proficiency_level ? messages["common.easily"] : messages["common.not_easily"]},
+                ${messages["language.speak"]}: ${e.speaking_proficiency_level ? messages["common.fluent"] : messages["common.not_fluent"]}
                 `
             }),
             position: { x: rect.x, y: rect.y }
         }
     ]
 
-    const objective = d3Value.filter(item => item.id == 'Objective')[0];
+    // const objective = d3Value.filter(item => item.id == 'Objective')[0];
     const experiance = d3Value.filter(item => item.id == 'JobExperiance')[0];
     const education = d3Value.filter(item => item.id == 'Education')[0];
-    const skills = d3Value.filter(item => item.id == 'Skills')[0];
-    const languages_proficiencies = d3Value.filter(item => item.id == 'languages_proficiencies')[0];
+    const skills = d3Value.filter(item => item.id == 'Skills')[0] as Id3Value;
+    const languages_proficiencies = d3Value.filter(item => item.id == 'languages_proficiencies')[0] as Id3Value;
 
     experiance.position.y += options.rectDefaultHeight;
     education.position.y = experiance.position.y + options.rectDefaultHeight;
-    
+
     skills.position.y = education.position.y + options.rectDefaultHeight;
     const heightPerLine = options.rectDefaultHeight / options.headerHeight; // 5.5
 
     let skillsHeight = options.rectDefaultHeight;
     if (skills.body && skills.body.length > heightPerLine) {
-        skillsHeight = (skills.body.length * options.lineHeight) + textPadding + bottomPadding ;
-        skills['height'] = skillsHeight;
+        skillsHeight = (skills.body.length * options.lineHeight) + textPadding + bottomPadding;
+        skills.height = skillsHeight;
     }
 
     if (skillsHeight !== options.rectDefaultHeight) {
@@ -133,15 +147,15 @@ const getCVData = (data: any, messages:any, options: IcvPosition) => {
 
     let languageHeight = options.rectDefaultHeight;
     if (languages_proficiencies.body && languages_proficiencies.body.length > heightPerLine) {
-        languageHeight = (languages_proficiencies.body.length * options.lineHeight) + textPadding + bottomPadding ;
-        languages_proficiencies['height'] = languageHeight;
+        languageHeight = (languages_proficiencies.body.length * options.lineHeight) + textPadding + bottomPadding;
+        languages_proficiencies.height = languageHeight;
     }
-    
+
     return d3Value;
 }
 
 const renderSVG = (data: any, options: IRenderSVG) => {
-    
+
     const dthree = d3.select('g[id="cv-body"]');
     const allSections = dthree
         .selectAll('g')
@@ -155,11 +169,11 @@ const renderSVG = (data: any, options: IRenderSVG) => {
             return e.position.y
         })
         .attr('width', options.rectDefaultWidth)
-        .attr('height', (d:any)=> {
+        .attr('height', (d: any) => {
             return d.height || options.rectDefaultHeight
         })
         .attr('fill', 'transparent')
-        // .attr('fill', '#ccc')
+    // .attr('fill', '#ccc')
 
     // headline
     allSections.append("g")
@@ -186,7 +200,8 @@ const renderSVG = (data: any, options: IRenderSVG) => {
             return options.rectDefaultWidth
         }).attr("y2", (e: any) => {
             return e.position.y + lineBottomSpace
-        }).attr("style", "stroke:#bcbec0;stroke-width:1")
+        })
+        .attr("style", "stroke:#bcbec0;stroke-width:1")
 
 
     // body
@@ -220,7 +235,6 @@ const renderSVG = (data: any, options: IRenderSVG) => {
         .attr("x", (e: any) => {
             return e.position.x
         })
-        // .text(setArrayText)
         .attr('font-size', options.bodyFontSize)
         .attr('fill', '#231f20')
         .call(setArrayText, options.rectDefaultWidth, options.lineHeight)
@@ -379,10 +393,12 @@ export const getStructureData = (data: any, messages: any, locale: any) => {
 }
 
 function setArrayText(txtElem: any, width: number, lineHeight: number) {
+
     txtElem.each(function (e:any) {
+        // @ts-ignore: Implicit This
         let txtElem = d3.select(this);
         for (let i = 0; i < e.body.length; i++) {
-            const element =  `${e.body[i]}`;
+            const element = `${e.body[i]}`;
             txtElem
                 .append('text')
                 .attr("y", (e: any) => {
@@ -399,6 +415,7 @@ function setArrayText(txtElem: any, width: number, lineHeight: number) {
 
 function wrap(text: any, width: any) {
     text.each(function () {
+        // @ts-ignore: Implicit This
         var text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),
             word,
@@ -416,6 +433,7 @@ function wrap(text: any, width: any) {
         while (word = words.pop()) {
             line.push(word);
             tspan.text(line.join(" "));
+            // @ts-ignore: tspan nullable
             if (tspan && tspan.node().getComputedTextLength() > width) {
                 line.pop();
                 tspan.text(line.join(" "));
