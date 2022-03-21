@@ -9,6 +9,7 @@ import {FormControl} from '@mui/material';
 import {Controller} from 'react-hook-form';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getErrorObject} from '../../../@softbd/utilities/helpers';
+import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
@@ -36,6 +37,7 @@ export default function CustomSelectAutoComplete({
   optionTitleProp,
   optionValueProp,
   label,
+  isLoading,
   defaultValue,
   required = false,
   errorInstance,
@@ -69,7 +71,9 @@ export default function CustomSelectAutoComplete({
 
   const errorObj = getErrorObject(id, errorInstance);
 
-  return (
+  return isLoading ? (
+    <TextInputSkeleton />
+  ) : (
     <FormControl
       variant='outlined'
       fullWidth={true}
