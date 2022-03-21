@@ -196,6 +196,7 @@ const MemberDetails = () => {
             ) : (
               <NoDataFoundComponent
                 messageType={messages['common.organization_details']}
+                messageTextType={'h6'}
               />
             )}
           </Body1>

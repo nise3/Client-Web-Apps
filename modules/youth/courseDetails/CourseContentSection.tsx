@@ -343,6 +343,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               ) : (
                 <NoDataFoundComponent
                   messageType={messages['course_details.overview']}
+                  messageTextType={'body1'}
+                  sx={{}}
                 />
               )}
             </Box>
@@ -407,6 +409,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 ) : (
                   <NoDataFoundComponent
                     messageType={messages['course_details.objective']}
+                    messageTextType={'body1'}
+                    sx={{}}
                   />
                 )}
               </Box>
@@ -421,6 +425,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               ) : (
                 <NoDataFoundComponent
                   messageType={messages['course_details.assessment_method']}
+                  messageTextType={'body1'}
+                  sx={{}}
                 />
               )}
             </Box>
@@ -435,6 +441,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 ) : (
                   <NoDataFoundComponent
                     messageType={messages['course_details.requirements']}
+                    messageTextType={'body1'}
+                    sx={{}}
                   />
                 )}
               </Box>
@@ -450,6 +458,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 ) : (
                   <NoDataFoundComponent
                     messageType={messages['course_details.eligibility']}
+                    messageTextType={'body1'}
+                    sx={{}}
                   />
                 )}
               </Box>
@@ -465,6 +475,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 ) : (
                   <NoDataFoundComponent
                     messageType={messages['course_details.target_group']}
+                    messageTextType={'body1'}
+                    sx={{}}
                   />
                 )}
               </Box>
@@ -482,6 +494,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     messageType={
                       messages['course_details.training_methodology']
                     }
+                    messageTextType={'body1'}
+                    sx={{}}
                   />
                 )}
               </Box>
@@ -524,6 +538,8 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               ) : (
                 <NoDataFoundComponent
                   messageType={messages['course_details.trainer']}
+                  messageTextType={'body1'}
+                  sx={{}}
                 />
               )}
             </Box>
