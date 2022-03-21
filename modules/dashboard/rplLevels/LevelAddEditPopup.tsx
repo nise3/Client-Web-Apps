@@ -320,7 +320,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
           <CustomFilterableFormSelect
             required
             id={'rpl_sector_id'}
-            label={messages['rpl_sector.label']}
+            label={messages['rpl_sector.name']}
             isLoading={isLoadingRplSectors}
             control={control}
             options={rplSectors}
