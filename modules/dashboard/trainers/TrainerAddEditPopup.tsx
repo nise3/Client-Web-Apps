@@ -9,7 +9,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  NID_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -263,6 +266,14 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.district_title_present_address'] as string),
+      nid: yup
+        .mixed()
+        .label(messages['common.nid'] as string)
+        .test(
+          'nid_validation',
+          messages['common.nid_validation'] as string,
+          (value) => !value || Boolean(value.match(NID_REGEX)),
+        ),
       institute_id:
         authUser && authUser.isSystemUser
           ? yup
