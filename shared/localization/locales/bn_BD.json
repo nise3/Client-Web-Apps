@@ -402,7 +402,7 @@
   "subject.title_en": "সাবজেক্টের নাম (ইংরেজি)",
   "rpl_level.label": "আরপিএল লেভেল",
   "rpl_level.name": "আরপিএল লেভেল",
-  "rpl_level.passing_score": "ন্যূনতম পাস নম্বর",
+  "rpl_level.passing_score": "ন্যূনতম পাস নম্বর(%)",
   "rpl_level.sequence_order": "আরপিএল লেভেল ক্রম",
   "common.google_map_src": "গুগল ম্যাপ সোর্স",
   "programme.label": "প্রোগ্রাম",
@@ -501,7 +501,7 @@
   "common.profile_name": "প্রফাইলের নাম",
   "common.user_name": "ব্যবহারকারীর নাম",
   "common.user_name_type": "ব্যবহারকারীর নামের ধরন",
-  "common.user_id": "User id",
+  "common.user_id": "ইউজার আইডি",
   "common.designation": "পদবি",
   "common.designation_en": "পদবি (ইংরেজি)",
   "common.first_name_en": "নামের প্রথম অংশ (ইংরেজি)",
@@ -1429,6 +1429,7 @@
   "common.question_bank": "প্রশ্ন ব্যাংক",
   "common.question_id": "প্রশ্ন আইডি",
   "common.question": "প্রশ্ন",
+  "common.question_en": "প্রশ্ন(ইংরেজি)",
   "common.subject_name": "বিষয়ের নাম",
   "common.topic_name": "প্রসঙ্গের নাম",
   "common.difficulty": "কঠিনতা",
@@ -1742,5 +1743,6 @@
   "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে",
   "common.score": "প্রাপ্ত নাম্বার(%)",
   "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না",
-  "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি"
+  "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি",
+  "rpl_occupation.country": "পেশার নাম(দেশ ভিত্তিক)"
 }

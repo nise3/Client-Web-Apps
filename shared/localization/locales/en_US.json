@@ -458,7 +458,7 @@
   "rto.details": "RTO Details",
   "rpl_level.label": "RPL Levels",
   "rpl_level.name": "RPL Level",
-  "rpl_level.passing_score": "Minimum Pass Marks",
+  "rpl_level.passing_score": "Minimum Pass Marks(%)",
   "rpl_level.sequence_order": "RPL Sequence order",
   "institute.label_en": "Institute (EN)",
   "common.google_map_src": "Google map source",
@@ -1128,7 +1128,7 @@
   "footer.my_jobs": "My jobs",
   "footer.job_provider": "Job provider",
   "footer.in_implementation": "In implementation",
-  "footer.rpl_in_implementation": "in_implementationপরিকল্পনায় ও বাস্তবায়নে বাংলাদেশ কারিগরি শিক্ষা বোর্ড এবং এটুআই",
+  "footer.rpl_in_implementation": "Bangladesh Technical Education Board and A2i in planning and implementation",
   "common.technical_support": "Technical Support",
   "footer.bio_edit": "Bio Edit",
   "static_page.template_code": "Template",
@@ -1431,6 +1431,7 @@
   "common.question_bank": "Question Bank",
   "common.question_id": "Question Id",
   "common.question": "Question",
+  "common.question_en": "Question(English)",
   "common.subject_name": "Subject Name",
   "common.topic_name": "Topic Name",
   "common.difficulty": "Difficulty",
@@ -1742,5 +1743,6 @@
   "validation.cgpa_range": "CGPA must be within 5",
   "common.score": "Score(%)",
   "yup_validation_invalid_row_status": "Row status is not valid",
-  "common.no_data_found_dynamic": "No {messageType} found"
+  "common.no_data_found_dynamic": "No {messageType} found",
+  "rpl_occupation.country": "Occupation name(Country wise)"
 }
