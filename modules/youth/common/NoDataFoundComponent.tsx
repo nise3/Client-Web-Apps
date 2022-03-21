@@ -19,17 +19,28 @@ interface NoDataFoundComponentProps {
     | 'body1'
     | 'body2'
     | 'inherit';
+  sx?: any;
 }
 
 const NoDataFoundComponent = ({
   message,
   messageType,
   messageTextType,
+  sx,
 }: NoDataFoundComponentProps) => {
   const {messages} = useIntl();
 
   return (
-    <Grid container sx={{justifyContent: 'center', marginTop: 5}}>
+    <Grid
+      container
+      sx={
+        sx
+          ? sx
+          : {
+              justifyContent: 'center',
+              marginTop: 5,
+            }
+      }>
       <Typography
         variant={messageTextType ?? 'h4'}
         sx={{
