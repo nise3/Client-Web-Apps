@@ -83,8 +83,17 @@ export const routePermissions: any = {
     routePrefix: '/training-centers',
     permissionKeys: ['view_any_training_center'],
   },
-  '/training-center-survey': {
-    routePrefix: '/training-centers-survey',
+  '/skill-development-report': {
+    routePrefix: '/skill-development-report',
+    permissionKeys: ['view_any_training_center_survey'],
+  },
+  '/skill-development-report-create': {
+    routePrefix: '/skill-development-report-create',
+    permissionKeys: ['view_any_training_center_survey'],
+  },
+  '/skills-development-training-activities-income-expenditure-information': {
+    routePrefix:
+      '/skills-development-training-activities-income-expenditure-information',
     permissionKeys: ['view_any_training_center_survey'],
   },
   '/courses': {
