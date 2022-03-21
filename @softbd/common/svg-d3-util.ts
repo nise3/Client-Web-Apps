@@ -31,7 +31,7 @@ const LanguageProficiencyType: any = {
     return props;
   }
 
-const getCVData = (data: any, messages, options: IcvPosition) => {
+const getCVData = (data: any, messages:any, options: IcvPosition) => {
 
     const textPadding: number = 10;
     const bottomPadding: number = 15;
@@ -53,7 +53,7 @@ const getCVData = (data: any, messages, options: IcvPosition) => {
         {
             id: 'JobExperiance',
             headline: 'Job Experience',
-            body: data.youth_job_experiences.map((e:any, i) => {
+            body: data.youth_job_experiences.map((e:any, i: number) => {
                 let duration = "";
                 if (e.is_currently_working) {
                     duration += messages['common.present']// `Currently working here`;
@@ -71,7 +71,7 @@ const getCVData = (data: any, messages, options: IcvPosition) => {
         {
             id: 'Education',
             headline: 'Education',
-            body: data.youth_educations.map((e, i) => {
+            body: data.youth_educations.map((e: any, i: number) => {
                 let resultTxt = "Result: ";
                 if (e.cgpa) {
                     resultTxt += ` ${e.cgpa}`;
@@ -226,7 +226,7 @@ const renderSVG = (data: any, options: IRenderSVG) => {
         .call(setArrayText, options.rectDefaultWidth, options.lineHeight)
 }
 
-export const getStructureData = (data, messages, locale) => {
+export const getStructureData = (data: any, messages: any, locale: any) => {
 
     const startPositionX: number = 18;
     const startPositionY: number = 185;
@@ -378,9 +378,8 @@ export const getStructureData = (data, messages, locale) => {
 
 }
 
-function setArrayText(txtElem, width, lineHeight) {
-    
-    txtElem.each(function (e) {
+function setArrayText(txtElem: any, width: number, lineHeight: number) {
+    txtElem.each(function (e:any) {
         let txtElem = d3.select(this);
         for (let i = 0; i < e.body.length; i++) {
             const element =  `${e.body[i]}`;
@@ -398,12 +397,12 @@ function setArrayText(txtElem, width, lineHeight) {
     })
 }
 
-function wrap(text, width) {
+function wrap(text: any, width: any) {
     text.each(function () {
         var text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),
             word,
-            line = [],
+            line:any[] = [],
             lineNumber = 0,
             lineHeight = 1.2, // ems
             x = text.attr("x"),
@@ -417,7 +416,7 @@ function wrap(text, width) {
         while (word = words.pop()) {
             line.push(word);
             tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
+            if (tspan && tspan.node().getComputedTextLength() > width) {
                 line.pop();
                 tspan.text(line.join(" "));
                 line = [word];
