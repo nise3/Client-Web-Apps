@@ -9,11 +9,12 @@ import {
 } from '@mui/material';
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H1, H6} from '../../../@softbd/elements/common';
+import {H1} from '../../../@softbd/elements/common';
 import GalleryItemCardView from './GalleryItemCardView';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicGalleryAlbums} from '../../../services/cmsManagement/hooks';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'InstituteGallery';
 
@@ -134,9 +135,10 @@ const InstituteGallery = () => {
           ) : (
             <Grid container justifyContent={'center'}>
               <Grid item>
-                <H6 style={{textAlign: 'center'}} py={5}>
-                  {messages['common.no_data_found']}
-                </H6>
+                <NoDataFoundComponent
+                  messageType={messages['gallery_album_content.label']}
+                  messageTextType={'h6'}
+                />
               </Grid>
             </Grid>
           )}

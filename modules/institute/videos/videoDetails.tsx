@@ -1,13 +1,14 @@
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import {Card, CardContent, Container, Grid, Skeleton} from '@mui/material';
-import {H5, H6} from '../../../@softbd/elements/common';
+import {H5} from '../../../@softbd/elements/common';
 import VideoPlayer from './videoPlayer';
 import React, {useEffect, useState} from 'react';
 import {PlayCircleFilledWhiteOutlined} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {useFetchPublicGalleryAlbumContent} from '../../../services/cmsManagement/hooks';
 import {getEmbeddedVideoUrl} from '../../../@softbd/utilities/helpers';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'VideoDetails';
 
@@ -102,7 +103,10 @@ const VideoDetails = () => {
       ) : (
         <Grid container mt={3}>
           <Grid item xs={12}>
-            <H6>{messages['common.no_data_found']}</H6>
+            <NoDataFoundComponent
+              messageType={messages['menu.videos']}
+              messageTextType={'h6'}
+            />
           </Grid>
         </Grid>
       )}
