@@ -330,7 +330,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
             onChange={handleRplSectorChange}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <CustomFilterableFormSelect
             required
             id={'rpl_occupation_id'}
@@ -347,7 +347,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             id={'country_list'}
-            label={messages['common.country']}
+            label={messages['rpl_level.country']}
             isLoading={isFetchingCountries}
             control={control}
             options={countryList}
@@ -364,7 +364,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
             onClick={onAddOtherCountryClick}
             disabled={!selectedCountryId}>
             <Add />
-            {messages['rpl_sector.add_country']}
+            {messages['rpl_level.add_country']}
           </Button>
         </Grid>
 
@@ -378,7 +378,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'country[' + index + '][title]'}
-                      label={messages['rpl_sector.name']}
+                      label={messages['rpl_level.name']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -387,7 +387,7 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
                     <CustomTextInput
                       required
                       id={'country[' + index + '][country_id]'}
-                      label={messages['rpl_sector.name']}
+                      label={messages['rpl_level.name']}
                       register={register}
                       errorInstance={errors}
                       defaultValue={country.country_id}

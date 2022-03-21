@@ -390,7 +390,7 @@
   "rto.details": "আরটিও বিস্তারিত",
   "rpl_sectors.label": "আরপিএল সেক্টর সমূহ",
   "rpl_sector.label": "আরপিএল সেক্টর",
-  "rpl_sector.name": "সেক্টর এর নাম",
+  "rpl_sector.name": "সেক্টরের নাম",
   "rpl_sector.name_en": "সেক্টর এর নাম (ইংরেজি)",
   "rpl_occupations.label": "আরপিএল পেশা সমূহ",
   "rpl_occupation.label": "আরপিএল পেশা",
@@ -1081,6 +1081,8 @@
   "common.video_url": "ভিডিও ইউআরএল",
   "faq.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "rpl_sector.add_country": "অন্যান্য দেশের ভাষায় সেক্টর যোগ করুন",
+  "rpl_occupation.add_country": "অন্যান্য দেশের ভাষায় পেশা যোগ করুন",
+  "rpl_level.add_country": "অন্যান্য দেশের ভাষায় লেভেল যোগ করুন",
   "common.add_language": "অন্যান্য ভাষায় প্রশ্ন যোগ করুন",
   "common.no_similar_course_found": "কোন অনুরূপ কোর্স পাওয়া যায় নি",
   "common.event_start_date": "ঘটনা শুরুর তারিখ",
@@ -1744,5 +1746,7 @@
   "common.score": "প্রাপ্ত নাম্বার(%)",
   "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না",
   "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি",
-  "rpl_occupation.country": "পেশার নাম(দেশ ভিত্তিক)"
+  "rpl_occupation.country": "পেশা (দেশ ভিত্তিক)",
+  "rpl_sector.country": "সেক্টর (দেশ ভিত্তিক)",
+  "rpl_level.country": "লেভেল (দেশ ভিত্তিক)"
 }

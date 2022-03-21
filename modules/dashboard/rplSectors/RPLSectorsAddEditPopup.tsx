@@ -284,7 +284,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomFilterableFormSelect
             id={'country_list'}
-            label={messages['common.country']}
+            label={messages['rpl_sector.country']}
             isLoading={isFetchingCountries}
             control={control}
             options={countryList}

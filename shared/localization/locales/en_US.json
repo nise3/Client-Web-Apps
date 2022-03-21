@@ -1082,6 +1082,8 @@
   "common.video_url": "Video url",
   "faq.add_language": "Add FAQ in other language",
   "rpl_sector.add_country": "Add Sector Language Translation",
+  "rpl_occupation.add_country": "Add Occupation Language Translation",
+  "rpl_level.add_country": "Add Level Language Translation",
   "common.add_language": "Add FAQ in other language",
   "common.no_similar_course_found": "No similar course found",
   "common.event_start_date": "Event Start Date",
@@ -1744,5 +1746,7 @@
   "common.score": "Score(%)",
   "yup_validation_invalid_row_status": "Row status is not valid",
   "common.no_data_found_dynamic": "No {messageType} found",
-  "rpl_occupation.country": "Occupation name(Country wise)"
+  "rpl_occupation.country": "Occupation (Country wise)",
+  "rpl_sector.country": "Sector (Country wise)",
+  "rpl_level.country": "Level (Country wise)"
 }
