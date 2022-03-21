@@ -1,4 +1,4 @@
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
@@ -10,6 +10,7 @@ import TrainingCard from './TrainingCard';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import {LINK_FRONTEND_COURSE_DETAILS} from '../../@softbd/common/appLinks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'TrainingSection';
 
@@ -60,9 +61,10 @@ const TrainingSection = () => {
             </CustomCarousel>
           ) : (
             <Grid container sx={{justifyContent: 'center'}}>
-              <Typography variant={'h6'}>
-                {messages['common.no_data_found']}
-              </Typography>
+              <NoDataFoundComponent
+                messageType={messages['course.label']}
+                messageTextType={'h6'}
+              />
             </Grid>
           )}
         </Box>

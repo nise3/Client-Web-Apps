@@ -190,9 +190,9 @@ const AssessmentProcessPage = () => {
     }
   };
 
-  console.log('errors: ', errors);
+  // console.log('errors: ', errors);
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    console.log('formData: ', formData);
+    // console.log('formData: ', formData);
 
     try {
       if (activeStep < stepKeys.length - 2) {

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H1, H2, H6} from '../../../@softbd/elements/common';
+import {H1, H2} from '../../../@softbd/elements/common';
 import SearchIcon from '@mui/icons-material/Search';
 import GalleryItemCardView from './GalleryItemCardView';
 import {
@@ -27,6 +27,7 @@ import ContentItemCard from './ContentItemCard';
 import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'GalleryAlbumDetails';
 
@@ -283,7 +284,10 @@ const GalleryAlbumDetails = () => {
                 </Grid>
               ) : (
                 <Grid item xs={12} textAlign={'center'}>
-                  <H6 py={5}>{messages['common.no_data_found']}</H6>
+                  <NoDataFoundComponent
+                    messageType={messages['gallery_album_content.label']}
+                    messageTextType={'h6'}
+                  />
                 </Grid>
               )}
               {metaData.total_page > 1 && (

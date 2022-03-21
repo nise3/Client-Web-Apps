@@ -40,6 +40,7 @@ import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
 
 const PREFIX = 'YouthRegistration';
 
@@ -139,9 +140,8 @@ const YouthRegistration = () => {
         .test(
           'DOB',
           messages['common.invalid_date_of_birth'] as string,
-          (value) => {
-            return moment().diff(moment(value), 'years') >= 13;
-          },
+          (value) =>
+            moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
         ),
       physical_disability_status: yup
         .string()
