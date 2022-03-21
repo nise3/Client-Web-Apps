@@ -187,6 +187,8 @@ export const getCommonAuthUserObject = (
     domain: authUser?.domain,
     isSystemUser: authUser?.isSystemUser,
     isInstituteUser: authUser?.isInstituteUser,
+    isTrainingCenterUser:
+      authUser?.isInstituteUser && authUser?.training_center_id != null,
     isOrganizationUser: authUser?.isOrganizationUser,
     isIndustryAssociationUser: authUser.isIndustryAssociationUser,
     isRegisteredTrainingOrganizationUser:
@@ -227,6 +229,7 @@ export const getYouthAuthUserObject = (
     displayName: authUser?.displayName,
     isSystemUser: false,
     isInstituteUser: false,
+    isTrainingCenterUser: false,
     isOrganizationUser: false,
     isIndustryAssociationUser: false,
     isRegisteredTrainingOrganizationUser: false,

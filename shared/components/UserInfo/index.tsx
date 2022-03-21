@@ -121,6 +121,21 @@ const UserInfo: React.FC = () => {
     }
   };
 
+  const getUserTypeName = () => {
+    if (user?.isSystemUser) {
+      return messages['user.type.system'];
+    } else if (user?.isTrainingCenterUser) {
+      return messages['common.training_center'];
+    } else if (user?.isInstituteUser) {
+      return messages['user.type.institute'];
+    } else if (user?.isOrganizationUser) {
+      return messages['user.type.organization'];
+    } else if (user?.isIndustryAssociationUser) {
+      return messages['user.type.industry_association'];
+    }
+    return '';
+  };
+
   return (
     <StyledBox>
       <Box display='flex' alignItems='center'>
@@ -182,7 +197,9 @@ const UserInfo: React.FC = () => {
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>{user?.userType}</Box>
+          <Box className={classes.designation}>
+            {getUserTypeName()} {messages['user.label']}
+          </Box>
         </Box>
       </Box>
       {isOpenDetailsModal && (
