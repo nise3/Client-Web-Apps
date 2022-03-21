@@ -151,7 +151,7 @@ const InstituteContact = () => {
     control,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

@@ -163,7 +163,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
