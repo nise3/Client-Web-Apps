@@ -114,7 +114,7 @@ const InstituteContact = () => {
     if (newArr.length > 0) {
       if (
         !isNaN(parseFloat(newArr[0]?.location_latitude)) &&
-        !isNaN(typeof parseFloat(newArr[0]?.location_longitude))
+        !isNaN(parseFloat(newArr[0]?.location_longitude))
       ) {
         setMapCenter({
           lat: parseFloat(newArr[0].location_latitude),
