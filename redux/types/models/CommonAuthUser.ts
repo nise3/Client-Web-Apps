@@ -20,6 +20,7 @@ export interface AuthUser {
   isYouthUser: boolean;
   isSystemUser: boolean;
   isInstituteUser: boolean;
+  isTrainingCenterUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
 }
