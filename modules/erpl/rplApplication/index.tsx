@@ -44,8 +44,16 @@ import {useRouter} from 'next/router';
 import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {erplDomain} from '../../../@softbd/common/constants';
+import {
+  DATE_OF_BIRTH_MIN_AGE,
+  erplDomain,
+} from '../../../@softbd/common/constants';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import moment from 'moment';
+import JobExperienceFieldArray from './JobExperienceFieldArray';
+import {useFetchPublicRTOCountries} from '../../../services/CertificateAuthorityManagement/hooks';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {AddressTypeId} from '../../youth/profile/utilities/AddressType';
 
 const RPLApplicationForm = () => {
   const {messages, locale} = useIntl();
@@ -60,31 +68,48 @@ const RPLApplicationForm = () => {
   const [showApplicationForm, setShowApplicationForm] =
     useState<boolean>(false);
 
-  const authYouth = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser<YouthAuthUser>();
 
-  /*  const [countryFilters] = useState<any>({});
-    const [rplSectorFilters] = useState<any>({});
-    const [rplOccupationFilters] = useState<any>({});
-    const [rplLevelFilters] = useState<any>({});
-   const {data: countries} = useFetchCountries(countryFilters);
-    const {data: rplSectors} = useFetchPublicRPLSectors(rplSectorFilters);
+  const [rtoCountryFilters] = useState<any>({});
+  const {data: rtoCountries} = useFetchPublicRTOCountries(rtoCountryFilters);
 
-    const {data: rplOccupations} =
-      useFetchPublicRPLOccupations(rplOccupationFilters);
+  const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
-    const {data: rplLevels} = useFetchPublicRPLLevels(rplLevelFilters);*/
+  const [divisionFilter] = useState({});
+  const [districtsFilter] = useState({});
+  const [upazilasFilter] = useState({});
+
+  const {data: divisions, isLoading: isLoadingDivisions} =
+    useFetchDivisions(divisionFilter);
+  const {data: districts, isLoading: isLoadingDistricts} =
+    useFetchDistricts(districtsFilter);
+  const {data: upazilas, isLoading: isLoadingUpazilas} =
+    useFetchUpazilas(upazilasFilter);
+
+  const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
+    Array<any> | []
+  >([]);
+  const [permanentAddressDistrictList, setPermanentAddressDistrictList] =
+    useState<Array<any> | []>([]);
+
+  const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
+    Array<any> | []
+  >([]);
+
+  const [permanentAddressUpazilaList, setPermanentAddressUpazilaList] =
+    useState<Array<any> | []>([]);
 
   useEffect(() => {
     if (
       !application_id ||
       (!isLoadingRPLApplication && !rplApplication) ||
-      (rplApplication && rplApplication?.youth_id != authYouth?.youthId)
+      (rplApplication && rplApplication?.youth_id != authUser?.youthId)
     ) {
       router.push({pathname: erplDomain()}).then((r) => {});
     }
 
     setShowApplicationForm(
-      !!application_id && rplApplication?.youth_id == authYouth?.youthId,
+      !!application_id && rplApplication?.youth_id == authUser?.youthId,
     );
   }, [rplApplication, isLoadingRPLApplication]);
 
@@ -98,16 +123,10 @@ const RPLApplicationForm = () => {
           .string()
           .required()
           .label(messages['common.first_name'] as string),
-        first_name_en: yup
-          .string()
-          .label(messages['common.first_name_en'] as string),
         last_name: yup
           .string()
           .required()
           .label(messages['common.last_name'] as string),
-        last_name_en: yup
-          .string()
-          .label(messages['common.last_name_en'] as string),
         father_name: yup
           .string()
           .required()
@@ -140,8 +159,16 @@ const RPLApplicationForm = () => {
           .label(messages['common.nationality'] as string),
         date_of_birth: yup
           .string()
+          .trim()
           .required()
-          .label(messages['common.date_of_birth'] as string),
+          .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+          .label(messages['common.date_of_birth'] as string)
+          .test(
+            'DOB',
+            messages['common.invalid_date_of_birth'] as string,
+            (value) =>
+              moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+          ),
         identity_number_type: yup
           .string()
           .required()
@@ -165,7 +192,7 @@ const RPLApplicationForm = () => {
               .required()
               .label(messages['common.company_name_bn'] as string)
           : yup.string(),
-        job_responsibilities: isCurrentlyEmployed
+        position: isCurrentlyEmployed
           ? yup
               .string()
               .trim()
@@ -391,6 +418,7 @@ const RPLApplicationForm = () => {
     control,
     setError,
     getValues,
+    reset,
     handleSubmit,
     setValue,
     formState: {errors, isSubmitting},
@@ -450,31 +478,89 @@ const RPLApplicationForm = () => {
     ];
   }, [messages]);
 
-  const [divisionFilter] = useState({});
-  const [districtsFilter] = useState({});
-  const [upazilasFilter] = useState({});
+  const getAddressDataByLevel = (address: any) => {
+    if (address.address_type == AddressTypeId.PRESENT) {
+      return {
+        loc_division_id: address?.loc_division_id,
+        loc_upazila_id: address?.loc_upazila_id,
+        loc_district_id: address?.loc_district_id,
+        zip_or_postal_code: address?.zip_or_postal_code,
+        village_or_area: address?.village_or_area,
+        house_n_road: address?.house_n_road,
+      };
+    } else if (address.address_type == AddressTypeId.PERMANENT) {
+      return {
+        loc_division_id: address?.loc_division_id,
+        loc_upazila_id: address?.loc_upazila_id,
+        loc_district_id: address?.loc_district_id,
+        zip_or_postal_code: address?.zip_or_postal_code,
+        village_or_area: address?.village_or_area,
+        house_n_road: address?.house_n_road,
+      };
+    }
+  };
 
-  const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionFilter);
-  const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
-  const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+  useEffect(() => {
+    if (showApplicationForm && authUser) {
+      let data: any = {
+        youth_details: {
+          first_name: authUser?.first_name,
+          last_name: authUser?.last_name,
+          first_name_en: authUser?.first_name_en,
+          last_name_en: authUser?.last_name_en,
+          photo: authUser?.photo,
+          date_of_birth: getMomentDateFormat(
+            authUser?.date_of_birth,
+            'YYYY-MM-DD',
+          ),
+          mobile: authUser?.mobile,
+          identity_number: authUser?.identity_number,
+          identity_number_type: authUser?.identity_number_type
+            ? authUser?.identity_number_type
+            : '1',
+          religion: authUser?.religion,
+          nationality: authUser?.nationality,
+          is_currently_working: 0,
+          registration_number: '',
+        },
+        education_info: [],
+      };
 
-  // const [jobExperiences, setJobExperiences] = useState<any>([1]);
+      (authUser?.addresses || []).forEach((address: any) => {
+        if (address.address_type == AddressTypeId.PRESENT) {
+          data.present_address = getAddressDataByLevel(address);
+        } else if (address.address_type == AddressTypeId.PERMANENT) {
+          data.permanent_address = getAddressDataByLevel(address);
+        }
+      });
 
-  const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
-    Array<any> | []
-  >([]);
-  const [permanentAddressDistrictList, setPermanentAddressDistrictList] =
-    useState<Array<any> | []>([]);
+      if (data?.present_address?.loc_division_id) {
+        handlePresentAddressDivisionChange(
+          data.present_address.loc_division_id,
+        );
+      }
 
-  const [presentAddressUplazilaList, setPresentAddressUplazilaList] = useState<
-    Array<any> | []
-  >([]);
+      if (data?.present_address?.loc_district_id) {
+        handlePresentAddressDistrictChange(
+          data.present_address.loc_district_id,
+        );
+      }
 
-  const [permanentAddressUpazilaList, setPermanentAddressUpazilaList] =
-    useState<Array<any> | []>([]);
+      if (data?.permanent_address?.loc_division_id) {
+        handlePermanentAddressDivisionChange(
+          data.permanent_address.loc_division_id,
+        );
+      }
+
+      if (data?.permanent_address?.loc_district_id) {
+        handlePermanentAddressDistrictChange(
+          data.permanent_address.loc_district_id,
+        );
+      }
+
+      reset(data);
+    }
+  }, [showApplicationForm, authUser]);
 
   const handlePresentAddressDivisionChange = useCallback(
     (divisionId: number) => {
@@ -556,8 +642,8 @@ const RPLApplicationForm = () => {
       formData.youth_details.education_info = data.education_info;
       formData.youth_details.present_address = data.present_address;
       formData.youth_details.permanent_address = data.permanent_address;
-      formData.youth_details.is_youth_employed = data.youth_details
-        .is_youth_employed
+      formData.youth_details.is_currently_working = data.youth_details
+        .is_currently_working
         ? 1
         : 0;
 
@@ -598,22 +684,22 @@ const RPLApplicationForm = () => {
     }
   }, [educations]);
 
-  /*  const addJobExperience = useCallback(() => {
+  const addJobExperience = useCallback(() => {
     setJobExperiences((prev: any) => [...prev, prev.length + 1]);
   }, []);
 
   const removeJobExperience = useCallback(() => {
-    let jobExperienceInfos = getValues('job_experience');
+    let jobExperienceInfos = getValues('professional_qualifications');
 
     setJobExperiences((prev: any) => [...prev, prev.length + 1]);
-    let array = [...educations];
-    if (jobExperiences.length > 1) {
-      jobExperienceInfos.splice(educations.length - 1, 1);
-      setValue('job_experience', jobExperienceInfos);
+    let array = [...jobExperiences];
+    if (jobExperiences.length > 0) {
+      jobExperienceInfos.splice(jobExperiences.length - 1, 1);
+      setValue('professional_qualifications', jobExperienceInfos);
       array.splice(jobExperiences.length - 1, 1);
       setJobExperiences(array);
     }
-  }, [jobExperiences]);*/
+  }, [jobExperiences]);
 
   return !showApplicationForm ? (
     <></>
@@ -623,7 +709,7 @@ const RPLApplicationForm = () => {
         <Grid item xs={12}>
           <Grid container justifyContent={'center'}>
             <img
-              src='http://rpl.skills.gov.bd/assets/logo/bteb_logo.jpg'
+              src='/images/bteb_logo.jpg'
               alt='RPL logo'
               height={75}
               width={75}
@@ -1036,45 +1122,43 @@ const RPLApplicationForm = () => {
             </Grid>
           </Grid>
 
-          {/*<Grid item xs={12}>*/}
-          {/*  <Grid container>*/}
-          {/*    <FormLabel>{messages['common.job_experience']}</FormLabel>*/}
-          {/*    <Grid item xs={12}>*/}
-          {/*      {jobExperiences.map((jobExperience: any, index: number) => (*/}
-          {/*        <JobExperienceFieldArray*/}
-          {/*          key={index}*/}
-          {/*          id={`job_experience[${index}]`}*/}
-          {/*          register={register}*/}
-          {/*          errors={errors}*/}
-          {/*          control={control}*/}
-          {/*          countries={countries}*/}
-          {/*          sectors={rplSectors}*/}
-          {/*          occupations={rplOccupations}*/}
-          {/*          levels={rplLevels}*/}
-          {/*        />*/}
-          {/*      ))}*/}
+          <Grid item xs={12}>
+            <Grid container>
+              <FormLabel>{messages['common.job_experience']}</FormLabel>
+              <Grid item xs={12}>
+                {jobExperiences.map((jobExperience: any, index: number) => (
+                  <JobExperienceFieldArray
+                    key={index}
+                    formKey={`professional_qualifications`}
+                    index={index}
+                    register={register}
+                    errors={errors}
+                    control={control}
+                    countries={rtoCountries}
+                  />
+                ))}
 
-          {/*      <Grid item xs={12} display={'flex'} justifyContent='flex-end'>*/}
-          {/*        <ButtonGroup*/}
-          {/*          color='primary'*/}
-          {/*          aria-label='outlined primary button group'>*/}
-          {/*          <Button onClick={addJobExperience}>*/}
-          {/*            <AddCircleOutline />*/}
-          {/*          </Button>*/}
-          {/*          <Button*/}
-          {/*            onClick={removeJobExperience}*/}
-          {/*            disabled={jobExperiences.length < 2}>*/}
-          {/*            <RemoveCircleOutline />*/}
-          {/*          </Button>*/}
-          {/*        </ButtonGroup>*/}
-          {/*      </Grid>*/}
-          {/*    </Grid>*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
+                <Grid item xs={12} display={'flex'} justifyContent='flex-end'>
+                  <ButtonGroup
+                    color='primary'
+                    aria-label='outlined primary button group'>
+                    <Button onClick={addJobExperience}>
+                      <AddCircleOutline />
+                    </Button>
+                    <Button
+                      onClick={removeJobExperience}
+                      disabled={jobExperiences.length < 1}>
+                      <RemoveCircleOutline />
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
 
           <Grid item xs={12}>
             <CustomCheckbox
-              id='youth_details[is_youth_employed]'
+              id='youth_details[is_currently_working]'
               label={messages['common.currently_working'] + '?'}
               register={register}
               errorInstance={errors}
@@ -1116,7 +1200,7 @@ const RPLApplicationForm = () => {
               <Grid item xs={4}>
                 <CustomTextInput
                   required
-                  id='youth_details[job_responsibilities]'
+                  id='youth_details[position]'
                   label={messages['common.designation']}
                   register={register}
                   errorInstance={errors}
@@ -1235,6 +1319,7 @@ const RPLApplicationForm = () => {
               setValue={setValue}
               register={register}
               label={messages['common.candidate_photo']}
+              defaultFileUrl={authUser?.photo}
             />
           </Grid>
 

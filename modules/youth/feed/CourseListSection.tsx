@@ -146,7 +146,10 @@ const CourseListSection = () => {
             );
           })
         ) : (
-          <NoDataFoundComponent messageTextType={'subtitle2'} />
+          <NoDataFoundComponent
+            messageType={messages['course.label']}
+            messageTextType={'inherit'}
+          />
         )}
 
         {coursesMetaData.current_page < coursesMetaData.total_page && (

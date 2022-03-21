@@ -29,6 +29,7 @@ import {
   getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 
 const PREFIX = 'CourseContentSection';
 
@@ -340,7 +341,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               {course?.overview ? (
                 <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
               ) : (
-                messages['common.no_data_found']
+                <NoDataFoundComponent
+                  messageType={messages['course_details.overview']}
+                />
               )}
             </Box>
 
@@ -402,7 +405,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course?.objective ? (
                   <Typography>{course?.objective}</Typography>
                 ) : (
-                  messages['common.no_data_found']
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.objective']}
+                  />
                 )}
               </Box>
             </Box>
@@ -414,7 +419,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               {course?.evaluation_system ? (
                 <Typography>{course?.evaluation_system}</Typography>
               ) : (
-                messages['common.no_data_found']
+                <NoDataFoundComponent
+                  messageType={messages['course_details.assessment_method']}
+                />
               )}
             </Box>
 
@@ -426,7 +433,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course?.prerequisite ? (
                   <Typography>{course?.prerequisite}</Typography>
                 ) : (
-                  messages['common.no_data_found']
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.requirements']}
+                  />
                 )}
               </Box>
             </Box>
@@ -439,7 +448,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course?.eligibility ? (
                   <Typography>{course?.eligibility}</Typography>
                 ) : (
-                  messages['common.no_data_found']
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.eligibility']}
+                  />
                 )}
               </Box>
             </Box>
@@ -452,7 +463,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course?.target_group ? (
                   <Typography>{course?.target_group}</Typography>
                 ) : (
-                  messages['common.no_data_found']
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.target_group']}
+                  />
                 )}
               </Box>
             </Box>
@@ -465,7 +478,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {course?.training_methodology ? (
                   <Typography>{course?.training_methodology}</Typography>
                 ) : (
-                  messages['common.no_data_found']
+                  <NoDataFoundComponent
+                    messageType={
+                      messages['course_details.training_methodology']
+                    }
+                  />
                 )}
               </Box>
             </Box>
@@ -474,38 +491,41 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.trainer']}
               </h2>
-              {course?.trainers && course.trainers.length > 1
-                ? course.trainers.map((trainer: any, index: number) => (
-                    <Box
-                      key={index}
-                      className={clsx(
-                        classes.dFlexAlignCenter,
-                        classes.trainerBox,
-                      )}>
-                      <Avatar sx={{height: 60, width: 60}} />
-                      <Box className={classes.trainerNameAndAboutBox}>
-                        <Box fontWeight={'bold'}>
-                          {trainer?.trainer_name || trainer?.trainer_name_en}
-                        </Box>
-                        <Typography variant={'caption'}>
-                          {trainer?.about}
-                        </Typography>
-                        <Link
-                          href={'#more-courses'}
-                          style={{textDecoration: 'none'}}>
-                          <IntlMessages
-                            id='course_details.view_more_courses_by'
-                            values={{
-                              subject:
-                                trainer?.trainer_name ||
-                                trainer?.trainer_name_en,
-                            }}
-                          />
-                        </Link>
+              {course?.trainers && course.trainers.length > 1 ? (
+                course.trainers.map((trainer: any, index: number) => (
+                  <Box
+                    key={index}
+                    className={clsx(
+                      classes.dFlexAlignCenter,
+                      classes.trainerBox,
+                    )}>
+                    <Avatar sx={{height: 60, width: 60}} />
+                    <Box className={classes.trainerNameAndAboutBox}>
+                      <Box fontWeight={'bold'}>
+                        {trainer?.trainer_name || trainer?.trainer_name_en}
                       </Box>
+                      <Typography variant={'caption'}>
+                        {trainer?.about}
+                      </Typography>
+                      <Link
+                        href={'#more-courses'}
+                        style={{textDecoration: 'none'}}>
+                        <IntlMessages
+                          id='course_details.view_more_courses_by'
+                          values={{
+                            subject:
+                              trainer?.trainer_name || trainer?.trainer_name_en,
+                          }}
+                        />
+                      </Link>
                     </Box>
-                  ))
-                : messages['common.no_data_found']}
+                  </Box>
+                ))
+              ) : (
+                <NoDataFoundComponent
+                  messageType={messages['course_details.trainer']}
+                />
+              )}
             </Box>
           </Box>
         </Container>

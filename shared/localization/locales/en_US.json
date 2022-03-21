@@ -554,7 +554,8 @@
   "user.type.industry_association": "Industry association",
   "common.type_of_identity_card": "Type of Identity card",
   "common.registration_number": "Registration number",
-  "common.invalid_date_of_birth": "Please provide a valid date of birth",
+  "common.invalid_date_of_birth": "Date of birth must be older then 5 years",
+  "common.invalid_start_date": "Start date is invalid",
   "common.nid_validation": "NID format is not correct",
   "common.registration": "Registration",
   "common.register": "Register",
@@ -701,6 +702,7 @@
   "freelance_corner.label": "Freelance Corner",
   "freelance_corner.recommended_freelance": "Recommended Freelancers",
   "common.contact": "Contact",
+  "common.contact_and_address": "Contact & Address",
   "common.contact_now": "Contact Now",
   "freelance_corner.nearby_skilled_youth": "Nearby skilled youth",
   "freelance_corner.see_more": "See More",
@@ -1739,5 +1741,6 @@
   "rpl_batch.title_en": "Batch Title (En)",
   "validation.cgpa_range": "CGPA must be within 5",
   "common.score": "Score(%)",
-  "yup_validation_invalid_row_status": "Row status is not valid"
+  "yup_validation_invalid_row_status": "Row status is not valid",
+  "common.no_data_found_dynamic": "No {messageType} found"
 }

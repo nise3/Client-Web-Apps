@@ -24,6 +24,8 @@ import {
 } from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -90,6 +92,18 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           messages['common.nid_validation'] as string,
           (value) => !value || Boolean(value.match(NID_REGEX)),
         ),
+      date_of_birth: yup
+        .mixed()
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) =>
+            !value ||
+            Boolean(
+              moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+            ),
+        ),
     });
   }, [messages, showOther]);
 
@@ -100,7 +114,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

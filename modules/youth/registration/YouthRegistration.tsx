@@ -39,6 +39,8 @@ import {Link} from '../../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../../@softbd/common/SSOConfig';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
 
 const PREFIX = 'YouthRegistration';
 
@@ -87,7 +89,7 @@ const YouthRegistration = () => {
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
-
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [filters] = useState({});
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -105,6 +107,7 @@ const YouthRegistration = () => {
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
@@ -133,7 +136,13 @@ const YouthRegistration = () => {
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.date_of_birth'] as string),
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) =>
+            moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+        ),
       physical_disability_status: yup
         .string()
         .trim()
@@ -289,6 +298,7 @@ const YouthRegistration = () => {
 
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
+      setIsFormSubmitted(true);
       router
         .push({
           pathname: LINK_YOUTH_REGISTRATION_VERIFICATION,
@@ -502,6 +512,7 @@ const YouthRegistration = () => {
                 isSubmitting={isSubmitting}
                 label={messages['common.create_account'] as string}
                 size='large'
+                isDisable={isSubmitting || isFormSubmitted}
               />
               <Typography
                 sx={{

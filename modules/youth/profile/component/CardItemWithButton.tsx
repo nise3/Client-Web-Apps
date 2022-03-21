@@ -1,4 +1,4 @@
-import {Box, Button, Card, CardMedia} from '@mui/material';
+import {Box, Button, Card, CardMedia, Link} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
@@ -75,12 +75,14 @@ interface cardItemWithButtonProps {
   portfolio: any;
   onClick: () => void;
   onDeletePortfolio: (itemId: number) => void;
+  fileType?: string;
 }
 
 const CardItemWithButton = ({
   portfolio,
   onClick: onclickHandler,
   onDeletePortfolio,
+  fileType = 'img',
 }: cardItemWithButtonProps) => {
   const {messages} = useIntl();
 
@@ -107,12 +109,19 @@ const CardItemWithButton = ({
               deleteTitle={'Delete'}
             />
           </div>
-          <CardMedia
-            component='img'
-            alt='port folio'
-            className={classes.image}
-            image={portfolio?.file_path + '?id=' + portfolio?.id}
-          />
+          <Link href={portfolio?.file_path} target={'_blank'}>
+            <CardMedia
+              component='img'
+              alt='portfolio'
+              className={classes.image}
+              image={
+                fileType == 'pdf'
+                  ? '/images/pdf.png'
+                  : portfolio?.file_path + '?id=' + portfolio?.id
+              }
+            />
+          </Link>
+
           {/*<Image
             className={classes.image}
             src={

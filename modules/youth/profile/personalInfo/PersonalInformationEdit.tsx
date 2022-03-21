@@ -52,6 +52,8 @@ import {
 } from '../../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../../filepond/FileUploadComponent';
 import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
+
 interface PersonalInformationEditProps {
   onClose: () => void;
 }
@@ -153,9 +155,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .test(
           'DOB',
           messages['common.invalid_date_of_birth'] as string,
-          (value) => {
-            return moment().diff(moment(value), 'days') >= 1;
-          },
+          (value) =>
+            moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
         ),
       skills: yup
         .array()
@@ -328,7 +329,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     control,
     setValue,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
   console.log('error ', errors);

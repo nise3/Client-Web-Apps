@@ -193,7 +193,10 @@ export const routePermissions: any = {
   },
   '/job-requirement': {
     routePrefix: '/job-requirement',
-    permissionKeys: ['view_any_industry_association_hr_demand'],
+    permissionKeys: [
+      'view_any_industry_association_hr_demand',
+      'view_any_organization_hr_demand',
+    ],
   },
   '/cv-bank': {
     routePrefix: '/cv-bank',

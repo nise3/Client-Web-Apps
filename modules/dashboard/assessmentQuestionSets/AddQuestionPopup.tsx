@@ -51,7 +51,7 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
     control,
     setValue,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

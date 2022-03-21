@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {YouthCertificate} from '../../../../services/youthManagement/typing';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
-import {AccessTime, BorderColor, Verified} from '@mui/icons-material';
+import {Avatar, Box, Grid, IconButton, Typography} from '@mui/material';
+import {AccessTime, BorderColor} from '@mui/icons-material';
 import TextPrimary from '../component/TextPrimary';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CustomParabolaButton from '../component/CustomParabolaButton';
@@ -12,12 +12,15 @@ import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {H3, Link} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const PREFIX = 'Certifications';
 const classes = {
   textStyle: `${PREFIX}-textStyle`,
+  buttonStyle: `${PREFIX}-buttonStyle`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -27,6 +30,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
         ? theme.palette.common.white
         : theme.palette.common.black,
     fontWeight: Fonts.BOLD,
+  },
+  [`& .${classes.buttonStyle}`]: {
+    borderRadius: 40,
   },
 }));
 
@@ -53,19 +59,9 @@ const Certifications: FC<CertificationsProps> = ({
             <StyledGrid container spacing={2}>
               <Grid item xs={12} sm={8} md={8}>
                 <Box sx={{display: 'flex'}}>
-                  {certificate.certificate_file_path ? (
-                    <Avatar
-                      src={
-                        certificate.certificate_file_path +
-                        '?id=' +
-                        certificate.id
-                      }
-                    />
-                  ) : (
-                    <Avatar>
-                      <Verified />
-                    </Avatar>
-                  )}
+                  <Avatar>
+                    <CardMembershipIcon />
+                  </Avatar>
 
                   <Box sx={{marginLeft: '15px'}}>
                     <H3
@@ -116,6 +112,17 @@ const Certifications: FC<CertificationsProps> = ({
               </Grid>
               <Grid item xs={12} sm={4} md={4}>
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                  <Link
+                    href={certificate?.certificate_file_path}
+                    target={'_blank'}
+                    style={{marginRight: '10px'}}>
+                    <IconButton
+                      color='primary'
+                      aria-label='view certificate'
+                      component='span'>
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Link>
                   <CustomParabolaButton
                     buttonVariant={'outlined'}
                     title={messages['common.edit_btn'] as string}

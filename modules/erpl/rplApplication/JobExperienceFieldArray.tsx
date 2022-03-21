@@ -2,69 +2,88 @@ import React, {useCallback, useState} from 'react';
 import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {
+  useFetchPublicRPLLevels,
+  useFetchPublicRPLOccupations,
+  useFetchPublicRPLSectors,
+} from '../../../services/CertificateAuthorityManagement/hooks';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 type Props = {
-  id: string;
+  formKey: string;
+  index: number;
   isLoading?: boolean;
   register: any;
   errors: any;
   control: any;
   countries: any;
-  sectors: any;
-  occupations: any;
-  levels: any;
 };
 
 const JobExperienceFieldArray = ({
-  id,
+  formKey,
+  index,
   isLoading,
   register,
   errors,
   control,
   countries,
-  sectors,
-  occupations,
-  levels,
 }: Props) => {
   const {messages} = useIntl();
-  const [sectorList, setSectorList] = useState<any>([]);
-  const [occupationList, setOccupationList] = useState<any>([]);
-  const [levelList, setLevelList] = useState<any>([]);
+  const id = `${formKey}[${index}]`;
+  const [selectedCountryId, setSelectedCountryId] = useState<any>(null);
 
-  const onCountryChange = useCallback(
-    (countryId: any) => {
-      const filteredSectors: any =
-        sectors &&
-        sectors.length > 0 &&
-        sectors.filter((sector: any) => sector.country_id == countryId);
-      setSectorList(filteredSectors);
-    },
-    [sectorList],
-  );
+  const [rplSectorFilters, setRplSectorFilters] = useState<any>(null);
+  const [rplOccupationFilters, setRplOccupationFilters] = useState<any>(null);
+  const [rplLevelFilters, setRplLevelFilters] = useState<any>(null);
+  const {data: rplSectors, isLoading: isSectorLoading} =
+    useFetchPublicRPLSectors(rplSectorFilters);
+
+  const {data: rplOccupations, isLoading: isOccupationLoading} =
+    useFetchPublicRPLOccupations(rplOccupationFilters);
+
+  const {data: rplLevels, isLoading: isLevelLoading} =
+    useFetchPublicRPLLevels(rplLevelFilters);
+
+  const onCountryChange = useCallback((countryId: any) => {
+    setSelectedCountryId(countryId ? countryId : null);
+    setRplSectorFilters(
+      countryId
+        ? {
+            country_id: countryId,
+          }
+        : null,
+    );
+    setRplOccupationFilters(null);
+    setRplLevelFilters(null);
+  }, []);
 
   const onSectorChange = useCallback(
     (sectorId: any) => {
-      const filteredOccupations: any =
-        occupations &&
-        occupations.length > 0 &&
-        occupations.filter(
-          (occupation: any) => occupation.sector_id == sectorId,
-        );
-      setOccupationList(filteredOccupations);
+      setRplOccupationFilters(
+        sectorId
+          ? {
+              country_id: selectedCountryId,
+              rpl_sector_id: sectorId,
+            }
+          : null,
+      );
+      setRplLevelFilters(null);
     },
-    [occupationList],
+    [selectedCountryId],
   );
 
   const onOccupationChange = useCallback(
     (occupationId: any) => {
-      const filteredLevels: any =
-        levels &&
-        levels.length > 0 &&
-        levels.filter((level: any) => level.occupation_id == occupationId);
-      setLevelList(filteredLevels);
+      setRplLevelFilters(
+        occupationId
+          ? {
+              country_id: selectedCountryId,
+              rpl_occupation_id: occupationId,
+            }
+          : null,
+      );
     },
-    [levelList],
+    [selectedCountryId],
   );
 
   return isLoading ? (
@@ -72,38 +91,38 @@ const JobExperienceFieldArray = ({
   ) : (
     <Grid container item spacing={4}>
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id={`${id}[rto_country_id]`}
           label={messages['common.country']}
           isLoading={false}
           control={control}
           options={countries}
-          optionValueProp={'id'}
+          optionValueProp={'country_id'}
           optionTitleProp={['title']}
           onChange={onCountryChange}
         />
       </Grid>
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id={`${id}[rpl_sector_id]`}
           label={messages['common.sector']}
-          isLoading={false}
+          isLoading={isSectorLoading}
           control={control}
-          options={sectorList}
+          options={rplSectors || []}
           optionValueProp={'id'}
-          optionTitleProp={['title', 'title_en']}
+          optionTitleProp={['title']}
           onChange={onSectorChange}
         />
       </Grid>
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id={`${id}[rpl_occupation_id]`}
           label={messages['common.occupation']}
-          isLoading={false}
+          isLoading={isOccupationLoading}
           control={control}
-          options={occupationList || []}
+          options={rplOccupations || []}
           optionValueProp={'id'}
           optionTitleProp={['title']}
           onChange={onOccupationChange}
@@ -111,14 +130,14 @@ const JobExperienceFieldArray = ({
       </Grid>
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
-        <CustomFormSelect
+        <CustomFilterableFormSelect
           id={`${id}[rpl_level_id]`}
           label={messages['common.skill_level']}
-          isLoading={false}
+          isLoading={isLevelLoading}
           control={control}
-          options={levelList || []}
+          options={rplLevels || []}
           optionValueProp={'id'}
-          optionTitleProp={['title']}
+          optionTitleProp={['title', 'sequence_order']}
         />
       </Grid>
     </Grid>

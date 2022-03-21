@@ -95,7 +95,7 @@ const AssessmentForm: FC<AssessmentFormProps> = ({
             );
           })
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['assessment.label']} />
         )}
       </Grid>
     </Container>

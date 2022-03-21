@@ -172,7 +172,7 @@ const PublicationDetails = () => {
             </Grid>
           </>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['menu.publication']} />
         )}
       </Grid>
     </StyledContainer>

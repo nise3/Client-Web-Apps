@@ -642,10 +642,19 @@ const routesConfig: NavItemProps[] = [
         icon: 'person',
         children: [
           {
+            id: 'job-requirements',
+            title: 'Job requirement',
+            messageId: 'job_requirement.label',
+            permissionKey: 'view_any_organization_hr_demand', //this is to show hr demand for organization
+            type: 'item',
+            icon: 'work',
+            url: '/job-requirement',
+          },
+          {
             id: 'job_requirements',
             title: 'Job requirement',
             messageId: 'job_requirement.label',
-            permissionKey: 'view_any_industry_association_hr_demand',
+            permissionKey: 'view_any_industry_association_hr_demand', //this is to show hr demand for industry associations
             type: 'item',
             icon: 'work',
             url: '/job-requirement',
