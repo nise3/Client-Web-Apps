@@ -81,7 +81,7 @@ const InstituteFeedback = () => {
     setError,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

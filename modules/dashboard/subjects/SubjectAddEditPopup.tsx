@@ -1,23 +1,25 @@
-import yup from "../../../@softbd/libs/yup";
-import { Grid } from "@mui/material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { FC, useEffect, useMemo } from "react";
-import HookFormMuiModal from "../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal";
-import CustomTextInput from "../../../@softbd/elements/input/CustomTextInput/CustomTextInput";
-import SubmitButton from "../../../@softbd/elements/button/SubmitButton/SubmitButton";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import { processServerSideErrors } from "../../../@softbd/utilities/validationErrorHandler";
-import useSuccessMessage from "../../../@softbd/hooks/useSuccessMessage";
-import { ISkill } from "../../../shared/Interface/organization.interface";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { useFetchSubject } from "../../../services/CertificateAuthorityManagement/hooks";
-import { createSubject, updateSubject } from "../../../services/CertificateAuthorityManagement/SubjectService";
-import { ISubject } from "../../../shared/Interface/institute.interface";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import yup from '../../../@softbd/libs/yup';
+import {Grid} from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import React, {FC, useEffect, useMemo} from 'react';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchSubject} from '../../../services/CertificateAuthorityManagement/hooks';
+import {
+  createSubject,
+  updateSubject,
+} from '../../../services/CertificateAuthorityManagement/SubjectService';
+import {ISubject} from '../../../shared/Interface/institute.interface';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 interface SubjectAddEditPopupProps {
   itemId: number | null;
@@ -61,7 +63,7 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<ISkill>({
+  } = useForm<ISubject>({
     resolver: yupResolver(validationSchema),
   });
 

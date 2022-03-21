@@ -112,7 +112,7 @@ const LanguageAddEditPage: FC<LanguageAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

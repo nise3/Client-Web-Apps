@@ -163,7 +163,7 @@ const ContactPage = () => {
     setError,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -343,12 +343,16 @@ const ContactPage = () => {
                   {contactInfoData?.map((contact: any) => (
                     <Grid item xs={12} sm={2} md={3} key={contact.id}>
                       <Box className={classes.contactBox}>
-                        <H6 sx={{
-                          color: 'primary.main',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }} title={contact?.title}>{contact?.title}</H6>
+                        <H6
+                          sx={{
+                            color: 'primary.main',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                          title={contact?.title}>
+                          {contact?.title}
+                        </H6>
                         <Text className={classes.contactBoxItem}>
                           <Call className={classes.contactBoxItemIcon} />
                           {contact?.mobile}

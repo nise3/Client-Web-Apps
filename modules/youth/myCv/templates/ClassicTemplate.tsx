@@ -1,14 +1,17 @@
-import { Box, Slide } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import React, { FC, useCallback, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { getProps, getStructureData } from '../../../../@softbd/common/svg-d3-util';
-import { setAreaText } from '../../../../@softbd/common/svg-utils';
-import { AddressTypes } from '../../../../@softbd/utilities/AddressType';
+import {Box, Slide} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import React, {FC, useCallback, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {
+  getProps,
+  getStructureData,
+} from '../../../../@softbd/common/svg-d3-util';
+import {setAreaText} from '../../../../@softbd/common/svg-utils';
+import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
   background: '#fff',
   padding: 20,
@@ -18,27 +21,26 @@ interface ClassicTemplateProps {
   userData: any;
 }
 
-const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
-  const LanguageProficiencyType: any = {
-    '1': 'Easily',
-    '2': 'Not Easily',
-  };
+const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
+  // const LanguageProficiencyType: any = {
+  //   '1': 'Easily',
+  //   '2': 'Not Easily',
+  // };
 
   const setPhoto = (data: any) => {
     var elem = document.getElementById('photo') as Element;
     var imgElem = elem.childNodes[1] as any;
     imgElem.setAttribute('xlink:href', data.photo);
-  }
+  };
 
-  
   const getValue = (obj: any, propsName: string, locale: string): string => {
     const propsKey = getProps(propsName, locale);
     let val = `${obj[propsKey]}`;
-    let valWithNullCheck = val !== 'null' ? val : "";
+    let valWithNullCheck = val !== 'null' ? val : '';
     return valWithNullCheck;
-  }
+  };
 
-  const setHeaderAndLinePosition = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
+  /*const setHeaderAndLinePosition = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
     // update langulage rect, line and heading from the last cord
     const lastCords = innerCordObj.lastCord + 40;
     let languageHead = document.getElementById(headerId);
@@ -52,24 +54,34 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     return {
       rectCord
     }
-  }
+  }*/
 
   const setHeaderLanguage = (headerId: string, languageKey: string) => {
     let languageHead = document.getElementById(headerId);
-    let tspan = languageHead?.querySelector('tspan')?.querySelector('tspan') as SVGTSpanElement;
+    let tspan = languageHead
+      ?.querySelector('tspan')
+      ?.querySelector('tspan') as SVGTSpanElement;
     if (tspan) {
       tspan.textContent = messages[languageKey] as string | null;
     }
-  }
+  };
 
   /** present address */
   const addressText = (userData: any, locale: string) => {
-    let presentAddress = userData?.youth_addresses.filter((item: any) => item.address_type == AddressTypes.PRESENT)[0];
-    const propsArray = ['house_n_road', 'village_or_area', 'loc_upazila_title', 'loc_district_title', 'loc_division_title'];
+    let presentAddress = userData?.youth_addresses.filter(
+      (item: any) => item.address_type == AddressTypes.PRESENT,
+    )[0];
+    const propsArray = [
+      'house_n_road',
+      'village_or_area',
+      'loc_upazila_title',
+      'loc_district_title',
+      'loc_division_title',
+    ];
 
     let addresstxt: string = `${messages['common.address']}: `;
     let addressArray = [];
-    if(presentAddress){
+    if (presentAddress) {
       for (let i = 0; i < propsArray.length; i++) {
         const element = propsArray[i];
         let propValue = getValue(presentAddress, element, locale);
@@ -78,13 +90,14 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
         }
       }
     }
-    
-    addresstxt += addressArray.join() + (locale === LocaleLanguage.BN ? '।' : '.');
+
+    addresstxt +=
+      addressArray.join() + (locale === LocaleLanguage.BN ? '।' : '.');
     // console.log(`${locale}: ${addresstxt}`)
     return addresstxt;
-  }
+  };
 
-  const educationText = (education: any, locale: string) => {
+  /*const educationText = (education: any, locale: string) => {
     return (
       (education?.institute_name
         ? `${messages['common.institute_name']}: ${education[getProps('institute_name', locale)]}, `
@@ -101,19 +114,19 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
         ? `${messages['education.passing_year']}: ` + parseInt(education?.year_of_passing) + ', '
         : ' ')
     );
-  };
+  };*/
 
   const renderSVG = (language: string, node?: any) => {
     // console.log(`renderSVG: ${language}`)
     // if (node == undefined) {
-      let exNode = document.getElementById("svg-div");
-      if (exNode) {
-        node.removeChild(exNode);
-      }
-      
+    let exNode = document.getElementById('svg-div');
+    if (exNode) {
+      node.removeChild(exNode);
+    }
+
     // }
     const div = document.createElement('div');
-    div.setAttribute("id", "svg-div");
+    div.setAttribute('id', 'svg-div');
     div.innerHTML = pageSVG;
 
     // console.log('PAGE >> ', pageSVG);
@@ -131,21 +144,18 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     setAreaText(
       svgNode,
       'name',
-      getValue(userData, 'first_name', language) + ' ' + getValue(userData, 'last_name', language),
+      getValue(userData, 'first_name', language) +
+        ' ' +
+        getValue(userData, 'last_name', language),
       'lt',
     );
-    
-    setHeaderLanguage('cv-header', "personal_info.curriculum_vitae");
-    setHeaderLanguage('contact-address', "common.contact_and_address");
+
+    setHeaderLanguage('cv-header', 'personal_info.curriculum_vitae');
+    setHeaderLanguage('contact-address', 'common.contact_and_address');
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
 
-    setAreaText(
-      svgNode,
-      'address',
-      addressText(userData, language)
-    );
-
+    setAreaText(svgNode, 'address', addressText(userData, language));
 
     // setHeaderLanguage('objective-headling', "common.objective");
     // setAreaText(svgNode, 'objective', userData[getProps('bio', language)]);
@@ -228,40 +238,41 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
 
     // let cvBody = document.getElementById('classic-data') as HTMLElement;
     getStructureData(userData, messages, language);
-    
-  }
-  
+  };
 
-  const LanguageProficiencySpeakingType: any = {
+  /*const LanguageProficiencySpeakingType: any = {
     '1': 'Fluently',
     '2': 'Not Fluently',
-  };
+  };*/
   // const chk = useIntl();
-  const { messages, locale } = useIntl();
+  const {messages, locale} = useIntl();
   // const [currentLang, setCurrentLang] = useState("");
   // let svgNodeRef: HTMLElement;
   // console.log(messages, locale)
   // const theCB = useCallback((node) => {
-  const theCB = useCallback((node: any) => {
-    // console.log('inside CB: ', locale);
+  const theCB = useCallback(
+    (node: any) => {
+      // console.log('inside CB: ', locale);
 
-    // const language = locale;
-    // setCurrentLang(language);
-    // console.log('locale: ', locale);
-    // console.log('currentLang: ', currentLang);
-    // console.log('is not same lang: ', locale !== currentLang);
-    // if (node && locale !== currentLang) {
-    //   svgNodeRef = node;
-    // } else {
-    //   node = svgNodeRef;
-    //   let exNode = document.getElementById("svg-div");
-    //   if(exNode)
-    //     node.removeChild(exNode);
-    // }
-    // console.log('node.children.length: ', node.children.length)
-    if (!node || node.children.length > 0) return;
-    renderSVG(locale, node);
-  }, [locale]);
+      // const language = locale;
+      // setCurrentLang(language);
+      // console.log('locale: ', locale);
+      // console.log('currentLang: ', currentLang);
+      // console.log('is not same lang: ', locale !== currentLang);
+      // if (node && locale !== currentLang) {
+      //   svgNodeRef = node;
+      // } else {
+      //   node = svgNodeRef;
+      //   let exNode = document.getElementById("svg-div");
+      //   if(exNode)
+      //     node.removeChild(exNode);
+      // }
+      // console.log('node.children.length: ', node.children.length)
+      if (!node || node.children.length > 0) return;
+      renderSVG(locale, node);
+    },
+    [locale],
+  );
 
   useEffect(() => {
     // console.log('1. inside effect ', locale);
@@ -269,14 +280,14 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({ userData }) => {
     // console.log('2. inside effect ', language);
     // console.log('svgNodeRef before assign ', svgNodeRef);
     // theCB(svgNodeRef);
-    let exNode = document.getElementById("svgBox");
+    let exNode = document.getElementById('svgBox');
     renderSVG(locale, exNode);
     // console.log('asd;flasjf', exNode)
-  }, [locale])
+  }, [locale]);
 
   return (
     <Slide direction={'right'} in={true}>
-      <StyledBox id="svgBox" sx={{ padding: '0 !important' }} ref={theCB} />
+      <StyledBox id='svgBox' sx={{padding: '0 !important'}} ref={theCB} />
     </Slide>
   );
 };
