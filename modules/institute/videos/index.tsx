@@ -101,7 +101,6 @@ const InstituteVideos = () => {
     isLoading: isLoadingVideoContents,
     metaData,
   } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
-  console.log('videoAlbumContents ', videoAlbumContents)
 
   const [videoAlbumFilter] = useState<any>({
     album_type: AlbumTypes.VIDEO,

@@ -44,12 +44,12 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
           component='img'
           height='140'
           image={
-            data?.content_grid_image_path ?? '/images/blank_gray_image.png'
+            data?.image_path ?? '/images/blank_gray_image.png'
           }
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
           title={data?.title}
         />
-        <PlayCircleIcon
+        {data?.content_type != 1 ? <PlayCircleIcon
           sx={{
             position: 'absolute',
             top: 'calc(30% - 25px)',
@@ -58,7 +58,7 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
             width: '70px',
           }}
           color='primary'
-        />
+        /> : <></>}
 
         <CardContent>
           <StyledTypography gutterBottom variant='body1'>
