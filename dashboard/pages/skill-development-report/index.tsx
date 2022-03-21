@@ -4,18 +4,18 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const TrainingCenterPage = asyncComponent(
+const SkillDevelopmentReportPage = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/trainingCenterSurvey/TrainingCenterSurveyPage'
+      '../../../modules/dashboard/skillDevelopmentReport/SkillDevelopmentReportPage'
     ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['training_center.label']} />
-      <TrainingCenterPage />
+      <PageMeta title={messages['skill_development_report.label']} />
+      <SkillDevelopmentReportPage />
     </>
   );
 });

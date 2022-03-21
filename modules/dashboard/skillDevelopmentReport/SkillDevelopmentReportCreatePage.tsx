@@ -3,7 +3,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Grid, Typography} from '@mui/material';
+import {Button, Grid, Typography} from '@mui/material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {useIntl} from 'react-intl';
 import yup from '../../../@softbd/libs/yup';
@@ -12,6 +12,8 @@ import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import Box from '@mui/material/Box';
+import {ArrowBack} from '@mui/icons-material';
+import {useRouter} from 'next/router';
 
 // const PREFIX = 'YouthRegistration';
 
@@ -60,10 +62,11 @@ const initialValues = {
   comments: '',
 };
 
-const TrainingCenterSurveyPage = () => {
+const SkillDevelopmentReportCreatePage = () => {
   const {messages} = useIntl();
   // const {errorStack, successStack} = useNotiStack();
-  // const router = useRouter();
+  const router = useRouter();
+  console.log('router->', router);
   // const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
@@ -72,93 +75,97 @@ const TrainingCenterSurveyPage = () => {
         .number()
         .required()
         .label(
-          messages['training_center_survey.approved_trade_number'] as string,
+          messages['skill_development_report.approved_trade_number'] as string,
         ),
       number_of_ongoing_trades: yup
         .number()
         .required()
         .label(
-          messages['training_center_survey.current_trade_number'] as string,
+          messages['skill_development_report.current_trade_number'] as string,
         ),
       current_session_trainees_women: yup
         .number()
         .required()
-        .label(messages['training_center_survey.current_women'] as string),
+        .label(messages['skill_development_report.current_women'] as string),
       date_of_last_election_of_all_party_council: yup
         .string()
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['training_center_survey.last_election_date'] as string),
+        .label(
+          messages['skill_development_report.last_election_date'] as string,
+        ),
       current_session_trainees_men: yup
         .number()
         .required()
-        .label(messages['training_center_survey.current_men'] as string),
+        .label(messages['skill_development_report.current_men'] as string),
       current_session_trainees_disabled_and_others: yup
         .number()
         .required()
         .label(
           messages[
-            'training_center_survey.current_disabled_and_others'
+            'skill_development_report.current_disabled_and_others'
           ] as string,
         ),
       current_session_trainees_total: yup
         .number()
         .required()
-        .label(messages['training_center_survey.current_total'] as string),
+        .label(messages['skill_development_report.current_total'] as string),
       total_trainees_men: yup
         .number()
         .required()
-        .label(messages['training_center_survey.from_start_men'] as string),
+        .label(messages['skill_development_report.from_start_men'] as string),
       total_trainees_women: yup
         .number()
         .required()
-        .label(messages['training_center_survey.from_start_women'] as string),
+        .label(messages['skill_development_report.from_start_women'] as string),
       total_trainees_disabled_and_others: yup
         .number()
         .required()
         .label(
           messages[
-            'training_center_survey.from_start_disabled_and_others'
+            'skill_development_report.from_start_disabled_and_others'
           ] as string,
         ),
       total_trainees_total: yup
         .number()
         .required()
-        .label(messages['training_center_survey.from_start_total'] as string),
+        .label(messages['skill_development_report.from_start_total'] as string),
       number_of_computers: yup
         .number()
         .required()
         .label(
-          messages['training_center_survey.number_of_computers'] as string,
+          messages['skill_development_report.number_of_computers'] as string,
         ),
       number_of_other_equipments: yup
         .number()
         .required()
-        .label(messages['training_center_survey.number_of_machines'] as string),
+        .label(
+          messages['skill_development_report.number_of_machines'] as string,
+        ),
       bank_status_skill_development: yup
         .number()
         .required()
         .label(
           messages[
-            'training_center_survey.skill_improvement_training'
+            'skill_development_report.skill_improvement_training'
           ] as string,
         ),
       bank_status_coordinating_council: yup
         .number()
         .required()
         .label(
-          messages['training_center_survey.coordinating_committee'] as string,
+          messages['skill_development_report.coordinating_committee'] as string,
         ),
       amount_of_total_fdr: yup
         .number()
         .required()
-        .label(messages['training_center_survey.total_fdr_amount'] as string),
+        .label(messages['skill_development_report.total_fdr_amount'] as string),
       comments: yup
         .string()
         .trim()
         .required()
-        .label(messages['training_center_survey.comment'] as string),
+        .label(messages['skill_development_report.comment'] as string),
     });
   }, [messages]);
 
@@ -209,6 +216,7 @@ const TrainingCenterSurveyPage = () => {
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }*/
+    router.back();
   };
 
   return (
@@ -217,13 +225,24 @@ const TrainingCenterSurveyPage = () => {
         title={
           <>
             <IconTrainingCenter />{' '}
-            <IntlMessages id='training_center_survey.label' />
+            <IntlMessages id='skill_development_report.label' />
           </>
-        }>
+        }
+        extra={[
+          <Button
+            key={1}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={() => router.back()}>
+            <ArrowBack />
+            {messages['common.back']}
+          </Button>,
+        ]}>
         {/*<Typography
           variant={'h6'}
           style={{marginBottom: '20px', fontSize: '25px', fontWeight: 'bold'}}>
-          {messages['training_center_survey.label']}
+          {messages['skill_development_report.label']}
         </Typography>*/}
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container marginTop={'10px'} spacing={2} maxWidth={'md'}>
@@ -231,7 +250,9 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='number_of_trades_allowed'
-                label={messages['training_center_survey.approved_trade_number']}
+                label={
+                  messages['skill_development_report.approved_trade_number']
+                }
                 register={register}
                 errorInstance={errors}
               />
@@ -241,14 +262,16 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='number_of_ongoing_trades'
-                label={messages['training_center_survey.current_trade_number']}
+                label={
+                  messages['skill_development_report.current_trade_number']
+                }
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
             <Grid item xs={12}>
               <Typography>
-                {messages['training_center_survey.current_session_trainees']}
+                {messages['skill_development_report.current_session_trainees']}
               </Typography>
               <Box
                 sx={{
@@ -261,7 +284,7 @@ const TrainingCenterSurveyPage = () => {
                     <CustomTextInput
                       required
                       id='current_session_trainees_women'
-                      label={messages['training_center_survey.current_women']}
+                      label={messages['skill_development_report.current_women']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -271,7 +294,7 @@ const TrainingCenterSurveyPage = () => {
                     <CustomTextInput
                       required
                       id='current_session_trainees_men'
-                      label={messages['training_center_survey.current_men']}
+                      label={messages['skill_development_report.current_men']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -283,7 +306,7 @@ const TrainingCenterSurveyPage = () => {
                       id='current_session_trainees_disabled_and_others'
                       label={
                         messages[
-                          'training_center_survey.current_disabled_and_others'
+                          'skill_development_report.current_disabled_and_others'
                         ]
                       }
                       register={register}
@@ -295,7 +318,7 @@ const TrainingCenterSurveyPage = () => {
                     <CustomTextInput
                       required
                       id='current_session_trainees_total'
-                      label={messages['training_center_survey.current_total']}
+                      label={messages['skill_development_report.current_total']}
                       register={register}
                       errorInstance={errors}
                     />
@@ -306,7 +329,7 @@ const TrainingCenterSurveyPage = () => {
 
             <Grid item xs={12}>
               <Typography>
-                {messages['training_center_survey.trainees_from_the_start']}
+                {messages['skill_development_report.trainees_from_the_start']}
               </Typography>
               <Box
                 sx={{
@@ -320,7 +343,7 @@ const TrainingCenterSurveyPage = () => {
                       required
                       id='total_trainees_women'
                       label={
-                        messages['training_center_survey.from_start_women']
+                        messages['skill_development_report.from_start_women']
                       }
                       register={register}
                       errorInstance={errors}
@@ -331,7 +354,9 @@ const TrainingCenterSurveyPage = () => {
                     <CustomTextInput
                       required
                       id='total_trainees_men'
-                      label={messages['training_center_survey.from_start_men']}
+                      label={
+                        messages['skill_development_report.from_start_men']
+                      }
                       register={register}
                       errorInstance={errors}
                     />
@@ -343,7 +368,7 @@ const TrainingCenterSurveyPage = () => {
                       id='total_trainees_disabled_and_others'
                       label={
                         messages[
-                          'training_center_survey.from_start_disabled_and_others'
+                          'skill_development_report.from_start_disabled_and_others'
                         ]
                       }
                       register={register}
@@ -356,7 +381,7 @@ const TrainingCenterSurveyPage = () => {
                       required
                       id='total_trainees_total'
                       label={
-                        messages['training_center_survey.from_start_total']
+                        messages['skill_development_report.from_start_total']
                       }
                       register={register}
                       errorInstance={errors}
@@ -370,7 +395,7 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='number_of_computers'
-                label={messages['training_center_survey.number_of_computers']}
+                label={messages['skill_development_report.number_of_computers']}
                 register={register}
                 errorInstance={errors}
               />
@@ -380,7 +405,7 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='number_of_other_equipments'
-                label={messages['training_center_survey.number_of_machines']}
+                label={messages['skill_development_report.number_of_machines']}
                 register={register}
                 errorInstance={errors}
               />
@@ -388,7 +413,7 @@ const TrainingCenterSurveyPage = () => {
 
             <Grid item xs={12}>
               <Typography>
-                {messages['training_center_survey.bank_static']}
+                {messages['skill_development_report.bank_static']}
               </Typography>
 
               <Box
@@ -404,7 +429,7 @@ const TrainingCenterSurveyPage = () => {
                       id='bank_status_skill_development'
                       label={
                         messages[
-                          'training_center_survey.skill_improvement_training'
+                          'skill_development_report.skill_improvement_training'
                         ]
                       }
                       register={register}
@@ -418,7 +443,7 @@ const TrainingCenterSurveyPage = () => {
                       id='bank_status_coordinating_council'
                       label={
                         messages[
-                          'training_center_survey.coordinating_committee'
+                          'skill_development_report.coordinating_committee'
                         ]
                       }
                       register={register}
@@ -433,7 +458,7 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='amount_of_total_fdr'
-                label={messages['training_center_survey.total_fdr_amount']}
+                label={messages['skill_development_report.total_fdr_amount']}
                 register={register}
                 errorInstance={errors}
               />
@@ -443,7 +468,7 @@ const TrainingCenterSurveyPage = () => {
               <CustomDateTimeField
                 required
                 id='date_of_last_election_of_all_party_council'
-                label={messages['training_center_survey.last_election_date']}
+                label={messages['skill_development_report.last_election_date']}
                 register={register}
                 errorInstance={errors}
               />
@@ -453,7 +478,7 @@ const TrainingCenterSurveyPage = () => {
               <CustomTextInput
                 required
                 id='comments'
-                label={messages['training_center_survey.comment']}
+                label={messages['common.comment']}
                 register={register}
                 errorInstance={errors}
                 multiline={true}
@@ -494,4 +519,4 @@ const TrainingCenterSurveyPage = () => {
   );
 };
 
-export default TrainingCenterSurveyPage;
+export default SkillDevelopmentReportCreatePage;
