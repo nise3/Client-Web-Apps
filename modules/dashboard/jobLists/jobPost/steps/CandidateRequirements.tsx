@@ -120,7 +120,7 @@ const CandidateRequirements = ({
     handleSubmit,
     reset,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

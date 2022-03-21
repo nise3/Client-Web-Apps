@@ -188,7 +188,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
