@@ -136,7 +136,7 @@ const InstituteGallery = () => {
             <Grid container justifyContent={'center'}>
               <Grid item>
                 <NoDataFoundComponent
-                  messageType={messages['gallery_album_content.label']}
+                  messageType={messages['common.gallery_album']}
                   messageTextType={'h6'}
                 />
               </Grid>
