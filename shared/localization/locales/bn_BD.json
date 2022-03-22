@@ -1765,6 +1765,16 @@
   "skills_development_training_activities_income_expenditure_information.label": "দক্ষতা উন্নয়ন প্রশিক্ষণ কার্যক্রম আয় ব্যয় এর তথ্যাদি",
   "training_center_report.label": "প্রশিক্ষণ কেন্দ্র রিপোর্ট",
   "skills_development_training_activities_income_expenditure_information.trade_name": "ট্রেডের নাম",
-  "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "ল্যাবের/প্রশিক্ষণ কক্ষের সংখ্যা"
-
+  "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "ল্যাবের/প্রশিক্ষণ কক্ষের সংখ্যা",
+  "skill_development_monthly_progress_report.reporting_month": "রিপোর্টিং মাস",
+  "skill_development_monthly_progress_report.number_of_computers_or_training_equipments": "কম্পিউটার/ প্রশিক্ষণ যন্ত্রপাতির সংখ্যা",
+  "skill_development_monthly_progress_report.admitted_trainee": "ভর্তিকৃত প্রশিক্ষণার্থীর সংখ্যা",
+  "skill_development_monthly_progress_report.technical_board_registered_trainee": "কারিগরি শিক্ষা বোর্ডে নিবন্ধনকৃত প্রশিক্ষণার্থীর সংখ্যা",
+  "skill_development_monthly_progress_report.latest_test_attended_trainee": "সর্বশেষ পরীক্ষায় অংশগ্রহণকারী প্রশিক্ষণার্থীর সংখ্যা",
+  "skill_development_monthly_progress_report.latest_test_passed_trainee": "সর্বশেষ পরীক্ষায় উত্তীর্ণ প্রশিক্ষণার্থীর সংখ্যা",
+  "common.qawmi": "কওমী",
+  "common.transgender": "হিজড়া",
+  "common.total": "মোট",
+  "common.disability": "প্রতিবন্ধী",
+  "skill_development_monthly_progress_report.label":"দক্ষতা উন্নয়ন প্রশিক্ষণ কার্যক্রমের মাসিক অগ্রগতির প্রতিবেদন"
 }
