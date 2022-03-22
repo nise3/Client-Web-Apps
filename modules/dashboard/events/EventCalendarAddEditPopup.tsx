@@ -22,10 +22,7 @@ import {
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {
-  ICalendar,
-  ICalendarDto,
-} from '../../../shared/Interface/common.interface';
+import {ICalendarDto} from '../../../shared/Interface/common.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface CalendarAddEditPopupProps {
@@ -83,7 +80,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<ICalendar>({
+  } = useForm<ICalendarDto>({
     resolver: yupResolver(validationSchema),
   });
 

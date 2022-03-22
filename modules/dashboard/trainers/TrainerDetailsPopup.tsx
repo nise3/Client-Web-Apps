@@ -207,7 +207,9 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['menu.skill']}
-              value={itemData?.skills}
+              value={(itemData?.skills || [])
+                .map((skill: any) => skill.title)
+                .join(', ')}
               isLoading={isLoading}
             />
           </Grid>

@@ -328,7 +328,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     control,
     setValue,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
   console.log('error ', errors);

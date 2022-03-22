@@ -194,7 +194,7 @@ const MoreJobInformation = ({
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
