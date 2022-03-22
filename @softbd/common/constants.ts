@@ -90,9 +90,13 @@ export const gotoLoginSignUpPage = (path: string) => {
   return niseUrl.toString();
 };
 
-export const isLatLongValid = (val: string) => {
-  var pattern = /([0-9.-]+).+?([0-9.-]+)/;
-  return pattern.test(val);
+export const isLatLongValid = (val: string): boolean => {
+  if(val){
+    var pattern = /([0-9.-]+).+?([0-9.-]+)/;
+    return pattern.test(val);
+  } else {
+    return true;
+  }
 }
 
 export const FORM_PLACEHOLDER = {
