@@ -688,6 +688,17 @@ const routesConfig: NavItemProps[] = [
             icon: 'timeline',
             url: '/skills-development-training-activities-income-expenditure-information',
           },
+          {
+            id: 'training_center_progress_report_combined',
+            title:
+              'Skills Development Training Activities Income Expenditure Information',
+            messageId:
+              'skills_development_training_activities_income_expenditure_information.label',
+            permissionKey: 'view_any_training_center_survey',
+            type: 'item',
+            icon: 'timeline',
+            url: '/skills-development-training-activities-income-expenditure-information',
+          },
         ],
       },
     ],

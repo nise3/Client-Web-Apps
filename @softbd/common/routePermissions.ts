@@ -96,6 +96,10 @@ export const routePermissions: any = {
       '/skills-development-training-activities-income-expenditure-information',
     permissionKeys: ['view_any_training_center_survey'],
   },
+  '/training-center-progress-report-combined-create': {
+    routePrefix: '/training-center-progress-report-combined-create',
+    permissionKeys: ['view_any_training_center_survey'],
+  },
   '/courses': {
     routePrefix: '/courses',
     permissionKeys: ['view_any_course'],
