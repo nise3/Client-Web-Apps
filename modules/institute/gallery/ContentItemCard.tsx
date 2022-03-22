@@ -25,6 +25,7 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
   data,
   onClick: onClickCallback,
 }) => {
+  const thumbImg = data.content_type == GalleryAlbumContentTypes.IMAGE ? data.image_path : data.content_thumb_image_path;
   return (
     <Card>
       <CardActionArea
@@ -44,12 +45,12 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
           component='img'
           height='140'
           image={
-            data?.image_path ?? '/images/blank_gray_image.png'
+            thumbImg ?? '/images/blank_gray_image.png'
           }
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
           title={data?.title}
         />
-        {data?.content_type != 1 ? <PlayCircleIcon
+        {data?.content_type == GalleryAlbumContentTypes.VIDEO ? <PlayCircleIcon
           sx={{
             position: 'absolute',
             top: 'calc(30% - 25px)',
