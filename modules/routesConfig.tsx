@@ -668,15 +668,16 @@ const routesConfig: NavItemProps[] = [
         type: 'collapse',
         icon: 'source',
         children: [
-          {
-            id: 'skill_development_report',
-            title: 'Skill Development Report',
-            messageId: 'skill_development_report.label',
-            permissionKey: 'view_any_training_center_survey',
-            type: 'item',
-            icon: 'timeline',
-            url: '/skill-development-report',
-          },
+          //todo: hiding on demand(not necessary)
+          // {
+          //   id: 'skill_development_report',
+          //   title: 'Skill Development Report',
+          //   messageId: 'skill_development_report.label',
+          //   permissionKey: 'view_any_training_center_survey',
+          //   type: 'item',
+          //   icon: 'timeline',
+          //   url: '/skill-development-report',
+          // },
           {
             id: 'skills_development_training_activities_income_expenditure_information',
             title:

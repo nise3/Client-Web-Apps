@@ -3,7 +3,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Button, Grid, Typography} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {useIntl} from 'react-intl';
 import yup from '../../../@softbd/libs/yup';
@@ -11,7 +11,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import Box from '@mui/material/Box';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 
@@ -43,6 +42,7 @@ import {useRouter} from 'next/router';
 }));*/
 
 const initialValues = {
+  reporting_month: '',
   number_of_trades_allowed: '',
   number_of_ongoing_trades: '',
   current_session_trainees_women: '',
@@ -66,106 +66,16 @@ const SkillDevelopmentReportCreatePage = () => {
   const {messages} = useIntl();
   // const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
-  console.log('router->', router);
   // const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      number_of_trades_allowed: yup
+      reporting_month: yup
         .number()
         .required()
         .label(
           messages['skill_development_report.approved_trade_number'] as string,
         ),
-      number_of_ongoing_trades: yup
-        .number()
-        .required()
-        .label(
-          messages['skill_development_report.current_trade_number'] as string,
-        ),
-      current_session_trainees_women: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.current_women'] as string),
-      date_of_last_election_of_all_party_council: yup
-        .string()
-        .trim()
-        .required()
-        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(
-          messages['skill_development_report.last_election_date'] as string,
-        ),
-      current_session_trainees_men: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.current_men'] as string),
-      current_session_trainees_disabled_and_others: yup
-        .number()
-        .required()
-        .label(
-          messages[
-            'skill_development_report.current_disabled_and_others'
-          ] as string,
-        ),
-      current_session_trainees_total: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.current_total'] as string),
-      total_trainees_men: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.from_start_men'] as string),
-      total_trainees_women: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.from_start_women'] as string),
-      total_trainees_disabled_and_others: yup
-        .number()
-        .required()
-        .label(
-          messages[
-            'skill_development_report.from_start_disabled_and_others'
-          ] as string,
-        ),
-      total_trainees_total: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.from_start_total'] as string),
-      number_of_computers: yup
-        .number()
-        .required()
-        .label(
-          messages['skill_development_report.number_of_computers'] as string,
-        ),
-      number_of_other_equipments: yup
-        .number()
-        .required()
-        .label(
-          messages['skill_development_report.number_of_machines'] as string,
-        ),
-      bank_status_skill_development: yup
-        .number()
-        .required()
-        .label(
-          messages[
-            'skill_development_report.skill_improvement_training'
-          ] as string,
-        ),
-      bank_status_coordinating_council: yup
-        .number()
-        .required()
-        .label(
-          messages['skill_development_report.coordinating_committee'] as string,
-        ),
-      amount_of_total_fdr: yup
-        .number()
-        .required()
-        .label(messages['skill_development_report.total_fdr_amount'] as string),
-      comments: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['skill_development_report.comment'] as string),
     });
   }, [messages]);
 
@@ -178,11 +88,13 @@ const SkillDevelopmentReportCreatePage = () => {
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
   useEffect(() => {
     reset(initialValues);
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    data.reporting_month = 12; //todo: this will be a form field after backend discussion
     console.log(data);
     /*try {
       const queryParam = {mobile: data?.mobile};
@@ -225,7 +137,12 @@ const SkillDevelopmentReportCreatePage = () => {
         title={
           <>
             <IconTrainingCenter />{' '}
-            <IntlMessages id='skill_development_report.label' />
+            <IntlMessages
+              id='common.add_new'
+              values={{
+                subject: <IntlMessages id='skill_development_report.label' />,
+              }}
+            />
           </>
         }
         extra={[
@@ -239,16 +156,10 @@ const SkillDevelopmentReportCreatePage = () => {
             {messages['common.back']}
           </Button>,
         ]}>
-        {/*<Typography
-          variant={'h6'}
-          style={{marginBottom: '20px', fontSize: '25px', fontWeight: 'bold'}}>
-          {messages['skill_development_report.label']}
-        </Typography>*/}
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container marginTop={'10px'} spacing={2} maxWidth={'md'}>
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='number_of_trades_allowed'
                 label={
                   messages['skill_development_report.approved_trade_number']
@@ -260,7 +171,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='number_of_ongoing_trades'
                 label={
                   messages['skill_development_report.current_trade_number']
@@ -270,19 +180,17 @@ const SkillDevelopmentReportCreatePage = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography>
-                {messages['skill_development_report.current_session_trainees']}
-              </Typography>
-              <Box
-                sx={{
-                  border: '1px solid #e9e9e9',
-                  marginTop: '5px',
-                  padding: '15px',
-                }}>
+              <fieldset>
+                <legend style={{fontSize: '20px'}}>
+                  {
+                    messages[
+                      'skill_development_report.current_session_trainees'
+                    ]
+                  }
+                </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='current_session_trainees_women'
                       label={messages['skill_development_report.current_women']}
                       register={register}
@@ -292,7 +200,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='current_session_trainees_men'
                       label={messages['skill_development_report.current_men']}
                       register={register}
@@ -302,7 +209,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='current_session_trainees_disabled_and_others'
                       label={
                         messages[
@@ -316,7 +222,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='current_session_trainees_total'
                       label={messages['skill_development_report.current_total']}
                       register={register}
@@ -324,23 +229,16 @@ const SkillDevelopmentReportCreatePage = () => {
                     />
                   </Grid>
                 </Grid>
-              </Box>
+              </fieldset>
             </Grid>
-
             <Grid item xs={12}>
-              <Typography>
-                {messages['skill_development_report.trainees_from_the_start']}
-              </Typography>
-              <Box
-                sx={{
-                  border: '1px solid #e9e9e9',
-                  marginTop: '5px',
-                  padding: '15px',
-                }}>
+              <fieldset>
+                <legend style={{fontSize: '20px'}}>
+                  {messages['skill_development_report.trainees_from_the_start']}
+                </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='total_trainees_women'
                       label={
                         messages['skill_development_report.from_start_women']
@@ -352,7 +250,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='total_trainees_men'
                       label={
                         messages['skill_development_report.from_start_men']
@@ -364,7 +261,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='total_trainees_disabled_and_others'
                       label={
                         messages[
@@ -378,7 +274,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='total_trainees_total'
                       label={
                         messages['skill_development_report.from_start_total']
@@ -388,12 +283,10 @@ const SkillDevelopmentReportCreatePage = () => {
                     />
                   </Grid>
                 </Grid>
-              </Box>
+              </fieldset>
             </Grid>
-
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='number_of_computers'
                 label={messages['skill_development_report.number_of_computers']}
                 register={register}
@@ -403,7 +296,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='number_of_other_equipments'
                 label={messages['skill_development_report.number_of_machines']}
                 register={register}
@@ -412,20 +304,13 @@ const SkillDevelopmentReportCreatePage = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography>
-                {messages['skill_development_report.bank_static']}
-              </Typography>
-
-              <Box
-                sx={{
-                  border: '1px solid #e9e9e9',
-                  marginTop: '5px',
-                  padding: '15px',
-                }}>
+              <fieldset>
+                <legend style={{fontSize: '20px'}}>
+                  {messages['skill_development_report.bank_static']}
+                </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='bank_status_skill_development'
                       label={
                         messages[
@@ -439,7 +324,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
                   <Grid item xs={12} md={6}>
                     <CustomTextInput
-                      required
                       id='bank_status_coordinating_council'
                       label={
                         messages[
@@ -451,12 +335,11 @@ const SkillDevelopmentReportCreatePage = () => {
                     />
                   </Grid>
                 </Grid>
-              </Box>
+              </fieldset>
             </Grid>
 
             <Grid item xs={12} md={6}>
               <CustomTextInput
-                required
                 id='amount_of_total_fdr'
                 label={messages['skill_development_report.total_fdr_amount']}
                 register={register}
@@ -466,7 +349,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
             <Grid item xs={12} sm={6} md={6}>
               <CustomDateTimeField
-                required
                 id='date_of_last_election_of_all_party_council'
                 label={messages['skill_development_report.last_election_date']}
                 register={register}
@@ -476,7 +358,6 @@ const SkillDevelopmentReportCreatePage = () => {
 
             <Grid item xs={12}>
               <CustomTextInput
-                required
                 id='comments'
                 label={messages['common.comment']}
                 register={register}
@@ -489,7 +370,7 @@ const SkillDevelopmentReportCreatePage = () => {
               <SubmitButton
                 startIcon={false}
                 isSubmitting={isSubmitting}
-                label={messages['common.create_account'] as string}
+                label={messages['common.submit'] as string}
                 size='large'
                 // isDisable={isSubmitting || isFormSubmitted}
               />

@@ -1765,5 +1765,22 @@
   "skills_development_training_activities_income_expenditure_information.label": "Skills Development Training Activities Income Expenditure Information",
   "training_center_report.label": "Training center report",
   "skills_development_training_activities_income_expenditure_information.trade_name": "Trade name",
-  "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "Number of labs / training rooms"
+  "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "Number of labs / training rooms",
+  "training_center_report.number_of_seats_allowed": "Allowed Seats Number",
+  "training_center_report.number_of_trainees": "Number of Trainees",
+  "training_center_report.course_fee_per_trainee": "Per trainee fee",
+  "training_center_report.total_income_of_courses": "Course Gross Income",
+  "training_center_report.total_course_fee": "Total Course Fees",
+  "training_center_report.application_and_others": "Application & Others",
+  "training_center_report.total_income": "Total Income",
+  "training_center_report.reporting_month_income": "Reporting Monthly Income",
+  "training_center_report.net_training_expenses_reporting_month": "Net training costs in the reporting month",
+  "training_center_report.instructor_salaries": "Trainee Honors",
+  "training_center_report.other_expenses": "Other Expenses",
+  "training_center_report.training_expenses_total": "Total Expenses",
+  "training_center_report.month_net_income": "Net in the reporting month",
+  "training_center_report.bank_status": "Bank Status",
+  "training_center_report.bank_status_up_to_previous_month": "Bank status up to previous month",
+  "training_center_report.bank_status_so_far": "Bank status so far",
+  "training_center_report.account_no_and_bank_branch_name": "Account No. and Bank Name, Branch"
 }
