@@ -32,6 +32,7 @@ import {ITrainer} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 import {
+  useFetchAllInstitutes,
   useFetchBranches,
   useFetchTrainer,
   useFetchTrainingCenters,
@@ -50,7 +51,6 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface TrainerAddEditPopupProps {
@@ -139,20 +139,18 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     Array<Upazila> | []
   >([]);
 
-  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const [branchFilters, setBranchFilters] = useState<any>(null);
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
+
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchAllInstitutes(instituteFilters);
+
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
 
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
     useFetchTrainingCenters(trainingCenterFilters);
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -219,21 +217,20 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser?.isSystemUser) {
-      (async () => {
-        try {
-          setIsLoadingInstitutes(true);
-          let response = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          if (response && response?.data) {
-            setInstitutes(response.data);
-          }
-        } catch (e) {}
-      })();
+    if (authUser && authUser.isSystemUser) {
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
-  }, []);
+
+    if (authUser?.isInstituteUser && !authUser?.isTrainingCenterUser) {
+      setBranchFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -373,6 +370,11 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     try {
       if (authUser?.isSystemUser) {
         delete data.institute_id;
+      }
+
+      if (authUser?.isInstituteUser && !authUser?.isTrainingCenterUser) {
+        delete data.branch_id;
+        delete data.training_center_id;
       }
 
       if (itemId) {
@@ -716,31 +718,35 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           </Grid>
         )}
 
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onBranchChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='training_center_id'
-            label={messages['menu.training_center']}
-            isLoading={isLoadingTrainingCenters}
-            control={control}
-            options={trainingCenters}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {authUser?.isInstituteUser && !authUser?.isTrainingCenterUser && (
+          <>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='branch_id'
+                label={messages['branch.label']}
+                isLoading={isLoadingBranches}
+                control={control}
+                options={branches}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onBranchChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='training_center_id'
+                label={messages['menu.training_center']}
+                isLoading={isLoadingTrainingCenters}
+                control={control}
+                options={trainingCenters}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required

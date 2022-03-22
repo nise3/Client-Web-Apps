@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+//import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -39,10 +39,10 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
-            <EditButton
+            {/*<EditButton
               onClick={() => openEditModal(itemData.id)}
               isLoading={isLoading}
-            />
+            />*/}
           </>
         }>
         <Grid container spacing={5}>
