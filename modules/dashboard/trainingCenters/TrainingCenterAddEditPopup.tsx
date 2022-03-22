@@ -39,7 +39,10 @@ import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import { FORM_PLACEHOLDER, isLatLongValid } from '../../../@softbd/common/constants';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -127,7 +130,6 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     }
   }, []);
 
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -146,18 +148,23 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['training_center.centerLocationType'] as string),
-        location_latitude: yup
-          .string()
-          .test('lat-err', 
-            `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
-            value => isLatLongValid(value as string)
-          ),
-          location_longitude: yup
-          .string()
-          .test('long-err', 
-            `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
-            value => isLatLongValid(value as string)
-          )
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages]);
 
