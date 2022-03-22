@@ -1766,7 +1766,7 @@
   "training_center_report.label": "Training center report",
   "skills_development_training_activities_income_expenditure_information.trade_name": "Trade name",
   "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "Number of labs / training rooms",
-  "training_center_progress_report.label": "Training center progress report",
+  "training_center_progress_report_combined.label": "Training center combined progress report",
   "training_center_progress_report.general_members": "General members",
   "training_center_progress_report.lifetime_members": "Lifetime members",
   "training_center_progress_report.patron_members": "Patron members",

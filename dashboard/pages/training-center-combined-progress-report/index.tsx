@@ -7,14 +7,16 @@ import {useIntl} from 'react-intl';
 const TrainingCenterProgressReportCreate = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/trainingCenterProgressReportCombined/ProgressReportCreate'
+      '../../../modules/dashboard/trainingCenterProgressReportCombined/ProgressReportPage'
     ),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['training_center_progress_report.label']} />
+      <PageMeta
+        title={messages['training_center_progress_report_combined.label']}
+      />
       <TrainingCenterProgressReportCreate />
     </>
   );

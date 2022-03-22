@@ -690,10 +690,8 @@ const routesConfig: NavItemProps[] = [
           },
           {
             id: 'training_center_progress_report_combined',
-            title:
-              'Skills Development Training Activities Income Expenditure Information',
-            messageId:
-              'skills_development_training_activities_income_expenditure_information.label',
+            title: 'Training center combined progress report',
+            messageId: 'training_center_progress_report_combined.label',
             permissionKey: 'view_any_training_center_survey',
             type: 'item',
             icon: 'timeline',
