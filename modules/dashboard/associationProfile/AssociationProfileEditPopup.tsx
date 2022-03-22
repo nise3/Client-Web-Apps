@@ -30,6 +30,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
@@ -122,6 +126,20 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .of(yup.object().shape({}))
         .min(1, messages['common.must_have_one_skill'] as string)
         .label(messages['common.skills'] as string),
+      location_latitude: yup
+        .string()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, []);
 
@@ -343,6 +361,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             label={messages['common.location_latitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -352,6 +371,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             label={messages['common.location_longitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
 
