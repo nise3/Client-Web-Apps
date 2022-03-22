@@ -52,6 +52,10 @@ import {Box} from '@mui/system';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -263,6 +267,22 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .required()
         .label(messages['common.memberId'] as string),
       row_status: yup.string().label(messages['common.status'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages, selectedAllSubTrades]);
 
@@ -845,6 +865,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -855,6 +876,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>

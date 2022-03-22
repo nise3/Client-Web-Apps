@@ -27,6 +27,10 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface InstituteProfileEditPopupProps {
   onClose: () => void;
@@ -112,6 +116,22 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages]);
 
@@ -292,6 +312,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.location_latitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -300,6 +321,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.location_longitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
