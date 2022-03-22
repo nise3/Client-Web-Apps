@@ -15,6 +15,7 @@ import {Link} from '../../../@softbd/elements/common';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ProgressReportDetailsPopup from './ProgressReportDetailsPopup';
 import {Button} from '@mui/material';
+import {API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
 const TrainersPage = () => {
   const {messages} = useIntl();
@@ -95,7 +96,7 @@ const TrainersPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: '',
+      urlPath: API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
     });
   return (
     <>

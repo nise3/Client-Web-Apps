@@ -13,10 +13,13 @@ import {useRouter} from 'next/router';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import {trainingCenterCombinedProgressReportCreate} from '../../../services/instituteManagement/TrainingCenterReportService';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 
 const ProgressReportCreatePage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const {createSuccessMessage} = useSuccessMessage();
   const router = useRouter();
   console.log('router->', router);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
@@ -44,8 +47,8 @@ const ProgressReportCreatePage = () => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
     try {
-      /*await trainingCenterProgressReportCreate(data);*/
-      /*    successStack(<IntlMessages id='youth_registration.success' />);*/
+      await trainingCenterCombinedProgressReportCreate(data);
+      createSuccessMessage('training_center_progress_report_combined.label');
       setIsFormSubmitted(true);
       router.back();
     } catch (error: any) {

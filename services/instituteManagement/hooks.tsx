@@ -196,3 +196,6 @@ export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
       : null,
   );
 };
+
+/**
+training center report**/
