@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+//import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -121,7 +121,7 @@ const TrainersPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              {/*<EditButton onClick={() => openAddEditModal(data.id)} />*/}
               <DeleteButton
                 deleteAction={() => deleteTrainerItem(data.id)}
                 deleteTitle='Are you sure?'
