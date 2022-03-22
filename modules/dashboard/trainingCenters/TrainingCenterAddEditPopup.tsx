@@ -39,7 +39,10 @@ import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import { FORM_PLACEHOLDER, isLatLongValid } from '../../../@softbd/common/constants';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -126,7 +129,6 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       })();
     }
   }, []);
-
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

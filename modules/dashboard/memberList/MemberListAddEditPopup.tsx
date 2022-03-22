@@ -52,6 +52,10 @@ import {Box} from '@mui/system';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface MemberAddEditPopupProps {
   itemId: number | null;
@@ -262,6 +266,22 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         .required()
         .label(messages['districts.label'] as string),
       row_status: yup.string().label(messages['common.status'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages, selectedAllSubTrades]);
 
@@ -844,6 +864,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -854,6 +875,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
