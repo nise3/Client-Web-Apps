@@ -563,6 +563,7 @@
   "permission_group.key": "Unique Key",
   "common.root_cant_be_drag_and_drop": "Sorry! Drag and drop is not allowed",
   "common.hierarchy": "Hierarchy",
+  "common.not_valid": "Not Valid",
   "human_resource.label": "Human resource",
   "common.upazila_title_present_address": "Present upazila",
   "common.physical_disabilities_status": "Disability",
