@@ -91,10 +91,18 @@ export const routePermissions: any = {
     routePrefix: '/skill-development-report-create',
     permissionKeys: ['view_any_training_center_survey'],
   },
+  '/skill-development-monthly-progress-report-create': {
+    routePrefix: '/skill-development-monthly-progress-report-create',
+    permissionKeys: ['view_any_skill_development_monthly_progress_report'],
+  },
   '/skills-development-training-activities-income-expenditure-information': {
     routePrefix:
       '/skills-development-training-activities-income-expenditure-information',
     permissionKeys: ['view_any_training_center_survey'],
+  },
+  '/skill-development-monthly-progress-report': {
+    routePrefix: '/skill-development-monthly-progress-report',
+    permissionKeys: ['view_any_skill_development_monthly_progress_report'],
   },
   '/courses': {
     routePrefix: '/courses',
