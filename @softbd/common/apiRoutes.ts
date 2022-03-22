@@ -167,6 +167,11 @@ export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
 /**             eRPL End         */
 
+/**training center report start*/
+export const API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS =
+  INSTITUTE_SERVICE_PATH + '/training-centers/reporting/combined-progress';
+/**training center report end*/
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
