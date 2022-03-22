@@ -39,7 +39,7 @@ import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import { isLatLongValid } from '../../../@softbd/common/constants';
+import { FORM_PLACEHOLDER, isLatLongValid } from '../../../@softbd/common/constants';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -405,7 +405,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            placeholder="23.000000..."
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -415,7 +415,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            placeholder="90.000000..."
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -425,7 +425,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            placeholder="https://www.google.com/maps/place/..."
+            placeholder={FORM_PLACEHOLDER.MAP_SOURCE}
           />
         </Grid>
         <Grid item xs={12}>

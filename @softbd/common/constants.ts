@@ -94,3 +94,9 @@ export const isLatLongValid = (val: string) => {
   var pattern = /([0-9.-]+).+?([0-9.-]+)/;
   return pattern.test(val);
 }
+
+export const FORM_PLACEHOLDER = {
+  LATITUDE: '23.000000...',
+  LONGITUDE: '90.000000...',
+  MAP_SOURCE: 'https://www.google.com/maps/place/...'
+}
