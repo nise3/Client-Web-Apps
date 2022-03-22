@@ -148,36 +148,39 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['training_center.centerLocationType'] as string),
-      location_latitude: yup
-        .string()
-        .nullable()
-        .test(
-          'lat-err',
-          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
-          (value) => isLatLongValid(value as string),
-        ),
-
-      location_longitude: yup
-        .string()
-        .nullable()
-        .test(
-          'long-err',
-          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
-          (value) => isLatLongValid(value as string),
-        ),
+        location_latitude: yup
+          .string()
+          .nullable()
+          .test('lat-err', 
+            `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+            value => isLatLongValid(value as string)
+          ),
+          location_longitude: yup
+          .string()
+          .nullable()
+          .test('long-err', 
+            `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+            value => isLatLongValid(value as string)
+          )
     });
   }, [messages]);
+
+  
 
   const {
     control,
     register,
     reset,
     setError,
+    // getValues,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<ITrainingCenter>({
     resolver: yupResolver(validationSchema),
   });
+
+  // console.log('form getValues ',getValues())
+  // console.log('form errors ',errors)
 
   useEffect(() => {
     if (itemData) {
