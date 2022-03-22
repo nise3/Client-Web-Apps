@@ -148,7 +148,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         .string()
         .trim()
         .required()
-        .label(messages['common.title'] as string),
+        .label(messages['common.question'] as string),
       answer: yup
         .string()
         .trim()
@@ -287,7 +287,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
           <CustomTextInput
             required
             id={'title'}
-            label={messages['common.title']}
+            label={messages['common.question']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -296,7 +296,7 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             id={'title_en'}
-            label={messages['common.title_en']}
+            label={messages['common.question_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

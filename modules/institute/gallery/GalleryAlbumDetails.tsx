@@ -47,9 +47,15 @@ const StyledContainer = styled(Container)(({theme}) => ({
     right: 0,
   },
   [`& .${classes.coverImageBox}`]: {
-    height: '300px',
+    height: 400,
     display: 'flex',
     justifyContent: 'center',
+    [theme.breakpoints.up('xl')]: {
+      height: 550,
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: 150,
+    },
   },
   [`& .${classes.coverImage}`]: {
     backgroundSize: '100%',
