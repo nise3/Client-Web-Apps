@@ -75,7 +75,7 @@ const SkillDevelopmentReportPage = () => {
         extra={[
           <Link key={selectedItemId} href={`/skill-development-report-create`}>
             <AddButton
-              onClick={() => openDetailsModal(1)} //todo: item id must be integrated here after getting api
+              onClick={() => openDetailsModal(3)} //todo: item id must be integrated here after getting api
               isLoading={loading}
               tooltip={
                 <IntlMessages
@@ -90,7 +90,7 @@ const SkillDevelopmentReportPage = () => {
 
           //todo: this will be removed after getting api..
           <AddButton
-            key={1}
+            key={Math.random()}
             onClick={() => openDetailsModal(1)}
             isLoading={loading}
             tooltip={

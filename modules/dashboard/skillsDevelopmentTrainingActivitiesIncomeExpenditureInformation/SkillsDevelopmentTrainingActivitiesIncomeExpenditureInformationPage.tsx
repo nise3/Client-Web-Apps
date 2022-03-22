@@ -8,7 +8,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {Link} from '../../../@softbd/elements/common';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import SkillDevelopmentReportDetailsPopup from '../skillDevelopmentReport/SkillDevelopmentReportDetailsPopup';
+import SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationDetailsPopup from './SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationDetailsPopup';
 
 const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
   () => {
@@ -83,7 +83,7 @@ const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
           extra={[
             <Link
               key={selectedItemId}
-              href={`/skill-development-report-create`}>
+              href={`/skills-development-training-activities-income-expenditure-information-create`}>
               <AddButton
                 onClick={() => openDetailsModal(1)} //todo: item id must be integrated here after getting api
                 isLoading={loading}
@@ -103,7 +103,7 @@ const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
 
             //todo: this will be removed after getting api..
             <AddButton
-              key={1}
+              key={Math.random()}
               onClick={() => openDetailsModal(1)}
               isLoading={loading}
               tooltip={
@@ -129,7 +129,7 @@ const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
           />
 
           {isOpenDetailsModal && (
-            <SkillDevelopmentReportDetailsPopup
+            <SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationDetailsPopup
               key={1}
               itemId={selectedItemId}
               onClose={closeDetailsModal}

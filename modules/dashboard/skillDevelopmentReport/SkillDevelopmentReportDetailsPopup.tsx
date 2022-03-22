@@ -4,17 +4,15 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {Grid, Typography} from '@mui/material';
+import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import React from 'react';
-import Box from '@mui/material/Box';
 
-type Props = {
+type IProps = {
   itemId: number | null;
   onClose: () => void;
 };
 
-const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
+const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: IProps) => {
   const {messages} = useIntl();
 
   let itemData: any = {};
@@ -54,15 +52,10 @@ const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography>
-              {messages['skill_development_report.current_session_trainees']}
-            </Typography>
-            <Box
-              sx={{
-                border: '1px solid #e9e9e9',
-                marginTop: '5px',
-                padding: '15px',
-              }}>
+            <fieldset>
+              <legend style={{fontSize: '20px'}}>
+                {messages['skill_development_report.current_session_trainees']}
+              </legend>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
@@ -102,19 +95,14 @@ const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </fieldset>
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>
-              {messages['skill_development_report.trainees_from_the_start']}
-            </Typography>
-            <Box
-              sx={{
-                border: '1px solid #e9e9e9',
-                marginTop: '5px',
-                padding: '15px',
-              }}>
+            <fieldset>
+              <legend style={{fontSize: '20px'}}>
+                {messages['skill_development_report.trainees_from_the_start']}
+              </legend>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
@@ -156,7 +144,7 @@ const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </fieldset>
           </Grid>
 
           <Grid item xs={12} md={6}>
@@ -176,16 +164,10 @@ const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>
-              {messages['skill_development_report.bank_static']}
-            </Typography>
-
-            <Box
-              sx={{
-                border: '1px solid #e9e9e9',
-                marginTop: '5px',
-                padding: '15px',
-              }}>
+            <fieldset>
+              <legend style={{fontSize: '20px'}}>
+                {messages['skill_development_report.bank_static']}
+              </legend>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <DetailsInputView
@@ -211,7 +193,7 @@ const SkillDevelopmentReportDetailsPopup = ({itemId, ...props}: Props) => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </fieldset>
           </Grid>
 
           <Grid item xs={12} md={6}>
