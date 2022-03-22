@@ -58,8 +58,8 @@ const ProgressReportCreatePage = () => {
       <PageBlock
         title={
           <>
-            <AssignmentTurnedInIcon />{' '}
-            <IntlMessages id='training_center_progress_report.label' />
+            <AssignmentTurnedInIcon />
+            <IntlMessages id='training_center_progress_report_combined.label' />
           </>
         }
         extra={[
@@ -67,7 +67,10 @@ const ProgressReportCreatePage = () => {
             key={1}
             variant={'contained'}
             color={'primary'}
-            size={'small'}>
+            size={'small'}
+            onClick={() => {
+              router.back();
+            }}>
             <ArrowBack />
             {messages['common.back']}
           </Button>,

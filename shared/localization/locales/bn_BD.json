@@ -1766,7 +1766,7 @@
   "training_center_report.label": "প্রশিক্ষণ কেন্দ্র রিপোর্ট",
   "skills_development_training_activities_income_expenditure_information.trade_name": "ট্রেডের নাম",
   "skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms": "ল্যাবের/প্রশিক্ষণ কক্ষের সংখ্যা",
-  "training_center_progress_report.label": "প্রশিক্ষণ কেন্দ্রের অগ্রগতি প্রতিবেদন",
+  "training_center_progress_report_combined.label": "প্রশিক্ষণ কেন্দ্রের সমন্বিত অগ্রগতি প্রতিবেদন",
   "training_center_progress_report.general_members": "সাধারন সদস্য",
   "training_center_progress_report.lifetime_members": "আজীবন সদস্য",
   "training_center_progress_report.patron_members": "পৃষ্ঠপোষক সদস্য",
