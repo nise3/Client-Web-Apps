@@ -133,7 +133,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   educational_qualification_en?: string;
   photo?: string;
   signature?: string;
-  skills?: string;
+  skills?: any;
   skills_en?: string;
   row_status?: string;
 }
@@ -141,8 +141,8 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
 export interface IBatch extends IIdTitleCreateUpdateAt {
   institute_id?: number | string;
   course_id: number | string;
-  training_center_id: number | string;
-  branch_id: number | string;
+  training_center_id?: number | string;
+  branch_id?: number | string;
   number_of_seats: number | string;
   available_seats: number | string;
   registration_start_date: string;

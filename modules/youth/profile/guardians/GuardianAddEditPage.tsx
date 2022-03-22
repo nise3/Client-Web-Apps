@@ -100,7 +100,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

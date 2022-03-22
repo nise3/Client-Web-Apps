@@ -81,12 +81,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     mutate: mutateBatch,
   } = useFetchBatch(itemId);
 
-  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [branchFilters, setBranchFilters] = useState<any>(null);
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
   const [coursesFilters, setCoursesFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -123,11 +119,14 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['course.label'] as string),
-      training_center_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['training_center.label'] as string),
+      training_center_id:
+        authUser && !authUser?.isTrainingCenterUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['training_center.label'] as string)
+          : yup.string(),
       number_of_seats: yup
         .string()
         .trim()
@@ -191,7 +190,17 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         } catch (e) {}
       })();
     }
-  }, []);
+
+    if (!authUser?.isTrainingCenterUser) {
+      setBranchFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -220,20 +229,22 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         row_status: String(itemData?.row_status),
       });
 
-      setBranchFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: itemData?.institute_id,
-      });
-
       setCoursesFilters({
         row_status: RowStatus.ACTIVE,
         institute_id: itemData?.institute_id,
       });
 
-      setTrainingCenterFilters({
-        row_status: RowStatus.ACTIVE,
-        branch_id: itemData?.branch_id,
-      });
+      if (!authUser?.isTrainingCenterUser) {
+        setBranchFilters({
+          row_status: RowStatus.ACTIVE,
+          institute_id: itemData?.institute_id,
+        });
+
+        setTrainingCenterFilters({
+          row_status: RowStatus.ACTIVE,
+          branch_id: itemData?.branch_id,
+        });
+      }
     } else {
       reset(initialValues);
     }
@@ -289,6 +300,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
     if (!authUser?.isSystemUser) {
       delete data.institute_id;
+    }
+
+    if (authUser?.isTrainingCenterUser) {
+      delete data.branch_id;
+      delete data.training_center_id;
     }
 
     try {
@@ -392,33 +408,37 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           </Grid>
         )}
 
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onBranchChange}
-          />
-        </Grid>
+        {!authUser?.isTrainingCenterUser && (
+          <React.Fragment>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='branch_id'
+                label={messages['branch.label']}
+                isLoading={isLoadingBranches}
+                control={control}
+                options={branches}
+                optionValueProp='id'
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={onBranchChange}
+              />
+            </Grid>
 
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='training_center_id'
-            label={messages['training_center.label']}
-            isLoading={isLoadingTrainingCenters}
-            control={control}
-            options={trainingCenters}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id='training_center_id'
+                label={messages['training_center.label']}
+                isLoading={isLoadingTrainingCenters}
+                control={control}
+                options={trainingCenters}
+                optionValueProp='id'
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect

@@ -96,7 +96,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     setValue,
     watch,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
   const watchStartDate: any = watch(['start_date', 'end_date']);
