@@ -373,6 +373,7 @@
   "common.delete_confirm": "আপনি কি নিশ্চিত?",
   "common.confirm": "নিশ্চিত",
   "common.hierarchy": "অনুক্রম",
+  "common.not_valid": "সঠিক নয়",
   "human_resource_template.label": "হিউম্যান রিসোর্স টেম্পলেট",
   "human_resource.label": "হিউম্যান রিসোর্স",
   "human_resource_template.parent": "ঊর্ধ্বতন",
