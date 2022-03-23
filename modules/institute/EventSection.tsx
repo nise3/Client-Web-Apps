@@ -170,16 +170,18 @@ const EventSection = () => {
   
   const customDateCellWrap = (e: any) => {
     const dateNumber = intl.formatNumber(e.label);
+    const dateFontSize = { fontSize: '1.5rem' };
+    const dateSpan = <span style={dateFontSize}>{ dateNumber }</span>;
     return <div>
       {
         hasEvent(parsDate(e.date), startDates) ?
           <div style={{ color: '#fff', position: 'relative' }}>
-            <span>{ dateNumber }</span>
-            <div style={{ position: 'absolute', backgroundColor: '#fff', color: '#671688', padding: '3px', borderRadius: '5px' }}>
+            {dateSpan}
+            <div style={{ fontSize: '0.8rem', position: 'absolute', backgroundColor: '#fff', color: '#671688', padding: '3px', borderRadius: '5px' }}>
               {intl.formatNumber(eventsByDate(parsDate(e.date), startDates).length)}
             </div>
           </div> :
-          <span>{ dateNumber }</span>
+          dateSpan
       }
 
     </div>
