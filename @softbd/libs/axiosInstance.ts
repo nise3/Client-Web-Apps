@@ -53,7 +53,7 @@ axiosInstance.interceptors.request.use(
 // Response interceptor for API calls
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.count('countSuccessRequest');
+    // console.count('countSuccessRequest');
     return response;
   },
   async function (error) {
