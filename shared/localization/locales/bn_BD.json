@@ -1749,5 +1749,12 @@
   "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি",
   "rpl_occupation.country": "পেশা (দেশ ভিত্তিক)",
   "rpl_sector.country": "সেক্টর (দেশ ভিত্তিক)",
-  "rpl_level.country": "লেভেল (দেশ ভিত্তিক)"
+  "rpl_level.country": "লেভেল (দেশ ভিত্তিক)",
+  "calendar.Sun": "রবি",
+  "calendar.Mon": "সোম",
+  "calendar.Tue": "মঙ্গল",
+  "calendar.Wed": "বুধ",
+  "calendar.Thu": "বৃহঃ",
+  "calendar.Fri": "শুক্র",
+  "calendar.Sat": "শনি"
 }
