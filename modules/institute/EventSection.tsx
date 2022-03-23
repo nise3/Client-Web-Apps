@@ -26,7 +26,7 @@ import {
   addStartEndPropsToList,
   eventsDateTimeMap,
 } from '../../services/global/globalService';
-import { createIntlCache, formatNumber } from '@formatjs/intl';
+import { createIntlCache } from '@formatjs/intl';
 
 const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
