@@ -5,7 +5,7 @@ import ButtonSkeleton from '../../display/skeleton/ButtonSkeleton/ButtonSkeleton
 import Tooltip from '@mui/material/Tooltip';
 
 interface Props {
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   isLoading?: boolean;
   tooltip?: React.ReactNode;
