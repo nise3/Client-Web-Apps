@@ -2,30 +2,23 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {deleteTrainer} from '../../../services/instituteManagement/TrainerService';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {Link} from '../../../@softbd/elements/common';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ProgressReportDetailsPopup from './ProgressReportDetailsPopup';
-import {Button} from '@mui/material';
 import {API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
-const TrainersPage = () => {
+const ProgressReportPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
   const [itemId, setItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const openDetailsModal = useCallback(
-    (id: number) => {
+    (itemId: number) => {
       setIsOpenDetailsModal(true);
       setItemId(itemId);
     },
@@ -34,22 +27,6 @@ const TrainersPage = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  }, []);
-
-  const deleteTrainerItem = async (itemId: number) => {
-    let response = await deleteTrainer(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='trainers.label' />}}
-        />,
-      );
-      await refreshDataTable();
-    }
-  };
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
   const columns = useMemo(
@@ -81,10 +58,6 @@ const TrainersPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteTrainerItem(data.id)}
-                deleteTitle='Are you sure?'
-              />
             </DatatableButtonGroup>
           );
         },
@@ -127,13 +100,6 @@ const TrainersPage = () => {
               }
             />
           </Link>,
-          <Button
-            key={1}
-            onClick={() => {
-              openDetailsModal(1);
-            }}>
-            Details
-          </Button>,
         ]}>
         <ReactTable
           columns={columns}
@@ -142,7 +108,6 @@ const TrainersPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
 
         {isOpenDetailsModal && (
@@ -157,4 +122,4 @@ const TrainersPage = () => {
   );
 };
 
-export default TrainersPage;
+export default ProgressReportPage;
