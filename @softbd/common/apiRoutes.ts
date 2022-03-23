@@ -86,6 +86,7 @@ export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
 export const PROFILE_UPDATE = '/profile-update';
+export const UPDATE_PASSWORD = '/password-update';
 
 /** Core User service private routes section end */
 
