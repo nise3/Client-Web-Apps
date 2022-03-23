@@ -36,6 +36,7 @@ export interface IQuestionSet extends IIdTitleCreateUpdateAt {
 
 export interface IProgramme extends IIdTitleCreateUpdateAt {
   institute_id?: string | number;
+  industry_association_id?: string | number;
   institute_title_en?: string;
   code?: string;
   logo?: string;
@@ -48,6 +49,7 @@ export interface IProgramme extends IIdTitleCreateUpdateAt {
 export interface ICourse extends IIdTitleCreateUpdateAt {
   code: string;
   institute_id?: number | string;
+  industry_association_id?: number | string;
   institute_title?: string;
   institute_title_en?: string;
   branch_id?: number | string;
@@ -99,6 +101,7 @@ export interface IBranch extends IIdTitleCreateUpdateAt {
 
 export interface ITrainingCenter extends IIdTitleCreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   branch_id?: number | string;
   loc_division_id?: number | string;
   loc_district_id?: number | string;
@@ -115,6 +118,7 @@ export interface ITrainingCenter extends IIdTitleCreateUpdateAt {
 
 export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   trainer_name_en?: string;
   trainer_name: string;
   branch_id?: number | string;
@@ -152,6 +156,7 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
 
 export interface IBatch extends IIdTitleCreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   course_id: number | string;
   training_center_id?: number | string;
   branch_id?: number | string;

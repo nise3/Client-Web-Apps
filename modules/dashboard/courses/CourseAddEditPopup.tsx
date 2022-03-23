@@ -20,6 +20,7 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
+  useFetchInstitute,
   useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -29,7 +30,6 @@ import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -44,6 +44,7 @@ interface CourseAddEditPopupProps {
 const initialValues = {
   title: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   program_id: '',
   level: '',
@@ -66,9 +67,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitute(instituteFilters);
 
   const {
     data: itemData,
@@ -85,18 +86,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser?.isSystemUser) {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let response = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          if (response && response?.data) {
-            setInstitutes(response.data);
-          }
-        } catch (e) {}
-      })();
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
   }, []);
 
@@ -122,7 +112,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             .trim()
             .required()
             .label(messages['institute.label'] as string)
-        : yup.string(),
+        : yup.string().nullable(),
       // code: yup
       //   .string()
       //   .trim()
@@ -282,6 +272,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         title: itemData?.title,
         // code: itemData?.code,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         program_id: itemData?.program_id,
         level: itemData?.level,
@@ -707,8 +698,10 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item container xs={12}>
-          <Grid item xs={12} >
-            <h3 style={{marginTop: '0', marginBottom: '5px', color: 'gray'}} >{messages['course.enrollment_form_config']}</h3>
+          <Grid item xs={12}>
+            <h3 style={{marginTop: '0', marginBottom: '5px', color: 'gray'}}>
+              {messages['course.enrollment_form_config']}
+            </h3>
           </Grid>
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];

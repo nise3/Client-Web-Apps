@@ -71,6 +71,7 @@ const initialValues = {
   trainer_name_en: '',
   trainer_name: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   training_center_id: '',
   trainer_registration_number: '',
@@ -178,22 +179,27 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: districts} = useFetchDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
 
   const [presentDistricts, setPresentDistricts] = useState<
     Array<District> | []
   >([]);
+
   const [permanentDistricts, setPermanentDistricts] = useState<
     Array<District> | []
   >([]);
+
   const [presentUpazilas, setPresentUpazilas] = useState<Array<Upazila> | []>(
     [],
   );
+
   const [permanentUpazilas, setPermanentUpazilas] = useState<
     Array<Upazila> | []
   >([]);
@@ -271,14 +277,13 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           messages['common.nid_validation'] as string,
           (value) => !value || Boolean(value.match(NID_REGEX)),
         ),
-      institute_id:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['institute.label'] as string)
-          : yup.string(),
+      institute_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string)
+        : yup.string().nullable(),
       nationality: yup
         .string()
         .trim()
@@ -317,7 +322,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser && authUser.isSystemUser) {
+    if (authUser?.isSystemUser) {
       setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
 
@@ -343,6 +348,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         trainer_name_en: itemData?.trainer_name_en,
         trainer_name: itemData?.trainer_name,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         training_center_id: itemData?.training_center_id,
         trainer_registration_number: itemData?.trainer_registration_number,
@@ -475,6 +481,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
     try {
       if (!authUser?.isSystemUser) {
         delete data.institute_id;
+        delete data.industry_association_id;
       }
 
       if (
@@ -834,7 +841,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {authUser && authUser.isSystemUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={12} md={6}>
             <CustomFilterableFormSelect
               required
