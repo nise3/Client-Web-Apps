@@ -108,15 +108,12 @@ export const routePermissions: any = {
     routePrefix: '/training-center-combined-progress-report',
     permissionKeys: ['view_any_training_center_survey'],
   },
-  '/skills-development-training-activities-income-expenditure-information-create':
-    {
-      routePrefix:
-        '/skills-development-training-activities-income-expenditure-information-create',
-      permissionKeys: ['view_any_training_center_survey'],
-    },
-  '/skills-development-training-activities-income-expenditure-information': {
-    routePrefix:
-      '/skills-development-training-activities-income-expenditure-information',
+  '/training-center-report-income-expenditure/create': {
+    routePrefix: '/training-center-report-income-expenditure/create',
+    permissionKeys: ['view_any_training_center_survey'],
+  },
+  '/training-center-report-income-expenditure': {
+    routePrefix: '/training-center-report-income-expenditure',
     permissionKeys: ['view_any_training_center_survey'],
   },
   '/courses': {

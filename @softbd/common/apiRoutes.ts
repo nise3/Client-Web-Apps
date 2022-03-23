@@ -173,6 +173,10 @@ export const API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS =
 
 export const API_TRAINING_CENTERS_REPORTING_PROGRESS =
   INSTITUTE_SERVICE_PATH + '/training-centers/reporting/progress';
+
+export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
+  API_TRAINING_CENTERS + '/reporting/income-expenditure';
+
 /**training center report end*/
 
 /** All institute service privates routes section end */
