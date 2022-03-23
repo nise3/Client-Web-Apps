@@ -15,6 +15,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import {trainingCenterCombinedProgressReportCreate} from '../../../services/instituteManagement/TrainingCenterReportService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 const ProgressReportCreatePage = () => {
   const {messages} = useIntl();
@@ -26,12 +27,12 @@ const ProgressReportCreatePage = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      number_of_trades_allowed: yup
-        .number()
+      reporting_month: yup
+        .string()
+        .trim()
         .required()
-        .label(
-          messages['skill_development_report.approved_trade_number'] as string,
-        ),
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+        .label(messages['common.reporting_month'] as string),
     });
   }, [messages]);
 
@@ -80,6 +81,15 @@ const ProgressReportCreatePage = () => {
         ]}>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container marginTop={'10px'} spacing={2} maxWidth={'md'}>
+            <Grid item xs={12}>
+              <CustomDateTimeField
+                required
+                id='reporting_month'
+                label={messages['common.reporting_month']}
+                register={register}
+                errorInstance={errors}
+              />
+            </Grid>
             <Grid item xs={12}>
               <CustomTextInput
                 id='voluntary_organizations_registered_in_current_month'
