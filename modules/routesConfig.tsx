@@ -670,6 +670,36 @@ const routesConfig: NavItemProps[] = [
         icon: 'feed',
         url: '/cv-bank',
       },
+      {
+        id: 'training_center_report',
+        title: 'Training center report',
+        messageId: 'training_center_report.label',
+        type: 'collapse',
+        icon: 'source',
+        children: [
+          //todo: hiding on demand(not necessary)
+          // {
+          //   id: 'skill_development_report',
+          //   title: 'Skill Development Report',
+          //   messageId: 'skill_development_report.label',
+          //   permissionKey: 'view_any_training_center_survey',
+          //   type: 'item',
+          //   icon: 'timeline',
+          //   url: '/skill-development-report',
+          // },
+          {
+            id: 'skills_development_training_activities_income_expenditure_information',
+            title:
+              'Skills Development Training Activities Income Expenditure Information',
+            messageId:
+              'skills_development_training_activities_income_expenditure_information.label',
+            permissionKey: 'view_any_training_center_survey',
+            type: 'item',
+            icon: 'timeline',
+            url: '/skills-development-training-activities-income-expenditure-information',
+          },
+        ],
+      },
     ],
   },
 ];
