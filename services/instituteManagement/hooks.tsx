@@ -25,6 +25,7 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -199,3 +200,15 @@ export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
 
 /**
 training center report**/
+
+export const useFetchTrainingCenterReportIncomeExpenditure = (
+  incomeExpenditureId: number | null,
+) => {
+  return useAxiosSWR(
+    incomeExpenditureId
+      ? API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE +
+          '/' +
+          incomeExpenditureId
+      : null,
+  );
+};
