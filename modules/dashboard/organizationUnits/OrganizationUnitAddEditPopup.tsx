@@ -130,14 +130,13 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      organization_id:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['organization.label'] as string)
-          : yup.string().label(messages['organization.label'] as string),
+      organization_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['organization.label'] as string)
+        : yup.string().label(messages['organization.label'] as string),
       organization_unit_type_id: yup
         .string()
         .required()

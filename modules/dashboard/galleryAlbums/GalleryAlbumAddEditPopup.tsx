@@ -166,13 +166,12 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
              is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
              then: yup.string().required(),
            }),*/
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .required()
-              .label(messages['common.show_in'] as string)
-          : yup.string(),
+      show_in: authUser?.isSystemUser
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.show_in'] as string)
+        : yup.string(),
       institute_id: yup
         .mixed()
         .label(messages['institute.label'] as string)
@@ -507,7 +506,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
+        {authUser?.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
