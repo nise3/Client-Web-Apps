@@ -9,6 +9,7 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import SkillDevelopmentMonthlyProgressReportDetailsPopup from './SkillDevelopmentMonthlyProgressReportDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {Link} from '../../../@softbd/elements/common';
+import {API_TRAINING_CENTERS_REPORTING_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
 const SkillDevelopmentMonthlyProgressReportPage = () => {
   const {messages} = useIntl();
@@ -61,10 +62,9 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
     [messages],
   );
 
-  //todo: urlPath must be given after getting api
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: '/rt',
+      urlPath: API_TRAINING_CENTERS_REPORTING_PROGRESS,
     });
 
   return (
@@ -81,7 +81,6 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
             key={selectedItemId}
             href={`/skill-development-monthly-progress-report-create`}>
             <AddButton
-              onClick={() => openDetailsModal(1)} //todo: item id must be integrated here after getting api
               isLoading={loading}
               tooltip={
                 <IntlMessages
@@ -96,24 +95,6 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
               }
             />
           </Link>,
-
-          //todo: this will be removed after getting api..
-          <AddButton
-            key={1}
-            onClick={() => openDetailsModal(1)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject:
-                    messages[
-                      'skills_development_training_activities_income_expenditure_information.label'
-                    ],
-                }}
-              />
-            }
-          />,
         ]}>
         <ReactTable
           columns={columns}
@@ -129,6 +110,7 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
+            openEditModal={openDetailsModal}
           />
         )}
       </PageBlock>

@@ -25,6 +25,7 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
@@ -200,6 +201,12 @@ export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
 
 /**
 training center report**/
+
+export function useFetchTrainingCenterProgressReport(reportId: number | null) {
+  return useAxiosSWR(
+    reportId ? API_TRAINING_CENTERS_REPORTING_PROGRESS + '/' + reportId : null,
+  );
+}
 
 export const useFetchCombinedProgressReport = (reportId: number | null) => {
   return useAxiosSWR(
