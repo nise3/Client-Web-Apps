@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -16,14 +16,51 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import {trainingCenterCombinedProgressReportCreate} from '../../../services/instituteManagement/TrainingCenterReportService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomNumberInputReportForm from './CustomNumberInputReportForm';
 
 const ProgressReportCreatePage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage} = useSuccessMessage();
   const router = useRouter();
-  console.log('router->', router);
+  console.log('router->1', router);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
+  const initialValues = {
+    reporting_month: '',
+    voluntary_organizations_registered_in_current_month: 0,
+    members_up_to_previous_month_general_members: 0,
+    members_up_to_previous_month_life_member: 0,
+    members_up_to_previous_month_patron_member: 0,
+    members_up_to_previous_month_total: 0,
+    member_enrollment_in_reporting_month_general_members: 0,
+    member_enrollment_in_reporting_month_life_member: 0,
+    member_enrollment_in_reporting_month_patron_member: 0,
+    member_enrollment_in_reporting_month_total: 0,
+    total_number_of_members: 0,
+    subscriptions_collected_so_far: 0,
+    subscriptions_collected_in_current_month_organization: 0,
+    subscriptions_collected_in_current_month_member: 0,
+    subscriptions_collected_in_current_month_total: 0,
+    grants_received_in_current_month_source: '',
+    grants_received_in_current_month_amount: 0,
+    grants_received_in_current_month_total: 0,
+    gross_income: 0,
+    income_in_skills_development_sector_trades: 0,
+    income_in_skills_development_sector_money: 0,
+    expenditure_in_skill_development_training: 0,
+    expenditure_in_other_sectors: 0,
+    expenditure_total: 0,
+    total_income_in_the_training_sector: 0,
+    bank_status_and_account_number: '',
+    bank_interest: 0,
+    amount_of_fdr_and_bank_account_number: '',
+    number_of_meetings_held_during_current_financial_year: 0,
+    number_of_executive_council_meetings_in_current_month: 0,
+    names_and_numbers_of_other_meetings: '',
+    coordinating_council_meeting_total: 0,
+    other_activities_undertaken: '',
+  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -40,10 +77,16 @@ const ProgressReportCreatePage = () => {
     register,
     handleSubmit,
     setError,
+    reset,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    reset(initialValues);
+  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
@@ -91,8 +134,9 @@ const ProgressReportCreatePage = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='voluntary_organizations_registered_in_current_month'
+                setValue={setValue}
                 label={
                   messages[
                     'training_center_progress_report.voluntary_organizations_registered_in_current_month'
@@ -114,8 +158,9 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'members_up_to_previous_month_general_members'}
+                      setValue={setValue}
                       label={
                         messages[
                           'training_center_progress_report.general_members'
@@ -126,8 +171,9 @@ const ProgressReportCreatePage = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'members_up_to_previous_month_life_member'}
+                      setValue={setValue}
                       label={
                         messages[
                           'training_center_progress_report.lifetime_members'
@@ -138,20 +184,22 @@ const ProgressReportCreatePage = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'members_up_to_previous_month_patron_member'}
                       label={
                         messages[
                           'training_center_progress_report.patron_members'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'members_up_to_previous_month_total'}
+                      setValue={setValue}
                       label={
                         messages[
                           'training_center_progress_report.total_members'
@@ -175,10 +223,11 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={
                         'member_enrollment_in_reporting_month_general_members'
                       }
+                      setValue={setValue}
                       label={
                         messages[
                           'training_center_progress_report.general_members'
@@ -189,37 +238,40 @@ const ProgressReportCreatePage = () => {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'member_enrollment_in_reporting_month_life_member'}
                       label={
                         messages[
                           'training_center_progress_report.lifetime_members'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'member_enrollment_in_reporting_month_patron_member'}
                       label={
                         messages[
                           'training_center_progress_report.patron_members'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'member_enrollment_in_reporting_month_total'}
                       label={
                         messages[
                           'training_center_progress_report.total_members'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
@@ -229,24 +281,26 @@ const ProgressReportCreatePage = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='total_number_of_members'
                 label={
                   messages['training_center_progress_report.total_members']
                 }
+                setValue={setValue}
                 register={register}
                 errorInstance={errors}
               />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='subscriptions_collected_so_far'
                 label={
                   messages[
                     'training_center_progress_report.subscriptions_collected_so_far'
                   ]
                 }
+                setValue={setValue}
                 register={register}
                 errorInstance={errors}
               />
@@ -263,7 +317,7 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={
                         'subscriptions_collected_in_current_month_organization'
                       }
@@ -272,30 +326,33 @@ const ProgressReportCreatePage = () => {
                           'training_center_progress_report.subscriptions_collected_from_organization'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'subscriptions_collected_in_current_month_member'}
                       label={
                         messages[
                           'training_center_progress_report.subscriptions_collected_from_member'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'subscriptions_collected_in_current_month_total'}
                       label={
                         messages[
                           'training_center_progress_report.total_subscription'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
@@ -323,19 +380,21 @@ const ProgressReportCreatePage = () => {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'grants_received_in_current_month_amount'}
                       label={messages['common.amount']}
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'grants_received_in_current_month_total'}
                       label={
                         messages['training_center_progress_report.total_grants']
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
@@ -345,9 +404,10 @@ const ProgressReportCreatePage = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='gross_income'
                 label={messages['training_center_progress_report.gross_income']}
+                setValue={setValue}
                 register={register}
                 errorInstance={errors}
               />
@@ -363,25 +423,27 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'income_in_skills_development_sector_trades'}
                       label={
                         messages[
                           'training_center_progress_report.number_of_trades'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'income_in_skills_development_sector_money'}
                       label={
                         messages[
                           'training_center_progress_report.amount_of_money'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
@@ -400,37 +462,40 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'expenditure_in_skill_development_training'}
                       label={
                         messages[
                           'training_center_progress_report.expenditure_in_skill_development_training'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'expenditure_in_other_sectors'}
                       label={
                         messages[
                           'training_center_progress_report.expenditure_in_other_sectors'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'expenditure_total'}
                       label={
                         messages[
                           'training_center_progress_report.expenditure_total'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
@@ -439,13 +504,14 @@ const ProgressReportCreatePage = () => {
               </fieldset>
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='total_income_in_the_training_sector'
                 label={
                   messages[
                     'training_center_progress_report.total_income_in_the_training_sector'
                   ]
                 }
+                setValue={setValue}
                 register={register}
                 errorInstance={errors}
               />
@@ -463,11 +529,12 @@ const ProgressReportCreatePage = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='bank_interest'
                 label={
                   messages['training_center_progress_report.bank_interest']
                 }
+                setValue={setValue}
                 register={register}
                 errorInstance={errors}
               />
@@ -495,7 +562,7 @@ const ProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={
                         'number_of_meetings_held_during_current_financial_year'
                       }
@@ -504,15 +571,17 @@ const ProgressReportCreatePage = () => {
                           'training_center_progress_report.number_of_meetings_held_during_current_financial_year'
                         ]
                       }
+                      setValue={setValue}
                       register={register}
                       errorInstance={errors}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={
                         'number_of_executive_council_meetings_in_current_month'
                       }
+                      setValue={setValue}
                       label={
                         messages[
                           'training_center_progress_report.number_of_executive_council_meetings_in_current_month'
@@ -523,15 +592,16 @@ const ProgressReportCreatePage = () => {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id={'coordinating_council_meeting_total'}
+                      register={register}
+                      errorInstance={errors}
                       label={
                         messages[
                           'training_center_progress_report.coordinating_council_meeting_total'
                         ]
                       }
-                      register={register}
-                      errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
