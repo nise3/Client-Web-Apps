@@ -4,25 +4,43 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {Grid} from '@mui/material';
-import React from 'react';
+import React, {FC} from 'react';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useFetchCombinedProgressReport} from '../../../services/instituteManagement/hooks';
 
-type Props = {
+interface ProgressReportDetailsPopupProps {
   itemId: number | null;
   onClose: () => void;
-};
+}
 
-const ProgressReportDetailsPopup = ({itemId, ...props}: Props) => {
-  const {messages} = useIntl();
+const ProgressReportDetailsPopup: FC<ProgressReportDetailsPopupProps> = ({
+  itemId,
+  onClose,
+  ...props
+}) => {
+  const {messages, formatDate} = useIntl();
 
-  let itemData: any = {};
-  let isLoading: any = false;
+  const {data: itemData, isLoading: isLoading} =
+    useFetchCombinedProgressReport(itemId);
+
+  const getIntlDateFromString = (formatFn: any, dateStr: any) => {
+    const dt = new Date(dateStr).toLocaleString();
+    if (dt !== 'Invalid Date') {
+      return formatFn(dateStr, {
+        month: 'long',
+        year: 'numeric',
+      });
+    } else {
+      return dateStr;
+    }
+  };
 
   return (
     <>
       <CustomDetailsViewMuiModal
         open={true}
+        onClose={onClose}
         {...props}
         title={
           <>
@@ -33,10 +51,20 @@ const ProgressReportDetailsPopup = ({itemId, ...props}: Props) => {
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={isLoading} />
+            <CancelButton onClick={onClose} isLoading={isLoading} />
           </>
         }>
         <Grid container marginTop={'10px'} spacing={2} maxWidth={'md'}>
+          <Grid item xs={12}>
+            <DetailsInputView
+              isLoading={isLoading}
+              value={getIntlDateFromString(
+                formatDate,
+                itemData?.reporting_month,
+              )}
+              label={messages['common.reporting_month']}
+            />
+          </Grid>
           <Grid item xs={12}>
             <DetailsInputView
               isLoading={isLoading}
