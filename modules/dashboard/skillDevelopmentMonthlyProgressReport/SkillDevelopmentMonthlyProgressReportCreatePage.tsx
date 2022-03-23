@@ -17,6 +17,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {trainingCenterProgressReportCreate} from '../../../services/instituteManagement/TrainingCenterReportService';
+import CustomNumberInputReportForm from '../trainingCenterProgressReportCombined/CustomNumberInputReportForm';
 
 const initialValues = {
   reporting_month: '',
@@ -67,11 +68,7 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(
-          messages[
-            'skill_development_monthly_progress_report.reporting_month'
-          ] as string,
-        ),
+        .label(messages['common.reporting_month'] as string),
     });
   }, [messages]);
 
@@ -80,6 +77,7 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
     handleSubmit,
     reset,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -124,11 +122,7 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
               <CustomDateTimeField
                 required
                 id='reporting_month'
-                label={
-                  messages[
-                    'skill_development_monthly_progress_report.reporting_month'
-                  ]
-                }
+                label={messages['common.reporting_month']}
                 register={register}
                 errorInstance={errors}
               />
@@ -148,17 +142,18 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_trainers'
                 type={'number'}
                 label={messages['dashboard.total_trainers']}
                 register={register}
                 errorInstance={errors}
+                setValue={setValue}
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_labs_or_training_rooms'
                 type={'number'}
                 label={
@@ -168,11 +163,12 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 }
                 register={register}
                 errorInstance={errors}
+                setValue={setValue}
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_computers_or_training_equipments'
                 type={'number'}
                 label={
@@ -182,6 +178,7 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 }
                 register={register}
                 errorInstance={errors}
+                setValue={setValue}
               />
             </Grid>
 
@@ -196,72 +193,79 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_men'
                       type={'number'}
                       label={messages['common.male']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_women'
                       type={'number'}
                       label={messages['common.female']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_disabled'
                       type={'number'}
                       label={messages['common.disability']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_qawmi'
                       type={'number'}
                       label={messages['common.qawmi']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_transgender'
                       type={'number'}
                       label={messages['common.transgender']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_others'
                       type={'number'}
                       label={messages['common.others']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='admitted_trainee_total'
                       type={'number'}
                       label={messages['common.total']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
@@ -279,72 +283,79 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_men'
                       type={'number'}
                       label={messages['common.male']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_women'
                       type={'number'}
                       label={messages['common.female']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_disabled'
                       type={'number'}
                       label={messages['common.disability']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_qawmi'
                       type={'number'}
                       label={messages['common.qawmi']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_transgender'
                       type={'number'}
                       label={messages['common.transgender']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_others'
                       type={'number'}
                       label={messages['common.others']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='technical_board_registered_trainee_total'
                       type={'number'}
                       label={messages['common.total']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
@@ -362,72 +373,79 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_men'
                       type={'number'}
                       label={messages['common.male']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_women'
                       type={'number'}
                       label={messages['common.female']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_disabled'
                       type={'number'}
                       label={messages['common.disability']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_qawmi'
                       type={'number'}
                       label={messages['common.qawmi']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_transgender'
                       type={'number'}
                       label={messages['common.transgender']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_others'
                       type={'number'}
                       label={messages['common.others']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_attended_trainee_total'
                       type={'number'}
                       label={messages['common.total']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
@@ -445,72 +463,79 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_men'
                       type={'number'}
                       label={messages['common.male']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_women'
                       type={'number'}
                       label={messages['common.female']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_disabled'
                       type={'number'}
                       label={messages['common.disability']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_qawmi'
                       type={'number'}
                       label={messages['common.qawmi']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_transgender'
                       type={'number'}
                       label={messages['common.transgender']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_others'
                       type={'number'}
                       label={messages['common.others']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='latest_test_passed_trainee_total'
                       type={'number'}
                       label={messages['common.total']}
                       register={register}
                       errorInstance={errors}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
