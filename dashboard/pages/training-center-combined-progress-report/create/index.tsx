@@ -1,13 +1,13 @@
-import asyncComponent from '../../../@crema/utility/asyncComponent';
-import PageMeta from '../../../@crema/core/PageMeta';
-import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
+import asyncComponent from '../../../../@crema/utility/asyncComponent';
+import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
+import PageMeta from '../../../../@crema/core/PageMeta';
 
 const TrainingCenterProgressReportCreate = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/trainingCenterProgressReportCombined/ProgressReportCreate'
+      '../../../../modules/dashboard/trainingCenterProgressReportCombined/ProgressReportCreate'
     ),
 );
 export default DashboardPage(() => {

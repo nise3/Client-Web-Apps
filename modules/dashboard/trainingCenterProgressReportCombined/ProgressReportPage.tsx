@@ -83,8 +83,9 @@ const ProgressReportPage = () => {
         extra={[
           <Link
             key={1}
-            href={'/training-center-combined-progress-report-create'}>
+            href={'/training-center-combined-progress-report/create'}>
             <AddButton
+              onClick={() => {}}
               key={1}
               // isLoading={loading}
               tooltip={
