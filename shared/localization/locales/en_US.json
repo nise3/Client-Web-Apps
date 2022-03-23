@@ -1767,7 +1767,7 @@
   "skill_development_report.coordinating_committee": "Coordinator committee",
   "skill_development_report.total_fdr_amount": "Total fdr amount",
   "skill_development_report.label": "Skill Development Report",
-  "skill_development_report.current_session_trainees": "Number of Trainees Admitted in the Current Session",
+  "skill_development_report.current_session_Ftrainees": "Number of Trainees Admitted in the Current Session",
   "skill_development_report.trainees_from_the_start": "Number of Trainees from the Start",
   "skill_development_report.bank_static": "Bank Static",
   "skills_development_training_activities_income_expenditure_information.label": "Skills Development Training Activities Income Expenditure Information",
@@ -1825,5 +1825,16 @@
   "training_center_progress_report.coordinating_council_meeting_total": "Total meeting",
   "training_center_progress_report.information_about_coordinating_council_combined_meeting": "Information about coordinating council combined meeting",
   "training_center_progress_report.other_activities_undertaken": "Other activities undertaken in reported month",
-  "common.reporting_month": "Reporting month"
+  "common.reporting_month": "Reporting month",
+  "skill_development_monthly_progress_report.reporting_month": "reporting month",
+  "skill_development_monthly_progress_report.number_of_computers_or_training_equipments": "number of computers/training equipments",
+  "skill_development_monthly_progress_report.admitted_trainee": "Number of Admitted Trainee",
+  "skill_development_monthly_progress_report.technical_board_registered_trainee": "Number of Technical Board Registered Trainee",
+  "skill_development_monthly_progress_report.latest_test_attended_trainee": "Number of Latest Test Attended Trainee",
+  "skill_development_monthly_progress_report.latest_test_passed_trainee": "Number of Latest Test Passed Trainee",
+  "common.qawmi": "Qawmi",
+  "common.transgender": "Transgender",
+  "common.total": "Total",
+  "common.disability": "Disabled",
+  "skill_development_monthly_progress_report.label": "Monthly Progress Report on Skills Development Training Activities"
 }
