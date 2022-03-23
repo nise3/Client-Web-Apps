@@ -1799,6 +1799,7 @@
   "training_center_progress_report.names_and_numbers_of_other_meetings": "Names and number of other meetings",
   "training_center_progress_report.coordinating_council_meeting_total": "Total meeting",
   "training_center_progress_report.information_about_coordinating_council_combined_meeting": "Information about coordinating council combined meeting",
-  "training_center_progress_report.other_activities_undertaken": "Other activities undertaken in reported month"
+  "training_center_progress_report.other_activities_undertaken": "Other activities undertaken in reported month",
+  "common.reporting_month": "Reporting month"
 
 }
