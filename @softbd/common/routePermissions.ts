@@ -100,8 +100,8 @@ export const routePermissions: any = {
     routePrefix: '/skill-development-monthly-progress-report',
     permissionKeys: ['view_any_skill_development_monthly_progress_report'],
   },
-  '/training-center-combined-progress-report-create': {
-    routePrefix: '/training-center-combined-progress-report-create',
+  '/training-center-combined-progress-report/create': {
+    routePrefix: '/training-center-combined-progress-report/create',
     permissionKeys: ['view_any_training_center_survey'],
   },
   '/training-center-combined-progress-report': {
