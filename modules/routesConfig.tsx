@@ -711,7 +711,7 @@ const routesConfig: NavItemProps[] = [
             id: 'skill_development_monthly_progress_report',
             title: 'Skill Development Monthly Progress Report',
             messageId: 'skill_development_monthly_progress_report.label',
-            permissionKey: 'view_any_skill_development_monthly_progress_report',
+            permissionKey: 'view_any_training_center_survey',
             type: 'item',
             icon: 'timeline',
             url: '/skill-development-monthly-progress-report',
