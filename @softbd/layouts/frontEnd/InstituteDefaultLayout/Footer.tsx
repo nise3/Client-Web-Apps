@@ -117,7 +117,7 @@ const Footer = () => {
       staticPageParams,
     );
 
-    console.log('public institute details ', blockData)
+    // console.log('public institute details ', blockData)
 
   const getAddress = () => {
     let address = '';
