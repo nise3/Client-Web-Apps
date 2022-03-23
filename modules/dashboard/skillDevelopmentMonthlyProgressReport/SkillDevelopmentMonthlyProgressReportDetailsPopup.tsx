@@ -1,26 +1,28 @@
-import {useIntl} from 'react-intl';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import React from 'react';
+import {Grid} from '@mui/material';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {Grid} from '@mui/material';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import React from 'react';
+import {useFetchTrainingCenterProgressReport} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number | null;
   onClose: () => void;
+  openEditModal: (id: number) => void;
 };
 
 const SkillDevelopmentMonthlyProgressReportDetailsPopup = ({
   itemId,
+  openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-
-  let itemData: any = {};
-  let isLoading: any = false;
+  const {data: itemData, isLoading} =
+    useFetchTrainingCenterProgressReport(itemId);
 
   return (
     <>
