@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -22,8 +22,44 @@ const ProgressReportCreatePage = () => {
   const {errorStack} = useNotiStack();
   const {createSuccessMessage} = useSuccessMessage();
   const router = useRouter();
-  console.log('router->', router);
+  console.log('router->1', router);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
+  const initialValues = {
+    reporting_month: '',
+    voluntary_organizations_registered_in_current_month: 0,
+    members_up_to_previous_month_general_members: 0,
+    members_up_to_previous_month_life_member: 0,
+    members_up_to_previous_month_patron_member: 0,
+    members_up_to_previous_month_total: 0,
+    member_enrollment_in_reporting_month_general_members: 0,
+    member_enrollment_in_reporting_month_life_member: 0,
+    member_enrollment_in_reporting_month_patron_member: 0,
+    member_enrollment_in_reporting_month_total: 0,
+    total_number_of_members: 0,
+    subscriptions_collected_so_far: 0,
+    subscriptions_collected_in_current_month_organization: 0,
+    subscriptions_collected_in_current_month_member: 0,
+    subscriptions_collected_in_current_month_total: 0,
+    grants_received_in_current_month_source: '',
+    grants_received_in_current_month_amount: 0,
+    grants_received_in_current_month_total: 0,
+    gross_income: 0,
+    income_in_skills_development_sector_trades: 0,
+    income_in_skills_development_sector_money: 0,
+    expenditure_in_skill_development_training: 0,
+    expenditure_in_other_sectors: 0,
+    expenditure_total: 0,
+    total_income_in_the_training_sector: 0,
+    bank_status_and_account_number: '',
+    bank_interest: 0,
+    amount_of_fdr_and_bank_account_number: '',
+    number_of_meetings_held_during_current_financial_year: 0,
+    number_of_executive_council_meetings_in_current_month: 0,
+    names_and_numbers_of_other_meetings: '',
+    coordinating_council_meeting_total: 0,
+    other_activities_undertaken: '',
+  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -40,10 +76,15 @@ const ProgressReportCreatePage = () => {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    reset(initialValues);
+  }, []);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
