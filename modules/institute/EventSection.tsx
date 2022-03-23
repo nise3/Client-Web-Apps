@@ -10,7 +10,7 @@ import {
 import { Fade } from 'react-awesome-reveal';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import { H4 } from '../../@softbd/elements/common';
-import { useIntl } from 'react-intl';
+import { createIntl, useIntl } from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, { Children, useEffect, useState } from 'react';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -26,6 +26,7 @@ import {
   addStartEndPropsToList,
   eventsDateTimeMap,
 } from '../../services/global/globalService';
+import { createIntlCache, formatNumber } from '@formatjs/intl';
 
 const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
@@ -91,8 +92,16 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 }));
 
 const EventSection = () => {
-  const { messages, formatDate } = useIntl();
+  const { messages, formatDate, locale } = useIntl();
   const dateFormat = 'YYYY-MM-DD';
+  const cache = createIntlCache();
+  const intl = createIntl(
+    {
+      locale: locale,
+      messages: {},
+    },
+    cache
+  );
 
   const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
@@ -158,16 +167,21 @@ const EventSection = () => {
       },
     })
   }
-
+  
   const customDateCellWrap = (e: any) => {
+    const dateNumber = intl.formatNumber(e.label);
+    const dateFontSize = { fontSize: '1.5rem' };
+    const dateSpan = <span style={dateFontSize}>{ dateNumber }</span>;
     return <div>
       {
         hasEvent(parsDate(e.date), startDates) ?
           <div style={{ color: '#fff', position: 'relative' }}>
-            <span>{e.label}</span>
-            <div style={{ position: 'absolute', backgroundColor: '#fff', color: '#671688', padding: '3px', borderRadius: '5px' }}>{eventsByDate(parsDate(e.date), startDates).length}</div>
+            {dateSpan}
+            <div style={{ fontSize: '0.8rem', position: 'absolute', backgroundColor: '#fff', color: '#671688', padding: '3px', borderRadius: '5px' }}>
+              {intl.formatNumber(eventsByDate(parsDate(e.date), startDates).length)}
+            </div>
           </div> :
-          <span>{e.label}</span>
+          dateSpan
       }
 
     </div>
