@@ -136,6 +136,23 @@ const EventSection = () => {
     // console.log(item);
   };
 
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    console.log('eventStyleGetter ', event);
+    var backgroundColor = '#' + event.hexColor;
+    var style = {
+        backgroundColor: backgroundColor,
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block'
+    };
+    return {
+        style: style
+    };
+}
+  // console.log('eventsList ', eventsList)
+
   return (
     <StyledContainer maxWidth='lg'>
       <Fade direction='up'>
@@ -196,6 +213,7 @@ const EventSection = () => {
                     return {...prev, month, year};
                   });
                 }}
+                eventPropGetter={eventStyleGetter}
               />
             </Grid>
           </Grid>

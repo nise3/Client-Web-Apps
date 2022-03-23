@@ -99,6 +99,19 @@ export const isLatLongValid = (val: string): boolean => {
   }
 }
 
+export const GEO_VALIDATION = (yup:any, messages: any) => {
+  return {
+    isLatValid: yup
+    .string()
+    .nullable()
+    .test(
+      'lat-err',
+      `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+      (value: string) => isLatLongValid(value),
+    )
+  } 
+}
+
 export const FORM_PLACEHOLDER = {
   LATITUDE: '23.000000...',
   LONGITUDE: '90.000000...',
