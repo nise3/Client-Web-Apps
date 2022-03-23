@@ -8,7 +8,7 @@ const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
   asyncComponent(
     () =>
       import(
-        '../../../modules/dashboard/skillsDevelopmentTrainingActivitiesIncomeExpenditureInformation/SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage'
+        '../../../modules/dashboard/trainingCenterReportIncomeExpenditure/TrainingCenterReportIncomeExpenditurePage'
       ),
   );
 export default DashboardPage(() => {
@@ -26,7 +26,3 @@ export default DashboardPage(() => {
     </>
   );
 });
-
-// SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformation
-// skills-development-training-activities-income-expenditure-information
-// skills_development_training_activities_income_expenditure_information

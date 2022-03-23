@@ -27,6 +27,7 @@ import {
   API_TRAINING_CENTERS,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
+  API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -157,6 +158,7 @@ export function useFetchApplicationDetails(applicationId: number | null) {
     applicationId ? API_COURSE_ENROLLMENTS + '/' + applicationId : null,
   );
 }
+
 /** fetches a single assessment's details */
 export function useFetchAssessmentDetails(assessmentId: number | null) {
   return useAxiosSWR(
@@ -200,7 +202,7 @@ export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
 };
 
 /**
-training center report**/
+ training center report**/
 
 export function useFetchTrainingCenterProgressReport(reportId: number | null) {
   return useAxiosSWR(
@@ -212,6 +214,18 @@ export const useFetchCombinedProgressReport = (reportId: number | null) => {
   return useAxiosSWR(
     reportId
       ? API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS + '/' + reportId
+      : null,
+  );
+};
+
+export const useFetchTrainingCenterReportIncomeExpenditure = (
+  incomeExpenditureId: number | null,
+) => {
+  return useAxiosSWR(
+    incomeExpenditureId
+      ? API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE +
+          '/' +
+          incomeExpenditureId
       : null,
   );
 };
