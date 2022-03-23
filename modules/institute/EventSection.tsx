@@ -135,9 +135,9 @@ const EventSection = () => {
     setSelectedDateItems(e.start);
   };
 
-  const startDates = eventsList.map(e => moment(e.start).format('DD-MM-yyyy')) as string[];
+  const startDates = eventsList.map(e => moment(e.start).format(dateFormat)) as string[];
   const hasEvent = (currentDate: string, allDates: string[]): boolean => allDates.find(e => e == currentDate) != undefined;
-  const parsDate = (datevalue: any): string => moment(datevalue).format('DD-MM-yyyy');
+  const parsDate = (datevalue: any): string => moment(datevalue).format(dateFormat);
   const eventsByDate = (currentDate: string, allDates: string[]): string[] => allDates.filter(e => e == currentDate);
 
   // example implementation of a wrapper
