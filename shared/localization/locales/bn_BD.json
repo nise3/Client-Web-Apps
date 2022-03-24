@@ -1747,6 +1747,7 @@
   "validation.cgpa_range": "সিজিপিএ 5 এর মধ্যে হতে হবে",
   "common.score": "প্রাপ্ত নাম্বার(%)",
   "yup_validation_invalid_row_status": "অবস্থার ভ্যালু সঠিক না",
+  "invalid_start_date": "{path} রেজিষ্ট্রেশন শেষ তারিখের আগে হতে হবে",
   "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি",
   "rpl_occupation.country": "পেশা (দেশ ভিত্তিক)",
   "rpl_sector.country": "সেক্টর (দেশ ভিত্তিক)",
