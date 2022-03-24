@@ -175,6 +175,7 @@
   "common.contact_person_email": "কন্টাক্ট পারসনের ইমেইল",
   "common.contact_person_designation": "কন্টাক্ট পারসনের পদবী",
   "common.contact_person_designation_en": "কন্টাক্ট পারসনের পদবী (ইংরেজি)",
+  "common.contact_person_info": "কন্টাক্ট পারসনের তথ্য",
   "common.description": "বর্ণণা",
   "common.description_en": "বর্ণণা (ইংরেজি)",
   "common.required_field": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
