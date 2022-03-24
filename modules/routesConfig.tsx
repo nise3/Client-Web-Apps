@@ -685,7 +685,7 @@ const routesConfig: NavItemProps[] = [
           //   permissionKey: 'view_any_training_center_report',
           //   type: 'item',
           //   icon: 'timeline',
-          //   url: '/skill-development-report',
+          //   url: '/training-center-reports/skill-development-report',
           // },
           {
             id: 'training_center_report_income_expenditure',
@@ -695,7 +695,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_training_center_report',
             type: 'item',
             icon: 'timeline',
-            url: 'training-center-reports/income-expenditure-report',
+            url: '/training-center-reports/income-expenditure-report',
           },
           {
             id: 'training_center_combined_progress_report',
