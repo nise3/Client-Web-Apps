@@ -1749,5 +1749,6 @@
   "common.no_data_found_dynamic": "No {messageType} found",
   "rpl_occupation.country": "Occupation (Country wise)",
   "rpl_sector.country": "Sector (Country wise)",
-  "rpl_level.country": "Level (Country wise)"
+  "rpl_level.country": "Level (Country wise)",
+  "update_password.label": "Update Password"
 }

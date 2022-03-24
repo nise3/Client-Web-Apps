@@ -236,6 +236,8 @@ export const API_YOUTH_LANGUAGE_PROFICIENCIES =
   YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
 export const API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE =
   YOUTH_SERVICE_PATH + '/youth-set-default-cv-template';
+export const API_YOUTH_UPDATE_PASSWORD =
+  YOUTH_SERVICE_PATH + '/youth-password-update';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
