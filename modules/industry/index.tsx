@@ -5,6 +5,7 @@ import NoticeAndEventSection from './NoticeAndEventSection';
 import AboutUsSection from './AboutUsSection';
 /*import TrainingSection from './TrainingSection';*/
 import AssociationMembersSection from './AssociationMembersSection';
+import PopularCourse from '../home/PopularCourse';
 
 const Industry = () => {
   return (
@@ -14,6 +15,7 @@ const Industry = () => {
       <NoticeAndEventSection />
       <AboutUsSection />
       {/*<TrainingSection />*/}
+      <PopularCourse />
       <AssociationMembersSection />
     </>
   );

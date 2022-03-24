@@ -39,6 +39,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
   color: '#fff',
   paddingTop: 20,
   paddingBottom: 20,
+  borderTop: `1px solid ${theme.palette.primary.dark}`,
 
   [`& .${classes.thinSearchButton}`]: {
     color: '#fff',
