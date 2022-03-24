@@ -6,12 +6,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import SkillDevelopmentMonthlyProgressReportDetailsPopup from './SkillDevelopmentMonthlyProgressReportDetailsPopup';
+import SkillDevelopmentReportDetailsPopup from './SkillDevelopmentReportDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {Link} from '../../../@softbd/elements/common';
-import {API_TRAINING_CENTERS_REPORTING_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
-const SkillDevelopmentMonthlyProgressReportPage = () => {
+const SkillDevelopmentReportPage = () => {
   const {messages} = useIntl();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -38,16 +37,13 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
       },
 
       {
-        Header:
-          messages[
-            'skills_development_training_activities_income_expenditure_information.trade_name'
-          ],
-        accessor: 'trade_name',
+        Header: messages['skill_development_report.approved_trade_number'],
+        accessor: 'approved_trade_number',
         disableFilters: true,
       },
       {
-        Header: messages['dashboard.total_trainers'],
-        accessor: 'number_of_trainers',
+        Header: messages['skill_development_report.current_trade_number'],
+        accessor: 'score',
         disableFilters: true,
       },
       {
@@ -62,9 +58,10 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
     [messages],
   );
 
+  //todo: urlPath must be given after getting api
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_TRAINING_CENTERS_REPORTING_PROGRESS,
+      urlPath: '/rt',
     });
 
   return (
@@ -72,30 +69,39 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser />{' '}
-            <IntlMessages id='skill_development_monthly_progress_report.label' />
+            <IconUser /> <IntlMessages id='skill_development_report.label' />
           </>
         }
         extra={[
-          <Link
-            key={selectedItemId}
-            href={`/skill-development-monthly-progress-report-create`}>
+          <Link key={selectedItemId} href={'/create'}>
             <AddButton
-              onClick={() => {}}
+              onClick={() => openDetailsModal(3)} //todo: item id must be integrated here after getting api
               isLoading={loading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject:
-                      messages[
-                        'skills_development_training_activities_income_expenditure_information.label'
-                      ],
+                    subject: messages['skill_development_report.label'],
                   }}
                 />
               }
             />
           </Link>,
+
+          //todo: this will be removed after getting api..
+          <AddButton
+            key={Math.random()}
+            onClick={() => openDetailsModal(1)}
+            isLoading={loading}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['skill_development_report.label'],
+                }}
+              />
+            }
+          />,
         ]}>
         <ReactTable
           columns={columns}
@@ -107,11 +113,10 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
         />
 
         {isOpenDetailsModal && (
-          <SkillDevelopmentMonthlyProgressReportDetailsPopup
+          <SkillDevelopmentReportDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            openEditModal={openDetailsModal}
           />
         )}
       </PageBlock>
@@ -119,4 +124,4 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
   );
 };
 
-export default SkillDevelopmentMonthlyProgressReportPage;
+export default SkillDevelopmentReportPage;

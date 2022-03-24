@@ -14,7 +14,7 @@ interface ProgressReportDetailsPopupProps {
   onClose: () => void;
 }
 
-const ProgressReportDetailsPopup: FC<ProgressReportDetailsPopupProps> = ({
+const CombinedProgressReportDetailsPopup: FC<ProgressReportDetailsPopupProps> = ({
   itemId,
   onClose,
   ...props
@@ -511,4 +511,4 @@ const ProgressReportDetailsPopup: FC<ProgressReportDetailsPopupProps> = ({
   );
 };
 
-export default ProgressReportDetailsPopup;
+export default CombinedProgressReportDetailsPopup;

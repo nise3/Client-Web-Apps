@@ -14,7 +14,7 @@ type IProps = {
   onClose: () => void;
 };
 
-const TrainingCenterReportIncomeExpenditureDetailsPopup = ({
+const IncomeExpenditureReportDetailsPopup = ({
   itemId,
   ...props
 }: IProps) => {
@@ -242,4 +242,4 @@ const TrainingCenterReportIncomeExpenditureDetailsPopup = ({
   );
 };
 
-export default TrainingCenterReportIncomeExpenditureDetailsPopup;
+export default IncomeExpenditureReportDetailsPopup;

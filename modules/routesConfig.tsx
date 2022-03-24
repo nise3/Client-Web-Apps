@@ -695,7 +695,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_training_center_survey',
             type: 'item',
             icon: 'timeline',
-            url: '/training-center-report-income-expenditure',
+            url: 'training-center-reports/income-expenditure-report',
           },
           {
             id: 'training_center_combined_progress_report',
@@ -704,7 +704,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_training_center_survey',
             type: 'item',
             icon: 'timeline',
-            url: '/training-center-combined-progress-report',
+            url: '/training-center-reports/combined-progress-report',
           },
           {
             id: 'skill_development_monthly_progress_report',
@@ -713,7 +713,7 @@ const routesConfig: NavItemProps[] = [
             permissionKey: 'view_any_training_center_survey',
             type: 'item',
             icon: 'timeline',
-            url: '/skill-development-monthly-progress-report',
+            url: '/training-center-reports/monthly-progress-report',
           },
         ],
       },

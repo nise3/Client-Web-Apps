@@ -9,10 +9,10 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {Link} from '../../../@softbd/elements/common';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import ProgressReportDetailsPopup from './ProgressReportDetailsPopup';
+import CombinedProgressReportDetailsPopup from './CombinedProgressReportDetailsPopup';
 import {API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
-const ProgressReportPage = () => {
+const CombinedProgressReportPage = () => {
   const {messages} = useIntl();
   const [itemId, setItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -81,9 +81,7 @@ const ProgressReportPage = () => {
           </>
         }
         extra={[
-          <Link
-            key={1}
-            href={'/training-center-combined-progress-report/create'}>
+          <Link key={1} href={'/create'}>
             <AddButton
               onClick={() => {}}
               key={1}
@@ -112,7 +110,7 @@ const ProgressReportPage = () => {
         />
 
         {isOpenDetailsModal && (
-          <ProgressReportDetailsPopup
+          <CombinedProgressReportDetailsPopup
             key={1}
             itemId={itemId}
             onClose={closeDetailsModal}
@@ -123,4 +121,4 @@ const ProgressReportPage = () => {
   );
 };
 
-export default ProgressReportPage;
+export default CombinedProgressReportPage;

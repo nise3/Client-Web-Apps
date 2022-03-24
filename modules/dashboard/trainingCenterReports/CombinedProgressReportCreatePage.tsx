@@ -23,7 +23,6 @@ const ProgressReportCreatePage = () => {
   const {errorStack} = useNotiStack();
   const {createSuccessMessage} = useSuccessMessage();
   const router = useRouter();
-  console.log('router->1', router);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const initialValues = {
@@ -88,8 +87,9 @@ const ProgressReportCreatePage = () => {
     reset(initialValues);
   }, []);
 
+  console.log('errors: ', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
+    //console.log(data);
     try {
       await trainingCenterCombinedProgressReportCreate(data);
       createSuccessMessage('training_center_progress_report_combined.label');
