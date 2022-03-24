@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from 'react';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import {
   Button,
   Divider,
@@ -16,6 +17,7 @@ import {
   LINK_FRONTEND_YOUTH_MY_CV,
   LINK_FRONTEND_YOUTH_MY_JOBS,
   LINK_FRONTEND_YOUTH_ROOT,
+  LINK_FRONTEND_YOUTH_UPDATE_PASSWORD,
 } from '../../../common/appLinks';
 import {
   DesktopMac,
@@ -149,6 +151,15 @@ const YouthProfileMenu = () => {
               <Settings />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.settings']}</ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider />
+        <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
+          <MenuItem>
+            <ListItemIcon>
+              <LockResetIcon />
+            </ListItemIcon>
+            <ListItemText>{messages['update_password.label']}</ListItemText>
           </MenuItem>
         </Link>
         <Divider />

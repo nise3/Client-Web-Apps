@@ -1749,5 +1749,6 @@
   "common.no_data_found_dynamic": "কোনো {messageType} পাওয়া যায়নি",
   "rpl_occupation.country": "পেশা (দেশ ভিত্তিক)",
   "rpl_sector.country": "সেক্টর (দেশ ভিত্তিক)",
-  "rpl_level.country": "লেভেল (দেশ ভিত্তিক)"
+  "rpl_level.country": "লেভেল (দেশ ভিত্তিক)",
+  "update_password.label": "পাসওয়ার্ড আপডেট"
 }

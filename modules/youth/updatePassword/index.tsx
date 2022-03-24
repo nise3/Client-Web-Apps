@@ -3,18 +3,18 @@ import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {TEXT_REGEX_PASSWORD} from '../../../@softbd/common/patternRegex';
-import {Paper, Typography, Button, Container, Grid} from '@mui/material';
+import {Button, Container, Grid, Paper, Typography} from '@mui/material';
 import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {updatePassword} from '../../../services/userManagement/UserService';
 import Router, {useRouter} from 'next/router';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {updateYouthPassword} from '../../../services/youthManagement/YouthService';
 
 const PREFIX = 'UpdatePassword';
 const classes = {
@@ -45,6 +45,7 @@ interface FormData {
   new_password: String;
   confirm_new_password: String;
 }
+
 const UpdatePasswordPage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
@@ -89,10 +90,11 @@ const UpdatePasswordPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: FormData) => {
     try {
-      if (authUser?.userId) {
-        const userId: number = Number(authUser?.userId);
-        await updatePassword(userId, data);
+      if (authUser?.isYouthUser) {
+        await updateYouthPassword(data);
         updateSuccessMessage(messages['common.change_password'] as string);
+        router.back();
+      } else {
         router.back();
       }
     } catch (error: any) {

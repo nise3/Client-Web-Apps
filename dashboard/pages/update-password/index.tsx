@@ -14,7 +14,7 @@ export default AuthenticatedBlankPage(() => {
   const {messages} = useIntl();
   return (
     <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
-      <PageMeta title={messages['permission-group.label']} />
+      <PageMeta title={messages['update_password.label']} />
       <UpdatePasswordPage />
     </ThemeProvider>
   );
