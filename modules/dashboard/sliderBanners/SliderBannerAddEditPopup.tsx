@@ -567,7 +567,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
                 onClick={onAddOtherLanguageClick}
                 disabled={!selectedLanguageCode}>
                 <Add />
-                {messages['faq.add_language']}
+                {messages['slider_banner.add_language']}
               </Button>
             </Grid>
           </Grid>

@@ -648,7 +648,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['gallery_album_content.add_language']}
           </Button>
         </Grid>
 

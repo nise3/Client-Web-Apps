@@ -428,7 +428,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconStaticPage/>
+          <IconStaticPage />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -670,7 +670,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['notice_or_news.add_language']}
           </Button>
         </Grid>
 
