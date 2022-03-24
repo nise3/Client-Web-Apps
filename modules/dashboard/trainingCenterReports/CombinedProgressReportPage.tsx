@@ -11,9 +11,17 @@ import {Link} from '../../../@softbd/elements/common';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import CombinedProgressReportDetailsPopup from './CombinedProgressReportDetailsPopup';
 import {API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS} from '../../../@softbd/common/apiRoutes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
 
 const CombinedProgressReportPage = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<CommonAuthUser>();
+  const hasCreatePermission = useMemo(
+    () => hasCreateTrainingCenterReportPermission(authUser),
+    [authUser],
+  );
   const [itemId, setItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
@@ -81,26 +89,28 @@ const CombinedProgressReportPage = () => {
           </>
         }
         extra={[
-          <Link
-            key={1}
-            href={'/training-center-reports/combined-progress-report/create'}>
-            <AddButton
-              onClick={() => {}}
+          hasCreatePermission && (
+            <Link
               key={1}
-              // isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject:
-                      messages[
-                        'training_center_progress_report_combined.label'
-                      ],
-                  }}
-                />
-              }
-            />
-          </Link>,
+              href={'/training-center-reports/combined-progress-report/create'}>
+              <AddButton
+                onClick={() => {}}
+                key={1}
+                // isLoading={loading}
+                tooltip={
+                  <IntlMessages
+                    id={'common.add_new'}
+                    values={{
+                      subject:
+                        messages[
+                          'training_center_progress_report_combined.label'
+                        ],
+                    }}
+                  />
+                }
+              />
+            </Link>
+          ),
         ]}>
         <ReactTable
           columns={columns}

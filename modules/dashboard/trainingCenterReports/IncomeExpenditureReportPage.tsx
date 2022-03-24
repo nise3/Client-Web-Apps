@@ -10,10 +10,17 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE} from '../../../@softbd/common/apiRoutes';
 import IncomeExpenditureReportDetailsPopup from './IncomeExpenditureReportDetailsPopup';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
 
 const IncomeExpenditureReportPage = () => {
   const {messages} = useIntl();
-
+  const authUser = useAuthUser<CommonAuthUser>();
+  const hasCreatePermission = useMemo(
+    () => hasCreateTrainingCenterReportPermission(authUser),
+    [authUser],
+  );
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -80,25 +87,29 @@ const IncomeExpenditureReportPage = () => {
           </>
         }
         extra={[
-          <Link
-            key={1}
-            href={'/training-center-reports/income-expenditure-report/create'}>
-            <AddButton
-              onClick={() => {}}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject:
-                      messages[
-                        'skills_development_training_activities_income_expenditure_information.label'
-                      ],
-                  }}
-                />
-              }
-            />
-          </Link>,
+          hasCreatePermission && (
+            <Link
+              key={1}
+              href={
+                '/training-center-reports/income-expenditure-report/create'
+              }>
+              <AddButton
+                onClick={() => {}}
+                isLoading={loading}
+                tooltip={
+                  <IntlMessages
+                    id={'common.add_new'}
+                    values={{
+                      subject:
+                        messages[
+                          'skills_development_training_activities_income_expenditure_information.label'
+                        ],
+                    }}
+                  />
+                }
+              />
+            </Link>
+          ),
         ]}>
         <ReactTable
           columns={columns}
