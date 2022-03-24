@@ -155,6 +155,7 @@
   "common.mobile": "মোবাইল নাম্বার",
   "common.invalid_mobile": "মোবাইল নাম্বার সঠিক নয়",
   "common.invalid_date_of_birth": "জন্ম তারিখ ৫ বছরের বেশি হতে হবে",
+  "common.invalid_date_of_birth_20": "জন্ম তারিখ 20 বছরের বেশি হতে হবে",
   "common.invalid_phone": "ফোন নাম্বার সঠিক নয়",
   "common.notice_and_news": "সংবাদ ও বিজ্ঞপ্তি",
   "common.nid_validation": "এন আই ডি ফরমেট সঠিক নয়",
@@ -1757,5 +1758,7 @@
   "calendar.Wed": "বুধ",
   "calendar.Thu": "বৃহঃ",
   "calendar.Fri": "শুক্র",
-  "calendar.Sat": "শনি"
+  "calendar.Sat": "শনি",
+  "yup_validation_invalid_start_date" : "শুরুর তারিখ অবশ্যই আজকের থেকে কম বা সমান হতে হবে",
+  "yup_validation_invalid_end_date" : "শেষ তারিখ অবশ্যই শুরুর তারিখের চেয়ে বেশি বা সমান হতে হবে"
 }

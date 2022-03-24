@@ -97,7 +97,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
         .label(messages['common.date_of_birth'] as string)
         .test(
           'DOB',
-          messages['common.invalid_date_of_birth'] as string,
+          messages['common.invalid_date_of_birth_20'] as string,
           (value) =>
             !value ||
             Boolean(
