@@ -493,7 +493,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconVideo/>
+          <IconVideo />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -763,7 +763,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['recent_activities.add_language']}
           </Button>
         </Grid>
 
