@@ -10,7 +10,7 @@ import {useFetchYouthJobExperiences} from '../../../../services/youthManagement/
 import JobExperienceAddEditPage from './JobExperienceAddEditPage';
 import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
-import {Avatar, Box, Typography} from '@mui/material';
+import {Avatar, Box} from '@mui/material';
 import {deleteJobExperience} from '../../../../services/youthManagement/JobExperienceService';
 import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
@@ -95,12 +95,11 @@ const JobExperienceSection = () => {
           <HorizontalLine />
           <Box sx={{display: 'flex'}}>
             <Avatar>C</Avatar>
-            <Typography style={{marginLeft: '15px'}}>
-              <NoDataFoundComponent
-                messageType={messages['common.job_experience']}
-                messageTextType={'inherit'}
-              />
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['common.job_experience']}
+              messageTextType={'inherit'}
+              sx={{marginLeft: '15px', marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (

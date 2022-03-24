@@ -9,6 +9,8 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useIntl} from 'react-intl';
 import Avatar from '@mui/material/Avatar';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import {Button} from '@mui/material';
+import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'UserInfoDetailsPopup';
 
@@ -50,6 +52,11 @@ export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
       maxWidth={'md'}
       actions={
         <>
+          <Button variant='outlined' size='medium'>
+            <Link href='/update-password'>
+              {messages['common.change_password']}
+            </Link>
+          </Button>
           <EditButton onClick={() => openEditModal()} />
         </>
       }>

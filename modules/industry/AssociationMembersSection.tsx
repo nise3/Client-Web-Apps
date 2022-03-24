@@ -8,6 +8,7 @@ import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {useFetchPublicIndustryMembers} from '../../services/IndustryManagement/hooks';
 import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../@softbd/common/appLinks';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
 
 const PREFIX = 'Partners';
 
@@ -55,9 +56,8 @@ const AssociationMembersSection = () => {
 
   const [industryAssocMemberFilter] = useState<any>({});
 
-  const {data: members} = useFetchPublicIndustryMembers(
-    industryAssocMemberFilter,
-  );
+  const {data: members, isLoading: isLoadingMembers} =
+    useFetchPublicIndustryMembers(industryAssocMemberFilter);
 
   const cardItem = (member: any, key: number) => {
     return (
@@ -70,7 +70,7 @@ const AssociationMembersSection = () => {
             <Box className={classes.imageAlt}>
               <img
                 className={classes.image}
-                src={member?.logo}
+                src={member?.logo ?? '/images/blank_image.png'}
                 alt={member?.title}
                 title={member?.title}
               />
@@ -88,7 +88,9 @@ const AssociationMembersSection = () => {
           {messages['industry_association.members']}
         </UnderlinedHeading>
         <Box mb={2} sx={{marginTop: '-16px'}}>
-          {members && members.length > 0 ? (
+          {isLoadingMembers ? (
+            <BoxCardsSkeleton />
+          ) : members && members.length > 0 ? (
             <CustomCarousel>
               {members.map((partner: any, key: number) =>
                 cardItem(partner, key),

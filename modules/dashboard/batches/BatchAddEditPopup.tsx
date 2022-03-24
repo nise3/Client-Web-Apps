@@ -24,6 +24,7 @@ import {
   useFetchBatch,
   useFetchBranches,
   useFetchCourses,
+  useFetchInstitute,
   useFetchTrainers,
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
@@ -31,8 +32,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {ITrainer, IBatch} from '../../../shared/Interface/institute.interface';
+import {IBatch, ITrainer} from '../../../shared/Interface/institute.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
@@ -48,6 +48,7 @@ const initialValues = {
   course_id: '',
   programme_id: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   training_center_id: '',
   registration_start_date: '',
@@ -55,7 +56,7 @@ const initialValues = {
   batch_start_date: '',
   batch_end_date: '',
   number_of_seats: '',
-  available_seats: '',
+  // available_seats: '',
   row_status: '1',
   trainers: [],
 };
@@ -71,9 +72,9 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser<CommonAuthUser>();
 
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitute(instituteFilters);
 
   const {
     data: itemData,
@@ -106,14 +107,13 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id:
-        authUser && authUser?.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['institute.label'] as string)
-          : yup.string(),
+      institute_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string)
+        : yup.string().nullable(),
       course_id: yup
         .string()
         .trim()
@@ -132,11 +132,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['batches.total_seat'] as string),
-      available_seats: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['batches.available_seat'] as string),
+      // available_seats: yup
+      //   .string()
+      //   .trim()
+      //   .required()
+      //   .label(messages['batches.available_seat'] as string),
       registration_start_date: yup
         .string()
         .trim()
@@ -177,25 +177,23 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser?.isSystemUser) {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let response = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          if (response && response?.data) {
-            setInstitutes(response.data);
-          }
-        } catch (e) {}
-      })();
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
 
-    if (!authUser?.isTrainingCenterUser) {
+    if (
+      !authUser?.isTrainingCenterUser &&
+      !authUser?.isIndustryAssociationUser
+    ) {
       setBranchFilters({
         row_status: RowStatus.ACTIVE,
       });
 
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+
+    if (authUser?.isIndustryAssociationUser) {
       setTrainingCenterFilters({
         row_status: RowStatus.ACTIVE,
       });
@@ -209,6 +207,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         title: itemData?.title,
         course_id: itemData?.course_id,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         training_center_id: itemData?.training_center_id,
         registration_start_date: itemData?.registration_start_date
@@ -224,7 +223,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           ? getMomentDateFormat(itemData.batch_end_date, 'YYYY-MM-DD')
           : '',
         number_of_seats: itemData?.number_of_seats,
-        available_seats: itemData?.available_seats,
+        // available_seats: itemData?.available_seats,
         trainers: getTrainerIds(itemData?.trainers),
         row_status: String(itemData?.row_status),
       });
@@ -234,7 +233,10 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         institute_id: itemData?.institute_id,
       });
 
-      if (!authUser?.isTrainingCenterUser) {
+      if (
+        !authUser?.isTrainingCenterUser &&
+        !authUser?.isIndustryAssociationUser
+      ) {
         setBranchFilters({
           row_status: RowStatus.ACTIVE,
           institute_id: itemData?.institute_id,
@@ -300,6 +302,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
     if (!authUser?.isSystemUser) {
       delete data.institute_id;
+      delete data.industry_association_id;
     }
 
     if (authUser?.isTrainingCenterUser) {
@@ -410,20 +413,21 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
         {!authUser?.isTrainingCenterUser && (
           <React.Fragment>
-            <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                id='branch_id'
-                label={messages['branch.label']}
-                isLoading={isLoadingBranches}
-                control={control}
-                options={branches}
-                optionValueProp='id'
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={onBranchChange}
-              />
-            </Grid>
-
+            {!authUser?.isIndustryAssociationUser && (
+              <Grid item xs={12} md={6}>
+                <CustomFormSelect
+                  id='branch_id'
+                  label={messages['branch.label']}
+                  isLoading={isLoadingBranches}
+                  control={control}
+                  options={branches}
+                  optionValueProp='id'
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={onBranchChange}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} md={6}>
               <CustomFormSelect
                 required
@@ -505,18 +509,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='available_seats'
-            label={messages['batches.available_seat']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
+        <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
             isLoading={isLoadingTrainers}
@@ -528,7 +521,30 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             multiple={true}
             defaultValue={initialValues.trainers}
           />
+          {/* <CustomTextInput
+            required
+            id='available_seats'
+            label={messages['batches.available_seat']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          /> */}
         </Grid>
+
+        {/* <Grid item xs={12} md={6}>
+            <CustomFormSelect
+            id='trainers'
+            label={messages['trainers.label']}
+            isLoading={isLoadingTrainers}
+            control={control}
+            options={trainers}
+            optionValueProp='id'
+            optionTitleProp={['trainer_name_en', 'trainer_name']}
+            errorInstance={errors}
+            multiple={true}
+            defaultValue={initialValues.trainers}
+          />
+        </Grid> */}
 
         <Grid item xs={12} md={6}>
           <FormRowStatus

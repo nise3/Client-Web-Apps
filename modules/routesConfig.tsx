@@ -670,6 +670,53 @@ const routesConfig: NavItemProps[] = [
         icon: 'feed',
         url: '/cv-bank',
       },
+      {
+        id: 'training_center_report',
+        title: 'Training center report',
+        messageId: 'training_center_report.label',
+        type: 'collapse',
+        icon: 'source',
+        children: [
+          //todo: hiding on demand(not necessary)
+          // {
+          //   id: 'skill_development_report',
+          //   title: 'Skill Development Report',
+          //   messageId: 'skill_development_report.label',
+          //   permissionKey: 'view_any_training_center_report',
+          //   type: 'item',
+          //   icon: 'timeline',
+          //   url: '/training-center-reports/skill-development-report',
+          // },
+          {
+            id: 'training_center_report_income_expenditure',
+            title: 'Training Center Report Income Expenditure',
+            messageId:
+              'skills_development_training_activities_income_expenditure_information.label',
+            permissionKey: 'view_any_training_center_report',
+            type: 'item',
+            icon: 'timeline',
+            url: '/training-center-reports/income-expenditure-report',
+          },
+          {
+            id: 'training_center_combined_progress_report',
+            title: 'Training center combined progress report',
+            messageId: 'training_center_progress_report_combined.label',
+            permissionKey: 'view_any_training_center_report',
+            type: 'item',
+            icon: 'timeline',
+            url: '/training-center-reports/combined-progress-report',
+          },
+          {
+            id: 'skill_development_monthly_progress_report',
+            title: 'Skill Development Monthly Progress Report',
+            messageId: 'skill_development_monthly_progress_report.label',
+            permissionKey: 'view_any_training_center_report',
+            type: 'item',
+            icon: 'timeline',
+            url: '/training-center-reports/monthly-progress-report',
+          },
+        ],
+      },
     ],
   },
 ];

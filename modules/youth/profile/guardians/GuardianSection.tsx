@@ -101,13 +101,11 @@ const GuardianSection = () => {
             <Avatar>G</Avatar>
             <Box sx={{marginLeft: '15px'}}>
               {!guardians || guardians?.length == 0 ? (
-                <Typography>
-                  {' '}
-                  <NoDataFoundComponent
-                    messageType={messages['guardian.title']}
-                    messageTextType={'inherit'}
-                  />
-                </Typography>
+                <NoDataFoundComponent
+                  messageType={messages['guardian.title']}
+                  messageTextType={'inherit'}
+                  sx={{marginTop: '10px'}}
+                />
               ) : (
                 <React.Fragment>
                   <StyledBox sx={{display: 'flex'}}>
