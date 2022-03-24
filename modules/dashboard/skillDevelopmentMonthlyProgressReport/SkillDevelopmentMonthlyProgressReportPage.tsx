@@ -81,6 +81,7 @@ const SkillDevelopmentMonthlyProgressReportPage = () => {
             key={selectedItemId}
             href={`/skill-development-monthly-progress-report-create`}>
             <AddButton
+              onClick={() => {}}
               isLoading={loading}
               tooltip={
                 <IntlMessages

@@ -84,6 +84,7 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
             key={1}
             href={`/training-center-report-income-expenditure/create`}>
             <AddButton
+              onClick={() => {}}
               isLoading={loading}
               tooltip={
                 <IntlMessages
