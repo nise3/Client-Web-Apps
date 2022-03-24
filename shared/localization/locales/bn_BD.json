@@ -945,7 +945,7 @@
   "footer.important_links": "গুরুত্বপূর্ণ লিঙ্ক",
   "footer.online_courses": "অনলাইন কোর্স",
   "footer.news": "সংবাদ",
-  "footer.notices": "বিজ্ঞপ্তি বা সংবাদ",
+  "footer.notices": "বিজ্ঞপ্তি",
   "footer.events": "ঘটনাবলী",
   "footer.about_us": "আমাদের সম্পর্কে",
   "footer.about_nise": "NISE সম্পর্কে",
@@ -1757,5 +1757,6 @@
   "calendar.Wed": "বুধ",
   "calendar.Thu": "বৃহঃ",
   "calendar.Fri": "শুক্র",
-  "calendar.Sat": "শনি"
+  "calendar.Sat": "শনি",
+  "update_password.label": "পাসওয়ার্ড আপডেট"
 }
