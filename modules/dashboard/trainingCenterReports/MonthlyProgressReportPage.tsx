@@ -10,10 +10,17 @@ import SkillDevelopmentMonthlyProgressReportDetailsPopup from './MonthlyProgress
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {Link} from '../../../@softbd/elements/common';
 import {API_TRAINING_CENTERS_REPORTING_PROGRESS} from '../../../@softbd/common/apiRoutes';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
 
 const MonthlyProgressReportPage = () => {
   const {messages} = useIntl();
-
+  const authUser = useAuthUser<CommonAuthUser>();
+  const hasCreatePermission = useMemo(
+    () => hasCreateTrainingCenterReportPermission(authUser),
+    [authUser],
+  );
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -77,25 +84,27 @@ const MonthlyProgressReportPage = () => {
           </>
         }
         extra={[
-          <Link
-            key={selectedItemId}
-            href={'/training-center-reports/monthly-progress-report/create'}>
-            <AddButton
-              onClick={() => {}}
-              isLoading={loading}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject:
-                      messages[
-                        'skills_development_training_activities_income_expenditure_information.label'
-                      ],
-                  }}
-                />
-              }
-            />
-          </Link>,
+          hasCreatePermission && (
+            <Link
+              key={selectedItemId}
+              href={'/training-center-reports/monthly-progress-report/create'}>
+              <AddButton
+                onClick={() => {}}
+                isLoading={loading}
+                tooltip={
+                  <IntlMessages
+                    id={'common.add_new'}
+                    values={{
+                      subject:
+                        messages[
+                          'skills_development_training_activities_income_expenditure_information.label'
+                        ],
+                    }}
+                  />
+                }
+              />
+            </Link>
+          ),
         ]}>
         <ReactTable
           columns={columns}
