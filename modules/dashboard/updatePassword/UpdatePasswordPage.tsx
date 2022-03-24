@@ -34,7 +34,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.btn}`]: {marginRight: 20},
   [`& .${classes.typography}`]: {
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 28,
     marginBottom: 30,
   },
 }));
@@ -57,6 +57,7 @@ const UpdatePasswordPage = () => {
         .string()
         .title()
         .min(8)
+        .matches(TEXT_REGEX_PASSWORD)
         .label(messages['common.oldPassword'] as string),
       new_password: yup
         .string()
@@ -92,8 +93,8 @@ const UpdatePasswordPage = () => {
         const userId: number = Number(authUser?.userId);
         const res = await updatePassword(userId, data);
         console.log(res);
-        // updateSuccessMessage(messages['common.change_password'] as string);
-        // router.back();
+        updateSuccessMessage(messages['common.change_password'] as string);
+        router.back();
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -107,7 +108,7 @@ const UpdatePasswordPage = () => {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container justifyContent={'center'} spacing={2}>
-            <Grid item md={8}>
+            <Grid item xs={11} md={8}>
               <CustomTextInput
                 required
                 id='current_password'
@@ -119,7 +120,7 @@ const UpdatePasswordPage = () => {
                 isLoading={false}
               />
             </Grid>
-            <Grid item md={8}>
+            <Grid item xs={11} md={8}>
               <CustomTextInput
                 required
                 id='new_password'
@@ -132,7 +133,7 @@ const UpdatePasswordPage = () => {
               />
             </Grid>
 
-            <Grid item md={8}>
+            <Grid item xs={11} md={8}>
               <CustomTextInput
                 required
                 id='new_password_confirmation'
@@ -143,7 +144,7 @@ const UpdatePasswordPage = () => {
                 isLoading={false}
               />
             </Grid>
-            <Grid item md={8} style={{textAlign: 'center'}}>
+            <Grid item xs={11} md={8} style={{textAlign: 'center'}}>
               <Button
                 className={classes.btn}
                 type={'submit'}
