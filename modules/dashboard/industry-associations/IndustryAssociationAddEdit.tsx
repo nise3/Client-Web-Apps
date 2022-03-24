@@ -358,9 +358,9 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <CustomTextInput
                 required
                 id='title'
@@ -370,20 +370,30 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomFilterableFormSelect
-                required
-                id='trade_id'
-                isLoading={isLoading}
-                label={messages['association.association_trades']}
-                control={control}
-                options={associationTrades}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='title_en'
+                label={messages['common.title_en']}
+                register={register}
                 errorInstance={errors}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='mobile'
+                label={messages['common.mobile']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='017xxxxxxxx'
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 required
                 id='email'
@@ -394,34 +404,9 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 placeholder='example@gmail.com'
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                required
-                id='loc_division_id'
-                label={messages['divisions.label']}
-                isLoading={isLoadingDivisions}
-                control={control}
-                options={divisions}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-                onChange={changeDivisionAction}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='loc_upazila_id'
-                label={messages['upazilas.label']}
-                isLoading={isLoadingUpazilas}
-                control={control}
-                options={upazilasList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
+
             {!isEdit && (
-              <Grid item xs={12}>
+              <Grid item xs={!isEdit ? 12 : 6}>
                 <CustomFormSelect
                   required
                   id='permission_sub_group_id'
@@ -435,116 +420,49 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 />
               </Grid>
             )}
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='address'
-                label={messages['common.address']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head'
-                label={messages['institute.name_of_the_office_head']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head_designation'
-                label={
-                  messages['institute.name_of_the_office_head_designation']
-                }
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_name'
-                label={messages['common.contact_person_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_designation'
-                label={messages['common.contact_person_designation']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_email'
-                label={messages['common.contact_person_email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='example@gmail.com'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FileUploadComponent
-                required={true}
-                id='logo'
-                defaultFileUrl={itemData?.logo}
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['common.logo']}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
 
-        <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
+            <Grid item xs={6}>
+              <CustomFilterableFormSelect
+                required
+                id='trade_id'
                 isLoading={isLoading}
+                label={messages['association.association_trades']}
+                control={control}
+                options={associationTrades}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
               />
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='domain'*/}
-            {/*    label={messages['common.domain']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    placeholder='https://example.xyz'*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 required
-                id='mobile'
-                label={messages['common.mobile']}
+                id='trade_number'
+                label={messages['common.trade_number']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
-                placeholder='017xxxxxxxx'
+                placeholder='trade number'
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomFormSelect
+                required
+                id='loc_division_id'
+                label={messages['divisions.label']}
+                isLoading={isLoadingDivisions}
+                control={control}
+                options={divisions}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+                onChange={changeDivisionAction}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomFormSelect
                 required
                 id='loc_district_id'
@@ -558,6 +476,31 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 onChange={changeDistrictAction}
               />
             </Grid>
+
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={isLoadingUpazilas}
+                control={control}
+                options={upazilasList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='address'
+                label={messages['common.address']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <CustomTextInput
                 id='google_map_src'
@@ -568,8 +511,18 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
               />
             </Grid>
 
-            {/** working */}
-            <Grid item xs={12}>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='name_of_the_office_head'
+                label={messages['institute.name_of_the_office_head']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='name_of_the_office_head_en'
                 label={messages['institute.name_of_the_office_head_en']}
@@ -578,7 +531,21 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='name_of_the_office_head_designation'
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='name_of_the_office_head_designation_en'
                 label={
@@ -589,7 +556,19 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='contact_person_name'
+                label={messages['common.contact_person_name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='contact_person_name_en'
                 label={messages['common.contact_person_name_en']}
@@ -598,7 +577,19 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='contact_person_designation'
+                label={messages['common.contact_person_designation']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='contact_person_designation_en'
                 label={messages['common.contact_person_designation_en']}
@@ -607,7 +598,8 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 required
                 id='contact_person_mobile'
@@ -618,19 +610,37 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 placeholder='017xxxxxxxx'
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 required
-                id='trade_number'
-                label={messages['common.trade_number']}
+                id='contact_person_email'
+                label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
-                placeholder='trade number'
+                placeholder='example@gmail.com'
+              />
+            </Grid>
+
+            {/*new*/}
+
+            {/** working */}
+
+            <Grid item xs={6}>
+              <FileUploadComponent
+                required={true}
+                id='logo'
+                defaultFileUrl={itemData?.logo}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.logo']}
               />
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
