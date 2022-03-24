@@ -92,7 +92,7 @@ export const gotoLoginSignUpPage = (path: string) => {
 
 export const isLatLongValid = (val: string): boolean => {
   if(val){
-    var pattern = /([0-9.-]+).+?([0-9.-]+)/;
+    var pattern = /^[^+]((\-?|\+?)?\d+(\.\d+)?)$/;
     return pattern.test(val);
   } else {
     return true;
