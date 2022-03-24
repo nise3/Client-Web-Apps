@@ -702,7 +702,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             required={false}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <FileUploadComponent
             id='thumb_image_path'
             defaultFileUrl={itemData?.thumb_image_path}
@@ -733,7 +733,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['common.add_language']}
+            {messages['gallery_album.add_language']}
           </Button>
         </Grid>
 
