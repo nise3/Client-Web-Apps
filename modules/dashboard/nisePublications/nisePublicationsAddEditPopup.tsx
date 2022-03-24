@@ -462,7 +462,7 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['nise_publication.add_language']}
           </Button>
         </Grid>
 
