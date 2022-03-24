@@ -11,7 +11,7 @@ export const PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY =
 export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 export const GOOGLE_MAP_API_KEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
 export const RESEND_CODE_RETRY_TIME_IN_MILLIS = 1000 * 180;
-export const DATE_OF_BIRTH_MIN_AGE = 5; //age in years
+export const DATE_OF_BIRTH_MIN_AGE = 20; //age in years
 
 export const isLocalHost = () =>
   typeof window !== 'undefined' && window?.location?.hostname
@@ -91,29 +91,29 @@ export const gotoLoginSignUpPage = (path: string) => {
 };
 
 export const isLatLongValid = (val: string): boolean => {
-  if(val){
+  if (val) {
     var pattern = /^[^+]((\-?|\+?)?\d+(\.\d+)?)$/;
     return pattern.test(val);
   } else {
     return true;
   }
-}
+};
 
-export const GEO_VALIDATION = (yup:any, messages: any) => {
+export const GEO_VALIDATION = (yup: any, messages: any) => {
   return {
     isLatValid: yup
-    .string()
-    .nullable()
-    .test(
-      'lat-err',
-      `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
-      (value: string) => isLatLongValid(value),
-    )
-  } 
-}
+      .string()
+      .nullable()
+      .test(
+        'lat-err',
+        `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+        (value: string) => isLatLongValid(value),
+      ),
+  };
+};
 
 export const FORM_PLACEHOLDER = {
   LATITUDE: '23.000000...',
   LONGITUDE: '90.000000...',
-  MAP_SOURCE: 'https://www.google.com/maps/place/...'
-}
+  MAP_SOURCE: 'https://www.google.com/maps/place/...',
+};
