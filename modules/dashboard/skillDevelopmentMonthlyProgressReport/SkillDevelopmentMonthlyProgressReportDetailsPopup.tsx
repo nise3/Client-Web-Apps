@@ -45,11 +45,7 @@ const SkillDevelopmentMonthlyProgressReportDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               value={itemData?.reporting_month}
-              label={
-                messages[
-                  'skill_development_monthly_progress_report.reporting_month'
-                ]
-              }
+              label={messages['common.reporting_month']}
               isLoading={isLoading}
             />
           </Grid>
