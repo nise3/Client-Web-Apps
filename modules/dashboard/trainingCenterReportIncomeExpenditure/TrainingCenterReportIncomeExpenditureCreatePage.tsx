@@ -16,6 +16,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useRouter} from 'next/router';
+import CustomNumberInputReportForm from '../trainingCenterProgressReportCombined/CustomNumberInputReportForm';
 
 const initialValues = {
   reporting_month: '',
@@ -62,6 +63,7 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
     handleSubmit,
     reset,
     setError,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -139,7 +141,7 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_labs_or_training_rooms'
                 label={
                   messages[
@@ -148,38 +150,38 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
                 }
                 register={register}
                 errorInstance={errors}
-                type={'number'}
+                setValue={setValue}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_allowed_seats'
                 label={
                   messages['training_center_report.number_of_seats_allowed']
                 }
                 register={register}
                 errorInstance={errors}
-                type={'number'}
+                setValue={setValue}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='number_of_trainees'
                 label={messages['training_center_report.number_of_trainees']}
                 register={register}
                 errorInstance={errors}
-                type={'number'}
+                setValue={setValue}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='course_fee_per_trainee'
                 label={
                   messages['training_center_report.course_fee_per_trainee']
                 }
                 register={register}
                 errorInstance={errors}
-                type={'number'}
+                setValue={setValue}
               />
             </Grid>
 
@@ -190,19 +192,19 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='course_income_from_course_fee'
                       label={
                         messages['training_center_report.total_course_fee']
                       }
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='course_income_from_application_and_others'
                       label={
                         messages[
@@ -211,17 +213,17 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
                       }
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='course_income_total'
                       label={messages['training_center_report.total_income']}
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
@@ -229,23 +231,24 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='reporting_month_income'
                 label={
                   messages['training_center_report.reporting_month_income']
                 }
                 register={register}
                 errorInstance={errors}
-                type={'number'}
+                setValue={setValue}
               />
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomTextInput
+              <CustomNumberInputReportForm
                 id='reporting_month_net_income'
                 label={messages['training_center_report.month_net_income']}
                 register={register}
                 errorInstance={errors}
+                setValue={setValue}
               />
             </Grid>
 
@@ -260,29 +263,29 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
                 </legend>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='reporting_month_training_expenses_instructor_salaries'
                       label={
                         messages['training_center_report.instructor_salaries']
                       }
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='reporting_month_training_expenses_other'
                       label={messages['training_center_report.other_expenses']}
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <CustomTextInput
+                    <CustomNumberInputReportForm
                       id='reporting_month_training_expenses_total'
                       label={
                         messages[
@@ -291,7 +294,7 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
                       }
                       register={register}
                       errorInstance={errors}
-                      type={'number'}
+                      setValue={setValue}
                     />
                   </Grid>
                 </Grid>
