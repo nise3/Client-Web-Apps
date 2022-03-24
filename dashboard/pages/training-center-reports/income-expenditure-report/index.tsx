@@ -4,11 +4,11 @@ import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationCreatePage =
+const SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage =
   asyncComponent(
     () =>
       import(
-        '../../../../modules/dashboard/trainingCenterReportIncomeExpenditure/TrainingCenterReportIncomeExpenditureCreatePage'
+        '../../../../modules/dashboard/trainingCenterReports/IncomeExpenditureReportPage'
       ),
   );
 export default DashboardPage(() => {
@@ -22,7 +22,7 @@ export default DashboardPage(() => {
           ]
         }
       />
-      <SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationCreatePage />
+      <SkillsDevelopmentTrainingActivitiesIncomeExpenditureInformationPage />
     </>
   );
 });

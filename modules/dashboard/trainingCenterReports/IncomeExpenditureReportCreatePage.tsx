@@ -16,7 +16,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useRouter} from 'next/router';
-import CustomNumberInputReportForm from '../trainingCenterProgressReportCombined/CustomNumberInputReportForm';
+import CustomNumberInputReportForm from './CustomNumberInputReportForm';
 
 const initialValues = {
   reporting_month: '',
@@ -39,14 +39,13 @@ const initialValues = {
   comments: '',
 };
 
-const TrainingCenterReportIncomeExpenditureCreatePage = () => {
+const IncomeExpenditureReportCreatePage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const router = useRouter();
   const {createSuccessMessage} = useSuccessMessage();
 
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-
-  const router = useRouter();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -78,6 +77,7 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
       await trainingCenterReportIncomeExpenditureCreate(data);
       createSuccessMessage('training_center_progress_report_combined.label');
       setIsFormSubmitted(true);
+      router.back();
     } catch (error: any) {
       processServerSideErrors({
         error,
@@ -86,7 +86,6 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
         errorStack,
       });
     }
-    await router.push('/training-center-report-income-expenditure');
   };
 
   return (
@@ -111,9 +110,7 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
             variant={'contained'}
             color={'primary'}
             size={'small'}
-            onClick={() =>
-              router.push('/training-center-report-income-expenditure')
-            }>
+            onClick={() => router.back()}>
             <ArrowBack />
             {messages['common.back']}
           </Button>,
@@ -373,4 +370,4 @@ const TrainingCenterReportIncomeExpenditureCreatePage = () => {
   );
 };
 
-export default TrainingCenterReportIncomeExpenditureCreatePage;
+export default IncomeExpenditureReportCreatePage;

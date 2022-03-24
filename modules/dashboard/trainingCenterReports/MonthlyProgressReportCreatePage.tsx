@@ -17,7 +17,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {trainingCenterProgressReportCreate} from '../../../services/instituteManagement/TrainingCenterReportService';
-import CustomNumberInputReportForm from '../trainingCenterProgressReportCombined/CustomNumberInputReportForm';
+import CustomNumberInputReportForm from './CustomNumberInputReportForm';
 
 const initialValues = {
   reporting_month: '',
@@ -55,7 +55,7 @@ const initialValues = {
   latest_test_passed_trainee_total: 0,
 };
 
-const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
+const MonthlyProgressReportCreatePage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const router = useRouter();
@@ -557,4 +557,4 @@ const SkillDevelopmentMonthlyProgressReportCreatePage = () => {
   );
 };
 
-export default SkillDevelopmentMonthlyProgressReportCreatePage;
+export default MonthlyProgressReportCreatePage;

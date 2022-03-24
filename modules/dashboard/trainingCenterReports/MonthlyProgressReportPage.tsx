@@ -1,23 +1,23 @@
 import {useIntl} from 'react-intl';
 import React, {useCallback, useMemo, useState} from 'react';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconUser from '../../../@softbd/icons/IconUser';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {Link} from '../../../@softbd/elements/common';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE} from '../../../@softbd/common/apiRoutes';
-import TrainingCenterReportIncomeExpenditureDetailsPopup from './TrainingCenterReportIncomeExpenditureDetailsPopup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import SkillDevelopmentMonthlyProgressReportDetailsPopup from './MonthlyProgressReportDetailsPopup';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {Link} from '../../../@softbd/elements/common';
+import {API_TRAINING_CENTERS_REPORTING_PROGRESS} from '../../../@softbd/common/apiRoutes';
 
-const TrainingCenterReportIncomeExpenditurePage = () => {
+const MonthlyProgressReportPage = () => {
   const {messages} = useIntl();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
-  const openDetailsModal = useCallback((itemId: number | null = null) => {
+  const openDetailsModal = useCallback((itemId: number) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
   }, []);
@@ -46,18 +46,15 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
         disableFilters: true,
       },
       {
-        Header:
-          messages[
-            'skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms'
-          ],
-        accessor: 'number_of_labs_or_training_rooms',
+        Header: messages['dashboard.total_trainers'],
+        accessor: 'number_of_trainers',
         disableFilters: true,
       },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return <ReadButton onClick={() => openDetailsModal(data?.id)} />;
+          return <ReadButton onClick={() => openDetailsModal(data.id)} />;
         },
         sortable: false,
       },
@@ -67,7 +64,7 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+      urlPath: API_TRAINING_CENTERS_REPORTING_PROGRESS,
     });
 
   return (
@@ -76,13 +73,11 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
         title={
           <>
             <IconUser />{' '}
-            <IntlMessages id='skills_development_training_activities_income_expenditure_information.label' />
+            <IntlMessages id='skill_development_monthly_progress_report.label' />
           </>
         }
         extra={[
-          <Link
-            key={1}
-            href={`/training-center-report-income-expenditure/create`}>
+          <Link key={selectedItemId} href={'/create'}>
             <AddButton
               onClick={() => {}}
               isLoading={loading}
@@ -110,10 +105,11 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
         />
 
         {isOpenDetailsModal && (
-          <TrainingCenterReportIncomeExpenditureDetailsPopup
-            key={selectedItemId}
+          <SkillDevelopmentMonthlyProgressReportDetailsPopup
+            key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
+            openEditModal={openDetailsModal}
           />
         )}
       </PageBlock>
@@ -121,4 +117,4 @@ const TrainingCenterReportIncomeExpenditurePage = () => {
   );
 };
 
-export default TrainingCenterReportIncomeExpenditurePage;
+export default MonthlyProgressReportPage;

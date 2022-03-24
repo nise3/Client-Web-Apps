@@ -92,29 +92,29 @@ export const routePermissions: any = {
   //   routePrefix: '/skill-development-report-create',
   //   permissionKeys: ['view_any_training_center_survey'],
   // },
-  '/skill-development-monthly-progress-report-create': {
-    routePrefix: '/skill-development-monthly-progress-report-create',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/monthly-progress-report': {
+    routePrefix: '/training-center-reports/monthly-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
   },
-  '/skill-development-monthly-progress-report': {
-    routePrefix: '/skill-development-monthly-progress-report',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/monthly-progress-report/create': {
+    routePrefix: '/training-center-reports/monthly-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
   },
-  '/training-center-combined-progress-report/create': {
-    routePrefix: '/training-center-combined-progress-report/create',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/combined-progress-report': {
+    routePrefix: '/training-center-reports/combined-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
   },
-  '/training-center-combined-progress-report': {
-    routePrefix: '/training-center-combined-progress-report',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/combined-progress-report/create': {
+    routePrefix: '/training-center-reports/combined-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
   },
-  '/training-center-report-income-expenditure/create': {
-    routePrefix: '/training-center-report-income-expenditure/create',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/income-expenditure-report': {
+    routePrefix: '/training-center-reports/income-expenditure-report',
+    permissionKeys: ['view_any_training_center_report'],
   },
-  '/training-center-report-income-expenditure': {
-    routePrefix: '/training-center-report-income-expenditure',
-    permissionKeys: ['view_any_training_center_survey'],
+  '/training-center-reports/income-expenditure-report/create': {
+    routePrefix: '/training-center-reports/income-expenditure-report/create',
+    permissionKeys: ['view_any_training_center_report'],
   },
   '/courses': {
     routePrefix: '/courses',

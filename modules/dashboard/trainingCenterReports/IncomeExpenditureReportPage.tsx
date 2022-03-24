@@ -1,22 +1,23 @@
 import {useIntl} from 'react-intl';
 import React, {useCallback, useMemo, useState} from 'react';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconUser from '../../../@softbd/icons/IconUser';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import SkillDevelopmentReportDetailsPopup from './SkillDevelopmentReportDetailsPopup';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {Link} from '../../../@softbd/elements/common';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import {API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE} from '../../../@softbd/common/apiRoutes';
+import IncomeExpenditureReportDetailsPopup from './IncomeExpenditureReportDetailsPopup';
 
-const SkillDevelopmentReportPage = () => {
+const IncomeExpenditureReportPage = () => {
   const {messages} = useIntl();
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
-  const openDetailsModal = useCallback((itemId: number) => {
+  const openDetailsModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(true);
     setSelectedItemId(itemId);
   }, []);
@@ -37,20 +38,26 @@ const SkillDevelopmentReportPage = () => {
       },
 
       {
-        Header: messages['skill_development_report.approved_trade_number'],
-        accessor: 'approved_trade_number',
+        Header:
+          messages[
+            'skills_development_training_activities_income_expenditure_information.trade_name'
+          ],
+        accessor: 'trade_name',
         disableFilters: true,
       },
       {
-        Header: messages['skill_development_report.current_trade_number'],
-        accessor: 'score',
+        Header:
+          messages[
+            'skills_development_training_activities_income_expenditure_information.number_of_labs_or_training_rooms'
+          ],
+        accessor: 'number_of_labs_or_training_rooms',
         disableFilters: true,
       },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return <ReadButton onClick={() => openDetailsModal(data.id)} />;
+          return <ReadButton onClick={() => openDetailsModal(data?.id)} />;
         },
         sortable: false,
       },
@@ -58,10 +65,9 @@ const SkillDevelopmentReportPage = () => {
     [messages],
   );
 
-  //todo: urlPath must be given after getting api
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: '/rt',
+      urlPath: API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
     });
 
   return (
@@ -69,39 +75,28 @@ const SkillDevelopmentReportPage = () => {
       <PageBlock
         title={
           <>
-            <IconUser /> <IntlMessages id='skill_development_report.label' />
+            <IconUser />{' '}
+            <IntlMessages id='skills_development_training_activities_income_expenditure_information.label' />
           </>
         }
         extra={[
-          <Link key={selectedItemId} href={`/skill-development-report-create`}>
+          <Link key={1} href={'/create'}>
             <AddButton
-              onClick={() => openDetailsModal(3)} //todo: item id must be integrated here after getting api
+              onClick={() => {}}
               isLoading={loading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject: messages['skill_development_report.label'],
+                    subject:
+                      messages[
+                        'skills_development_training_activities_income_expenditure_information.label'
+                      ],
                   }}
                 />
               }
             />
           </Link>,
-
-          //todo: this will be removed after getting api..
-          <AddButton
-            key={Math.random()}
-            onClick={() => openDetailsModal(1)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['skill_development_report.label'],
-                }}
-              />
-            }
-          />,
         ]}>
         <ReactTable
           columns={columns}
@@ -113,8 +108,8 @@ const SkillDevelopmentReportPage = () => {
         />
 
         {isOpenDetailsModal && (
-          <SkillDevelopmentReportDetailsPopup
-            key={1}
+          <IncomeExpenditureReportDetailsPopup
+            key={selectedItemId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
           />
@@ -124,4 +119,4 @@ const SkillDevelopmentReportPage = () => {
   );
 };
 
-export default SkillDevelopmentReportPage;
+export default IncomeExpenditureReportPage;
