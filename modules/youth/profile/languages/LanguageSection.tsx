@@ -123,12 +123,11 @@ const LanguageSection = () => {
             <Box sx={{marginLeft: '15px'}}>
               {(!languageProficiencies ||
                 languageProficiencies?.length == 0) && (
-                <Typography>
-                  <NoDataFoundComponent
-                    messageType={messages['language_proficiency.title']}
-                    messageTextType={'inherit'}
-                  />
-                </Typography>
+                <NoDataFoundComponent
+                  messageType={messages['language_proficiency.title']}
+                  messageTextType={'inherit'}
+                  sx={{marginTop: '10px'}}
+                />
               )}
               {languageProficiencies && (
                 <React.Fragment>
