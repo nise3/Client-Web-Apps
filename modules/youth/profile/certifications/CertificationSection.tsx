@@ -11,7 +11,7 @@ import ContentLayout from '../component/ContentLayout';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import Certifications from './Certifications';
 import HorizontalLine from '../component/HorizontalLine';
-import {Avatar, Box, Typography} from '@mui/material';
+import {Avatar, Box} from '@mui/material';
 import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {getYouthAuthUserObject} from '../../../../redux/actions';
@@ -101,12 +101,11 @@ const CertificationSection = () => {
           <HorizontalLine />
           <Box sx={{display: 'flex'}}>
             <Avatar>C</Avatar>
-            <Typography style={{marginLeft: '15px'}}>
-              <NoDataFoundComponent
-                messageType={messages['common.certificate']}
-                messageTextType={'inherit'}
-              />
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['common.certificate']}
+              messageTextType={'inherit'}
+              sx={{marginLeft: '15px', marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (

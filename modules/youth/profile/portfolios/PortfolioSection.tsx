@@ -1,4 +1,4 @@
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
 import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import CustomCarousel from '../../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
@@ -98,12 +98,11 @@ const PortfolioSection = () => {
       {!portfolios || portfolios?.length == 0 ? (
         <>
           <Box sx={{display: 'flex'}}>
-            <Typography style={{marginLeft: '15px'}}>
-              <NoDataFoundComponent
-                messageType={messages['common.portfolio']}
-                messageTextType={'inherit'}
-              />
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['common.portfolio']}
+              messageTextType={'inherit'}
+              sx={{marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (
