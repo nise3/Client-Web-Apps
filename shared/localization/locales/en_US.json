@@ -319,6 +319,7 @@
   "common.organization": "Organization",
   "common.organization_registration": "Organization registration",
   "common.organization_name": "Organization name",
+  "common.contact_person_info": "Contact Person Information",
   "common.contact_person_name": "Contact person name",
   "common.contact_person_mobile": "Contact person mobile no",
   "common.contact_person_email": "Contact person email",
