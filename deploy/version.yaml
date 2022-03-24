@@ -7,7 +7,7 @@ variables:
 
   #admin frontend
   imageAdminRelease: "true"
-  imageAdminAppVersion: "prod-1.7"
+  imageAdminAppVersion: "prod-1.8"
   imageAdminRepository: "registry.nise.gov.bd/nise3-cube-client-web-admin"
 
   #Industry frontend
