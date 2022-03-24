@@ -819,7 +819,7 @@
   "common.name_of_the_office_head_en": "Name of office head (English)",
   "common.name_of_the_office_head_designation": "Designation of office head",
   "common.name_of_the_office_head_designation_en": "Designation of office head (English)",
-  "common.password_must_match": "",
+  "common.password_must_match": "Password must be matched",
   "certificate.name_bn": "Certificate Name",
   "certificate.label": "Certificate",
   "certificate.name_en": "Certificate Name (En)",
@@ -1757,5 +1757,6 @@
   "calendar.Wed": "Wed",
   "calendar.Thu": "Thu",
   "calendar.Fri": "Fri",
-  "calendar.Sat": "Sat"
+  "calendar.Sat": "Sat",
+  "update_password.label": "Update Password"
 }
