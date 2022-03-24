@@ -362,7 +362,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['nise3_partner.add_language']}
           </Button>
         </Grid>
 
