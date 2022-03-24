@@ -392,7 +392,6 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={messages['common.title']}
                 register={register}
                 errorInstance={errors}
-                git
                 isLoading={isLoading}
               />
             </Grid>
