@@ -10,7 +10,6 @@ import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchRTO} from '../../../services/CertificateAuthorityManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 type Props = {
   itemId: number;
@@ -74,17 +73,6 @@ const ERPLInstituteDetailsPopup = ({
             <DetailsInputView
               label={messages['common.code']}
               value={itemData?.code}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['institute.type']}
-              value={
-                itemData?.institute_type_id == InstituteTypes.GOVERNMENT
-                  ? messages['common.government']
-                  : messages['common.non_government']
-              }
               isLoading={isLoading}
             />
           </Grid>

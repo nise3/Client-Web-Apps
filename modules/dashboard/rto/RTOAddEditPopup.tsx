@@ -38,7 +38,6 @@ import {
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
@@ -57,7 +56,6 @@ import {
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {Box} from '@mui/system';
 import {cloneDeep} from 'lodash';
-import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -68,7 +66,6 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  institute_type_id: InstituteTypes.GOVERNMENT,
   country_id: '0',
   code: '',
   address: '',
@@ -104,19 +101,6 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const instituteTypes = useMemo(
-    () => [
-      {
-        key: InstituteTypes.GOVERNMENT,
-        label: messages['common.government'],
-      },
-      {
-        key: InstituteTypes.NON_GOVERNMENT,
-        label: messages['common.non_government'],
-      },
-    ],
-    [messages],
-  );
 
   const isEdit = itemId != null;
   const {data: itemData, isLoading, mutate: mutateRTO} = useFetchRTO(itemId);
@@ -196,11 +180,6 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_type_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.type'] as string),
       country_id: yup
         .string()
         .trim()
@@ -309,7 +288,6 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         // domain: itemData?.domain,
-        institute_type_id: itemData?.institute_type_id,
         country_id: itemData?.country_id,
         code: itemData?.code,
         primary_phone: itemData?.primary_phone,
@@ -729,16 +707,6 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 label={messages['common.code']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='institute_type_id'
-                label={'institute.type'}
-                radios={instituteTypes}
-                control={control}
-                defaultValue={initialValues.institute_type_id}
                 isLoading={isLoading}
               />
             </Grid>
