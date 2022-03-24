@@ -25,7 +25,6 @@ import CustomHookForm from '../component/CustomHookForm';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomSelectAutoComplete from '../../registration/CustomSelectAutoComplete';
-import moment from 'moment';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -104,14 +103,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.start_date'] as string)
-        .test(
-          'DOB',
-          messages['common.invalid_start_date'] as string,
-          (value) => {
-            return moment().diff(moment(value), 'days') >= 1;
-          },
-        ),
+        .label(messages['common.start_date'] as string),
       end_date:
         currentWorkStatus == 0
           ? yup
