@@ -56,7 +56,7 @@ const initialValues = {
   batch_start_date: '',
   batch_end_date: '',
   number_of_seats: '',
-  available_seats: '',
+  // available_seats: '',
   row_status: '1',
   trainers: [],
 };
@@ -132,11 +132,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['batches.total_seat'] as string),
-      available_seats: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['batches.available_seat'] as string),
+      // available_seats: yup
+      //   .string()
+      //   .trim()
+      //   .required()
+      //   .label(messages['batches.available_seat'] as string),
       registration_start_date: yup
         .string()
         .trim()
@@ -223,7 +223,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           ? getMomentDateFormat(itemData.batch_end_date, 'YYYY-MM-DD')
           : '',
         number_of_seats: itemData?.number_of_seats,
-        available_seats: itemData?.available_seats,
+        // available_seats: itemData?.available_seats,
         trainers: getTrainerIds(itemData?.trainers),
         row_status: String(itemData?.row_status),
       });
@@ -509,18 +509,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='available_seats'
-            label={messages['batches.available_seat']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
+        <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
             isLoading={isLoadingTrainers}
@@ -532,7 +521,30 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             multiple={true}
             defaultValue={initialValues.trainers}
           />
+          {/* <CustomTextInput
+            required
+            id='available_seats'
+            label={messages['batches.available_seat']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          /> */}
         </Grid>
+
+        {/* <Grid item xs={12} md={6}>
+            <CustomFormSelect
+            id='trainers'
+            label={messages['trainers.label']}
+            isLoading={isLoadingTrainers}
+            control={control}
+            options={trainers}
+            optionValueProp='id'
+            optionTitleProp={['trainer_name_en', 'trainer_name']}
+            errorInstance={errors}
+            multiple={true}
+            defaultValue={initialValues.trainers}
+          />
+        </Grid> */}
 
         <Grid item xs={12} md={6}>
           <FormRowStatus
