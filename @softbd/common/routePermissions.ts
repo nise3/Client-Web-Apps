@@ -86,11 +86,11 @@ export const routePermissions: any = {
   //todo: hiding on demand(not necessary)
   // '/skill-development-report': {
   //   routePrefix: '/skill-development-report',
-  //   permissionKeys: ['view_any_training_center_survey'],
+  //   permissionKeys: ['view_any_training_center_report'],
   // },
   // '/skill-development-report-create': {
   //   routePrefix: '/skill-development-report-create',
-  //   permissionKeys: ['view_any_training_center_survey'],
+  //   permissionKeys: ['view_any_training_center_report'],
   // },
   '/training-center-reports/monthly-progress-report': {
     routePrefix: '/training-center-reports/monthly-progress-report',
