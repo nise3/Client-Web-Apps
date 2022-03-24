@@ -83,6 +83,39 @@ export const routePermissions: any = {
     routePrefix: '/training-centers',
     permissionKeys: ['view_any_training_center'],
   },
+  //todo: hiding on demand(not necessary)
+  // '/skill-development-report': {
+  //   routePrefix: '/skill-development-report',
+  //   permissionKeys: ['view_any_training_center_report'],
+  // },
+  // '/skill-development-report-create': {
+  //   routePrefix: '/skill-development-report-create',
+  //   permissionKeys: ['view_any_training_center_report'],
+  // },
+  '/training-center-reports/monthly-progress-report': {
+    routePrefix: '/training-center-reports/monthly-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/monthly-progress-report/create': {
+    routePrefix: '/training-center-reports/monthly-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/combined-progress-report': {
+    routePrefix: '/training-center-reports/combined-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/combined-progress-report/create': {
+    routePrefix: '/training-center-reports/combined-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/income-expenditure-report': {
+    routePrefix: '/training-center-reports/income-expenditure-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/income-expenditure-report/create': {
+    routePrefix: '/training-center-reports/income-expenditure-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
   '/courses': {
     routePrefix: '/courses',
     permissionKeys: ['view_any_course'],

@@ -86,6 +86,7 @@ export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
 export const PROFILE_UPDATE = '/profile-update';
+export const UPDATE_PASSWORD = '/password-update';
 
 /** Core User service private routes section end */
 
@@ -167,6 +168,18 @@ export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
 
 /**             eRPL End         */
 
+/**training center report start*/
+export const API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS =
+  INSTITUTE_SERVICE_PATH + '/training-centers/reporting/combined-progress';
+
+export const API_TRAINING_CENTERS_REPORTING_PROGRESS =
+  INSTITUTE_SERVICE_PATH + '/training-centers/reporting/progress';
+
+export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
+  API_TRAINING_CENTERS + '/reporting/income-expenditure';
+
+/**training center report end*/
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -235,6 +248,8 @@ export const API_YOUTH_LANGUAGE_PROFICIENCIES =
   YOUTH_SERVICE_PATH + '/youth-languages-proficiencies';
 export const API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE =
   YOUTH_SERVICE_PATH + '/youth-set-default-cv-template';
+export const API_YOUTH_UPDATE_PASSWORD =
+  YOUTH_SERVICE_PATH + '/youth-password-update';
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
