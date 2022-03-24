@@ -81,7 +81,9 @@ const CombinedProgressReportPage = () => {
           </>
         }
         extra={[
-          <Link key={1} href={'/create'}>
+          <Link
+            key={1}
+            href={'/training-center-reports/combined-progress-report/create'}>
             <AddButton
               onClick={() => {}}
               key={1}

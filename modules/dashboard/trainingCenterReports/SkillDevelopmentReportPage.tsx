@@ -73,7 +73,9 @@ const SkillDevelopmentReportPage = () => {
           </>
         }
         extra={[
-          <Link key={selectedItemId} href={'/create'}>
+          <Link
+            key={selectedItemId}
+            href={'/training-center-reports/skill-development-report/create'}>
             <AddButton
               onClick={() => openDetailsModal(3)} //todo: item id must be integrated here after getting api
               isLoading={loading}

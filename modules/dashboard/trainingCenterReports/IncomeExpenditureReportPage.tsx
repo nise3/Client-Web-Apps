@@ -80,7 +80,9 @@ const IncomeExpenditureReportPage = () => {
           </>
         }
         extra={[
-          <Link key={1} href={'/create'}>
+          <Link
+            key={1}
+            href={'/training-center-reports/income-expenditure-report/create'}>
             <AddButton
               onClick={() => {}}
               isLoading={loading}

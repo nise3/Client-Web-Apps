@@ -77,7 +77,9 @@ const MonthlyProgressReportPage = () => {
           </>
         }
         extra={[
-          <Link key={selectedItemId} href={'/create'}>
+          <Link
+            key={selectedItemId}
+            href={'/training-center-reports/monthly-progress-report/create'}>
             <AddButton
               onClick={() => {}}
               isLoading={loading}
