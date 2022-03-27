@@ -1,23 +1,23 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Stack} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
-import {useIntl} from 'react-intl';
-import TrainingCenterCard from './components/TrainingCenterCard';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import NoDataFoundComponent from '../common/NoDataFoundComponent';
-import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
-import {styled} from '@mui/material/styles';
-import {H2, Link} from '../../../@softbd/elements/common';
-import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
-import {useRouter} from 'next/router';
-import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import { ChevronRight } from '@mui/icons-material';
+import { Button, Grid, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import { H2, Link } from '../../../@softbd/elements/common';
 import {
   getFilteredQueryParams,
-  objectFilter,
+  objectFilter
 } from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import { YouthAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { useFetchPublicTrainingCenters } from '../../../services/instituteManagement/hooks';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import { urlParamsUpdate } from '../youthConstants';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import TrainingCenterCard from './components/TrainingCenterCard';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 

@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
+import { ChevronRight } from '@mui/icons-material';
+import { Button, Grid, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { H2, Link } from '../../../@softbd/elements/common';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
-import {useIntl} from 'react-intl';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {H2, Link} from '../../../@softbd/elements/common';
+import { objectFilter } from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import { useFetchCourseList } from '../../../services/instituteManagement/hooks';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
-import {useRouter} from 'next/router';
-import {styled} from '@mui/material/styles';
-import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 import { urlParamsUpdate } from '../youthConstants';
 import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
 
