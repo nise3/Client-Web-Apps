@@ -73,6 +73,14 @@ export const LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION =
 export const LINK_FRONTEND_INDUSTRY_FAQS = '/faqs';
 export const LINK_FRONTEND_INDUSTRY_ENROLLMENT = '/enrollment';
 
+/** erpl links  */
+export const LINK_FRONTEND_ERPL_ROOT = '/';
+export const LINK_FRONTEND_ERPL_ROOT_OCCUPATIONS = '/occupations';
+export const LINK_FRONTEND_ERPL_ROOT_ASSESSMENT_CENTER = '/assessment-center';
+export const LINK_FRONTEND_ERPL_ROOT_RPL_ASSESSMENT = '/rpl-assessment';
+export const LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE =
+  '/assessment-choose-payment-method/';
+
 /** youth links  */
 export const LINK_FRONTEND_YOUTH_ROOT = '/';
 export const LINK_FRONTEND_YOUTH_FEED = '/feed';
@@ -105,6 +113,7 @@ export const LINK_FRONTEND_YOUTH_POPULAR_COURSELIST = '/training/popular';
 export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/training/recent';
 export const LINK_FRONTEND_YOUTH_NEARBY_COURSELIST = '/training/nearby';
 export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST = '/training/trending';
+export const LINK_FRONTEND_YOUTH_UPDATE_PASSWORD = '/update-password';
 
 /** nise links  */
 export const LINK_FRONTEND_NISE_ROOT = '/';
@@ -126,3 +135,4 @@ export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_YOUTH_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INDUSTRY_FRONTEND_STATIC_CONTENT = '/sc/';
+export const RPL_FRONTEND_STATIC_CONTENT = '/sc/';

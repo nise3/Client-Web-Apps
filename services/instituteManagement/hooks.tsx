@@ -22,8 +22,12 @@ import {
   API_PUBLIC_INSTITUTES,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
+  API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
+  API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
+  API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -134,12 +138,12 @@ export function useFetchBatches(params: any) {
   return useAxiosSWR([API_BATCHES, params]);
 }
 
-export function useFetchTrainer(trainerId: number | null) {
+export function useFetchTrainer(trainerId: any) {
   return useAxiosSWR(trainerId ? API_TRAINERS + '/' + trainerId : null);
 }
 
 export function useFetchTrainers(params: any) {
-  return useAxiosSWR([API_TRAINERS, params]);
+  return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
 
 export function useFetchPublicTrainingCenters(params: any) {
@@ -152,6 +156,13 @@ export function useFetchPublicTrainingCenters(params: any) {
 export function useFetchApplicationDetails(applicationId: number | null) {
   return useAxiosSWR(
     applicationId ? API_COURSE_ENROLLMENTS + '/' + applicationId : null,
+  );
+}
+
+/** fetches a single assessment's details */
+export function useFetchAssessmentDetails(assessmentId: number | null) {
+  return useAxiosSWR(
+    assessmentId ? API_RPL_APPLICATION + '/' + assessmentId : null,
   );
 }
 
@@ -186,6 +197,35 @@ export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
   return useAxiosSWR(
     courseId
       ? API_PUBLIC_COURSE_DETAILS + '/' + courseId + '/training-centers/batches'
+      : null,
+  );
+};
+
+/**
+ training center report**/
+
+export function useFetchTrainingCenterProgressReport(reportId: number | null) {
+  return useAxiosSWR(
+    reportId ? API_TRAINING_CENTERS_REPORTING_PROGRESS + '/' + reportId : null,
+  );
+}
+
+export const useFetchCombinedProgressReport = (reportId: number | null) => {
+  return useAxiosSWR(
+    reportId
+      ? API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS + '/' + reportId
+      : null,
+  );
+};
+
+export const useFetchTrainingCenterReportIncomeExpenditure = (
+  incomeExpenditureId: number | null,
+) => {
+  return useAxiosSWR(
+    incomeExpenditureId
+      ? API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE +
+          '/' +
+          incomeExpenditureId
       : null,
   );
 };

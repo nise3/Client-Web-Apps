@@ -2,12 +2,13 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {Body2, H6, Link} from '../../@softbd/elements/common';
+import {Body2, Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPublications} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
 import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'Publications';
 
@@ -107,9 +108,10 @@ const Publications = () => {
               )}
             </CustomCarousel>
           ) : (
-            <H6 style={{textAlign: 'center'}}>
-              {messages['common.no_data_found']}
-            </H6>
+            <NoDataFoundComponent
+              messageType={messages['publication.label']}
+              messageTextType={'h6'}
+            />
           )}
         </Box>
       </Container>

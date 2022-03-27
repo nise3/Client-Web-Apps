@@ -178,7 +178,10 @@ const RecentJobSection = () => {
             );
           })
         ) : (
-          <NoDataFoundComponent messageTextType={'inherit'} />
+          <NoDataFoundComponent
+            messageType={messages['common.job']}
+            messageTextType={'inherit'}
+          />
         )}
 
         {jobsMetaData.total_page > jobsMetaData.current_page && (

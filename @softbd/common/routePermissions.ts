@@ -83,6 +83,39 @@ export const routePermissions: any = {
     routePrefix: '/training-centers',
     permissionKeys: ['view_any_training_center'],
   },
+  //todo: hiding on demand(not necessary)
+  // '/skill-development-report': {
+  //   routePrefix: '/skill-development-report',
+  //   permissionKeys: ['view_any_training_center_report'],
+  // },
+  // '/skill-development-report-create': {
+  //   routePrefix: '/skill-development-report-create',
+  //   permissionKeys: ['view_any_training_center_report'],
+  // },
+  '/training-center-reports/monthly-progress-report': {
+    routePrefix: '/training-center-reports/monthly-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/monthly-progress-report/create': {
+    routePrefix: '/training-center-reports/monthly-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/combined-progress-report': {
+    routePrefix: '/training-center-reports/combined-progress-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/combined-progress-report/create': {
+    routePrefix: '/training-center-reports/combined-progress-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/income-expenditure-report': {
+    routePrefix: '/training-center-reports/income-expenditure-report',
+    permissionKeys: ['view_any_training_center_report'],
+  },
+  '/training-center-reports/income-expenditure-report/create': {
+    routePrefix: '/training-center-reports/income-expenditure-report/create',
+    permissionKeys: ['view_any_training_center_report'],
+  },
   '/courses': {
     routePrefix: '/courses',
     permissionKeys: ['view_any_course'],
@@ -99,13 +132,13 @@ export const routePermissions: any = {
     routePrefix: '/application-management',
     permissionKeys: ['view_any_course_enrollment'],
   },
+  '/assessment-management': {
+    routePrefix: '/assessment-management',
+    permissionKeys: ['view_any_rpl_application'],
+  },
   '/hr-demand': {
     routePrefix: '/hr-demand',
     permissionKeys: ['view_any_institute_hr_demand'],
-  },
-  '/question-bank': {
-    routePrefix: '/question-bank',
-    permissionKeys: ['view_any_question_bank'],
   },
   '/association-profile': {
     routePrefix: '/association-profile',
@@ -193,7 +226,10 @@ export const routePermissions: any = {
   },
   '/job-requirement': {
     routePrefix: '/job-requirement',
-    permissionKeys: ['view_any_industry_association_hr_demand'],
+    permissionKeys: [
+      'view_any_industry_association_hr_demand',
+      'view_any_organization_hr_demand',
+    ],
   },
   '/cv-bank': {
     routePrefix: '/cv-bank',
@@ -203,13 +239,17 @@ export const routePermissions: any = {
     routePrefix: '/rto-countries',
     permissionKeys: ['view_any_rto_country'],
   },
+  '/rto-batches': {
+    routePrefix: '/rto-batches',
+    permissionKeys: ['view_any_rto_batch'],
+  },
   '/certificate-authorities': {
     routePrefix: '/certificate-authorities',
     permissionKeys: ['view_any_certificate_authority'],
   },
   '/rto': {
     routePrefix: '/rto',
-    permissionKeys: ['view_any_rto'],
+    permissionKeys: ['view_any_registered_training_organization'],
   },
   '/country': {
     routePrefix: '/country',
@@ -226,5 +266,33 @@ export const routePermissions: any = {
   '/nise-publication': {
     routePrefix: '/nise-publication',
     permissionKeys: ['view_any_nise_publication'],
+  },
+  '/rpl-occupations': {
+    routePrefix: '/rpl-occupations',
+    permissionKeys: ['view_any_rpl_occupation'],
+  },
+  '/subjects': {
+    routePrefix: '/subjects',
+    permissionKeys: ['view_any_subject'],
+  },
+  '/rpl-levels': {
+    routePrefix: '/rpl-levels',
+    permissionKeys: ['view_any_rpl_level'],
+  },
+  '/assessments': {
+    routePrefix: '/assessments',
+    permissionKeys: ['view_any_assessment'],
+  },
+  '/question-banks': {
+    routePrefix: '/question-banks',
+    permissionKeys: ['view_any_question_bank'],
+  },
+  '/rpl-batches': {
+    routePrefix: '/rpl-batches',
+    permissionKeys: ['view_any_rpl_batch'],
+  },
+  '/assessment-question-sets': {
+    routePrefix: '/assessment-question-sets',
+    permissionKeys: ['view_any_assessment_question_set'],
   },
 };

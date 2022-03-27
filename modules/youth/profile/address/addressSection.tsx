@@ -18,6 +18,7 @@ import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import {Avatar, Box, Typography} from '@mui/material';
 import AddressViewPage from './addressViewPage';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const AddressSection = () => {
   const {messages} = useIntl();
@@ -93,7 +94,10 @@ const AddressSection = () => {
           <Box sx={{display: 'flex'}}>
             <Avatar>T</Avatar>
             <Typography style={{marginLeft: '15px'}}>
-              {messages['common.no_data_found']}
+              <NoDataFoundComponent
+                messageType={messages['common.address']}
+                messageTextType={'inherit'}
+              />
             </Typography>
           </Box>
         </>

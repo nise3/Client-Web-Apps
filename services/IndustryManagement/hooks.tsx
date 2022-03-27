@@ -207,10 +207,9 @@ export function useFetchPublicIndustryMembers(params: any) {
 }
 
 export function useFetchIndustryMembers(params: any) {
-  return useDataLocalizationAxiosSWR([
-    API_INDUSTRY_ASSOCIATION_MEMBERS,
-    params,
-  ]);
+  return useDataLocalizationAxiosSWR(
+    params ? [API_INDUSTRY_ASSOCIATION_MEMBERS, params] : null,
+  );
 }
 
 export function useFetchIndustryMember(memberId: number | null) {

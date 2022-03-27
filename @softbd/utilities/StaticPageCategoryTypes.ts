@@ -5,6 +5,7 @@ enum StaticPageCategoryTypes {
   TSP = 4,
   INDUSTRY = 5,
   INDUSTRY_ASSOCIATION = 6,
+  RPL = 7,
 }
 
 export default StaticPageCategoryTypes;

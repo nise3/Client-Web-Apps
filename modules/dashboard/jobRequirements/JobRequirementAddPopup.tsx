@@ -45,11 +45,20 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   const {createSuccessMessage} = useSuccessMessage();
   const [hrDemandFields, setHrDemandFields] = useState<Array<number>>([1]);
 
-  const [industryAssociationMembersFilter] = useState({});
+  const [
+    industryAssociationMembersFilter,
+    setIndustryAssociationMembersFilter,
+  ] = useState<any>(null);
   const {
     data: industryAssociationMembers,
     isLoading: isLoadingIndustryAssocMembers,
   } = useFetchIndustryMembers(industryAssociationMembersFilter);
+
+  useEffect(() => {
+    if (authUser && !authUser?.isOrganizationUser) {
+      setIndustryAssociationMembersFilter({});
+    }
+  }, [authUser]);
 
   const [industryAssociationFilter, setIndustryAssociationFilter] =
     useState<any>(null);
@@ -80,13 +89,17 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      organization_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['organization.label'] as string),
+      organization_id:
+        authUser && authUser.isOrganizationUser
+          ? yup.string().trim().nullable()
+          : yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['organization.label'] as string),
       industry_association_id:
-        authUser && authUser.isIndustryAssociationUser
+        authUser &&
+        (authUser.isIndustryAssociationUser || authUser.isOrganizationUser)
           ? yup.string().trim().nullable()
           : yup
               .string()
@@ -218,33 +231,37 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          {authUser && !authUser.isIndustryAssociationUser && (
+          {authUser &&
+            !authUser.isIndustryAssociationUser &&
+            !authUser.isOrganizationUser && (
+              <CustomFilterableFormSelect
+                required
+                id='industry_association_id'
+                label={messages['common.industry_association']}
+                isLoading={isLoadingIndustryAssociation}
+                options={industryAssociations}
+                optionValueProp={'id'}
+                optionTitleProp={['title', 'title_en']}
+                control={control}
+                errorInstance={errors}
+              />
+            )}
+        </Grid>
+        {authUser && !authUser.isOrganizationUser && (
+          <Grid item xs={12}>
             <CustomFilterableFormSelect
               required
-              id='industry_association_id'
-              label={messages['common.industry_association']}
-              isLoading={isLoadingIndustryAssociation}
-              options={industryAssociations}
+              id='organization_id'
+              label={messages['organization.label']}
+              isLoading={isLoadingIndustryAssocMembers}
+              options={industryAssociationMembers}
               optionValueProp={'id'}
               optionTitleProp={['title', 'title_en']}
               control={control}
               errorInstance={errors}
             />
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          <CustomFilterableFormSelect
-            required
-            id='organization_id'
-            label={messages['organization.label']}
-            isLoading={isLoadingIndustryAssocMembers}
-            options={industryAssociationMembers}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
-            errorInstance={errors}
-          />
-        </Grid>
+          </Grid>
+        )}
         {hrDemandFields.map((item, index) => {
           return (
             <React.Fragment key={index}>

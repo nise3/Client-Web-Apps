@@ -4,30 +4,30 @@ import {
   Email,
   Home,
   LocalPhone,
-  PhoneAndroid
+  PhoneAndroid,
 } from '@mui/icons-material';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import React, {useState} from 'react';
+import {useIntl} from 'react-intl';
 import GoToTop from '../../../../modules/goToTop';
-import { useFetchStaticPageBlock } from '../../../../services/cmsManagement/hooks';
-import { useFetchPublicInstituteDetailsWithParams } from '../../../../services/instituteManagement/hooks';
-import { FILE_SERVER_FILE_VIEW_ENDPOINT } from '../../../common/apiRoutes';
+import {useFetchStaticPageBlock} from '../../../../services/cmsManagement/hooks';
+import {useFetchPublicInstituteDetailsWithParams} from '../../../../services/instituteManagement/hooks';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 import {
   LINK_FRONTEND_INSTITUTE_CONTACT,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_NOTICE_BOARD,
   LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES,
-  LINK_INSTITUTE_FRONTEND_STATIC_CONTENT
+  LINK_INSTITUTE_FRONTEND_STATIC_CONTENT,
 } from '../../../common/appLinks';
-import { H6, Link, Text } from '../../../elements/common';
+import {H6, Link, Text} from '../../../elements/common';
 import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {
   BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_PRIVACY_POLICY,
-  CONTENT_ID_TERMS_AND_CONDITIONS
+  CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
 
 const PREFIX = 'Footer';
@@ -43,9 +43,9 @@ const classes = {
   textLineClamp: `${PREFIX}-textColor`,
 };
 
-const textColor = (theme:any) => ({ color: theme.palette.grey[700] });
+const textColor = (theme: any) => ({color: theme.palette.grey[700]});
 
-const StyledContainer = styled(Grid)(({ theme }) => ({
+const StyledContainer = styled(Grid)(({theme}) => ({
   marginTop: '80px',
   background: theme.palette.grey.A100,
   padding: '20px',
@@ -72,11 +72,11 @@ const StyledContainer = styled(Grid)(({ theme }) => ({
     textOverflow: 'ellipsis',
     display: '-webkit-box',
     '-webkitLineClamp': '4',
-    '-webkitBoxOrient': 'vertical'
-  }
+    '-webkitBoxOrient': 'vertical',
+  },
 }));
 
-const StyledFoot = styled(Grid)(({ theme }) => ({
+const StyledFoot = styled(Grid)(({theme}) => ({
   marginTop: '50px',
 
   [`& .${classes.footerImage}`]: {
@@ -102,22 +102,22 @@ const StyledFoot = styled(Grid)(({ theme }) => ({
 
 // const langConst: LanguageCodes;
 const Footer = () => {
-  const { messages, locale } = useIntl();
+  const {messages, locale} = useIntl();
   const [instituteFilter] = useState({});
   const [staticPageParams] = useState<any>({
-    selected_language: locale
+    selected_language: locale,
   });
-  const { data: institute } =
+  const {data: institute} =
     useFetchPublicInstituteDetailsWithParams(instituteFilter);
-    
-    // const [staticPageParams] = useState<any>({});
 
-    const {data: blockData} = useFetchStaticPageBlock(
-      BLOCK_ID_INSTITUTE_DETAILS,
-      staticPageParams,
-    );
+  // const [staticPageParams] = useState<any>({});
 
-    console.log('public institute details ', blockData)
+  const {data: blockData} = useFetchStaticPageBlock(
+    BLOCK_ID_INSTITUTE_DETAILS,
+    staticPageParams,
+  );
+
+  // console.log('public institute details ', blockData)
 
   const getAddress = () => {
     let address = '';
@@ -151,11 +151,13 @@ const Footer = () => {
                 instituteName={institute?.title}
                 instituteLogo={institute?.logo}
               />
-              <Box className={classes.textLineClamp} mt={4}
-               dangerouslySetInnerHTML={{__html: blockData?.content}}>
-                  {/* <Text className={classes.textColor} >*/}
-                  
-                  {/* </Text> */}
+              <Box
+                className={classes.textLineClamp}
+                mt={4}
+                dangerouslySetInnerHTML={{__html: blockData?.content}}>
+                {/* <Text className={classes.textColor} >*/}
+
+                {/* </Text> */}
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
                 <Link
@@ -172,44 +174,48 @@ const Footer = () => {
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4} lg={4} p={0} sx={{ marginTop: 3 }}>
+            <Grid item xs={12} md={4} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>{messages['footer.contact']}</H6>
               <Box display='flex' mt={4}>
                 <Home className={classes.primary} />
-                <Text style={{ marginLeft: '6px' }} className={classes.textColor}>
+                <Text style={{marginLeft: '6px'}} className={classes.textColor}>
                   {getAddress()}
                 </Text>
               </Box>
               <Box display='flex' mt={4}>
                 <Email className={classes.primary} />
                 <Text
-                  style={{ marginTop: '2px', marginLeft: '6px' }}
+                  style={{marginTop: '2px', marginLeft: '6px'}}
                   className={classes.textColor}>
                   {institute?.email}
                 </Text>
               </Box>
-              {
-                institute?.primary_mobile ?
-                  <Box display='flex' mt={4}>
-                    <PhoneAndroid className={classes.primary} />
-                    <Text style={{ marginLeft: '6px' }} className={classes.textColor}>
-                     {institute?.primary_mobile}
-                    </Text>
-                  </Box>
-                  : <></>
-              }
-              {
-                institute?.primary_phone ?
-                  <Box display='flex' mt={4}>
-                    <LocalPhone className={classes.primary} />
-                    <Text style={{ marginLeft: '6px' }} className={classes.textColor}>
-                     {institute?.primary_phone}
-                    </Text>
-                  </Box>
-                  : <></>
-              }
+              {institute?.primary_mobile ? (
+                <Box display='flex' mt={4}>
+                  <PhoneAndroid className={classes.primary} />
+                  <Text
+                    style={{marginLeft: '6px'}}
+                    className={classes.textColor}>
+                    {institute?.primary_mobile}
+                  </Text>
+                </Box>
+              ) : (
+                <></>
+              )}
+              {institute?.primary_phone ? (
+                <Box display='flex' mt={4}>
+                  <LocalPhone className={classes.primary} />
+                  <Text
+                    style={{marginLeft: '6px'}}
+                    className={classes.textColor}>
+                    {institute?.primary_phone}
+                  </Text>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Grid>
-            <Grid item xs={12} md={4} lg={4} p={0} sx={{ marginTop: 3 }}>
+            <Grid item xs={12} md={4} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>
                 {messages['footer.important_links']}
               </H6>
@@ -229,7 +235,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.about_us']}
@@ -238,16 +244,16 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
-                    {messages['footer.news']}
+                    {messages['footer.notices']}
                   </Link>
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.events']}
@@ -256,7 +262,7 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.contact']}
@@ -269,7 +275,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.user_manual']}
@@ -280,7 +286,7 @@ const Footer = () => {
                     href={LINK_FRONTEND_INSTITUTE_FAQ}
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.faq']}
@@ -308,7 +314,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.terms_and_conditions']}
@@ -320,7 +326,7 @@ const Footer = () => {
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
-                      sx={{ fontSize: '0.625rem', marginRight: '2px' }}
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />
                     {messages['footer.privacy_policy']}

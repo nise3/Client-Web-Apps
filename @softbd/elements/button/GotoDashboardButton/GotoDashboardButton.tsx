@@ -19,11 +19,10 @@ const GotoDashboardButton = ({className, ...extra}: Props) => {
     if (authUser && authUser.isYouthUser) {
       Router.push(youthDomain() + LINK_FRONTEND_YOUTH_FEED);
     } else if (
-      authUser &&
-      (authUser.isSystemUser ||
-        authUser.isInstituteUser ||
-        authUser.isOrganizationUser ||
-        authUser.isIndustryAssociationUser)
+      authUser?.isSystemUser ||
+      authUser?.isInstituteUser ||
+      authUser?.isOrganizationUser ||
+      authUser?.isIndustryAssociationUser
     ) {
       Router.push(adminDomain());
     } else {

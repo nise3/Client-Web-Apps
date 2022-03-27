@@ -22,7 +22,7 @@ const StyledButton = styled(Button)(({theme}) => ({
 
 type CustomParabolaButtonProps = {
   icon?: any;
-  title: string;
+  title?: string;
   color?: string;
   buttonVariant?: 'text' | 'contained' | 'outlined';
   onClick?: () => void;

@@ -179,7 +179,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
         .trim()
         .required()
         .min(3)
-        .label(messages['user.username'] as string),
+        .label(messages['common.user_id'] as string),
       email: yup
         .string()
         .trim()
@@ -230,8 +230,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
       row_status: yup
         .string()
         .required()
-        .label(messages['common.status'] as string)
-      ,
+        .label(messages['common.status'] as string),
     });
   }, [itemId, messages, isEdit]);
 
@@ -426,7 +425,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='username'
-            label={messages['user.username']}
+            label={messages['common.user_id']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

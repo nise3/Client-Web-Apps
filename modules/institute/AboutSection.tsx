@@ -13,7 +13,6 @@ import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTyp
 import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
-import {useIntl} from 'react-intl';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'AboutSection';
@@ -99,7 +98,6 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const AboutSection = () => {
-  const {messages} = useIntl();
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
@@ -223,10 +221,7 @@ const AboutSection = () => {
         </Container>
       ) : (
         <Grid container sx={{marginTop: '-35px'}}>
-          <NoDataFoundComponent
-            message={messages['common.no_data_found'] as string}
-            messageTextType={'h6'}
-          />
+          <NoDataFoundComponent messageTextType={'h6'} />
         </Grid>
       )}
     </StyledGrid>

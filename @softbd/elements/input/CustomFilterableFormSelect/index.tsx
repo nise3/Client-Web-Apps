@@ -20,6 +20,7 @@ type Props = {
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
   onChange?: (e: any) => any;
+  getOptionDisabled?: (e: any) => any;
   isDisabled?: boolean;
 };
 
@@ -37,9 +38,9 @@ const CustomFilterableFormSelect = ({
   options,
   optionValueProp,
   optionTitleProp,
+  getOptionDisabled
 }: Props) => {
   const {messages} = useIntl();
-
   const getTitle = (
     option: any,
     optionTitleProp: Array<string> | undefined,
@@ -96,6 +97,7 @@ const CustomFilterableFormSelect = ({
 
               return getTitle(item, optionTitleProp);
             }}
+            getOptionDisabled={getOptionDisabled}
             isOptionEqualToValue={(option: any, value: any) => {
               return String(option[optionValueProp]) === String(value);
             }}

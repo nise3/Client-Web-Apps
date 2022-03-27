@@ -4,6 +4,10 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_LANGUAGES,
+  API_PUBLIC_GET_BUSINESS_AREAS,
+  API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_PUBLIC_RPL_APPLICATIONS,
+  API_SKILLS,
   API_YOUTH_ADDRESSES,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_COURSES,
@@ -13,14 +17,11 @@ import {
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
-  API_YOUTHS,
+  API_YOUTH_MY_JOBS,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
-  API_SKILLS,
-  API_PUBLIC_GET_EXPERIENCE_AREAS,
-  API_PUBLIC_GET_BUSINESS_AREAS,
-  API_YOUTH_MY_JOBS,
+  API_YOUTHS,
   API_YOUTH_FEED_DATA_LIST,
 } from '../../@softbd/common/apiRoutes';
 
@@ -167,4 +168,10 @@ export function useFetchYouthAddresses(params: any) {
 
 export function useFetchYouthAddress(addressId: number | null) {
   return useAxiosSWR(addressId ? API_YOUTH_ADDRESSES + '/' + addressId : null);
+}
+
+export function useFetchPublicRplApplication(application_id: number | null) {
+  return useAxiosSWR(
+    application_id ? API_PUBLIC_RPL_APPLICATIONS + '/' + application_id : null,
+  );
 }

@@ -15,6 +15,11 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
+
+import {
   assignServiceToOrganizationUnit,
   createOrganizationUnit,
   updateOrganizationUnit,
@@ -125,14 +130,13 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      organization_id:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['organization.label'] as string)
-          : yup.string().label(messages['organization.label'] as string),
+      organization_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['organization.label'] as string)
+        : yup.string().label(messages['organization.label'] as string),
       organization_unit_type_id: yup
         .string()
         .required()
@@ -142,6 +146,22 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['organization_unit.employee_size'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages]);
 
@@ -435,6 +455,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -444,6 +465,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={6}>
