@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
@@ -557,70 +557,78 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
               />
             </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='contact_person_name'
-                label={messages['common.contact_person_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='h6' marginBottom={1}>
+                {messages['common.contact_person_info']}
+              </Typography>
+              <Grid container spacing={5}>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_name'
+                    label={messages['common.contact_person_name']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='contact_person_name_en'
-                label={messages['common.contact_person_name_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='contact_person_name_en'
+                    label={messages['common.contact_person_name_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='contact_person_designation'
-                label={messages['common.contact_person_designation']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_designation'
+                    label={messages['common.contact_person_designation']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                id='contact_person_designation_en'
-                label={messages['common.contact_person_designation_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='contact_person_designation_en'
+                    label={messages['common.contact_person_designation_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='contact_person_mobile'
-                label={messages['common.contact_person_mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_mobile'
+                    label={messages['common.contact_person_mobile']}
+                    helperText={messages['common.registration_username_note']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='017xxxxxxxx'
+                  />
+                </Grid>
 
-            <Grid item xs={6}>
-              <CustomTextInput
-                required
-                id='contact_person_email'
-                label={messages['common.contact_person_email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='example@gmail.com'
-              />
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_email'
+                    label={messages['common.contact_person_email']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='example@gmail.com'
+                  />
+                </Grid>
+              </Grid>
             </Grid>
 
             {/*new*/}
