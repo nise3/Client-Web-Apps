@@ -46,16 +46,6 @@ const PopularCoursesSection = ({
     page_size: showAllCourses ? pageSize : PageSizes.FOUR,
   });
 
-  // const urlParamsUpdate = (router: any, params: any) => {
-  //   router.push(
-  //     {
-  //       pathname: router.pathname,
-  //       query: params,
-  //     },
-  //     undefined,
-  //     {shallow: true},
-  //   );
-  // };
 
   useEffect(() => {
     page.current = 1;
@@ -144,28 +134,6 @@ const PopularCoursesSection = ({
                     </Grid>
                   );
                 })}
-
-              {/* {showAllCourses && popularCoursesMetaData.total_page > 1 && (
-                <Grid
-                  item
-                  md={12}
-                  mt={4}
-                  display={'flex'}
-                  justifyContent={'center'}>
-                  <Stack spacing={2}>
-                    <Pagination
-                      page={page.current}
-                      count={popularCoursesMetaData.total_page}
-                      color={'primary'}
-                      shape='rounded'
-                      onChange={onPaginationChange}
-                    />
-                  </Stack>
-                </Grid>
-              )} */}
-              {/* {
-                console.log('popularCoursesMetaData ', popularCoursesMetaData)
-              } */}
               {showAllCourses &&
                 popularCoursesMetaData.total_page > 1 && (
                   <Grid

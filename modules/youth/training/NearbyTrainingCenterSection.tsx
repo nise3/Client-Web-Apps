@@ -94,17 +94,6 @@ const NearbyTrainingCenterSection = ({
     }
   }, [trainingCentersMetaData, router]);
 
-  // const urlParamsUpdate = (params: any) => {
-  //   router.push(
-  //     {
-  //       pathname: router.pathname,
-  //       query: params,
-  //     },
-  //     undefined,
-  //     {shallow: true},
-  //   );
-  // };
-
   const onPaginationChange = useCallback(
     (event: any, currentPage: number) => {
       page.current = currentPage;
