@@ -11,6 +11,8 @@ import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import { urlParamsUpdate } from '../youthConstants';
 
 const PREFIX = 'PopularCoursesSection';
 
@@ -38,10 +40,22 @@ const PopularCoursesSection = ({
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.pathname;
+  const pageSize: string | number | string[] = (router.query && router.query.page_size) ? router.query.page_size : PageSizes.EIGHT;
 
   const [courseFilters, setCourseFilters] = useState<any>({
-    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
+    page_size: showAllCourses ? pageSize : PageSizes.FOUR,
   });
+
+  // const urlParamsUpdate = (router: any, params: any) => {
+  //   router.push(
+  //     {
+  //       pathname: router.pathname,
+  //       query: params,
+  //     },
+  //     undefined,
+  //     {shallow: true},
+  //   );
+  // };
 
   useEffect(() => {
     page.current = 1;
@@ -62,13 +76,31 @@ const PopularCoursesSection = ({
     isLoading: isLoadingCourseList,
   } = useFetchCourseList(pathValue, courseFilters);
 
+  // console.log( 'load popularCoursesMetaData ', popularCoursesMetaData)
+
   const page = useRef<any>(1);
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setCourseFilters((params: any) => {
       return {...params, ...{page: currentPage}};
     });
-  }, []);
+    urlParamsUpdate(router, {...router.query, page: currentPage});
+  }, [router]);
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setCourseFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllCourses
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
+    },
+    [router],
+  );
 
   return (
     <StyledGrid container spacing={3} mb={8}>
@@ -113,7 +145,7 @@ const PopularCoursesSection = ({
                   );
                 })}
 
-              {showAllCourses && popularCoursesMetaData.total_page > 1 && (
+              {/* {showAllCourses && popularCoursesMetaData.total_page > 1 && (
                 <Grid
                   item
                   md={12}
@@ -130,7 +162,30 @@ const PopularCoursesSection = ({
                     />
                   </Stack>
                 </Grid>
-              )}
+              )} */}
+              {/* {
+                console.log('popularCoursesMetaData ', popularCoursesMetaData)
+              } */}
+              {showAllCourses &&
+                popularCoursesMetaData.total_page > 1 && (
+                  <Grid
+                    item
+                    md={12}
+                    mt={4}
+                    display={'flex'}
+                    justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <CustomPaginationWithPageNumber
+                        count={popularCoursesMetaData.total_page}
+                        currentPage={1}
+                        queryPageNumber={page.current}
+                        onPaginationChange={onPaginationChange}
+                        rowsPerPage={Number(router.query.page_size)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
             </>
           ) : (
             <NoDataFoundComponent messageType={messages['course.label']} />
