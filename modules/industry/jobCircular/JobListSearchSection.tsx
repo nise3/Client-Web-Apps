@@ -59,9 +59,14 @@ export const StyledBox = styled(Box)(({theme}) => ({
 interface IProps {
   addFilterKey: (filterKey: string, filterValue: any) => void;
   routeParamsFilters?: (filters: Array<FilterItem>) => void;
+  onResetClick?: () => void;
 }
 
-const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
+const JobListSearchSection = ({
+  addFilterKey,
+  routeParamsFilters,
+  onResetClick,
+}: IProps) => {
   const {messages} = useIntl();
 
   const searchTextField = useRef<any>();
@@ -272,11 +277,13 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
     setSelectedLocUpazilaId('');
     addFilterKey('loc_upazila_id', 0);
     addFilterKey('page_size', 8);
+    addFilterKey('page', 1);
 
     setSelectJobSectorsId('');
     setSelectOccupationId('');
     setSelectedJobLevel('');
     setSelectJobSectorsId('');
+    onResetClick();
     urlParamsUpdate({
       skill_ids: '',
       job_sector_ids: '',
@@ -284,6 +291,8 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
       search_text: '',
       job_level: '',
       upazila: '',
+      page_size: '',
+      page: '',
     });
   }, []);
 
