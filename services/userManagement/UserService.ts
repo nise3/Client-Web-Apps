@@ -43,7 +43,7 @@ export const createUser = async (data: IUser) => {
 
 export const updateUser = async (userId: number, data: IUser) => {
   try {
-    let response: any = await apiPost(API_USERS + '/' + userId, data);
+    let response: any = await apiPut(API_USERS + '/' + userId, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
