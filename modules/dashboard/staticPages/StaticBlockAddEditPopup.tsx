@@ -684,7 +684,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['static_page.add_language']}
           </Button>
         </Grid>
 
