@@ -64,6 +64,7 @@ export const religions = [
     label: 'Others',
   },
 ];
+
 export const catchBlockHandler = (error: any, message = '') => {
   throw error;
 };

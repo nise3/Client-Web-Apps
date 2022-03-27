@@ -4,10 +4,11 @@ import {Button, Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {ArrowRightAlt} from '@mui/icons-material';
-import {H6, Link} from '../../@softbd/elements/common';
+import {Link} from '../../@softbd/elements/common';
 import {useFetchPublicRecentActivities} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
 import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../@softbd/common/appLinks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -84,7 +85,10 @@ const RecentActivities = () => {
           {recentActivitiesList && recentActivitiesList.length > 0 ? (
             <RecentActivityMasonryGroupView items={recentActivitiesList} />
           ) : (
-            <H6>{messages['common.no_data_found']}</H6>
+            <NoDataFoundComponent
+              messageType={messages['menu.recent_activity']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
       </Grid>

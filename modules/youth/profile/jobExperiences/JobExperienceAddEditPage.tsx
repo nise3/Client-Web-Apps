@@ -100,6 +100,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         .label(messages['common.location_bn'] as string),
       start_date: yup
         .string()
+        .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.start_date'] as string),

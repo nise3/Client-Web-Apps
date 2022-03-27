@@ -69,23 +69,22 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
           <Grid item xs={12}>
             <BoxCardsSkeleton />
           </Grid>
-        ) : courseList?.length > 0 ? (
+        ) : courseList && courseList.length > 0 ? (
           <Grid item xs={12}>
             <Grid container spacing={5}>
-              {courseList &&
-                courseList.map((course: any) => {
-                  return (
-                    <Grid item xs={12} sm={4} md={3} key={course.id}>
-                      <Link href={`/course-details/${course.id}`}>
-                        <CourseCardComponent course={course} />
-                      </Link>
-                    </Grid>
-                  );
-                })}
+              {courseList.map((course: any) => {
+                return (
+                  <Grid item xs={12} sm={4} md={3} key={course.id}>
+                    <Link href={`/course-details/${course.id}`}>
+                      <CourseCardComponent course={course} />
+                    </Link>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Grid>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['course.label']} />
         )}
       </Grid>
     </Container>

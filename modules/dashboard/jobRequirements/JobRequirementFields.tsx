@@ -45,11 +45,20 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={3}>
           <CustomDateTimeField
             required
             id={'hr_demands[' + index + '][end_date]'}
             label={messages['common.end_date']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <CustomTextInput
+            required
+            id={'hr_demands[' + index + '][vacancy]'}
+            label={messages['common.vacancy']}
             register={register}
             errorInstance={errors}
           />
@@ -82,32 +91,6 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id={'hr_demands[' + index + '][vacancy]'}
-            label={messages['common.vacancy']}
-            register={register}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id={'hr_demands[' + index + '][requirement]'}
-            label={messages['common.requirements']}
-            register={register}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id={'hr_demands[' + index + '][requirement_en]'}
-            label={messages['common.requirements_en']}
-            register={register}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
             id={'hr_demands[' + index + '][designation]'}
             label={messages['common.designation']}
             register={register}
@@ -120,6 +103,27 @@ const JobRequirementFields: FC<CustomFieldProps> = ({
             label={messages['common.designation_en']}
             register={register}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id={'hr_demands[' + index + '][requirement]'}
+            label={messages['common.requirements']}
+            register={register}
+            errorInstance={errors}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id={'hr_demands[' + index + '][requirement_en]'}
+            label={messages['common.requirements_en']}
+            register={register}
+            errorInstance={errors}
+            multiline={true}
+            rows={3}
           />
         </Grid>
       </Grid>

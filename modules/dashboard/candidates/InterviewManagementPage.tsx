@@ -134,7 +134,7 @@ const InterviewManagementPage = ({jobId}: InterviewManagementPageProps) => {
           ))}
 
           {candidateList && candidateList.length == 0 && (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.candidates']} />
           )}
         </React.Fragment>
       )}

@@ -101,7 +101,6 @@ const InstituteVideos = () => {
     isLoading: isLoadingVideoContents,
     metaData,
   } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
-
   const [videoAlbumFilter] = useState<any>({
     album_type: AlbumTypes.VIDEO,
   });
@@ -268,7 +267,7 @@ const InstituteVideos = () => {
                                 component='img'
                                 height='140'
                                 image={
-                                  data?.content_grid_image_path ??
+                                  data?.content_thumb_image_path ??
                                   '/images/blank_gray_image.png'
                                 }
                                 alt={data?.title}
@@ -321,7 +320,7 @@ const InstituteVideos = () => {
               </Grid>
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.video']} />
           )}
         </Grid>
         {openDialog && videoData && (

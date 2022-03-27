@@ -11,7 +11,8 @@ import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
-import {Avatar, Box, Typography} from '@mui/material';
+import {Avatar, Box} from '@mui/material';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const ReferenceSection = () => {
   const {messages} = useIntl();
@@ -74,9 +75,11 @@ const ReferenceSection = () => {
           <HorizontalLine />
           <Box sx={{display: 'flex'}}>
             <Avatar>C</Avatar>
-            <Typography style={{marginLeft: '15px'}}>
-              {messages['common.no_data_found']}
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['reference.label']}
+              messageTextType={'inherit'}
+              sx={{marginLeft: '15px', marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (

@@ -182,15 +182,17 @@ export const getCommonAuthUserObject = (
   authUser: TAuthUserSSOResponse,
 ): CommonAuthUser => {
   return {
-    isIndustryAssociationUser: authUser.isIndustryAssociationUser,
     userId: authUser?.user_id,
     isYouthUser: false,
     domain: authUser?.domain,
+    isSystemUser: authUser?.isSystemUser,
     isInstituteUser: authUser?.isInstituteUser,
     isTrainingCenterUser:
       authUser?.isInstituteUser && authUser?.training_center_id != null,
     isOrganizationUser: authUser?.isOrganizationUser,
-    isSystemUser: authUser?.isSystemUser,
+    isIndustryAssociationUser: authUser.isIndustryAssociationUser,
+    isRegisteredTrainingOrganizationUser:
+      authUser?.isRegisteredTrainingOrganizationUser,
     userType: authUser?.userType,
     institute_id: authUser?.institute_id,
     institute: authUser?.institute,
@@ -210,6 +212,10 @@ export const getCommonAuthUserObject = (
     branch_id: authUser?.branch_id,
     industry_association_id: authUser?.industry_association_id,
     industry_association: authUser?.industry_association,
+    registered_training_organization_id:
+      authUser?.registered_training_organization_id,
+    registered_training_organization:
+      authUser?.registered_training_organization,
   };
 };
 
@@ -217,15 +223,16 @@ export const getYouthAuthUserObject = (
   authUser: TYouthAuthUserSSOResponse,
 ): YouthAuthUser => {
   return {
-    isIndustryAssociationUser: false,
     isYouthUser: true,
     userType: authUser?.userType,
     authType: AuthType.AUTH2,
     displayName: authUser?.displayName,
+    isSystemUser: false,
     isInstituteUser: false,
     isTrainingCenterUser: false,
     isOrganizationUser: false,
-    isSystemUser: false,
+    isIndustryAssociationUser: false,
+    isRegisteredTrainingOrganizationUser: false,
     email: authUser?.email,
     uid: authUser?.sub,
     youthId: authUser?.id,

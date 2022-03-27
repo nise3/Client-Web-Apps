@@ -109,14 +109,13 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.type'] as string),
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.show_in'] as string)
-          : yup.string(),
+      show_in: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.show_in'] as string)
+        : yup.string(),
       institute_id: yup
         .mixed()
         .label(messages['common.institute'] as string)
@@ -455,7 +454,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
+        {authUser?.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
               <CustomFormSelect

@@ -19,6 +19,7 @@ import {
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {
   useFetchBranches,
+  useFetchInstitute,
   useFetchTrainingCenter,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -33,12 +34,15 @@ import {
   filterUpazilasByDistrictId,
 } from '../../../services/locationManagement/locationUtils';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {ITrainingCenter} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -56,6 +60,7 @@ const initialValues = {
   title_en: '',
   title: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   loc_division_id: '',
   loc_district_id: '',
@@ -80,9 +85,9 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser<CommonAuthUser>();
 
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitute(instituteFilters);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -95,9 +100,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
-  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [branchFilters, setBranchFilters] = useState<any>(null);
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
@@ -111,20 +114,15 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser?.isSystemUser) {
-      (async () => {
-        try {
-          setIsLoadingInstitutes(true);
-          let response = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          if (response && response?.data) {
-            setInstitutes(response.data);
-          }
-        } catch (e) {}
-      })();
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
-  }, []);
+
+    if (!authUser?.isIndustryAssociationUser) {
+      setBranchFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -132,31 +130,52 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: authUser?.isInstituteUser
-        ? yup.string()
-        : yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['institute.label'] as string),
+      institute_id:
+        authUser?.isInstituteUser || authUser?.isIndustryAssociationUser
+          ? yup.string().nullable()
+          : yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['institute.label'] as string),
       center_location_type: yup
         .string()
         .trim()
         .required()
         .label(messages['training_center.centerLocationType'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
-  }, [messages]);
+  }, [messages, authUser]);
 
   const {
     control,
     register,
     reset,
     setError,
+    // getValues,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<ITrainingCenter>({
     resolver: yupResolver(validationSchema),
   });
+
+  // console.log('form getValues ',getValues())
+  // console.log('form errors ', errors);
 
   useEffect(() => {
     if (itemData) {
@@ -164,6 +183,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         loc_division_id: itemData?.loc_division_id,
         loc_district_id: itemData?.loc_district_id,
@@ -183,11 +203,12 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
       setUpazilasList(
         filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
       );
-
-      setBranchFilters({
-        institute_id: itemData?.institute_id,
-        row_status: RowStatus.ACTIVE,
-      });
+      if (!authUser?.isIndustryAssociationUser) {
+        setBranchFilters({
+          institute_id: itemData?.institute_id,
+          row_status: RowStatus.ACTIVE,
+        });
+      }
     } else {
       reset(initialValues);
     }
@@ -221,6 +242,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   ) => {
     if (!authUser?.isSystemUser) {
       delete data.institute_id;
+      delete data.industry_association_id;
     }
 
     try {
@@ -303,18 +325,20 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {!authUser?.isIndustryAssociationUser && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='branch_id'
+              label={messages['branch.label']}
+              isLoading={isLoadingBranches}
+              control={control}
+              options={branches}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
         <Grid item xs={6}>
           <CustomFormSelect
             required
@@ -391,6 +415,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -400,6 +425,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -409,6 +435,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.MAP_SOURCE}
           />
         </Grid>
         <Grid item xs={12}>

@@ -14,6 +14,7 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   logo: string;
   primary_phone: string;
   phone_numbers: Array<object>;
+  rto_occupation_exceptions?: Array<any>;
   primary_mobile: string;
   mobile_numbers: Array<object>;
   email: string;
@@ -21,9 +22,21 @@ export interface IInstitute extends IIdTitleCreateUpdateAt {
   row_status?: string;
   deleted_at?: string;
 }
+export interface ISubject extends IIdTitleCreateUpdateAt {
+  title: string;
+  title_en: string;
+}
+
+export interface IQuestionSet extends IIdTitleCreateUpdateAt {
+  assessment_id: string | number;
+  title: string;
+  title_en: string;
+  row_status?: string;
+}
 
 export interface IProgramme extends IIdTitleCreateUpdateAt {
   institute_id?: string | number;
+  industry_association_id?: string | number;
   institute_title_en?: string;
   code?: string;
   logo?: string;
@@ -36,6 +49,7 @@ export interface IProgramme extends IIdTitleCreateUpdateAt {
 export interface ICourse extends IIdTitleCreateUpdateAt {
   code: string;
   institute_id?: number | string;
+  industry_association_id?: number | string;
   institute_title?: string;
   institute_title_en?: string;
   branch_id?: number | string;
@@ -87,6 +101,7 @@ export interface IBranch extends IIdTitleCreateUpdateAt {
 
 export interface ITrainingCenter extends IIdTitleCreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   branch_id?: number | string;
   loc_division_id?: number | string;
   loc_district_id?: number | string;
@@ -103,9 +118,11 @@ export interface ITrainingCenter extends IIdTitleCreateUpdateAt {
 
 export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   trainer_name_en?: string;
   trainer_name: string;
   branch_id?: number | string;
+  role_id: number | string;
   training_center_id?: number | string;
   trainer_registration_number: number | string;
   email: string;
@@ -133,13 +150,13 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   educational_qualification_en?: string;
   photo?: string;
   signature?: string;
-  skills?: any;
-  skills_en?: string;
+  skills?: Array<any>;
   row_status?: string;
 }
 
 export interface IBatch extends IIdTitleCreateUpdateAt {
   institute_id?: number | string;
+  industry_association_id?: number | string;
   course_id: number | string;
   training_center_id?: number | string;
   branch_id?: number | string;

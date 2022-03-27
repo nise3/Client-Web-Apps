@@ -156,9 +156,9 @@ const GraphView = () => {
     pager.className = 'series-pager';
     node.appendChild(pager);
     pager.innerHTML = `
-      <div class="back-btn"></div>
-      <div class="series-name"></div>
-      <div class="next-btn"></div>
+      <div class='back-btn'></div>
+      <div class='series-name'></div>
+      <div class='next-btn'></div>
     `;
 
     const div = DIV();
@@ -316,10 +316,10 @@ const GraphView = () => {
     const toggleDS = DIV('toggle-4ir');
     node.appendChild(toggleDS);
     toggleDS.innerHTML = `
-        <input type="radio" id="graph_type_toggle_fourth_4" name="graph_type_toggle_4" checked />
-        <label for="graph_type_toggle_fourth_4">Future Occupations (Research Data)</label>
-        <input type="radio" id="graph_type_toggle_fifth_4" name="graph_type_toggle_4" />
-        <label for="graph_type_toggle_fifth_4">Future Occupations (Real-time Data)</label>
+        <input type='radio' id='graph_type_toggle_fourth_4' name='graph_type_toggle_4' checked />
+        <label for='graph_type_toggle_fourth_4'>Future Occupations (Research Data)</label>
+        <input type='radio' id='graph_type_toggle_fifth_4' name='graph_type_toggle_4' />
+        <label for='graph_type_toggle_fifth_4'>Future Occupations (Real-time Data)</label>
       `;
     toggleDS.onclick = () => {
       // @ts-ignore
@@ -541,9 +541,9 @@ const GraphView = () => {
       legends.className = 'series-legend';
       node.appendChild(legends);
       legends.innerHTML = `
-        <div><div style="background: ${colors[0]};"></div> ${dataYears[0]}</div>
-        <div><div style="background: ${colors[1]};"></div> ${dataYears[1]}</div>
-        <div><div style="background: ${colors[2]};"></div> ${dataYears[2]}</div>
+        <div><div style='background: ${colors[0]};'></div> ${dataYears[0]}</div>
+        <div><div style='background: ${colors[1]};'></div> ${dataYears[1]}</div>
+        <div><div style='background: ${colors[2]};'></div> ${dataYears[2]}</div>
       `;
       let didDrawVerticalLabel = false;
 
@@ -611,7 +611,12 @@ const GraphView = () => {
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg' disableGutters>
-        <SectionTitle title='Projection of Future Jobs' center={true} />
+        <SectionTitle
+          title={
+            messages['graph_view_title.projection_of_future_jobs'] as string
+          }
+          center={true}
+        />
 
         <Box
           sx={{

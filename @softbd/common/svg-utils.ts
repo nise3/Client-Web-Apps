@@ -390,7 +390,7 @@ export function areaText(
   const $tex = $(textRoot);
   // console.log($tex[0]);
   // $tex.clone().attr({ fill: '#f00', x: 0, y: 0 }).insertBefore($tex).prevAll('[pseudo="area"],[data-name*="::a;"]').attr('fill', '#bbb');
-  console.time('AreaText');
+  // console.time('AreaText');
   // if(!(prop.ff in FD)) return [];
   // @ts-ignore
   let NBS = '&#160;',
@@ -630,7 +630,7 @@ export function areaText(
       })
       .join(''),
   );
-  console.timeEnd('AreaText');
+  // console.timeEnd('AreaText');
   // console.log(clg);
   return lns;
 }
@@ -648,7 +648,7 @@ export const setAreaText = (
   const lh = 1.25 * fs;
   const bl = 0.8;
   let lastCord = 0;
-  if (Array.isArray(text)) {
+  if (text && Array.isArray(text)) {
     //last item
     // console.log('last text element ', textElement[ text.length - 1 ]);
     const SVG_NS = "http://www.w3.org/2000/svg";
@@ -659,7 +659,7 @@ export const setAreaText = (
       let text = document.createElementNS(SVG_NS, "text");
       if (i > 0) {
         const previousTxt = textElement[i-1];
-        console.log(`${id} :`, previousTxt.getBBox());
+        // console.log(`${id} :`, previousTxt.getBBox());
         const previousBoxHeight = previousTxt.getBBox().height;
         const heightWithPrev = previousBoxHeight + 5;
         // text.setAttributeNS(null, 'x', rect.x);
@@ -680,17 +680,19 @@ export const setAreaText = (
       textElement.push(currentChildren);
     });
   } else {
-    g.children[1].innerHTML = text;
+    if(text)
+      g.children[1].innerHTML = text;
     areaText(g.children[1], rect, { fs, lh, bl, ta: textAlign });
     textElement.push(g.children[1]);
   }
   // console.log('textElement ', textElement);
 
   g.children[0].setAttribute('fill', 'transparent');
-  const lastElem = textElement[ text.length - 1 ];
+  const lastElem = text ? textElement[ text.length - 1 ] : textElement[0];
   return {
     textElement,
     lastElement: lastElem,
     lastCord
   }
 };
+

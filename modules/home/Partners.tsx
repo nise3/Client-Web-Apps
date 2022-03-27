@@ -2,11 +2,12 @@ import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {H6, Link} from '../../@softbd/elements/common';
+import {Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPartners} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
-import BoxCardsSkeleton from "../institute/Components/BoxCardsSkeleton";
+import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'Partners';
 
@@ -47,7 +48,8 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const Partners = () => {
   const {messages} = useIntl();
   const [partnerFilters] = useState({});
-  const {data: partners, isLoading:isLoadingPartners} = useFetchPublicPartners(partnerFilters);
+  const {data: partners, isLoading: isLoadingPartners} =
+    useFetchPublicPartners(partnerFilters);
   const cardItem = (partner: any, key: number) => {
     return partner?.domain ? (
       <Link href={partner?.domain} target='_blank' passHref key={key}>
@@ -94,19 +96,20 @@ const Partners = () => {
           title={messages['nise.partners'] as string}
           center={true}
         />
-        <Box mb={2} sx={{marginTop: '-16px'}}>{isLoadingPartners ? (
+        <Box mb={2} sx={{marginTop: '-16px'}}>
+          {isLoadingPartners ? (
             <BoxCardsSkeleton />
-          ):
-          partners && partners.length > 0 ? (
+          ) : partners && partners.length > 0 ? (
             <CustomCarousel>
               {partners.map((partner: any, key: number) =>
                 cardItem(partner, key),
               )}
             </CustomCarousel>
           ) : (
-            <H6 style={{textAlign: 'center'}}>
-              {messages['common.no_data_found']}
-            </H6>
+            <NoDataFoundComponent
+              messageType={messages['common.partner']}
+              messageTextType={'h6'}
+            />
           )}
         </Box>
       </Container>

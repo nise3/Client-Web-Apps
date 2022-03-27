@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import {
   createInstitute,
   updateInstitute,
@@ -42,17 +42,14 @@ import {
   useFetchPermissionGroups,
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
+import {PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-
-export enum InstituteType {
-  GOVERNMENT = '1',
-  NON_GOVERNMENT = '0',
-}
+import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -63,9 +60,8 @@ interface InstituteAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  // domain: '',
-  institute_type_id: '0',
-  service_type: '2',
+  institute_type_id: InstituteTypes.GOVERNMENT,
+  service_type: InstituteServiceTypes.CERTIFICATE,
   code: '',
   address: '',
   primary_phone: '',
@@ -102,11 +98,11 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const instituteTypes = useMemo(
     () => [
       {
-        key: InstituteType.GOVERNMENT,
+        key: InstituteTypes.GOVERNMENT,
         label: messages['common.government'],
       },
       {
-        key: InstituteType.NON_GOVERNMENT,
+        key: InstituteTypes.NON_GOVERNMENT,
         label: messages['common.non_government'],
       },
     ],
@@ -122,13 +118,11 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
-    key: PERMISSION_GROUP_INSTITUTE_KEY,
+    key: PERMISSION_GROUP_CERTIFICATE_AUTHORITY_KEY,
   });
 
   const [permissionSubGroupFilters, setPermissionSubGroupFilters] =
-    useState<any>({
-      row_status: RowStatus.ACTIVE,
-    });
+    useState<any>(null);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -274,13 +268,13 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (permissionGroups && permissionGroups.length > 0) {
+    if (!isEdit && permissionGroups && permissionGroups.length > 0) {
       setPermissionSubGroupFilters({
         permission_group_id: permissionGroups[0]?.id,
         row_status: RowStatus.ACTIVE,
       });
     }
-  }, [permissionGroups]);
+  }, [isEdit, permissionGroups]);
 
   useEffect(() => {
     if (itemData) {
@@ -346,7 +340,7 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.service_type = '2';
+      data.service_type = InstituteServiceTypes.CERTIFICATE;
 
       if (itemId) {
         await updateInstitute(itemId, data);
@@ -396,9 +390,9 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
+        <Grid item xs={12}>
+          <Grid container md={12} spacing={4}>
+            <Grid item xs={12} md={isEdit ? 12 : 6}>
               <CustomTextInput
                 required
                 id='title'
@@ -408,7 +402,16 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='title_en'
+                label={messages['common.title_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
                 id='email'
@@ -419,8 +422,18 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 placeholder='example@gmail.com'
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='code'
+                label={messages['common.code']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
             {!isEdit && (
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <CustomFormSelect
                   required
                   id='permission_sub_group_id'
@@ -434,7 +447,17 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 />
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <FormRadioButtons
+                id='institute_type_id'
+                label={'institute.type'}
+                radios={instituteTypes}
+                control={control}
+                defaultValue={initialValues.institute_type_id}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='primary_phone'
                 label={messages['common.phone']}
@@ -444,7 +467,18 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 placeholder='xxx-xxx-xxxx'
               />
             </Grid>
-            <Grid item container xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='primary_mobile'
+                label={messages['common.mobile']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='017xxxxxxxx'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomFieldArray
                 id='phone_numbers'
                 labelLanguageId={'common.phone'}
@@ -454,7 +488,17 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomFieldArray
+                id='mobile_numbers'
+                labelLanguageId={'common.mobile'}
+                isLoading={isLoading}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
                 id='address'
@@ -464,7 +508,8 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 required
                 id='loc_division_id'
@@ -478,139 +523,8 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 onChange={changeDivisionAction}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='loc_upazila_id'
-                label={messages['upazilas.label']}
-                isLoading={isLoadingUpazilas}
-                control={control}
-                options={upazilasList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
 
-            {/** working */}
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head'
-                label={messages['institute.name_of_the_office_head']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head_designation'
-                label={
-                  messages['institute.name_of_the_office_head_designation']
-                }
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_name'
-                label={messages['common.contact_person_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_designation'
-                label={messages['common.contact_person_designation']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_email'
-                label={messages['common.contact_person_email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='example@gmail.com'
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='code'
-                label={messages['common.code']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*  <CustomTextInput*/}
-            {/*    id='domain'*/}
-            {/*    label={messages['common.domain']}*/}
-            {/*    register={register}*/}
-            {/*    errorInstance={errors}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    placeholder='https://example.xyz'*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='institute_type_id'
-                label={'institute.type'}
-                radios={instituteTypes}
-                control={control}
-                defaultValue={initialValues.institute_type_id}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='primary_mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
-            <Grid item container xs={12}>
-              <CustomFieldArray
-                id='mobile_numbers'
-                labelLanguageId={'common.mobile'}
-                isLoading={isLoading}
-                control={control}
-                register={register}
-                errors={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 required
                 id='loc_district_id'
@@ -624,18 +538,30 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 onChange={changeDistrictAction}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                id='loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={isLoadingUpazilas}
+                control={control}
+                options={upazilasList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <CustomTextInput
-                id='google_map_src'
-                label={messages['common.google_map_src']}
+                required
+                id='name_of_the_office_head'
+                label={messages['institute.name_of_the_office_head']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
               />
             </Grid>
-
-            {/** working */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='name_of_the_office_head_en'
                 label={messages['institute.name_of_the_office_head_en']}
@@ -644,7 +570,19 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='name_of_the_office_head_designation'
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='name_of_the_office_head_designation_en'
                 label={
@@ -655,7 +593,35 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='google_map_src'
+                label={messages['common.google_map_src']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container md={12} spacing={4}>
+            <Grid item md={12} xs={12}>
+              <Typography variant='h6'>
+                {messages['common.contact_person_info']}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_name'
+                label={messages['common.contact_person_name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_name_en'
                 label={messages['common.contact_person_name_en']}
@@ -664,7 +630,18 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_designation'
+                label={messages['common.contact_person_designation']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 id='contact_person_designation_en'
                 label={messages['common.contact_person_designation_en']}
@@ -673,13 +650,26 @@ const CertificateAuthorityAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_email'
+                label={messages['common.contact_person_email']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='example@gmail.com'
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
                 id='contact_person_mobile'
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
+                helperText={messages['common.registration_username_note']}
                 isLoading={isLoading}
                 placeholder='017xxxxxxxx'
               />
