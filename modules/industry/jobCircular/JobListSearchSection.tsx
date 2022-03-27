@@ -271,6 +271,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
     addFilterKey('job_level', 0);
     setSelectedLocUpazilaId('');
     addFilterKey('loc_upazila_id', 0);
+    addFilterKey('page_size', 8);
 
     setSelectJobSectorsId('');
     setSelectOccupationId('');
