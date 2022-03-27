@@ -1,22 +1,23 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Stack} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
-import {useIntl} from 'react-intl';
-import TrainingCenterCard from './components/TrainingCenterCard';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import NoDataFoundComponent from '../common/NoDataFoundComponent';
-import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
-import {styled} from '@mui/material/styles';
-import {H2, Link} from '../../../@softbd/elements/common';
-import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchPublicTrainingCenters} from '../../../services/instituteManagement/hooks';
-import {useRouter} from 'next/router';
-import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import { ChevronRight } from '@mui/icons-material';
+import { Button, Grid, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import { H2, Link } from '../../../@softbd/elements/common';
 import {
   getFilteredQueryParams,
-  objectFilter,
+  objectFilter
 } from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import { YouthAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { useFetchPublicTrainingCenters } from '../../../services/instituteManagement/hooks';
+import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import { urlParamsUpdate } from '../youthConstants';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import TrainingCenterCard from './components/TrainingCenterCard';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -68,7 +69,7 @@ const NearbyTrainingCenterSection = ({
       );
 
       if (Object.keys(modifiedParams).length > 0)
-        urlParamsUpdate(modifiedParams);
+        urlParamsUpdate(router, modifiedParams);
       params = {...params, ...modifiedParams};
       if (modifiedParams.page) {
         page.current = modifiedParams.page;
@@ -89,20 +90,9 @@ const NearbyTrainingCenterSection = ({
         ...prev,
         page: page.current,
       }));
-      urlParamsUpdate({...router.query, page: page.current});
+      urlParamsUpdate(router, {...router.query, page: page.current});
     }
-  }, [trainingCentersMetaData, router.query]);
-
-  const urlParamsUpdate = (params: any) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: params,
-      },
-      undefined,
-      {shallow: true},
-    );
-  };
+  }, [trainingCentersMetaData, router]);
 
   const onPaginationChange = useCallback(
     (event: any, currentPage: number) => {
@@ -111,9 +101,9 @@ const NearbyTrainingCenterSection = ({
         ...prev,
         page: currentPage,
       }));
-      urlParamsUpdate({...router.query, page: currentPage});
+      urlParamsUpdate(router, {...router.query, page: currentPage});
     },
-    [router.query],
+    [router],
   );
 
   const handleChangeRowsPerPage = useCallback(
@@ -126,9 +116,9 @@ const NearbyTrainingCenterSection = ({
           ? PageSizes.EIGHT
           : PageSizes.FOUR,
       }));
-      urlParamsUpdate({...router.query, page_size: event.target.value});
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
     },
-    [router.query],
+    [router],
   );
 
   return (
