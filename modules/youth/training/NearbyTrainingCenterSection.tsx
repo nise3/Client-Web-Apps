@@ -17,6 +17,7 @@ import {
   getFilteredQueryParams,
   objectFilter,
 } from '../../../@softbd/utilities/helpers';
+import { urlParamsUpdate } from '../youthConstants';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -68,7 +69,7 @@ const NearbyTrainingCenterSection = ({
       );
 
       if (Object.keys(modifiedParams).length > 0)
-        urlParamsUpdate(modifiedParams);
+        urlParamsUpdate(router, modifiedParams);
       params = {...params, ...modifiedParams};
       if (modifiedParams.page) {
         page.current = modifiedParams.page;
@@ -89,20 +90,20 @@ const NearbyTrainingCenterSection = ({
         ...prev,
         page: page.current,
       }));
-      urlParamsUpdate({...router.query, page: page.current});
+      urlParamsUpdate(router, {...router.query, page: page.current});
     }
-  }, [trainingCentersMetaData, router.query]);
+  }, [trainingCentersMetaData, router]);
 
-  const urlParamsUpdate = (params: any) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: params,
-      },
-      undefined,
-      {shallow: true},
-    );
-  };
+  // const urlParamsUpdate = (params: any) => {
+  //   router.push(
+  //     {
+  //       pathname: router.pathname,
+  //       query: params,
+  //     },
+  //     undefined,
+  //     {shallow: true},
+  //   );
+  // };
 
   const onPaginationChange = useCallback(
     (event: any, currentPage: number) => {
@@ -111,9 +112,9 @@ const NearbyTrainingCenterSection = ({
         ...prev,
         page: currentPage,
       }));
-      urlParamsUpdate({...router.query, page: currentPage});
+      urlParamsUpdate(router, {...router.query, page: currentPage});
     },
-    [router.query],
+    [router],
   );
 
   const handleChangeRowsPerPage = useCallback(
@@ -126,9 +127,9 @@ const NearbyTrainingCenterSection = ({
           ? PageSizes.EIGHT
           : PageSizes.FOUR,
       }));
-      urlParamsUpdate({...router.query, page_size: event.target.value});
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
     },
-    [router.query],
+    [router],
   );
 
   return (
