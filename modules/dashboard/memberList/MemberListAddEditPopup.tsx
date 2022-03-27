@@ -535,7 +535,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
           />
         </Grid>
         {!isEdit && (
-          <Grid item xs={12} md={6}>
+          <Grid item xs={!isEdit ? 12 : 6}>
             <CustomFormSelect
               required
               id='permission_sub_group_id'
@@ -645,6 +645,17 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
+            id='mobile'
+            label={messages['common.mobile']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            placeholder='017xxxxxxxx'
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
             id='email'
             label={messages['common.email']}
             register={register}
@@ -662,17 +673,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='mobile'
-            label={messages['common.mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='017xxxxxxxx'
-          />
-        </Grid>
+        {!isEdit && <Grid item xs={12} md={6} />}
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='name_of_the_office_head'
@@ -709,67 +710,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} md={6} />
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='contact_person_name'
-            label={messages['common.contact_person_name']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='contact_person_name_en'
-            label={messages['common.contact_person_name_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='contact_person_mobile'
-            label={messages['common.contact_person_mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='017xxxxxxxx'
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='contact_person_email'
-            label={messages['common.contact_person_email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='contact_person_designation'
-            label={messages['common.contact_person_designation']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='contact_person_designation_en'
-            label={messages['common.contact_person_designation_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='description'
@@ -778,7 +719,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -789,7 +730,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -801,7 +742,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -812,7 +753,7 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
 
@@ -887,6 +828,74 @@ const MemberAddEditPopup: FC<MemberAddEditPopupProps> = ({
             isLoading={isLoading}
             multiline={true}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='h6' marginBottom={1}>
+            {messages['common.contact_person_info']}
+          </Typography>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_name'
+                label={messages['common.contact_person_name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='contact_person_name_en'
+                label={messages['common.contact_person_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_designation'
+                label={messages['common.contact_person_designation']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='contact_person_designation_en'
+                label={messages['common.contact_person_designation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_mobile'
+                label={messages['common.contact_person_mobile']}
+                helperText={messages['common.registration_username_note']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='017xxxxxxxx'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_email'
+                label={messages['common.contact_person_email']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='example@gmail.com'
+              />
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item xs={12} md={6}>
