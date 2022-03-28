@@ -366,7 +366,11 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
+        <Grid item xs={12} sx={{mb:3}}>
+          <Typography variant={'h6'}>
+            {messages['common.contact_person_info']}
+          </Typography>
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='contact_person_name'
