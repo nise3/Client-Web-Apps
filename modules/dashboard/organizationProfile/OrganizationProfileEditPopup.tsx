@@ -80,10 +80,18 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
         .label(messages['association.head_of_office_or_chairman'] as string),
       phone_numbers: yup
         .array()
-        .of(getSchema(PHONE_NUMBER_REGEX, messages['common.invalid_phone'])),
+        .of(
+          getSchema(yup, PHONE_NUMBER_REGEX, messages['common.invalid_phone']),
+        ),
       mobile_numbers: yup
         .array()
-        .of(getSchema(MOBILE_NUMBER_REGEX, messages['common.invalid_mobile'])),
+        .of(
+          getSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       name_of_the_office_head_designation: yup
         .string()
         .trim()

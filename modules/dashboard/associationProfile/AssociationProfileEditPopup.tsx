@@ -133,10 +133,18 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .label(messages['common.contact_person_designation'] as string),
       phone_numbers: yup
         .array()
-        .of(getSchema(PHONE_NUMBER_REGEX, messages['common.invalid_phone'])),
+        .of(
+          getSchema(yup, PHONE_NUMBER_REGEX, messages['common.invalid_phone']),
+        ),
       mobile_numbers: yup
         .array()
-        .of(getSchema(MOBILE_NUMBER_REGEX, messages['common.invalid_mobile'])),
+        .of(
+          getSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       skills: yup
         .array()
         .of(yup.object().shape({}))

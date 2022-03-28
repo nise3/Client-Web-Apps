@@ -15,7 +15,7 @@ import {
 import URL from 'url';
 import UserTypes from './UserTypes';
 import {MAX_PAGE_SIZE, MIN_PAGE_SIZE} from './PageSizes';
-import yup from '../libs/yup';
+
 export const genders = [
   {
     key: 1,
@@ -524,7 +524,7 @@ export const getFilteredQueryParams = (
   return params;
 };
 
-export const getSchema = (regex: any, level: any) => {
+export const getSchema = (yup: any, regex: any, level: any) => {
   return yup.object().shape({
     value: yup
       .mixed()
