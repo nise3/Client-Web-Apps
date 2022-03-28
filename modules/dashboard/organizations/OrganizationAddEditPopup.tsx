@@ -5,7 +5,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -56,6 +59,12 @@ import {
   FORM_PLACEHOLDER,
   isLatLongValid,
 } from '../../../@softbd/common/constants';
+import {
+  getObjectArrayFromValueArray,
+  getSchema,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -97,6 +106,8 @@ const initialValues = {
   row_status: '1',
   industry_association_trade_id: '',
   sub_trades: [],
+  phone_numbers: [{value: ''}],
+  mobile_numbers: [{value: ''}],
 };
 
 const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
@@ -203,6 +214,12 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             .required()
             .label(messages['institute.label'] as string)
         : yup.string(),
+      phone_numbers: yup
+        .array()
+        .of(getSchema(PHONE_NUMBER_REGEX, messages['common.invalid_phone'])),
+      mobile_numbers: yup
+        .array()
+        .of(getSchema(MOBILE_NUMBER_REGEX, messages['common.invalid_mobile'])),
       contact_person_name: yup
         .string()
         .trim()
@@ -352,6 +369,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
         sub_trades: itemData.sub_trades,
+        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
       });
 
       setDistrictsList(
@@ -473,6 +492,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
 
     console.log('Data----', formData);
     try {
+      formData.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      formData.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
       if (itemId) {
         await updateOrganization(itemId, formData);
         updateSuccessMessage('organization.label');
@@ -664,6 +685,27 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             placeholder='example@gmail.com'
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomFieldArray
+            id='phone_numbers'
+            labelLanguageId={'common.phone'}
+            isLoading={isLoading}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item container xs={12} md={6} alignSelf='flex-start'>
+          <CustomFieldArray
+            id='mobile_numbers'
+            labelLanguageId={'common.mobile'}
+            isLoading={isLoading}
+            control={control}
+            register={register}
+            errors={errors}
           />
         </Grid>
         <Grid item xs={12} md={6}>

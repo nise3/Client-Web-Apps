@@ -1,10 +1,11 @@
-import { useAxiosSWR } from "../../@softbd/hooks/useAxiosSWR";
+import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
   API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
   API_OCCUPATIONS,
+  API_ORGANIZATION_PROFILE,
   API_ORGANIZATION_SERVICES,
   API_ORGANIZATION_TYPES,
   API_ORGANIZATION_UNIT_HIERARCHY,
@@ -14,8 +15,8 @@ import {
   API_PUBLIC_JOB_SECTORS,
   API_PUBLIC_ORGANIZATION_TYPES,
   API_RANK_TYPES,
-  API_RANKS
-} from "../../@softbd/common/apiRoutes";
+  API_RANKS,
+} from '../../@softbd/common/apiRoutes';
 
 export function useFetchOccupation(occupationId: number | null) {
   return useAxiosSWR(
@@ -145,4 +146,8 @@ export function useFetchHumanResource(humanResourceId: number | null) {
 
 export function useFetchHumanResources(params: any) {
   return useAxiosSWR([API_HUMAN_RESOURCES, params]);
+}
+
+export function useFetchOrganizationProfile(params: any) {
+  return useAxiosSWR([API_ORGANIZATION_PROFILE, params]);
 }

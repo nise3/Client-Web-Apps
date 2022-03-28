@@ -21,7 +21,7 @@ export const routePermissions: any = {
   },
   '/organization-profile': {
     routePrefix: '/organization-profile',
-    permissionKeys: ['view_any_organization_profile'],
+    permissionKeys: ['view_organization_profile'],
   },
   '/rank-types': {
     routePrefix: '/rank-types',
