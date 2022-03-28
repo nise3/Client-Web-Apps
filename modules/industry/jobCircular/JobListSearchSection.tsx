@@ -59,14 +59,9 @@ export const StyledBox = styled(Box)(({theme}) => ({
 interface IProps {
   addFilterKey: (filterKey: string, filterValue: any) => void;
   routeParamsFilters?: (filters: Array<FilterItem>) => void;
-  onResetClick?: () => void;
 }
 
-const JobListSearchSection = ({
-  addFilterKey,
-  routeParamsFilters,
-  onResetClick,
-}: IProps) => {
+const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const {messages} = useIntl();
 
   const searchTextField = useRef<any>();
@@ -283,7 +278,6 @@ const JobListSearchSection = ({
     setSelectOccupationId('');
     setSelectedJobLevel('');
     setSelectJobSectorsId('');
-    onResetClick();
     urlParamsUpdate({
       skill_ids: '',
       job_sector_ids: '',
