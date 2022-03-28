@@ -51,7 +51,12 @@ const AssignPermissionToRolePage = () => {
       const filteredPermission = permissionSubGroup?.permissions.filter(
         (item: any) => authUser?.permissions.includes(item.key),
       );
-      setAllPermissions(filteredPermission);
+      console.log('authUser=>', authUser);
+      if (authUser && authUser?.isSystemUser) {
+        setAllPermissions(permissionSubGroup?.permissions);
+      } else {
+        setAllPermissions(filteredPermission);
+      }
     }
   }, [permissionSubGroup]);
 
