@@ -53,7 +53,8 @@ export interface INewIndustryAssociation extends IIdTitleCreateUpdateAt {
   contact_person_email: string;
   contact_person_designation: string;
   contact_person_designation_en?: string;
-
+  phone_numbers: Array<object>;
+  mobile_numbers: Array<object>;
   row_status?: string;
   // updated_at: Date;
   // created_at: Date;
