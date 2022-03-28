@@ -2,6 +2,7 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {
   API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP,
+  API_ORGANIZATION_PROFILE_UPDATE,
   API_ORGANIZATION_USER_APPROVAL,
   API_ORGANIZATION_USER_REJECTION,
   API_ORGANIZATIONS,
@@ -117,6 +118,15 @@ export const ApproveOrganization = async (organizationId: any) => {
     let response: any = await apiPut(
       API_ORGANIZATION_USER_APPROVAL + '/' + organizationId,
     );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const updateOrganizationProfile = async (data: any) => {
+  try {
+    let response: any = await apiPut(API_ORGANIZATION_PROFILE_UPDATE, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
