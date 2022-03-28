@@ -13,10 +13,10 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchSubject} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchRPLSubject} from '../../../services/CertificateAuthorityManagement/hooks';
 import {
-  createSubject,
-  updateSubject,
+  createRPLSubject,
+  updateRPLSubject,
 } from '../../../services/CertificateAuthorityManagement/SubjectService';
 import {ISubject} from '../../../shared/Interface/institute.interface';
 import IconCourse from '../../../@softbd/icons/IconCourse';
@@ -45,7 +45,7 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateSubject,
-  } = useFetchSubject(itemId);
+  } = useFetchRPLSubject(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -82,11 +82,11 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     console.log('submitted data: ', data);
     try {
       if (itemId) {
-        await updateSubject(itemId, data);
+        await updateRPLSubject(itemId, data);
         updateSuccessMessage('subject.label');
         mutateSubject();
       } else {
-        await createSubject(data);
+        await createRPLSubject(data);
         createSuccessMessage('subject.label');
       }
       props.onClose();

@@ -1,21 +1,21 @@
-import React, { useCallback, useMemo, useState } from "react";
-import PageBlock from "../../../@softbd/utilities/PageBlock";
-import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
-import { useIntl } from "react-intl";
-import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
-import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
-import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
-import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
-import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
-import { API_QUESTION_BANK } from "../../../@softbd/common/apiRoutes";
-import ReactTable from "../../../@softbd/table/Table/ReactTable";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import QuestionBankDetailsPopup from "./QuestionBankDetailsPopup";
-import QuestionBankAddEditPopup from "./QuestionBankAddEditPopup";
-import IconFAQ from "../../../@softbd/icons/IconFAQ";
-import { deleteQuestion } from "../../../services/CertificateAuthorityManagement/QuestionBankService";
+import React, {useCallback, useMemo, useState} from 'react';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {useIntl} from 'react-intl';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_RPL_QUESTION_BANK} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import QuestionBankDetailsPopup from './QuestionBankDetailsPopup';
+import QuestionBankAddEditPopup from './QuestionBankAddEditPopup';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import {deleteQuestion} from '../../../services/CertificateAuthorityManagement/QuestionBankService';
 
 const QuestionBankPage = () => {
   const {messages, locale} = useIntl();
@@ -112,7 +112,7 @@ const QuestionBankPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_QUESTION_BANK,
+      urlPath: API_RPL_QUESTION_BANK,
     });
 
   let modifiedData = data?.map((question: any) => {
@@ -123,12 +123,15 @@ const QuestionBankPage = () => {
       type = 'Yes/No';
     }
 
-    title =  question?.title.length>18 ? question?.title.substr(0, 17) + '.....' : question?.title;
+    title =
+      question?.title.length > 18
+        ? question?.title.substr(0, 17) + '.....'
+        : question?.title;
 
     return {
       ...question,
       type,
-      title
+      title,
     };
   });
 
@@ -155,15 +158,17 @@ const QuestionBankPage = () => {
             }
           />,
         ]}>
-        {modifiedData && <ReactTable
-          columns={columns}
-          data={modifiedData}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
-        />}
+        {modifiedData && (
+          <ReactTable
+            columns={columns}
+            data={modifiedData}
+            fetchData={onFetchData}
+            loading={loading}
+            pageCount={pageCount}
+            totalCount={totalCount}
+            toggleResetTable={isToggleTable}
+          />
+        )}
 
         {isOpenAddEditModal && (
           <QuestionBankAddEditPopup
