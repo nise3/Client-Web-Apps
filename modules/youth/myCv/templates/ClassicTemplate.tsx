@@ -3,6 +3,7 @@ import {styled} from '@mui/material/styles';
 import React, {FC, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {
+  generateLineFomDomPosition,
   getProps,
   getStructureData,
 } from '../../../../@softbd/common/svg-d3-util';
@@ -10,7 +11,6 @@ import {setAreaText} from '../../../../@softbd/common/svg-utils';
 import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
-import * as d3 from "d3";
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -120,10 +120,7 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
 
     let cvHeader = setHeaderLanguage('cv-header', 'personal_info.curriculum_vitae');
     let {dom: { position }} = cvHeader;
-    d3.select('#cv-header')
-      .append('path')
-      .attr('fill', '#231f20')
-      .attr('d', `M${position.x},${position.height + position.y}v-.9H${position.x + position.width}v.9Z`)
+    generateLineFomDomPosition(position);
     setHeaderLanguage('contact-address', 'common.contact_and_address');
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
