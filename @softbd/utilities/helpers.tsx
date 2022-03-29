@@ -523,3 +523,15 @@ export const getFilteredQueryParams = (
 
   return params;
 };
+
+export const getSchema = (yup: any, regex: any, level: any) => {
+  return yup.object().shape({
+    value: yup
+      .mixed()
+      .test(
+        'mobile_number_validation',
+        level as string,
+        (value: any) => !value || Boolean(value.match(regex)),
+      ),
+  });
+};
