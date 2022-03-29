@@ -30,6 +30,10 @@ import {
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {loadAuthenticateUser} from '../../../../redux/actions/AuthUserLoad';
+import {useDispatch} from 'react-redux';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -63,6 +67,16 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
+
+  const onGotoAdminClick = useCallback(async () => {
+    try {
+      await loadAuthenticateUser(dispatch, false);
+    } catch (error) {
+      console.log('user load failed: ', error);
+    }
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -105,6 +119,18 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
+
+        {authUser?.admin_access_type &&
+          authUser?.admin_access_type.length > 0 && <Divider />}
+        {authUser?.admin_access_type && authUser?.admin_access_type.length > 0 && (
+          <MenuItem onClick={onGotoAdminClick}>
+            <ListItemIcon>
+              <Person />
+            </ListItemIcon>
+            <ListItemText>{messages['common.goto_admin']}</ListItemText>
+          </MenuItem>
+        )}
+
         <Divider />
         <Link href={LINK_FRONTEND_YOUTH_MY_CV}>
           <MenuItem>

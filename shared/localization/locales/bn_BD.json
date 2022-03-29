@@ -1858,5 +1858,7 @@
   "common.total": "মোট",
   "common.disability": "প্রতিবন্ধী",
   "skill_development_monthly_progress_report.label": "দক্ষতা উন্নয়ন প্রশিক্ষণ কার্যক্রমের মাসিক অগ্রগতির প্রতিবেদন",
-  "common.create_report": "রিপোর্ট তৈরি করুন"
+  "common.create_report": "রিপোর্ট তৈরি করুন",
+  "common.goto_admin": "অ্যাডমিন প্যানেল",
+  "common.goto_youth": "ইয়ুথ প্রোফাইল"
 }
