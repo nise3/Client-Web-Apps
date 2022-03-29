@@ -18,7 +18,6 @@ import {
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
-import {useFetchAssociationTrades} from '../../../services/organaizationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
@@ -30,10 +29,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  FORM_PLACEHOLDER,
-  isLatLongValid,
-} from '../../../@softbd/common/constants';
+import {FORM_PLACEHOLDER} from '../../../@softbd/common/constants';
 import {
   getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
@@ -44,26 +40,21 @@ import {
   PHONE_NUMBER_REGEX,
 } from '../../../@softbd/common/patternRegex';
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
   userData: any;
-  mutateAssociation: any;
 }
 
 const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
   userData,
-  mutateAssociation,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
-  const [associationTradeFilter] = useState({});
   const {updateSuccessMessage} = useSuccessMessage();
-
-  const {data: associationTrades, isLoading: isLoadingTrades} =
-    useFetchAssociationTrades(associationTradeFilter);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
@@ -91,11 +82,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .string()
         .title()
         .label(messages['association.association_name'] as string),
-      trade_id: yup
+      /*  logo: yup
         .string()
         .trim()
         .required()
-        .label(messages['association.association_trades'] as string),
+        .label(messages['common.logo'] as string),*/
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -149,25 +140,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             messages['common.invalid_mobile'],
           ),
         ),
-      skills: yup
-        .array()
-        .of(yup.object().shape({}))
-        .min(1, messages['common.must_have_one_skill'] as string)
-        .label(messages['common.skills'] as string),
-      location_latitude: yup
-        .string()
-        .test(
-          'lat-err',
-          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
-          (value) => isLatLongValid(value as string),
-        ),
-      location_longitude: yup
-        .string()
-        .test(
-          'long-err',
-          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
-          (value) => isLatLongValid(value as string),
-        ),
     });
   }, []);
 
@@ -177,6 +149,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     handleSubmit,
     setValue,
     reset,
+    clearErrors,
     setError,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
@@ -186,7 +159,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
       reset({
         logo: userData?.logo,
         title: userData?.title,
-        trade_id: userData?.trade_id,
         address: userData?.address,
         loc_division_id: userData?.loc_division_id,
         loc_district_id: userData?.loc_district_id,
@@ -242,15 +214,17 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
+      data.logo =
+        'https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=1200x900&vertical=top';
       await updateIndustryAssocProfile(data);
       updateSuccessMessage('industry_association_reg.label');
       props.onClose();
-      mutateAssociation();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
+  console.log('errors: ', errors);
   return (
     <HookFormMuiModal
       open={true}
@@ -282,13 +256,13 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FileUploadComponent
+            required
             id='logo'
             defaultFileUrl={userData?.logo}
             errorInstance={errors}
             setValue={setValue}
             register={register}
             label={messages['common.image_path']}
-            required={false}
           />
         </Grid>
 
@@ -298,19 +272,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             id='title'
             label={messages['association.association_name']}
             register={register}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='trade_id'
-            isLoading={isLoadingTrades}
-            label={messages['association.association_trades']}
-            control={control}
-            options={associationTrades}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -376,17 +337,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='address'
-            label={messages['association.association_address']}
-            register={register}
-            errorInstance={errors}
-            multiline={true}
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
           <CustomFieldArray
             id='phone_numbers'
             labelLanguageId={'common.phone'}
@@ -406,7 +356,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            required
             id='location_latitude'
             label={messages['common.location_latitude']}
             register={register}
@@ -416,12 +365,22 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            required
             id='location_longitude'
             label={messages['common.location_longitude']}
             register={register}
             errorInstance={errors}
             placeholder={FORM_PLACEHOLDER.LONGITUDE}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='address'
+            label={messages['association.association_address']}
+            register={register}
+            errorInstance={errors}
+            multiline={true}
+            rows={3}
           />
         </Grid>
 
@@ -452,7 +411,6 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomSelectAutoComplete
-            required
             id='skills'
             label={messages['common.skills']}
             isLoading={isLoadingSkillData}
@@ -463,6 +421,20 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             defaultValue={selectedSkillList}
             errorInstance={errors}
             onChange={onSkillChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextEditor
+            id={'description'}
+            label={messages['common.description']}
+            errorInstance={errors}
+            value={userData?.description || ''}
+            height={'300px'}
+            key={1}
+            register={register}
+            setValue={setValue}
+            clearErrors={clearErrors}
+            setError={setError}
           />
         </Grid>
       </Grid>

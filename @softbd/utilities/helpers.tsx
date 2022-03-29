@@ -225,7 +225,7 @@ export const isValidationError = (response: any) => {
 };
 
 export const getObjectArrayFromValueArray = (valueArray: any) => {
-  if (valueArray && Array.isArray(valueArray)) {
+  if (valueArray && Array.isArray(valueArray) && valueArray.length > 0) {
     return valueArray.map((item: any) => {
       return {value: item};
     });

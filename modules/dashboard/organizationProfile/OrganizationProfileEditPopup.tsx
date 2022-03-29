@@ -127,7 +127,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
         .required()
         .label(messages['common.contact_person_designation'] as string),
     });
-  }, []);
+  }, [messages]);
   const {
     control,
     register,
@@ -139,27 +139,31 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   useEffect(() => {
-    reset({
-      title: profileData?.title,
-      loc_division_id: profileData?.loc_division_id,
-      loc_district_id: profileData?.loc_district_id,
-      loc_upazila_id: profileData?.loc_upazila_id,
-      address: profileData?.address,
-      name_of_the_office_head: profileData?.name_of_the_office_head,
-      name_of_the_office_head_designation:
-        profileData?.name_of_the_office_head_designation,
-      contact_person_name: profileData?.contact_person_name,
-      contact_person_designation: profileData?.contact_person_designation,
-      phone_numbers: getObjectArrayFromValueArray(profileData?.phone_numbers),
-      mobile_numbers: getObjectArrayFromValueArray(profileData?.mobile_numbers),
-    });
+    if (profileData) {
+      reset({
+        title: profileData?.title,
+        loc_division_id: profileData?.loc_division_id,
+        loc_district_id: profileData?.loc_district_id,
+        loc_upazila_id: profileData?.loc_upazila_id,
+        address: profileData?.address,
+        name_of_the_office_head: profileData?.name_of_the_office_head,
+        name_of_the_office_head_designation:
+          profileData?.name_of_the_office_head_designation,
+        contact_person_name: profileData?.contact_person_name,
+        contact_person_designation: profileData?.contact_person_designation,
+        phone_numbers: getObjectArrayFromValueArray(profileData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(
+          profileData?.mobile_numbers,
+        ),
+      });
 
-    setDistrictsList(
-      filterDistrictsByDivisionId(districts, profileData?.loc_division_id),
-    );
-    setUpazilasList(
-      filterUpazilasByDistrictId(upazilas, profileData?.loc_district_id),
-    );
+      setDistrictsList(
+        filterDistrictsByDivisionId(districts, profileData?.loc_division_id),
+      );
+      setUpazilasList(
+        filterUpazilasByDistrictId(upazilas, profileData?.loc_district_id),
+      );
+    }
   }, [profileData, districts, upazilas]);
 
   const changeDivisionAction = useCallback(
@@ -289,7 +293,6 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
             control={control}
             register={register}
             errors={errors}
-            isLoading={isLoading}
           />
         </Grid>
         <Grid item container xs={12} md={6} alignSelf='flex-start'>
@@ -297,7 +300,6 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
             id='mobile_numbers'
             labelLanguageId={'common.mobile'}
             control={control}
-            isLoading={isLoading}
             register={register}
             errors={errors}
           />
