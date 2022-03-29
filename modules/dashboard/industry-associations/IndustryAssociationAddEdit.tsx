@@ -47,6 +47,7 @@ import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssoc
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import {
+  getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
   getValuesFromObjectArray,
 } from '../../../@softbd/utilities/helpers';
@@ -140,30 +141,6 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
-  const nonRequiredPhoneValidationSchema = useMemo(() => {
-    return yup.object().shape({
-      value: yup
-        .mixed()
-        .test(
-          'mobile_number_validation',
-          messages['common.invalid_mobile'] as string,
-          (value) => !value || Boolean(value.match(PHONE_NUMBER_REGEX)),
-        ),
-    });
-  }, [messages]);
-
-  const nonRequiredMobileValidationSchema = useMemo(() => {
-    return yup.object().shape({
-      value: yup
-        .mixed()
-        .test(
-          'mobile_number_validation',
-          messages['common.invalid_phone'] as string,
-          (value) => !value || Boolean(value.match(MOBILE_NUMBER_REGEX)),
-        ),
-    });
-  }, [messages]);
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -186,8 +163,24 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
-      phone_numbers: yup.array().of(nonRequiredPhoneValidationSchema),
-      mobile_numbers: yup.array().of(nonRequiredMobileValidationSchema),
+      phone_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
+        ),
+      mobile_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       email: yup
         .string()
         .required()
