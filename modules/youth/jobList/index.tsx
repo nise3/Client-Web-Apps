@@ -205,16 +205,11 @@ const JobList = () => {
     [],
   );
 
-  const onResetClick = useCallback(() => {
-    page.current = 1;
-  }, [page]);
-
   return (
     <>
       <JobListSearchSection
         addFilterKey={filterJobList}
         routeParamsFilters={filterJobListByRouteParams}
-        onResetClick={onResetClick}
       />
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
         <Grid container mt={4} justifyContent={'center'}>
