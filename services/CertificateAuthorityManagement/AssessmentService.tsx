@@ -1,27 +1,29 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {
-  API_ASSESSMENT_QUESTIONS,
-  API_ASSESSMENTS,
+  API_RPL_ASSESSMENT_QUESTIONS,
+  API_RPL_ASSESSMENTS,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {IAssessment} from '../../shared/Interface/common.interface';
 
-export const deleteAssessment = async (assessmentId: number) => {
+export const deleteRPLAssessment = async (assessmentId: number) => {
   try {
-    let response: any = await apiDelete(API_ASSESSMENTS + '/' + assessmentId);
+    let response: any = await apiDelete(
+      API_RPL_ASSESSMENTS + '/' + assessmentId,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
 };
 
-export const updateAssessment = async (
+export const updateRPLAssessment = async (
   assessmentId: number,
   data: IAssessment,
 ) => {
   try {
     let response: any = await apiPut(
-      API_ASSESSMENTS + '/' + assessmentId,
+      API_RPL_ASSESSMENTS + '/' + assessmentId,
       data,
     );
     return response.data;
@@ -30,18 +32,18 @@ export const updateAssessment = async (
   }
 };
 
-export const createAssessment = async (data: IAssessment) => {
+export const createRPLAssessment = async (data: IAssessment) => {
   try {
-    let response: any = await apiPost(API_ASSESSMENTS, data);
+    let response: any = await apiPost(API_RPL_ASSESSMENTS, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
   }
 };
 
-export const addQuestionsToAssessment = async (data: any) => {
+export const addRPLQuestionsToAssessment = async (data: any) => {
   try {
-    let response: any = await apiPost(API_ASSESSMENT_QUESTIONS, data);
+    let response: any = await apiPost(API_RPL_ASSESSMENT_QUESTIONS, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

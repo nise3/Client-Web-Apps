@@ -12,7 +12,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import TransferListComponent from './TransferListComponent';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {addQuestionsToAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
+import {addRPLQuestionsToAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import IconFAQ from '../../../@softbd/icons/IconFAQ';
 
@@ -87,7 +87,7 @@ const AddQuestionPopup: FC<AddQuestionPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isQuestionEditFormOpened) {
       try {
-        await addQuestionsToAssessment(data);
+        await addRPLQuestionsToAssessment(data);
         createSuccessMessage('common.question');
         props.onClose();
         refreshDataTable();

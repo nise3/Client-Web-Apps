@@ -13,8 +13,8 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchQuestionBank,
-  useFetchSubjects,
+  useFetchRPLQuestionBank,
+  useFetchRPLSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {LEVEL} from '../courses/CourseEnums';
 import {AnswerType, OPTIONS, QuestionType} from './QuestionEnums';
@@ -67,10 +67,10 @@ const QuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateRTOQuestion,
-  } = useFetchQuestionBank(itemId);
+  } = useFetchRPLQuestionBank(itemId);
 
   const {data: subjects, isLoading: isFetchingSubjects} =
-    useFetchSubjects(subjectFilters);
+    useFetchRPLSubjects(subjectFilters);
 
   const levels = useMemo(
     () => [

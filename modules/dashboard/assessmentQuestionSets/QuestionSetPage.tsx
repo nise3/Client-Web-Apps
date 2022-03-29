@@ -12,8 +12,8 @@ import QuestionSetDetailsPopup from './QuestionSetDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {deleteAssessmentQuestionSet} from '../../../services/CertificateAuthorityManagement/AssessmentQuestionSetService';
-import {useFetchAssessmentQuestionSets} from '../../../services/CertificateAuthorityManagement/hooks';
+import {deleteRPLAssessmentQuestionSet} from '../../../services/CertificateAuthorityManagement/AssessmentQuestionSetService';
+import {useFetchRPLAssessmentQuestionSets} from '../../../services/CertificateAuthorityManagement/hooks';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
@@ -35,7 +35,7 @@ const QuestionSetPage = () => {
     data: subjects,
     isLoading: isLoadingSubjects,
     mutate: mutateSubjects,
-  } = useFetchAssessmentQuestionSets(subjectFilters);
+  } = useFetchRPLAssessmentQuestionSets(subjectFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -83,7 +83,7 @@ const QuestionSetPage = () => {
   );
 
   const deleteSubjectItem = async (subjectId: number) => {
-    let response = await deleteAssessmentQuestionSet(subjectId);
+    let response = await deleteRPLAssessmentQuestionSet(subjectId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
