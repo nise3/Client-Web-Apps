@@ -4,7 +4,7 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const RPLSectorsPage = asyncComponent(
+const RPLLevelsPage = asyncComponent(
   () => import('../../../modules/dashboard/rplLevels/LevelPage'),
 );
 export default DashboardPage(() => {
@@ -13,7 +13,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['rpl_levels.label']} />
-      <RPLSectorsPage />
+      <RPLLevelsPage />
     </>
   );
 });

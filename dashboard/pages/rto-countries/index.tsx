@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 // import {useIntl} from 'react-intl';
 
-const CountryPage = asyncComponent(
+const RTOCountryPage = asyncComponent(
   () => import('../../../modules/dashboard/rtoCountries/RTOCountryPage'),
 );
 export default DashboardPage(() => {
@@ -13,7 +13,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['rto_country.label']} />
-      <CountryPage />
+      <RTOCountryPage />
     </>
   );
 });
