@@ -13,10 +13,10 @@ const usePageLoadToTop = ({id, dependency}: IProps) => {
       let elem = window.document.querySelector('#' + id)?.parentElement
         ?.parentElement?.parentElement?.parentElement;
       if (!elem) return;
-      console.log('B: ', elem?.scrollTop);
+      // console.log('B: ', elem?.scrollTop);
       elem.scrollTop = 0;
       setData(elem);
-      console.log('A: ', elem?.scrollTop);
+      // console.log('A: ', elem?.scrollTop);
     }, 200);
   }, [dependency]);
 
