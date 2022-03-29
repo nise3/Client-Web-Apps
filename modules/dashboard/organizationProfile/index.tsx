@@ -53,11 +53,15 @@ const OrganizationProfile = () => {
 
   const [closeEditModal, setCloseEditModal] = useState<boolean>(true);
   const [profileFilter] = useState({});
-  const {data: profileData, isLoading} =
-    useFetchOrganizationProfile(profileFilter);
+  const {
+    data: profileData,
+    isLoading,
+    mutate: mutateOrganizationProfile,
+  } = useFetchOrganizationProfile(profileFilter);
 
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
+    mutateOrganizationProfile();
   }, []);
 
   return (

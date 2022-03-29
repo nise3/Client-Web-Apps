@@ -688,17 +688,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             placeholder='017xxxxxxxx'
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='email'
-            label={messages['common.email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomFieldArray
@@ -718,6 +707,17 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             register={register}
             errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={12} md={6}>

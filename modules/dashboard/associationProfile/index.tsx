@@ -69,6 +69,7 @@ const AssociationProfile = () => {
 
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
+    mutateAssociation();
   }, []);
 
   return (
@@ -339,7 +340,6 @@ const AssociationProfile = () => {
       {!closeEditModal && (
         <AssociationProfileEditPopup
           userData={userData}
-          mutateAssociation={mutateAssociation}
           onClose={onClickCloseEditModal}
         />
       )}
