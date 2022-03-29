@@ -60,8 +60,8 @@ import {
   isLatLongValid,
 } from '../../../@softbd/common/constants';
 import {
+  getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
-  getSchema,
   getValuesFromObjectArray,
 } from '../../../@softbd/utilities/helpers';
 import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
@@ -217,12 +217,16 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       phone_numbers: yup
         .array()
         .of(
-          getSchema(yup, PHONE_NUMBER_REGEX, messages['common.invalid_phone']),
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
         ),
       mobile_numbers: yup
         .array()
         .of(
-          getSchema(
+          getMobilePhoneValidationSchema(
             yup,
             MOBILE_NUMBER_REGEX,
             messages['common.invalid_mobile'],
