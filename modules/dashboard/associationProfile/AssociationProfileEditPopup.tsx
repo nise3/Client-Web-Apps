@@ -34,6 +34,16 @@ import {
   FORM_PLACEHOLDER,
   isLatLongValid,
 } from '../../../@softbd/common/constants';
+import {
+  getObjectArrayFromValueArray,
+  getSchema,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 
 interface AssociationProfileEditPopupProps {
   onClose: () => void;
@@ -121,6 +131,20 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.contact_person_designation'] as string),
+      phone_numbers: yup
+        .array()
+        .of(
+          getSchema(yup, PHONE_NUMBER_REGEX, messages['common.invalid_phone']),
+        ),
+      mobile_numbers: yup
+        .array()
+        .of(
+          getSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       skills: yup
         .array()
         .of(yup.object().shape({}))
@@ -170,6 +194,8 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         contact_person_designation: userData?.contact_person_designation,
         location_latitude: userData?.location_latitude,
         location_longitude: userData?.location_longitude,
+        phone_numbers: getObjectArrayFromValueArray(userData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(userData?.mobile_numbers),
       });
       setDistrictsList(
         filterDistrictsByDivisionId(districts, userData?.loc_division_id),
@@ -210,6 +236,8 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     data.skills = skillIds;
 
     try {
+      data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
       await updateIndustryAssocProfile(data);
       updateSuccessMessage('industry_association_reg.label');
       props.onClose();
@@ -343,7 +371,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='address'
@@ -352,6 +380,24 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             errorInstance={errors}
             multiline={true}
             rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFieldArray
+            id='phone_numbers'
+            labelLanguageId={'common.phone'}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item container xs={12} md={6} alignSelf='flex-start'>
+          <CustomFieldArray
+            id='mobile_numbers'
+            labelLanguageId={'common.mobile'}
+            control={control}
+            register={register}
+            errors={errors}
           />
         </Grid>
         <Grid item xs={12} md={6}>

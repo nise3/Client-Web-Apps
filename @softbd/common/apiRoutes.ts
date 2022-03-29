@@ -298,6 +298,10 @@ export const API_ORGANIZATION_USER_REJECTION =
   ORGANIZATION_SERVICE_PATH + '/organization-user-rejection';
 export const API_ORGANIZATION_USER_APPROVAL =
   ORGANIZATION_SERVICE_PATH + '/organization-user-approval';
+export const API_ORGANIZATION_PROFILE_UPDATE =
+  ORGANIZATION_SERVICE_PATH + '/organization-profile-update';
+export const API_ORGANIZATION_PROFILE =
+  ORGANIZATION_SERVICE_PATH + '/organization-profile';
 //Industry section end
 
 //Industry Association section start
