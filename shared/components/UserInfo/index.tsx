@@ -182,7 +182,7 @@ const UserInfo: React.FC = () => {
                     </MenuItem>
                   )}
                 {user?.isOrganizationUser &&
-                  checkPermission(user, ['view_any_organization_profile']) && (
+                  checkPermission(user, ['view_organization_profile']) && (
                     <MenuItem>
                       <Link href='/organization-profile'>
                         {messages['common.profile']}
