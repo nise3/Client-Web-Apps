@@ -82,11 +82,11 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
         .string()
         .title()
         .label(messages['association.association_name'] as string),
-      /*  logo: yup
+      logo: yup
         .string()
         .trim()
         .required()
-        .label(messages['common.logo'] as string),*/
+        .label(messages['common.logo'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -214,8 +214,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-      data.logo =
-        'https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=1200x900&vertical=top';
+
       await updateIndustryAssocProfile(data);
       updateSuccessMessage('industry_association_reg.label');
       props.onClose();
