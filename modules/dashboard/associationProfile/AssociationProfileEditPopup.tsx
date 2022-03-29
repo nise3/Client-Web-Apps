@@ -29,7 +29,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {useFetchSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {FORM_PLACEHOLDER} from '../../../@softbd/common/constants';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 import {
   getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
@@ -139,6 +142,22 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             MOBILE_NUMBER_REGEX,
             messages['common.invalid_mobile'],
           ),
+        ),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
         ),
     });
   }, []);
