@@ -456,8 +456,13 @@ export const API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE =
   API_JOBS + '/show-in-landing-page-status-change';
 export const API__PUBLIC_NASCIB_MEMBER_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/public/nascib-members/open-registration';
+export const API_PUBLIC_SMEF_MEMBER_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/public/smef-members/open-registration';
 export const API_PUBLIC_NASCIB_MEMBER_STATIC_DATA =
   ORGANIZATION_SERVICE_PATH + '/public/nascib-members/get-static-data';
+
+export const API_PUBLIC_SMEF_MEMBER_STATIC_DATA =
+  ORGANIZATION_SERVICE_PATH + '/public/smef-members/get-static-data';
 export const API_PUBLIC_NASCIB_MEMBER_REGISTRATION_PAYMENT_PAGE =
   ORGANIZATION_SERVICE_PATH +
   '/public/nascib-members/payment/pay-via-ssl/pay-now';
