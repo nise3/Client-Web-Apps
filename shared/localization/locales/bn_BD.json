@@ -1595,6 +1595,8 @@
   "institute.info_collector_name": "তথ্য সংগ্রহকারীর নাম",
   "institute.info_collector_mobile": "তথ্য সংগ্রহকারীর মোবাইল নম্বর",
   "institute.udc_member_information": "ইউডিসি সদস্য তথ্য",
+  "institute.SME_cluster_information": "এসএমই ক্লাস্টার এর তথ্য",
+  "smef.sme_cluster_name": "এসএমই ক্লাস্টার এর নাম",
   "institute.chamber_association_information": "চেম্বার সমিতির তথ্য",
   "entrepreneur_introduction.label": "উদ্যোক্তার  পরিচিতি",
   "common.organization_identification_number": "প্রতিষ্ঠান সনাক্তকরণ নম্বর",

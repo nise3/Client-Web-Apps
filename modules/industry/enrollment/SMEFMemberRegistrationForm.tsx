@@ -21,6 +21,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   useFetchDistricts,
   useFetchDivisions,
+  useFetchUnions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
@@ -46,6 +47,7 @@ import ImportExportType from './constants/ImportExportType';
 import RegistrationSuccessBox from '../memberRegistration/RegistrationSuccessBox';
 import {useFetchSMEFMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
 import {registerSMEFMember} from '../../../services/IndustryManagement/SMEFMemberRegistrationService';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface SMEFMemberRegistrationFormProps {}
 
@@ -87,6 +89,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
   const isLoading = false;
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
+  const [unionsFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(districtsFilter);
@@ -94,6 +97,8 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const {data: unions, isLoading: isLoadingUnions} =
+    useFetchUnions(unionsFilter);
   const {data: memberStaticData, isLoading: isLoadingMemberStaticData} =
     useFetchSMEFMemberStaticData();
 
@@ -161,29 +166,29 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.form_filler'] as string),
-      udc_name:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_name:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
-              .label(messages['common.name'] as string)
+              .label(messages['smef.sme_cluster_name'] as string)
           : yup.string(),
-      udc_loc_district:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_loc_district_id:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
               .label(messages['districts.label'] as string)
           : yup.string(),
-      /*udc_union:
-                                                                    formFiller == FormFiller.UDC_ENTREPRENEUR
-                                                                      ? yup
-                                                                          .string()
-                                                                          .required()
-                                                                          .label(messages['union.label'] as string)
-                                                                      : yup.string(),*/
-      udc_code:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_union_id:
+        formFiller == FormFiller.SME_CLUSTER
+          ? yup
+              .string()
+              .required()
+              .label(messages['union.label'] as string)
+          : yup.string(),
+      smef_cluster_code:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
@@ -205,12 +210,12 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
               .label(messages['districts.label'] as string)
           : yup.string(),
       /*chamber_or_association_union_id:
-                                                                    formFiller == FormFiller.CHAMBER_ASSOCIATION
-                                                                      ? yup
-                                                                          .string()
-                                                                          .required()
-                                                                          .label(messages['union.label'] as string)
-                                                                      : yup.string(),*/
+                                                                                formFiller == FormFiller.CHAMBER_ASSOCIATION
+                                                                                  ? yup
+                                                                                      .string()
+                                                                                      .required()
+                                                                                      .label(messages['union.label'] as string)
+                                                                                  : yup.string(),*/
       chamber_or_association_code:
         formFiller == FormFiller.CHAMBER_ASSOCIATION
           ? yup
@@ -914,11 +919,11 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                 </Grid>
               </Grid>
 
-              {formFiller == FormFiller.UDC_ENTREPRENEUR && (
+              {formFiller == FormFiller.SME_CLUSTER && (
                 <>
                   <StyledHeader item xs={12}>
                     <p className={classes.headerText}>
-                      {messages['institute.udc_member_information']}
+                      {messages['institute.SME_cluster_information']}
                     </p>
                   </StyledHeader>
                   <Grid item xs={12}>
@@ -926,17 +931,17 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                       <Grid item xs={6}>
                         <CustomTextInput
                           required
-                          id='udc_name'
-                          label={messages['common.name']}
+                          id='smef_cluster_name'
+                          label={messages['smef.sme_cluster_name']}
                           register={register}
                           errorInstance={errors}
                           isLoading={isLoading}
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <CustomFormSelect
+                        <CustomFilterableFormSelect
                           required
-                          id='udc_loc_district'
+                          id='smef_cluster_loc_district_id'
                           label={messages['districts.label']}
                           isLoading={isLoadingDistricts}
                           control={control}
@@ -946,24 +951,23 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                           errorInstance={errors}
                         />
                       </Grid>
-                      {/*<Grid item xs={6}>
-                          <CustomFormSelect
-                            required
-                            id='udc_union'
-                            label={messages['union.label']}
-                            isLoading={false}
-                            control={control}
-                            options={[{id: 1, title: 'Boidonath union'}]}
-                            optionValueProp={'id'}
-                            optionTitleProp={['title_en', 'title']}
-                            errorInstance={errors}
-                          />
-                        </Grid>*/}
-
+                      <Grid item xs={6}>
+                        <CustomFilterableFormSelect
+                          required
+                          id='smef_cluster_union_id'
+                          label={messages['union.label']}
+                          isLoading={isLoadingUnions}
+                          control={control}
+                          options={unions}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                        />
+                      </Grid>
                       <Grid item xs={6}>
                         <CustomTextInput
                           required
-                          id='udc_code'
+                          id='smef_cluster_code'
                           label={messages['common.code']}
                           register={register}
                           errorInstance={errors}
