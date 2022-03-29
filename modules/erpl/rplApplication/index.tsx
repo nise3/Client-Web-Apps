@@ -644,7 +644,6 @@ const RPLApplicationForm = () => {
     }
   }, [identityNumberType]);
 
-  console.log('errors: ', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let formData: any = {...data};
@@ -661,7 +660,6 @@ const RPLApplicationForm = () => {
       formData.is_currently_working = data.is_currently_working ? 1 : 0;
 
       formData.identity_number = String(formData.identity_number);
-      console.log('data: ', formData);
 
       const response = await createRPLApplication(formData);
       successStack(messages['rpl.application_submitted_successfully']);
@@ -685,7 +683,6 @@ const RPLApplicationForm = () => {
   const removeEducation = useCallback(() => {
     let educationInfos = getValues('education_info');
 
-    setEducations((prev: any) => [...prev, prev.length + 1]);
     let array = [...educations];
     if (educations.length > 1) {
       educationInfos.splice(educations.length - 1, 1);
@@ -697,16 +694,17 @@ const RPLApplicationForm = () => {
 
   const addJobExperience = useCallback(() => {
     setJobExperiences((prev: any) => [...prev, prev.length + 1]);
+    let jobExperienceInfos = getValues('professional_qualifications');
+    jobExperienceInfos.push({});
+    setValue('professional_qualifications', jobExperienceInfos);
   }, []);
-  console.log('gffrrrtrrtrrty', getValues('professional_qualifications'));
+
   const removeJobExperience = useCallback(() => {
     let jobExperienceInfos = getValues('professional_qualifications');
 
-    setJobExperiences((prev: any) => [...prev, prev.length + 1]);
     let array = [...jobExperiences];
     if (jobExperiences.length > 0) {
       jobExperienceInfos.splice(jobExperiences.length - 1, 1);
-      console.log('jobExperienceInfos', jobExperiences);
       setValue('professional_qualifications', jobExperienceInfos);
       array.splice(jobExperiences.length - 1, 1);
       setJobExperiences(array);
@@ -863,10 +861,10 @@ const RPLApplicationForm = () => {
           </Grid>
 
           <Grid item xs={12} my={2}>
-            <FormLabel required={true} sx={{marginBottom: '12px'}}>
+            <FormLabel required={true}>
               {messages['common.present_address']}
             </FormLabel>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{marginTop: '3px'}}>
               <Grid item xs={6}>
                 <CustomFormSelect
                   required
@@ -962,10 +960,10 @@ const RPLApplicationForm = () => {
           </Grid>
 
           <Grid item xs={12} mb={2}>
-            <FormLabel required={true} sx={{marginBottom: '12px'}}>
+            <FormLabel required={true}>
               {messages['common.permanent_address']}
             </FormLabel>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{marginTop: '3px'}}>
               <Grid item xs={6}>
                 <CustomFormSelect
                   required
@@ -1098,14 +1096,14 @@ const RPLApplicationForm = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <FormLabel required={true} sx={{marginBottom: '12px'}}>
+            <FormLabel required={true}>
               {
                 ((messages['user.academic_qualification'] as string) +
                   messages['academic_qualification.fill_up_hint']) as string
               }
             </FormLabel>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{marginTop: '3px'}}>
               {educations.map((education: any, index: number) => (
                 <AcademicQualificationFieldArray
                   id={`education_info[${index}]`}
@@ -1136,10 +1134,8 @@ const RPLApplicationForm = () => {
 
           <Grid item xs={12}>
             <Grid container>
-              <FormLabel sx={{marginBottom: '12px'}}>
-                {messages['common.job_experience']}
-              </FormLabel>
-              <Grid item xs={12}>
+              <FormLabel>{messages['common.job_experience']}</FormLabel>
+              <Grid item xs={12} sx={{marginTop: '6px'}}>
                 {jobExperiences.map((jobExperience: any, index: number) => (
                   <JobExperienceFieldArray
                     key={index}
