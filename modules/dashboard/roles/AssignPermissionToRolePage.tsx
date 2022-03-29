@@ -22,6 +22,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
 import BackButton from '../../../@softbd/elements/button/BackButton';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const AssignPermissionToRolePage = () => {
   const router = useRouter();
@@ -38,6 +39,8 @@ const AssignPermissionToRolePage = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [allPermissions, setAllPermissions] = useState<any>(null);
 
+  const authUser = useAuthUser();
+
   const {data: itemData, mutate: mutateRole} = useFetchRole(Number(roleId));
   const {data: permissionSubGroup, isLoading} = useFetchPermissionSubGroup(
     itemData?.permission_sub_group_id,
@@ -45,13 +48,21 @@ const AssignPermissionToRolePage = () => {
 
   useEffect(() => {
     if (permissionSubGroup) {
-      setAllPermissions(permissionSubGroup.permissions);
+      const filteredPermission = permissionSubGroup?.permissions.filter(
+        (item: any) => authUser?.permissions.includes(item.key),
+      );
+
+      if (authUser && authUser?.isSystemUser) {
+        setAllPermissions(permissionSubGroup?.permissions);
+      } else {
+        setAllPermissions(filteredPermission);
+      }
     }
   }, [permissionSubGroup]);
 
   useEffect(() => {
     if (itemData && allPermissions) {
-      const subGroupPermissionsIds = permissionSubGroup?.permissions.map(
+      const subGroupPermissionsIds = (allPermissions || []).map(
         (permission: any) => permission.id,
       );
 
