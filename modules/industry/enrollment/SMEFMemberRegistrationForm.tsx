@@ -21,6 +21,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   useFetchDistricts,
   useFetchDivisions,
+  useFetchUnions,
   useFetchUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
@@ -41,15 +42,16 @@ import TradeLicensingAuthority from './constants/TradeLicensingAuthority';
 import Boolean from './constants/Boolean';
 import BusinessOwnership from './constants/BusinessOwnership';
 import {Body1, H1, H2} from '../../../@softbd/elements/common';
-import {registerNASCIBMember} from '../../../services/IndustryManagement/NascibMemberRegistrationService';
-import {useFetchNascibMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import ImportExportType from './constants/ImportExportType';
 import RegistrationSuccessBox from '../memberRegistration/RegistrationSuccessBox';
+import {useFetchSMEFMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
+import {registerSMEFMember} from '../../../services/IndustryManagement/SMEFMemberRegistrationService';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
-interface NASCIBMemberRegistrationFormProps {}
+interface SMEFMemberRegistrationFormProps {}
 
-const PREFIX = 'NASCIBMemberRegistrationForm';
+const PREFIX = 'SMEFMemberRegistrationForm';
 
 const classes = {
   headerText: `${PREFIX}-headerText`,
@@ -77,7 +79,7 @@ const CustomContainer = styled(Container)(({theme}) => ({
   },
 }));
 
-const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
+const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
   ...props
 }) => {
   const {messages, locale} = useIntl();
@@ -87,6 +89,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const isLoading = false;
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
+  const [unionsFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(districtsFilter);
@@ -94,8 +97,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     useFetchDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
+  const {data: unions, isLoading: isLoadingUnions} =
+    useFetchUnions(unionsFilter);
   const {data: memberStaticData, isLoading: isLoadingMemberStaticData} =
-    useFetchNascibMemberStaticData();
+    useFetchSMEFMemberStaticData();
 
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
@@ -161,29 +166,29 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.form_filler'] as string),
-      udc_name:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_name:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
-              .label(messages['common.name'] as string)
+              .label(messages['smef.sme_cluster_name'] as string)
           : yup.string(),
-      udc_loc_district:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_loc_district_id:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
               .label(messages['districts.label'] as string)
           : yup.string(),
-      /*udc_union:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+      smef_cluster_union_id:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
               .label(messages['union.label'] as string)
-          : yup.string(),*/
-      udc_code:
-        formFiller == FormFiller.UDC_ENTREPRENEUR
+          : yup.string(),
+      smef_cluster_code:
+        formFiller == FormFiller.SME_CLUSTER
           ? yup
               .string()
               .required()
@@ -205,12 +210,12 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
               .label(messages['districts.label'] as string)
           : yup.string(),
       /*chamber_or_association_union_id:
-        formFiller == FormFiller.CHAMBER_ASSOCIATION
-          ? yup
-              .string()
-              .required()
-              .label(messages['union.label'] as string)
-          : yup.string(),*/
+                                                                                      formFiller == FormFiller.CHAMBER_ASSOCIATION
+                                                                                        ? yup
+                                                                                            .string()
+                                                                                            .required()
+                                                                                            .label(messages['union.label'] as string)
+                                                                                        : yup.string(),*/
       chamber_or_association_code:
         formFiller == FormFiller.CHAMBER_ASSOCIATION
           ? yup
@@ -258,22 +263,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['common.entrepreneur_pic'] as string),
-      membership_id: yup
-        .string()
-        .required()
-        .label(messages['membership.id'] as string),
-      membership_type_id: yup
-        .string()
-        .required()
-        .label(messages['membership.type'] as string),
       trade_license_no: yup
         .string()
         .required()
         .label(messages['institute.trade_licence_number'] as string),
-      identification_no: yup
-        .string()
-        .required()
-        .label(messages['common.organization_identification_number'] as string),
       title: yup
         .string()
         .required()
@@ -307,12 +300,24 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
             .required()
             .label(messages['common.address'] as string)
         : yup.string(),
-      factory_loc_district_id: yup
-        .string()
-        .label(messages['districts.label'] as string),
-      factory_loc_upazila_id: yup
-        .string()
-        .label(messages['upazilas.label'] as string),
+      factory_loc_division_id: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['divisions.label'] as string)
+        : yup.string().label(messages['divisions.label'] as string),
+      factory_loc_district_id: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['districts.label'] as string)
+        : yup.string().label(messages['districts.label'] as string),
+      factory_loc_upazila_id: hasWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['upazilas.label'] as string)
+        : yup.string().label(messages['upazilas.label'] as string),
       factory_web_site: yup
         .string()
         .label(messages['common.website'] as string),
@@ -326,7 +331,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         ? yup
             .string()
             .required()
-            .label(messages['factory.factory_land_own_or_rent'] as string)
+            .label(messages['factory.factory_land_own_or_rented'] as string)
         : yup.string(),
       is_proprietorship: yup
         .string()
@@ -518,20 +523,38 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['institute.has_online_business'] as string),
-      info_provider_name: yup.string(),
-      info_provider_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['institute.info_provider_mobile'] as string),
-      info_collector_name: yup.string(),
-      info_collector_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['institute.info_collector_mobile'] as string),
+      info_provider_name:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .required()
+              .label(messages['institute.info_provider_name'] as string)
+          : yup.string(),
+      info_provider_mobile:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['institute.info_provider_mobile'] as string)
+          : yup.string(),
+      info_collector_name:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .required()
+              .label(messages['institute.info_collector_name'] as string)
+          : yup.string(),
+      info_collector_mobile:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['institute.info_collector_mobile'] as string)
+          : yup.string(),
     });
   }, [
     locale,
@@ -562,6 +585,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  console.log('the form errors man: ', errors);
 
   const YesNoArray = useMemo(() => {
     return [
@@ -825,8 +850,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
     console.log('data: ', data);
     try {
-      await registerNASCIBMember(data);
-      createSuccessMessage('nascib_member.label');
+      await registerSMEFMember(data);
+      createSuccessMessage('smef_member.label');
       setIsSuccessRegistration(true);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -884,12 +909,12 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                           label: messages['common.self'],
                         },
                         {
-                          key: FormFiller.UDC_ENTREPRENEUR,
-                          label: messages['common.udc_entrepreneur'],
-                        },
-                        {
                           key: FormFiller.CHAMBER_ASSOCIATION,
                           label: messages['common.chamber_association'],
+                        },
+                        {
+                          key: FormFiller.SME_CLUSTER,
+                          label: messages['common.sme_cluster'],
                         },
                       ]}
                       control={control}
@@ -900,11 +925,11 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                 </Grid>
               </Grid>
 
-              {formFiller == FormFiller.UDC_ENTREPRENEUR && (
+              {formFiller == FormFiller.SME_CLUSTER && (
                 <>
                   <StyledHeader item xs={12}>
                     <p className={classes.headerText}>
-                      {messages['institute.udc_member_information']}
+                      {messages['institute.SME_cluster_information']}
                     </p>
                   </StyledHeader>
                   <Grid item xs={12}>
@@ -912,17 +937,17 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       <Grid item xs={6}>
                         <CustomTextInput
                           required
-                          id='udc_name'
-                          label={messages['common.name']}
+                          id='smef_cluster_name'
+                          label={messages['smef.sme_cluster_name']}
                           register={register}
                           errorInstance={errors}
                           isLoading={isLoading}
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <CustomFormSelect
+                        <CustomFilterableFormSelect
                           required
-                          id='udc_loc_district'
+                          id='smef_cluster_loc_district_id'
                           label={messages['districts.label']}
                           isLoading={isLoadingDistricts}
                           control={control}
@@ -932,24 +957,23 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                           errorInstance={errors}
                         />
                       </Grid>
-                      {/*<Grid item xs={6}>
-                          <CustomFormSelect
-                            required
-                            id='udc_union'
-                            label={messages['union.label']}
-                            isLoading={false}
-                            control={control}
-                            options={[{id: 1, title: 'Boidonath union'}]}
-                            optionValueProp={'id'}
-                            optionTitleProp={['title_en', 'title']}
-                            errorInstance={errors}
-                          />
-                        </Grid>*/}
-
+                      <Grid item xs={6}>
+                        <CustomFilterableFormSelect
+                          required
+                          id='smef_cluster_union_id'
+                          label={messages['union.label']}
+                          isLoading={isLoadingUnions}
+                          control={control}
+                          options={unions}
+                          optionValueProp={'id'}
+                          optionTitleProp={['title_en', 'title']}
+                          errorInstance={errors}
+                        />
+                      </Grid>
                       <Grid item xs={6}>
                         <CustomTextInput
                           required
-                          id='udc_code'
+                          id='smef_cluster_code'
                           label={messages['common.code']}
                           register={register}
                           errorInstance={errors}
@@ -1062,7 +1086,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         },
                         {
                           key: Gender.OTHERS,
-                          label: messages['common.others'],
+                          label: messages['common.third_gender'],
                         },
                       ]}
                       control={control}
@@ -1151,47 +1175,10 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
               <Grid container spacing={2} p={2}>
                 <Grid item xs={6}>
-                  <FormRadioButtons
-                    required
-                    id='membership_type_id'
-                    label={'membership.type'}
-                    radios={[
-                      {key: 1, label: messages['membership.partnership']},
-                      {key: 2, label: messages['membership.general']},
-                    ]}
-                    control={control}
-                    errorInstance={errors}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='membership_id'
-                    label={messages['membership.id']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
                   <CustomTextInput
                     required
                     id='trade_license_no'
                     label={messages['institute.trade_licence_number']}
-                    register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextInput
-                    required
-                    id='identification_no'
-                    label={
-                      messages['common.organization_identification_number']
-                    }
                     register={register}
                     errorInstance={errors}
                     isLoading={isLoading}
@@ -1290,6 +1277,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     isLoading={isLoading}
                   />
                 </Grid>
+                <Grid item xs={6} />
 
                 <Grid item xs={6}>
                   <FormRadioButtons
@@ -1329,6 +1317,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                     <Grid item xs={6}>
                       <CustomFormSelect
+                        required
                         id='factory_loc_division_id'
                         label={messages['divisions.label']}
                         isLoading={isLoadingDivisions}
@@ -1343,6 +1332,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
                     <Grid item xs={6}>
                       <CustomFormSelect
+                        required
                         id='factory_loc_district_id'
                         label={messages['districts.label']}
                         isLoading={isLoadingDivisions}
@@ -1356,6 +1346,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     </Grid>
                     <Grid item xs={6}>
                       <CustomFormSelect
+                        required
                         id='factory_loc_upazila_id'
                         label={messages['upazilas.label']}
                         isLoading={isLoadingUpazilas}
@@ -1392,15 +1383,15 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       <FormRadioButtons
                         required
                         id={'have_own_land'}
-                        label={'factory.factory_land_own_or_rent'}
+                        label={'factory.factory_land_own_or_rented'}
                         radios={[
                           {
                             key: 1,
-                            label: messages['common.yes'],
+                            label: messages['common.own'],
                           },
                           {
                             key: 2,
-                            label: messages['common.no'],
+                            label: messages['common.rented'],
                           },
                         ]}
                         control={control}
@@ -1413,7 +1404,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
               <StyledHeader item xs={12}>
                 <Typography variant={'body1'} className={classes.headerText}>
-                  {messages['common.institute_others_information']}
+                  {messages['common.institute_others_info']}
                 </Typography>
               </StyledHeader>
 
@@ -1484,7 +1475,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       errorInstance={errors}
                       setValue={setValue}
                       register={register}
-                      label={messages['trade_license.upload']}
+                      label={messages['upload_and_upload_type.upload']}
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -2078,48 +2069,55 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       errorInstance={errors}
                     />
                   </Grid>
+                  <Grid item xs={6} />
 
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      id='info_provider_name'
-                      label={messages['institute.info_provider_name']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
+                  {formFiller != FormFiller.SELF && (
+                    <>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='info_provider_name'
+                          label={messages['institute.info_provider_name']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      required
-                      id='info_provider_mobile'
-                      label={messages['institute.info_provider_mobile']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='info_provider_mobile'
+                          label={messages['institute.info_provider_mobile']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      id='info_collector_name'
-                      label={messages['institute.info_collector_name']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='info_collector_name'
+                          label={messages['institute.info_collector_name']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
 
-                  <Grid item xs={6}>
-                    <CustomTextInput
-                      required
-                      id='info_collector_mobile'
-                      label={messages['institute.info_collector_mobile']}
-                      register={register}
-                      errorInstance={errors}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
+                      <Grid item xs={6}>
+                        <CustomTextInput
+                          required
+                          id='info_collector_mobile'
+                          label={messages['institute.info_collector_mobile']}
+                          register={register}
+                          errorInstance={errors}
+                          isLoading={isLoading}
+                        />
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
               </Grid>
 
@@ -2141,4 +2139,4 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   );
 };
 
-export default NASCIBMemberRegistrationForm;
+export default SMEFMemberRegistrationForm;
