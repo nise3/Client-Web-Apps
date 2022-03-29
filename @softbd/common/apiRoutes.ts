@@ -17,7 +17,7 @@ export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
 export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
-  : 'https://file-phase1.nise.gov.bd/uploads/';
+  : 'https://file.nise.gov.bd/uploads/';
 
 export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
