@@ -39,6 +39,9 @@ interface IRenderSVG extends IcvPosition, ITextDesign {
 //     '2': 'Not Easily',
 // };
 
+const textColor: string = '#231f20';
+const lineColor: string = textColor;
+
 export const getProps = (propsName: string, locale: string): string => {
     const props = (locale === LocaleLanguage.BN) ? propsName : propsName + '_en';
     return props;
@@ -191,7 +194,7 @@ const renderSVG = (data: any, options: IRenderSVG) => {
     const lineBottomSpace = 5;
     allSections.append("line")
         .attr("x1", (e: any) => {
-            console.log('line pos', e)
+            // console.log('line pos', e)
             return e.position.x
         }).attr("y1", (e: any) => {
             return e.position.y + lineBottomSpace
@@ -220,7 +223,7 @@ const renderSVG = (data: any, options: IRenderSVG) => {
         }
     })
         .attr('font-size', options.bodyFontSize)
-        .attr('fill', '#231f20')
+        .attr('fill', textColor)
         .call(wrap, options.rectDefaultWidth)
 
     allSections
@@ -236,7 +239,7 @@ const renderSVG = (data: any, options: IRenderSVG) => {
             return e.position.x
         })
         .attr('font-size', options.bodyFontSize)
-        .attr('fill', '#231f20')
+        .attr('fill', textColor)
         .call(setArrayText, options.rectDefaultWidth, options.lineHeight)
 }
 
@@ -390,6 +393,13 @@ export const getStructureData = (data: any, messages: any, locale: any) => {
         }
     })
 
+}
+
+export const generateLineFomDomPosition = (position: any)=> {
+    d3.select('#cv-header')
+      .append('path')
+      .attr('fill', lineColor)
+      .attr('d', `M${position.x},${position.height + position.y}v-.9H${position.x + position.width}v.9Z`)
 }
 
 function setArrayText(txtElem: any, width: number, lineHeight: number) {
