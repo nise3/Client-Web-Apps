@@ -210,12 +210,12 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
               .label(messages['districts.label'] as string)
           : yup.string(),
       /*chamber_or_association_union_id:
-                                                                                formFiller == FormFiller.CHAMBER_ASSOCIATION
-                                                                                  ? yup
-                                                                                      .string()
-                                                                                      .required()
-                                                                                      .label(messages['union.label'] as string)
-                                                                                  : yup.string(),*/
+                                                                                      formFiller == FormFiller.CHAMBER_ASSOCIATION
+                                                                                        ? yup
+                                                                                            .string()
+                                                                                            .required()
+                                                                                            .label(messages['union.label'] as string)
+                                                                                        : yup.string(),*/
       chamber_or_association_code:
         formFiller == FormFiller.CHAMBER_ASSOCIATION
           ? yup
@@ -530,12 +530,15 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
               .required()
               .label(messages['institute.info_provider_name'] as string)
           : yup.string(),
-      info_provider_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['institute.info_provider_mobile'] as string),
+      info_provider_mobile:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['institute.info_provider_mobile'] as string)
+          : yup.string(),
       info_collector_name:
         formFiller != FormFiller.SELF
           ? yup
@@ -543,12 +546,15 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
               .required()
               .label(messages['institute.info_collector_name'] as string)
           : yup.string(),
-      info_collector_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['institute.info_collector_mobile'] as string),
+      info_collector_mobile:
+        formFiller != FormFiller.SELF
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .matches(MOBILE_NUMBER_REGEX)
+              .label(messages['institute.info_collector_mobile'] as string)
+          : yup.string(),
     });
   }, [
     locale,
