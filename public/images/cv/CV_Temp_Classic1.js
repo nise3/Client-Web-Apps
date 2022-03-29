@@ -6,9 +6,9 @@ const svg = `<svg id='svg' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http:
           <tspan>Curriculam Vitae</tspan>
         </text>
       </g>
-      <path d="M235.529,27.013v-.9H359.747v.9Z" fill="#231f20"/>
+      <!--<path d="M235.529,27.013v-.9H359.747v.9Z" fill="#231f20"/>-->
     </g>
-    <line x1="18" y1="156.12" x2="577.05" y2="156.12" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>
+    // <line x1="18" y1="156.12" x2="577.05" y2="156.12" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>
     <g id="contact-address">
       <text transform="translate(18 71)" font-size="14" fill="#231f20" font-family="ArialMT, Arial" x="0" y="0"><tspan x="0" y="10">
         <tspan>Contact&amp;Address</tspan>
