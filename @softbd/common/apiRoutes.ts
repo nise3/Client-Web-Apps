@@ -116,9 +116,6 @@ export const API_REJECT_COURSE_ENROLLMENT =
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
-export const API_ASSESSMENT_PAYMENT_PAY =
-  INSTITUTE_SERVICE_PATH +
-  '/rpl-applications/payment/payment-via-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
@@ -167,6 +164,9 @@ export const API_RPL_ASSESSMENT_QUESTION_SETS =
 export const API_RPL_SELF_ASSESSMENT =
   INSTITUTE_SERVICE_PATH + '/rpl-self-assessment';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
+export const API_ASSESSMENT_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH +
+  '/rpl-applications/payment/payment-via-ek-pay/pay-now';
 
 /**             eRPL End         */
 
