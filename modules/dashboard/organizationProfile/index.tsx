@@ -178,17 +178,64 @@ const OrganizationProfile = () => {
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <DetailsInputView
-                label={messages['common.designation']}
-                value={profileData?.name_of_the_office_head_designation}
-                isLoading={isLoading}
-              />
-            </Grid>
             <Grid item xs={12} md={6} sx={{padding: '0 20px 20px 0'}}>
               <DetailsInputView
                 label={messages['common.organization_address']}
                 value={profileData?.address}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_name']}
+                value={profileData?.contact_person_name}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_designation']}
+                value={profileData?.contact_person_designation}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_mobile']}
+                value={profileData?.contact_person_mobile}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_email']}
+                value={profileData?.contact_person_email}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head']}
+                value={profileData?.name_of_the_office_head}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head']}
+                value={profileData?.name_of_the_office_head}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                value={profileData?.name_of_the_office_head_designation}
                 isLoading={isLoading}
               />
             </Grid>
