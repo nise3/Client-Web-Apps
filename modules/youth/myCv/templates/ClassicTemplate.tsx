@@ -10,6 +10,7 @@ import {setAreaText} from '../../../../@softbd/common/svg-utils';
 import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
+import * as d3 from "d3";
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -40,22 +41,6 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
     return valWithNullCheck;
   };
 
-  /*const setHeaderAndLinePosition = (innerCordObj: any, headerId: string, headlineId: string, rectAreaId: string) => {
-    // update langulage rect, line and heading from the last cord
-    const lastCords = innerCordObj.lastCord + 40;
-    let languageHead = document.getElementById(headerId);
-    let languageHeadLine = document.getElementById(headlineId);
-    languageHead?.children[0].setAttribute('transform', `translate(18 ${lastCords})`);
-    languageHeadLine?.children[0].setAttribute('y1', (lastCords + 15) + '');
-    languageHeadLine?.children[0].setAttribute('y2', (lastCords + 15) + '');
-    // langular rectangle cord change
-    let rectCord = document.getElementById(rectAreaId);
-    rectCord?.children[0].setAttribute('y', (lastCords + 20) + '');
-    return {
-      rectCord
-    }
-  }*/
-
   const setHeaderLanguage = (headerId: string, languageKey: string) => {
     let languageHead = document.getElementById(headerId);
     let tspan = languageHead
@@ -63,6 +48,14 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       ?.querySelector('tspan') as SVGTSpanElement;
     if (tspan) {
       tspan.textContent = messages[languageKey] as string | null;
+    }
+    return {
+      dom: {
+        elem: languageHead,
+        position: languageHead?.getBBox()
+      },
+      textBox: tspan.getBBox(),
+      text: tspan.textContent
     }
   };
 
@@ -150,7 +143,13 @@ const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
       'lt',
     );
 
-    setHeaderLanguage('cv-header', 'personal_info.curriculum_vitae');
+    let cvHeader = setHeaderLanguage('cv-header', 'personal_info.curriculum_vitae');
+    let {dom: { position }} = cvHeader;
+    // console.log('{position} ', position);
+    d3.select('#cv-header')
+      .append('path')
+      .attr('fill', '#231f20')
+      .attr('d', `M${position.x},${position.height + position.y}v-.9H${position.x + position.width}v.9Z`)
     setHeaderLanguage('contact-address', 'common.contact_and_address');
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');

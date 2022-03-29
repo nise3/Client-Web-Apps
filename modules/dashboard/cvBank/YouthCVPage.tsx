@@ -8,10 +8,6 @@ import ModernTemplate from '../../youth/myCv/templates/ModernTemplate';
 import {Button, Container, Grid, Typography} from '@mui/material';
 import {useFetchYouthDetails} from '../../../services/youthManagement/hooks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import 'svg2pdf.js';
-// import 'svg-to-pdfkit';
-// import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-// import { svg2pdf } from 'svg2pdf.js';
 
 const PREFIX = 'YouthCVPage';
 

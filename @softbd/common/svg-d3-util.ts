@@ -191,7 +191,7 @@ const renderSVG = (data: any, options: IRenderSVG) => {
     const lineBottomSpace = 5;
     allSections.append("line")
         .attr("x1", (e: any) => {
-            console.log('line pos', e)
+            // console.log('line pos', e)
             return e.position.x
         }).attr("y1", (e: any) => {
             return e.position.y + lineBottomSpace
