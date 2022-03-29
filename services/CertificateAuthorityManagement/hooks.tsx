@@ -1,12 +1,12 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_QUESTION_BANK,
-  API_ASSESSMENTS,
+  API_RPL_QUESTION_BANK,
+  API_RPL_ASSESSMENTS,
   API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS,
   API_PUBLIC_RPL_OCCUPATIONS,
   API_PUBLIC_RPL_SECTORS,
   API_PUBLIC_RTO_COUNTRIES,
-  API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS,
+  API_PUBLIC_RPL_ASSESSMENTS_QUESTIONS,
   API_REGISTERED_TRAINING_ORGANIZATIONS,
   API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
@@ -14,9 +14,9 @@ import {
   API_RPL_SECTORS,
   API_RTO_BATCH,
   API_RTO_COUNTRIES,
-  API_SUBJECTS,
-  API_ASSESSMENT_QUESTIONS,
-  API_ASSESSMENT_QUESTION_SETS,
+  API_RPL_SUBJECTS,
+  API_RPL_ASSESSMENT_QUESTIONS,
+  API_RPL_ASSESSMENT_QUESTION_SETS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchRTO(rtoId: number | null) {
@@ -71,21 +71,21 @@ export function useFetchRPLLevel(rplLevelId: number | null) {
   return useAxiosSWR(rplLevelId ? API_RPL_LEVELS + '/' + rplLevelId : null);
 }
 
-export function useFetchSubject(subjectId: number | null) {
-  return useAxiosSWR(subjectId ? API_SUBJECTS + '/' + subjectId : null);
+export function useFetchRPLSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_RPL_SUBJECTS + '/' + subjectId : null);
 }
 
-export function useFetchSubjects(params: any) {
-  return useAxiosSWR([API_SUBJECTS, params]);
+export function useFetchRPLSubjects(params: any) {
+  return useAxiosSWR([API_RPL_SUBJECTS, params]);
 }
 
-export function useFetchAssessments(params: any) {
-  return useAxiosSWR([API_ASSESSMENTS, params]);
+export function useFetchRPLAssessments(params: any) {
+  return useAxiosSWR([API_RPL_ASSESSMENTS, params]);
 }
 
-export function useFetchAssessment(assessmentId: number | null) {
+export function useFetchRPLAssessment(assessmentId: number | null) {
   return useAxiosSWR(
-    assessmentId ? API_ASSESSMENTS + '/' + assessmentId : null,
+    assessmentId ? API_RPL_ASSESSMENTS + '/' + assessmentId : null,
   );
 }
 
@@ -101,12 +101,14 @@ export function useFetchPublicRTOS(params: any) {
   );
 }
 
-export function useFetchQuestionBanks(params: any) {
-  return useAxiosSWR(params ? [API_QUESTION_BANK, params] : null);
+export function useFetchRPLQuestionBanks(params: any) {
+  return useAxiosSWR(params ? [API_RPL_QUESTION_BANK, params] : null);
 }
 
-export function useFetchQuestionBank(questionId: number | null) {
-  return useAxiosSWR(questionId ? API_QUESTION_BANK + '/' + questionId : null);
+export function useFetchRPLQuestionBank(questionId: number | null) {
+  return useAxiosSWR(
+    questionId ? API_RPL_QUESTION_BANK + '/' + questionId : null,
+  );
 }
 
 export function useFetchRTOBatch(rtoBatchId: number | null) {
@@ -119,20 +121,24 @@ export function useFetchRTOBatches(params: any) {
 
 export function useFetchPublicYouthAssessmentQuestions(params: any) {
   return useAxiosSWR(
-    params ? [API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS, params] : null,
+    params ? [API_PUBLIC_RPL_ASSESSMENTS_QUESTIONS, params] : null,
   );
 }
 
-export function useFetchAssessmentQuestions(params: any) {
-  return useAxiosSWR(params ? [API_ASSESSMENT_QUESTIONS, params] : null);
+export function useFetchRPLAssessmentQuestions(params: any) {
+  return useAxiosSWR(params ? [API_RPL_ASSESSMENT_QUESTIONS, params] : null);
 }
 
-export function useFetchAssessmentQuestionSets(params: any) {
-  return useAxiosSWR(params ? [API_ASSESSMENT_QUESTION_SETS, params] : null);
-}
-
-export function useFetchAssessmentQuestionSet(questionSetId: number | null) {
+export function useFetchRPLAssessmentQuestionSets(params: any) {
   return useAxiosSWR(
-    questionSetId ? API_ASSESSMENT_QUESTION_SETS + '/' + questionSetId : null,
+    params ? [API_RPL_ASSESSMENT_QUESTION_SETS, params] : null,
+  );
+}
+
+export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
+  return useAxiosSWR(
+    questionSetId
+      ? API_RPL_ASSESSMENT_QUESTION_SETS + '/' + questionSetId
+      : null,
   );
 }

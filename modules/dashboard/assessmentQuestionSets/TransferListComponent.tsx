@@ -15,9 +15,9 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  useFetchAssessmentQuestions,
-  useFetchQuestionBanks,
-  useFetchSubjects,
+  useFetchRPLAssessmentQuestions,
+  useFetchRPLQuestionBanks,
+  useFetchRPLSubjects,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {useIntl} from 'react-intl';
 import {Edit} from '@mui/icons-material';
@@ -59,19 +59,19 @@ const TransferList: FC<TransferListProps> = ({
   const [subjectId, setSubjectId] = useState<any>(null);
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isFetchingSubjects} =
-    useFetchSubjects(subjectFilters);
+    useFetchRPLSubjects(subjectFilters);
 
   const [assessmentQuestionFilter] = useState({
     assessment_question_set_id: assessmentQuestionSetId,
   });
-  const {data: assessmentQuestions, isLoading} = useFetchAssessmentQuestions(
+  const {data: assessmentQuestions, isLoading} = useFetchRPLAssessmentQuestions(
     assessmentQuestionFilter,
   );
 
   const [questionFilter, setQuestionFilter] = useState<any>(null);
 
   const {data: questions, isLoading: isFetchingQuestions} =
-    useFetchQuestionBanks(questionFilter);
+    useFetchRPLQuestionBanks(questionFilter);
 
   useEffect(() => {
     if (questions && questions?.length > 0) {

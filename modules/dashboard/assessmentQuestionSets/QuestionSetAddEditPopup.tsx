@@ -14,14 +14,14 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchAssessmentQuestionSet,
-  useFetchAssessments,
+  useFetchRPLAssessmentQuestionSet,
+  useFetchRPLAssessments,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {IQuestionSet} from '../../../shared/Interface/institute.interface';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import {
-  createAssessmentQuestionSet,
-  updateAssessmentQuestionSet,
+  createRPLAssessmentQuestionSet,
+  updateRPLAssessmentQuestionSet,
 } from '../../../services/CertificateAuthorityManagement/AssessmentQuestionSetService';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -52,12 +52,12 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateSubject,
-  } = useFetchAssessmentQuestionSet(itemId);
+  } = useFetchRPLAssessmentQuestionSet(itemId);
 
   const [assessmentFilters] = useState<any>({});
 
   const {data: assessmentData, isLoading: isLoadingAssessment} =
-    useFetchAssessments(assessmentFilters);
+    useFetchRPLAssessments(assessmentFilters);
 
   const [selectedAssessment, setSelectedAssessment] = useState<any>([]);
 
@@ -110,11 +110,11 @@ const QuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IQuestionSet> = async (data: IQuestionSet) => {
     try {
       if (itemId) {
-        await updateAssessmentQuestionSet(itemId, data);
+        await updateRPLAssessmentQuestionSet(itemId, data);
         updateSuccessMessage('question_set.label');
         mutateSubject();
       } else {
-        await createAssessmentQuestionSet(data);
+        await createRPLAssessmentQuestionSet(data);
         createSuccessMessage('question_set.label');
       }
       props.onClose();

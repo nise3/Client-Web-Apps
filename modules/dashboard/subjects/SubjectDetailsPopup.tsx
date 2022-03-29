@@ -1,14 +1,14 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
-import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
-import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import { useFetchSubject } from "../../../services/CertificateAuthorityManagement/hooks";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import React from 'react';
+import {Grid} from '@mui/material';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchRPLSubject} from '../../../services/CertificateAuthorityManagement/hooks';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number;
@@ -18,7 +18,7 @@ type Props = {
 
 const SubjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchSubject(itemId);
+  const {data: itemData, isLoading} = useFetchRPLSubject(itemId);
 
   return (
     <>

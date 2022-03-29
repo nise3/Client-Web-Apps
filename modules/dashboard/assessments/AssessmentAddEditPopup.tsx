@@ -15,15 +15,15 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchAssessment,
+  useFetchRPLAssessment,
   useFetchRPLLevels,
   useFetchRPLOccupations,
   useFetchRPLSectors,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {IAssessment} from '../../../shared/Interface/common.interface';
 import {
-  createAssessment,
-  updateAssessment,
+  createRPLAssessment,
+  updateRPLAssessment,
 } from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
@@ -59,7 +59,7 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateAssessment,
-  } = useFetchAssessment(itemId);
+  } = useFetchRPLAssessment(itemId);
 
   const {data: rplSectors, isLoading: isLoadingRplSectors} =
     useFetchRPLSectors(rplSectorFilter);
@@ -148,11 +148,11 @@ const AssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: IAssessment) => {
     try {
       if (itemId) {
-        await updateAssessment(itemId, data);
+        await updateRPLAssessment(itemId, data);
         updateSuccessMessage('assessment.label');
         mutateAssessment();
       } else {
-        await createAssessment(data);
+        await createRPLAssessment(data);
         createSuccessMessage('assessment.label');
       }
       props.onClose();

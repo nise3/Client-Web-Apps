@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchAssessment} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchRPLAssessment} from '../../../services/CertificateAuthorityManagement/hooks';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 
 const AssessmentDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchAssessment(itemId);
+  const {data: itemData, isLoading} = useFetchRPLAssessment(itemId);
 
   return (
     <>

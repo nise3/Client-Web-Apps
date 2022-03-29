@@ -11,7 +11,7 @@ export const PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY =
 export const HIERARCHY_NODE_ID_PREFIX_STRING = 'm';
 export const GOOGLE_MAP_API_KEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
 export const RESEND_CODE_RETRY_TIME_IN_MILLIS = 1000 * 180;
-export const DATE_OF_BIRTH_MIN_AGE = 20; //age in years
+export const DATE_OF_BIRTH_MIN_AGE = 5; //age in years
 
 export const isLocalHost = () =>
   typeof window !== 'undefined' && window?.location?.hostname

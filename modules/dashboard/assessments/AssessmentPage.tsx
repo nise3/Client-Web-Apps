@@ -7,14 +7,14 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_ASSESSMENTS} from '../../../@softbd/common/apiRoutes';
+import {API_RPL_ASSESSMENTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AssessmentDetailsPopup from './AssessmentDetailsPopup';
 import AssessmentAddEditPopup from './AssessmentAddEditPopup';
-import {deleteAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
+import {deleteRPLAssessment} from '../../../services/CertificateAuthorityManagement/AssessmentService';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
 const AssessmentPage = () => {
@@ -48,7 +48,7 @@ const AssessmentPage = () => {
   }, []);
 
   const deleteAssessmentItem = async (itemId: number) => {
-    let response = await deleteAssessment(itemId);
+    let response = await deleteRPLAssessment(itemId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -111,7 +111,7 @@ const AssessmentPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_ASSESSMENTS,
+      urlPath: API_RPL_ASSESSMENTS,
     });
 
   return (
