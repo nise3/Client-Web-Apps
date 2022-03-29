@@ -25,7 +25,7 @@ import {
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import moment from 'moment';
-import {DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
+import {GUARDIAN_DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -101,7 +101,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           (value) =>
             !value ||
             Boolean(
-              moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+              moment().diff(moment(value), 'years') >= GUARDIAN_DATE_OF_BIRTH_MIN_AGE,
             ),
         ),
     });
