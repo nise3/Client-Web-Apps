@@ -1572,6 +1572,8 @@
   "institute.info_collector_name": "Info Collector Name",
   "institute.info_collector_mobile": "Info Collector Mobile Number",
   "institute.udc_member_information": "UDC Member Information",
+  "institute.SME_cluster_information": "SME Cluster Information",
+  "smef.sme_cluster_name": "SME Cluster Name",
   "entrepreneur_introduction.label": "Entrepreneur Introduction",
   "common.delete": "Delete",
   "common.trade_number": "Trade Number",
