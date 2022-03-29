@@ -27,8 +27,8 @@ import {
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
+  getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
-  getSchema,
   getValuesFromObjectArray,
 } from '../../../@softbd/utilities/helpers';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -81,12 +81,16 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
       phone_numbers: yup
         .array()
         .of(
-          getSchema(yup, PHONE_NUMBER_REGEX, messages['common.invalid_phone']),
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
         ),
       mobile_numbers: yup
         .array()
         .of(
-          getSchema(
+          getMobilePhoneValidationSchema(
             yup,
             MOBILE_NUMBER_REGEX,
             messages['common.invalid_mobile'],
