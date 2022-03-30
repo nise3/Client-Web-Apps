@@ -183,8 +183,12 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_from_to'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
-              to: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
+              to: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -193,7 +197,9 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_at_least'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
             }}
           />
         );
@@ -202,7 +208,9 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_at_most'}
             values={{
-              from: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -214,23 +222,39 @@ const JobCircularDetails = () => {
   };
 
   const getAgeText = () => {
-    let ageText = '';
+    let ageText: any = '';
 
     if (
       jobData?.candidate_requirements?.age_minimum &&
       jobData?.candidate_requirements?.age_maximum
     ) {
-      ageText =
-        jobData?.candidate_requirements?.age_minimum +
-        ' to ' +
-        jobData?.candidate_requirements?.age_maximum +
-        ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_from_to'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+            to: formatNumber(jobData?.candidate_requirements?.age_maximum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_minimum) {
-      ageText =
-        'At least ' + jobData?.candidate_requirements?.age_minimum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_least'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_maximum) {
-      ageText =
-        'At most ' + jobData?.candidate_requirements?.age_maximum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_most'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     }
 
     return ageText;
@@ -449,19 +473,64 @@ const JobCircularDetails = () => {
     });
 
     if (male && female && other) {
-      return 'Any one allowed to apply';
+      return messages['job_posting.application_gender_req_all'];
     } else if (male && female) {
-      return 'Both male and female are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.female'],
+          }}
+        />
+      );
     } else if (male && other) {
-      return 'Both male and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.others'],
+          }}
+        />
+      );
     } else if (female && other) {
-      return 'Both females and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.female'],
+            gender2: messages['common.other'],
+          }}
+        />
+      );
     } else if (male) {
-      return 'Only males are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender1: messages['common.male'],
+          }}
+        />
+      );
     } else if (female) {
-      return 'Only females are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.female'],
+          }}
+        />
+      );
     } else {
-      return 'Only third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender2: messages['common.other'],
+          }}
+        />
+      );
     }
   };
 
@@ -484,7 +553,12 @@ const JobCircularDetails = () => {
 
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {getAgeText() && <li>Age {getAgeText()}</li>}
+        {getAgeText() && (
+          <li>
+            {' '}
+            {messages['job_preview_summary.age']} {getAgeText()}
+          </li>
+        )}
         {jobData?.candidate_requirements?.genders.length > 0 &&
           jobData?.candidate_requirements?.genders.length <= 3 && (
             <li>{getGenderText()}</li>
@@ -900,6 +974,9 @@ const JobCircularDetails = () => {
                   <CustomChip
                     label={messages['common.applied']}
                     color={'primary'}
+                    sx={{
+                      marginTop: '20px',
+                    }}
                   />
                 ) : (
                   <Button

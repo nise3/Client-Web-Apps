@@ -1,16 +1,18 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
+import { ChevronRight } from '@mui/icons-material';
+import { Button, Grid, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { H2, Link } from '../../../@softbd/elements/common';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
-import {useIntl} from 'react-intl';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {H2, Link} from '../../../@softbd/elements/common';
+import { objectFilter } from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import { useFetchCourseList } from '../../../services/instituteManagement/hooks';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
-import {useRouter} from 'next/router';
-import {styled} from '@mui/material/styles';
-import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import { urlParamsUpdate } from '../youthConstants';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
 
 const PREFIX = 'TrendingCoursesSection';
 
@@ -38,9 +40,10 @@ const TrendingCoursesSection = ({
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.pathname;
+  const pageSize: string | number | string[] = (router.query && router.query.page_size) ? router.query.page_size : PageSizes.EIGHT;
 
   const [courseFilters, setCourseFilters] = useState({
-    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
+    page_size: showAllCourses ? pageSize : PageSizes.FOUR,
     page: 1,
   });
 
@@ -61,8 +64,12 @@ const TrendingCoursesSection = ({
     page.current = currentPage;
     setCourseFilters((params: any) => {
       return {...params, ...{page: currentPage}};
-    });
-  }, []);
+    });    
+    urlParamsUpdate(router, {...router.query, page: currentPage});
+
+  }, [router]);
+
+  
 
   useEffect(() => {
     page.current = 1;
@@ -70,6 +77,21 @@ const TrendingCoursesSection = ({
       return objectFilter({...prev, ...filters, page: page.current});
     });
   }, [filters]);
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setCourseFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllCourses
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
+    },
+    [router],
+  );
 
   return (
     <StyledGrid container spacing={3} mb={8}>
@@ -111,24 +133,26 @@ const TrendingCoursesSection = ({
                   </Grid>
                 );
               })}
-              {showAllCourses && courseListMetaData.total_page > 1 && (
-                <Grid
-                  item
-                  md={12}
-                  mt={4}
-                  display={'flex'}
-                  justifyContent={'center'}>
-                  <Stack spacing={2}>
-                    <Pagination
-                      page={page.current}
-                      count={courseListMetaData.total_page}
-                      color={'primary'}
-                      shape='rounded'
-                      onChange={onPaginationChange}
-                    />
-                  </Stack>
-                </Grid>
-              )}
+              {showAllCourses &&
+                courseListMetaData.total_page > 1 && (
+                  <Grid
+                    item
+                    md={12}
+                    mt={4}
+                    display={'flex'}
+                    justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <CustomPaginationWithPageNumber
+                        count={courseListMetaData.total_page}
+                        currentPage={1}
+                        queryPageNumber={page.current}
+                        onPaginationChange={onPaginationChange}
+                        rowsPerPage={Number(router.query.page_size)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
             </>
           ) : (
             <NoDataFoundComponent messageType={messages['course.label']} />

@@ -251,8 +251,8 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_from_to'}
           values={{
-            from: job?.minimum_year_of_experience,
-            to: job?.maximum_year_of_experience,
+            from: formatNumber(job?.minimum_year_of_experience),
+            to: formatNumber(job?.maximum_year_of_experience),
           }}
         />
       );
@@ -261,7 +261,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_at_least'}
           values={{
-            from: job?.minimum_year_of_experience,
+            from: formatNumber(job?.minimum_year_of_experience),
           }}
         />
       );
@@ -270,7 +270,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_at_most'}
           values={{
-            from: job?.maximum_year_of_experience,
+            from: formatNumber(job?.maximum_year_of_experience),
           }}
         />
       );

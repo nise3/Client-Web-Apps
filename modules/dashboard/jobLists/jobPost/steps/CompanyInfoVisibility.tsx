@@ -14,6 +14,7 @@ import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInp
 import {useFetchJobCompanyInfoVisibility} from '../../../../../services/IndustryManagement/hooks';
 import {saveCompanyInfoVisibility} from '../../../../../services/IndustryManagement/JobService';
 import {useFetchIndustryAssociationTrades} from '../../../../../services/IndustryAssociationManagement/hooks';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
@@ -45,6 +46,9 @@ const CompanyInfoVisibility = ({
   const [associationTradeFilter] = useState<any>({});
   const {data: associationTrades, isLoading: isLoadingTrades} =
     useFetchIndustryAssociationTrades(associationTradeFilter);
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -112,7 +116,7 @@ const CompanyInfoVisibility = ({
         ? 1
         : 0;
 
-      console.log('data-->', data);
+      // console.log('data-->', data);
       await saveCompanyInfoVisibility(data);
 
       successStack('Data saved successfully');
@@ -123,7 +127,7 @@ const CompanyInfoVisibility = ({
   };
 
   return isReady ? (
-    <Box mt={2}>
+    <Box mt={2} id={id}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.company_info_visibility']}
       </Typography>

@@ -123,18 +123,6 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
 
           {paymentURL && (
             <>
-              {/*<Box*/}
-              {/*  mx={'auto'}*/}
-              {/*  sx={{*/}
-              {/*    color: '#0069BC',*/}
-              {/*    width: '0',*/}
-              {/*    height: '0',*/}
-              {/*    borderLeft: '12px solid transparent',*/}
-              {/*    borderRight: '12px solid transparent',*/}
-              {/*    borderTop: '18px solid',*/}
-              {/*    zIndex: 1,*/}
-              {/*  }}*/}
-              {/*/>*/}
               <Box
                 sx={{
                   position: 'absolute',

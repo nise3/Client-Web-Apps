@@ -20,7 +20,7 @@ import AssessmentForm from './AssessmentForm';
 import {useFetchPublicYouthAssessmentQuestions} from '../../../services/CertificateAuthorityManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {createRplAssessment} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
+import {createRplSelfAssessment} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
 import AssessmentResult from './AssessmentResult';
 
 const PREFIX = 'YouthCourseRegistrationPage';
@@ -199,7 +199,7 @@ const AssessmentProcessPage = () => {
         handleNext();
       } else {
         formData.youth_id = authUser?.youthId;
-        const response = await createRplAssessment(formData);
+        const response = await createRplSelfAssessment(formData);
         setResponseData(response);
         handleNext();
       }

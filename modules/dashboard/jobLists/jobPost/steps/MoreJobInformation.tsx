@@ -27,6 +27,7 @@ import {
   useFetchJobLocations,
 } from '../../../../../services/IndustryManagement/hooks';
 import {saveAdditionalJobInformation} from '../../../../../services/IndustryManagement/JobService';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
@@ -131,6 +132,9 @@ const MoreJobInformation = ({
   const [hasOtherBenefits, setHasOtherBenefits] = useState<boolean>(true);
   const {data: additionalInfo} = useFetchJobAdditionalInformation(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const {data: jobLocations, isLoading: isLoadingJobLocations} =
     useFetchJobLocations();
@@ -329,7 +333,7 @@ const MoreJobInformation = ({
   };
 
   return isReady ? (
-    <Box mt={3} mb={3}>
+    <Box mt={3} mb={3} id={id}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.more_job_info']}
       </Typography>
