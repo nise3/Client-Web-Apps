@@ -21,3 +21,4 @@ export const COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID =
   'nascib_member_registration_payment_id';
 export const IS_LOCAL_IDP = true;
 export const IS_LOCAL_APM = true;
+export const NOT_LOGOUT_ERROR_CODE = 'access_denied';

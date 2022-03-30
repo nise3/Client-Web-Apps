@@ -13,10 +13,9 @@ const withData = (ComposedComponent: any) => (props: any) => {
     ({auth}) => auth,
   );
   const {pathname} = useRouter();
-  // const queryParams = asPath.split('?')[1];
+
   useEffect(() => {
     if (!user && !loading) {
-      // Router.push('/signin' + (queryParams ? '?' + queryParams : ''));
       window.location.href = getSSOLoginUrl();
     }
     if (user && user.isYouthUser) {
