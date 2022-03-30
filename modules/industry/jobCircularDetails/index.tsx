@@ -183,8 +183,12 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_from_to'}
             values={{
-              from: formatNumber( jobData?.candidate_requirements?.minimum_year_of_experience),
-              to: formatNumber(jobData?.candidate_requirements?.maximum_year_of_experience),
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
+              to: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -193,7 +197,9 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_at_least'}
             values={{
-              from: formatNumber( jobData?.candidate_requirements?.minimum_year_of_experience),
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
             }}
           />
         );
@@ -202,7 +208,9 @@ const JobCircularDetails = () => {
           <IntlMessages
             id={'job_preview.experience_at_most'}
             values={{
-              from: formatNumber(jobData?.candidate_requirements?.maximum_year_of_experience),
+              from: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -220,29 +228,33 @@ const JobCircularDetails = () => {
       jobData?.candidate_requirements?.age_minimum &&
       jobData?.candidate_requirements?.age_maximum
     ) {
-      ageText =(
-          <IntlMessages
-              id={'job_preview.age_from_to'}
-              values={{
-                from: formatNumber( jobData?.candidate_requirements?.age_minimum),
-                to: formatNumber(jobData?.candidate_requirements?.age_maximum),
-              }}
-          />
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_from_to'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+            to: formatNumber(jobData?.candidate_requirements?.age_maximum),
+          }}
+        />
       );
     } else if (jobData?.candidate_requirements?.age_minimum) {
-      ageText =<IntlMessages
+      ageText = (
+        <IntlMessages
           id={'job_preview.age_at_least'}
           values={{
-            from: formatNumber( jobData?.candidate_requirements?.age_minimum)
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
           }}
-      />
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_maximum) {
-      ageText =<IntlMessages
+      ageText = (
+        <IntlMessages
           id={'job_preview.age_at_most'}
           values={{
-            from: formatNumber( jobData?.candidate_requirements?.age_minimum)
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
           }}
-      />
+        />
+      );
     }
 
     return ageText;
@@ -461,52 +473,64 @@ const JobCircularDetails = () => {
     });
 
     if (male && female && other) {
-      return messages["job_posting.application_gender_req_all"]
+      return messages['job_posting.application_gender_req_all'];
     } else if (male && female) {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_two"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
           values={{
-            gender1: messages["common.male"],
-            gender2: messages["common.female"]
+            gender1: messages['common.male'],
+            gender2: messages['common.female'],
           }}
-      />;
+        />
+      );
     } else if (male && other) {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_two"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
           values={{
-            gender1: messages["common.male"],
-            gender2: messages["common.others"]
+            gender1: messages['common.male'],
+            gender2: messages['common.others'],
           }}
-      />;
+        />
+      );
     } else if (female && other) {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_two"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
           values={{
-            gender1: messages["common.female"],
-            gender2: messages["common.other"]
+            gender1: messages['common.female'],
+            gender2: messages['common.other'],
           }}
-      />;
+        />
+      );
     } else if (male) {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_one"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
           values={{
-            gender1: messages["common.male"]
+            gender1: messages['common.male'],
           }}
-      />;;
+        />
+      );
     } else if (female) {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_two"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
           values={{
-            gender1: messages["common.female"]
+            gender1: messages['common.female'],
           }}
-      />;
+        />
+      );
     } else {
-      return <IntlMessages
-          id={"job_posting.application_gender_req_two"}
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
           values={{
-            gender2: messages["common.other"]
+            gender2: messages['common.other'],
           }}
-      />;
+        />
+      );
     }
   };
 
@@ -529,7 +553,12 @@ const JobCircularDetails = () => {
 
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {getAgeText() && <li> {messages["job_preview_summary.age"]} {getAgeText()}</li>}
+        {getAgeText() && (
+          <li>
+            {' '}
+            {messages['job_preview_summary.age']} {getAgeText()}
+          </li>
+        )}
         {jobData?.candidate_requirements?.genders.length > 0 &&
           jobData?.candidate_requirements?.genders.length <= 3 && (
             <li>{getGenderText()}</li>
@@ -945,6 +974,9 @@ const JobCircularDetails = () => {
                   <CustomChip
                     label={messages['common.applied']}
                     color={'primary'}
+                    sx={{
+                      marginTop: '20px',
+                    }}
                   />
                 ) : (
                   <Button
