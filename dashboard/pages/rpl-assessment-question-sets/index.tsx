@@ -14,7 +14,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['subject.label']} />
+      <PageMeta title={messages['assessment_question_set.label']} />
       <RPLAssessmentQuestionSetPage />
     </>
   );
