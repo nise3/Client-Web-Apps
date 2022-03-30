@@ -43,6 +43,11 @@ export const StyledBox = styled(Box)(({theme}) => ({
   '& .MuiPagination-root': {
     marginTop: '10px',
   },
+  [`& .MuiTablePagination-select`]: {
+    border: '1px solid gray',
+    padding: '3px 0px',
+    borderRadius: '6px !important',
+  },
 }));
 
 const CustomPaginationWithPageNumber = ({
