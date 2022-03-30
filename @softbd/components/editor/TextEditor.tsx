@@ -98,7 +98,7 @@ const TextEditor = React.forwardRef(
       }
     };
 
-    const example_image_upload_handler = (blobInfo: any, success: any, failure: any, progress: any) => {
+    const imageUploadHandler = (blobInfo: any, success: any, failure: any, progress: any) => {
       let xhr: XMLHttpRequest, formData: FormData;
 
       xhr = new XMLHttpRequest();
@@ -174,9 +174,10 @@ const TextEditor = React.forwardRef(
               branding: false,
               convert_urls: false,
               image_caption: true,
+              media_strict: false,
               // content_css: tineyMceStyle,
               // images_upload_handler: tinyMceEditorImageUploader,
-              images_upload_handler: example_image_upload_handler,
+              images_upload_handler: imageUploadHandler,
               fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
               plugins: [
                 'advlist autolink lists link image charmap print preview anchor template linkchecker ',
