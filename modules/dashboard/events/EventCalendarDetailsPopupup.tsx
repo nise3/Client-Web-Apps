@@ -11,6 +11,7 @@ import {deleteEvent} from '../../../services/cmsManagement/EventService';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import EventCalendarDetails from './EventCalendarDetails';
 import {ICalendar} from '../../../shared/Interface/common.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -49,6 +50,7 @@ const EventCalendarDetailsPopup = ({
             <IntlMessages id='menu.calendar' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -65,7 +67,7 @@ const EventCalendarDetailsPopup = ({
             )}
           </>
         }>
-        {itemData && <EventCalendarDetails itemData={itemData} /> }
+        {itemData && <EventCalendarDetails itemData={itemData} />}
       </CustomDetailsViewMuiModal>
     </>
   );

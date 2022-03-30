@@ -4,6 +4,7 @@ import {Card, Container, Grid} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import {H3} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import SectionTitle from './SectionTitle';
 
 const PREFIX = 'InfoCardSection';
 
@@ -74,12 +75,13 @@ const InfoCardSection = () => {
 
   return (
     <StyledFade direction='up'>
-      <Container maxWidth='lg'>
-        <Grid
-          container
-          spacing={4}
-          mb={{xs: 2, md: 5}}
-          sx={{marginTop: '115px'}}>
+      <Container maxWidth='lg' sx={{marginTop: '60px'}}>
+        <SectionTitle
+          title={messages['beneficiaries_of_NISE.label'] as string}
+          center={true}
+        />
+
+        <Grid container spacing={4} mb={{xs: 2, md: 5}}>
           <Grid item xs={12} md={4}>
             <Card className={classes.youthBoxItem}>
               <img src={'/images/home-page/man-n-woman.png'} />

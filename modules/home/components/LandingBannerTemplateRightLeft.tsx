@@ -17,9 +17,18 @@ const StyledGrid = styled(Grid)(({theme}) => ({
   display: 'flex',
   position: 'relative',
   justifyContent: 'center',
+  [theme.breakpoints.up('xl')]: {
+    height: 550,
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: 150,
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 300,
+  },
 
   [`& .${classes.image}`]: {
-    objectFit: 'cover',
+    objectFit: 'unset',
     height: '100%',
     width: '100%',
   },
@@ -38,6 +47,15 @@ interface BannerProps {
 const LandingBannerTemplateRightLeft = ({banner}: BannerProps) => {
   return (
     <StyledGrid container>
+      <Grid item xs={12} md={6} sx={{height: '100%'}}>
+        <CardMedia
+          component='img'
+          image={banner?.banner_image_path}
+          className={classes.image}
+          alt={banner?.image_alt_title}
+          title={banner?.title}
+        />
+      </Grid>
       <Grid
         item
         xs={12}
@@ -76,15 +94,6 @@ const LandingBannerTemplateRightLeft = ({banner}: BannerProps) => {
             ''
           )}
         </Container>
-      </Grid>
-      <Grid item xs={12} md={6} sx={{height: '100%'}}>
-        <CardMedia
-          component='img'
-          image={banner?.banner_image_path}
-          className={classes.image}
-          alt={banner?.image_alt_title}
-          title={banner?.title}
-        />
       </Grid>
     </StyledGrid>
   );

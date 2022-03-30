@@ -1,43 +1,21 @@
 import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
 import PageMeta from '../../../@crema/core/PageMeta';
-import RecentActivitiesDetails from '../../../modules/institute/recent-activities/RecentActivitiesDetails';
-import {API_FRONT_END_RECENT_ACTIVITY_LIST} from '../../../@softbd/common/apiRoutes';
-import {apiGet} from '../../../@softbd/common/api';
-import {getAppAccessToken} from '../../../@softbd/libs/axiosInstance';
+import {useIntl} from 'react-intl';
+import asyncComponent from '../../../@crema/utility/asyncComponent';
 
-export default NiseFrontPage(({data}: any) => {
+const RecentActivitiesDetails = asyncComponent(
+  () =>
+    import(
+      '../../../modules/institute/recent-activities/RecentActivitiesDetails'
+    ),
+);
+
+export default NiseFrontPage(() => {
+  const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={data.title} />
-      <RecentActivitiesDetails data={data} />
+      <PageMeta title={messages['menu.recent_activities']} />
+      <RecentActivitiesDetails />
     </>
   );
 });
-
-export async function getServerSideProps(context: any) {
-  const {
-    req: {cookies},
-  } = context;
-
-  let id = context.params.details;
-
-  try {
-    let appAccessToken = JSON.parse(
-      cookies?.app_access_token || '{}',
-    )?.access_token;
-
-    if (!appAccessToken) {
-      const response = await getAppAccessToken();
-      appAccessToken = response?.data?.access_token;
-    }
-
-    const res = await apiGet(API_FRONT_END_RECENT_ACTIVITY_LIST + `/${id}`, {
-      headers: {Authorization: 'Bearer ' + appAccessToken},
-    });
-
-    return {props: {data: res?.data?.data}};
-  } catch (e) {
-    //console.log('err=>', e);
-    return {props: {data: null}};
-  }
-}

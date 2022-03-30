@@ -75,7 +75,9 @@ const AddressViewPage = ({
               <H3 sx={{...style.subtitle2}} className={classes.textStyle}>
                 {address.address_type == 1
                   ? messages['common.present_address']
-                  : messages['common.permanent_address']}
+                  : address.address_type == 2
+                  ? messages['common.permanent_address']
+                  : messages['common.other_address']}
               </H3>
               {getAddressString(address)}
             </Grid>

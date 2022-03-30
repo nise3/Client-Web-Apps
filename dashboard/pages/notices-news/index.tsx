@@ -11,7 +11,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['recent_activities.label']} />
+      <PageMeta title={messages['common.notice_and_news']} />
       <NoticeOrNews />
     </>
   );

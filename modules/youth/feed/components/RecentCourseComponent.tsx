@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../../@softbd/common/appLinks';
 
 const PREFIX = 'RecentCourseComponent';
 
@@ -23,6 +24,9 @@ const StyledBox = styled(Box)(({theme}) => ({
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
+    '& img': {
+      objectFit: 'contain',
+    },
   },
 
   [`& .${classes.courseTitle}`]: {
@@ -50,7 +54,8 @@ const RecentCourseComponent = ({data: course}: any) => {
         <Box>
           <Avatar
             alt='provider image'
-            src={course.logoUrl}
+            variant={'square'}
+            src={course?.logo ? course?.logo : '/images/blank_image.png'}
             className={classes.courseProviderImage}
           />
         </Box>
@@ -64,11 +69,11 @@ const RecentCourseComponent = ({data: course}: any) => {
 
           <Box>
             <Link
-              href={'../../course-details/__'.replace('__', course.id)}
+              href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}
               passHref>
               <Button
-                className={classes.detailsButton}
-                variant='contained'
+                variant='outlined'
+                color='primary'
                 size={'small'}
                 style={{marginLeft: 10}}>
                 {messages['common.details']}

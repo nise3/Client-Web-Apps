@@ -4,16 +4,21 @@ import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
-import Link from 'next/link';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION,
   LINK_YOUTH_SIGNUP,
 } from '../../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
-import {niseDomain} from '../../../../@softbd/common/constants';
-import {H3} from '../../../../@softbd/elements/common';
+import {
+  gotoLoginSignUpPage,
+  niseDomain,
+  youthDomain,
+} from '../../../../@softbd/common/constants';
+import {H3, Link} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'CourseInfoBlock';
@@ -33,10 +38,10 @@ const StyledCard = styled(Card)(({theme}) => ({
   padding: 15,
 
   [`& .${classes.jobProviderImage}`]: {
-    borderRadius: '50%',
     height: 60,
     width: 60,
     border: '1px solid ' + theme.palette.grey['300'],
+    objectFit: 'contain',
   },
 
   [`& .${classes.totalEnrolled}`]: {
@@ -96,7 +101,11 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
           <CardMedia
             component='img'
             alt={course.title}
-            image={'/images/courseImage.jpeg'}
+            image={
+              course.cover_image
+                ? course.cover_image
+                : '/images/blank_image.png'
+            }
             sx={{height: '100%'}}
             title={course?.title}
           />
@@ -120,7 +129,9 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CardMedia
                         component='img'
                         alt={course.title}
-                        image={'/images/logo1.png'}
+                        image={
+                          course.logo ? course.logo : '/images/blank_image.png'
+                        }
                         className={classes.jobProviderImage}
                       />
                     </Grid>
@@ -133,7 +144,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         className={classes.titleStyle}>
                         {course.title}
                       </H3>
-                      <Box ml={2}>{course?.trainer_name}</Box>
+                      <Box ml={2}>{course?.institute_title}</Box>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -167,10 +178,6 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     )}
                     className={classes.tagChipStyle}
                   />
-                  <TagChip
-                    label={formatNumber(12) + ' ' + messages['common.lesson']}
-                    className={classes.tagChipStyle}
-                  />
                 </Grid>
                 {!course?.enrolled ? (
                   <Grid item xs={4} className={classes.enrollButton}>
@@ -193,15 +200,53 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                       <CustomChip
                         label={messages['common.not_available']}
                         color={'primary'}
+                        sx={{borderRadius: '5px', height: '35px'}}
                       />
                     )}
                   </Grid>
                 ) : (
-                  <Grid item xs={4}>
-                    <CustomChip
-                      label={messages['common.already_enrolled']}
-                      color={'primary'}
-                    />
+                  <Grid item xs={4} className={classes.enrollButton}>
+                    {!course?.verified ? (
+                      <Link
+                        href={
+                          authUser
+                            ? youthDomain() +
+                              LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION +
+                              course?.id +
+                              `?enrollment_id=${course?.enrollment_id}`
+                            : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                        }>
+                        <Button
+                          variant={'contained'}
+                          color={'primary'}
+                          size={'medium'}>
+                          {messages['common.verify_enrollment']}
+                        </Button>
+                      </Link>
+                    ) : !course?.payment_status ? (
+                      <Link
+                        href={
+                          authUser
+                            ? youthDomain() +
+                              LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+                              course?.id +
+                              `?enrollment_id=${course?.enrollment_id}`
+                            : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                        }>
+                        <Button
+                          variant={'contained'}
+                          color={'primary'}
+                          size={'medium'}>
+                          {messages['common.pay_now']}
+                        </Button>
+                      </Link>
+                    ) : (
+                      <CustomChip
+                        label={messages['common.already_enrolled']}
+                        color={'primary'}
+                        sx={{borderRadius: '5px', height: '35px'}}
+                      />
+                    )}
                   </Grid>
                 )}
               </Grid>

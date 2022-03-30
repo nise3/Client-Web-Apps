@@ -21,7 +21,7 @@ import GuardiansInfoForm from './GuardiansInfoForm';
 import OtherInfoForm from './OtherInfoForm';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
-import {useFetchCourseDetails} from '../../../services/instituteManagement/hooks';
+import {useFetchPublicCourseDetails} from '../../../services/instituteManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
@@ -44,6 +44,8 @@ import {
 } from '../profile/utilities/EducationEnums';
 import EthnicGroupStatus from '../../../@softbd/utilities/EthnicGroupStatus';
 import {AddressTypeId} from '../profile/utilities/AddressType';
+import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
 
 const PREFIX = 'YouthCourseRegistrationPage';
 
@@ -91,6 +93,7 @@ const initialValues = {
   freedom_fighter_status: FreedomFighterStatus.NO,
   religion: Religions.ISLAM,
   nationality: '',
+  training_center_id: '',
   does_belong_to_ethnic_group: false,
   present_address: {
     loc_division_id: '',
@@ -246,7 +249,7 @@ const YouthCourseRegistrationPage = () => {
   const router = useRouter();
   const {courseId} = router.query;
   const authUser = useAuthUser<YouthAuthUser>();
-  const {data: course} = useFetchCourseDetails(Number(courseId));
+  const {data: course} = useFetchPublicCourseDetails(Number(courseId));
 
   const [visibleFormConfigKeys, setVisibleFormConfigKeys] = useState<any>([]);
   const [requiredFormConfigKeys, setRequiredFormConfigKeys] = useState<any>([]);
@@ -276,16 +279,18 @@ const YouthCourseRegistrationPage = () => {
             .string()
             .title()
             .label(messages['common.last_name_bn'] as string),
-          training_center_id: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['training_center.label'] as string),
           date_of_birth: yup
             .string()
             .trim()
             .required()
-            .label(messages['common.date_of_birth'] as string),
+            .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+            .label(messages['common.date_of_birth'] as string)
+            .test(
+              'DOB',
+              messages['common.invalid_date_of_birth'] as string,
+              (value) =>
+                moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+            ),
           physical_disability_status: isPhysicalDisabilitiesRequired
             ? yup
                 .string()
@@ -1306,6 +1311,10 @@ const YouthCourseRegistrationPage = () => {
       const youthData: any = {
         first_name: authUser?.first_name,
         last_name: authUser?.last_name,
+        first_name_en: authUser?.first_name_en,
+        last_name_en: authUser?.last_name_en,
+        passport_photo_path: authUser?.photo,
+        signature_image_path: authUser?.signature_image_path,
         date_of_birth: getMomentDateFormat(
           authUser?.date_of_birth,
           'YYYY-MM-DD',
@@ -1326,11 +1335,6 @@ const YouthCourseRegistrationPage = () => {
         does_belong_to_ethnic_group:
           String(authUser?.does_belong_to_ethnic_group) ==
           EthnicGroupStatus.YES,
-        /* present_address: {
-          loc_division_id: authUser?.loc_division_id,
-          loc_district_id: authUser?.loc_district_id,
-          loc_upazila_id: authUser?.loc_upazila_id,
-        },*/
       };
 
       (authUser.educations || []).forEach((education: any) => {
@@ -1432,13 +1436,13 @@ const YouthCourseRegistrationPage = () => {
       case CourseConfigKeys.PERSONAL_KEY:
         return (
           <PersonalInfoForm
-            course={course}
             register={register}
             errors={errors}
             control={control}
             getValues={getValues}
             setValue={setValue}
             visibleFieldKeys={visibleFormConfigKeys}
+            courseId={courseId}
           />
         );
       case CourseConfigKeys.ADDRESS_KEY:
@@ -1494,6 +1498,7 @@ const YouthCourseRegistrationPage = () => {
       } else if (activeStep == stepKeys.length - 1) {
         let data: any = {...formData};
         data.youth_id = authUser?.youthId;
+        data.youth_code = authUser?.youthCode;
         data.course_id = course?.id;
         data.does_belong_to_ethnic_group = formData.does_belong_to_ethnic_group
           ? 1

@@ -21,6 +21,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const PREFIX = 'LanguageSection';
 const classes = {
@@ -46,7 +47,7 @@ const LanguageSection = () => {
   const {
     data: languageProficiencies,
     isLoading,
-    mutate: mutateLanguageProfeciencies,
+    mutate: mutateLanguageProficiencies,
   } = useFetchLanguageProficiencies();
 
   const [isOpenLanguageAddEditForm, setIsOpenLanguageAddEditForm] =
@@ -76,7 +77,7 @@ const LanguageSection = () => {
     setLanguageId(null);
     setIsOpenLanguageAddEditForm(false);
     updateProfile();
-    mutateLanguageProfeciencies();
+    mutateLanguageProficiencies();
   }, []);
 
   const openLanguageProficiencyView = useCallback(() => {
@@ -94,6 +95,8 @@ const LanguageSection = () => {
         <LanguageProficiencyViewPage
           onEdit={openLanguageAddEditForm}
           onClose={closeLanguageProficiencyView}
+          languageProficiencies={languageProficiencies}
+          mutateLanguageProficiencies={mutateLanguageProficiencies}
         />
       )}
       {isOpenLanguageAddEditForm && (
@@ -120,7 +123,11 @@ const LanguageSection = () => {
             <Box sx={{marginLeft: '15px'}}>
               {(!languageProficiencies ||
                 languageProficiencies?.length == 0) && (
-                <Typography>{messages['common.no_data_found']}</Typography>
+                <NoDataFoundComponent
+                  messageType={messages['language_proficiency.title']}
+                  messageTextType={'inherit'}
+                  sx={{marginTop: '10px'}}
+                />
               )}
               {languageProficiencies && (
                 <React.Fragment>

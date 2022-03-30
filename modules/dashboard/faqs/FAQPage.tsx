@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {deleteFAQ} from '../../../services/cmsManagement/FAQService';
@@ -8,24 +8,31 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_ALL_FAQS} from '../../../@softbd/common/apiRoutes';
+import {API_FAQS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FAQDetailsPopup from './FAQDetailsPopupup';
 import FAQAddEditPopup from './FAQAddEditPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 const FAQPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -65,6 +72,19 @@ const FAQPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
+          return {
+            id: showInType.id,
+            title: showInType.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
@@ -81,24 +101,28 @@ const FAQPage = () => {
       },
       {
         Header: messages['faq.show_in'],
-        accessor: 'show_in_label',
+        accessor: 'show_in',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
+        },
       },
-      {
-        Header: messages['common.name'],
-        accessor: 'name',
-      },
+
       {
         Header: messages['faq.question'],
-        accessor: 'question_short',
+        accessor: 'question',
       },
       {
         Header: messages['faq.answer'],
-        accessor: 'answer_short',
+        accessor: 'answer',
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -122,25 +146,18 @@ const FAQPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale, showInFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_ALL_FAQS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
+      urlPath: API_FAQS,
     });
 
   let modifiedData = data?.map((faq: any) => {
-    let name: string, question_short: string, answer_short: string;
+    let name: string, question: string, answer: string;
     if (parseInt(faq?.show_in) === 1) {
-      name = 'NISE3';
+      name = 'NISE';
     } else if (parseInt(faq?.show_in) === 2) {
       name = 'Youth';
     } else if (parseInt(faq?.show_in) === 3) {
@@ -153,14 +170,14 @@ const FAQPage = () => {
       name = '';
     }
 
-    question_short = faq?.question ? faq?.question.substr(0, 25) + '.....' : '';
-    answer_short = faq?.answer ? faq?.answer.substr(0, 25) + '.....' : '';
+    question = faq?.question ? faq?.question.substr(0, 25) + '.....' : '';
+    answer = faq?.answer ? faq?.answer.substr(0, 25) + '.....' : '';
 
     return {
       ...faq,
       name,
-      question_short,
-      answer_short,
+      question,
+      answer,
     };
   });
 
@@ -169,7 +186,7 @@ const FAQPage = () => {
       <PageBlock
         title={
           <>
-            <IconInstitute /> <IntlMessages id='menu.faq' />
+            <IconFAQ /> <IntlMessages id='menu.faq' />
           </>
         }
         extra={[

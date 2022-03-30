@@ -1,7 +1,7 @@
 import {Box, FormControlLabel, Grid, Switch, Zoom} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {getMomentDateFormat} from '../../../../@softbd/utilities/helpers';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
@@ -11,7 +11,11 @@ import {useIntl} from 'react-intl';
 import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useFetchJobExperience} from '../../../../services/youthManagement/hooks';
+import {
+  useFetchJobExperience,
+  useFetchPublicAreaOfBusiness,
+  useFetchPublicAreaOfExperience,
+} from '../../../../services/youthManagement/hooks';
 import {
   createJobExperience,
   updateJobExperience,
@@ -20,6 +24,7 @@ import {YouthJobExperience} from '../../../../services/youthManagement/typing';
 import CustomHookForm from '../component/CustomHookForm';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import CustomSelectAutoComplete from '../../registration/CustomSelectAutoComplete';
 
 interface JobExperienceAddEditProps {
   itemId: number | null;
@@ -39,6 +44,8 @@ const initialValues = {
   start_date: '',
   end_date: '',
   is_currently_working: 1,
+  area_of_experiences: [],
+  area_of_businesses: [],
 };
 
 const employmentTypes = [
@@ -63,6 +70,16 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   } = useFetchJobExperience(itemId);
   const [currentWorkStatus, setCurrentWorkStatus] = useState<number>(1);
 
+  const {data: areaOfBusinessData, isLoading: isLoadingAreaOfBusinessData} =
+    useFetchPublicAreaOfBusiness();
+  const {data: areaOfExperienceData, isLoading: isLoadingAreaOfExperienceData} =
+    useFetchPublicAreaOfExperience();
+
+  const [selectedAreaOfBusinessList, setSelectedAreaOfBusinessList] =
+    useState<any>([]);
+  const [selectedAreaOfExperienceList, setSelectedAreaOfExperienceList] =
+    useState<any>([]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       company_name: yup
@@ -76,13 +93,14 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
       employment_type_id: yup
         .string()
         .required()
-        .label(messages['common.type_of_employee'] as string),
+        .label(messages['common.job_type'] as string),
       location: yup
         .string()
         .required()
         .label(messages['common.location_bn'] as string),
       start_date: yup
         .string()
+        .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.start_date'] as string),
@@ -94,6 +112,16 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
               .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
               .label(messages['common.end_date'] as string)
           : yup.string(),
+      area_of_experiences: yup
+        .array()
+        .of(yup.object())
+        .min(1, messages['common.must_have_one_area_of_experiences'] as string)
+        .label(messages['common.area_of_experience'] as string),
+      area_of_businesses: yup
+        .array()
+        .of(yup.object())
+        .min(1, messages['common.must_have_one_area_of_businesses'] as string)
+        .label(messages['common.area_of_business'] as string),
     });
   }, [messages, currentWorkStatus]);
 
@@ -128,17 +156,43 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
         employment_type_id: itemData?.employment_type_id,
       });
       setCurrentWorkStatus(itemData?.is_currently_working);
+      setSelectedAreaOfExperienceList(itemData?.area_of_experiences);
+      setSelectedAreaOfBusinessList(itemData?.area_of_businesses);
     } else {
       reset(initialValues);
       setCurrentWorkStatus(initialValues.is_currently_working);
     }
   }, [itemData]);
 
+  const onAreaOfExperienceChange = useCallback((options) => {
+    setSelectedAreaOfExperienceList(options);
+  }, []);
+
+  const onAreaOfBusinessChange = useCallback((options) => {
+    setSelectedAreaOfBusinessList(options);
+  }, []);
+
   const onSubmit: SubmitHandler<YouthJobExperience> = async (
     data: YouthJobExperience,
   ) => {
     data.is_currently_working = currentWorkStatus;
     if (currentWorkStatus == 1) delete data.end_date;
+
+    let areaOfExperienceIds: any = [];
+    if (selectedAreaOfExperienceList) {
+      selectedAreaOfExperienceList.map((experience: any) => {
+        areaOfExperienceIds.push(experience.id);
+      });
+    }
+    data.area_of_experiences = areaOfExperienceIds;
+
+    let areaOfBusinessIds: any = [];
+    if (selectedAreaOfBusinessList) {
+      selectedAreaOfBusinessList.map((business: any) => {
+        areaOfBusinessIds.push(business.id);
+      });
+    }
+    data.area_of_businesses = areaOfBusinessIds;
 
     try {
       if (itemId) {
@@ -233,12 +287,44 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 isLoading={isLoading}
               />
             </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomSelectAutoComplete
+                required
+                id='area_of_experiences'
+                label={messages['common.area_of_experience']}
+                isLoading={isLoadingAreaOfExperienceData}
+                control={control}
+                options={areaOfExperienceData}
+                optionValueProp='id'
+                optionTitleProp={['title']}
+                defaultValue={selectedAreaOfExperienceList}
+                errorInstance={errors}
+                onChange={onAreaOfExperienceChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomSelectAutoComplete
+                required
+                id='area_of_businesses'
+                label={messages['common.area_of_business']}
+                isLoading={isLoadingAreaOfBusinessData}
+                control={control}
+                options={areaOfBusinessData}
+                optionValueProp='id'
+                optionTitleProp={['title']}
+                defaultValue={selectedAreaOfBusinessList}
+                errorInstance={errors}
+                onChange={onAreaOfBusinessChange}
+              />
+            </Grid>
+
             <Grid item container spacing={2} xs={12} md={12}>
               <Grid item xs={12} md={6}>
                 <CustomFilterableFormSelect
                   required
                   id={'employment_type_id'}
-                  label={messages['common.type_of_employee']}
+                  label={messages['common.job_type']}
                   isLoading={isLoading}
                   control={control}
                   options={employmentTypes}

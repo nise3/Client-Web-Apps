@@ -10,13 +10,11 @@ import {styled} from '@mui/material/styles';
 import {DateRangeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {
-  getEmbeddedVideoUrl,
-  getIntlDateFromString,
-} from '../../../@softbd/utilities/helpers';
+import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ContentTypes from '../../dashboard/recentActivities/ContentTypes';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const PREFIX = 'RecentActivityCardView';
 
@@ -54,18 +52,6 @@ function RecentActivityCardView({activity}: any) {
   const router = useRouter();
   const path = router.pathname;
   const {formatDate} = useIntl();
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (
-      activity &&
-      activity.content_type != ContentTypes.IMAGE &&
-      activity?.video_url
-    ) {
-      const embeddedUrl = getEmbeddedVideoUrl(activity?.video_url);
-      setVideoUrl(embeddedUrl);
-    }
-  }, [activity]);
 
   return (
     <StyledCard>
@@ -87,12 +73,27 @@ function RecentActivityCardView({activity}: any) {
             )}
           {activity.content_type &&
             activity.content_type != ContentTypes.IMAGE && (
-              <iframe
-                width='100%'
-                height='140'
-                src={videoUrl ? videoUrl : activity.video_url}
-                style={{marginBottom: '-8px'}}
-              />
+              <>
+                <CardMedia
+                  component='img'
+                  height='140'
+                  image={
+                    activity.thumb_image_path ?? '/images/blank_gray_image.png'
+                  }
+                  alt={activity?.image_alt_title}
+                  title={activity?.title}
+                />
+                <PlayCircleIcon
+                  sx={{
+                    position: 'absolute',
+                    top: 'calc(30% - 35px)',
+                    left: 'calc(50% - 35px)',
+                    height: '70px',
+                    width: '70px',
+                  }}
+                  color='primary'
+                />
+              </>
             )}
           <CardContent>
             <Box className={classes.dateInfo}>

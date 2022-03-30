@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
-import {Button, Grid} from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
-import {useIntl} from 'react-intl';
-import TrainingCenterCard from './components/TrainingCenterCard';
-import {useFetchPublicTrainingCenters} from '../../../services/youthManagement/hooks';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import { ChevronRight } from '@mui/icons-material';
+import { Button, Grid, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import { H2, Link } from '../../../@softbd/elements/common';
+import {
+  getFilteredQueryParams,
+  objectFilter
+} from '../../../@softbd/utilities/helpers';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import { YouthAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { useFetchPublicTrainingCenters } from '../../../services/instituteManagement/hooks';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import {styled} from '@mui/material/styles';
-import {H2} from '../../../@softbd/elements/common';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import { urlParamsUpdate } from '../youthConstants';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import TrainingCenterCard from './components/TrainingCenterCard';
 
 const PREFIX = 'NearbyTrainingCenterSection';
 
@@ -27,27 +34,92 @@ export const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 interface NearbyTrainingCenterSectionProps {
-  showInType: number;
+  showAllNearbyTrainingCenter: boolean;
 }
 
 const NearbyTrainingCenterSection = ({
-  showInType,
+  showAllNearbyTrainingCenter,
 }: NearbyTrainingCenterSectionProps) => {
   const {messages} = useIntl();
-  const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
+  const router = useRouter();
+  const page = useRef<any>(1);
 
-  const [nearbyTrainingCenterFilters] = useState<any>({
-    institute_id: showInType == ShowInTypes.TSP ? vendor?.id : null,
-    district_id: authUser?.loc_district_id,
-    upazila_id: authUser?.loc_upazila_id,
-    page_size: 4,
-  });
+  const [nearbyTrainingCenterFilters, setNearbyTrainingCenterFilters] =
+    useState<any>(null);
 
   const {
     data: nearbyTrainingCenters,
     isLoading: isLoadingNearbyTrainingCenter,
+    metaData: trainingCentersMetaData,
   } = useFetchPublicTrainingCenters(nearbyTrainingCenterFilters);
+
+  useEffect(() => {
+    let params: any = {
+      district_id: authUser?.loc_district_id,
+      upazila_id: authUser?.loc_upazila_id,
+      page_size: showAllNearbyTrainingCenter ? PageSizes.EIGHT : PageSizes.FOUR,
+    };
+
+    if (showAllNearbyTrainingCenter) {
+      let modifiedParams = getFilteredQueryParams(
+        router.query,
+        PageSizes.EIGHT,
+        page.current,
+      );
+
+      if (Object.keys(modifiedParams).length > 0)
+        urlParamsUpdate(router, modifiedParams);
+      params = {...params, ...modifiedParams};
+      if (modifiedParams.page) {
+        page.current = modifiedParams.page;
+      }
+    }
+    setNearbyTrainingCenterFilters(objectFilter(params));
+  }, [authUser]);
+
+  useEffect(() => {
+    if (
+      Number(router.query?.page) &&
+      trainingCentersMetaData &&
+      trainingCentersMetaData.total > 0 &&
+      trainingCentersMetaData.total_page < Number(router.query.page)
+    ) {
+      page.current = 1;
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: page.current,
+      }));
+      urlParamsUpdate(router, {...router.query, page: page.current});
+    }
+  }, [trainingCentersMetaData, router]);
+
+  const onPaginationChange = useCallback(
+    (event: any, currentPage: number) => {
+      page.current = currentPage;
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page: currentPage,
+      }));
+      urlParamsUpdate(router, {...router.query, page: currentPage});
+    },
+    [router],
+  );
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setNearbyTrainingCenterFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllNearbyTrainingCenter
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
+    },
+    [router],
+  );
 
   return (
     <StyledGrid container spacing={3}>
@@ -58,12 +130,18 @@ const NearbyTrainingCenterSection = ({
               {messages['common.nearby_training_center']}
             </H2>
           </Grid>
-          <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
-            <Button variant={'outlined'} size={'medium'} color={'primary'}>
-              {messages['common.see_all']}
-              <ChevronRight />
-            </Button>
-          </Grid>
+          {!showAllNearbyTrainingCenter && (
+            <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
+              <Link
+                href={'/training/nearby-training-centers'}
+                style={{display: 'inline-block'}}>
+                <Button variant={'outlined'} size={'medium'} color={'primary'}>
+                  {messages['common.see_all']}
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
@@ -81,9 +159,31 @@ const NearbyTrainingCenterSection = ({
                   </Grid>
                 );
               })}
+              {showAllNearbyTrainingCenter &&
+                trainingCentersMetaData.total_page > 1 && (
+                  <Grid
+                    item
+                    md={12}
+                    mt={4}
+                    display={'flex'}
+                    justifyContent={'center'}>
+                    <Stack spacing={2}>
+                      <CustomPaginationWithPageNumber
+                        count={trainingCentersMetaData.total_page}
+                        currentPage={1}
+                        queryPageNumber={page.current}
+                        onPaginationChange={onPaginationChange}
+                        rowsPerPage={Number(router.query.page_size)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </Stack>
+                  </Grid>
+                )}
             </>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.nearby_training_center']}
+            />
           )}
         </Grid>
       </Grid>

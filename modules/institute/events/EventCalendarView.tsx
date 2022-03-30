@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
-import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../../services/cmsManagement/hooks';
 import {
   Box,
   Card,
@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import {H1} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {
@@ -31,7 +30,6 @@ const localizer = momentLocalizer(moment);
 
 const InstituteEventCalendarView = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
   // let requestQuery: ICalendarQuery = {
   //   type: 'month',
   //   institute_id: vendor?.id,
@@ -40,13 +38,12 @@ const InstituteEventCalendarView = () => {
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
     type: 'month',
-    institute_id: vendor?.id,
   });
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {
     addStartEndPropsToList(events);

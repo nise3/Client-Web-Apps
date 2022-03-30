@@ -20,9 +20,10 @@ import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_PERMISSION_GROUP} from '../../../@softbd/common/appLinks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PermissionGroupPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -88,11 +89,12 @@ const PermissionGroupPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
@@ -132,7 +134,7 @@ const PermissionGroupPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

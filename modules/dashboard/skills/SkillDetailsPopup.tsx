@@ -7,7 +7,8 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
+import {useFetchSkill} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -30,7 +31,7 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='skill.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -58,14 +59,6 @@ const SkillDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
-          {/*<Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.description']}
-              value={itemData?.description}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

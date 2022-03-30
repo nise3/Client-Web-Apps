@@ -1,4 +1,4 @@
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
 import {Add} from '@mui/icons-material';
 import HorizontalLine from '../component/HorizontalLine';
 import CustomCarousel from '../../../../@softbd/elements/display/CustomCarousel/CustomCarousel';
@@ -20,6 +20,7 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const PortfolioSection = () => {
   const {messages} = useIntl();
@@ -97,18 +98,23 @@ const PortfolioSection = () => {
       {!portfolios || portfolios?.length == 0 ? (
         <>
           <Box sx={{display: 'flex'}}>
-            <Typography style={{marginLeft: '15px'}}>
-              {messages['common.no_data_found']}
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['common.portfolio']}
+              messageTextType={'inherit'}
+              sx={{marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (
         <Box>
           <CustomCarousel itemsInDesktop={3}>
             {(portfolios || []).map((portfolio: any) => {
+              let filepath = portfolio?.file_path;
+              let fileType = filepath.substring(filepath.length - 3);
               return (
                 <React.Fragment key={portfolio?.id}>
                   <CardItemWithButton
+                    fileType={fileType}
                     portfolio={portfolio}
                     onDeletePortfolio={onDeletePortfolio}
                     onClick={() => openPortfolioAddEditForm(portfolio?.id)}

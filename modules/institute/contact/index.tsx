@@ -13,12 +13,15 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {H1, H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
-import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchPublicInstituteDetails,
+  useFetchPublicTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
+import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
 
 const PREFIX = 'InstituteContact';
 
@@ -83,10 +86,13 @@ const MapComponent = ({text}: MapProp) => (
 
 const InstituteContact = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
+  const {data: institute} = useFetchPublicInstituteDetails();
   const {successStack, errorStack} = useNotiStack();
 
-  const {data: mapsData} = useFetchInstitutesContactMap();
+  const [trainingCenterFilters] = useState<any>({});
+  const {data: trainingCenters} = useFetchPublicTrainingCenters(
+    trainingCenterFilters,
+  );
 
   const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
@@ -96,17 +102,25 @@ const InstituteContact = () => {
   const [mapLocations, setMapLocations] = useState([]);
 
   useEffect(() => {
-    setMapLocations(mapsData);
-  }, [mapsData]);
-
-  const APIKEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
+    setMapLocations(trainingCenters);
+  }, [trainingCenters]);
 
   const onChangeMapValue = (value: any) => {
-    let filterData = mapsData?.filter((item: any) => item.title === value);
+    let filterData = trainingCenters?.filter(
+      (item: any) => item.title === value,
+    );
     let newArr: any = [...filterData];
     setMapLocations(newArr);
     if (newArr.length > 0) {
-      setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+      if (
+        !isNaN(parseFloat(newArr[0]?.location_latitude)) &&
+        !isNaN(parseFloat(newArr[0]?.location_longitude))
+      ) {
+        setMapCenter({
+          lat: parseFloat(newArr[0].location_latitude),
+          lng: parseFloat(newArr[0].location_longitude),
+        });
+      }
     }
   };
 
@@ -142,13 +156,12 @@ const InstituteContact = () => {
     control,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
-    if (vendor) data.institute_id = vendor.id;
 
     try {
       await createVisitorFeedback(data);
@@ -189,7 +202,7 @@ const InstituteContact = () => {
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                     <Grid container spacing={5}>
-                      {!vendor?.id && (
+                      {!institute?.id && (
                         <Grid item xs={12}>
                           <CustomFormSelect
                             id='recipient'
@@ -276,7 +289,7 @@ const InstituteContact = () => {
                       isLoading={false}
                       control={control}
                       optionValueProp={'title'}
-                      options={mapsData}
+                      options={trainingCenters}
                       optionTitleProp={['title']}
                       onChange={onChangeMapValue}
                     />
@@ -284,15 +297,14 @@ const InstituteContact = () => {
                   <Grid item xs={12}>
                     <div className={classes.mapDiv}>
                       <GoogleMapReact
-                        bootstrapURLKeys={{key: APIKEY}}
-                        defaultCenter={mapCenter}
-                        defaultZoom={11}
-                        center={mapCenter}>
+                        bootstrapURLKeys={{key: GOOGLE_MAP_API_KEY}}
+                        center={mapCenter}
+                        zoom={11}>
                         {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
                             key={i}
-                            lat={item.lat}
-                            lng={item.lng}
+                            lat={item.location_latitude}
+                            lng={item.location_longitude}
                             text={item.title}
                           />
                         ))}

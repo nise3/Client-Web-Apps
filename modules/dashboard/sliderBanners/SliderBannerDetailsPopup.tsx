@@ -16,6 +16,8 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import SliderTemplateShowTypes from './SliderTemplateShowTypes';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -36,6 +38,8 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         return messages['slider.template_code_bt_lr'];
       case SliderTemplateShowTypes.BT_RL:
         return messages['slider.template_code_bt_rl'];
+      case SliderTemplateShowTypes.BT_OB:
+        return messages['slider.template_code_bt_ob'];
       default:
         return '';
     }
@@ -44,7 +48,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={
@@ -71,7 +75,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {itemData?.institute_title && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.institute_name']}
@@ -81,7 +85,7 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          {itemData?.organization_title && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.INDUSTRY && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization.label']}
@@ -90,6 +94,17 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
           )}
+
+          {itemData?.show_in &&
+            itemData.show_in == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_association']}
+                  value={itemData?.industry_association_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
@@ -103,13 +118,15 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.link']}
-              value={itemData?.link}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {itemData?.is_button_available == 1 && (
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['common.link']}
+                value={itemData?.link}
+                isLoading={isLoading}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView
@@ -159,13 +176,15 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <DetailsInputView
-                    label={messages['common.button_text']}
-                    value={itemData?.button_text}
-                    isLoading={isLoading}
-                  />
-                </Grid>
+                {itemData?.is_button_available == 1 && (
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.button_text']}
+                      value={itemData?.button_text}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                )}
               </Grid>
             </fieldset>
           </Grid>
@@ -204,15 +223,17 @@ const SliderBannerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                         />
                       </Grid>
 
-                      <Grid item xs={12} md={6}>
-                        <DetailsInputView
-                          label={messages['common.button_text']}
-                          value={
-                            itemData.other_language_fields[key]?.button_text
-                          }
-                          isLoading={isLoading}
-                        />
-                      </Grid>
+                      {itemData?.is_button_available == 1 && (
+                        <Grid item xs={12} md={6}>
+                          <DetailsInputView
+                            label={messages['common.button_text']}
+                            value={
+                              itemData.other_language_fields[key]?.button_text
+                            }
+                            isLoading={isLoading}
+                          />
+                        </Grid>
+                      )}
                     </Grid>
                   </fieldset>
                 </Grid>

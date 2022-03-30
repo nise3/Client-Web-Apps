@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Grid,
   Typography,
 } from '@mui/material';
@@ -57,8 +58,6 @@ interface NoticeCardProps {
   notice: any;
 }
 
-const logo = '/images/creativeIt.png';
-
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const {messages, formatDate} = useIntl();
   const result = useCustomStyle();
@@ -71,9 +70,10 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
               <Avatar
-                src={notice?.grid_image_path ? notice?.grid_image_path : logo}
+                src={notice?.grid_image_path ?? '/images/blank_image.png'}
                 alt={notice?.image_alt_title}
                 className={classes.avatarImage}
+                variant='square'
               />
             </Box>
           </Grid>
@@ -90,16 +90,26 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
 
             <Box>
               {notice?.published_at && (
-                <Button
+                <Chip
+                  size={'medium'}
+                  sx={{
+                    background: '#e8f1ec',
+                    border: '1px solid #e4f1ea',
+                    borderRadius: '5px',
+                    height: '40px',
+                    marginRight: '15px',
+                  }}
+                  label={getIntlDateFromString(formatDate, notice.published_at)}
                   variant='outlined'
-                  className={classes.btn}
-                  sx={{background: '#e4f1ea', border: '1px solid #e4f1ea'}}>
-                  {getIntlDateFromString(formatDate, notice.published_at)}
+                />
+              )}
+              {notice?.file_path && (
+                <Button color={'primary'} variant={'outlined'}>
+                  <Link target={'_blank'} href={notice?.file_path}>
+                    {messages['common.download']}
+                  </Link>
                 </Button>
               )}
-              <Button color={'primary'} variant={'contained'}>
-                {messages['common.download']}
-              </Button>
             </Box>
           </Grid>
         </Grid>

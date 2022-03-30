@@ -20,6 +20,7 @@ import PageBlockTemplateTypes from '../../../@softbd/utilities/PageBlockTemplate
 import ContentTypes from '../recentActivities/ContentTypes';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   pageCode: string;
@@ -45,30 +46,36 @@ const StaticPageDetailsPopup = ({
   const [showIn, setShowIn] = useState<number | null>(null);
 
   useEffect(() => {
-    switch (pageCategory) {
-      case StaticPageCategoryTypes.COMMON:
-        if (authUser) {
-          if (authUser.isInstituteUser) setShowIn(ShowInTypes.TSP);
-          else if (authUser.isOrganizationUser) setShowIn(ShowInTypes.INDUSTRY);
-          else setShowIn(ShowInTypes.NICE3);
-        }
-        break;
-      case StaticPageCategoryTypes.NISE3:
-        setShowIn(ShowInTypes.NICE3);
-        break;
-      case StaticPageCategoryTypes.YOUTH:
-        setShowIn(ShowInTypes.YOUTH);
-        break;
-      case StaticPageCategoryTypes.TSP:
-        setShowIn(ShowInTypes.TSP);
-        break;
-      case StaticPageCategoryTypes.INDUSTRY:
-        setShowIn(ShowInTypes.INDUSTRY);
-        break;
-      default:
-        setShowIn(null);
+    if (authUser && authUser?.isSystemUser) {
+      switch (pageCategory) {
+        case StaticPageCategoryTypes.COMMON:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.NISE3:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.YOUTH:
+          setShowIn(ShowInTypes.YOUTH);
+          break;
+        case StaticPageCategoryTypes.RPL:
+          setShowIn(ShowInTypes.RPL);
+          break;
+        default:
+          setShowIn(null);
+      }
     }
   }, [pageCategory, authUser]);
+
+  useEffect(() => {
+    if (authUser && !authUser?.isSystemUser) {
+      (async () => {
+        setIsLoading(true);
+        const response = await getStaticPageOrBlockByPageCode(pageCode, {});
+        if (response && response.data) setItemData(response.data);
+        setIsLoading(false);
+      })();
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (authUser && showIn) {
@@ -77,11 +84,6 @@ const StaticPageDetailsPopup = ({
         setItemData(null);
         try {
           const params: any = {show_in: showIn};
-          if (authUser.isInstituteUser) {
-            params.institute_id = authUser.institute_id;
-          } else if (authUser.isOrganizationUser) {
-            params.organization_id = authUser.organization_id;
-          }
 
           const response = await getStaticPageOrBlockByPageCode(
             pageCode,
@@ -97,7 +99,9 @@ const StaticPageDetailsPopup = ({
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL].includes(
+          item.id,
+        ),
       );
 
       setShowInList(filteredShowIn);
@@ -110,6 +114,8 @@ const StaticPageDetailsPopup = ({
         return messages['page_block.template_code_pbt_lr'];
       case PageBlockTemplateTypes.PBT_RL:
         return messages['page_block.template_code_pbt_rl'];
+      case PageBlockTemplateTypes.PBT_SHOW_EDITOR_CONTENT:
+        return messages['page_block.template_code_pbt_show_editor_content'];
       default:
         return '';
     }
@@ -131,7 +137,7 @@ const StaticPageDetailsPopup = ({
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={

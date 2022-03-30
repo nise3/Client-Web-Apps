@@ -23,7 +23,7 @@ const StyledListItem = styled(ListItem)(({theme}) => {
     useContext<AppContextPropsType>(AppContext);
 
   return {
-    height: 40,
+    minHeight: 40,
     marginTop: 2,
     marginBottom: 2,
     cursor: 'pointer',
@@ -106,6 +106,8 @@ const VerticalItem: React.FC<VerticalItemProps> = ({item, level}) => {
         style={{
           paddingLeft: 24 + 20 * level,
           paddingRight: 12,
+          paddingTop: 0,
+          paddingBottom: 0,
         }}>
         {item.icon && (
           <Box component='span' mr={3}>

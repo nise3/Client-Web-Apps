@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const HrDemand = asyncComponent(
   () =>
     import(
-      '../../../modules/dashboard/humanResourceDemand/humanResourceDemandListPage'
+      '../../../modules/dashboard/humanResourceDemands/HumanResourceDemandPage'
     ),
 );
 export default DashboardPage(() => {
@@ -15,7 +15,7 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['common.human_resource'] as string} />
+      <PageMeta title={messages['hr_demand.label'] as string} />
       <HrDemand />
     </>
   );

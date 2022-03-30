@@ -27,16 +27,18 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import ContentTypes from './ContentTypes';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconVideo from '../../../@softbd/icons/IconVideo';
 
 interface RecentActivitiesAddEditPopupProps {
   itemId: number | null;
@@ -48,6 +50,7 @@ const initialValues = {
   title: '',
   institute_id: '',
   organization_id: '',
+  industry_association_id: '',
   show_in: '',
   description: '',
   content_type: '',
@@ -84,6 +87,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -117,12 +121,18 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           is: (val: number) => val == ContentTypes.IMAGE,
           then: yup.string().required(),
         }),
-      collage_image_path: hasCollagePosition
-        ? yup
-            .string()
-            .required()
-            .label(messages['common.collage_image_path'] as string)
-        : yup.string(),
+      collage_position: yup
+        .mixed()
+        .test('collage_position', (value) => !value || value),
+      collage_image_path: yup
+        .mixed()
+        .label(messages['common.collage_image_path'] as string)
+        .when('collage_position', {
+          is: () => {
+            return hasCollagePosition;
+          },
+          then: yup.string().required(),
+        }),
       video_id: yup
         .mixed()
         .label(messages['common.video_id'] as string)
@@ -160,6 +170,15 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         .when('show_in', {
           is: (val: number) => {
             return val == ShowInTypes.INDUSTRY;
+          },
+          then: yup.string().required(),
+        }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
           },
           then: yup.string().required(),
         }),
@@ -260,6 +279,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         show_in: itemData?.show_in,
         content_type: itemData?.content_type,
         collage_position: itemData?.collage_position,
@@ -304,7 +324,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       }
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
       setHasCollagePosition(!!itemData?.collage_position);
       setSelectedContentType(itemData?.content_type);
     } else {
@@ -315,13 +337,45 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
       }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
+      }
+
+      try {
+        if (id === ShowInTypes.TSP && instituteList.length == 0) {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstituteList(response.data);
+          }
+        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+          const response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryList(response.data);
+          }
+        } else if (
+          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+          industryAssociationList.length == 0
+        ) {
+          const response = await getAllIndustryAssociations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryAssociationList(response.data);
+          }
+        }
+      } catch (e) {}
 
       setShowInId(id);
       setIsLoadingSectionNameList(false);
@@ -373,20 +427,24 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      formData.recentActivityId = formData.recentActivityId
-        ? formData.recentActivityId
-        : null;
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
+      }
+
+      if (formData.show_in != ShowInTypes.TSP) {
+        delete formData.institute_id;
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY) {
+        delete formData.organization_id;
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        delete formData.industry_association_id;
+      }
 
       formData.other_language_fields = '';
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
-      }
 
       let data = {...formData};
 
@@ -410,6 +468,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       if (selectedLanguageList.length > 0)
         data.other_language_fields = otherLanguagesFields;
 
+      if (!data.archived_at) {
+        data.archived_at = '';
+      }
       if (itemId) {
         await updateRecentActivity(itemId, data);
         updateSuccessMessage('recent_activities.label');
@@ -432,6 +493,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <IconVideo />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -449,6 +511,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -542,6 +605,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               register={register}
               label={messages['common.image_path']}
               required={true}
+              acceptedFileTypes={['image/*']}
+              height={'550'}
+              width={'1080'}
             />
           </Grid>
         )}
@@ -597,6 +663,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
               register={register}
               label={messages['common.collage_image_path']}
               required={true}
+              acceptedFileTypes={['image/*']}
+              height={'500'}
+              width={'500'}
             />
           </Grid>
         )}
@@ -610,6 +679,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             register={register}
             label={messages['common.grid_image_path']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -621,6 +691,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             register={register}
             label={messages['common.thumb_image_path']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
 
@@ -643,6 +714,9 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+          <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+            {messages['common.give_publish_date']}
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
@@ -689,7 +763,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['recent_activities.add_language']}
           </Button>
         </Grid>
 

@@ -9,7 +9,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
-import {InstituteType} from './InstituteAddEditPopup';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
 
 type Props = {
   itemId: number;
@@ -32,6 +33,7 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='institute.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -124,7 +126,7 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <DetailsInputView
               label={messages['institute.type']}
               value={
-                itemData?.institute_type_id == InstituteType.GOVERNMENT
+                itemData?.institute_type_id == InstituteTypes.GOVERNMENT
                   ? messages['common.government']
                   : messages['common.non_government']
               }
@@ -151,13 +153,6 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                 </Grid>
               );
             })}
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
-              isLoading={isLoading}
-            />
-          </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['districts.label']}

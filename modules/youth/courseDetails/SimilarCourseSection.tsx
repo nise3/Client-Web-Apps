@@ -3,13 +3,11 @@ import {Button, Container, Grid} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import {useVendor} from '../../../@crema/utility/AppHooks';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 interface SimilarCourseSectionProps {
   courseId: number;
@@ -21,33 +19,19 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
   skillIds,
 }) => {
   const {messages} = useIntl();
-  const pageSize = 4;
-  const showInType = getShowInTypeByDomain();
-  const vendor = useVendor();
+  const pageSize = PageSizes.FOUR;
 
-  const [courseFilters, setCourseFilters] = useState<any>({
-    page_size: pageSize,
-  });
+  const [courseFilters, setCourseFilters] = useState<any>(null);
 
   useEffect(() => {
-    if (showInType) {
+    if (skillIds && skillIds.length > 0) {
       let params: any = {
         page_size: pageSize,
       };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
-
-      if (skillIds) {
-        params.skill_ids = skillIds;
-      }
-
-      setCourseFilters((prev: any) => {
-        return {...params};
-      });
+      params.skill_ids = skillIds;
+      setCourseFilters(params);
     }
-  }, [showInType, skillIds]);
+  }, [skillIds]);
 
   const pathVariable = 'skill-matching';
   const {
@@ -85,23 +69,22 @@ const SimilarCourseSection: FC<SimilarCourseSectionProps> = ({
           <Grid item xs={12}>
             <BoxCardsSkeleton />
           </Grid>
-        ) : courseList?.length > 0 ? (
+        ) : courseList && courseList.length > 0 ? (
           <Grid item xs={12}>
             <Grid container spacing={5}>
-              {courseList &&
-                courseList.map((course: any) => {
-                  return (
-                    <Grid item xs={12} sm={4} md={3} key={course.id}>
-                      <Link href={`/course-details/${course.id}`}>
-                        <CourseCardComponent course={course} />
-                      </Link>
-                    </Grid>
-                  );
-                })}
+              {courseList.map((course: any) => {
+                return (
+                  <Grid item xs={12} sm={4} md={3} key={course.id}>
+                    <Link href={`/course-details/${course.id}`}>
+                      <CourseCardComponent course={course} />
+                    </Link>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Grid>
         ) : (
-          <NoDataFoundComponent />
+          <NoDataFoundComponent messageType={messages['course.label']} />
         )}
       </Grid>
     </Container>

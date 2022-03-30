@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+//import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -78,22 +78,26 @@ const TrainersPage = () => {
         Header: messages['common.title'],
         accessor: 'trainer_name',
       },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'trainer_name_en',
-        isVisible: false,
-      },
+
       {
         Header: messages['common.email'],
         accessor: 'email',
         isVisible: false,
-        disableFilters: true,
+      },
+      {
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        isVisible: false,
       },
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
         isVisible: false,
-        disableFilters: true,
+      },
+      {
+        Header: messages['common.address'],
+        accessor: 'address',
+        isVisible: false,
       },
       {
         Header: messages['common.nid'],
@@ -104,7 +108,7 @@ const TrainersPage = () => {
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -117,7 +121,7 @@ const TrainersPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              {/*<EditButton onClick={() => openAddEditModal(data.id)} />*/}
               <DeleteButton
                 deleteAction={() => deleteTrainerItem(data.id)}
                 deleteTitle='Are you sure?'

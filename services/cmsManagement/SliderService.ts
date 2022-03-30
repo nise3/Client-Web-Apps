@@ -1,10 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {
-  API_INSTITUTES,
-  API_ORGANIZATIONS,
-  API_SLIDERS,
-} from '../../@softbd/common/apiRoutes';
+import {API_SLIDERS} from '../../@softbd/common/apiRoutes';
 
 interface Slider {
   id: number;
@@ -19,6 +15,7 @@ interface Slider {
   alt_title?: string;
   banner_template?: string;
 }
+
 /**
  * @deprecated
  */
@@ -65,24 +62,6 @@ export const deleteSlider = async (sliderId: number) => {
   try {
     let response: any = await apiDelete(API_SLIDERS + '/' + sliderId);
     return response.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-export const getAllInstitutes = async () => {
-  try {
-    let response: any = await apiGet(API_INSTITUTES);
-    return response.data.data;
-  } catch (error) {
-    catchBlockHandler(error);
-  }
-};
-
-export const getAllIndustries = async () => {
-  try {
-    let response: any = await apiGet(API_ORGANIZATIONS);
-    return response.data.data;
   } catch (error) {
     catchBlockHandler(error);
   }

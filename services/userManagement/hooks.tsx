@@ -46,9 +46,13 @@ export function useFetchPermissionSubGroup(
 }
 
 export function useFetchPermissionSubGroups(params: any) {
-  return useAxiosSWR([API_PERMISSION_SUB_GROUPS, params]);
+  return useAxiosSWR(params ? [API_PERMISSION_SUB_GROUPS, params] : null);
 }
 
 export function useFetchUser(userId: number | null) {
   return useAxiosSWR(userId ? API_USERS + '/' + userId : null);
+}
+
+export function useFetchUsers(params: any) {
+  return useAxiosSWR([API_USERS, params]);
 }

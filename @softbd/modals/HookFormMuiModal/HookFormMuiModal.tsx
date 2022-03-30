@@ -5,7 +5,7 @@ import CustomMuiModal, {DialogTitle} from '../CustomMuiModal/CustomMuiModal';
 interface HookFormMuiModalPopupProps {
   title: React.ReactNode | string;
   actions?: React.ReactNode;
-  handleSubmit: any;
+  handleSubmit?: any;
   open: boolean;
   onClose: () => void;
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';

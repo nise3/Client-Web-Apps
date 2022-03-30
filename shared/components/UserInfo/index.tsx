@@ -15,6 +15,8 @@ import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
+import {checkPermission} from '../../../@crema/utility/authorizations';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'UserInfo';
 
@@ -83,6 +85,7 @@ const UserInfo: React.FC = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const user: CommonAuthUser | null = useAuthUser();
+  const {messages} = useIntl();
 
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);
@@ -118,6 +121,21 @@ const UserInfo: React.FC = () => {
     }
   };
 
+  const getUserTypeName = () => {
+    if (user?.isSystemUser) {
+      return messages['user.type.system'];
+    } else if (user?.isTrainingCenterUser) {
+      return messages['common.training_center'];
+    } else if (user?.isInstituteUser) {
+      return messages['user.type.institute'];
+    } else if (user?.isOrganizationUser) {
+      return messages['user.type.organization'];
+    } else if (user?.isIndustryAssociationUser) {
+      return messages['user.type.industry_association'];
+    }
+    return '';
+  };
+
   return (
     <StyledBox>
       <Box display='flex' alignItems='center'>
@@ -144,14 +162,44 @@ const UserInfo: React.FC = () => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                <MenuItem onClick={openDetailsModal}>My account</MenuItem>
+                <MenuItem onClick={openDetailsModal}>
+                  {messages['my_account.label']}
+                </MenuItem>
+                {user?.isIndustryAssociationUser &&
+                  checkPermission(user, ['view_any_association_profile']) && (
+                    <MenuItem>
+                      <Link href='/association-profile'>
+                        {messages['association.association_profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                {user?.isInstituteUser &&
+                  checkPermission(user, ['view_institute_profile']) && (
+                    <MenuItem>
+                      <Link href='/institute-profile'>
+                        {messages['institute_profile.label']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                {user?.isOrganizationUser &&
+                  checkPermission(user, ['view_organization_profile']) && (
+                    <MenuItem>
+                      <Link href='/organization-profile'>
+                        {messages['common.profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
                 <MenuItem>
-                  <Link href={getSSOLogoutUrl()}>Logout</Link>
+                  <Link href={getSSOLogoutUrl()}>
+                    {messages['common.logout']}
+                  </Link>
                 </MenuItem>
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>{user?.userType}</Box>
+          <Box className={classes.designation}>
+            {getUserTypeName()} {messages['user.label']}
+          </Box>
         </Box>
       </Box>
       {isOpenDetailsModal && (

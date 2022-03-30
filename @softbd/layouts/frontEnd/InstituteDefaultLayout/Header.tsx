@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login} from '@mui/icons-material';
 import {NavLink as Link, Text} from '../../../elements/common';
 import {
   LINK_FRONTEND_INSTITUTE_CALENDAR,
@@ -16,27 +15,26 @@ import {
   LINK_FRONTEND_INSTITUTE_FEEDBACK,
   LINK_FRONTEND_INSTITUTE_ROOT,
   LINK_FRONTEND_INSTITUTE_VIDEOS,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
 import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
-import {useAuthUser, useVendor} from '../../../../@crema/utility/AppHooks';
-import {CurrentInstitute} from '../../../../redux/types/models/Vendor';
-import {gotoLoginSignUpPage} from '../../../common/constants';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {useFetchPublicInstituteDetails} from '../../../../services/instituteManagement/hooks';
+import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
-interface AppHeaderProps {
-}
+interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
-  const vendor = useVendor<CurrentInstitute>();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
+
+  const {data: institute} = useFetchPublicInstituteDetails();
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -99,17 +97,7 @@ const Header: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LanguageSwitcher/>
-      </MenuItem>
-      <MenuItem component='span' className={classes.menuItemMobile}>
-        {authUser ? (
-          <GotoDashboardButton/>
-        ) : (
-          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons}/>
-            {messages['common.registration_login']}
-          </Link>
-        )}
+        <LanguageSwitcher />
       </MenuItem>
     </Menu>
   );
@@ -129,20 +117,22 @@ const Header: React.FC<AppHeaderProps> = () => {
               instituteName='Bangladesh Industrial Technical Assistance Centre'
               instituteLogo='/images/Logo-Nise-Bitac-Gov.png'
             />*/}
-            <Box>
-              <img
-                className={classes.logoInstitute}
-                src='/images/DYD-and-gov-Logo.png'
-                alt='institute logo'
-              />
-            </Box>
+            {institute?.logo && (
+              <Box>
+                <img
+                  className={classes.logoInstitute}
+                  src={institute?.logo}
+                  alt='institute logo'
+                />
+              </Box>
+            )}
           </Link>
 
           <Grid item md={4} className={classes.instituteName}>
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
-              {vendor?.title}
+              {institute?.title}
             </Text>
           </Grid>
 
@@ -152,17 +142,6 @@ const Header: React.FC<AppHeaderProps> = () => {
               src='/images/NISE-SSP3.png'
               alt='institute logo'
             />
-            {/*<H6 p={2}>
-              <Send
-                className={classes.menuIcons}
-                sx={{transform: 'rotate( 320deg)'}}
-              />{' '}
-              support@bitac.gov.bd
-            </H6>
-            <H6>
-              <LocalPhone className={classes.menuIcons} /> ০১৯১২৩৪৫৬৭৮,
-              ০১৮১২৩৪৫৬৭৮
-            </H6>*/}
           </Grid>
         </Container>
       </StyledBox>
@@ -193,11 +172,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                     className={classes.menuItem}>
                     {messages['menu.courses']}
                   </Link>
-                  {/*<Link*/}
-                  {/*  href={LINK_FRONTEND_INSTITUTE_TRAINING_CALENDAR}*/}
-                  {/*  className={classes.menuItem}>*/}
-                  {/*  {messages['menu.training_calender']}*/}
-                  {/*</Link>*/}
                   <Link
                     href={LINK_FRONTEND_INSTITUTE_VIDEOS}
                     className={classes.menuItem}>
@@ -229,18 +203,9 @@ const Header: React.FC<AppHeaderProps> = () => {
 
             <Box className={classes.headerMenuGroup}>
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
-                <LanguageSwitcher/>
+                <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton/>
-              ) : (
-                <Link
-                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                  className={classes.menuItemRegOrLogin}>
-                  <Login className={classes.menuIcons}/>
-                  {messages['common.registration_login']}
-                </Link>
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>
@@ -252,7 +217,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                 // color='inherit'
                 className={classes.mobileMenuButton}
                 size='large'>
-                <MoreIcon/>
+                <MoreIcon />
               </IconButton>
             </Box>
           </Container>

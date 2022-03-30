@@ -73,16 +73,18 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         }
         title={<H5 fontWeight={'bold'}>{member?.title}</H5>}
         subheader={
-          <Typography
-            sx={{
-              color: 'primary.main',
-            }}>
-            {messages['common.establish_date']}
-            {formatDate(member?.created_at, {
-              month: 'long',
-              year: 'numeric',
-            })}
-          </Typography>
+          member?.date_of_establishment && (
+            <Typography
+              sx={{
+                color: 'primary.main',
+              }}>
+              {messages['common.establish_date']}
+              {formatDate(member?.date_of_establishment, {
+                month: 'long',
+                year: 'numeric',
+              })}
+            </Typography>
+          )
         }
       />
       <Link href={`${path}/${member?.id}`}>
@@ -90,7 +92,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
           variant={'outlined'}
           color={'primary'}
           className={classes.detailsButton}>
-          {messages['common.details']}
+          {messages['industry.details']}
         </Button>
       </Link>
       <CardContent>

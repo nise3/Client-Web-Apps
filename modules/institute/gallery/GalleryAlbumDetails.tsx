@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H1, H2, H6} from '../../../@softbd/elements/common';
+import {H1, H2} from '../../../@softbd/elements/common';
 import SearchIcon from '@mui/icons-material/Search';
 import GalleryItemCardView from './GalleryItemCardView';
 import {
@@ -24,9 +24,10 @@ import {
 } from '../../../services/cmsManagement/hooks';
 import {useRouter} from 'next/router';
 import ContentItemCard from './ContentItemCard';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'GalleryAlbumDetails';
 
@@ -46,15 +47,28 @@ const StyledContainer = styled(Container)(({theme}) => ({
     right: 0,
   },
   [`& .${classes.coverImageBox}`]: {
-    height: '300px',
+    height: 400,
     display: 'flex',
     justifyContent: 'center',
+    [theme.breakpoints.up('xl')]: {
+      height: 550,
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: 150,
+    },
   },
   [`& .${classes.coverImage}`]: {
     backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
-    height: '300px',
+    height: 400,
     position: 'absolute',
+    objectFit: 'unset',
+    [theme.breakpoints.up('xl')]: {
+      height: 550,
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: 150,
+    },
   },
   [`& .${classes.coverTitle}`]: {
     background: theme.palette.common.white,
@@ -71,7 +85,6 @@ const GalleryAlbumDetails = () => {
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const {albumDetailsId: galleryAlbumId}: any = router.query;
-  const vendor = useVendor();
   const page = useRef<any>(1);
 
   const inputFieldRef = useRef<any>();
@@ -79,7 +92,6 @@ const GalleryAlbumDetails = () => {
 
   const [childGalleryAlbumFilter, setChildGalleryAlbumFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
-    institute_id: vendor?.id,
   });
   const {data: childGalleryAlbums, isLoading: isLoadingChildGalleryAlbums} =
     useFetchPublicGalleryAlbums(childGalleryAlbumFilter);
@@ -90,8 +102,7 @@ const GalleryAlbumDetails = () => {
   /** Data fetching for  gallery album contents **/
   const [galleryAlbumContentFilter, setGalleryAlbumContentFilter] = useState({
     page: 1,
-    page_size: 8,
-    institute_id: vendor?.id,
+    page_size: PageSizes.EIGHT,
   });
   const {
     data: galleryAlbumContents,
@@ -193,8 +204,8 @@ const GalleryAlbumDetails = () => {
               </Grid>
             )
           )}
-
-          <Grid item xs={12}>
+          {/*Todo: this margin top is a temporary fix for design*/}
+          <Grid item xs={12} sx={{marginTop: '100px'}}>
             <Grid container>
               <Grid item xs={12}>
                 <Box
@@ -279,7 +290,10 @@ const GalleryAlbumDetails = () => {
                 </Grid>
               ) : (
                 <Grid item xs={12} textAlign={'center'}>
-                  <H6 py={5}>{messages['common.no_data_found']}</H6>
+                  <NoDataFoundComponent
+                    messageType={messages['gallery_album_content.label']}
+                    messageTextType={'h6'}
+                  />
                 </Grid>
               )}
               {metaData.total_page > 1 && (

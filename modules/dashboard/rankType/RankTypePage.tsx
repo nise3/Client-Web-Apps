@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -16,29 +16,22 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRankTypes} from '../../../services/organaizationManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const RankTypePage = () => {
-  const authUser = useAuthUser();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankTypeFilters, setRankTypeFilters] = useState({});
+  const [rankTypeFilters] = useState({});
 
   const {
     data: rankTypes,
     isLoading,
     mutate: mutateRankTypes,
   } = useFetchRankTypes(rankTypeFilters);
-
-  useEffect(() => {
-    if (authUser?.isOrganizationUser && authUser.organization_id) {
-      setRankTypeFilters({organization_id: authUser.organization?.id});
-    }
-  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -93,16 +86,23 @@ const RankTypePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
-        Header: messages['organization.label'],
+        Header: messages['organization.label_en'],
         accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization.label'],
+        accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
@@ -131,7 +131,7 @@ const RankTypePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

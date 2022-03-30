@@ -11,9 +11,8 @@ import {
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
-import {getPublicStaticPageOrBlockByPageCode} from '../../services/cmsManagement/StaticPageService';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
+import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'SelfAssessment';
 
@@ -30,65 +29,55 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const SelfAssessment = () => {
-  const [blockData, setBlockData] = useState<any>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
     imageOrVideoLeft: false,
   });
+  const [staticPageParams] = useState<any>({});
+
+  const {data: blockData} = useFetchStaticPageBlock(
+    BLOCK_ID_SELF_ASSESSMENT,
+    staticPageParams,
+  );
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPublicStaticPageOrBlockByPageCode(
-          BLOCK_ID_SELF_ASSESSMENT,
-          {
-            show_in: ShowInTypes.NICE3,
-          },
-        );
+    if (blockData) {
+      if (
+        blockData.attachment_type != ContentTypes.IMAGE &&
+        blockData?.video_url
+      ) {
+        const embeddedUrl = getEmbeddedVideoUrl(blockData?.video_url);
+        setVideoUrl(embeddedUrl);
+      }
 
-        if (response && response.data) {
-          const data = response.data;
-          setBlockData({
-            ...data,
-            ...{
-              image_path: '/images/self-assessment.png',
-            },
-          });
-
-          if (data.attachment_type != ContentTypes.IMAGE && data?.video_url) {
-            const embeddedUrl = getEmbeddedVideoUrl(data?.video_url);
-            setVideoUrl(embeddedUrl);
-          }
-
-          if (data.template_code == PageBlockTemplateTypes.PBT_RL) {
-            setTemplateConfig({
-              textLeft: false,
-            });
-          } else if (data.template_code == PageBlockTemplateTypes.PBT_LR) {
-            setTemplateConfig({
-              textLeft: true,
-            });
-          }
-        }
-      } catch (e) {}
-    })();
-  }, []);
+      if (blockData.template_code == PageBlockTemplateTypes.PBT_RL) {
+        setTemplateConfig({
+          textLeft: false,
+        });
+      } else if (blockData.template_code == PageBlockTemplateTypes.PBT_LR) {
+        setTemplateConfig({
+          textLeft: true,
+        });
+      }
+    }
+  }, [blockData]);
 
   return (
     <>
       {blockData ? (
         <StyledContainer maxWidth={'lg'}>
-          <Grid
-            container
-            spacing={4}
-            sx={{marginTop: '114px'}}
-            alignItems={'center'}>
+          <Grid container sx={{marginTop: '40px'}} alignItems={'center'}>
             <Grid
               item
               xs={12}
               md={8}
-              order={{xs: templateConfig.textLeft ? 1 : 2}}>
+              order={{xs: templateConfig.textLeft ? 1 : 2}}
+              sx={
+                templateConfig.textLeft
+                  ? {paddingRight: '20px'}
+                  : {paddingLeft: '20px'}
+              }>
               <H1 style={{fontSize: '2.75rem', fontWeight: 'bold'}}>
                 {blockData?.title}
               </H1>
@@ -121,6 +110,7 @@ const SelfAssessment = () => {
                   blockData.image_path && (
                     <Zoom>
                       <CardMedia
+                        sx={{maxHeight: '265px', objectFit: 'unset'}}
                         component={'img'}
                         image={blockData.image_path}
                         alt={blockData?.image_alt_title}

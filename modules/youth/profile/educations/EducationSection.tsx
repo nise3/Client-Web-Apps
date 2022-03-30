@@ -11,13 +11,15 @@ import Educations from './Educations';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import ContentLayout from '../component/ContentLayout';
 import HorizontalLine from '../component/HorizontalLine';
-import {Avatar, Box, Typography} from '@mui/material';
+import {Avatar, Box} from '@mui/material';
 import {getYouthProfile} from '../../../../services/youthManagement/YouthService';
 import {UPDATE_AUTH_USER} from '../../../../redux/types/actions/Auth.actions';
 import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
+
 const EducationSection = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
@@ -93,9 +95,11 @@ const EducationSection = () => {
           <HorizontalLine />
           <Box sx={{display: 'flex'}}>
             <Avatar>C</Avatar>
-            <Typography style={{marginLeft: '15px'}}>
-              {messages['common.no_data_found']}
-            </Typography>
+            <NoDataFoundComponent
+              messageType={messages['education.label']}
+              messageTextType={'inherit'}
+              sx={{marginLeft: '15px', marginTop: '10px'}}
+            />
           </Box>
         </>
       ) : (

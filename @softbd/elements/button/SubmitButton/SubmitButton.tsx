@@ -21,10 +21,12 @@ const SubmitButton = ({
   label,
   isSubmitting,
   isLoading,
+  isDisable,
   startIcon,
   ...rest
 }: Props) => {
   const {messages} = useIntl();
+
   const btnText = label ? label : messages['common.done'];
   return isLoading ? (
     <ButtonSkeleton />

@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Box, Tab} from '@mui/material';
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import IndustryListView from './IndustryListView';
 import {IndustryDashboardTabs} from './IndustryDashboardTabs';
-import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import {getMomentMonths} from '../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 
@@ -43,12 +41,12 @@ const StyledBox = styled(Box)(({theme}) => ({
 const DashboardTabView = () => {
   const {messages} = useIntl();
   const [value, setValue] = useState<string>(IndustryDashboardTabs.INDUSTRY);
-  const [months, setMonths] = useState<any>([]);
-  const [selectedMonth, setSelectedMonth] = useState<
-    string | number | undefined
-  >();
+  // const [months, setMonths] = useState<any>([]);
+  // const [selectedMonth, setSelectedMonth] = useState<
+  //   string | number | undefined
+  // >();
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const momentMonths = getMomentMonths();
     const months1: any = [];
     momentMonths.map((month: string, index) => {
@@ -58,7 +56,7 @@ const DashboardTabView = () => {
       });
     });
     setMonths(months1);
-  }, []);
+  }, []);*/
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -73,39 +71,39 @@ const DashboardTabView = () => {
             aria-label='Dashboard Tabs'
             className={classes.tabList}>
             <Tab
-              label={messages['dashboard.tab_industry']}
+              label={messages['common.member_list']}
               value={IndustryDashboardTabs.INDUSTRY}
             />
-            <Tab
-              label={messages['dashboard.tab_unemployed_people']}
-              value={IndustryDashboardTabs.UNEMPLOYED_PEOPLE}
-            />
-            <Tab
-              label={messages['dashboard.tab_job_vacancy']}
-              value={IndustryDashboardTabs.JOB_VACANCY}
-            />
-            <Tab
-              label={messages['dashboard.tab_employed_people']}
-              value={IndustryDashboardTabs.EMPLOYED_PEOPLE}
-            />
-            <Tab
-              label={messages['dashboard.tab_skilled_people']}
-              value={IndustryDashboardTabs.SKILLED_PEOPLE}
-            />
+            {/*<Tab*/}
+            {/*  label={messages['dashboard.tab_unemployed_people']}*/}
+            {/*  value={IndustryDashboardTabs.UNEMPLOYED_PEOPLE}*/}
+            {/*/>*/}
+            {/*<Tab*/}
+            {/*  label={messages['dashboard.tab_job_vacancy']}*/}
+            {/*  value={IndustryDashboardTabs.JOB_VACANCY}*/}
+            {/*/>*/}
+            {/*<Tab*/}
+            {/*  label={messages['dashboard.tab_employed_people']}*/}
+            {/*  value={IndustryDashboardTabs.EMPLOYED_PEOPLE}*/}
+            {/*/>*/}
+            {/*<Tab*/}
+            {/*  label={messages['dashboard.tab_skilled_people']}*/}
+            {/*  value={IndustryDashboardTabs.SKILLED_PEOPLE}*/}
+            {/*/>*/}
           </TabList>
-          <CustomFilterableSelect
-            id='month'
-            label={messages['common.month']}
-            className={classes.monthSelect}
-            defaultValue={selectedMonth}
-            isLoading={false}
-            options={months}
-            optionValueProp={'id'}
-            optionTitleProp={['name']}
-            onChange={(value: number) => {
-              setSelectedMonth(value);
-            }}
-          />
+          {/*<CustomFilterableSelect*/}
+          {/*  id='month'*/}
+          {/*  label={messages['common.month']}*/}
+          {/*  className={classes.monthSelect}*/}
+          {/*  defaultValue={selectedMonth}*/}
+          {/*  isLoading={false}*/}
+          {/*  options={months}*/}
+          {/*  optionValueProp={'id'}*/}
+          {/*  optionTitleProp={['name']}*/}
+          {/*  onChange={(value: number) => {*/}
+          {/*    setSelectedMonth(value);*/}
+          {/*  }}*/}
+          {/*/>*/}
         </Box>
 
         <TabPanel

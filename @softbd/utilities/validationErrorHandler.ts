@@ -9,6 +9,12 @@ const ERRORS: any = {
   49000: 'yup_validation_regex',
   22000: 'yup_validation_email',
   39003: 'yup_validation_text_length',
+  42003: 'yup_validation_digit_length',
+  3000: 'yup_validation_date',
+  30000: 'yup_validation_invalid_row_status',
+  100000: 'yup_validation_invalid_start_date',
+  200000: 'yup_validation_invalid_end_date',
+  9000: 'invalid_start_date'
 };
 
 interface TProcessServerSideErrors {
@@ -95,10 +101,36 @@ export const processServerSideErrors = ({
         );
       }
     } else {
-      errorStack(
-        error.response?.data?._response_status?.message ||
-          'Unknown Validation Error',
-      );
+      const {response: {data: {errors}} = {}} = error;
+
+      if (errors && Object.keys(errors).length > 0) {
+        const notistackErrors = Object.keys(errors).reduce(
+          (previousValue: any, currentValue: any) => {
+            if (currentValue in errors) {
+              errors[currentValue]?.forEach((error: string) => {
+                const match = error.match(/\[([0-9]+)]$/i);
+                if (match && match[1]) {
+                  error = error.replace('[' + match[1] + ']', '');
+                }
+
+                previousValue.push(error);
+              });
+            }
+
+            return previousValue;
+          },
+          [],
+        );
+
+        notistackErrors.forEach((value: string) => {
+          errorStack(value);
+        });
+      } else {
+        errorStack(
+          error.response?.data?._response_status?.message ||
+            'Unknown Validation Error',
+        );
+      }
     }
   } else if (Number(error.response?.status || 0) >= 500) {
     errorStack(

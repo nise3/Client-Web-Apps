@@ -28,6 +28,7 @@ import {Grid} from '@mui/material';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IHumanResource} from '../../../shared/Interface/humanResources.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface HumanResourceAddEditPopupProps {
   itemId: number | null;
@@ -255,7 +256,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

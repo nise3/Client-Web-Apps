@@ -20,7 +20,7 @@ import {
   ICalendar,
   ICalendarQuery,
 } from '../../shared/Interface/common.interface';
-import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
@@ -31,27 +31,13 @@ const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
 
 const classes = {
-  boxItem: `${PREFIX}-boxItem`,
-  button: `${PREFIX}-button`,
   dateHeader: `${PREFIX}-dateHeader`,
   gridContainer: `${PREFIX}-gridContainer`,
   listIcon: `${PREFIX}-listIcon`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
-  marginTop: '40px',
-  [`& .${classes.boxItem}`]: {
-    background: theme.palette.background.paper,
-    borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-    padding: '20px 15px 30px 15px',
-    margin: 0,
-    [theme.breakpoints.down('xl')]: {
-      padding: '20px 10px 30px 10px',
-    },
-  },
-  [`& .${classes.button}`]: {
-    borderRadius: 40,
-  },
+  marginTop: '60px',
   [`& .${classes.listIcon}`]: {
     transform: 'translateY(5px)',
     marginRight: '12px',
@@ -59,8 +45,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.gridContainer}`]: {
     borderRadius: 8,
     padding: '24px',
-    marginTop: '24px',
-    // boxShadow: '0 0 1px #888 inset',
   },
   [`& .${classes.dateHeader}`]: {
     borderRadius: 8,
@@ -105,7 +89,7 @@ const NoticeAndEventSection = () => {
     moment(Date.now()).format(dateFormat),
   );
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {}, [currentDate]);
 
@@ -168,7 +152,7 @@ const NoticeAndEventSection = () => {
                 </List>
               ) : (
                 <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
+                  messageType={messages['industry.notice_and_events']}
                   messageTextType={'h6'}
                 />
               )}

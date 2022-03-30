@@ -1,6 +1,6 @@
 apiVersion: v2
-name: nise3-client
-description: nise3-client
+name: nise3-client-nise
+description: nise3-client-nise
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -7,13 +7,9 @@ import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
 import {classes, StyledAppBar} from './AppHeader.style';
-import {
-  ExitToApp,
-  LocalActivityOutlined,
-  CalendarViewMonth,
-} from '@mui/icons-material';
+import {CalendarViewMonth, LocalActivityOutlined} from '@mui/icons-material';
 // import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import {Button, Container, useMediaQuery} from '@mui/material';
+import {Container, useMediaQuery} from '@mui/material';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 // import {getSSOLoginUrl} from '../../../common/SSOConfig';
 // import Notifications from '../../../../@crema/core/Notifications';
@@ -21,13 +17,12 @@ import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import AppLogo from '../../../../shared/components/AppLogo';
 import {NavLink as Link} from '../../../elements/common';
 import {
+  LINK_FRONTEND_JOBS,
   LINK_FRONTEND_NISE_CALENDAR,
-  LINK_FRONTEND_NISE_JOBS,
   LINK_FRONTEND_NISE_NOTICE_BOARD,
   LINK_FRONTEND_NISE_RECENT_ACTIVITIES,
   LINK_FRONTEND_NISE_ROOT,
   LINK_FRONTEND_NISE_TRAINING,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
 import {Theme} from '@mui/system';
 import {useIntl} from 'react-intl';
@@ -37,6 +32,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import WorkIcon from '@mui/icons-material/Work';
+import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 
 interface AppHeaderProps {}
 
@@ -51,8 +47,8 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
     useState<null | HTMLElement>(null);
 
   /*const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);*/
+      window.location.href = getSSOLoginUrl();
+    }, []);*/
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -85,7 +81,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
         </Link>
       </MenuItem>
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_NISE_JOBS}>
+        <Link href={LINK_FRONTEND_JOBS}>
           <WorkIcon className={classes.menuIcons} /> {messages['menu.jobs']}
         </Link>
       </MenuItem>
@@ -147,7 +143,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                   </Link>
                 </Box>
                 <Box component='span' className={classes.menuItem}>
-                  <Link href={LINK_FRONTEND_NISE_JOBS}>
+                  <Link href={LINK_FRONTEND_JOBS}>
                     <WorkIcon
                       className={classes.menuIcons}
                       sx={{fontSize: '2.6rem'}}
@@ -186,17 +182,7 @@ const AppHeader: React.FC<AppHeaderProps> = () => {
                 <LanguageSwitcher />
               </Box>
 
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                <Button
-                  variant='contained'
-                  href={LINK_SIGNUP}
-                  className={classes.signinButton}
-                  startIcon={<ExitToApp />}>
-                  {messages['common.registration_login']}
-                </Button>
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
               <Hidden mdUp>
                 <Box className={classes.sectionMobile}>
                   <IconButton

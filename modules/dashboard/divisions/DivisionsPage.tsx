@@ -10,13 +10,13 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {deleteDivision} from '../../../services/locationManagement/DivisionService';
 import DivisionAddEditPopup from './DivisionAddEditPopup';
 import DivisionDetailsPopup from './DivisionDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDivision from '../../../@softbd/icons/IconDivision';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchDivisions} from '../../../services/locationManagement/hooks';
 import {styled} from '@mui/material/styles';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'DivisionPage';
 const classes = {root: `${PREFIX}-root`};
@@ -30,7 +30,7 @@ const DivisionsPage = () => {
   // console.log('hasPermission', hasPermission);
 
   const [filters] = useState({});
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const {
     data,
@@ -100,24 +100,16 @@ const DivisionsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.bbs_code'],
         accessor: 'bbs_code',
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
       },
       {
         Header: messages['common.actions'],
@@ -137,7 +129,7 @@ const DivisionsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

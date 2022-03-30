@@ -1,11 +1,23 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_OCCUPATIONS} from '../../@softbd/common/apiRoutes';
+import {
+  API_OCCUPATIONS,
+  API_PUBLIC_OCCUPATIONS,
+} from '../../@softbd/common/apiRoutes';
 import {IOccupation} from '../../shared/Interface/occupation.interface';
 
 export const getAllOccupations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_OCCUPATIONS, {params});
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const getAllPublicOccupations = async (params = {}) => {
+  try {
+    let response: any = await apiGet(API_PUBLIC_OCCUPATIONS, {params});
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

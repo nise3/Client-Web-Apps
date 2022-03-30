@@ -10,7 +10,11 @@ import {
   ThemeMode,
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
-import {useUrlSearchParams} from 'use-url-search-params';
+import {
+  InitialType,
+  TypesType,
+  useUrlSearchParams,
+} from 'use-url-search-params';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
 declare module '@mui/material/styles' {

@@ -39,6 +39,7 @@ const OrganizationRegistration = () => {
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
   const [filters] = useState({});
+
   const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);
 

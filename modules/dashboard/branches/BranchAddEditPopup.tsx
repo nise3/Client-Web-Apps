@@ -35,6 +35,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {IBranch} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface BranchAddEditPopupProps {
   itemId: number | null;
@@ -64,9 +65,9 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser();
 
-  const [divisionsFilter] = useState({});
-  const [districtsFilter] = useState({});
-  const [upazilasFilter] = useState({});
+  const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: divisions, isLoading: isLoadingDivisions} =
     useFetchDivisions(divisionsFilter);
@@ -93,15 +94,16 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id: authUser?.isInstituteUser
-        ? yup.string()
-        : yup
+      institute_id: authUser?.isSystemUser
+        ? yup
             .string()
             .trim()
             .required()
-            .label(messages['institute.label'] as string),
+            .label(messages['institute.label'] as string)
+        : yup.string(),
     });
   }, [messages, authUser]);
+
   const {
     control,
     register,
@@ -114,15 +116,18 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (!authUser?.isInstituteUser) {
+    if (authUser?.isSystemUser) {
       setIsLoadingInstitutes(true);
       (async () => {
         try {
-          let institutes = await getAllInstitutes({
+          let response = await getAllInstitutes({
             row_status: RowStatus.ACTIVE,
           });
+
           setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
+          if (response && response?.data) {
+            setInstitutes(response.data);
+          }
         } catch (e) {}
       })();
     }
@@ -171,9 +176,10 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   );
 
   const onSubmit: SubmitHandler<IBranch> = async (data: IBranch) => {
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (!authUser?.isSystemUser) {
+      delete data.institute_id;
     }
+
     try {
       if (itemId) {
         await updateBranch(itemId, data);
@@ -210,7 +216,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -238,7 +244,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isInstituteUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={12} md={6}>
             <CustomFormSelect
               required

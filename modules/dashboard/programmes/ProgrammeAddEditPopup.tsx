@@ -18,7 +18,7 @@ import {
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
-  useFetchInstitutes,
+  useFetchInstitute,
   useFetchProgramme,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -27,6 +27,8 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IProgramme} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface ProgrammeAddEditPopupProps {
   itemId: number | null;
@@ -38,6 +40,7 @@ const initialValues = {
   title_en: '',
   title: '',
   institute_id: '',
+  industry_association_id: '',
   description_en: '',
   logo: '',
   code: '',
@@ -52,6 +55,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
   const {
@@ -60,10 +64,10 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     mutate: mutateProgramme,
   } = useFetchProgramme(itemId);
 
-  const [instituteFilters] = useState({row_status: RowStatus.ACTIVE});
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitutes(instituteFilters);
-  const authUser = useAuthUser();
+    useFetchInstitute(instituteFilters);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -76,9 +80,9 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             .trim()
             .required()
             .label(messages['institute.label'] as string)
-        : yup.string(),
+        : yup.string().nullable(),
     });
-  }, []);
+  }, [authUser]);
 
   const {
     control,
@@ -93,11 +97,18 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         code: itemData?.code,
         description: itemData?.description,
         description_en: itemData?.description_en,
@@ -109,11 +120,11 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  console.log('errors', errors);
   const onSubmit: SubmitHandler<IProgramme> = async (data: IProgramme) => {
     try {
-      if (authUser?.isInstituteUser) {
-        data.institute_id = authUser?.institute_id;
+      if (!authUser?.isSystemUser) {
+        delete data.institute_id;
+        delete data.industry_association_id;
       }
       if (itemId) {
         await updateProgramme(itemId, data);
@@ -134,6 +145,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
     <HookFormMuiModal
       open={true}
       {...props}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconProgramme />
@@ -150,7 +162,6 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -184,9 +195,9 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
               required
               id='institute_id'
               label={messages['institute.label']}
-              isLoading={isLoadingInstitutes}
               control={control}
               options={institutes}
+              isLoading={isLoadingInstitutes}
               optionValueProp={'id'}
               optionTitleProp={['title_en', 'title']}
               errorInstance={errors}
@@ -229,6 +240,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             register={register}
             label={messages['common.logo']}
             required={false}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={6}>

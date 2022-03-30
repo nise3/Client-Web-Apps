@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useEffect, useState} from 'react';
+import React, {SyntheticEvent, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -9,12 +9,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import {Container, Grid, Skeleton} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H1} from '../../../@softbd/elements/common';
-import {useFetchInstitutesFAQ} from '../../../services/instituteManagement/hooks';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useVendor} from '../../../@crema/utility/AppHooks';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {useFetchPublicFAQ} from '../../../services/cmsManagement/hooks';
 
 const PREFIX = 'InstituteFAQ';
 
@@ -42,29 +39,13 @@ const StyledGrid = styled(Grid)(({theme}) => {
 const InstituteFAQ = () => {
   const [expandedState, setExpanded] = useState<string | false>(false);
   const {messages} = useIntl();
-  const showInType = getShowInTypeByDomain();
 
-  const vendor = useVendor();
-  const [faqFilters, setFaqFilters] = useState<any>({
+  const [faqFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
+
   const {data: faqItems, isLoading: isLoadingFaq} =
-    useFetchInstitutesFAQ(faqFilters);
-
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
-      setFaqFilters((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
+    useFetchPublicFAQ(faqFilters);
 
   const handleChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
@@ -121,9 +102,7 @@ const InstituteFAQ = () => {
                     id='panel1bh-header'>
                     <Typography
                       sx={{
-                        width: '33%',
-                        flexShrink: 0,
-                        whiteSpace: 'nowrap',
+                        width: '100%',
                         color: expandedState == item.id ? 'primary.main' : '',
                       }}>
                       {item.question}
@@ -135,7 +114,7 @@ const InstituteFAQ = () => {
                 </Accordion>
               ))
             ) : (
-              <NoDataFoundComponent />
+              <NoDataFoundComponent messageType={messages['faq.institute']} />
             )}
           </Grid>
         </Grid>
