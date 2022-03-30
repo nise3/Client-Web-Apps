@@ -4,11 +4,8 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const CAAssignedBatchesPage = asyncComponent(
-  () =>
-    import(
-      '../../../modules/dashboard/CAAssignedBatches/CAAssignedBatchesPage'
-    ),
+const RPLBatchesPage = asyncComponent(
+  () => import('../../../modules/dashboard/RPLBatches/RPLBatchesPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
@@ -16,7 +13,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['batches.label']} />
-      <CAAssignedBatchesPage />
+      <RPLBatchesPage />
     </>
   );
 });
