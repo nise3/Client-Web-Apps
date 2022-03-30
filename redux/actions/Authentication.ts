@@ -107,13 +107,6 @@ export const onSSOSignInCallback = (
       setDefaultAuthorizationHeader(tokenData?.access_token);
       await dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
-
-      /** This redirection logic is moved to @softbd/layouts/hoc/DefaultPage/withData.tsx */
-      /*
-      if (redirected_from?.length) {
-        window.location.href = redirected_from;
-      }
-      */
     } catch (err: any) {
       console.log('onSSOSignInCallback - error!!!!', err);
     }
@@ -290,7 +283,7 @@ export const getYouthAuthUserObject = (
   };
 };
 
-export const Signout = () => {
+export const signOut = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
@@ -301,20 +294,9 @@ export const Signout = () => {
   };
 };
 
-// export const onJWTAuthSignout = () => {
-//   return (dispatch: Dispatch<AppActions | any>) => {
-//     dispatch(fetchStart());
-//     dispatch({type: SIGNOUT_AUTH_SUCCESS});
-//     removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-//     removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
-//     dispatch(fetchSuccess());
-//     console.log('logged out.');
-//   };
-// };
-
 /**
  * @deprecated use Signout() instead
  */
 export const onJWTAuthSignout = () => {
-  return Signout();
+  return signOut();
 };
