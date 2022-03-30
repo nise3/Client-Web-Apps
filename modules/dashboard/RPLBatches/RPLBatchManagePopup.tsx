@@ -34,7 +34,7 @@ const initialValues = {
   assessment_date: '',
 };
 
-const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
+const RPLBatchManagePopup: FC<CABatchManagePopupProps> = ({
   onClose,
   assessorId,
   assessmentDate,
@@ -168,4 +168,4 @@ const CaBatchManagePopup: FC<CABatchManagePopupProps> = ({
   );
 };
 
-export default CaBatchManagePopup;
+export default RPLBatchManagePopup;
