@@ -12,7 +12,7 @@ import VerticalLine from '../component/VerticalLine';
 import {getIntlDateFromString} from '../../../../@softbd/utilities/helpers';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {Body2, H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'JobExperience';
@@ -59,9 +59,7 @@ const JobExperiences = ({
                   <H3 sx={{...result.subtitle2}} className={classes.textStyle}>
                     {jobExperience?.company_name}
                   </H3>
-                  <Typography variant={'caption'}>
-                    {jobExperience?.position}
-                  </Typography>
+                  <Body2>{jobExperience?.position}</Body2>
                 </Box>
               </Box>
               <Box>

@@ -55,7 +55,7 @@ const References = ({
                 <Grid item xs={4} md={2}>
                   <Avatar
                     alt='Reference logo'
-                    src={'/images/userPageImages/profileImage.jpeg'}
+                    src={'/images/placeholder.jpg'}
                     sx={{height: 80, width: 80}}
                   />
                 </Grid>

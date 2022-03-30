@@ -27,11 +27,12 @@ import {
   useFetchPublicGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import AlbumTypes from '../../dashboard/galleryAlbums/AlbumTypes';
 import CustomizedDialogs from '../Components/ImageDialog';
 import {H2} from '../../../@softbd/elements/common';
 import clsx from 'clsx';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const PREFIX = 'InstituteVideos';
 
@@ -86,25 +87,21 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteVideos = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const inputFieldRef = useRef<any>();
   const page = useRef<any>(1);
   const [selectedVideoAlbumId, setSelectedVideoAlbumId] = useState<any>('');
   const [videoAlbumContentFilter, setVideoAlbumContentFilter] = useState<any>({
-    institute_id: vendor?.id,
     album_type: AlbumTypes.VIDEO,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
   const {
     data: videoAlbumContents,
     isLoading: isLoadingVideoContents,
     metaData,
   } = useFetchPublicGalleryAlbumContents(videoAlbumContentFilter);
-
   const [videoAlbumFilter] = useState<any>({
-    institute_id: vendor?.id,
     album_type: AlbumTypes.VIDEO,
   });
   const {data: videoAlbums, isLoading: isLoadingVideoAlbums} =
@@ -115,10 +112,9 @@ const InstituteVideos = () => {
 
   const onResetClicked = useCallback(() => {
     setVideoAlbumContentFilter({
-      institute_id: vendor?.id,
       album_type: AlbumTypes.VIDEO,
       page: 1,
-      page_size: 8,
+      page_size: PageSizes.EIGHT,
     });
     setSelectedVideoAlbumId('');
   }, [selectedVideoAlbumId]);
@@ -133,7 +129,6 @@ const InstituteVideos = () => {
     (videoAlbumId: number | null) => {
       setSelectedVideoAlbumId(videoAlbumId);
       setVideoAlbumContentFilter({
-        institute_id: vendor?.id,
         gallery_album_id: videoAlbumId,
         album_type: 2,
       });
@@ -271,9 +266,22 @@ const InstituteVideos = () => {
                               <CardMedia
                                 component='img'
                                 height='140'
-                                image={data?.content_grid_image_path}
+                                image={
+                                  data?.content_thumb_image_path ??
+                                  '/images/blank_gray_image.png'
+                                }
                                 alt={data?.title}
                                 title={data?.title}
+                              />
+                              <PlayCircleIcon
+                                sx={{
+                                  position: 'absolute',
+                                  top: 'calc(30% - 35px)',
+                                  left: 'calc(50% - 35px)',
+                                  height: '70px',
+                                  width: '70px',
+                                }}
+                                color='primary'
                               />
                               <CardContent>
                                 <Typography
@@ -312,7 +320,7 @@ const InstituteVideos = () => {
               </Grid>
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent messageType={messages['common.video']} />
           )}
         </Grid>
         {openDialog && videoData && (

@@ -6,8 +6,8 @@ export default class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
-          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-          <link rel='icon' href='/favicon.ico' />
+          {/*<meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />*/}
+          <link rel='icon' href='/nise-favicon.png' />
           {/* PWA primary color */}
           <meta name='theme-color' content={'#0A8FDC'} />
           <link

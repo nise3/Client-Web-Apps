@@ -24,6 +24,7 @@ import {
   useFetchBatch,
   useFetchBranches,
   useFetchCourses,
+  useFetchInstitute,
   useFetchTrainers,
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
@@ -31,8 +32,9 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {ITrainer, IBatch} from '../../../shared/Interface/institute.interface';
+import {IBatch, ITrainer} from '../../../shared/Interface/institute.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -46,6 +48,7 @@ const initialValues = {
   course_id: '',
   programme_id: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   training_center_id: '',
   registration_start_date: '',
@@ -53,7 +56,7 @@ const initialValues = {
   batch_start_date: '',
   batch_end_date: '',
   number_of_seats: '',
-  available_seats: '',
+  // available_seats: '',
   row_status: '1',
   trainers: [],
 };
@@ -67,11 +70,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const {errorStack, successStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitute(instituteFilters);
 
   const {
     data: itemData,
@@ -79,50 +82,11 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     mutate: mutateBatch,
   } = useFetchBatch(itemId);
 
-  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
-  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
+  const [branchFilters, setBranchFilters] = useState<any>(null);
+  const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
   const [coursesFilters, setCoursesFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  useEffect(() => {
-    if (authUser?.isInstituteUser) {
-      setTrainingCenterFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-
-      setBranchFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-
-      setCoursesFilters((prevState: any) => {
-        return {
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        };
-      });
-    } else {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let institutes = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
-        } catch (e) {}
-      })();
-    }
-  }, []);
 
   const {data: branches, isLoading: isLoadingBranches} =
     useFetchBranches(branchFilters);
@@ -143,34 +107,36 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      institute_id:
-        authUser && authUser?.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['institute.label'] as string)
-          : yup.string(),
+      institute_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string)
+        : yup.string().nullable(),
       course_id: yup
         .string()
         .trim()
         .required()
         .label(messages['course.label'] as string),
-      training_center_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['training_center.label'] as string),
+      training_center_id:
+        authUser && !authUser?.isTrainingCenterUser
+          ? yup
+              .string()
+              .trim()
+              .required()
+              .label(messages['training_center.label'] as string)
+          : yup.string(),
       number_of_seats: yup
         .string()
         .trim()
         .required()
         .label(messages['batches.total_seat'] as string),
-      available_seats: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['batches.available_seat'] as string),
+      // available_seats: yup
+      //   .string()
+      //   .trim()
+      //   .required()
+      //   .label(messages['batches.available_seat'] as string),
       registration_start_date: yup
         .string()
         .trim()
@@ -210,12 +176,38 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
+    }
+
+    if (
+      !authUser?.isTrainingCenterUser &&
+      !authUser?.isIndustryAssociationUser
+    ) {
+      setBranchFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+
+    if (authUser?.isIndustryAssociationUser) {
+      setTrainingCenterFilters({
+        row_status: RowStatus.ACTIVE,
+      });
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
         course_id: itemData?.course_id,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         training_center_id: itemData?.training_center_id,
         registration_start_date: itemData?.registration_start_date
@@ -231,14 +223,9 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           ? getMomentDateFormat(itemData.batch_end_date, 'YYYY-MM-DD')
           : '',
         number_of_seats: itemData?.number_of_seats,
-        available_seats: itemData?.available_seats,
+        // available_seats: itemData?.available_seats,
         trainers: getTrainerIds(itemData?.trainers),
         row_status: String(itemData?.row_status),
-      });
-
-      setBranchFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: itemData?.institute_id,
       });
 
       setCoursesFilters({
@@ -246,10 +233,20 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         institute_id: itemData?.institute_id,
       });
 
-      setTrainingCenterFilters({
-        row_status: RowStatus.ACTIVE,
-        branch_id: itemData?.branch_id,
-      });
+      if (
+        !authUser?.isTrainingCenterUser &&
+        !authUser?.isIndustryAssociationUser
+      ) {
+        setBranchFilters({
+          row_status: RowStatus.ACTIVE,
+          institute_id: itemData?.institute_id,
+        });
+
+        setTrainingCenterFilters({
+          row_status: RowStatus.ACTIVE,
+          branch_id: itemData?.branch_id,
+        });
+      }
     } else {
       reset(initialValues);
     }
@@ -260,19 +257,37 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    setBranchFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
-    setCoursesFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
+    setBranchFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
+    setCoursesFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
 
-    setTrainingCenterFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });
+    setTrainingCenterFilters(
+      instituteId
+        ? {
+            row_status: RowStatus.ACTIVE,
+            institute_id: instituteId,
+          }
+        : {
+            row_status: RowStatus.ACTIVE,
+          },
+    );
   }, []);
 
   const onBranchChange = useCallback((branchId: number) => {
@@ -285,8 +300,14 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     let assignTrainersResponse;
 
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (!authUser?.isSystemUser) {
+      delete data.institute_id;
+      delete data.industry_association_id;
+    }
+
+    if (authUser?.isTrainingCenterUser) {
+      delete data.branch_id;
+      delete data.training_center_id;
     }
 
     try {
@@ -346,6 +367,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -389,33 +411,38 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           </Grid>
         )}
 
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={onBranchChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
-            required
-            id='training_center_id'
-            label={messages['training_center.label']}
-            isLoading={isLoadingTrainingCenters}
-            control={control}
-            options={trainingCenters}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {!authUser?.isTrainingCenterUser && (
+          <React.Fragment>
+            {!authUser?.isIndustryAssociationUser && (
+              <Grid item xs={12} md={6}>
+                <CustomFormSelect
+                  id='branch_id'
+                  label={messages['branch.label']}
+                  isLoading={isLoadingBranches}
+                  control={control}
+                  options={branches}
+                  optionValueProp='id'
+                  optionTitleProp={['title_en', 'title']}
+                  errorInstance={errors}
+                  onChange={onBranchChange}
+                />
+              </Grid>
+            )}
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id='training_center_id'
+                label={messages['training_center.label']}
+                isLoading={isLoadingTrainingCenters}
+                control={control}
+                options={trainingCenters}
+                optionValueProp='id'
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
 
         <Grid item xs={12} md={6}>
           <CustomFormSelect
@@ -482,18 +509,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='available_seats'
-            label={messages['batches.available_seat']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <CustomFormSelect
+        <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
             isLoading={isLoadingTrainers}
@@ -505,7 +521,30 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             multiple={true}
             defaultValue={initialValues.trainers}
           />
+          {/* <CustomTextInput
+            required
+            id='available_seats'
+            label={messages['batches.available_seat']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          /> */}
         </Grid>
+
+        {/* <Grid item xs={12} md={6}>
+            <CustomFormSelect
+            id='trainers'
+            label={messages['trainers.label']}
+            isLoading={isLoadingTrainers}
+            control={control}
+            options={trainers}
+            optionValueProp='id'
+            optionTitleProp={['trainer_name_en', 'trainer_name']}
+            errorInstance={errors}
+            multiple={true}
+            defaultValue={initialValues.trainers}
+          />
+        </Grid> */}
 
         <Grid item xs={12} md={6}>
           <FormRowStatus

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
@@ -9,49 +9,103 @@ import {processServerSideErrors} from '../../../../../@softbd/utilities/validati
 import {InfoOutlined} from '@mui/icons-material';
 import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {S1} from '../../../../../@softbd/elements/common';
+import {useFetchJobContactInformation} from '../../../../../services/IndustryManagement/hooks';
+import {useFetchUsers} from '../../../../../services/userManagement/hooks';
+import RowStatus from '../../../../../@softbd/utilities/RowStatus';
+import {saveContactInformation} from '../../../../../services/IndustryManagement/JobService';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
-const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
+const ContactInformation = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
+  const {data: contactInformation} = useFetchJobContactInformation(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [userFilters] = useState<any>({row_status: RowStatus.ACTIVE});
+  const {data: users, isLoading: isLoadingUsers} = useFetchUsers(userFilters);
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      /*contact_person_job: yup
+      contact_person_id: yup
         .string()
         .required()
-        .label(messages['job_posting.contact_person_job'] as string),*/
+        .label(messages['job_posting.contact_person_job'] as string),
     });
   }, [messages]);
 
   const {
     control,
     setError,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    if (contactInformation && contactInformation?.latest_step) {
+      const latestStep = contactInformation.latest_step;
+      delete contactInformation?.latest_step;
+
+      if (latestStep >= 6) {
+        setIsReady(true);
+        reset({contact_person_id: contactInformation?.contact_person_id});
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset({contact_person_id: ''});
+    }
+  }, [contactInformation]);
+
+  useEffect(() => {
+    if (users && contactInformation) {
+      const user = users?.find(
+        (user: any) => user.id == contactInformation?.contact_person_id,
+      );
+      setSelectedUser(user ? user : null);
+    }
+  }, [contactInformation, users]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data', data);
+      data.job_id = jobId;
 
-      //do data save work here
+      //console.log('data', data);
+      await saveContactInformation(data);
 
+      successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
-  return (
-    <Box mt={2}>
+  const onChangeUser = useCallback(
+    (user_id: any) => {
+      const user = users?.find((user: any) => user.id == user_id);
+      setSelectedUser(user ? user : null);
+    },
+    [users],
+  );
+
+  return isReady ? (
+    <Box mt={2} id={id}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.contract_info']}
       </Typography>
@@ -67,7 +121,7 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
               <InfoOutlined sx={{paddingRight: '5px'}} />
               <Typography variant='body1'>
                 If it's required to contact for any kind of query about this
-                particular circular, then Nise3 team will contact with the
+                particular circular, then Nise team will contact with the
                 following person.
               </Typography>
             </Box>
@@ -78,35 +132,40 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
           <Grid item xs={12} md={7}>
             <CustomFormSelect
               required
-              id='contact_person_job'
+              id='contact_person_id'
               label={messages['job_posting.contact_person_job']}
-              isLoading={false}
+              isLoading={isLoadingUsers}
               control={control}
-              options={[]}
+              options={users || []}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['name']}
               errorInstance={errors}
+              onChange={onChangeUser}
             />
           </Grid>
         </Grid>
-        {/** the following grid will be dynamic based on the selection of the dropdown */}
-        <Grid container spacing={3} mt={'15px'}>
-          <Grid item xs={12} md={7}>
-            <Card
-              sx={{
-                backgroundColor: 'grey.300',
-                border: '1px solid #c5c5c5',
-              }}>
-              <CardContent>
-                <S1>Mr. Masud</S1>
-                <Typography color='text.secondary'>
-                  Asst. Executive (HR & Admin)
-                </Typography>
-                <Typography color='text.secondary'>01733341663</Typography>
-              </CardContent>
-            </Card>
+
+        {selectedUser && (
+          <Grid container spacing={3} mt={'15px'}>
+            <Grid item xs={12} md={7}>
+              <Card
+                sx={{
+                  backgroundColor: 'grey.300',
+                  border: '1px solid #c5c5c5',
+                }}>
+                <CardContent>
+                  <S1>{selectedUser?.name}</S1>
+                  {/*<Typography color='text.secondary'>
+                    Asst. Executive (HR & Admin)
+                  </Typography>*/}
+                  <Typography color='text.secondary'>
+                    {selectedUser?.mobile}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
 
         <Box display={'flex'} justifyContent={'space-between'} mt={3}>
           <Button onClick={onBack} variant={'outlined'} color={'primary'}>
@@ -122,6 +181,8 @@ const ContactInformation = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

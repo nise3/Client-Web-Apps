@@ -80,6 +80,7 @@ const CustomAddFilterableFormSelect = ({
           <Autocomplete
             multiple
             noOptionsText={messages['common.no_data_found']}
+            value={value}
             options={options || []}
             freeSolo
             onChange={(event, selected) => {

@@ -5,11 +5,20 @@
 
 variables:
 
-  hostName: main.softbd.xyz
+  hostName: dev.nise3.xyz
 
-  # app version, changing version will auto deploy the app to current version
+  # if values is false, then creating ingress will be escape
+  enableEngress: true
 
-  imageAppVersion: "2.0.29"
+  # ingress cluster-issuer class
+  ingressClusterIssuer: "k-issuer"
+
+    # is lts acme, value is boolean
+  ltsAcme: false
+
+  # app version, changing version will auto deploy the app to current version "2.0.13"
+
+  imageAppVersion: "2.0.17"
 
   # increase this when you need scale up
   replicaCount: 1
@@ -25,7 +34,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.bus-staging.softbdltd.com/nise3-client-next
+  imageRepository: registry.nise.gov.bd/nise3-cube-client-web-nise
 
 
   #auto scaling config

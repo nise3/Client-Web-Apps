@@ -26,10 +26,12 @@ import {
 
 import {FilterChipBar} from './FilterChipBar';
 import {
+  dateTimeFilter,
   DefaultColumnFilter,
   fuzzyTextFilter,
   numericTextFilter,
   rowStatusFilter,
+  selectFilter,
 } from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
@@ -149,6 +151,8 @@ const filterTypes = {
   fuzzyText: fuzzyTextFilter,
   numeric: numericTextFilter,
   rowStatusFilter: rowStatusFilter,
+  selectFilter: selectFilter,
+  dateTimeFilter: dateTimeFilter,
 };
 
 /**

@@ -1,6 +1,9 @@
 import {ParsedUrlQuery} from 'querystring';
 import {getBrowserCookie} from '../libs/cookieInstance';
-import {COOKIE_KEY_AUTH_ID_TOKEN} from '../../shared/constants/AppConst';
+import {
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_SSO_SESSION_STATE,
+} from '../../shared/constants/AppConst';
 import {niseDomain} from './constants';
 
 interface TConfig {
@@ -13,21 +16,29 @@ interface TConfig {
 }
 
 const SSO_CONFIG: TConfig = {
-  authUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/authorize/' : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
-  logoutUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oidc/logout' : 'https://bus-staging.softbdltd.com/oidc/logout',
-  tokenUrl: process.env.NEXT_PUBLIC_IDP_BASE ? process.env.NEXT_PUBLIC_IDP_BASE + '/oauth2/token' : 'https://bus-staging.softbdltd.com/oauth2/token',
-  clientKey: process.env.NEXT_PUBLIC_IDP_OPENID_KEY ? process.env.NEXT_PUBLIC_IDP_OPENID_KEY : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
-  clientSecret: process.env.NEXT_PUBLIC_IDP_OPENID_SECRET ? process.env.NEXT_PUBLIC_IDP_OPENID_SECRET : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
+  authUrl: process.env.NEXT_PUBLIC_IDP_BASE_URL
+    ? process.env.NEXT_PUBLIC_IDP_BASE_URL + '/oauth2/authorize/'
+    : 'https://bus-staging.softbdltd.com/oauth2/authorize/',
+  logoutUrl: process.env.NEXT_PUBLIC_IDP_BASE_URL
+    ? process.env.NEXT_PUBLIC_IDP_BASE_URL + '/oidc/logout'
+    : 'https://bus-staging.softbdltd.com/oidc/logout',
+  tokenUrl: process.env.NEXT_PUBLIC_IDP_BASE_URL
+    ? process.env.NEXT_PUBLIC_IDP_BASE_URL + '/oauth2/token'
+    : 'https://bus-staging.softbdltd.com/oauth2/token',
+  clientKey: process.env.NEXT_PUBLIC_IDP_OPENID_KEY
+    ? process.env.NEXT_PUBLIC_IDP_OPENID_KEY
+    : 'FhVqwNp6Q6FV1H8KuuLsh5REQysa',
+  clientSecret: process.env.NEXT_PUBLIC_IDP_OPENID_SECRET
+    ? process.env.NEXT_PUBLIC_IDP_OPENID_SECRET
+    : 'GfrDpy904LjaWNmn7aSwEA1qyEQa',
   callbackUrl: '/callback',
 };
-
 
 export const getHostUrl = () => {
   return typeof window !== 'undefined' && window?.location?.origin
     ? window.location.origin
     : '';
 };
-
 
 export const paramsBuilder = (extraParams: any) => {
   let params = '';
@@ -55,40 +66,28 @@ export const getSSOLoginUrl = (extraParams?: ParsedUrlQuery) => {
     SSO_CONFIG.clientKey +
     '&scope=openid&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
-    redirectUrl.toString()
+    encodeURI(redirectUrl.toString())
   );
 };
 
-// export const getSSOLoginUrl = () => {
-//   const origin =
-//     typeof window !== 'undefined' && window.location.origin
-//       ? window.location.origin
-//       : '';
-//
-//   return (
-//     SSO_CONFIG.authUrl +
-//     '?response_type=code&client_id=' +
-//     SSO_CONFIG.clientKey +
-//     '&scope=openid email&nonce=13e2312637dg136e1&' +
-//     'redirect_uri=' +
-//     origin +
-//     SSO_CONFIG.callbackUrl
-//   );
-// };
-
 export const getSSOLogoutUrl = () => {
-  const origin = niseDomain();
   const idToken = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+  const ssoSessionState = getBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE);
+  const params =
+    typeof window !== 'undefined'
+      ? '?redirected_from=' + window.location.href
+      : '';
+
+  const postLogoutRedirectUri = niseDomain() + '/logout' + params;
 
   return (
     SSO_CONFIG.logoutUrl +
     '?id_token_hint=' +
     idToken +
     '&post_logout_redirect_uri=' +
-    origin +
-    '/logout' +
-    '&state=' +
-    'hello'
+    postLogoutRedirectUri +
+    '&session_state=' +
+    ssoSessionState
   );
 };
 

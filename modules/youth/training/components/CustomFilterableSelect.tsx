@@ -1,6 +1,6 @@
 import React from 'react';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
-import {Autocomplete, Box, TextField} from '@mui/material';
+import {Autocomplete, Box, Paper, TextField} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
@@ -41,7 +41,7 @@ const CustomFilterableSelect = ({
       for (let i = 0; i < optionTitleProp.length; i++) {
         arr.push(option[optionTitleProp[i]]);
       }
-      title = arr.join('-');
+      title = arr.join(' - ');
     }
 
     return title;
@@ -96,6 +96,11 @@ const CustomFilterableSelect = ({
       )}
       className={rest.className ? rest.className : ''}
       sx={rest.sx ? rest.sx : {}}
+      PaperComponent={({children}) => (
+        <Paper style={rest.dropdownStyle ? rest.dropdownStyle : {}}>
+          {children}
+        </Paper>
+      )}
     />
   );
 };

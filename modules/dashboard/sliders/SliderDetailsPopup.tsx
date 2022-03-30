@@ -9,6 +9,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchSlider} from '../../../services/cmsManagement/hooks';
 import IconSlider from '../../../@softbd/icons/IconSlider';
+import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -23,7 +25,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   return (
     <>
       <CustomDetailsViewMuiModal
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         {...props}
         title={
@@ -50,7 +52,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          {itemData?.institute_title && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12}>
               <DetailsInputView
                 label={messages['common.institute_name']}
@@ -60,7 +62,7 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             </Grid>
           )}
 
-          {itemData?.organization_title && (
+          {itemData?.show_in && itemData.show_in == ShowInTypes.INDUSTRY && (
             <Grid item xs={12}>
               <DetailsInputView
                 label={messages['organization.label']}
@@ -69,6 +71,17 @@ const SliderDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
           )}
+
+          {itemData?.show_in &&
+            itemData.show_in == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12}>
+                <DetailsInputView
+                  label={messages['common.industry_association']}
+                  value={itemData?.industry_association_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
 
           <Grid item xs={12}>
             <DetailsInputView

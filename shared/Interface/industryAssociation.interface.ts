@@ -1,4 +1,4 @@
-import {IIdTitleCreateUpdateAt} from './common.interface';
+import {IIdHolder, IIdTitleCreateUpdateAt} from './common.interface';
 
 export interface IAssociationMember extends IIdTitleCreateUpdateAt {
   // organization_type_id: number;
@@ -33,4 +33,18 @@ export interface IAssociationMember extends IIdTitleCreateUpdateAt {
   logo?: string;
   domain?: string;
   row_status?: string;
+}
+
+export interface IContactInfo extends IIdHolder {
+  title: string;
+  title_en?: string;
+  industry_association_id: number | undefined | string;
+  email: string;
+  mobile: number | undefined | string;
+  phone?: number | undefined | string;
+  row_status?: number | string;
+}
+
+export interface IPermissionSubGroupAssign {
+  permission_sub_group_id: number | string | null;
 }

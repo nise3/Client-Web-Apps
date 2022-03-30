@@ -39,23 +39,27 @@ export const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.icon}`]: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '35px',
+    // padding: '35px',
     alignItems: 'center',
     borderRadius: '10px',
     cursor: 'pointer',
     height: '8.75rem',
     width: '8.75rem',
+    justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-      padding: '20px',
+      // padding: '20px',
       margin: 'auto',
       height: '6.25rem',
       width: '6.25rem',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   },
 
   [`& .${classes.text}`]: {
     color: theme.palette.grey['300'],
-    whiteSpace: 'nowrap',
+    // whiteSpace: 'nowrap',
+    textAlign: 'center',
     marginTop: '10px',
   },
 

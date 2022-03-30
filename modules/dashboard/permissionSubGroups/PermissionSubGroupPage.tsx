@@ -19,9 +19,10 @@ import {deletePermissionSubGroup} from '../../../services/userManagement/Permiss
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_PERMISSION_SUB_GROUP} from '../../../@softbd/common/appLinks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PermissionSubGroupPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -87,16 +88,23 @@ const PermissionSubGroupPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
         Header: messages['permission_group.label'],
+        accessor: 'permission_group_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['permission_group.label_en'],
         accessor: 'permission_group_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['permission_group.key'],
@@ -135,7 +143,7 @@ const PermissionSubGroupPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

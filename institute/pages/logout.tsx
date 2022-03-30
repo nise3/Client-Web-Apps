@@ -3,9 +3,8 @@ import {useEffect} from 'react';
 import {onJWTAuthSignout} from '../../redux/actions';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
 import {useRouter} from 'next/router';
-import {instituteDomain} from "../../@softbd/common/constants";
-import InstituteFrontPage from "../../@softbd/layouts/hoc/InstituteDefaultFrontPage";
-import {Loader} from "../../@crema";
+import InstituteFrontPage from '../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import {Loader} from '../../@crema';
 
 export default InstituteFrontPage(() => {
     const router = useRouter();
@@ -17,7 +16,7 @@ export default InstituteFrontPage(() => {
         if (authUser) {
             dispatch(onJWTAuthSignout());
         } else {
-            router.push(instituteDomain());
+            router.push(window.location.origin);
         }
     }, [dispatch, authUser]);
 

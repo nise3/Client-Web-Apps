@@ -14,7 +14,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteSkill} from '../../../services/organaizationManagement/SkillService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import {useFetchSkills} from '../../../services/organaizationManagement/hooks';
+import {useFetchSkills} from '../../../services/youthManagement/hooks';
 
 const SkillPage = () => {
   const {messages} = useIntl();

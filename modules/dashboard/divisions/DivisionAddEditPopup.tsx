@@ -20,6 +20,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {Division} from '../../../shared/Interface/location.interface';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
@@ -125,7 +126,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

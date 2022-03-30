@@ -14,6 +14,7 @@ import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchYouths} from '../../../services/youthManagement/hooks';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'NearbySkilledYouthSection';
 
@@ -39,7 +40,7 @@ const StyledCard = styled(Card)(({theme}) => ({
   [`& .${classes.selectControl}`]: {
     marginLeft: 20,
     marginBottom: 10,
-  }
+  },
 }));
 
 const NearbySkilledYouthSection = () => {
@@ -48,7 +49,7 @@ const NearbySkilledYouthSection = () => {
   const [youthListFilters] = useState<any>({
     loc_district_id: authUser?.loc_district_id,
     loc_upazila_id: authUser?.loc_upazila_id,
-    page_size: 4,
+    page_size: PageSizes.FOUR,
   });
 
   const {data: nearbySkilledYouths} = useFetchYouths(youthListFilters);
@@ -56,9 +57,7 @@ const NearbySkilledYouthSection = () => {
   return (
     <StyledCard>
       <CardContent>
-        <Typography
-          variant={'h5'}
-          sx={{marginBottom: 3, fontWeight: 'bold'}}>
+        <Typography variant={'h5'} sx={{marginBottom: 3, fontWeight: 'bold'}}>
           {messages['freelance_corner.nearby_skilled_youth']}
         </Typography>
         <Grid container>

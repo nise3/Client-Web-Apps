@@ -1,4 +1,11 @@
-import {Avatar, Button, Divider, Grid, Typography} from '@mui/material';
+import {
+  Avatar,
+  Button,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Call, Email} from '@mui/icons-material';
@@ -7,8 +14,8 @@ import {RiEditBoxFill} from 'react-icons/ri';
 import {H4, H6} from '../../../@softbd/elements/common';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import InstituteProfileEditPopup from './InstituteProfileEditPopup';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 const PREFIX = 'InstituteProfile';
 
@@ -51,89 +58,96 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 const InstituteProfile = () => {
   const {messages} = useIntl();
   const [closeEditModal, setCloseEditModal] = useState<boolean>(true);
-  const authUser = useAuthUser();
-  const {data: profileData} = useFetchInstituteProfile(authUser?.institute_id);
+  const {data: profileData, isLoading: isLoadingUserData} =
+    useFetchInstituteProfile();
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
   }, []);
   const institute_types = [
     {
       key: 0,
-      label: messages['common.government'],
+      label: messages['common.non_government'],
     },
     {
       key: 1,
-      label: messages['common.non_government'],
+      label: messages['common.government'],
     },
   ];
   return (
     <>
       <StyledGrid container>
-        <Grid item xs={4}>
-          <Grid container className={classes.card}>
-            <Grid
-              item
-              xs={12}
-              padding={1}
-              display={'flex'}
-              alignItems={'center'}
-              flexDirection={'column'}>
-              <Avatar
-                className={classes.contact_person_avatar}
-                src={'https://www.bgmea.com.bd/img/logo.png?v=5'}
-              />
-              <H6 fontWeight={'bold'} mt={1}>
-                {profileData?.title}
-              </H6>
-              <Typography variant={'subtitle2'}>
-                {institute_types[profileData?.institute_type_id]?.label}
-              </Typography>
-            </Grid>
-            <Divider orientation={'horizontal'} className={classes.divider} />
-            <Grid
-              item
-              xs={12}
-              sx={{padding: '8px 0 8px 30px'}}
-              display={'flex'}
-              alignItems={'center'}>
-              <Email sx={{color: '#F0B501'}} />
-              <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {profileData?.email}
-              </Typography>
-            </Grid>
-            <Divider orientation={'horizontal'} className={classes.divider} />
-            <Grid
-              item
-              xs={12}
-              sx={{padding: '8px 0 8px 30px'}}
-              display={'flex'}
-              alignItems={'center'}>
-              <Call sx={{color: '#3FB0EF'}} />
-              <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {profileData?.mobile}
-              </Typography>
-            </Grid>
-            <Divider orientation={'horizontal'} className={classes.divider} />
-            <Grid
-              item
-              xs={12}
-              padding={2}
-              mb={10}
-              display={'flex'}
-              justifyContent={'center'}>
-              <Button
-                onClick={onClickCloseEditModal}
-                sx={{borderRadius: '10px'}}
-                variant='outlined'
-                color='primary'
-                startIcon={<RiEditBoxFill />}>
-                {messages['youth_profile.edit_profile']}
-              </Button>
+        {isLoadingUserData ? (
+          <>
+            <Skeleton variant='rectangular' width={'30%'} height={340} />
+            <Skeleton variant='rectangular' width={'50%'} height={340} />
+          </>
+        ) : (
+          <Grid item xs={4}>
+            <Grid container className={classes.card} spacing={3}>
+              <Grid
+                item
+                xs={12}
+                padding={1}
+                display={'flex'}
+                alignItems={'center'}
+                flexDirection={'column'}>
+                <Avatar
+                  className={classes.contact_person_avatar}
+                  src={profileData?.logo}
+                />
+                <H6 fontWeight={'bold'} mt={1}>
+                  {profileData?.title}
+                </H6>
+                <Typography variant={'subtitle2'}>
+                  {institute_types[profileData?.institute_type_id]?.label}
+                </Typography>
+              </Grid>
+              <Divider orientation={'horizontal'} className={classes.divider} />
+              <Grid
+                item
+                xs={12}
+                sx={{padding: '8px 0 8px 30px'}}
+                display={'flex'}
+                alignItems={'center'}>
+                <Email sx={{color: '#F0B501'}} />
+                <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
+                  {profileData?.email}
+                </Typography>
+              </Grid>
+              <Divider orientation={'horizontal'} className={classes.divider} />
+              <Grid
+                item
+                xs={12}
+                sx={{padding: '8px 0 8px 30px'}}
+                display={'flex'}
+                alignItems={'center'}>
+                <Call sx={{color: '#3FB0EF'}} />
+                <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
+                  {profileData?.contact_person_mobile}
+                </Typography>
+              </Grid>
+              <Divider orientation={'horizontal'} className={classes.divider} />
+              <Grid
+                item
+                xs={12}
+                padding={2}
+                mb={10}
+                display={'flex'}
+                justifyContent={'center'}>
+                <Button
+                  onClick={onClickCloseEditModal}
+                  sx={{borderRadius: '10px'}}
+                  variant='outlined'
+                  color='primary'
+                  startIcon={<RiEditBoxFill />}>
+                  {messages['youth_profile.edit_profile']}
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
         <Grid item xs={7}>
-          <Grid container className={classes.form} spacing={2}>
+          <Grid container className={classes.form} spacing={3}>
             <Grid item xs={12}>
               <H4>{messages['common.institute_information']}</H4>
             </Grid>
@@ -158,25 +172,146 @@ const InstituteProfile = () => {
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/*<Grid item xs={12} md={6}>*/}
+            {/*  <DetailsInputView*/}
+            {/*    label={messages['common.domain']}*/}
+            {/*    value={profileData?.domain}*/}
+            {/*    isLoading={false}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
+            <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.domain']}
-                value={profileData?.domain}
+                label={messages['divisions.label']}
+                value={profileData?.division_title}
                 isLoading={false}
               />
             </Grid>
-
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
               <DetailsInputView
-                label={messages['association.head_of_office_or_chairman']}
-                value={'Mr Atiqur Rahman'}
+                label={messages['districts.label']}
+                value={profileData?.district_title}
                 isLoading={false}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.designation']}
-                value={'Designation'}
+                label={messages['upazilas.label']}
+                value={profileData?.upazila_title}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['association.association_address']}
+                value={profileData?.address}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_name']}
+                value={profileData?.contact_person_name}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_name_en']}
+                value={profileData?.contact_person_name_en}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_designation']}
+                value={profileData?.contact_person_designation}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_designation_en']}
+                value={profileData?.contact_person_designation_en}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_mobile']}
+                value={profileData?.contact_person_mobile}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_email']}
+                value={profileData?.contact_person_email}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head']}
+                value={profileData?.name_of_the_office_head}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head_en']}
+                value={profileData?.name_of_the_office_head_en}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                value={profileData?.name_of_the_office_head_designation}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={
+                  messages['institute.name_of_the_office_head_designation_en']
+                }
+                value={profileData?.name_of_the_office_head_designation_en}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.mobile']}
+                value={profileData?.primary_mobile}
+                isLoading={false}
+              />
+            </Grid>
+            {profileData?.mobile_numbers &&
+              Array.isArray(profileData.mobile_numbers) &&
+              profileData.mobile_numbers.map((mobile: any, index: any) => {
+                return (
+                  <Grid item xs={6} key={index}>
+                    <DetailsInputView
+                      label={messages['common.mobile'] + ' #' + (index + 1)}
+                      value={mobile}
+                      isLoading={false}
+                    />
+                  </Grid>
+                );
+              })}
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.country']}
+                value={profileData?.country}
+                isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomChipRowStatus
+                label={messages['common.active_status']}
+                value={profileData?.row_status}
                 isLoading={false}
               />
             </Grid>

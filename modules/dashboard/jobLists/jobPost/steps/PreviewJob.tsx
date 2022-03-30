@@ -1,134 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {
-  Body1,
-  Body2,
-  H3,
-  Link,
-  S1,
-  S2,
-} from '../../../../../@softbd/elements/common';
+import {Body1, Body2, H3, S1, S2} from '../../../../../@softbd/elements/common';
 import JobPreviewSubComponent from './components/JobPreviewSubComponent';
 import {styled} from '@mui/material/styles';
-import {Gender, EmploymentStatus} from '../enums/JobPostEnums';
+import {
+  EmploymentStatus,
+  Gender,
+  LunchFacilityType,
+  ResumeReceivingOptions,
+  SalaryReviewType,
+  SalaryShowOption,
+  SHOW,
+  WorkPlaceTypes,
+} from '../enums/JobPostEnums';
+import IntlMessages from '../../../../../@crema/utility/IntlMessages';
+import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hooks';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
-
-const data = {
-  step1: {
-    job_title: 'Software Engineer',
-    job_sector_title: 'IT',
-    occupation_title: 'Telecommunication',
-    vacancy: 5,
-    not_applicable: true,
-    employment_status: [1, 2],
-    deadline: '2022-01-20',
-    is_photograph_enclosed: true,
-    special_instruction:
-      'We are looking for a talented and experienced (2+ years) PHP developer, who able to work php framework preferably (cakephp, laravel) . The developer should work with AngularJS/ReactJS/VueJS. Having knowledge in Python is good. Knowing Android / IOS will be added advantage.',
-    is_apply_online: true,
-    resume_receiving_status: 1,
-    email: 'admin@softbdltd.com',
-    use_nise3_email: true,
-    hard_copy:
-      'Apply procedure 1\n' +
-      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
-      'Apply procedure 3\nApply procedure 4',
-    walk_in_interview:
-      'Apply procedure 1\n' +
-      'Apply procedure 2 sdlkfj sdkfskdjfsk jskd slkdjflskd jskldfjsdkl fjsdklfj slkdfj kdfjsdl fjksdl kf\n' +
-      'Apply procedure 3\nApply procedure 4',
-  },
-  step2: {
-    job_location: 'Anywhere in Bangladesh',
-    min_salary: 10000,
-    max_salary: 50000,
-    salary_show_type: 1,
-    additional_salary_info: 'Negotiable based on experience.',
-    job_context: 'Job Context 1\nJob Context 2\nJob Context 3',
-    job_responsibilities:
-      'Develop, Test and Deploy web application.\nWrite clean and organized code',
-    workplace: [1, 2],
-    compensation_other_benefits: true,
-    facilities: [4, 5, 6, 7, 9, 10],
-    lunch_facilities: 1,
-    salary_review: 1,
-    festival_bonus: 2,
-    others:
-      'Excellent environment to learn\nOther benefits as per company policies',
-  },
-  step3: {
-    experience_status: 1,
-    min_experience: 3,
-    max_experience: null,
-    min_age: 27,
-    max_age: 45,
-    is_fresher_applicable: true,
-    area_of_experience: [
-      'Cake PHP',
-      'Develop API',
-      'HTML & CSS',
-      'Programmer/Software Engineer',
-      'Software Development',
-    ],
-    area_of_business: ['IT Enabled Service', 'Software Company'],
-    genders: [1, 2],
-    additional_requirements:
-      'Advanced programming Skill in PHP\nExperience on PHP framework Laravel\n' +
-      'Experience with cloud-based infrastructure and platform services\n' +
-      'Experience with AngularJS, jQuery or React etc.\nExperience with MySQL, MongoDB, PostgreSQL.\n' +
-      'Ability to express ideas clearly within the team\n' +
-      'Should have experience in integrating 3rd party APIs like Google map, ' +
-      'payment gateways, service APIs etc\nShould have knowledge working in Linux Environment\n' +
-      'Manage individual project priorities, deadlines and deliverable.\n' +
-      'Knowledge in Git, Docker is plus.\nGood understanding of requirements analysis and database design.\n' +
-      'Team player with excellent English Communication skills\n' +
-      'Must be able to handle multiple projects and deadline\n' +
-      'Technical blog or open source contribution will be considered as added advantage.',
-    skills: [
-      'Ability to work under pressure',
-      'HTML & CSS',
-      'Cake PHP',
-      'Develop API',
-    ],
-    educations: [
-      {
-        education_level_title: 'Bachelor',
-        exam_degree_title: 'Bachelor in Engineering (BEng)',
-        major_concentration: 'CSE, Math, Physics',
-      },
-    ],
-    other_educational_qualification:
-      'Bachelor/Masters degree from recognise institute',
-    is_person_with_disability_can_apply: true,
-    preferred_educational_institute: [
-      'BGC Trust University Bangladesh, Chittagong',
-      'Chittagong University of Engineering and Technology',
-    ],
-    training_trade_course: ['Java Training', 'PHP'],
-    professional_Certificate: ['Java Certificate', 'JavaScript Certificate'],
-  },
-  step4: {
-    is_show_company_name: true,
-    companyName: 'SOFT-BD',
-    is_show_company_address: true,
-    company_industry_type: 1,
-    is_show_company_business: true,
-  },
-  step5: {},
-  step6: {},
-  publish_date: '2021-09-11',
-};
 
 const PREFIX = 'JobPreview';
 
 const classes = {
   footerTitle: `${PREFIX}-footerTitle`,
+  otherBenefit: `${PREFIX}-otherBenefit`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -137,13 +37,39 @@ const StyledBox = styled(Box)(({theme}) => ({
     paddingBottom: '10px',
     borderBottom: '2px solid #d5d5d5',
   },
+  [`& .${classes.otherBenefit}`]: {
+    display: 'inline-block',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginLeft: '40px',
+
+    [`& .MuiSvgIcon-root`]: {
+      display: 'block',
+      margin: 'auto',
+      color: theme.palette.primary.light,
+    },
+  },
   [`& ul>li`]: {
     marginTop: '5px',
   },
 }));
 
-const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
+const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
+  const {data: jobData} = useFetchJobPreview(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (jobData && jobData?.latest_step) {
+      const latestStep = jobData.latest_step;
+      delete jobData?.latest_step;
+
+      if (latestStep >= 7) {
+        setIsReady(true);
+      }
+      setLatestStep(latestStep);
+    }
+  }, [jobData]);
 
   const onReadyToProcess = () => {
     try {
@@ -153,9 +79,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getJobNature = () => {
     let jobNature: Array<string> = [];
-    if (data.step1.employment_status) {
-      data.step1.employment_status.map((status: number) => {
-        switch (status) {
+    if (jobData?.primary_job_information?.employment_types) {
+      jobData?.primary_job_information?.employment_types.map((types: any) => {
+        switch (types.id) {
           case EmploymentStatus.FULL_TIME:
             jobNature.push(
               messages['job_posting.employment_status_full_time'] as string,
@@ -188,51 +114,87 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   };
 
   const getSalary = () => {
-    let salaryText = '';
+    let salaryText: any = '';
 
-    if (data.step2.salary_show_type == 1) {
+    if (
+      jobData?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.SALARY
+    ) {
       salaryText =
-        'Tk. ' +
-        data.step2.min_salary +
+        '৳ ' +
+        formatNumber(jobData?.additional_job_information?.salary_min) +
         ' - ' +
-        data.step2.max_salary +
-        '(monthly)';
-    } else if (data.step2.salary_show_type == 3) {
-      salaryText = 'Negotiable';
+        formatNumber(jobData?.additional_job_information?.salary_max) +
+        ` (${messages['common.monthly']})`;
+    } else if (
+      jobData?.additional_job_information?.is_salary_info_show ==
+      SalaryShowOption.NEGOTIABLE
+    ) {
+      salaryText = messages['common.negotiable'];
     }
 
     return salaryText;
   };
 
   const getExperienceText = () => {
-    if (data.step3.experience_status == 1) {
-      let experienceText = '';
-      if (data.step3.min_experience && data.step3.max_experience) {
-        experienceText =
-          data.step3.min_experience +
-          ' to ' +
-          data.step3.max_experience +
-          ' year(s)';
-      } else if (data.step3.min_experience) {
-        experienceText = 'At least ' + data.step3.min_experience + ' year(s)';
-      } else if (data.step3.max_experience) {
-        experienceText = 'At most ' + data.step3.max_experience + ' year(s)';
+    if (jobData?.candidate_requirements?.is_experience_needed == 1) {
+      let experienceText: any = '';
+      if (
+        jobData?.candidate_requirements?.minimum_year_of_experience &&
+        jobData?.candidate_requirements?.maximum_year_of_experience
+      ) {
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_from_to'}
+            values={{
+              from: jobData?.candidate_requirements?.minimum_year_of_experience,
+              to: jobData?.candidate_requirements?.maximum_year_of_experience,
+            }}
+          />
+        );
+      } else if (jobData?.candidate_requirements?.minimum_year_of_experience) {
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_at_least'}
+            values={{
+              from: jobData?.candidate_requirements?.minimum_year_of_experience,
+            }}
+          />
+        );
+      } else if (jobData?.candidate_requirements?.maximum_year_of_experience) {
+        experienceText = (
+          <IntlMessages
+            id={'job_preview.experience_at_most'}
+            values={{
+              from: jobData?.candidate_requirements?.maximum_year_of_experience,
+            }}
+          />
+        );
       }
       return experienceText;
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
   const getAgeText = () => {
     let ageText = '';
 
-    if (data.step3.min_age && data.step3.max_age) {
-      ageText = data.step3.min_age + ' to ' + data.step3.max_age + ' years';
-    } else if (data.step3.min_age) {
-      ageText = 'At least ' + data.step3.min_age + ' years';
-    } else if (data.step3.max_age) {
-      ageText = 'At most ' + data.step3.max_age + ' years';
+    if (
+      jobData?.candidate_requirements?.age_minimum &&
+      jobData?.candidate_requirements?.age_maximum
+    ) {
+      ageText =
+        jobData?.candidate_requirements?.age_minimum +
+        ' to ' +
+        jobData?.candidate_requirements?.age_maximum +
+        ' years';
+    } else if (jobData?.candidate_requirements?.age_minimum) {
+      ageText =
+        'At least ' + jobData?.candidate_requirements?.age_minimum + ' years';
+    } else if (jobData?.candidate_requirements?.age_maximum) {
+      ageText =
+        'At most ' + jobData?.candidate_requirements?.age_maximum + ' years';
     }
 
     return ageText;
@@ -240,7 +202,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getJobContext = () => {
     let strArr: Array<string> = [];
-    strArr = data.step2.job_context.split('\n');
+    strArr = jobData?.additional_job_information?.job_context.split('\n');
     if (strArr.length == 1) {
       return strArr[0];
     } else {
@@ -256,8 +218,9 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getResponsibilities = () => {
     let strArr: Array<string> = [];
-    if (data.step2.job_responsibilities) {
-      strArr = data.step2.job_responsibilities.split('\n');
+    if (jobData?.additional_job_information?.job_responsibilities) {
+      strArr =
+        jobData?.additional_job_information?.job_responsibilities.split('\n');
     }
     if (strArr.length == 0) {
       return '';
@@ -276,95 +239,130 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getEducationalRequirements = () => {
     let additionalEducationRequirement: Array<string> = [];
+    let isShowNotApplicable = true;
 
-    if (data.step3.other_educational_qualification) {
+    if (jobData?.candidate_requirements?.other_educational_qualification) {
       additionalEducationRequirement =
-        data.step3.other_educational_qualification.split('\n');
+        jobData?.candidate_requirements?.other_educational_qualification.split(
+          '\n',
+        );
     }
 
     let educationalInstitutes = '';
 
-    if (data.step3.preferred_educational_institute) {
-      data.step3.preferred_educational_institute.map((ins: any, index) => {
-        educationalInstitutes += index != 0 ? ', ' : '';
-        educationalInstitutes += ins;
-      });
+    if (jobData?.candidate_requirements?.preferred_educational_institutions) {
+      educationalInstitutes =
+        jobData?.candidate_requirements?.preferred_educational_institutions
+          .map((ins: any) => ins.name)
+          .join(', ');
     }
 
     let professionalCertificates = '';
 
-    if (data.step3.professional_Certificate) {
-      data.step3.professional_Certificate.map((cert: any, index) => {
-        professionalCertificates += index != 0 ? ', ' : '';
-        professionalCertificates += cert;
-      });
+    if (jobData?.candidate_requirements?.professional_certifications) {
+      professionalCertificates =
+        jobData?.candidate_requirements?.professional_certifications
+          .map((cert: any) => cert.title)
+          .join(', ');
     }
 
     let trainingOrTradeCourse = '';
 
-    if (data.step3.training_trade_course) {
-      data.step3.training_trade_course.map((course: any, index) => {
-        trainingOrTradeCourse += index != 0 ? ', ' : '';
-        trainingOrTradeCourse += course;
-      });
+    if (jobData?.candidate_requirements?.trainings) {
+      trainingOrTradeCourse = jobData?.candidate_requirements?.trainings
+        .map((course: any) => course.title)
+        .join(', ');
     }
 
     let skillText = '';
-    if (data.step3.skills) {
-      skillText = data.step3.skills.join(', ');
+    if (jobData?.candidate_requirements?.skills) {
+      skillText = jobData?.candidate_requirements?.skills
+        .map((skill: any) => skill.title)
+        .join(', ');
     }
+    if (
+      additionalEducationRequirement.length > 0 ||
+      jobData?.candidate_requirements?.degrees?.length > 0 ||
+      educationalInstitutes ||
+      professionalCertificates ||
+      trainingOrTradeCourse ||
+      skillText
+    ) {
+      isShowNotApplicable = false;
+    }
+
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {data.step3.educations.map((education: any, index) => (
-          <li key={index}>
-            {education.exam_degree_title} in {education.major_concentration}
-          </li>
-        ))}
+        {jobData?.candidate_requirements?.degrees?.map(
+          (degree: any, index: number) => (
+            <li key={index}>
+              {degree?.exam_degree?.title} in {degree?.major_subject}
+            </li>
+          ),
+        )}
         {additionalEducationRequirement.map((req: string, index) => (
           <li key={index}>{req}</li>
         ))}
         {educationalInstitutes && (
-          <li>{educationalInstitutes} students will get preference</li>
+          <li>
+            {educationalInstitutes}{' '}
+            {messages['job_preview.prefer_institute_text']}
+          </li>
         )}
         {professionalCertificates && (
-          <li>Professional Certification: {professionalCertificates}</li>
+          <li>
+            {messages['job_preview.professional_cert']}{' '}
+            {professionalCertificates}
+          </li>
         )}
         {trainingOrTradeCourse && (
-          <li>Training/ Trade Course: {trainingOrTradeCourse}</li>
+          <li>
+            {messages['job_preview.training_or_trade']} {trainingOrTradeCourse}
+          </li>
         )}
-        <li>Skill Required: {skillText}</li>
+        {skillText && (
+          <li>
+            {messages['job_preview.skill_required']} {skillText}
+          </li>
+        )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
 
   const getExperienceRequirements = () => {
-    if (data.step3.experience_status == 1) {
+    if (jobData?.candidate_requirements?.is_experience_needed == 1) {
       let experienceText = getExperienceText();
 
       let experienceAreas = '';
-      if (data.step3.area_of_experience) {
-        experienceAreas = data.step3.area_of_experience.join(', ');
+      if (jobData?.candidate_requirements?.area_of_experiences) {
+        experienceAreas = jobData?.candidate_requirements?.area_of_experiences
+          ?.map((experience: any) => experience.title)
+          .join(', ');
       }
 
       let experienceBusinessAreas = '';
-      if (data.step3.area_of_business) {
-        experienceBusinessAreas = data.step3.area_of_business.join(', ');
+      if (jobData?.candidate_requirements?.area_of_businesses) {
+        experienceBusinessAreas =
+          jobData?.candidate_requirements?.area_of_businesses
+            ?.map((business: any) => business.title)
+            .join(', ');
       }
 
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
-          {data.step3.is_fresher_applicable && (
-            <li>Freshers are encouraged to apply</li>
+          {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
+            <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
           <li>
-            The applicant should have experience in following area(s):
+            {messages['job_preview.experience_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceAreas}</li>
             </ul>
           </li>
           <li>
-            The applicant should have experience in following business area(s):
+            {messages['job_preview.business_area_label']}
             <ul style={{listStyleType: 'square'}}>
               <li>{experienceBusinessAreas}</li>
             </ul>
@@ -372,7 +370,7 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         </ul>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
@@ -380,8 +378,8 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
     let male = false;
     let female = false;
     let other = false;
-    data.step3.genders.map((gender: number) => {
-      switch (gender) {
+    jobData?.candidate_requirements?.genders.map((gender: any) => {
+      switch (gender.gender_id) {
         case Gender.MALE:
           male = true;
           break;
@@ -411,22 +409,35 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
 
   const getAdditionalRequirements = () => {
     let strArr: Array<string> = [];
-    if (data.step3.additional_requirements) {
-      strArr = data.step3.additional_requirements.split('\n');
+    if (jobData?.candidate_requirements?.additional_requirements) {
+      strArr =
+        jobData?.candidate_requirements?.additional_requirements.split('\n');
+    }
+
+    let isShowNotApplicable = true;
+    if (
+      getAgeText() ||
+      strArr.length > 0 ||
+      jobData?.candidate_requirements?.genders.length > 0 ||
+      jobData?.candidate_requirements?.person_with_disability == 1
+    ) {
+      isShowNotApplicable = false;
     }
 
     return (
       <ul style={{paddingLeft: '20px'}}>
-        <li>Age {getAgeText()}</li>
-        {data.step3.genders.length > 0 && data.step3.genders.length < 3 && (
-          <li>{getGenderText()}</li>
-        )}
+        {getAgeText() && <li>Age {getAgeText()}</li>}
+        {jobData?.candidate_requirements?.genders.length > 0 &&
+          jobData?.candidate_requirements?.genders.length < 3 && (
+            <li>{getGenderText()}</li>
+          )}
         {strArr.map((item: string, index) => (
           <li key={index}>{item}</li>
         ))}
-        {data.step3.is_person_with_disability_can_apply && (
-          <li>Person with disability are encouraged to apply</li>
+        {jobData?.candidate_requirements?.person_with_disability == 1 && (
+          <li>{messages['job_preview.person_with_disability']}</li>
         )}
+        {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
       </ul>
     );
   };
@@ -434,11 +445,11 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
   const getWorkplace = () => {
     let workplaceStrArr: Array<string> = [];
 
-    data.step2.workplace.map((place: number) => {
-      if (place == 1) {
-        workplaceStrArr.push(messages['common.work_at_office'] as string);
-      } else if (place == 2) {
+    jobData?.additional_job_information?.work_places.map((workplace: any) => {
+      if (workplace.work_place_id == WorkPlaceTypes.HOME) {
         workplaceStrArr.push(messages['common.work_from_home'] as string);
+      } else if (workplace.work_place_id == WorkPlaceTypes.OFFICE) {
+        workplaceStrArr.push(messages['common.work_at_office'] as string);
       }
     });
 
@@ -449,187 +460,216 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
     );
   };
 
+  const otherBenefitComponent = (index: number, id: string, name: string) => {
+    return (
+      <Box key={index} className={classes.otherBenefit}>
+        <img
+          src={'/images/jobs/benefit_' + id + '.svg'}
+          alt={name}
+          style={{display: 'block', margin: 'auto'}}
+        />
+        {name}
+      </Box>
+    );
+  };
+
   const getOtherBenefits = () => {
-    if (data.step2.compensation_other_benefits) {
+    if (jobData?.additional_job_information?.is_other_benefits == 1) {
       let salaryReviewText = null;
-      if (data.step2.salary_review) {
+      if (jobData?.additional_job_information?.salary_review) {
         salaryReviewText =
-          'Salary review: ' +
-          (data.step2.salary_review == 1 ? 'Yearly' : 'Half-yearly');
+          (messages['job_preview.salary_review'] as string) +
+          (jobData?.additional_job_information?.salary_review ==
+          SalaryReviewType.YEARLY
+            ? messages['common.yearly']
+            : messages['common.half_yearly']);
       }
       let lunchFacilitiesText = null;
-      if (data.step2.lunch_facilities) {
+      if (jobData?.additional_job_information?.lunch_facilities) {
         lunchFacilitiesText =
-          'Lunch Facilities: ' +
-          (data.step2.lunch_facilities == 1
-            ? 'Full subsidize'
-            : 'Partially subsidize');
+          (messages['job_preview.lunch_facilities'] as string) +
+          (jobData?.additional_job_information?.lunch_facilities ==
+          LunchFacilityType.FULL_SUBSIDIZE
+            ? messages['common.full_subsidize']
+            : messages['common.partially_subsidize']);
       }
 
       let othersArr: Array<string> = [];
-      if (data.step2.others) {
-        othersArr = data.step2.others.split('\n');
+      if (jobData?.additional_job_information?.others) {
+        othersArr = jobData?.additional_job_information?.others.split('\n');
       }
 
       return (
-        <ul style={{paddingLeft: '20px'}}>
-          {salaryReviewText && <li>{salaryReviewText}</li>}
-          {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
-          {data.step2.festival_bonus && (
-            <li>Festival bonus: {data.step2.festival_bonus} (Yearly)</li>
-          )}
-          {(data.step2.facilities || []).map((item: number) => {
-            switch (item) {
-              case 1:
-                return <li>T/A</li>;
-              case 2:
-                return <li>Mobile bill</li>;
-              case 3:
-                return <li>Pension Policy</li>;
-              case 4:
-                return <li>Tour allowance</li>;
-              case 5:
-                return <li>Credit card</li>;
-              case 6:
-                return <li>Medical allowance</li>;
-              case 7:
-                return (
-                  <li>Performance bonus will be reviewed by team leader</li>
+        <React.Fragment>
+          <ul style={{paddingLeft: '20px'}}>
+            {salaryReviewText && <li>{salaryReviewText}</li>}
+            {lunchFacilitiesText && <li>{lunchFacilitiesText}</li>}
+            {jobData?.additional_job_information?.festival_bonus && (
+              <li>
+                {messages['job_preview.festival_bonus']}{' '}
+                {jobData?.additional_job_information?.festival_bonus} (
+                {messages['common.yearly']})
+              </li>
+            )}
+          </ul>
+          <Box
+            sx={{
+              marginTop: '-15px',
+              marginLeft: '-30px',
+            }}>
+            {(jobData?.additional_job_information?.other_benefits || []).map(
+              (otherBenefit: any, index: number) => {
+                return otherBenefitComponent(
+                  index,
+                  otherBenefit?.id,
+                  otherBenefit?.title,
                 );
-              case 8:
-                return <li>Profit share</li>;
-              case 9:
-                return <li>Provident fund</li>;
-              case 10:
-                return <li>Weekly 2 holidays</li>;
-              case 11:
-                return <li>Insurance</li>;
-              case 12:
-                return <li>Gratuity</li>;
-              case 13:
-                return <li>Over time allowance</li>;
-            }
-          })}
-          {othersArr.map((other: string, index) => (
-            <li key={index}>{other}</li>
-          ))}
-        </ul>
+              },
+            )}
+          </Box>
+
+          <ul style={{paddingLeft: '20px'}}>
+            {othersArr.map((other: string, index) => (
+              <li key={index}>{other}</li>
+            ))}
+          </ul>
+        </React.Fragment>
       );
     } else {
-      return 'N/A';
+      return messages['common.n_a'];
     }
   };
 
   const getCompanyName = () => {
-    if (data.step4.is_show_company_name) {
-      return data.step4.companyName;
+    if (jobData?.company_info_visibility?.is_company_name_visible == SHOW) {
+      if (jobData?.primary_job_information?.industry_association_id) {
+        if (jobData?.primary_job_information?.organization_id) {
+          return jobData?.primary_job_information?.organization_title;
+        } else {
+          return jobData?.primary_job_information?.industry_association_title;
+        }
+      } else if (jobData?.primary_job_information?.organization_id) {
+        return jobData?.primary_job_information?.organization_title;
+      } else {
+        return '';
+      }
     } else {
-      return data.step4.companyName;
+      return jobData?.company_info_visibility?.company_name;
     }
   };
 
   const getCompanyAddress = () => {
+    let address: string = '';
+
+    if (jobData?.primary_job_information?.industry_association_id) {
+      if (jobData?.primary_job_information?.organization_id) {
+        address = jobData?.primary_job_information?.organization_address;
+      } else {
+        address =
+          jobData?.primary_job_information?.industry_association_address;
+      }
+    } else if (jobData?.primary_job_information?.organization_id) {
+      address = jobData?.primary_job_information?.organization_address;
+    }
+
     return (
       <React.Fragment>
-        <Body2>
-          8th & 15th Floor, 52/1 Hasan Holdings Limited, New Eskaton Road, Dhaka
-          1000
-        </Body2>
-        <Body2>
-          Web:{' '}
-          <Link href={'www.softbdltd.com'} target={'_blank'}>
-            www.softbdltd.com
-          </Link>
-        </Body2>
+        <Body2>{address}</Body2>
       </React.Fragment>
     );
   };
 
   const getCompanyBusiness = () => {
-    return <Body2>Business: Web Development and IT Services</Body2>;
+    return <Body2></Body2>;
   };
 
-  return (
+  return isReady ? (
     <StyledBox mt={3}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={8}>
-          <H3>{data.step1.job_title}</H3>
-          <S1 fontWeight={'bold'}>{data.step4.companyName}</S1>
-          <JobPreviewSubComponent title={'Vacancy'}>
-            {data.step1.not_applicable
-              ? 'N/A'
-              : formatNumber(data.step1.vacancy)}
+          <H3>{jobData?.primary_job_information?.job_title}</H3>
+          <S1 fontWeight={'bold'}>{getCompanyName()}</S1>
+          <JobPreviewSubComponent title={messages['common.vacancy']}>
+            {jobData?.primary_job_information?.no_of_vacancies
+              ? formatNumber(jobData?.primary_job_information?.no_of_vacancies)
+              : messages['common.n_a']}
           </JobPreviewSubComponent>
 
-          {data.step2.job_context && (
-            <JobPreviewSubComponent title={'Job Responsibilities'}>
+          {jobData?.additional_job_information?.job_context && (
+            <JobPreviewSubComponent title={messages['job_posting.job_context']}>
               {getJobContext()}
             </JobPreviewSubComponent>
           )}
 
-          <JobPreviewSubComponent title={'Job Responsibilities'}>
+          <JobPreviewSubComponent
+            title={messages['job_posting.job_responsibility']}>
             {getResponsibilities()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.employment_status'] as string}>
+            title={messages['job_posting.employment_status']}>
             {getJobNature()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.educational_requirements'] as string}>
+            title={messages['job_posting.educational_requirements']}>
             {getEducationalRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.experience_requirements'] as string}>
+            title={messages['job_posting.experience_requirements']}>
             {getExperienceRequirements()}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={messages['job_posting.additional_requirements'] as string}>
+            title={messages['job_posting.additional_requirements']}>
             {getAdditionalRequirements()}
           </JobPreviewSubComponent>
-          {data.step2.workplace && (
-            <JobPreviewSubComponent title={'Workplace'}>
+          {jobData?.additional_job_information?.work_places && (
+            <JobPreviewSubComponent title={messages['job_posting.workplace']}>
               {getWorkplace()}
             </JobPreviewSubComponent>
           )}
-          <JobPreviewSubComponent
-            title={messages['common.job_location'] as string}>
-            {data.step2.job_location}
+          <JobPreviewSubComponent title={messages['common.job_location']}>
+            {jobData?.additional_job_information?.job_locations
+              ?.map((location: any) => location.title)
+              .join(', ')}
           </JobPreviewSubComponent>
-          <JobPreviewSubComponent title={messages['common.salary'] as string}>
-            {data.step2.additional_salary_info &&
-            data.step2.additional_salary_info != '' ? (
+          <JobPreviewSubComponent title={messages['common.salary']}>
+            {jobData?.additional_job_information?.additional_salary_info &&
+            jobData?.additional_job_information?.additional_salary_info !=
+              '' ? (
               <ul style={{paddingLeft: '20px'}}>
-                {data.step2.salary_show_type != 2 && <li>{getSalary()}</li>}
-                <li>{data.step2.additional_salary_info}</li>
+                {jobData?.additional_job_information?.is_salary_info_show !=
+                  SalaryShowOption.NOTHING && <li>{getSalary()}</li>}
+                <li>
+                  {jobData?.additional_job_information?.additional_salary_info}
+                </li>
               </ul>
             ) : (
               getSalary()
             )}
           </JobPreviewSubComponent>
           <JobPreviewSubComponent
-            title={
-              messages['job_posting.compensation_and_other_benefits'] as string
-            }>
+            title={messages['job_posting.compensation_and_other_benefits']}>
             {getOtherBenefits()}
           </JobPreviewSubComponent>
 
-          <JobPreviewSubComponent
-            title={messages['job_posting.job_source'] as string}>
-            Nise3 Online Job Posting.
+          <JobPreviewSubComponent title={messages['job_posting.job_source']}>
+            Nise Online Job Posting.
           </JobPreviewSubComponent>
-          <JobPreviewSubComponent
-            title={messages['job_posting.published_on'] as string}>
-            {formatDate(data.publish_date, {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
-          </JobPreviewSubComponent>
+          {jobData?.primary_job_information?.published_at && (
+            <JobPreviewSubComponent
+              title={messages['job_posting.published_on']}>
+              {formatDate(jobData.primary_job_information.published_at, {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </JobPreviewSubComponent>
+          )}
         </Grid>
         <Grid item xs={1} md={4}>
           <Typography>
-            <b>Category:</b> {data.step1.job_sector_title}/
-            {data.step1.occupation_title}
+            <b>{messages['job_preview.job_sector_occupation']}</b>{' '}
+            {jobData?.primary_job_information?.job_sector_title}/
+            {jobData?.primary_job_information?.occupation_title}
           </Typography>
           <Card sx={{border: '1px solid #bbbbbb', marginTop: '10px'}}>
             <Box
@@ -638,130 +678,189 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
                 padding: '10px',
                 color: 'common.white',
               }}>
-              Job Summary
+              {messages['job_preview.job_summary']}
             </Box>
             <CardContent>
-              <Body2>
-                <b>{messages['job_posting.published_on']}</b>{' '}
-                {formatDate(data.publish_date, {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })}
+              {jobData.primary_job_information.published_at && (
+                <Body2>
+                  <b>{messages['job_posting.published_on']}</b>{' '}
+                  {formatDate(jobData.primary_job_information.published_at, {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                  })}
+                </Body2>
+              )}
+              <Body2 sx={{marginTop: '6px'}}>
+                <b>{messages['job_preview_summary.vacancy']} </b>
+                {jobData?.primary_job_information?.no_of_vacancies
+                  ? formatNumber(
+                      jobData?.primary_job_information?.no_of_vacancies,
+                    )
+                  : messages['common.n_a']}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Vacancy: </b>
-                {data.step1.not_applicable
-                  ? 'N/A'
-                  : formatNumber(data.step1.vacancy)}
-              </Body2>
-              <Body2 sx={{marginTop: '6px'}}>
-                <b>Job Nature: </b>
+                <b>{messages['job_preview_summary.job_nature']} </b>
                 {getJobNature()}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Age: </b>
-                {getAgeText()}
+                <b>{messages['job_preview_summary.age']} </b>
+                {getAgeText() ? getAgeText() : messages['common.n_a']}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Experience: </b>
+                <b>{messages['job_preview_summary.experience']} </b>
                 {getExperienceText()}
               </Body2>
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Job Location: </b>
-                {data.step2.job_location}
+                <b>{messages['job_preview_summary.job_location']} </b>
+                {jobData?.additional_job_information?.job_locations
+                  ?.map((location: any) => location.title)
+                  .join(', ')}
               </Body2>
-              {data.step2.salary_show_type != 2 && (
+              {jobData?.additional_job_information?.is_salary_info_show !=
+                SalaryShowOption.NOTHING && (
                 <Body2 sx={{marginTop: '6px'}}>
-                  <b>Salary: </b>
+                  <b>{messages['job_preview_summary.salary']} </b>
                   {getSalary()}
                 </Body2>
               )}
               <Body2 sx={{marginTop: '6px'}}>
-                <b>Application Deadline: </b>
-                {formatDate(data.step1.deadline, {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })}
+                <b>{messages['job_preview_summary.application_deadline']} </b>
+                {jobData?.primary_job_information?.application_deadline
+                  ? formatDate(
+                      jobData.primary_job_information.application_deadline,
+                      {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      },
+                    )
+                  : ''}
               </Body2>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} textAlign={'center'} mt={2}>
           <S2 fontWeight={'bold'} className={classes.footerTitle}>
-            Read Before Apply
+            {messages['job_preview.read_before_apply']}
           </S2>
-          {data.step1.special_instruction && (
+          {jobData?.primary_job_information
+            ?.special_instruction_for_job_seekers && (
             <Body2 mt={2} color={'grey.600'}>
-              {data.step1.special_instruction}
+              {
+                jobData?.primary_job_information
+                  ?.special_instruction_for_job_seekers
+              }
             </Body2>
           )}
-          {data.step1.is_photograph_enclosed && (
+          {jobData?.primary_job_information
+            ?.is_photograph_enclose_with_resume == 1 && (
             <S2 mt={1}>
-              <span style={{color: 'red'}}>*Photograph</span> must be enclosed
-              with the resume.
+              <IntlMessages
+                id={'job_preview.photograph_enclose_with_resume'}
+                values={{
+                  photo: (
+                    <span style={{color: 'red'}}>
+                      *{messages['job_preview.photograph']}
+                    </span>
+                  ),
+                }}
+              />
             </S2>
           )}
 
-          <S2 fontWeight={'bold'} mt={2}>
-            Apply Procedure
-          </S2>
+          <Button
+            color={'primary'}
+            size={'medium'}
+            variant={'contained'}
+            sx={{marginTop: '15px'}}>
+            {messages['common.apply_online']}
+          </Button>
 
-          {data.step1.is_apply_online && (
-            <Button
-              color={'primary'}
-              size={'medium'}
-              variant={'contained'}
-              sx={{marginTop: '15px'}}>
-              Apply Online
-            </Button>
-          )}
-
-          {data.step1.resume_receiving_status == 1 && (
+          {jobData?.primary_job_information?.resume_receiving_option ==
+            ResumeReceivingOptions.EMAIL && (
             <Box mt={3}>
-              <S2>Email</S2>
+              <S2>{messages['common.email']}</S2>
               <Body2 color={'grey.600'}>
-                Send your CV to{' '}
-                <span style={{fontWeight: 'bold'}}>{data.step1.email} </span>
-                {data.step1.use_nise3_email && (
+                <IntlMessages
+                  id={'job_preview.send_your_cv'}
+                  values={{
+                    email: (
+                      <a
+                        style={{
+                          color: 'blue',
+                          textDecoration: 'underline',
+                          fontWeight: 'bold',
+                        }}
+                        href={
+                          'mailto:' + jobData?.primary_job_information?.email
+                        }>
+                        {jobData?.primary_job_information?.email}{' '}
+                      </a>
+                    ),
+                  }}
+                />
+                {/*{jobData?.primary_job_information?.is_use_nise3_mail_system ==
+                  1 && (
                   <React.Fragment>
-                    or to Email CV from{' '}
-                    <span style={{fontWeight: 'bold'}}>NISE3</span> account{' '}
-                    <Link href={''} target={'_blank'}>
-                      Click here
+                    <IntlMessages
+                      id={'job_preview.or_from_nise_account'}
+                      values={{
+                        nise: <span style={{fontWeight: 'bold'}}>NISE</span>,
+                      }}
+                    />
+                    <Link
+                      style={{
+                        color: 'blue',
+                        textDecoration: 'underline',
+                      }}
+                      href={''}
+                      target={'_blank'}>
+                      {messages['common.click_here']}
                     </Link>
                   </React.Fragment>
-                )}
+                )}*/}
               </Body2>
             </Box>
           )}
 
-          {data.step1.resume_receiving_status == 2 && (
+          {jobData?.primary_job_information?.resume_receiving_option ==
+            ResumeReceivingOptions.HARD_COPY && (
             <Box mt={3}>
-              <S2 fontWeight={'bold'}>Hard Copy</S2>
+              <S2 fontWeight={'bold'}>{messages['job_posting.hard_copy']}</S2>
               <Body2 color={'grey.600'} sx={{whiteSpace: 'break-spaces'}}>
-                {data.step1.hard_copy}
+                {jobData?.primary_job_information?.instruction_for_hard_copy}
               </Body2>
             </Box>
           )}
 
-          {data.step1.resume_receiving_status == 3 && (
+          {jobData?.primary_job_information?.resume_receiving_option ==
+            ResumeReceivingOptions.WALK_IN_INTERVIEW && (
             <Box mt={3}>
-              <S2 fontWeight={'bold'}>Walk in Interview</S2>
+              <S2 fontWeight={'bold'}>
+                {messages['job_posting.walk_in_interview']}
+              </S2>
               <Body2 color={'grey.600'} sx={{whiteSpace: 'break-spaces'}}>
-                {data.step1.walk_in_interview}
+                {
+                  jobData?.primary_job_information
+                    ?.instruction_for_walk_in_interview
+                }
               </Body2>
             </Box>
           )}
 
           <Body1 mt={2}>
-            Application Deadline:{' '}
-            {formatDate(data.step1.deadline, {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
+            {messages['job_preview_summary.application_deadline']}{' '}
+            {jobData?.primary_job_information?.application_deadline
+              ? formatDate(
+                  jobData.primary_job_information.application_deadline,
+                  {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                  },
+                )
+              : ''}
           </Body1>
         </Grid>
         <Grid
@@ -772,14 +871,14 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
             borderTop: '1px solid #e9e9e9',
           }}>
           <S2 fontWeight={'bold'} mb={1}>
-            Company Information
+            {messages['job_preview.company_information']}
           </S2>
           <Box color={'grey.600'}>
             <Body2>{getCompanyName()}</Body2>
-            {data.step4.is_show_company_address && getCompanyAddress()}
-            {data.step4.is_show_company_business && (
-              <Body2>{getCompanyBusiness()}</Body2>
-            )}
+            {jobData?.company_info_visibility?.is_company_address_visible ==
+              SHOW && getCompanyAddress()}
+            {jobData?.company_info_visibility?.is_company_business_visible ==
+              SHOW && <Body2>{getCompanyBusiness()}</Body2>}
           </Box>
         </Grid>
       </Grid>
@@ -795,6 +894,8 @@ const PreviewJob = ({jobId, onBack, onContinue}: Props) => {
         </Button>
       </Box>
     </StyledBox>
+  ) : (
+    <></>
   );
 };
 

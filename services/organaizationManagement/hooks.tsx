@@ -1,16 +1,19 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
   API_HUMAN_RESOURCES,
   API_JOB_SECTORS,
   API_OCCUPATIONS,
+  API_ORGANIZATION_PROFILE,
   API_ORGANIZATION_SERVICES,
   API_ORGANIZATION_TYPES,
+  API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATION_UNIT_TYPES,
   API_ORGANIZATION_UNITS,
-  API_ORGANIZATION_UNIT_HIERARCHY,
   API_ORGANIZATIONS,
-  API_SKILLS,
+  API_PUBLIC_JOB_SECTORS,
+  API_PUBLIC_ORGANIZATION_TYPES,
   API_RANK_TYPES,
   API_RANKS,
 } from '../../@softbd/common/apiRoutes';
@@ -29,6 +32,10 @@ export function useFetchJobSectors(params: any) {
   return useAxiosSWR([API_JOB_SECTORS, params]);
 }
 
+export function useFetchPublicJobSectors(params: any) {
+  return useAxiosSWR([API_PUBLIC_JOB_SECTORS, params]);
+}
+
 export function useFetchOrganizationType(organizationTypeId: number | null) {
   return useAxiosSWR(
     organizationTypeId
@@ -39,6 +46,14 @@ export function useFetchOrganizationType(organizationTypeId: number | null) {
 
 export function useFetchOrganizationTypes(params: any) {
   return useAxiosSWR([API_ORGANIZATION_TYPES, params]);
+}
+
+export function useFetchPublicOrganizationTypes(params: any) {
+  return useAxiosSWR([API_PUBLIC_ORGANIZATION_TYPES, params]);
+}
+
+export function useFetchAssociationTrades(params: any) {
+  return useAxiosSWR([API_ASSOCIATION_TRADES, params]);
 }
 
 export function useFetchOrganization(organizationId: number | null) {
@@ -87,14 +102,6 @@ export function useFetchOrganizationService(serviceId: number | null) {
   );
 }
 
-export function useFetchSkill(skillId: number | null) {
-  return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
-}
-
-export function useFetchSkills(params: any) {
-  return useAxiosSWR([API_SKILLS, params]);
-}
-
 export function useFetchRankType(rankTypeId: number | null) {
   return useAxiosSWR(rankTypeId ? API_RANK_TYPES + '/' + rankTypeId : null);
 }
@@ -139,4 +146,8 @@ export function useFetchHumanResource(humanResourceId: number | null) {
 
 export function useFetchHumanResources(params: any) {
   return useAxiosSWR([API_HUMAN_RESOURCES, params]);
+}
+
+export function useFetchOrganizationProfile(params: any) {
+  return useAxiosSWR([API_ORGANIZATION_PROFILE, params]);
 }

@@ -28,12 +28,18 @@ const StyledIconButton = styled(IconButton)(({theme}) => ({
     height: '100%',
     fontSize: 16,
     borderRadius: 0,
+    [`&:hover`]: {
+      background: 'none',
+      transition: 'all .7s ease',
+      transform: 'scale(1.1)',
+    },
     [theme.breakpoints.up('md')]: {
       fontWeight: Fonts.MEDIUM,
       justifyContent: 'center',
       width: 'auto',
       textTransform: 'uppercase',
       marginTop: 0,
+      marginRight: '10px',
     },
     [theme.breakpoints.up('lg')]: {
       fontSize: 14,

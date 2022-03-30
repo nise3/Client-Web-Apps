@@ -11,12 +11,14 @@ interface LinkProp {
   decorated?: boolean;
   passHref?: boolean;
   target?: '_self' | '_blank' | '_parent' | '_top';
+
   [x: string]: any;
 }
 
 interface TextProp {
   children?: any;
   className?: string;
+
   [x: string]: any;
 }
 
@@ -24,6 +26,7 @@ interface HeadingProp {
   children?: any;
   className?: string;
   centered?: boolean;
+
   [x: string]: any;
 }
 
@@ -73,6 +76,7 @@ export const Text = ({children, ...props}: TextProp) => (
 export const H1 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h1'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}
@@ -82,6 +86,7 @@ export const H1 = ({children, centered = false, ...props}: HeadingProp) => (
 export const H2 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h2'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}
@@ -91,6 +96,7 @@ export const H2 = ({children, centered = false, ...props}: HeadingProp) => (
 export const H3 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h3'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}
@@ -100,6 +106,7 @@ export const H3 = ({children, centered = false, ...props}: HeadingProp) => (
 export const H4 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h4'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}
@@ -109,6 +116,7 @@ export const H4 = ({children, centered = false, ...props}: HeadingProp) => (
 export const H5 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h5'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}
@@ -118,6 +126,7 @@ export const H5 = ({children, centered = false, ...props}: HeadingProp) => (
 export const H6 = ({children, centered = false, ...props}: HeadingProp) => (
   <Typography
     variant='h6'
+    tabIndex={0}
     style={centered ? {textAlign: 'center'} : {}}
     {...props}>
     {children}

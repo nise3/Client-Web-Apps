@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TextField from "@mui/material/TextField";
+import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
@@ -20,20 +20,21 @@ type Props = {
 };
 
 const CustomTimePicker: any = (inputProps: Props) => {
-
-  return inputProps.isLoading ? (<TextInputSkeleton />) : (
+  return inputProps.isLoading ? (
+    <TextInputSkeleton />
+  ) : (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TextField
         id={inputProps.id}
         label={inputProps.label}
-        type="time"
+        type='time'
         defaultValue={inputProps.defaultValue}
         variant={inputProps.variant ? inputProps.variant : 'outlined'}
         size={inputProps.size ? inputProps.size : 'small'}
         className={inputProps.className}
         InputLabelProps={{
           shrink: true,
-          required: inputProps.required || false
+          required: inputProps.required || false,
         }}
         fullWidth
         {...inputProps.register(inputProps.id)}
@@ -41,6 +42,5 @@ const CustomTimePicker: any = (inputProps: Props) => {
     </LocalizationProvider>
   );
 };
-
 
 export default CustomTimePicker;

@@ -86,8 +86,8 @@ const JobPostingView = () => {
   const router = useRouter();
   const {postStep, jobId} = router.query;
   const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const [completedSteps] = useState<any>([1, 2, 3, 4, 5]);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [lastestStep, setLastestStep] = useState<any>(1);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
@@ -102,25 +102,11 @@ const JobPostingView = () => {
   }, [postStep, jobId]);
 
   const handleNext = () => {
-    router
-      .push({
-        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep + 1),
-        query: {
-          jobId: jobId,
-        },
-      })
-      .then(() => {});
+    gotoStep(activeStep + 1);
   };
 
   const handleBack = () => {
-    router
-      .push({
-        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + (activeStep - 1),
-        query: {
-          jobId: jobId,
-        },
-      })
-      .then(() => {});
+    gotoStep(activeStep - 1);
   };
 
   const gotoStep = (step: number) => {
@@ -134,12 +120,25 @@ const JobPostingView = () => {
       .then(() => {});
   };
 
+  const setLatestStep = (step: number) => {
+    if (activeStep > step) {
+      gotoStep(step);
+    }
+    if (step) {
+      setLastestStep(step);
+    }
+  };
+
   const getCurrentStepForm = useCallback(() => {
     if (jobIdState) {
       switch (activeStep) {
         case 1:
           return (
-            <PrimaryJobInformation jobId={jobIdState} onContinue={handleNext} />
+            <PrimaryJobInformation
+              jobId={jobIdState}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
           );
         case 2:
           return (
@@ -147,6 +146,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 3:
@@ -155,6 +155,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 4:
@@ -163,6 +164,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 5:
@@ -171,6 +173,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 6:
@@ -179,6 +182,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 7:
@@ -187,6 +191,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         case 8:
@@ -195,6 +200,7 @@ const JobPostingView = () => {
               jobId={jobIdState}
               onBack={handleBack}
               onContinue={handleNext}
+              setLatestStep={setLatestStep}
             />
           );
         default:
@@ -206,9 +212,9 @@ const JobPostingView = () => {
   }, [activeStep]);
 
   const onStepIconClick = (step: number) => {
-    //if (completedSteps.includes(step)) {
-    gotoStep(step);
-    //}
+    if (step <= lastestStep) {
+      gotoStep(step);
+    }
   };
 
   if (!isValid) {
@@ -224,7 +230,7 @@ const JobPostingView = () => {
       <Stepper activeStep={activeStep - 1} alternativeLabel>
         {steps.map((step: StepObj) => {
           const stepProps: {completed?: boolean} = {
-            completed: completedSteps.includes(step.id),
+            completed: step.id < lastestStep,
           };
 
           const labelProps: {

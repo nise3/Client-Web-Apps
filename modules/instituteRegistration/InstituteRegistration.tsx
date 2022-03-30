@@ -31,6 +31,7 @@ import {useRouter} from 'next/router';
 import CustomFilterableFormSelect from '../../@softbd/elements/input/CustomFilterableFormSelect';
 import {classes, StyledContainer} from './Registration.style';
 import {District, Upazila} from '../../shared/Interface/location.interface';
+import {InstituteTypes} from '../../@softbd/utilities/InstituteTypes';
 
 const InstituteRegistration = () => {
   const router = useRouter();
@@ -51,11 +52,6 @@ const InstituteRegistration = () => {
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
-
-  const instituteType = {
-    NON_GOVT: '0',
-    GOVT: '1',
-  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -220,16 +216,16 @@ const InstituteRegistration = () => {
                 label={'common.institute_type'}
                 radios={[
                   {
-                    key: instituteType.GOVT,
+                    key: InstituteTypes.GOVERNMENT,
                     label: messages['common.government'],
                   },
                   {
-                    key: instituteType.NON_GOVT,
+                    key: InstituteTypes.NON_GOVERNMENT,
                     label: messages['common.non_government'],
                   },
                 ]}
                 control={control}
-                defaultValue={instituteType.GOVT}
+                defaultValue={InstituteTypes.GOVERNMENT}
               />
             </Grid>
             <Grid item xs={12} md={6}>

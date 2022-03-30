@@ -1,17 +1,26 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Card, Divider, Grid, MenuItem, Select} from '@mui/material';
+import {
+  Button,
+  Card,
+  CircularProgress,
+  Divider,
+  Grid,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import RecentCourseComponent from './components/RecentCourseComponent';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {Fonts} from '../../../shared/constants/AppEnums';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
 
 const PREFIX = 'CourseListSection';
 
@@ -69,15 +78,18 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 const CourseListSection = () => {
   const {messages} = useIntl();
-  const [selectedValue, setSelectedValue] = useState('recent');
-  const URL = `/course-list/${selectedValue}`;
+  const selectedType = useRef<string>('recent');
+  const URL = `/course-list/${selectedType.current}`;
   const authYouth = useAuthUser<YouthAuthUser>();
 
-  const [courseFilters, setCourseFilters] = useState({page_size: 3});
-  const {data: courses, metaData: coursesMetaData} = useFetchCourseList(
-    selectedValue,
-    courseFilters,
-  );
+  const [courseFilters, setCourseFilters] = useState({
+    page_size: PageSizes.THREE,
+  });
+  const {
+    data: courses,
+    metaData: coursesMetaData,
+    isLoading,
+  } = useFetchCourseList(selectedType.current, courseFilters);
 
   const handleCourseCategoryChange = useCallback((event: any) => {
     const value = event.target.value;
@@ -91,7 +103,7 @@ const CourseListSection = () => {
       });
     }
 
-    setSelectedValue(value);
+    selectedType.current = value;
   }, []);
 
   return (
@@ -101,7 +113,7 @@ const CourseListSection = () => {
           <Select
             id='recentCourses'
             autoWidth
-            defaultValue={selectedValue}
+            defaultValue={selectedType.current}
             variant='outlined'
             className={clsx(classes.selectStyle, classes.selectControl)}
             onChange={handleCourseCategoryChange}>
@@ -119,7 +131,12 @@ const CourseListSection = () => {
             </MenuItem>
           </Select>
         </Grid>
-        {courses &&
+
+        {isLoading ? (
+          <Grid item xs={12} textAlign={'center'} mt={4} mb={4}>
+            <CircularProgress color='primary' size={50} />
+          </Grid>
+        ) : courses && courses.length > 0 ? (
           courses.map((course: any, index: number) => {
             return (
               <Grid item xs={12} key={index} className={classes.courseItem}>
@@ -127,7 +144,14 @@ const CourseListSection = () => {
                 <RecentCourseComponent data={course} />
               </Grid>
             );
-          })}
+          })
+        ) : (
+          <NoDataFoundComponent
+            messageType={messages['course.label']}
+            messageTextType={'inherit'}
+          />
+        )}
+
         {coursesMetaData.current_page < coursesMetaData.total_page && (
           <Grid item xs={12} style={{paddingLeft: 15}}>
             <Link href={URL} passHref>
@@ -141,10 +165,6 @@ const CourseListSection = () => {
               </Button>
             </Link>
           </Grid>
-        )}
-
-        {courses?.length <= 0 && (
-          <NoDataFoundComponent messageTextType={'subtitle2'} />
         )}
       </Grid>
     </StyledCard>

@@ -18,10 +18,12 @@ import {assignPermissions} from '../../../services/userManagement/PermissionSubG
 import {getPermissionGroupWithPermissions} from '../../../services/userManagement/PermissionGroupService';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import Card from '@mui/material/Card';
+import BackButton from '../../../@softbd/elements/button/BackButton';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const AssignPermissionToPermissionSubGroupPage = () => {
   const router = useRouter();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const {permissionSubGroupId} = router.query;
 
@@ -156,15 +158,23 @@ const AssignPermissionToPermissionSubGroupPage = () => {
 
   return (
     <PageBlock
-      title={messages['common.assign_permission']}
+      title={
+        <IntlMessages
+          id='common.assign_permission'
+          values={{subject: itemData?.title}}
+        />
+      }
       extra={[
-        <SubmitButton
-          key={1}
-          onClick={syncPermissionAction}
-          isLoading={isLoading}
-          isSubmitting={isSubmitting}
-          label={messages['permissions.sync_permission'] as string}
-        />,
+        <React.Fragment key={1}>
+          <BackButton key={1} url={'/permission-sub-groups'} />
+          <SubmitButton
+            key={2}
+            onClick={syncPermissionAction}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            label={messages['permissions.sync_permission'] as string}
+          />
+        </React.Fragment>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
@@ -196,7 +206,11 @@ const AssignPermissionToPermissionSubGroupPage = () => {
                             handlePermissionCheck(permission.id, module)
                           }
                         />
-                        {lodashStartCase(permission.title)}
+                        {lodashStartCase(
+                          locale == LocaleLanguage.BN
+                            ? permission.title
+                            : permission.title_en,
+                        )}
                       </label>
                     </>
                   );

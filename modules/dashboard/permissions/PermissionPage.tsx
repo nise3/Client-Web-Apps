@@ -17,9 +17,10 @@ import {useFetchPermissions} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';
 import {deletePermission} from '../../../services/userManagement/PermissionService';
 import PermissionMethodsLabelByKey from '../../../@softbd/utilities/Permission';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PermissionPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -85,6 +86,12 @@ const PermissionPage = () => {
       {
         Header: messages['common.name'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.name_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['permission.module'],
@@ -123,7 +130,7 @@ const PermissionPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

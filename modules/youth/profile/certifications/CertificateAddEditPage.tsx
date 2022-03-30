@@ -96,7 +96,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
     setValue,
     watch,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
   const watchStartDate: any = watch(['start_date', 'end_date']);
@@ -245,6 +245,7 @@ const CertificateAddEditPage: FC<CertificateAddEditPageProps> = ({
               <FileUploadComponent
                 id='certificate_file_path'
                 defaultFileUrl={itemData?.certificate_file_path}
+                acceptedFileTypes={['image/*', 'application/pdf']}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}

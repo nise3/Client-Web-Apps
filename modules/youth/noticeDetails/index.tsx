@@ -7,6 +7,7 @@ import {
   Grid,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
@@ -18,6 +19,7 @@ import {useRouter} from 'next/router';
 import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {Skeleton} from '@mui/material';
+import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'NoticeDetails';
 
@@ -53,6 +55,8 @@ const NoticeDetails = () => {
     Number(noticeId),
   );
 
+  const theme = useTheme();
+
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
@@ -86,10 +90,19 @@ const NoticeDetails = () => {
                 />
               </Tooltip>
               <Tooltip title={messages['common.download_label']}>
-                <SystemUpdateAltOutlinedIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#2fc94d'}}
-                />
+                {notice?.file_path ? (
+                  <Link target={'_blank'} href={notice?.file_path}>
+                    <SystemUpdateAltOutlinedIcon
+                      className={classes.icon}
+                      sx={{backgroundColor: '#2fc94d'}}
+                    />
+                  </Link>
+                ) : (
+                  <SystemUpdateAltOutlinedIcon
+                    className={classes.icon}
+                    sx={{backgroundColor: '#2fc94d'}}
+                  />
+                )}
               </Tooltip>
             </Grid>
           </Grid>
@@ -105,19 +118,28 @@ const NoticeDetails = () => {
             <Skeleton variant='rectangular' width={1150} height={400} />
           </Grid>
         ) : (
-          <Grid item xs={12}>
-            <CardMedia
-              component='img'
-              height='300'
-              image={
-                notice?.main_image_path
-                  ? notice?.main_image_path
-                  : '/images/notice_details.jpg'
-              }
-              alt={notice?.image_alt_title}
-              title={notice?.title}
-            />
-          </Grid>
+          <>
+            {notice && notice?.main_image_path && (
+              <Grid item xs={12}>
+                <CardMedia
+                  component='img'
+                  height='400'
+                  sx={{
+                    objectFit: 'unset',
+                    [theme.breakpoints.down('sm')]: {
+                      height: 150,
+                    },
+                    [theme.breakpoints.up('xl')]: {
+                      height: 550,
+                    },
+                  }}
+                  image={notice?.main_image_path}
+                  alt={notice?.image_alt_title}
+                  title={notice?.title}
+                />
+              </Grid>
+            )}
+          </>
         )}
 
         <Grid item xs={12}>

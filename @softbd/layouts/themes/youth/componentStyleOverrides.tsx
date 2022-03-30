@@ -23,7 +23,7 @@ export default function componentStyleOverrides(theme: Theme) {
     },
     MuiSelect: {
       styleOverrides: {
-        root: {
+        select: {
           background:
             theme.palette.mode === ThemeMode.LIGHT
               ? theme.palette.grey['50']

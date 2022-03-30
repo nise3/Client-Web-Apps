@@ -1,9 +1,10 @@
 import React from 'react';
 import {S2} from '../../../../../../@softbd/elements/common';
 import {Box} from '@mui/material';
+import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 interface Props {
-  title: string;
+  title: string | MessageFormatElement[];
   titleProps?: any;
   children: React.ReactNode;
   childContainerProps?: any;

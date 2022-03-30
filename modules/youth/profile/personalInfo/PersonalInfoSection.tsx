@@ -29,6 +29,7 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -90,7 +91,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
-  const {messages, formatNumber} = useIntl();
+  const {messages, formatNumber, locale} = useIntl();
   const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
@@ -123,6 +124,20 @@ const PersonalInfoSection = () => {
     })();
   };
 
+  const getName = () => {
+    let firstName = authUser?.first_name;
+    let lastName = authUser?.last_name;
+
+    if (locale != LocaleLanguage.BN) {
+      if (authUser?.first_name_en) {
+        firstName = authUser.first_name_en;
+        lastName = authUser?.last_name_en ? authUser?.last_name_en : '';
+      }
+    }
+
+    return firstName + ' ' + lastName;
+  };
+
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
   ) : (
@@ -144,7 +159,7 @@ const PersonalInfoSection = () => {
                     ...result.h5,
                   }}
                   className={classes.textColor}>
-                  {authUser?.first_name} {authUser?.last_name}
+                  {getName()}
                 </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}

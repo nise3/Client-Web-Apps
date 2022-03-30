@@ -13,7 +13,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
-import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+import {useFetchAssociationTrades} from '../../services/organaizationManagement/hooks';
 import {
   useFetchDistricts,
   useFetchDivisions,
@@ -27,7 +27,7 @@ import {filterDistrictsByDivisionId} from '../../services/locationManagement/loc
 import {industryAssociationRegistration} from '../../services/IndustryAssociationManagement/IndustryAssociationRegistrationService';
 import {District} from '../../shared/Interface/location.interface';
 
-const OrganizationRegistration = () => {
+const IndustryAssociationRegistration = () => {
   const router = useRouter();
 
   const {messages} = useIntl();
@@ -41,11 +41,12 @@ const OrganizationRegistration = () => {
   const {data: districts, isLoading: isLoadingDistricts}: any =
     useFetchDistricts(districtFilters);
 
-  const [associationTypesFilter] = useState({});
+  const [associationTradeFilter] = useState({});
 
-  const {data: associationTypes} = useFetchOrganizationTypes(
-    associationTypesFilter,
+  const {data: associationTrades} = useFetchAssociationTrades(
+    associationTradeFilter,
   );
+
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const onchangeDivision = useCallback(
     (divisionId: number) => {
@@ -72,17 +73,17 @@ const OrganizationRegistration = () => {
         .email()
         .required()
         .label(messages['common.email'] as string),
-      association_type_id: yup
+      trade_id: yup
         .string()
         .trim()
         .required()
-        .label(messages['association.association_type'] as string),
+        .label(messages['association.association_trades'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
         .required()
         .label(messages['association.head_of_office_or_chairman'] as string),
-      trade_no: yup
+      trade_number: yup
         .string()
         .trim()
         .required()
@@ -175,6 +176,7 @@ const OrganizationRegistration = () => {
         <Typography
           align={'center'}
           variant={'h6'}
+          data-test-id='heading'
           style={{
             marginBottom: '10px',
             fontWeight: 'bold',
@@ -200,11 +202,11 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='association_type_id'
+                id='trade_id'
                 isLoading={isLoading}
-                label={messages['association.association_type']}
+                label={messages['association.association_trades']}
                 control={control}
-                options={associationTypes}
+                options={associationTrades}
                 optionValueProp={'id'}
                 optionTitleProp={['title_en', 'title']}
                 errorInstance={errors}
@@ -214,7 +216,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='trade_no'
+                id='trade_number'
                 label={messages['association.trade_no']}
                 register={register}
                 errorInstance={errors}
@@ -238,7 +240,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='loc_district_id '
+                id='loc_district_id'
                 label={messages['districts.label']}
                 isLoading={isLoadingDistricts}
                 control={control}
@@ -271,7 +273,7 @@ const OrganizationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='mobile '
+                id='mobile'
                 label={messages['common.mobile']}
                 register={register}
                 errorInstance={errors}
@@ -281,6 +283,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='email'
+                inputProps={{'data-test-id': 'email'}}
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -337,6 +340,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_email'
+                inputProps={{'data-test-id': 'contact_person_email'}}
                 label={messages['common.contact_person_email']}
                 register={register}
                 errorInstance={errors}
@@ -347,6 +351,7 @@ const OrganizationRegistration = () => {
               <CustomTextInput
                 required
                 id='contact_person_mobile'
+                inputProps={{'data-test-id': 'contact_person_mobile'}}
                 label={messages['common.contact_person_mobile']}
                 register={register}
                 errorInstance={errors}
@@ -395,4 +400,4 @@ const OrganizationRegistration = () => {
   );
 };
 
-export default OrganizationRegistration;
+export default IndustryAssociationRegistration;

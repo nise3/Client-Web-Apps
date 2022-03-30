@@ -5,14 +5,17 @@ import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsView
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchFAQ} from '../../../services/instituteManagement/hooks';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import IconFAQ from '../../../@softbd/icons/IconFAQ';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchFAQ,
+} from '../../../services/cmsManagement/hooks';
 import {getLanguageLabel} from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -33,10 +36,11 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         open={true}
         title={
           <>
-            <IconInstitute />
+            <IconFAQ />
             <IntlMessages id='menu.faq' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -59,7 +63,7 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['institute.label']}
+                label={messages['common.institute_name']}
                 value={itemData?.institute_title}
                 isLoading={isLoading}
               />
@@ -75,6 +79,17 @@ const FAQDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
           )}
+
+          {itemData?.show_in &&
+            itemData.show_in == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_association']}
+                  value={itemData?.industry_association_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
 
           <Grid item xs={12} md={12}>
             <fieldset>

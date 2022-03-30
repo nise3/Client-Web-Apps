@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../@softbd/calendar/Calendar';
-import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   Box,
   Card,
@@ -27,6 +27,7 @@ import {
 } from '../../services/global/globalService';
 
 const localizer = momentLocalizer(moment);
+
 const EventCalendarView = () => {
   const {messages} = useIntl();
 
@@ -38,7 +39,7 @@ const EventCalendarView = () => {
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {
     addStartEndPropsToList(events);

@@ -7,22 +7,35 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_JOB_LISTS} from '../../../@softbd/common/apiRoutes';
+import {API_JOBS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteJob} from '../../../services/IndustryManagement/JobService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  deleteJob,
+  getJobId,
+  publishJob,
+} from '../../../services/IndustryManagement/JobService';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import PersonIcon from '@mui/icons-material/Person';
 import {useRouter} from 'next/router';
-import {LINK_JOB_CREATE_OR_UPDATE} from '../../../@softbd/common/appLinks';
+import {
+  LINK_JOB_CREATE_OR_UPDATE,
+  LINK_JOB_DETAILS_VIEW,
+} from '../../../@softbd/common/appLinks';
+import ApproveButton from '../industry-associations/ApproveButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
+import {Link} from '../../../@softbd/elements/common';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const JobListPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
 
@@ -32,15 +45,10 @@ const JobListPage = () => {
   const openJobCreateView = useCallback(() => {
     (async () => {
       try {
-        const jobId = 'IDSA-2fe8e68e-4456-43be-9d9d-481974a41890'; //await getJobId();
+        const response = await getJobId();
 
-        if (jobId) {
-          router
-            .push({
-              pathname: LINK_JOB_CREATE_OR_UPDATE + 'step1',
-              query: {jobId: jobId},
-            })
-            .then(() => {});
+        if (response && response?.data) {
+          openJobAddUpdateView(response.data);
         } else {
           errorStack('Failed to get job id');
         }
@@ -50,6 +58,23 @@ const JobListPage = () => {
     })();
   }, []);
 
+  const openJobAddUpdateView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step1',
+        query: {jobId: jobId},
+      })
+      .then(() => {});
+  }, []);
+
+  const openJobDetailsView = useCallback((jobId: string) => {
+    router
+      .push({
+        pathname: LINK_JOB_DETAILS_VIEW + jobId,
+      })
+      .then(() => {});
+  }, []);
+
   const deleteJobItem = async (jobId: number) => {
     let response = await deleteJob(jobId);
     if (isResponseSuccess(response)) {
@@ -57,6 +82,38 @@ const JobListPage = () => {
         <IntlMessages
           id='common.subject_deleted_successfully'
           values={{subject: <IntlMessages id='job_lists.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
+  const publishAction = async (jobId: string) => {
+    try {
+      const data: any = {status: 1};
+      let response = await publishJob(jobId, data);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_publish_successfully'
+            values={{subject: <IntlMessages id='common.job' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const archiveAction = async (jobId: string) => {
+    const data: any = {status: 2};
+    let response = await publishJob(jobId, data);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_publish_successfully'
+          values={{subject: <IntlMessages id='common.job' />}}
         />,
       );
       refreshDataTable();
@@ -78,66 +135,114 @@ const JobListPage = () => {
         },
       },
       {
-        Header: messages['common.job_id'],
-        accessor: 'job_id',
-      },
-      {
         Header: messages['common.post'],
-        accessor: 'position',
+        accessor: 'job_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
-        Header: messages['common.industry'],
-        accessor: 'industry',
+        Header: messages['common.post_en'],
+        accessor: 'job_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['common.applicants'],
-        accessor: 'applicants',
+        Header: messages['common.member'],
+        accessor: 'organization_title',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.organization_id) {
+            return <>{data?.organization_title}</>;
+          } else {
+            return <>{messages['member.none']}</>;
+          }
+        },
+      },
+      {
+        Header: messages['common.publish_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
             <>
-              <CustomChip
-                icon={<PersonIcon fontSize={'small'} />}
-                color={'primary'}
-                label={data.no_of_applicant}
-              />
+              {data.published_at
+                ? getMomentDateFormat(data.published_at, 'MM-DD-YYYY')
+                : 'Not published yet'}
             </>
           );
         },
       },
       {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        Header: messages['common.publication_deadline'],
+        accessor: 'application_deadline',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          return (
+            <>
+              {data.application_deadline
+                ? getMomentDateFormat(data.application_deadline, 'MM-DD-YYYY')
+                : 'Not fixed yet'}
+            </>
+          );
         },
       },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let today = new Date().toISOString().slice(0, 10);
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <ReadButton
+                onClick={() => {
+                  openJobDetailsView(data.job_id);
+                }}
+              />
+              <EditButton
+                onClick={() => {
+                  openJobAddUpdateView(data.job_id);
+                }}
+              />
               <DeleteButton
                 deleteAction={() => deleteJobItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              {!data?.published_at && data?.application_deadline >= today && (
+                <ApproveButton
+                  approveAction={() => publishAction(data.job_id)}
+                  approveTitle={messages['common.publish'] as string}
+                />
+              )}
+              {data?.published_at && data?.application_deadline < today ? (
+                <ApproveButton
+                  approveAction={() => archiveAction(data.job_id)}
+                  approveTitle={messages['common.archive'] as string}
+                />
+              ) : (
+                <></>
+              )}
+              <Link href={`${'jobs/candidates'}/${data?.job_id}`}>
+                <CommonButton
+                  btnText='common.candidates'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  variant={'text'}
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_JOB_LISTS,
+      urlPath: API_JOBS,
+      filters: {
+        job_title: 'search_text',
+      },
     });
 
   return (

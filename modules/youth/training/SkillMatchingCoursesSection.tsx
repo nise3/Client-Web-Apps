@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Button, Grid, Pagination, Stack} from '@mui/material';
+import {Button, Grid, Stack} from '@mui/material';
 import {ChevronRight} from '@mui/icons-material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
-import {useFetchCourseList} from '../../../services/youthManagement/hooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
@@ -12,6 +11,10 @@ import NoDataFoundComponent from '../common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../../services/instituteManagement/hooks';
+import CustomPaginationWithPageNumber from './components/CustomPaginationWithPageNumber';
+import {urlParamsUpdate} from '../youthConstants';
 
 const PREFIX = 'SkillMatchingCoursesSection';
 
@@ -43,7 +46,7 @@ const SkillMatchingCoursesSection = ({
 
   const [courseFilters, setCourseFilters] = useState<any>({
     skill_ids: [],
-    page_size: showAllCourses ? 8 : 4,
+    page_size: showAllCourses ? PageSizes.EIGHT : PageSizes.FOUR,
     page: 1,
   });
 
@@ -67,6 +70,11 @@ const SkillMatchingCoursesSection = ({
   }, [filters]);
 
   const pathValue = 'skill-matching';
+  let pathWithParams = pathValue;
+  if (Object.keys(router.query).length > 0) {
+    const params = router.asPath.split('?')[1];
+    pathWithParams += '?' + params;
+  }
   const {
     data: courseList,
     metaData: courseListMetaData,
@@ -74,12 +82,32 @@ const SkillMatchingCoursesSection = ({
   } = useFetchCourseList(pathValue, courseFilters);
 
   const page = useRef<any>(1);
-  const onPaginationChange = useCallback((event: any, currentPage: number) => {
-    page.current = currentPage;
-    setCourseFilters((params: any) => {
-      return {...params, ...{page: currentPage}};
-    });
-  }, []);
+  const onPaginationChange = useCallback(
+    (event: any, currentPage: number) => {
+      page.current = currentPage;
+      setCourseFilters((params: any) => {
+        return {...params, ...{page: currentPage}};
+      });
+      urlParamsUpdate(router, {...router.query, page: currentPage});
+    },
+    [router],
+  );
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setCourseFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value
+          ? event.target.value
+          : showAllCourses
+          ? PageSizes.EIGHT
+          : PageSizes.FOUR,
+      }));
+      urlParamsUpdate(router, {...router.query, page_size: event.target.value});
+    },
+    [router],
+  );
+
   return (
     <StyledGrid container spacing={3} mb={8}>
       <Grid item xs={12} sm={12}>
@@ -92,7 +120,7 @@ const SkillMatchingCoursesSection = ({
           {!showAllCourses && (
             <Grid item xs={6} sm={3} md={2} style={{textAlign: 'right'}}>
               <Link
-                href={`${path}/${pathValue}`}
+                href={`${path}/${pathWithParams}`}
                 style={{display: 'inline-block'}}>
                 <Button variant={'outlined'} size={'medium'} color={'primary'}>
                   {messages['common.see_all']}
@@ -126,19 +154,28 @@ const SkillMatchingCoursesSection = ({
                   display={'flex'}
                   justifyContent={'center'}>
                   <Stack spacing={2}>
-                    <Pagination
-                      page={page.current}
+                    <CustomPaginationWithPageNumber
+                      /*page={page.current}
                       count={courseListMetaData.total_page}
                       color={'primary'}
                       shape='rounded'
-                      onChange={onPaginationChange}
+                      onChange={onPaginationChange}*/
+
+                      count={courseListMetaData.total_page}
+                      currentPage={1}
+                      queryPageNumber={page.current}
+                      onPaginationChange={onPaginationChange}
+                      rowsPerPage={Number(router.query.page_size)}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                   </Stack>
                 </Grid>
               )}
             </>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['common.skill_matching_course']}
+            />
           )}
         </Grid>
       </Grid>

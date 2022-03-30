@@ -1,14 +1,20 @@
-import { createTheme, useTheme, Breakpoint } from '@mui/material/styles';
+import {Breakpoint, createTheme, useTheme} from '@mui/material/styles';
 import {useMediaQuery} from '@mui/material';
 import {CremaTheme} from '../../redux/types/AppContextPropsType';
 import moment from 'moment';
 import {useIntl} from 'react-intl';
+import {nationalities} from '../../@softbd/utilities/Nationalities';
 
 type BreakpointOrNull = Breakpoint | null;
 
 export const isBreakPointDown = (key: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
   const defaultTheme = createTheme();
-  return defaultTheme.breakpoints.values[key] > window.innerWidth;
+  return window.innerWidth < defaultTheme.breakpoints.values[key];
+};
+
+export const isBreakPointUp = (key: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
+  const defaultTheme = createTheme();
+  return window.innerWidth > defaultTheme.breakpoints.values[key];
 };
 
 export const useDownBreakPointChecker = (
@@ -165,4 +171,9 @@ export const checkPermission = (
     return routeAuth.some((r) => userRole.indexOf(r) >= 0);
   }
   return routeAuth.indexOf(userRole) >= 0;
+};
+
+export const getNationalityTitle = (id: any) => {
+  id = parseInt(id);
+  return nationalities[id - 1].title;
 };

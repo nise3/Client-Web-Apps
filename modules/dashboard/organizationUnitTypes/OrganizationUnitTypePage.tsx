@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -21,7 +21,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {Button} from '@mui/material';
 import Link from 'next/link';
 import {AccountTreeOutlined} from '@mui/icons-material';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PrimaryLightButton = styled(Button)(({theme}) => {
   return {
@@ -31,10 +31,8 @@ const PrimaryLightButton = styled(Button)(({theme}) => {
 });
 
 const OrganizationUnitTypePage = () => {
-  const authUser = useAuthUser();
-
   const {successStack} = useNotiStack();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
   const [organizationUnitTypeId, setOrganizationUnitTypeId] = useState<
     number | null
@@ -42,16 +40,7 @@ const OrganizationUnitTypePage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-  const [organizationUnitTypeFilters, setOrganizationUnitTypeFilters] =
-    useState({});
-
-  useEffect(() => {
-    if (authUser?.isOrganizationUser) {
-      setOrganizationUnitTypeFilters({
-        organization_id: authUser.organization?.id,
-      });
-    }
-  }, []);
+  const [organizationUnitTypeFilters] = useState({});
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -106,17 +95,26 @@ const OrganizationUnitTypePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        disableFilters: locale == LocaleLanguage.BN,
+        disableSortBy: true,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
-        accessor: 'organization_title_en',
-        disableFilters: true,
+        accessor: 'organization_title',
+        disableFilters: locale == LocaleLanguage.EN,
         disableSortBy: true,
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
@@ -158,7 +156,7 @@ const OrganizationUnitTypePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

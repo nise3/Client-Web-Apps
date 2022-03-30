@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -18,16 +18,38 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteCourse} from '../../../services/instituteManagement/CourseService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {LEVEL} from './CourseEnums';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
 
 const CoursePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
+  const [youthSkillsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+
+  const [skillFilterItems, setSkillFilterItems] = useState([]);
+
+  useEffect(() => {
+    if (skills) {
+      setSkillFilterItems(
+        skills.map((skill: any) => {
+          return {id: skill?.id, title: skill?.title};
+        }),
+      );
+    }
+  }, [skills]);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -64,6 +86,12 @@ const CoursePage = () => {
     }
   };
 
+  const courseLevelFilterItems = [
+    {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
+    {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
+    {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
+  ];
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
@@ -82,22 +110,51 @@ const CoursePage = () => {
         Header: messages['common.title'],
         accessor: 'title',
       },
+
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        filter: 'selectFilter',
+        selectFilterItems: skillFilterItems,
         isVisible: false,
       },
       {
         Header: messages['institute.label'],
         accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['institute.label'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
       {
         Header: messages['course.fee'],
         accessor: 'course_fee',
+        disableFilters: true,
       },
       {
         Header: messages['course.duration'],
         accessor: 'duration',
+        disableFilters: true,
+      },
+      {
+        Header: messages['course.course_level'],
+        accessor: 'level',
+        filter: 'selectFilter',
+        selectFilterItems: courseLevelFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.level == LEVEL.BEGINNER) {
+            return <>{messages['level.beginner']}</>;
+          } else if (data?.level == LEVEL.INTERMEDIATE) {
+            return <>{messages['level.intermediate']}</>;
+          } else {
+            return <>{messages['level.expert']}</>;
+          }
+        },
       },
       {
         Header: messages['common.status'],
@@ -126,7 +183,7 @@ const CoursePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale, skillFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

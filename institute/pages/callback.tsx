@@ -6,7 +6,7 @@ import {useRouter} from 'next/router';
 
 export default DefaultPage(() => {
   const {
-    query: {code},
+    query,
   } = useRouter();
   const dispatch = useDispatch();
 
@@ -15,10 +15,11 @@ export default DefaultPage(() => {
     //   window.location.hash.replace('#', ''),
     // );
     // console.log('authResult', authResult);
-    if (code) {
-      dispatch(onSSOSignInCallback(code as string));
+    console.log('callback- query', query);
+    if (query && query.code) {
+      dispatch(onSSOSignInCallback(query.code as string, '', query.session_state as string));
     }
-  }, [dispatch, code]);
+  }, [dispatch, query.code]);
 
   return <></>;
 });

@@ -10,7 +10,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
+import IconPermissionGroup from '../../../@softbd/icons/IconPermissionGroup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {useFetchPermissionGroup} from '../../../services/userManagement/hooks';
 import {
@@ -19,9 +19,11 @@ import {
 } from '../../../services/userManagement/PermissionGroupService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IPermissionGroup, IPermissionGroupAddEditPopupProps} from '../../../shared/Interface/userManagement.interface';
-
-
+import {
+  IPermissionGroup,
+  IPermissionGroupAddEditPopupProps,
+} from '../../../shared/Interface/userManagement.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 const initialValues = {
   title_en: '',
@@ -80,7 +82,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         key: itemData?.key,
-        row_status: String(itemData?.row_status)
+        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -112,7 +114,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconPermissionGroup />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -126,7 +128,7 @@ const PermissionGroupAddEditPopup: FC<IPermissionGroupAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

@@ -9,11 +9,12 @@ import {
 } from '@mui/material';
 import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {H1, H6} from '../../../@softbd/elements/common';
-import {useFetchInstitutesPublicGallery} from '../../../services/instituteManagement/hooks';
+import {H1} from '../../../@softbd/elements/common';
 import GalleryItemCardView from './GalleryItemCardView';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchPublicGalleryAlbums} from '../../../services/cmsManagement/hooks';
+import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'InstituteGallery';
 
@@ -47,21 +48,19 @@ const StyledContainer = styled(Container)(({theme}) => ({
 
 const InstituteGallery = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const [galleryFilter, setGalleryFilter] = useState<any>({
     only_parent_gallery_album: 1,
-    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
 
   const {
     data: galleryItems,
     isLoading: isLoadingGalleryItems,
     metaData,
-  } = useFetchInstitutesPublicGallery(galleryFilter);
+  } = useFetchPublicGalleryAlbums(galleryFilter);
   const page = useRef<any>(1);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
@@ -136,9 +135,10 @@ const InstituteGallery = () => {
           ) : (
             <Grid container justifyContent={'center'}>
               <Grid item>
-                <H6 style={{textAlign: 'center'}} py={5}>
-                  {messages['common.no_data_found']}
-                </H6>
+                <NoDataFoundComponent
+                  messageType={messages['common.gallery_album']}
+                  messageTextType={'h6'}
+                />
               </Grid>
             </Grid>
           )}

@@ -1,9 +1,8 @@
 import {Box, Button, CardMedia, Typography} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Link} from '../../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
+import {Link} from '../../../@softbd/elements/common';
 const PREFIX = 'LandingBannerTemplateCenterBackground';
 
 const classes = {
@@ -17,10 +16,20 @@ const StyledBox = styled(Box)(({theme}) => ({
   display: 'flex',
   position: 'relative',
   justifyContent: 'center',
+  zIndex: 0,
+  [theme.breakpoints.up('xl')]: {
+    height: 550,
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: 150,
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 300,
+  },
 
   [`& .${classes.image}`]: {
     zIndex: -1,
-    objectFit: 'cover',
+    objectFit: 'unset',
     height: '100%',
     width: '100%',
     position: 'absolute',

@@ -20,13 +20,14 @@ import {deleteBatch} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
-import AssignBatchButton from '../applicationManagement/AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const BatchesPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
@@ -88,15 +89,21 @@ const BatchesPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['common.courses'],
+        accessor: 'course_title',
       },
       {
         Header: messages['batches.total_and_available_seat'],
         accessor: 'number_of_seats',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -107,6 +114,7 @@ const BatchesPage = () => {
       {
         Header: messages['batches.registration_start_date'],
         accessor: 'registration_start_date',
+        filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
@@ -115,11 +123,34 @@ const BatchesPage = () => {
         },
       },
       {
+        Header: messages['batches.registration_end_date'],
+        accessor: 'registration_end_date',
+        filter: 'dateTimeFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.registration_end_date)}</span>
+          );
+        },
+      },
+      {
         Header: messages['batches.start_date'],
         accessor: 'batch_start_date',
+        filter: 'dateTimeFilter',
+        isVisible: false,
         Cell: (props: any) => {
           let data = props.row.original;
           return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
+        },
+      },
+      {
+        Header: messages['batches.end_date'],
+        accessor: 'batch_end_date',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
         },
       },
       {
@@ -144,7 +175,7 @@ const BatchesPage = () => {
                 deleteTitle='Are you sure?'
               />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
-                <AssignBatchButton
+                <CommonButton
                   btnText='youth.label'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                   style={{marginLeft: '10px'}}
@@ -158,7 +189,7 @@ const BatchesPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

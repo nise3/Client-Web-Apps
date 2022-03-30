@@ -1,19 +1,14 @@
 import React, {useState} from 'react';
 import ImageCarousel from '../../@softbd/elements/display/ImageCarousel/ImageCarousel';
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import BannerTemplateCenterBackground from './Components/BannerTemplateCenterBackground';
 import BannerTemplateRightLeft from './Components/BannerTemplateRightLeft';
 import BannerTemplateLeftRight from './Components/BannerTemplateLeftRight';
 import {Skeleton} from '@mui/material';
+import BannerTemplateBackgroundImage from './Components/BannerTemplateBackgroundImage';
 
 const CoverArea = () => {
-  const vendor = useVendor();
-  const [sliderFilters] = useState({
-    show_in: ShowInTypes.TSP,
-    institute_id: vendor?.id,
-  });
+  const [sliderFilters] = useState({});
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
@@ -28,6 +23,8 @@ const CoverArea = () => {
         return <BannerTemplateRightLeft banner={banner} />;
       case 'BT_LR':
         return <BannerTemplateLeftRight banner={banner} />;
+      case 'BT_OB':
+        return <BannerTemplateBackgroundImage banner={banner} />;
       default:
         return <BannerTemplateCenterBackground banner={banner} />;
     }

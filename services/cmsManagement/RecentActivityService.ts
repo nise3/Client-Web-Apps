@@ -1,10 +1,10 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
-import {CMS_RECENT_ACTIVITY} from '../../@softbd/common/apiRoutes';
+import {API_RECENT_ACTIVITIES} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 export const createRecentActivities = async (data: any) => {
   try {
-    let response: any = await apiPost(CMS_RECENT_ACTIVITY, data);
+    let response: any = await apiPost(API_RECENT_ACTIVITIES, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -17,7 +17,7 @@ export const updateRecentActivity = async (
 ) => {
   try {
     let response: any = await apiPut(
-      CMS_RECENT_ACTIVITY + '/' + recentActivityId,
+      API_RECENT_ACTIVITIES + '/' + recentActivityId,
       data,
     );
     return response.data;
@@ -29,7 +29,7 @@ export const updateRecentActivity = async (
 export const deleteRecentActivity = async (recentActivityId: number) => {
   try {
     let response: any = await apiDelete(
-      CMS_RECENT_ACTIVITY + '/' + recentActivityId,
+      API_RECENT_ACTIVITIES + '/' + recentActivityId,
     );
     return response.data;
   } catch (error) {

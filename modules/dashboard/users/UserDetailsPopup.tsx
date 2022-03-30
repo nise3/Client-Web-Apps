@@ -9,6 +9,8 @@ import {Grid} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchUser} from '../../../services/userManagement/hooks';
+import UserTypes from '../../../@softbd/utilities/UserTypes';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -21,13 +23,15 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {data: itemData, isLoading} = useFetchUser(itemId);
 
   const getUserTypeName = (userType: number) => {
-    switch (userType) {
-      case 1:
+    switch (String(userType)) {
+      case UserTypes.SYSTEM_USER:
         return messages['user.type.system'];
-      case 2:
+      case UserTypes.ORGANIZATION_USER:
         return messages['user.type.organization'];
-      case 3:
+      case UserTypes.INSTITUTE_USER:
         return messages['user.type.institute'];
+      case UserTypes.INDUSTRY_ASSOCIATION_USER:
+        return messages['user.type.industry_association'];
       default:
         return '';
     }
@@ -44,6 +48,7 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='user.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -124,32 +129,35 @@ const UserDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {itemData && itemData.institute_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.institute_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-          {itemData && itemData.institute_id && itemData?.branch_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.branch_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
-          )}
-          {itemData && itemData.institute_id && itemData?.training_center_id && (
-            <Grid item xs={6}>
-              <DetailsInputView
-                label={messages['common.institute_user_type']}
-                value={messages['user.training_center_user']}
-                isLoading={isLoading}
-              />
-            </Grid>
+
+          {itemData && itemData.institute_id ? (
+            itemData?.training_center_id ? (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.training_center_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : itemData?.branch_id ? (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.branch_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={6}>
+                <DetailsInputView
+                  label={messages['user.user_type']}
+                  value={messages['user.institute_user']}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )
+          ) : (
+            <></>
           )}
         </Grid>
       </CustomDetailsViewMuiModal>

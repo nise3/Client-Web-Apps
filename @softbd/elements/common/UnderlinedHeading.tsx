@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react';
 import {styled} from '@mui/material/styles';
 import {Box, Typography} from '@mui/material';
+
 const PREFIX = 'UnderlinedHeading';
 
 const classes = {
@@ -14,7 +15,7 @@ const StyledBoxLine = styled(Box)(() => ({
   width: '100%',
   display: 'flex',
   justifyContent: 'center',
-  marginBottom: 48,
+  marginBottom: '30px',
 
   [`& .${classes.lineOne}`]: {
     background: '#33c2a7',
@@ -42,13 +43,13 @@ const UnderlinedHeading = ({children}: Props) => {
           fontSize: '1.875rem',
           color: 'primary.main',
           textAlign: 'center',
-          marginBottom: '20px',
+          marginBottom: '15px',
         }}
         gutterBottom={true}
         fontWeight='fontWeightBold'>
         {children}
       </Typography>
-      <StyledBoxLine mb={12}>
+      <StyledBoxLine>
         <Box className={classes.lineOne} />
         <Box className={classes.lineTwo} />
       </StyledBoxLine>

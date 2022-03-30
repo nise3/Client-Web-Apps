@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
@@ -6,10 +6,9 @@ import PopularCoursesSection from './PopularCoursesSection';
 import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'TrainingPage';
 
@@ -26,22 +25,12 @@ export const StyledTrainingRoot = styled(Box)(({theme}) => ({
 }));
 
 const CourseListPage = () => {
-  const vendor = useVendor();
   const authUser = useAuthUser<YouthAuthUser>();
-  const showInType = getShowInTypeByDomain();
 
   const [filters, setFilters] = useState<any>({});
 
-  useEffect(() => {
-    if (showInType && showInType == ShowInTypes.TSP) {
-      setFilters((prev: any) => {
-        return {...prev, ...{institute_id: vendor?.id}};
-      });
-    }
-  }, [showInType]);
-
   const filterCoursesListTrainingList = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
 
@@ -52,9 +41,26 @@ const CourseListPage = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <StyledTrainingRoot>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+      <CourseListHeaderSection
+        addFilterKey={filterCoursesListTrainingList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container>
           {authUser && authUser?.isYouthUser && (
@@ -72,7 +78,7 @@ const CourseListPage = () => {
             <TrendingCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
           <Grid item xs={12}>
-            <NearbyTrainingCenterSection showInType={showInType} />
+            <NearbyTrainingCenterSection showAllNearbyTrainingCenter={false} />
           </Grid>
         </Grid>
       </Container>

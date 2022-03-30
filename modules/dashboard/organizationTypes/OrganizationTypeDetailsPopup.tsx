@@ -9,6 +9,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import {useFetchOrganizationType} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -28,7 +29,7 @@ const OrganizationTypeDetailsPopup = ({
     <>
       <CustomDetailsViewMuiModal
         {...props}
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         open={true}
         title={
           <>
