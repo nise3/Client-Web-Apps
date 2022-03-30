@@ -12,7 +12,7 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['rpl_levels.label']} />
+      <PageMeta title={messages['rpl_level.label']} />
       <RPLLevelsPage />
     </>
   );

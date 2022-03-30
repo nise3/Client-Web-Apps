@@ -20,7 +20,7 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import CustomChipCertificationStatus from '../CAAssignedBatches/CustomChipCertificationStatus';
+import CustomChipCertificationStatus from '../RPLBatches/CustomChipCertificationStatus';
 
 const RTOBatchPage = () => {
   const {messages, locale} = useIntl();

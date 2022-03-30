@@ -13,11 +13,11 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import CABatchManagePopup from './CABatchManagePopup';
+import CABatchManagePopup from './RPLBatchManagePopup';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomChipCertificationStatus from './CustomChipCertificationStatus';
 
-const CAAssignedBatchesPage = () => {
+const RPLBatchesPage = () => {
   const {messages, locale} = useIntl();
   const router = useRouter();
   const path = router.pathname;
@@ -181,4 +181,4 @@ const CAAssignedBatchesPage = () => {
   );
 };
 
-export default CAAssignedBatchesPage;
+export default RPLBatchesPage;
