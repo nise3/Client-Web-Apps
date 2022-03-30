@@ -12,7 +12,7 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomHookForm from '../component/CustomHookForm';
-import {useFetchYouthSkills} from '../../../../services/youthManagement/hooks';
+import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
 import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
 import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
@@ -51,6 +51,8 @@ import {
   Upazila,
 } from '../../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../../filepond/FileUploadComponent';
+import moment from 'moment';
+import {DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
 
 interface PersonalInformationEditProps {
   onClose: () => void;
@@ -92,7 +94,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchYouthSkills(youthSkillsFilter);
+    useFetchPublicSkills(youthSkillsFilter);
 
   const [divisionFilters] = useState<any>({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
@@ -121,8 +123,8 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     string | undefined
   >(IdentityNumberTypes.NID);
 
-  const getIdentityNumberFieldCaption = () => {
-    switch (identityNumberType) {
+  const getIdentityNumberFieldCaption = useCallback(() => {
+    switch (String(identityNumberType)) {
       case IdentityNumberTypes.NID:
         return messages['common.identity_type_nid'];
       case IdentityNumberTypes.BIRTH_CERT:
@@ -132,7 +134,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       default:
         return messages['common.identity_type_nid'];
     }
-  };
+  }, [identityNumberType]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -149,11 +151,18 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.date_of_birth'] as string),
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth'] as string,
+          (value) =>
+            moment().diff(moment(value), 'years') >= DATE_OF_BIRTH_MIN_AGE,
+        ),
       skills: yup
         .array()
         .of(yup.number())
         .min(1)
+        .max(15)
         .label(messages['common.skills'] as string),
       physical_disability_status: yup
         .string()
@@ -320,9 +329,10 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     control,
     setValue,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+  console.log('error ', errors);
 
   useEffect(() => {
     if (authUser) {
@@ -372,6 +382,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         districts,
         authUser?.loc_division_id,
       );
+      setIdentityNumberType(authUser?.identity_number_type);
       setDistrictList(filteredDistricts);
       console.log(
         'authUser?.signature_image_path-',

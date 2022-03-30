@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import {useDispatch} from 'react-redux';
-import {onJWTAuthSignout} from '../../../redux/actions';
+import {signOut} from '../../../redux/actions';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -103,7 +103,7 @@ const HorUserInfo: FC<HorUserInfoProps> = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}>
           <MenuItem>My account</MenuItem>
-          <MenuItem onClick={() => dispatch(onJWTAuthSignout())}>
+          <MenuItem onClick={() => dispatch(signOut())}>
             Logout
           </MenuItem>
         </Menu>

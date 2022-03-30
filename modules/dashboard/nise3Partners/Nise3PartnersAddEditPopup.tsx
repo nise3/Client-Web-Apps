@@ -28,6 +28,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import {Box, Button, IconButton} from '@mui/material';
 import {IPartner} from '../../../shared/Interface/common.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;
@@ -268,6 +269,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -360,7 +362,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['nise3_partner.add_language']}
           </Button>
         </Grid>
 

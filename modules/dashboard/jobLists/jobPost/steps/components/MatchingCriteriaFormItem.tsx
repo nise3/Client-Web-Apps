@@ -86,6 +86,7 @@ const MatchingCriteriaFormItem = ({
             display: 'inline-block',
             maxWidth: '90%',
             verticalAlign: 'bottom',
+            fontWeight: 'bold',
           }}
           title={additionalValue ? additionalValue : ''}>
           {additionalValue ? additionalValue : 'Value not provided'}{' '}

@@ -1,29 +1,20 @@
-import {Grid} from '@mui/material';
-import {
-  createInstitute,
-  updateInstitute,
-} from '../../../services/instituteManagement/InstituteService';
+import {Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
-  DOMAIN_REGEX,
   MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import {
-  getObjectArrayFromValueArray,
-  getValuesFromObjectArray,
-} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
@@ -42,18 +33,24 @@ import {
   useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY} from '../../../@softbd/common/constants';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {IInstitute} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {useFetchIndustryAssociation} from '../../../services/IndustryManagement/hooks';
-
-export enum INDUSTRY_ASSOCIATION_TYPE {
-  GOVT = 1,
-  NON_GOVT = 2,
-  OTHERS = 3,
-}
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {INewIndustryAssociation} from '../../../shared/Interface/industryAssociationRegistration.interface';
+import {
+  createIndustryAssociation,
+  updateIndustryAssociation,
+} from '../../../services/IndustryManagement/IndustryAssociationService';
+import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import {
+  getMobilePhoneValidationSchema,
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
 
 interface IndustryAssociationAddEditPopup {
   itemId: number | null;
@@ -64,10 +61,9 @@ interface IndustryAssociationAddEditPopup {
 const initialValues = {
   title_en: '',
   title: '',
-  domain: '',
-  industry_association_type_id: '0',
+  // domain: '',
+  trade_id: '',
   address: '',
-  phone_code: '',
   mobile: '',
   permission_sub_group_id: '',
   loc_division_id: '',
@@ -88,6 +84,8 @@ const initialValues = {
   contact_person_mobile: '',
   trade_number: '',
   logo: '',
+  phone_numbers: [{value: ''}],
+  mobile_numbers: [{value: ''}],
 };
 
 const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
@@ -98,30 +96,14 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const instituteTypes = useMemo(
-    () => [
-      {
-        key: INDUSTRY_ASSOCIATION_TYPE.GOVT,
-        label: messages['common.government'],
-      },
-      {
-        key: INDUSTRY_ASSOCIATION_TYPE.NON_GOVT,
-        label: messages['common.non_government'],
-      },
-      {
-        key: INDUSTRY_ASSOCIATION_TYPE.OTHERS,
-        label: messages['common.others'],
-      },
-    ],
-    [messages],
-  );
 
   const isEdit = itemId != null;
   const {
     data: itemData,
     isLoading,
-    mutate: mutateInstitute,
+    mutate: mutateIndustryAssociation,
   } = useFetchIndustryAssociation(itemId);
+
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
     key: PERMISSION_GROUP_INDUSTRY_ASSOCIATION_KEY,
@@ -143,12 +125,19 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
+  const [associationTradeFilter] = useState({});
+
+  const {data: associationTrades} = useFetchIndustryAssociationTrades(
+    associationTradeFilter,
+  );
+
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
   );
+
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
     useFetchPermissionSubGroups(permissionSubGroupFilters);
 
@@ -158,11 +147,6 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      industry_association_type_id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['institute.type'] as string),
       mobile: yup
         .string()
         .trim()
@@ -179,11 +163,24 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
-      code: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.code'] as string),
+      phone_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
+        ),
+      mobile_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       email: yup
         .string()
         .required()
@@ -207,6 +204,11 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .label(
           messages['institute.name_of_the_office_head_designation'] as string,
         ),
+      trade_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['association.association_trades'] as string),
       contact_person_name: yup
         .string()
         .trim()
@@ -239,11 +241,18 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .matches(MOBILE_NUMBER_REGEX)
         .required()
         .label(messages['common.contact_person_mobile'] as string),
-      domain: yup
+      logo: yup
         .string()
-        .trim()
-        .matches(DOMAIN_REGEX)
-        .label(messages['common.domain'] as string),
+        .required()
+        .label(messages['common.logo'] as string),
+      // domain: yup
+      //   .string()
+      //   .trim()
+      //   .test(
+      //     'domain_validation',
+      //     messages['common.invalid_domain'] as string,
+      //     (value) => !value || Boolean(value.match(DOMAIN_REGEX)),
+      //   ),
     });
   }, [messages]);
 
@@ -273,13 +282,10 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        domain: itemData?.domain,
-        institute_type_id: itemData?.institute_type_id,
-        code: itemData?.code,
-        primary_phone: itemData?.primary_phone,
-        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
-        primary_mobile: itemData?.primary_mobile,
-        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
+        // domain: itemData?.domain,
+        trade_id: itemData?.trade_id,
+        permission_sub_group_id: itemData?.permission_sub_group_id,
+        mobile: itemData?.mobile,
         loc_division_id: itemData?.loc_division_id,
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
@@ -299,6 +305,10 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         contact_person_email: itemData?.contact_person_email,
         contact_person_mobile: itemData?.contact_person_mobile,
         row_status: String(itemData?.row_status),
+        trade_number: itemData?.trade_number,
+        logo: itemData?.logo,
+        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
       });
 
       setDistrictsList(
@@ -327,18 +337,19 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<IInstitute> = async (data: IInstitute) => {
+  const onSubmit: SubmitHandler<INewIndustryAssociation> = async (
+    data: INewIndustryAssociation,
+  ) => {
     try {
       data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
       data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
-
       if (itemId) {
-        await updateInstitute(itemId, data);
-        updateSuccessMessage('institute.label');
-        mutateInstitute();
+        await updateIndustryAssociation(itemId, data);
+        updateSuccessMessage('industry_association_reg.label');
+        mutateIndustryAssociation();
       } else {
-        await createInstitute(data);
-        createSuccessMessage('institute.label');
+        await createIndustryAssociation(data);
+        createSuccessMessage('industry_association_reg.label');
       }
       props.onClose();
       refreshDataTable();
@@ -357,16 +368,21 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='industry_association_reg.label' />,
+              }}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='institute.label' />}}
+              values={{
+                subject: <IntlMessages id='industry_association_reg.label' />,
+              }}
             />
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -375,9 +391,9 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <CustomTextInput
                 required
                 id='title'
@@ -387,7 +403,49 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                id='title_en'
+                label={messages['common.title_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomFieldArray
+                id='phone_numbers'
+                labelLanguageId={'common.phone'}
+                isLoading={isLoading}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item container xs={12} md={6} alignSelf='flex-start'>
+              <CustomFieldArray
+                id='mobile_numbers'
+                labelLanguageId={'common.mobile'}
+                isLoading={isLoading}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='mobile'
+                label={messages['common.mobile']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='017xxxxxxxx'
+              />
+            </Grid>
+            <Grid item xs={6}>
               <CustomTextInput
                 required
                 id='email'
@@ -398,8 +456,9 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 placeholder='example@gmail.com'
               />
             </Grid>
+
             {!isEdit && (
-              <Grid item xs={12}>
+              <Grid item xs={!isEdit ? 12 : 6}>
                 <CustomFormSelect
                   required
                   id='permission_sub_group_id'
@@ -413,37 +472,34 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 />
               </Grid>
             )}
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='primary_phone'
-                label={messages['common.phone']}
-                register={register}
-                errorInstance={errors}
+
+            <Grid item xs={6}>
+              <CustomFilterableFormSelect
+                required
+                id='trade_id'
                 isLoading={isLoading}
-                placeholder='xxx-xxx-xxxx'
-              />
-            </Grid>
-            <Grid item container xs={12}>
-              <CustomFieldArray
-                id='phone_numbers'
-                labelLanguageId={'common.phone'}
-                isLoading={isLoading}
+                label={messages['association.association_trades']}
                 control={control}
-                register={register}
-                errors={errors}
+                options={associationTrades}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 required
-                id='address'
-                label={messages['common.address']}
+                id='trade_number'
+                label={messages['common.trade_number']}
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                placeholder='trade number'
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
               <CustomFormSelect
                 required
                 id='loc_division_id'
@@ -457,150 +513,8 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 onChange={changeDivisionAction}
               />
             </Grid>
-            <Grid item xs={12}>
-              <CustomFormSelect
-                id='loc_upazila_id'
-                label={messages['upazilas.label']}
-                isLoading={isLoadingUpazilas}
-                control={control}
-                options={upazilasList}
-                optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
-                errorInstance={errors}
-              />
-            </Grid>
 
-            {/** working */}
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head'
-                label={messages['institute.name_of_the_office_head']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='name_of_the_office_head_designation'
-                label={
-                  messages['institute.name_of_the_office_head_designation']
-                }
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_name'
-                label={messages['common.contact_person_name']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_designation'
-                label={messages['common.contact_person_designation']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_email'
-                label={messages['common.contact_person_email']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='example@gmail.com'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FileUploadComponent
-                id='logo'
-                defaultFileUrl={itemData?.logo}
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['common.logo']}
-                required={true}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='title_en'
-                label={messages['common.title_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='code'
-                label={messages['common.code']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='domain'
-                label={messages['common.domain']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='https://example.xyz'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormRadioButtons
-                id='institute_type_id'
-                label={'institute.type'}
-                radios={instituteTypes}
-                control={control}
-                defaultValue={initialValues.industry_association_type_id}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='primary_mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
-            <Grid item container xs={12}>
-              <CustomFieldArray
-                id='mobile_numbers'
-                labelLanguageId={'common.mobile'}
-                isLoading={isLoading}
-                control={control}
-                register={register}
-                errors={errors}
-              />
-            </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <CustomFormSelect
                 required
                 id='loc_district_id'
@@ -614,6 +528,31 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 onChange={changeDistrictAction}
               />
             </Grid>
+
+            <Grid item xs={6}>
+              <CustomFormSelect
+                id='loc_upazila_id'
+                label={messages['upazilas.label']}
+                isLoading={isLoadingUpazilas}
+                control={control}
+                options={upazilasList}
+                optionValueProp={'id'}
+                optionTitleProp={['title_en', 'title']}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='address'
+                label={messages['common.address']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <CustomTextInput
                 id='google_map_src'
@@ -624,8 +563,18 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
               />
             </Grid>
 
-            {/** working */}
-            <Grid item xs={12}>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='name_of_the_office_head'
+                label={messages['institute.name_of_the_office_head']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='name_of_the_office_head_en'
                 label={messages['institute.name_of_the_office_head_en']}
@@ -634,7 +583,21 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='name_of_the_office_head_designation'
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <CustomTextInput
                 id='name_of_the_office_head_designation_en'
                 label={
@@ -645,48 +608,99 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 isLoading={isLoading}
               />
             </Grid>
+
             <Grid item xs={12}>
-              <CustomTextInput
-                id='contact_person_name_en'
-                label={messages['common.contact_person_name_en']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
+              <Typography variant='h6' marginBottom={1}>
+                {messages['common.contact_person_info']}
+              </Typography>
+              <Grid container spacing={5}>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_name'
+                    label={messages['common.contact_person_name']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='contact_person_name_en'
+                    label={messages['common.contact_person_name_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_designation'
+                    label={messages['common.contact_person_designation']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id='contact_person_designation_en'
+                    label={messages['common.contact_person_designation_en']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_mobile'
+                    label={messages['common.contact_person_mobile']}
+                    helperText={messages['common.registration_username_note']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='017xxxxxxxx'
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id='contact_person_email'
+                    label={messages['common.contact_person_email']}
+                    register={register}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                    placeholder='example@gmail.com'
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                id='contact_person_designation_en'
-                label={messages['common.contact_person_designation_en']}
-                register={register}
+
+            {/*new*/}
+
+            {/** working */}
+
+            <Grid item xs={6}>
+              <FileUploadComponent
+                required={true}
+                id='logo'
+                defaultFileUrl={itemData?.logo}
                 errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='contact_person_mobile'
-                label={messages['common.contact_person_mobile']}
+                setValue={setValue}
                 register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='017xxxxxxxx'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextInput
-                required
-                id='trade_number'
-                label={messages['common.trade_number']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-                placeholder='trade number'
+                label={messages['common.logo']}
               />
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

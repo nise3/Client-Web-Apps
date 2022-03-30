@@ -1,9 +1,16 @@
-import React, {FC, useCallback} from 'react';
-import {styled} from '@mui/material/styles';
 import {Box, Slide} from '@mui/material';
-import pageSVG from '../../../../public/images/cv/CV_Temp_Classic';
+import {styled} from '@mui/material/styles';
+import React, {FC, useCallback, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {
+  generateLineFomDomPosition,
+  getProps,
+  getStructureData,
+} from '../../../../@softbd/common/svg-d3-util';
 import {setAreaText} from '../../../../@softbd/common/svg-utils';
-import {ISkill} from '../../../../shared/Interface/organization.interface';
+import {AddressTypes} from '../../../../@softbd/utilities/AddressType';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import pageSVG from '../../../../public/images/cv/CV_Temp_Classic1';
 
 const StyledBox = styled(Box)(({theme}) => ({
   border: '2px solid #d3d4d4',
@@ -16,139 +23,129 @@ interface ClassicTemplateProps {
 }
 
 const ClassicTemplate: FC<ClassicTemplateProps> = ({userData}) => {
-  const LanguageProficiencyType: any = {
-    '1': 'Easily',
-    '2': 'Not Easily',
+
+  const setPhoto = (data: any) => {
+    var elem = document.getElementById('photo') as Element;
+    var imgElem = elem.childNodes[1] as any;
+    imgElem.setAttribute('xlink:href', data.photo);
   };
 
-  const LanguageProficiencySpeakingType: any = {
-    '1': 'Fluently',
-    '2': 'Not Fluently',
+  const getValue = (obj: any, propsName: string, locale: string): string => {
+    const propsKey = getProps(propsName, locale);
+    let val = `${obj[propsKey]}`;
+    let valWithNullCheck = val !== 'null' ? val : '';
+    return valWithNullCheck;
   };
 
-  const theCB = useCallback((node) => {
-    if (!node || node.children.length > 0) return;
+  const setHeaderLanguage = (headerId: string, languageKey: string) => {
+    let languageHead = document.getElementById(headerId);
+    let tspan = languageHead
+      ?.querySelector('tspan')
+      ?.querySelector('tspan') as SVGTSpanElement;
+    if (tspan) {
+      tspan.textContent = messages[languageKey] as string | null;
+    }
+    return {
+      dom: {
+        elem: languageHead,
+        // @ts-ignore
+        position: languageHead?.getBBox()
+      },
+      textBox: tspan.getBBox(),
+      text: tspan.textContent
+    }
+  };
+
+  /** present address */
+  const addressText = (userData: any, locale: string) => {
+    let presentAddress = userData?.youth_addresses.filter(
+      (item: any) => item.address_type == AddressTypes.PRESENT,
+    )[0];
+    const propsArray = [
+      'house_n_road',
+      'village_or_area',
+      'loc_upazila_title',
+      'loc_district_title',
+      'loc_division_title',
+    ];
+
+    let addresstxt: string = `${messages['common.address']}: `;
+    let addressArray = [];
+    if (presentAddress) {
+      for (let i = 0; i < propsArray.length; i++) {
+        const element = propsArray[i];
+        let propValue = getValue(presentAddress, element, locale);
+        if (propValue) {
+          addressArray.push(propValue);
+        }
+      }
+    }
+
+    addresstxt +=
+      addressArray.join() + (locale === LocaleLanguage.BN ? '।' : '.');
+    // console.log(`${locale}: ${addresstxt}`)
+    return addresstxt;
+  };
+
+  const renderSVG = (language: string, node?: any) => {
+    let exNode = document.getElementById('svg-div');
+    if (exNode) {
+      node.removeChild(exNode);
+    }
+
+    // }
     const div = document.createElement('div');
+    div.setAttribute('id', 'svg-div');
     div.innerHTML = pageSVG;
-    // console.log('PAGE >> ', pageSVG);
+
     node.appendChild(div);
     const svgNode = div.children[0];
     const rects = svgNode.querySelectorAll('g[id]>text');
     for (let r = 0; r < rects.length; r++)
       // @ts-ignore
-      rects[r].previousElementSibling.setAttribute('fill', 'transparent');
-    // setAreaText(svgNode, 'image', userData?.photo);
+      if (rects[r].previousElementSibling) {
+        // @ts-ignore
+        rects[r].previousElementSibling.setAttribute('fill', 'transparent');
+      }
+
+    setPhoto(userData);
     setAreaText(
       svgNode,
       'name',
-      userData?.first_name + ' ' + userData?.last_name,
+      getValue(userData, 'first_name', language) +
+        ' ' +
+        getValue(userData, 'last_name', language),
       'lt',
     );
+
+    let cvHeader = setHeaderLanguage('cv-header', 'personal_info.curriculum_vitae');
+    let {dom: { position }} = cvHeader;
+    generateLineFomDomPosition(position);
+    setHeaderLanguage('contact-address', 'common.contact_and_address');
     setAreaText(svgNode, 'phone', userData?.mobile, 'lt');
     setAreaText(svgNode, 'email', userData?.email, 'lt');
-    /** present address */
-    setAreaText(
-      svgNode,
-      'address',
-      (userData?.youth_addresses[1]?.house_n_road
-        ? userData?.youth_addresses[1]?.house_n_road + ','
-        : 'Address: ') +
-        (userData?.youth_addresses[1]?.village_or_area
-          ? userData?.youth_addresses[1]?.village_or_area + ','
-          : '&#32') +
-        userData?.youth_addresses[1]?.loc_upazila_title +
-        ',' +
-        userData?.youth_addresses[1]?.loc_district_title +
-        ',' +
-        userData?.youth_addresses[1]?.loc_division_title,
-      'lt',
-    );
-    setAreaText(
-      svgNode,
-      'education',
-      userData?.youth_educations.map((education: any) => {
-        return (
-          (education?.institute_name
-            ? 'Institution Name: ' + education?.institute_name + ', '
-            : ' ') +
-          (education?.duration
-            ? 'Duration: ' + parseFloat(education?.duration) + 'yrs, '
-            : ' ') +
-          (education?.result?.code === 'GRADE'
-            ? education?.cgpa
-              ? 'CGPA: ' +
-                parseFloat(education?.cgpa) +
-                ' ( out of ' +
-                parseInt(education?.cgpa_scale) +
-                ' ), '
-              : ' '
-            : 'Result: ' + education?.result?.title) +
-          (education?.year_of_passing
-            ? 'Year of Passing: ' + parseInt(education?.year_of_passing) + ', '
-            : ' ')
-        );
-      }),
-      'lt',
-    );
-    setAreaText(
-      svgNode,
-      'language',
-      userData?.youth_languages_proficiencies.map((language: any) => {
-        return (
-          (language?.language_title
-            ? 'Language: ' + language?.language_title + ', '
-            : ' ') +
-          (language?.reading_proficiency_level
-            ? 'Reading: ' +
-              LanguageProficiencyType[language?.reading_proficiency_level] +
-              ', '
-            : ' ') +
-          (language?.speaking_proficiency_level
-            ? 'Speaking: ' +
-              LanguageProficiencySpeakingType[
-                language?.speaking_proficiency_level
-              ] +
-              ', '
-            : ' ')
-        );
-      }),
-    );
-    setAreaText(svgNode, 'objective', userData.bio);
-    setAreaText(
-      svgNode,
-      'experience',
-      userData?.youth_job_experiences.map((experience: any) => {
-        return (
-          (experience?.company_name
-            ? 'Company: ' + experience?.company_name + ', '
-            : ' ') +
-          (experience?.position
-            ? 'Position: ' + experience?.position + ', '
-            : ' ') +
-          (experience?.start_date
-            ? 'Start Date: ' +
-              new Date(experience?.start_date).toLocaleDateString('en-US') +
-              ', '
-            : ' ') +
-          (experience?.is_currently_working === 1
-            ? 'Currently working here' + ', '
-            : 'End Date: ' +
-              new Date(experience?.end_date).toLocaleDateString('en-US'))
-        );
-      }),
-    );
-    setAreaText(
-      svgNode,
-      'computerskill',
-      userData?.skills.map((skill: ISkill, index: number) => {
-        return skill?.title ? index + 1 + '. ' + skill?.title + ' ' : ' ';
-      }),
-    );
-  }, []);
+
+    setAreaText(svgNode, 'address', addressText(userData, language));
+    getStructureData(userData, messages, language);
+  };
+
+  const {messages, locale} = useIntl();
+  const theCB = useCallback(
+    (node: any) => {
+      if (!node || node.children.length > 0) return;
+      renderSVG(locale, node);
+    },
+    [locale],
+  );
+
+  useEffect(() => {
+    let exNode = document.getElementById('svgBox');
+    renderSVG(locale, exNode);
+  }, [locale]);
 
   return (
     <Slide direction={'right'} in={true}>
-      <StyledBox sx={{padding: '0 !important'}} ref={theCB} />
+      <StyledBox id='svgBox' sx={{padding: '0 !important'}} ref={theCB} />
     </Slide>
   );
 };

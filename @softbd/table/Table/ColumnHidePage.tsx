@@ -89,7 +89,7 @@ export function ColumnHidePage<T extends object>({
                     disabled={column.isVisible && onlyOneOptionLeft}
                   />
                 }
-                label={column.render('Header')}
+                label={column.render('Header') as string}
                 checked={column.isVisible}
                 onChange={() => toggleHideColumn(column.id, column.isVisible)}
               />

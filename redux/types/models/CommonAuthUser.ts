@@ -20,8 +20,10 @@ export interface AuthUser {
   isYouthUser: boolean;
   isSystemUser: boolean;
   isInstituteUser: boolean;
+  isTrainingCenterUser: boolean;
   isOrganizationUser: boolean;
   isIndustryAssociationUser: boolean;
+  isRegisteredTrainingOrganizationUser: boolean;
 }
 
 export interface CommonAuthUser extends AuthUser {
@@ -39,10 +41,15 @@ export interface CommonAuthUser extends AuthUser {
   profile_pic?: string;
   name?: string;
   industry_association_id?: string | number | undefined;
+  industry_association?: any;
+  registered_training_organization_id?: string | number | undefined;
+  registered_training_organization?: any;
+  domain?: string;
 }
 
 export interface YouthAuthUser extends AuthUser {
   youthId: string | number;
+  youthCode?: string;
   first_name: string;
   first_name_en?: string;
   last_name: string;
@@ -90,6 +97,9 @@ export interface YouthAuthUser extends AuthUser {
   profile_completed?: any;
   total_job_experience?: any;
   signature_image_path?: string;
+  expected_salary?: any;
+  job_level?: any;
+  default_cv_template?: any;
 }
 
 // @ts-ignore

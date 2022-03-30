@@ -9,6 +9,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import {useFetchOrganization} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -31,6 +32,7 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='organization.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -63,13 +65,13 @@ const OrganizationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.domain']}
-              value={itemData?.domain}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {/*<Grid item xs={6}>*/}
+          {/*  <DetailsInputView*/}
+          {/*    label={messages['common.domain']}*/}
+          {/*    value={itemData?.domain}*/}
+          {/*    isLoading={isLoading}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.email']}

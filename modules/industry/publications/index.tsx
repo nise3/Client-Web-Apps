@@ -1,29 +1,24 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Box,
-  Button,
   CardMedia,
   Chip,
   Container,
   Grid,
-  IconButton,
-  InputBase,
   Pagination,
-  Paper,
+  Skeleton,
   Stack,
-  Typography,
 } from '@mui/material';
 import {Body2, H1, Link} from '../../../@softbd/elements/common';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
-import clsx from 'clsx';
-import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {useFetchPublications} from '../../../services/IndustryManagement/hooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
+import PublicationListSearchSection from './PublicationListSearchSection';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -52,6 +47,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
     color: theme.palette.primary.light,
     padding: '3px 7px',
     marginLeft: '10px',
+    fontWeight: 'bold',
   },
   [`& .${classes.gridMargin}`]: {
     marginLeft: '15px',
@@ -75,6 +71,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.title}`]: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    fontWeight: 'bold',
   },
 
   [`& .${classes.imageBox}`]: {
@@ -93,21 +90,34 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const Publications = () => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const result = useCustomStyle();
+  const [selectedWriter, setSelectedWriter] = useState<any>('');
+  const [uniqueAuthors, setUniqueAuthors] = useState<any>([]);
 
-  // Todo: industry_association_id is static have to change after created id
   const [publicationFilter, setPublicationFilter] = useState<any>({
-    industry_association_id: 1,
     row_status: RowStatus.ACTIVE,
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
   });
 
-  const {data: publications} = useFetchPublications(publicationFilter);
-  console.log('publications-->', publications);
+  const {
+    data: publications,
+    isLoading,
+    metaData,
+  } = useFetchPublications(publicationFilter);
+
+  useEffect(() => {
+    const uniqueAuthorsSet = [
+      ...new Map(
+        publications?.map((item: any) => [item['author'], item]),
+      ).values(),
+    ];
+    setUniqueAuthors(uniqueAuthorsSet);
+  }, [publications]);
 
   const page = useRef<any>(1);
+
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setPublicationFilter((params: any) => {
@@ -115,15 +125,32 @@ const Publications = () => {
     });
   }, []);
 
-  const onResetClicked = useCallback(() => {}, []);
-  const onChangeWriter = useCallback((writerId: number | null) => {}, []);
+  useEffect(() => {
+    page.current = 1;
+    setPublicationFilter((param: any) => {
+      return objectFilter({...param, author: selectedWriter});
+    });
+  }, [selectedWriter]);
+
+  const setWriterName = (value: string) => {
+    setSelectedWriter(value);
+  };
+
+  const filterPublication = useCallback((filterKey: any, filterValue: any) => {
+    const newFilter: any = {};
+    newFilter[filterKey] = filterValue;
+
+    setPublicationFilter((prev: any) => {
+      return objectFilter({...prev, ...newFilter});
+    });
+  }, []);
 
   return (
     <>
       <Grid container sx={{maxWidth: '100%'}}>
         <Grid item xs={12} textAlign={'center'}>
           <H1
-            py={3}
+            pt={3}
             sx={{
               ...result.h2,
               fontWeight: 'bold',
@@ -133,141 +160,116 @@ const Publications = () => {
         </Grid>
       </Grid>
       <StyledContainer maxWidth='lg' sx={{marginBottom: '25px'}}>
-        <Grid container mt={4} spacing={2}>
-          <Grid item md={6} xs={12}>
-            <Grid container spacing={1}>
-              <Grid
-                item
-                xs={12}
-                md={2}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Box display={'flex'}>
-                  <FilterListIcon />
-                  <Typography sx={{marginLeft: '15px'}}>
-                    {messages['filter.institute']}
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CustomFilterableSelect
-                  id='writer_id'
-                  label={messages['industry.writer_name']}
-                  defaultValue={''}
-                  isLoading={false}
-                  optionValueProp={'id'}
-                  options={[]}
-                  optionTitleProp={['title']}
-                  onChange={onChangeWriter}
-                  className={clsx(classes.gridMargin, classes.selectStyle)}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Button
-                  onClick={onResetClicked}
-                  variant={'contained'}
-                  size={'small'}
-                  color={'primary'}
-                  className={classes.gridMargin}
-                  sx={{height: '40px'}}>
-                  {messages['common.reset']}
-                </Button>
-              </Grid>
-            </Grid>
+        <Grid container mt={3} spacing={2}>
+          <Grid item md={12}>
+            <PublicationListSearchSection
+              addFilterKey={filterPublication}
+              defaultValue={selectedWriter}
+              label={messages['industry.writer_name'] as string}
+              onChange={setWriterName}
+              optionValueProp={'author'}
+              options={uniqueAuthors}
+              optionTitleProp={['author']}
+            />
           </Grid>
-          <Grid item md={6} xs={12} className={classes.searchItem}>
-            <Paper
-              style={{
-                display: 'flex',
-                width: 220,
-                height: '40px',
-              }}
-              className={classes.gridMargin}>
-              <InputBase
-                size={'small'}
-                style={{
-                  paddingLeft: '20px',
-                }}
-                placeholder={messages['common.search'] as string}
-                inputProps={{'aria-label': 'Search'}}
-                onKeyDown={(event) => {
-                  /*   if (event.code == 'Enter') onSearch();*/
-                }}
-              />
-              <IconButton sx={{p: '5px'}} aria-label='search'>
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
-
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container>
               <Grid item xs={12}>
-                <Body2 gutterBottom>
+                <Body2 gutterBottom sx={{fontWeight: 'bold'}}>
                   {messages['total_result.institute']}{' '}
                   <Chip
-                    label={publications?.length}
+                    label={
+                      publications && publications?.length
+                        ? formatNumber(publications?.length)
+                        : formatNumber(0)
+                    }
                     className={classes.chipStyle}
                   />
                 </Body2>
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
-                  {publications && publications?.length ? (
+                  {isLoading ? (
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                      <Skeleton
+                        variant='rectangular'
+                        width={'22%'}
+                        height={140}
+                      />
+                    </Grid>
+                  ) : publications && publications?.length ? (
                     publications.map((publication: any) => {
                       return (
                         <Grid
+                          key={publication.id}
                           item
                           md={3}
                           xs={12}
                           justifyContent={'center'}
-                          mt={3}
-                          key={publication.id}>
-                          <Box
-                            className={classes.imageBox}
-                            sx={{maxWidth: 150}}>
-                            <CardMedia
-                              component='img'
-                              height='227'
-                              // image='/images/testPublication.png'
-                              image={publication.image_path}
-                              alt='publication'
-                            />
-                          </Box>
-                          <Box sx={{width: '150px'}} mt={1}>
-                            <Link href={`/publications/${publication.id}`}>
+                          mt={3}>
+                          <Link href={`/publications/${publication.id}`}>
+                            <Box
+                              className={classes.imageBox}
+                              sx={{maxWidth: 150}}>
+                              <CardMedia
+                                component='img'
+                                height='227'
+                                image={publication.image_path}
+                                alt='publication'
+                              />
+                            </Box>
+                            <Box sx={{width: '150px'}} mt={1}>
                               <Body2 className={classes.title}>
                                 {publication?.title}
                               </Body2>
-                            </Link>
-                          </Box>
+                            </Box>
+                          </Link>
                         </Grid>
                       );
                     })
                   ) : (
                     <Grid item xs={12}>
-                      <NoDataFoundComponent />
+                      <NoDataFoundComponent
+                        messageType={messages['publication.label']}
+                      />
                     </Grid>
                   )}
-                  <Grid
-                    item
-                    md={12}
-                    mt={4}
-                    display={'flex'}
-                    justifyContent={'center'}>
-                    <Stack spacing={2}>
-                      <Pagination
-                        page={1}
-                        count={3}
-                        color={'primary'}
-                        shape='rounded'
-                        onChange={onPaginationChange}
-                      />
-                    </Stack>
-                  </Grid>
+                  {metaData.total_page > 1 && (
+                    <Grid
+                      item
+                      md={12}
+                      mt={4}
+                      display={'flex'}
+                      justifyContent={'center'}>
+                      <Stack spacing={2}>
+                        <Pagination
+                          page={page.current}
+                          count={metaData.total_page}
+                          color={'primary'}
+                          shape='rounded'
+                          onChange={onPaginationChange}
+                        />
+                      </Stack>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -277,5 +279,4 @@ const Publications = () => {
     </>
   );
 };
-
 export default Publications;

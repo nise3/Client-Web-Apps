@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from 'react';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import {
   Button,
   Divider,
@@ -14,8 +15,9 @@ import {
   LINK_FRONTEND_YOUTH_FREELANCE_CORNER,
   LINK_FRONTEND_YOUTH_MY_COURSES,
   LINK_FRONTEND_YOUTH_MY_CV,
+  LINK_FRONTEND_YOUTH_MY_JOBS,
   LINK_FRONTEND_YOUTH_ROOT,
-  LINK_FRONTEND_YOUTH_SETTINGS,
+  LINK_FRONTEND_YOUTH_UPDATE_PASSWORD,
 } from '../../../common/appLinks';
 import {
   DesktopMac,
@@ -103,7 +105,6 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
-
         <Divider />
         <Link href={LINK_FRONTEND_YOUTH_MY_CV}>
           <MenuItem>
@@ -124,6 +125,14 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
+        <Link href={LINK_FRONTEND_YOUTH_MY_JOBS}>
+          <MenuItem>
+            <ListItemIcon>
+              <DesktopMac />
+            </ListItemIcon>
+            <ListItemText>{messages['youth_feed_menu.my_jobs']}</ListItemText>
+          </MenuItem>
+        </Link>
         <Divider />
         <Link href={LINK_FRONTEND_YOUTH_FREELANCE_CORNER}>
           <MenuItem>
@@ -136,12 +145,21 @@ const YouthProfileMenu = () => {
           </MenuItem>
         </Link>
         <Divider />
-        <Link href={LINK_FRONTEND_YOUTH_SETTINGS}>
+        <Link href={LINK_FRONTEND_YOUTH_ROOT}>
           <MenuItem>
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.settings']}</ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider />
+        <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
+          <MenuItem>
+            <ListItemIcon>
+              <LockResetIcon />
+            </ListItemIcon>
+            <ListItemText>{messages['update_password.label']}</ListItemText>
           </MenuItem>
         </Link>
         <Divider />

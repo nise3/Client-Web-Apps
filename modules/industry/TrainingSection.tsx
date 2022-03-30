@@ -1,13 +1,16 @@
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
-import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {useIntl} from 'react-intl';
 import {Link} from '../../@softbd/elements/common';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import TrainingCard from './TrainingCard';
+import PageSizes from '../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../services/instituteManagement/hooks';
+import {LINK_FRONTEND_COURSE_DETAILS} from '../../@softbd/common/appLinks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'TrainingSection';
 
@@ -16,7 +19,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(() => ({
-  marginTop: '50px',
+  marginTop: '60px',
   backgroundColor: '#fff',
 
   [`& .${classes.title}`]: {
@@ -33,23 +36,23 @@ const StyledGrid = styled(Grid)(() => ({
 const TrainingSection = () => {
   const {messages} = useIntl();
 
-  const [courseFilters] = useState<any>({page_size: 10});
+  const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
   const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
 
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        {/** headline */}
         <UnderlinedHeading>{messages['industry.training']}</UnderlinedHeading>
 
-        {/** Carousel content */}
         <Box mb={2}>
           {courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                /*<Link passHref key={key} href={`/course-details/${course.id}`}>*/
-                <Link passHref key={key}>
+                <Link
+                  passHref
+                  key={key}
+                  href={`${LINK_FRONTEND_COURSE_DETAILS}${course.id}`}>
                   <Box mr={1} ml={1}>
                     <TrainingCard course={course} />
                   </Box>
@@ -58,9 +61,10 @@ const TrainingSection = () => {
             </CustomCarousel>
           ) : (
             <Grid container sx={{justifyContent: 'center'}}>
-              <Typography variant={'h6'}>
-                {messages['common.no_data_found']}
-              </Typography>
+              <NoDataFoundComponent
+                messageType={messages['course.label']}
+                messageTextType={'h6'}
+              />
             </Grid>
           )}
         </Box>

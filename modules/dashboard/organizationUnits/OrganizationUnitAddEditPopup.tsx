@@ -15,6 +15,11 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
+
+import {
   assignServiceToOrganizationUnit,
   createOrganizationUnit,
   updateOrganizationUnit,
@@ -42,6 +47,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {IOrganizationUnit} from '../../../shared/Interface/organizationUnits.interface';
 import {IService} from '../../../shared/Interface/services.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -124,14 +130,13 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .string()
         .title()
         .label(messages['common.title'] as string),
-      organization_id:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['organization.label'] as string)
-          : yup.string().label(messages['organization.label'] as string),
+      organization_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['organization.label'] as string)
+        : yup.string().label(messages['organization.label'] as string),
       organization_unit_type_id: yup
         .string()
         .required()
@@ -141,6 +146,22 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['organization_unit.employee_size'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages]);
 
@@ -151,7 +172,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -239,8 +260,8 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IOrganizationUnit> = async (
     data: IOrganizationUnit,
   ) => {
-    if (authUser?.isOrganizationUser && authUser.organization?.id) {
-      data.organization_id = authUser.organization.id;
+    if (!authUser?.isSystemUser) {
+      delete data.organization_id;
     }
 
     try {
@@ -271,6 +292,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconOrganization />
@@ -433,6 +455,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={6}>
@@ -442,6 +465,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={6}>

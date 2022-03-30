@@ -20,20 +20,28 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getOrganizationUnitTypeHierarchy} from '../../../services/organaizationManagement/OrganizationUnitTypeService';
 import {HIERARCHY_NODE_ID_PREFIX_STRING} from '../../../@softbd/common/constants';
 import ChartCSS from './ChartCSS';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const getIdFromNodeId = (nodeId: string) => {
   return Number(nodeId.toString().replace(HIERARCHY_NODE_ID_PREFIX_STRING, ''));
 };
 
-const makeHierarchyData = (item: any) => {
+const isPrependedM = (item: any) =>
+  typeof item.id == 'string' &&
+  item.id.indexOf(HIERARCHY_NODE_ID_PREFIX_STRING) > -1;
+
+const makeHierarchyData = (item: any, titleField: any) => {
   // next-js organization chart dont take id as number to render chart, so prepending a 'm'
-  item.id = HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
-  item.title = item.title_en;
-  item.name = item.title;
+  item.id = isPrependedM(item.id)
+    ? item.id
+    : HIERARCHY_NODE_ID_PREFIX_STRING + item.id;
+
+  item.title = item[titleField];
+  item.name = item[titleField];
 
   if (item.children && Array.isArray(item.children)) {
     item.children.map((node: any) => {
-      makeHierarchyData(node);
+      makeHierarchyData(node, titleField);
     });
   } else {
     return item;
@@ -44,14 +52,17 @@ const makeHierarchyData = (item: any) => {
 const getHierarchyHierarchyData = async (
   organization_unit_type_id: number,
   setHierarchyData: any,
+  locale: any,
 ): Promise<boolean> => {
   let response = await getOrganizationUnitTypeHierarchy(
     organization_unit_type_id,
   );
   if (response) {
     const {data: item} = response;
+    const titleField = locale == LocaleLanguage.EN ? 'title_en' : 'title';
+
     if (item) {
-      makeHierarchyData(item);
+      makeHierarchyData(item, titleField);
       setHierarchyData(item);
       return true;
     } else {
@@ -64,7 +75,7 @@ const getHierarchyHierarchyData = async (
 const StyledWrapper = styled('div')(() => ({...ChartCSS}));
 
 const OrganizationUnitTypeHierarchy = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
 
@@ -84,13 +95,14 @@ const OrganizationUnitTypeHierarchy = () => {
       getHierarchyHierarchyData(
         Number(organizationUnitTypeId),
         setHierarchyData,
+        locale,
       ).then((res: boolean) => {
         if (!res) {
           openAddEditModal();
         }
       });
     }
-  }, [organizationUnitTypeId]);
+  }, [organizationUnitTypeId, locale]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -224,8 +236,12 @@ const OrganizationUnitTypeHierarchy = () => {
   };
 
   const reloadHierarchyData = useCallback(() => {
-    getHierarchyHierarchyData(Number(organizationUnitTypeId), setHierarchyData);
-  }, [organizationUnitTypeId]);
+    getHierarchyHierarchyData(
+      Number(organizationUnitTypeId),
+      setHierarchyData,
+      locale,
+    );
+  }, [organizationUnitTypeId, locale]);
 
   const deleteHumanResourceFromTemplate = useCallback(() => {
     selectedItemId &&

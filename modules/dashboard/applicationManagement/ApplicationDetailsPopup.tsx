@@ -1,18 +1,20 @@
-import React from 'react';
-import {Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconUser from '../../../@softbd/icons/IconUser';
-import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
-import AssignBatchButton from './AssignBatchButton';
-import {FiUser} from 'react-icons/fi';
-import {useRouter} from 'next/router';
-import Link from 'next/link';
-import {nationalities} from '../../../@softbd/utilities/Nationalities';
+import React from "react";
+import { Grid } from "@mui/material";
+import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
+import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
+import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
+import { useIntl } from "react-intl";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
+import { useFetchApplicationDetails } from "../../../services/instituteManagement/hooks";
+import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
+import { FiUser } from "react-icons/fi";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { nationalities } from "../../../@softbd/utilities/Nationalities";
+import PhysicalDisabilityStatus from "../../../@softbd/utilities/PhysicalDisabilityStatus";
+import { isBreakPointUp } from "../../../@crema/utility/Utils";
+import IconCourse from "../../../@softbd/icons/IconCourse";
 
 type Props = {
   itemId: number;
@@ -110,11 +112,11 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
         {...props}
         title={
           <>
-            <IconUser />
+            <IconCourse />
             <IntlMessages id='applicationManagement.details' />
           </>
         }
-        maxWidth={'xl'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -125,7 +127,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <Link
               href={`${path}/youth-cv/${itemData?.youth_id}`}
               passHref={true}>
-              <AssignBatchButton
+              <CommonButton
                 btnText='applicationManagement.viewCV'
                 startIcon={<FiUser style={{marginLeft: '5px'}} />}
                 style={{marginTop: '10px'}}
@@ -293,7 +295,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
             <DetailsInputView
               label={messages['common.physical_disability']}
               value={
-                itemData?.physical_disability_status === 1
+                itemData?.physical_disability_status ===
+                PhysicalDisabilityStatus.YES
                   ? messages['common.yes']
                   : messages['common.no']
               }
@@ -476,7 +479,8 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
           })}
 
           {/** Physical Disabilities */}
-          {itemData?.physical_disability_status === 1 &&
+          {itemData?.physical_disability_status ===
+            PhysicalDisabilityStatus.YES &&
             itemData?.physical_disabilities && (
               <Grid item xs={6}>
                 <fieldset style={{backgroundColor: '#e7e5e2'}}>

@@ -2,70 +2,65 @@
 # To contribute improvements to CI/CD templates, please follow the Development guide at:
 # This template uses one generic job with conditional builds
 # for the default branch and all other (MR) branches.
-include: '/deploy/values.yaml'
+include: '/deploy/version.yaml'
 docker-build:
   # Use the official docker image.
-  image: docker:latest
+  image: docker:19.03.6
   stage: build
   services:
     - docker:dind
   before_script:
     - docker login $imageRepository -u "kalyan" -p "kalyan"
-  # Default branch leaves tag empty (= latest tag)
+  #  - docker login $CI_FROG_REGISTRY -u "$CI_FROG_REGISTRY_USER" -p "$CI_FROG_REGISTRY_PASSWORD"
+  # Default branch leaves tag empty (= latest tag) 
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
     - |
       echo  "Info============"
       echo "development branch: $GIT_DEVELOPMENT_BRANCH"
       echo "Production branch: $GIT_PRODUCTION_BRANCH"
-      echo "Build Repo: $imageRepository"
 
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=":$imageAppVersion"
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = $imageAppVersion"
-      else
-        tag=":$imageAppVersion"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      if [[ "$imageAdminRelease" == true ]]; then
+        tag=":$imageAdminAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 docker build -t "$imageAdminRepository${tag}" -f DockerAdmin .
+        docker push "$imageAdminRepository${tag}"
       fi
-    - docker build --pull -t "$imageRepository${tag}" .
-    - docker push "$imageRepository${tag}"
-  only:
-   - develop
 
-codestyle:
-  stage: test
-  dependencies: []
-  script:
-    - echo "Code quality check will be added later"
-  only:
-   - develop
-    
-phpunit:
-  stage: test
-  dependencies:
-    - docker-build
-  script:
-    - echo "unit test will be added later."
-  only:
-   - develop
-  
-staging:
-  stage: deploy
-  dependencies:
-    - docker-build
-  script:
-    #- curl https://cd.bus.softbd.xyz/api/webhook
-    - echo "wait untill site go live"
-  only:
-    - develop
-  
-production:
-  stage: deploy
-  script:
-   - echo "production is not ready yet!"
-  environment:
-    name: production
-    url: "$hostName"
-  when: manual
-  only:
-   - develop
+      if [[ "$imagIndustryeRelease" == true ]]; then
+        tag=":$imageIndustryAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 docker build -t "$imageIndustryRepository${tag}" -f DockerIndustry .
+        docker push "$imageIndustryRepository${tag}"
+      fi
+
+      if [[ "$imageNiseRelease" == true ]]; then
+        tag=":$imageNiseAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 docker build -t "$imageNiseRepository${tag}" -f DockerNise .
+        docker push "$imageNiseRepository${tag}"
+      fi
+
+      if [[ "$imageSSPRelease" == true ]]; then
+        tag=":$imageSSPAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 docker build -t "$imageSSPRepository${tag}" -f DockerSSP .
+        docker push "$imageSSPRepository${tag}"
+      fi
+
+      if [[ "$imageYouthRelease" == true ]]; then
+        tag=":$imageYouthAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 DOCKER_BUILDKIT=1 docker build -t "$imageYouthRepository${tag}" -f DockerYouth .
+        docker push "$imageYouthRepository${tag}"
+      fi
+
+      if [[ "$imageRplRelease" == true ]]; then
+        tag=":$imageRplAppVersion"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ${tag}"
+        DOCKER_BUILDKIT=1 DOCKER_BUILDKIT=1 docker build -t "$imageRplRepository${tag}" -f DockerRpl .
+        docker push "$imageRplRepository${tag}"
+      fi
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /RELEASE\s*=/
+      when: always

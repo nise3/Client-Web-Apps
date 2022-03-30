@@ -4,16 +4,15 @@ import {ArrowRightAlt} from '@mui/icons-material';
 import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {useFetchInstitutesPublicGallery} from '../../services/instituteManagement/hooks';
 import GalleryItemCardView from './gallery/GalleryItemCardView';
 import {Link} from '../../@softbd/elements/common';
 import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import BoxCardsSkeleton from './Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
+import {useFetchPublicGalleryAlbums} from '../../services/cmsManagement/hooks';
 
 const PREFIX = 'GallerySection';
 
@@ -26,7 +25,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-    padding: '20px 15px 30px 15px',
+    padding: '15px 10px 35px',
     margin: 0,
     [theme.breakpoints.down('xl')]: {
       padding: '20px 10px 30px 10px',
@@ -51,20 +50,18 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const GallerySection = () => {
   const {messages} = useIntl();
   const pageSize = 10;
-  const vendor = useVendor();
   const [galleryFilter] = useState<any>({
     only_parent_gallery_album: 1,
     page_size: pageSize,
-    institute_id: vendor?.id,
     row_status: RowStatus.ACTIVE,
   });
 
   const {data: galleryItems, isLoading: isLoadingGallery} =
-    useFetchInstitutesPublicGallery(galleryFilter);
+    useFetchPublicGalleryAlbums(galleryFilter);
 
   return (
     <StyledContainer maxWidth='lg'>
-      <Grid container mt={{xs: 5}}>
+      <Grid container sx={{marginTop: '60px'}}>
         <Grid item xs={12}>
           <Fade direction='up'>
             <UnderlinedHeading>
@@ -97,7 +94,7 @@ const GallerySection = () => {
               </Box>
             ) : (
               <NoDataFoundComponent
-                message={messages['common.no_data_found'] as string}
+                messageType={messages['common.gallery_album']}
                 messageTextType={'h6'}
               />
             )}

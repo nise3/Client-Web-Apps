@@ -75,7 +75,7 @@ export const StyledBox = styled(Box)(({theme}) => ({
     alignItems: 'center',
     margin: 'auto',
     [theme.breakpoints.up('md')]: {
-      margin: '0px 0px 0px 24px',
+      margin: '0px',
       justifyContent: 'unset',
       textAlign: 'end',
     },
@@ -181,8 +181,12 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   [`& .${classes.menuItem}`]: {
     ...headerFixedHeight,
     padding: '20px 10px',
+    fontSize: '1.15rem',
     color: theme.palette.primary.contrastText,
     '&.active': {
+      backgroundColor: theme.palette.primary.light,
+    },
+    '&:hover': {
       backgroundColor: theme.palette.primary.light,
     },
   },
@@ -190,7 +194,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
   [`& .${classes.firstMenuItem}`]: {
     ...headerFixedHeight,
     padding: '20px 10px',
-    paddingLeft: '24px',
+    fontSize: '1.15rem',
     color: theme.palette.primary.contrastText,
     '&.active': {
       backgroundColor: theme.palette.primary.light,

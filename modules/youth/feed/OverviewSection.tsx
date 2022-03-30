@@ -5,15 +5,17 @@ import {
   Card,
   Grid,
   InputAdornment,
-  NativeSelect,
+  Paper,
   TextField,
   useTheme,
 } from '@mui/material';
 import Tile from '../../../@softbd/Tile/Tile';
-import {LocationOnOutlined, Search} from '@mui/icons-material';
+import {Close, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
+import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
+import Hidden from '../../../@softbd/elements/Hidden';
 
 const PREFIX = 'OverviewSection';
 
@@ -38,6 +40,7 @@ const StyledGrid = styled(Grid)(({theme}): any => ({
   },
 
   [`& .${classes.searchInputBorderHide}`]: {
+    padding: '0',
     '& fieldset': {
       border: 'none',
     },
@@ -53,7 +56,7 @@ const StyledGrid = styled(Grid)(({theme}): any => ({
 }));
 
 interface OverviewSectionProps {
-  addFilter: (filterKey: string, filterValue: number) => void;
+  addFilter: (filterKey: string, filterValue: any) => void;
 }
 
 const OverviewSection = ({addFilter}: OverviewSectionProps) => {
@@ -62,6 +65,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const [upazilasFilter] = useState({});
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);
   const searchTextField = useRef<any>();
+  const [hasInputValue, setHasInputValue] = useState<boolean>(false);
 
   const {data: youthStatisticsData} = useFetchYouthFeedStatistics();
   const youthTheme = useTheme();
@@ -87,7 +91,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
         textColor: youthTheme.palette.common?.white,
       },
       {
-        amount: formatNumber(youthStatisticsData?.jobs_apply ?? 0),
+        amount: formatNumber(youthStatisticsData?.applied_jobs ?? 0),
         text: messages['youth_feed.job_apply'],
         color: '#32be7e',
         textColor: youthTheme.palette.common?.white,
@@ -108,13 +112,17 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
     [youthStatisticsData, messages, formatNumber],
   );
 
-  const handleUpazilaChange = useCallback(
-    (event: any) => {
-      setSelectedUpazilaId(event.target.value);
-      addFilter('loc_upazila_id', event.target.value);
+  const onUpazilaChange = useCallback(
+    (upazilaId: any) => {
+      setSelectedUpazilaId(upazilaId);
+      addFilter('loc_upazila_id', upazilaId);
     },
     [selectedUpazilaId],
   );
+
+  const onSearchClick = useCallback(() => {
+    addFilter('search_text', searchTextField.current.value);
+  }, []);
 
   return (
     <>
@@ -151,6 +159,9 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                   name='searchBox'
                   placeholder={messages['common.searchHere'] as string}
                   fullWidth
+                  onChange={(event) => {
+                    setHasInputValue(event.target.value != '');
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -158,34 +169,55 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                       </InputAdornment>
                     ),
                     className: classes.searchInputBorderHide,
+                    endAdornment: (
+                      <InputAdornment
+                        position='end'
+                        sx={{cursor: 'pointer', marginRight: '10px'}}>
+                        {hasInputValue ? (
+                          <Close
+                            onClick={() => {
+                              setHasInputValue(false);
+                              searchTextField.current.value = '';
+                              onSearchClick();
+                            }}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                      </InputAdornment>
+                    ),
                   }}
                 />
               </Grid>
               <Grid item xs={6} sm={6} md={3} className={classes.location}>
-                <LocationOnOutlined color={'primary'} />
-                <NativeSelect
-                  disableUnderline
-                  className='selectColor'
-                  style={{width: 'calc(100% - 40px)'}}
-                  color={'primary'}
-                  onChange={handleUpazilaChange}>
-                  <option value={''}>{messages['common.location']}</option>
-                  {upazilas &&
-                    upazilas.map((upazila: any) => (
-                      <option key={upazila.id} value={upazila.id}>
-                        {upazila.title}
-                      </option>
-                    ))}
-                </NativeSelect>
+                <Hidden mdDown>
+                  <Paper
+                    component='span'
+                    elevation={0}
+                    sx={{minWidth: '125px'}}>
+                    <CustomFilterableSelect
+                      id={'loc_upazila_id'}
+                      defaultValue={selectedUpazilaId}
+                      label={messages['common.location_2'] as string}
+                      onChange={onUpazilaChange}
+                      options={upazilas}
+                      isLoading={false}
+                      optionValueProp={'id'}
+                      optionTitleProp={['title', 'title_en']}
+                      size='medium'
+                      dropdownStyle={{
+                        width: '300px',
+                      }}
+                    />
+                  </Paper>
+                </Hidden>
               </Grid>
               <Grid item xs={6} sm={6} md={2}>
                 <Button
                   variant='contained'
                   color={'primary'}
                   className={classes.searchButton}
-                  onClick={useCallback(() => {
-                    addFilter('course_name', searchTextField.current.value);
-                  }, [])}>
+                  onClick={onSearchClick}>
                   {messages['common.search']}
                 </Button>
               </Grid>

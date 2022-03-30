@@ -24,6 +24,8 @@ import {
 } from '../../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import moment from 'moment';
+import {GUARDIAN_DATE_OF_BIRTH_MIN_AGE} from '../../../../@softbd/common/constants';
 
 interface GuardianAddEditPageProps {
   itemId: number | null;
@@ -80,14 +82,28 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
           : yup.string().nullable(),
       mobile: yup
         .string()
-        .nullable()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
       nid: yup
-        .string()
-        .nullable()
-        .matches(NID_REGEX)
-        .label(messages['common.nid'] as string),
+        .mixed()
+        .label(messages['common.nid'] as string)
+        .test(
+          'nid_validation',
+          messages['common.nid_validation'] as string,
+          (value) => !value || Boolean(value.match(NID_REGEX)),
+        ),
+      date_of_birth: yup
+        .mixed()
+        .label(messages['common.date_of_birth'] as string)
+        .test(
+          'DOB',
+          messages['common.invalid_date_of_birth_20'] as string,
+          (value) =>
+            !value ||
+            Boolean(
+              moment().diff(moment(value), 'years') >= GUARDIAN_DATE_OF_BIRTH_MIN_AGE,
+            ),
+        ),
     });
   }, [messages, showOther]);
 
@@ -98,7 +114,7 @@ const GuardianAddEditPage: FC<GuardianAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

@@ -3,12 +3,9 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_SKILLS} from '../../@softbd/common/apiRoutes';
 import {ISkill} from '../../shared/Interface/organization.interface';
 
-/**
- * @deprecated
- */
-export const getAllSkills = async (params = {}) => {
+export const getAllSkills = async () => {
   try {
-    let response: any = await apiGet(API_SKILLS, {params});
+    let response: any = await apiGet(API_SKILLS);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

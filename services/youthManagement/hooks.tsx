@@ -1,36 +1,58 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_PUBLIC_COURSE_LIST,
-  API_PUBLIC_ALL_COURSE_LIST,
-  API_PUBLIC_TRAINING_CENTERS,
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  API_LANGUAGES,
+  API_PUBLIC_GET_BUSINESS_AREAS,
+  API_PUBLIC_GET_EXPERIENCE_AREAS,
+  API_PUBLIC_RPL_APPLICATIONS,
+  API_SKILLS,
+  API_YOUTH_ADDRESSES,
   API_YOUTH_CERTIFICATES,
+  API_YOUTH_COURSES,
   API_YOUTH_EDUCATION,
   API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
-  API_YOUTH_COURSES,
   API_YOUTH_FEED_STATISTICS,
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
-  API_YOUTH_LIST,
+  API_YOUTH_MY_JOBS,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_PROFILE,
   API_YOUTH_REFERENCES,
-  API_YOUTH_SKILLS,
-  API_PUBLIC_PROGRAMS,
-  API_LANGUAGES,
-  API_YOUTH_ADDRESSES,
+  API_YOUTHS,
+  API_YOUTH_FEED_DATA_LIST,
 } from '../../@softbd/common/apiRoutes';
 
-export function useFetchYouthSkills(params: any) {
-  return useAxiosSWR([API_YOUTH_SKILLS, params]);
+export function useFetchSkill(skillId: number | null) {
+  return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
+}
+
+export function useFetchSkills(params: any) {
+  return useAxiosSWR([API_SKILLS, params]);
+}
+
+export function useFetchPublicSkills(params: any) {
+  return useAxiosSWR([API_SKILLS, params]);
 }
 
 export function useFetchYouthProfile() {
   return useAxiosSWR(API_YOUTH_PROFILE);
 }
 
-export function useFetchYouthJobExperiences(params: any) {
-  return useAxiosSWR([API_YOUTH_JOB_EXPERIENCES, params]);
+export function useFetchYouthFeedDataList(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_YOUTH_FEED_DATA_LIST, params] : null,
+  );
+}
+
+export function useFetchMyJobs(params: any) {
+  return useAxiosSWR(params ? [API_YOUTH_MY_JOBS, params] : null);
+}
+
+export function useFetchYouthJobExperiences() {
+  return useDataLocalizationAxiosSWR(API_YOUTH_JOB_EXPERIENCES);
 }
 
 export function useFetchJobExperience(jobExperienceId: number | null) {
@@ -39,8 +61,16 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
   );
 }
 
+export function useFetchPublicAreaOfBusiness() {
+  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
+}
+
+export function useFetchPublicAreaOfExperience() {
+  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
+}
+
 export function useFetchYouthCertificates(params?: any) {
-  return useAxiosSWR([API_YOUTH_CERTIFICATES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_CERTIFICATES, params]);
 }
 
 export function useFetchYouthCertificate(certificateId: number | null) {
@@ -50,7 +80,7 @@ export function useFetchYouthCertificate(certificateId: number | null) {
 }
 
 export function useFetchYouthReferences() {
-  return useAxiosSWR(API_YOUTH_REFERENCES);
+  return useDataLocalizationAxiosSWR(API_YOUTH_REFERENCES);
 }
 
 export function useFetchReference(referenceId: number | null) {
@@ -60,7 +90,7 @@ export function useFetchReference(referenceId: number | null) {
 }
 
 export function useFetchEducations() {
-  return useAxiosSWR(API_YOUTH_EDUCATION);
+  return useDataLocalizationAxiosSWR(API_YOUTH_EDUCATION);
 }
 
 export function useFetchEducation(educationId: number | null) {
@@ -70,7 +100,9 @@ export function useFetchEducation(educationId: number | null) {
 }
 
 export function useFetchEducationExamsBoardsEduGroupsAndSubjects() {
-  return useAxiosSWR(API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS);
+  return useDataLocalizationAxiosSWR(
+    API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
+  );
 }
 
 export function useFetchPortfolios() {
@@ -84,12 +116,12 @@ export function useFetchPortfolio(portfolioId: number | null) {
 }
 
 export function useFetchLanguageProficiencies() {
-  return useAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
+  return useDataLocalizationAxiosSWR(API_YOUTH_LANGUAGE_PROFICIENCIES);
 }
 
 /** fetches guardians list of the youth */
 export function useFetchGuardians() {
-  return useAxiosSWR(API_YOUTH_GUARDIANS);
+  return useDataLocalizationAxiosSWR(API_YOUTH_GUARDIANS);
 }
 
 /** fetches a single guardian's info */
@@ -101,11 +133,11 @@ export function useFetchGuardian(guardianId: number | null) {
 
 /** fetches a single youth's details */
 export function useFetchYouthDetails(youthId: number | null | string) {
-  return useAxiosSWR(youthId ? API_YOUTH_LIST + '/' + youthId : null);
+  return useAxiosSWR(youthId ? API_YOUTHS + '/' + youthId : null);
 }
 
 export function useFetchYouths(params: any) {
-  return useAxiosSWR([API_YOUTH_LIST, params]);
+  return useAxiosSWR([API_YOUTHS, params]);
 }
 
 export function useFetchLanguageProficiency(
@@ -118,29 +150,8 @@ export function useFetchLanguageProficiency(
   );
 }
 
-export function useFetchCourseList(pathVariable: string, params: any) {
-  return useAxiosSWR([
-    pathVariable
-      ? API_PUBLIC_COURSE_LIST + pathVariable
-      : API_PUBLIC_COURSE_LIST,
-    params,
-  ]);
-}
-
-export function useFetchAllCourseList(params: any) {
-  return useAxiosSWR([API_PUBLIC_ALL_COURSE_LIST, params]);
-}
-
 export function useFetchYouthCourses(params: any) {
-  return useAxiosSWR([API_YOUTH_COURSES, params]);
-}
-
-export function useFetchPublicTrainingCenters(params: any) {
-  return useAxiosSWR([API_PUBLIC_TRAINING_CENTERS, params]);
-}
-
-export function useFetchPublicPrograms(params: any) {
-  return useAxiosSWR([API_PUBLIC_PROGRAMS, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_COURSES, params]);
 }
 
 export function useFetchYouthFeedStatistics() {
@@ -148,13 +159,19 @@ export function useFetchYouthFeedStatistics() {
 }
 
 export function useFetchLanguages() {
-  return useAxiosSWR([API_LANGUAGES]);
+  return useDataLocalizationAxiosSWR([API_LANGUAGES]);
 }
 
 export function useFetchYouthAddresses(params: any) {
-  return useAxiosSWR([API_YOUTH_ADDRESSES, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTH_ADDRESSES, params]);
 }
 
 export function useFetchYouthAddress(addressId: number | null) {
   return useAxiosSWR(addressId ? API_YOUTH_ADDRESSES + '/' + addressId : null);
+}
+
+export function useFetchPublicRplApplication(application_id: number | null) {
+  return useAxiosSWR(
+    application_id ? API_PUBLIC_RPL_APPLICATIONS + '/' + application_id : null,
+  );
 }

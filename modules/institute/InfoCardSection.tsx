@@ -6,8 +6,7 @@ import {Assignment, HomeWork, People, PeopleAlt} from '@mui/icons-material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {useDashboardStatistics} from '../../services/global/hooks';
-import {useVendor} from '../../@crema/utility/AppHooks';
+import {useFetchPublicDashboardStatistics} from '../../services/global/hooks';
 
 const PREFIX = 'InfoCardSection';
 
@@ -17,22 +16,16 @@ const classes = {
   boxItem: `${PREFIX}-boxItem`,
   icon: `${PREFIX}-icon`,
   desc: `${PREFIX}-desc`,
-  rootMobileView: `${PREFIX}-rootMobileView`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
   [`&.${classes.root}`]: {
-    [theme.breakpoints.up('md')]: {
-      marginTop: '50px',
-    },
-    [theme.breakpoints.down('xl')]: {
-      // marginTop: '200px',
-    },
+    marginTop: '60px',
   },
 
   [`& .${classes.subheading}`]: {
     textAlign: 'center',
-    marginBottom: 48,
+    marginBottom: 30,
   },
 
   [`& .${classes.boxItem}`]: {
@@ -57,22 +50,15 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     color: '#014E84', // theme.palette.secondary.main,
     padding: '0px 6px',
   },
-
-  [`& .${classes.rootMobileView}`]: {
-    [theme.breakpoints.down('xl')]: {
-      marginTop: '80px',
-    },
-  },
 }));
 
 const InfoCardSection = () => {
   const {messages, formatNumber} = useIntl();
-  const vendor = useVendor();
-  let {data: statistics} = useDashboardStatistics(vendor?.id);
+  let {data: statistics} = useFetchPublicDashboardStatistics();
 
   return (
     <StyledGrid container xl={12} className={classes.root}>
-      <Container maxWidth='lg' className={classes.rootMobileView}>
+      <Container maxWidth='lg'>
         <Fade direction='up'>
           <UnderlinedHeading>
             {messages['institute_home.at_a_glance']}

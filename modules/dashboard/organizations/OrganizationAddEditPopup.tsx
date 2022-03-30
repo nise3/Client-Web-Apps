@@ -1,11 +1,14 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Chip, Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
@@ -42,6 +45,26 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {
+  useFetchIndustryAssociations,
+  useFetchIndustryAssociationSubTrades,
+  useFetchIndustryAssociationTrades,
+} from '../../../services/IndustryAssociationManagement/hooks';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import {Box} from '@mui/system';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {cloneDeep} from 'lodash';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
+import {
+  getMobilePhoneValidationSchema,
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 
 interface OrganizationAddEditPopupProps {
   itemId: number | null;
@@ -52,7 +75,7 @@ interface OrganizationAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  domain: '',
+  // domain: '',
   email: '',
   mobile: '',
   fax_no: '',
@@ -63,6 +86,7 @@ const initialValues = {
   contact_person_designation: '',
   contact_person_designation_en: '',
   organization_type_id: '',
+  membership_id: '',
   permission_sub_group_id: '',
   loc_division_id: '',
   loc_district_id: '',
@@ -80,6 +104,10 @@ const initialValues = {
   description_en: '',
   logo: '',
   row_status: '1',
+  industry_association_trade_id: '',
+  sub_trades: [],
+  phone_numbers: [{value: ''}],
+  mobile_numbers: [{value: ''}],
 };
 
 const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
@@ -87,6 +115,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   refreshDataTable,
   ...props
 }) => {
+  const authUser = useAuthUser();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
@@ -121,17 +150,38 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   const {data: upazilas, isLoading: isLoadingUpazilas} =
     useFetchUpazilas(upazilasFilter);
 
+  const [tradeFilter] = useState({});
+  const {
+    data: industryAssociationTrades,
+    isLoading: isLoadingIndustryAssociationTrades,
+  } = useFetchIndustryAssociationTrades(tradeFilter);
+
+  const [subTradeFilter, setSubTradeFilter] = useState({});
+  const {
+    data: industryAssociationSubTrades,
+    isLoading: isLoadingIndustryAssociationSubTrades,
+  } = useFetchIndustryAssociationSubTrades(subTradeFilter);
+
+  const [selectedTradeId, setSelectedTradeId] = useState<any>(null);
+  const [selectedAllSubTrades, setSelectedAllSubTrades] = useState<any>([]);
+
   const {
     data: itemData,
     isLoading,
     mutate: mutateOrganization,
   } = useFetchOrganization(itemId);
-  console.log('item', itemData);
+
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
     useFetchOrganizationTypes(organizationTypeFilters);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
+
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
+
+  const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
+    useFetchIndustryAssociations(industryAssociationFilter);
 
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
@@ -141,7 +191,6 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup.string().label(messages['common.title_en'] as string),
       title: yup
         .string()
         .title()
@@ -158,6 +207,31 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .required()
         .label(messages['common.mobile'] as string)
         .matches(MOBILE_NUMBER_REGEX),
+      industry_association_id: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['institute.label'] as string)
+        : yup.string(),
+      phone_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
+        ),
+      mobile_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       contact_person_name: yup
         .string()
         .trim()
@@ -205,14 +279,47 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
+      sub_trades:
+        selectedAllSubTrades.length != 0
+          ? yup.array()
+          : yup
+              .array()
+              .of(yup.object())
+              .min(1, messages['common.must_have_one_sub_trade'] as string)
+              .required()
+              .label(
+                messages['common.industry_association_sub_trade'] as string,
+              ),
+      membership_id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.memberId'] as string),
       row_status: yup.string().label(messages['common.status'] as string),
+      location_latitude: yup
+        .string()
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
+        .string()
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
-  }, [messages]);
+  }, [messages, selectedAllSubTrades]);
 
   const {
     control,
     register,
     reset,
+    getValues,
     handleSubmit,
     setError,
     setValue,
@@ -231,11 +338,17 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   }, [permissionGroups]);
 
   useEffect(() => {
+    if (authUser?.isSystemUser) {
+      setIndustryAssociationFilter({row_status: RowStatus.ACTIVE});
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     if (itemData) {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        domain: itemData?.domain,
+        // domain: itemData?.domain,
         email: itemData?.email,
         mobile: itemData?.mobile,
         fax_no: itemData?.fax_no,
@@ -252,6 +365,9 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         name_of_the_office_head_designation_en:
           itemData?.name_of_the_office_head_designation_en,
         organization_type_id: itemData?.organization_type_id,
+        industry_association_id: itemData?.industry_association_id,
+        membership_id:
+          itemData?.industry_associations[0]?.pivot?.organization_id,
         loc_division_id: itemData?.loc_division_id,
         loc_district_id: itemData?.loc_district_id,
         loc_upazila_id: itemData?.loc_upazila_id,
@@ -264,6 +380,9 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         description: itemData?.description,
         description_en: itemData?.description_en,
         row_status: String(itemData?.row_status),
+        sub_trades: itemData.sub_trades,
+        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
       });
 
       setDistrictsList(
@@ -272,6 +391,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
       setUpazilasList(
         filterUpazilasByDistrictId(upazilas, itemData?.loc_district_id),
       );
+      setSelectedAllSubTrades(itemData?.sub_trades);
     } else {
       reset(initialValues);
     }
@@ -293,17 +413,105 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     [upazilas],
   );
 
-  const onSubmit: SubmitHandler<IOrganization> = async (
-    data: IOrganization,
-  ) => {
-    console.log('Data----', data);
+  const onTradeChange = useCallback(
+    (industryAssociationTradeId: number) => {
+      let selectedForTrades: Array<any> = [...selectedAllSubTrades];
+
+      if (industryAssociationTradeId) {
+        selectedForTrades = selectedAllSubTrades.filter(
+          (subTrade: any) => subTrade.trade_id == industryAssociationTradeId,
+        );
+
+        reset({
+          ...getValues(),
+          sub_trades: selectedForTrades,
+          industry_association_trade_id: industryAssociationTradeId,
+        });
+
+        setSubTradeFilter({
+          trade_id: industryAssociationTradeId,
+        });
+        setSelectedTradeId(industryAssociationTradeId);
+      } else {
+        reset({
+          ...getValues(),
+          sub_trades: selectedForTrades,
+          industry_association_trade_id: '',
+        });
+
+        setSubTradeFilter({});
+        setSelectedTradeId(null);
+      }
+    },
+    [selectedAllSubTrades],
+  );
+
+  const onSubTradeChange = useCallback(
+    (options: any) => {
+      let selectedSubTrades: Array<any> = [...selectedAllSubTrades];
+
+      if (selectedTradeId) {
+        selectedSubTrades = selectedSubTrades.filter(
+          (subTrade: any) => subTrade.trade_id != selectedTradeId,
+        );
+
+        selectedSubTrades = [...selectedSubTrades, ...options];
+      } else {
+        selectedSubTrades = options;
+      }
+
+      setSelectedAllSubTrades(selectedSubTrades);
+    },
+    [selectedTradeId, selectedAllSubTrades],
+  );
+  const onTradeDelete = useCallback(
+    (deletedTrade) => () => {
+      if (deletedTrade) {
+        let selectedSubTrades: Array<any> = [...selectedAllSubTrades];
+        selectedSubTrades = selectedSubTrades.filter(
+          (subTrade: any) => subTrade.id != deletedTrade.id,
+        );
+        setSelectedAllSubTrades(selectedSubTrades);
+
+        if (selectedTradeId) {
+          let subTrades = selectedSubTrades.filter(
+            (subTrade: any) => subTrade.trade_id == selectedTradeId,
+          );
+          reset({
+            ...getValues(),
+            sub_trades: subTrades,
+          });
+        } else {
+          reset({
+            ...getValues(),
+            sub_trades: selectedSubTrades,
+          });
+        }
+      }
+    },
+    [selectedAllSubTrades, selectedTradeId],
+  );
+
+  console.log('errors: ', errors);
+  const onSubmit: SubmitHandler<any> = async (data: IOrganization) => {
+    const formData = cloneDeep(data);
+
+    delete formData.industry_association_trade_id;
+
+    formData.sub_trades = (selectedAllSubTrades || []).map(
+      (subTrade: any) => subTrade.id,
+    );
+
+    console.log('Data----', formData);
     try {
+      formData.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      formData.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
       if (itemId) {
-        await updateOrganization(itemId, data);
+        await updateOrganization(itemId, formData);
         updateSuccessMessage('organization.label');
         mutateOrganization();
       } else {
-        await createOrganization(data);
+        await createOrganization(formData);
         createSuccessMessage('organization.label');
       }
       props.onClose();
@@ -333,6 +541,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -341,7 +550,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='title'
@@ -351,7 +560,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='title_en'
             label={messages['common.title_en']}
@@ -361,7 +570,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           />
         </Grid>
         {!isEdit && (
-          <Grid item xs={6}>
+          <Grid item xs={!isEdit ? 12 : 6}>
             <CustomFormSelect
               required
               id='permission_sub_group_id'
@@ -375,7 +584,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             required
             id='organization_type_id'
@@ -388,36 +597,87 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='domain'
-            label={messages['common.domain']}
-            register={register}
+        {authUser?.isSystemUser && (
+          <Grid item xs={12} md={6}>
+            <CustomFormSelect
+              required
+              id='industry_association_id'
+              label={messages['common.industry_association']}
+              isLoading={isLoadingIndustryAssociation}
+              control={control}
+              options={industryAssociations}
+              optionValueProp={'id'}
+              optionTitleProp={['title_en', 'title']}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            id='industry_association_trade_id'
+            label={messages['common.industry_association_trade']}
+            isLoading={isLoadingIndustryAssociationTrades}
+            control={control}
+            options={industryAssociationTrades}
+            optionValueProp='id'
+            optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            isLoading={isLoading}
+            onChange={onTradeChange}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
+          <CustomSelectAutoComplete
+            required
+            id='sub_trades'
+            label={messages['common.industry_association_sub_trade']}
+            isLoading={isLoadingIndustryAssociationSubTrades}
+            control={control}
+            options={industryAssociationSubTrades}
+            optionValueProp='id'
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={onSubTradeChange}
+          />
+        </Grid>
+
+        {selectedAllSubTrades.length > 0 && (
+          <Grid item xs={12}>
+            <Typography>Selected Trades</Typography>
+            <Box>
+              {selectedAllSubTrades.map((trade: any) => {
+                return (
+                  <React.Fragment key={trade.id}>
+                    <Chip
+                      label={trade.title}
+                      sx={{marginLeft: '5px', marginBottom: '5px'}}
+                      onDelete={onTradeDelete(trade)}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </Box>
+          </Grid>
+        )}
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='email'
-            label={messages['common.email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='fax_no'
-            label={messages['common.fax_no']}
+            id='membership_id'
+            label={messages['common.memberId']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        {/*<Grid item xs={12} md={6}>*/}
+        {/*  <CustomTextInput*/}
+        {/*    id='domain'*/}
+        {/*    label={messages['common.domain']}*/}
+        {/*    register={register}*/}
+        {/*    errorInstance={errors}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='mobile'
@@ -428,26 +688,49 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             placeholder='017xxxxxxxx'
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} md={6}>
+          <CustomFieldArray
+            id='phone_numbers'
+            labelLanguageId={'common.phone'}
+            isLoading={isLoading}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item container xs={12} md={6} alignSelf='flex-start'>
+          <CustomFieldArray
+            id='mobile_numbers'
+            labelLanguageId={'common.mobile'}
+            isLoading={isLoading}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='contact_person_name'
-            label={messages['common.contact_person_name']}
+            id='email'
+            label={messages['common.email']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            placeholder='example@gmail.com'
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='contact_person_name_en'
-            label={messages['common.contact_person_name_en']}
+            id='fax_no'
+            label={messages['common.fax_no']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='name_of_the_office_head'
             label={messages['common.name_of_the_office_head']}
@@ -456,7 +739,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='name_of_the_office_head_en'
             label={messages['common.name_of_the_office_head_en']}
@@ -465,7 +748,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='name_of_the_office_head_designation'
             label={messages['common.name_of_the_office_head_designation']}
@@ -474,7 +757,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='name_of_the_office_head_designation_en'
             label={messages['common.name_of_the_office_head_designation_en']}
@@ -483,48 +766,8 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='contact_person_mobile'
-            label={messages['common.contact_person_mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='017xxxxxxxx'
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='contact_person_email'
-            label={messages['common.contact_person_email']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            placeholder='example@gmail.com'
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='contact_person_designation'
-            label={messages['common.contact_person_designation']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id='contact_person_designation_en'
-            label={messages['common.contact_person_designation_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='description'
             label={messages['common.description']}
@@ -532,10 +775,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='description_en'
             label={messages['common.description_en']}
@@ -543,10 +786,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='address'
@@ -555,10 +798,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='address_en'
             label={messages['common.address_en']}
@@ -566,11 +809,11 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
-            rows={4}
+            rows={3}
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             required
             id='loc_division_id'
@@ -584,7 +827,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             onChange={changeDivisionAction}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             required
             id='loc_district_id'
@@ -598,7 +841,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             onChange={changeDistrictAction}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomFormSelect
             id='loc_upazila_id'
             label={messages['upazilas.label']}
@@ -610,7 +853,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='location_latitude'
             label={messages['common.location_latitude']}
@@ -618,9 +861,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='location_longitude'
             label={messages['common.location_longitude']}
@@ -628,9 +872,10 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             multiline={true}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='google_map_src'
             label={messages['common.google_map_src']}
@@ -641,7 +886,76 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
+          <Typography variant='h6' marginBottom={1}>
+            {messages['common.contact_person_info']}
+          </Typography>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_name'
+                label={messages['common.contact_person_name']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='contact_person_name_en'
+                label={messages['common.contact_person_name_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_designation'
+                label={messages['common.contact_person_designation']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                id='contact_person_designation_en'
+                label={messages['common.contact_person_designation_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_mobile'
+                label={messages['common.contact_person_mobile']}
+                helperText={messages['common.registration_username_note']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='017xxxxxxxx'
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextInput
+                required
+                id='contact_person_email'
+                label={messages['common.contact_person_email']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+                placeholder='example@gmail.com'
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='logo'
             defaultFileUrl={itemData?.logo}
@@ -652,7 +966,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             required={false}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}

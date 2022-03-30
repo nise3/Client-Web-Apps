@@ -14,46 +14,30 @@ import MaritalStatus from '../../../@softbd/utilities/MaritalStatus';
 import FreedomFighterStatus from '../../../@softbd/utilities/FreedomFighterStatus';
 import Religions from '../../../@softbd/utilities/Religions';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {
-  useFetchPublicPrograms,
-  useFetchPublicTrainingCenters,
-} from '../../../services/youthManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {useFetchTrainingCentersWithBatches} from '../../../services/instituteManagement/hooks';
 
 interface PersonalInfoFormProps {
-  course: any;
   register: any;
   errors: any;
   control: any;
   getValues: any;
   setValue: any;
+  courseId: any;
   visibleFieldKeys: Array<string>;
 }
 
 const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
-  course,
   register,
   errors,
   control,
   getValues,
   setValue,
+  courseId,
   visibleFieldKeys,
 }) => {
   const {messages} = useIntl();
-  const [trainingCenterFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-    institute_id: course?.institute_id,
-  });
-  const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchPublicTrainingCenters(trainingCenterFilters);
-  const [programFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-    institute_id: course?.institute_id,
-  });
-  const {data: programs, isLoading: isLoadingPrograms} =
-    useFetchPublicPrograms(programFilters);
 
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
     PhysicalDisabilityStatus.NO,
@@ -66,6 +50,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   const [defaultSignatureImagePath, setDefaultSignatureImagePath] = useState<
     string | null
   >(null);
+
+  const {data: TrainingCentersWithBatches} =
+    useFetchTrainingCentersWithBatches(courseId);
 
   useEffect(() => {
     if (getValues) {
@@ -271,32 +258,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={6}>
-        <CustomFilterableFormSelect
-          required
-          id='training_center_id'
-          label={messages['training_center.label']}
-          isLoading={isLoadingTrainingCenters}
-          control={control}
-          options={trainingCenters}
-          optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
-          errorInstance={errors}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6} md={6}>
-        <CustomFilterableFormSelect
-          id='program_id'
-          label={messages['programme.label']}
-          isLoading={isLoadingPrograms}
-          control={control}
-          options={programs}
-          optionValueProp='id'
-          optionTitleProp={['title_en', 'title']}
-          errorInstance={errors}
-        />
-      </Grid>
-
       <Grid item xs={12} md={6}>
         <CustomDateTimeField
           required
@@ -349,6 +310,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         />
       </Grid>
 
+      <Grid item xs={12} md={6}>
+        <CustomFilterableFormSelect
+          id='training_center_id'
+          label={messages['common.preferred_training_center']}
+          isLoading={false}
+          control={control}
+          options={TrainingCentersWithBatches}
+          optionValueProp={'id'}
+          optionTitleProp={['title']}
+          errorInstance={errors}
+        />
+      </Grid>
+
       {visibleFieldKeys &&
         visibleFieldKeys.includes(CourseConfigKeys.FREEDOM_FIGHTER_KEY) && (
           <Grid item xs={12} md={6}>
@@ -390,7 +364,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               />
             </Grid>
 
-            {disabilityStatus == 1 && (
+            {disabilityStatus == PhysicalDisabilityStatus.YES && (
               <Grid item xs={12} md={6}>
                 <CustomFormSelect
                   required

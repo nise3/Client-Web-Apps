@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,6 +8,8 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useFetchPermission} from '../../../services/userManagement/hooks';
 import IconPermission from '../../../@softbd/icons/IconPermission';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {PermissionMethodsKeyByLabel} from '../../../@softbd/utilities/Permission';
 
 type Props = {
   itemId: number;
@@ -18,6 +20,23 @@ type Props = {
 const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchPermission(itemId);
+
+  const getPermissionMethodName = useCallback(
+    (permissionMethodKey: number | string) => {
+      if (permissionMethodKey == PermissionMethodsKeyByLabel.PUT) {
+        return messages['permissions.method_put'];
+      } else if (permissionMethodKey == PermissionMethodsKeyByLabel.GET) {
+        return messages['permissions.method_get'];
+      } else if (permissionMethodKey == PermissionMethodsKeyByLabel.POST) {
+        return messages['permissions.method_post'];
+      } else if (permissionMethodKey == PermissionMethodsKeyByLabel.PATCH) {
+        return messages['permissions.method_patch'];
+      } else if (permissionMethodKey == PermissionMethodsKeyByLabel.DELETE) {
+        return messages['permissions.method_delete'];
+      } else return messages['common.not_found'];
+    },
+    [],
+  );
 
   return (
     <>
@@ -30,7 +49,7 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='permission.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -82,7 +101,7 @@ const PermissionDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12}>
             <DetailsInputView
               label={messages['permission.method']}
-              value={itemData?.method}
+              value={getPermissionMethodName(itemData?.method)}
               isLoading={isLoading}
             />
           </Grid>

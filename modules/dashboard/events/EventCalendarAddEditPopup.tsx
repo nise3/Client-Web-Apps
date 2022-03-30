@@ -1,29 +1,31 @@
-import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchCalendarEvent} from '../../../services/cmsManagement/hooks';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Grid } from '@mui/material';
 import moment from 'moment';
+import React, { FC, useEffect, useMemo } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useIntl } from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import { isBreakPointUp } from '../../../@crema/utility/Utils';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import yup from '../../../@softbd/libs/yup';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import {
   createCalendar,
-  updateCalendar,
+  updateCalendar
 } from '../../../services/cmsManagement/EventService';
-import {useAuthUser, useVendor} from '../../../@crema/utility/AppHooks';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {ICalendar, ICalendarDto} from '../../../shared/Interface/common.interface';
+import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
+import {
+  ICalendarDto
+} from '../../../shared/Interface/common.interface';
+
 
 interface CalendarAddEditPopupProps {
   itemId: number | null | undefined;
@@ -35,11 +37,7 @@ interface CalendarAddEditPopupProps {
 
 let initialValues = {
   title: '',
-  youth_id: '',
-  institute_id: '',
-  organization_id: '',
   batch_id: '',
-  industry_association_id: '',
   start_date: '',
   end_date: '',
   start_time: '',
@@ -57,12 +55,14 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
-  const vendor = useVendor();
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  const {data: itemData, isLoading} = useFetchCalendarEvent(itemId);
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateCalenderEvent,
+  } = useFetchCalendarEvent(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -82,7 +82,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<ICalendar>({
+  } = useForm<ICalendarDto>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -92,19 +92,20 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
         ...itemData,
         start_date: itemData?.start_date,
         end_date: itemData?.end_date,
+        // start_time: itemData?.start_date,
+        // end_time: itemData?.end_date
       });
     } else {
-      (initialValues.organization_id = authUser?.organization_id as string),
-        (initialValues.institute_id = authUser?.institute_id as string),
-        (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
+      (initialValues.start_date = moment(startDate).format('yyyy-MM-DD')),
         (initialValues.end_date = moment(endDate).format('yyyy-MM-DD')),
-        reset(initialValues);
+        (initialValues.start_time = moment(startDate).format('HH:mm')),
+        (initialValues.end_time = moment(endDate).format('HH:mm'));
+      reset(initialValues);
     }
   }, [itemData]);
   const hasSecond = (time: any) => {
-    if(time){
+    if (time) {
       const timearray = time.split(':');
-      // console.log(timearray.length);
       return timearray.length === 3;
     } else {
       return false;
@@ -113,26 +114,22 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<ICalendarDto> = async (data: ICalendarDto) => {
     data.start = data.start_date;
     data.end = data.end_date;
-    if (data.start_time){
+    if (data.start_time) {
       data.start_time = hasSecond(data.start_time)
         ? data.start_time
         : `${data.start_time}:00`;
     }
-    if (data.end_time){
+    if (data.end_time) {
       data.end_time = hasSecond(data.end_time)
         ? data.end_time
         : `${data.end_time}:00`;
-    }
-
-    if (authUser?.isInstituteUser){
-      data.institute_id = vendor?.id;
     }
 
     try {
       if (itemId) {
         await updateCalendar(itemId, data);
         updateSuccessMessage('menu.events');
-        // mutateCalendar();
+        mutateCalenderEvent();
         refreshDataTable('update', data);
       } else {
         const create = await createCalendar(data);
@@ -166,7 +163,7 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

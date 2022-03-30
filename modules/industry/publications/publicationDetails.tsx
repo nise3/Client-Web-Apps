@@ -10,7 +10,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useRouter} from 'next/router';
-import {useFetchPublication} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicPublication} from '../../../services/IndustryManagement/hooks';
 
 const PREFIX = 'PublicationDetails';
 
@@ -21,6 +21,8 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  marginBottom: '60px',
+
   [`& .${classes.date}`]: {
     display: 'flex',
     alignItems: 'center',
@@ -45,7 +47,7 @@ const PublicationDetails = () => {
   const router = useRouter();
   const {publicationId}: any = router.query;
 
-  const {data: publicationData} = useFetchPublication(publicationId);
+  const {data: publicationData} = useFetchPublicPublication(publicationId);
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -55,8 +57,11 @@ const PublicationDetails = () => {
             <Grid item xs={12} md={5}>
               <Box className={classes.date}>
                 <Link href={'/publications'}>
-                  <Button variant={'outlined'} color={'primary'}>
-                    <ArrowBackIosIcon style={{fontSize: 'small'}} />
+                  <Button
+                    variant={'outlined'}
+                    color={'primary'}
+                    sx={{fontWeight: 'bold'}}>
+                    <ArrowBackIosIcon style={{fontSize: 'medium'}} />
                     {messages['industry.publication_list']}
                   </Button>
                 </Link>
@@ -105,12 +110,12 @@ const PublicationDetails = () => {
             height='200'
             sx={{width: '150px'}}
             image={publicationData?.image_path}
-            // image={'/images/testPublication.png'}
             alt={publicationData?.title}
           />
           <H1
             sx={{
               ...result.h2,
+              fontWeight: 'bold',
             }}
             mt={3}>
             {publicationData?.title}
@@ -118,7 +123,9 @@ const PublicationDetails = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Body1>{publicationData?.description}</Body1>
+          <Body1 sx={{fontWeight: 'bold'}}>
+            {publicationData?.description}
+          </Body1>
         </Grid>
       </Grid>
     </StyledContainer>

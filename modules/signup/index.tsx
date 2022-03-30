@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import {Link} from '../../@softbd/elements/common';
 import {
   LINK_INSTITUTE_SIGNUP,
-  LINK_ORGANIZATION_SIGNUP,
+  // LINK_ORGANIZATION_SIGNUP,
   LINK_YOUTH_SIGNUP,
   LINK_INDUSTRY_ASSOCIATION_SIGNUP,
 } from '../../@softbd/common/appLinks';
@@ -26,7 +26,7 @@ const YouthSignupPage = () => {
           {messages['signup.label']}
         </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={3} md={3}>
+          <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_YOUTH_SIGNUP}>
               <Box className={clsx(classes.iconBoxYouth, classes.icon)}>
                 <PeopleIcon sx={{color: '#fff'}} />
@@ -36,7 +36,7 @@ const YouthSignupPage = () => {
               </Box>
             </Link>
           </Grid>
-          <Grid item xs={12} sm={3} md={3}>
+          <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_INSTITUTE_SIGNUP}>
               <Box className={clsx(classes.iconBoxTc, classes.icon)}>
                 <BusinessIcon style={{color: '#ffffff'}} />
@@ -46,17 +46,17 @@ const YouthSignupPage = () => {
               </Box>
             </Link>
           </Grid>
-          <Grid item xs={12} sm={3} md={3}>
-            <Link href={LINK_ORGANIZATION_SIGNUP}>
-              <Box className={clsx(classes.iconBoxIndustry, classes.icon)}>
-                <BusinessIcon style={{color: '#ffffff'}} />
-                <Typography className={classes.text}>
-                  {messages['common.industry']}
-                </Typography>
-              </Box>
-            </Link>
-          </Grid>
-          <Grid item xs={12} sm={3} md={3}>
+          {/*<Grid item xs={12} sm={3} md={3}>*/}
+          {/*  <Link href={LINK_ORGANIZATION_SIGNUP}>*/}
+          {/*    <Box className={clsx(classes.iconBoxIndustry, classes.icon)}>*/}
+          {/*      <BusinessIcon style={{color: '#ffffff'}} />*/}
+          {/*      <Typography className={classes.text}>*/}
+          {/*        {messages['common.industry']}*/}
+          {/*      </Typography>*/}
+          {/*    </Box>*/}
+          {/*  </Link>*/}
+          {/*</Grid>*/}
+          <Grid item xs={12} sm={4} md={4}>
             <Link href={LINK_INDUSTRY_ASSOCIATION_SIGNUP}>
               <Box
                 className={clsx(

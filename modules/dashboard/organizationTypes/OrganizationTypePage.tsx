@@ -19,10 +19,11 @@ import IconOrganizationType from '../../../@softbd/icons/IconOrganizationType';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const OrganizationTypePage = () => {
   const {successStack} = useNotiStack();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
   const [organizationTypeFilters] = useState({});
   const {
@@ -83,15 +84,15 @@ const OrganizationTypePage = () => {
           return props.row.index + 1;
         },
       },
-
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization_type.is_government'],
@@ -146,7 +147,7 @@ const OrganizationTypePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

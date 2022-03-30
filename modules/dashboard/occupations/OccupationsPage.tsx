@@ -17,9 +17,10 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const OccupationsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -80,15 +81,24 @@ const OccupationsPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['job_sectors.label'],
         accessor: 'job_sector_title',
+        isVisible: locale == LocaleLanguage.BN,
+        disableFilters: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['job_sectors.label_en'],
+        accessor: 'job_sector_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+        disableFilters: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.status'],
@@ -117,7 +127,7 @@ const OccupationsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

@@ -5,7 +5,16 @@ import ShowInTypes from './ShowInTypes';
 import {getBrowserCookie} from '../libs/cookieInstance';
 import {COOKIE_KEY_INSTITUTE_ID} from '../../shared/constants/AppConst';
 import {getHostUrl} from '../common/SSOConfig';
-import {niseDomain, youthDomain} from '../common/constants';
+import {
+  industryDomain,
+  instituteDomain,
+  isLocalHost,
+  niseDomain,
+  youthDomain,
+} from '../common/constants';
+import URL from 'url';
+import UserTypes from './UserTypes';
+import {MAX_PAGE_SIZE, MIN_PAGE_SIZE} from './PageSizes';
 
 export const genders = [
   {
@@ -55,6 +64,7 @@ export const religions = [
     label: 'Others',
   },
 ];
+
 export const catchBlockHandler = (error: any, message = '') => {
   throw error;
 };
@@ -215,7 +225,7 @@ export const isValidationError = (response: any) => {
 };
 
 export const getObjectArrayFromValueArray = (valueArray: any) => {
-  if (valueArray && Array.isArray(valueArray)) {
+  if (valueArray && Array.isArray(valueArray) && valueArray.length > 0) {
     return valueArray.map((item: any) => {
       return {value: item};
     });
@@ -262,10 +272,12 @@ export function toCamelCase(object: any, exceptions: string[] = []) {
 }
 
 export const getUserType = (user: CommonAuthUser | null) => {
-  if (user?.isSystemUser) return 1;
-  else if (user?.isOrganizationUser) return 2;
-  else if (user?.isInstituteUser) return 3;
-  else return 1;
+  if (user?.isSystemUser) return UserTypes.SYSTEM_USER;
+  else if (user?.isOrganizationUser) return UserTypes.ORGANIZATION_USER;
+  else if (user?.isInstituteUser) return UserTypes.INSTITUTE_USER;
+  else if (user?.isIndustryAssociationUser)
+    return UserTypes.INDUSTRY_ASSOCIATION_USER;
+  else return UserTypes.SYSTEM_USER;
 };
 
 export const isNeedToSelectOrganization = (
@@ -305,6 +317,20 @@ export const courseDuration = (
   }
 };
 
+export const getCourseDuration = function (
+  duration: number,
+  formatFN: any,
+  messages: any,
+) {
+  duration = formatFN(duration);
+
+  if (duration > 1) {
+    return duration + ' ' + (messages['common.hours'] as string);
+  }
+
+  return duration + ' ' + (messages['common.hour'] as string);
+};
+
 export const objectFilter = (object: any) => {
   Object.keys(object).forEach((key) => {
     if (!object[key]) {
@@ -334,12 +360,16 @@ export const passingYears = () => {
     }
 };*/
 
-export const getIntlDateFromString = (formatFn: any, dateStr: any) => {
+export const getIntlDateFromString = (
+  formatFn: any,
+  dateStr: any,
+  monthFormat?: string,
+) => {
   const dt = new Date(dateStr).toLocaleString();
   if (dt !== 'Invalid Date') {
     return formatFn(dateStr, {
       day: '2-digit',
-      month: 'long',
+      month: monthFormat ? monthFormat : 'long',
       year: 'numeric',
     });
   } else {
@@ -421,7 +451,7 @@ export const getVimeoUrl = (url: any) => {
 };
 
 export const getEmbeddedVideoUrl = (video_url: any) => {
-  const domain = new window.URL(video_url);
+  const domain = URL.parse(video_url);
   if (domain.host == 'www.youtube.com') {
     return getYoutubeUrl(video_url);
   } else if (domain.host == 'www.facebook.com') {
@@ -437,4 +467,75 @@ export const getInstituteIdByDomain = (cookies?: any) => {
   return cookies && cookies?.institute_id
     ? cookies.institute_id
     : getBrowserCookie(COOKIE_KEY_INSTITUTE_ID) || 40;
+};
+
+export const getErrorObject = (id: any, errorInstance: any) => {
+  const keyArray = id
+    .replaceAll('.', ',')
+    .replaceAll('[', ',')
+    .replaceAll(']', '')
+    .split(',');
+  let errorObj = errorInstance;
+  keyArray.forEach((key: string) => {
+    errorObj = errorObj?.[key];
+  });
+  return errorObj;
+};
+
+export const getCurrentDomain = () => {
+  const origin = getHostUrl();
+  if (typeof window != 'undefined') {
+    const host = window?.location?.host;
+    if (isLocalHost()) {
+      if (origin?.includes(niseDomain())) {
+        return 'nise.gov.bd';
+      } else if (origin?.includes(youthDomain())) {
+        return ' youth.nise.gov.bd';
+      } else if (origin?.includes(industryDomain())) {
+        return 'mcci.nise.gov.bd';
+      } else if (origin?.includes(instituteDomain())) {
+        return 'dyd.nise.gov.bd';
+      }
+    }
+    return host;
+  } else {
+    return '';
+  }
+};
+
+export const getFilteredQueryParams = (
+  params: any,
+  defaultPageSize: number,
+  defaultPage: number,
+) => {
+  if (
+    params.page_size &&
+    (!Number(params.page_size) ||
+      params.page_size < MIN_PAGE_SIZE ||
+      params.page_size > MAX_PAGE_SIZE)
+  ) {
+    params.page_size = defaultPageSize;
+  }
+
+  if (params.page && !Number(params.page)) {
+    params.page = defaultPage;
+  }
+
+  return params;
+};
+
+export const getMobilePhoneValidationSchema = (
+  yup: any,
+  regex: any,
+  label: any,
+) => {
+  return yup.object().shape({
+    value: yup
+      .mixed()
+      .test(
+        'mobile_number_validation',
+        label as string,
+        (value: any) => !value || Boolean(value.match(regex)),
+      ),
+  });
 };

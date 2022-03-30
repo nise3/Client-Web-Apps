@@ -3,6 +3,7 @@ import React from 'react';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getErrorObject} from '../../../utilities/helpers';
 
 type Props = {
   id: string;
@@ -14,12 +15,14 @@ type Props = {
   register?: any;
   errorInstance?: any;
   multiline?: boolean;
+  disabled?: boolean;
   rows?: number;
   type?: string;
   defaultValue?: string;
   inputProps?: any;
   helperText?: any;
   [x: string]: any;
+  onInput?: any;
 };
 
 const CustomTextInput = ({
@@ -36,25 +39,17 @@ const CustomTextInput = ({
   type,
   defaultValue,
   inputProps,
+  disabled,
+  onInput: onChangeCallback,
   helperText,
   ...rest
 }: Props) => {
-  let errorObj = errorInstance?.[id];
-  const reg = new RegExp('(.*)\\[(.*?)]', '');
-  const matches = id.match(reg);
-  if (matches) {
-    errorObj = errorInstance?.[matches[1]]?.[matches[2]];
-  }
+  let errorObj = getErrorObject(id, errorInstance);
 
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
     <>
-      {helperText && (
-        <FormHelperText sx={{color: 'primary.main'}}>
-          {helperText}
-        </FormHelperText>
-      )}
       <TextField
         fullWidth
         variant={variant ? variant : 'outlined'}
@@ -80,11 +75,23 @@ const CustomTextInput = ({
             ''
           )
         }
+        onInput={(event: any) => {
+          let value = type == 'file' ? event.target.files : event.target.value;
+          if (onChangeCallback) {
+            onChangeCallback(value);
+          }
+        }}
         defaultValue={defaultValue}
+        disabled={disabled ? disabled : false}
         inputProps={{...inputProps, ...{required: false}}}
         {...register(id)}
         {...rest}
       />
+      {helperText && (
+        <FormHelperText sx={{color: 'primary.main'}}>
+          {helperText}
+        </FormHelperText>
+      )}
     </>
   );
 };

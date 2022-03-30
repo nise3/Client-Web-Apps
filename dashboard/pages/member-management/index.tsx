@@ -4,16 +4,15 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const ApplicationListPage = asyncComponent(
-  () =>
-    import('../../../modules/dashboard/applicationsList/ApplicationListPage'),
+const MemberListPage = asyncComponent(
+  () => import('../../../modules/dashboard/memberList/MemberListPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['application_list.label'] as string} />
-      <ApplicationListPage />
+      <PageMeta title={messages['member_management.label'] as string} />
+      <MemberListPage />
     </>
   );
 });

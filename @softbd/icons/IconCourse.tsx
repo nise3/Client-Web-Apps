@@ -1,10 +1,10 @@
-import {BusinessCenter} from '@mui/icons-material';
+import {Grading} from '@mui/icons-material';
 import React from 'react';
 
 const IconCourse = () => {
   return (
     <>
-      <BusinessCenter />
+      <Grading />
     </>
   );
 };

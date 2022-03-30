@@ -72,7 +72,11 @@ yup.setLocale({
   },
   array: {
     min: '${path} field must have at least ${min} items',
-    max: '${path} field must have less than or equal to ${max} items',
+    /*max: '${path} field must have less than or equal to ${max} items',*/
+    max: ({path, max}: any) => ({
+      key: 'yup_array_items_validation_max',
+      values: {path, max},
+    }),
     length: '${path} must have ${length} items',
   },
 });

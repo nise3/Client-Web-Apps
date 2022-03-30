@@ -11,6 +11,7 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import {useFetchCourse} from '../../../services/instituteManagement/hooks';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
 import {ISkill} from '../../../shared/Interface/organization.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -89,7 +90,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='course.label' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -118,13 +119,13 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={6}>
-            <DetailsInputView
-              label={messages['common.code']}
-              value={itemData?.code}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {/*<Grid item xs={12} sm={6} md={6}>*/}
+          {/*  <DetailsInputView*/}
+          {/*    label={messages['common.code']}*/}
+          {/*    value={itemData?.code}*/}
+          {/*    isLoading={isLoading}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6} sm={3} md={3}>
             <DetailsInputView
               label={messages['course.fee']}
@@ -147,13 +148,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {/*<Grid item xs={12} sm={6} md={6}>
-            <DetailsInputView
-              label={messages['branch.label']}
-              value={itemData?.branch_title}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
+
           <Grid item xs={12} sm={6} md={6}>
             <DetailsInputView
               label={messages['programme.label']}

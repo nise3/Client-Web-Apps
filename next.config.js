@@ -13,8 +13,8 @@ module.exports = (phase) => {
   const env = {
     title: (() =>
       isDev
-        ? 'NISE3 - National Intelligence for Skills, Education, Employment and Entrepreneurship'
-        : 'Nise3')(),
+        ? 'NISE - National Intelligence for Skills, Education, Employment and Entrepreneurship'
+        : 'NISE CUBE')(),
   };
 
   const images = {

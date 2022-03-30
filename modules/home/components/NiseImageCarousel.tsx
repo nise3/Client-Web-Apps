@@ -6,6 +6,7 @@ import LandingBannerTemplateRightLeft from './LandingBannerTemplateRightLeft';
 import LandingBannerTemplateLeftRight from './LandingBannerTemplateLeftRight';
 import {styled} from '@mui/material/styles';
 import CarouselStyles from '../../../@softbd/elements/display/CustomCarousel/CarouselStyles';
+import LandingBannerTemplateBackgroundImage from './LandingBannerTemplateBackgroundImage';
 
 // @ts-ignore
 const StyledCarousel = styled(Carousel)(() => ({...CarouselStyles}));
@@ -22,9 +23,7 @@ const NiseImageCarousel = ({banners}: Props) => {
       arrows
       autoPlay={true}
       autoPlaySpeed={10000}
-      beforeChange={() => {
-        console.log('beforeChange');
-      }}
+      beforeChange={() => {}}
       centerMode={false}
       className=''
       containerClass='container'
@@ -51,16 +50,32 @@ const NiseImageCarousel = ({banners}: Props) => {
       swipeable>
       {banners &&
         banners?.length &&
-        banners.map((banner: any) => {
+        banners.map((banner: any, index) => {
           switch (banner?.banner_template_code) {
             case 'BT_CB':
-              return <LandingBannerTemplateCenterBackground banner={banner} />;
+              return (
+                <LandingBannerTemplateCenterBackground
+                  banner={banner}
+                  key={index}
+                />
+              );
             case 'BT_RL':
-              return <LandingBannerTemplateRightLeft banner={banner} />;
+              return (
+                <LandingBannerTemplateRightLeft banner={banner} key={index} />
+              );
             case 'BT_LR':
-              return <LandingBannerTemplateLeftRight banner={banner} />;
+              return (
+                <LandingBannerTemplateLeftRight banner={banner} key={index} />
+              );
+            case 'BT_OB':
+              return <LandingBannerTemplateBackgroundImage banner={banner} />;
             default:
-              return <LandingBannerTemplateCenterBackground banner={banner} />;
+              return (
+                <LandingBannerTemplateCenterBackground
+                  banner={banner}
+                  key={index}
+                />
+              );
           }
         })}
     </StyledCarousel>

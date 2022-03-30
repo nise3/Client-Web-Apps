@@ -15,39 +15,34 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSlider from '../../../@softbd/icons/IconSlider';
 import {deleteSlider} from '../../../services/cmsManagement/SliderService';
-import {useFetchSliders} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchCMSGlobalConfig,
+  useFetchSliders,
+} from '../../../services/cmsManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 
 const SliderPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
+  const [sliderFilters] = useState<any>({});
+  const [showInFilterItems, setShowInFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
 
-  const [sliderFilters, setSliderFilters] = useState<any>({});
   const {
     data: sliders,
     isLoading,
     mutate: mutateSliders,
   }: any = useFetchSliders(sliderFilters);
 
+  const {data: cmsGlobalConfig} = useFetchCMSGlobalConfig();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -90,6 +85,19 @@ const SliderPage = () => {
     mutateSliders();
   }, []);
 
+  useEffect(() => {
+    if (cmsGlobalConfig) {
+      setShowInFilterItems(
+        cmsGlobalConfig?.show_in.map((showInType: any) => {
+          return {
+            id: showInType.id,
+            title: showInType.title,
+          };
+        }),
+      );
+    }
+  }, [cmsGlobalConfig]);
+
   const columns = useMemo(
     () => [
       {
@@ -103,25 +111,22 @@ const SliderPage = () => {
       {
         Header: messages['common.show_in'],
         accessor: 'show_in_label',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
+        Cell: (props: any) => {
+          return props.row.original.show_in_label;
+        },
       },
       {
         Header: messages['common.title'],
         accessor: 'title',
       },
       {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: false,
-      },
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -145,7 +150,7 @@ const SliderPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, showInFilterItems],
   );
 
   return (

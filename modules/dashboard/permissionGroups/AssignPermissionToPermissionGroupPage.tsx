@@ -20,10 +20,13 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
+import BackButton from '../../../@softbd/elements/button/BackButton';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const AssignPermissionToPermissionGroupPage = () => {
   const router = useRouter();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
   const {permissionGroupId} = router.query;
@@ -155,15 +158,23 @@ const AssignPermissionToPermissionGroupPage = () => {
 
   return (
     <PageBlock
-      title={messages['common.assign_permission']}
+      title={
+        <IntlMessages
+          id='common.assign_permission'
+          values={{subject: itemData?.title}}
+        />
+      }
       extra={[
-        <SubmitButton
-          key={1}
-          onClick={syncPermissionAction}
-          isLoading={isLoading}
-          isSubmitting={isSubmitting}
-          label={messages['permissions.sync_permission'] as string}
-        />,
+        <React.Fragment key={1}>
+          <BackButton key={1} url={'/permission-groups'} />
+          <SubmitButton
+            key={2}
+            onClick={syncPermissionAction}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            label={messages['permissions.sync_permission'] as string}
+          />
+        </React.Fragment>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (
@@ -194,7 +205,11 @@ const AssignPermissionToPermissionGroupPage = () => {
                           handlePermissionCheck(permission.id, module)
                         }
                       />
-                      {lodashStartCase(permission.title)}
+                      {lodashStartCase(
+                        locale == LocaleLanguage.BN
+                          ? permission.title
+                          : permission.title_en,
+                      )}
                     </label>
                   );
                 })}

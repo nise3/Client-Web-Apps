@@ -13,7 +13,6 @@ import {H1, H2} from '../../../@softbd/elements/common';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 
 const PREFIX = 'InstituteFeedback';
@@ -48,7 +47,6 @@ const StyledGrid = styled(Grid)(({theme}) => {
 
 const InstituteFeedback = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
 
@@ -83,13 +81,12 @@ const InstituteFeedback = () => {
     setError,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.FEEDBACK;
-    if (vendor) data.institute_id = vendor.id;
 
     try {
       await createVisitorFeedback(data);

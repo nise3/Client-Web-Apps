@@ -18,7 +18,6 @@ import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {Close as CloseIcon} from '@mui/icons-material';
-import {useFetchLanguageProficiencies} from '../../../../services/youthManagement/hooks';
 import ContentLayout from '../component/ContentLayout';
 import {deleteLanguageProficiency} from '../../../../services/youthManagement/LanguageProficiencyService';
 import {YouthLanguageProficiency} from '../../../../services/youthManagement/typing';
@@ -36,21 +35,20 @@ import {useDispatch} from 'react-redux';
 type LanguageProficiencyViewPageProps = {
   onEdit: (itemId: number) => void;
   onClose: () => void;
+  languageProficiencies: any;
+  mutateLanguageProficiencies: () => void;
 };
 
 const LanguageProficiencyViewPage = ({
   onEdit,
   onClose,
+  languageProficiencies,
+  mutateLanguageProficiencies,
 }: LanguageProficiencyViewPageProps) => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
-  const {
-    data: languageProficiencies,
-    isLoading,
-    mutate: mutateLanguageProficiencies,
-  } = useFetchLanguageProficiencies();
 
   const updateProfile = () => {
     (async () => {
@@ -102,12 +100,14 @@ const LanguageProficiencyViewPage = ({
     }
   };
 
+  console.log('languageProficiencies: ', languageProficiencies);
+
   return (
     <Zoom in={true}>
       <Box>
         <ContentLayout
           title={messages['language_proficiency.title']}
-          isLoading={isLoading}
+          isLoading={false}
           actions={
             <IconButton aria-label='close' onClick={onClose} size='large'>
               <CloseIcon />

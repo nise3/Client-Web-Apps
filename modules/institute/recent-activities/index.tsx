@@ -1,17 +1,15 @@
 import {Box, Container, Grid, Skeleton, Stack} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {useFetchInstitutesRecentActivity} from '../../../services/instituteManagement/hooks';
 import {useIntl} from 'react-intl';
 import RecentActivityCardView from './RecentActivityCardView';
 import RecentActivityMasonryGroupView from './RecentActivityMasonryGroupView';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {Pagination} from '@mui/lab';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {H1, H2} from '../../../@softbd/elements/common';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {useFetchPublicRecentActivities} from '../../../services/cmsManagement/hooks';
 
 let defaultImage =
   'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
@@ -50,16 +48,13 @@ const StyledContainer = styled(Container)(({theme}) => {
 
 const RecentActivities = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
-  const showInType = getShowInTypeByDomain();
 
   const [recentActivityFilter, setRecentActivityFilter] = useState<any>({
     page: 1,
-    page_size: 8,
+    page_size: PageSizes.EIGHT,
     row_status: RowStatus.ACTIVE,
   });
-  const [recentActivityMasonryFilter, setRecentActivityMasonryFilter] =
-    useState<any>({});
+  const [recentActivityMasonryFilter] = useState<any>({});
 
   const [recentActivitiesMasonryList, setRecentActivitiesMasonryList] =
     useState<any>([]);
@@ -71,12 +66,12 @@ const RecentActivities = () => {
     data: recentActivitiesFetchedData,
     metaData,
     isLoading: isLoadingRecentActivitiesFetchedData,
-  } = useFetchInstitutesRecentActivity(recentActivityFilter);
+  } = useFetchPublicRecentActivities(recentActivityFilter);
 
   const {
     data: recentActivitiesFetchedMasonryData,
     isLoading: isLoadingRecentActivitiesFetchedMasonryData,
-  } = useFetchInstitutesRecentActivity(recentActivityMasonryFilter);
+  } = useFetchPublicRecentActivities(recentActivityMasonryFilter);
 
   useEffect(() => {
     let data = recentActivitiesFetchedData?.filter((item: any) => {
@@ -107,24 +102,6 @@ const RecentActivities = () => {
     setRecentActivitiesMasonryList(final);
   }, [recentActivitiesFetchedMasonryData]);
 
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      if (showInType == ShowInTypes.TSP) {
-        params.institute_id = vendor?.id;
-      }
-      setRecentActivityFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-      setRecentActivityMasonryFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
-
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setRecentActivityFilter((params: any) => {
@@ -147,7 +124,10 @@ const RecentActivities = () => {
               items={recentActivitiesMasonryList}
             />
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['recent_activities.label']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
         <Grid item mt={8} xs={12}>
@@ -177,7 +157,10 @@ const RecentActivities = () => {
               ))}
             </Grid>
           ) : (
-            <NoDataFoundComponent />
+            <NoDataFoundComponent
+              messageType={messages['recent_activities.label']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
       </Grid>

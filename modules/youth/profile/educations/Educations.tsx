@@ -19,7 +19,7 @@ import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {Body2, H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Educations';
@@ -100,9 +100,7 @@ const Educations: FC<EducationsProps> = ({
                       {education.major_or_concentration}
                     </Typography>
                   )}
-                  <Typography variant={'caption'}>
-                    {education?.institute_name}
-                  </Typography>
+                  <Body2>{education?.institute_name}</Body2>
                   <Typography variant={'subtitle2'}>
                     {messages['education.result']}: {getResult(education)}
                   </Typography>

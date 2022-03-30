@@ -20,6 +20,8 @@ export interface YouthJobExperience {
   job_responsibilities?: string;
   job_responsibilities_en?: string;
   is_currently_working?: number;
+  area_of_experiences?: Array<any>;
+  area_of_businesses?: Array<any>;
 }
 
 export interface YouthPersonalInfo {
