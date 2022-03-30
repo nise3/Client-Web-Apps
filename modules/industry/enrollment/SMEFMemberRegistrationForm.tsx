@@ -599,7 +599,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
         label: messages['common.no'],
       },
     ];
-  }, []);
+  }, [locale]);
 
   const changeDivisionAction = useCallback(
     (divisionId: number) => {

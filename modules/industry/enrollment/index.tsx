@@ -574,7 +574,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         label: messages['common.no'],
       },
     ];
-  }, []);
+  }, [locale]);
 
   const changeDivisionAction = useCallback(
     (divisionId: number) => {
