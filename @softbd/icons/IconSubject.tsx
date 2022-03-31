@@ -1,10 +1,10 @@
-import {Engineering} from '@mui/icons-material';
+import {Book} from '@mui/icons-material';
 import React from 'react';
 
 const IconSubject = () => {
   return (
     <>
-      <Engineering />
+      <Book />
     </>
   );
 };

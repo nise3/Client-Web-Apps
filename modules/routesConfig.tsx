@@ -485,7 +485,7 @@ const routesConfig: NavItemProps[] = [
             messageId: 'subject.label',
             permissionKey: 'view_any_subject',
             type: 'item',
-            icon: 'grading',
+            icon: 'book',
             url: '/subjects',
           },
           {
