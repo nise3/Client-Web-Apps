@@ -21,7 +21,7 @@ export const routePermissions: any = {
   },
   '/organization-profile': {
     routePrefix: '/organization-profile',
-    permissionKeys: ['view_any_organization_profile'],
+    permissionKeys: ['view_organization_profile'],
   },
   '/rank-types': {
     routePrefix: '/rank-types',
@@ -132,8 +132,8 @@ export const routePermissions: any = {
     routePrefix: '/application-management',
     permissionKeys: ['view_any_course_enrollment'],
   },
-  '/assessment-management': {
-    routePrefix: '/assessment-management',
+  '/rpl-assessment-management': {
+    routePrefix: '/rpl-assessment-management',
     permissionKeys: ['view_any_rpl_application'],
   },
   '/hr-demand': {
@@ -271,28 +271,28 @@ export const routePermissions: any = {
     routePrefix: '/rpl-occupations',
     permissionKeys: ['view_any_rpl_occupation'],
   },
-  '/subjects': {
-    routePrefix: '/subjects',
-    permissionKeys: ['view_any_subject'],
+  '/rpl-subjects': {
+    routePrefix: '/rpl-subjects',
+    permissionKeys: ['view_any_rpl_subject'],
   },
   '/rpl-levels': {
     routePrefix: '/rpl-levels',
     permissionKeys: ['view_any_rpl_level'],
   },
-  '/assessments': {
-    routePrefix: '/assessments',
-    permissionKeys: ['view_any_assessment'],
+  '/rpl-assessments': {
+    routePrefix: '/rpl-assessments',
+    permissionKeys: ['view_any_rpl_assessment'],
   },
-  '/question-banks': {
-    routePrefix: '/question-banks',
-    permissionKeys: ['view_any_question_bank'],
+  '/rpl-question-banks': {
+    routePrefix: '/rpl-question-banks',
+    permissionKeys: ['view_any_rpl_question_bank'],
   },
   '/rpl-batches': {
     routePrefix: '/rpl-batches',
     permissionKeys: ['view_any_rpl_batch'],
   },
-  '/assessment-question-sets': {
-    routePrefix: '/assessment-question-sets',
-    permissionKeys: ['view_any_assessment_question_set'],
+  '/rpl-assessment-question-sets': {
+    routePrefix: '/rpl-assessment-question-sets',
+    permissionKeys: ['view_any_rpl_assessment_question_set'],
   },
 };

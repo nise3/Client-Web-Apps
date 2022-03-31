@@ -7,6 +7,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import OrganizationProfileEditPopup from './OrganizationProfileEditPopup';
+import {useFetchOrganizationProfile} from '../../../services/organaizationManagement/hooks';
 
 const PREFIX = 'OrganizationProfile';
 
@@ -51,9 +52,16 @@ const OrganizationProfile = () => {
   const {messages} = useIntl();
 
   const [closeEditModal, setCloseEditModal] = useState<boolean>(true);
+  const [profileFilter] = useState({});
+  const {
+    data: profileData,
+    isLoading,
+    mutate: mutateOrganizationProfile,
+  } = useFetchOrganizationProfile(profileFilter);
 
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
+    mutateOrganizationProfile();
   }, []);
 
   return (
@@ -73,10 +81,10 @@ const OrganizationProfile = () => {
                 src={'/images/lead_soft.svg'}
               />
               <H6 fontWeight={'bold'} mt={1}>
-                {'Lead Soft'}
+                {profileData?.title}
               </H6>
               <Typography variant={'subtitle2'}>
-                {'Trade Organization'}
+                {profileData?.organization_type_title}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -88,7 +96,7 @@ const OrganizationProfile = () => {
               alignItems={'center'}>
               <Email sx={{color: '#F0B501'}} />
               <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {'leadsoft@gmail.com'}
+                {profileData?.email}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -100,7 +108,7 @@ const OrganizationProfile = () => {
               alignItems={'center'}>
               <Call sx={{color: '#3FB0EF'}} />
               <Typography sx={{marginLeft: '10px'}} variant={'subtitle2'}>
-                {'01849862076'}
+                {profileData?.mobile}
               </Typography>
             </Grid>
             <Divider orientation={'horizontal'} className={classes.divider} />
@@ -123,57 +131,112 @@ const OrganizationProfile = () => {
           </Grid>
         </Grid>
         <Grid item xs={7}>
-          <Grid container className={classes.form}>
+          <Grid container spacing={2} className={classes.form}>
             <Grid item xs={12}>
               <H4>{messages['common.organization_info']}</H4>
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['common.organization_name']}
-                value={'BGMEA'}
-                isLoading={false}
+                value={profileData?.title}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['organization_type.label']}
-                value={'Association Type'}
-                isLoading={false}
+                value={profileData?.organization_type_title}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+
+            <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['association.trade_no']}
-                value={'2635'}
-                isLoading={false}
+                label={messages['divisions.label']}
+                value={profileData?.loc_division_title}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <DetailsInputView
                 label={messages['districts.label']}
-                value={'Dhaka'}
-                isLoading={false}
+                value={profileData?.loc_district_title}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+            <Grid item xs={12} md={6}>
+              <DetailsInputView
+                label={messages['upazilas.label']}
+                value={profileData?.loc_upazila_title}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{padding: '0 20px 20px 0'}}>
               <DetailsInputView
                 label={messages['association.head_of_office_or_chairman']}
-                value={'Mr Atiqur Rahman'}
-                isLoading={false}
+                value={profileData?.name_of_the_office_head}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{padding: '0 20px 20px 0'}}>
+              <DetailsInputView
+                label={messages['common.organization_address']}
+                value={profileData?.address}
+                isLoading={isLoading}
               />
             </Grid>
             <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.designation']}
-                value={'Designation'}
-                isLoading={false}
+                label={messages['common.contact_person_name']}
+                value={profileData?.contact_person_name}
+                isLoading={isLoading}
               />
             </Grid>
-            <Grid item xs={6} sx={{padding: '0 20px 20px 0'}}>
+
+            <Grid item xs={6}>
               <DetailsInputView
-                label={messages['common.organization_address']}
-                value={'Mirpur -10'}
-                isLoading={false}
+                label={messages['common.contact_person_designation']}
+                value={profileData?.contact_person_designation}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_mobile']}
+                value={profileData?.contact_person_mobile}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.contact_person_email']}
+                value={profileData?.contact_person_email}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head']}
+                value={profileData?.name_of_the_office_head}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['institute.name_of_the_office_head']}
+                value={profileData?.name_of_the_office_head}
+                isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={
+                  messages['institute.name_of_the_office_head_designation']
+                }
+                value={profileData?.name_of_the_office_head_designation}
+                isLoading={isLoading}
               />
             </Grid>
           </Grid>

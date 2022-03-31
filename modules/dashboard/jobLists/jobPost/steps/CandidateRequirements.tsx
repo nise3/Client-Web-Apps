@@ -29,6 +29,7 @@ import {saveCandidateRequirements} from '../../../../../services/IndustryManagem
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import CustomSelectAutoComplete from '../../../../youth/registration/CustomSelectAutoComplete';
 import {useFetchPublicSkills} from '../../../../../services/youthManagement/hooks';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
@@ -80,6 +81,9 @@ const CandidateRequirements = ({
   const {data: candidateRequirements} = useFetchJobCandidateRequirements(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [defaultEduLevelIdTrack, setDefaultEduLevelIdTrack] = useState<any>({});
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const {
     data: educationalInstitutes,
@@ -270,7 +274,7 @@ const CandidateRequirements = ({
   };
 
   return isReady ? (
-    <Box mt={3}>
+    <Box mt={3} id={id}>
       <Typography mb={2} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.candidates_requirement']}
       </Typography>

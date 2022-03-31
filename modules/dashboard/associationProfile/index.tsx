@@ -69,6 +69,7 @@ const AssociationProfile = () => {
 
   const onClickCloseEditModal = useCallback(() => {
     setCloseEditModal((previousToggle) => !previousToggle);
+    mutateAssociation();
   }, []);
 
   return (
@@ -162,119 +163,112 @@ const AssociationProfile = () => {
                 <Grid item xs={12} sx={{textAlign: 'center'}}>
                   <H4>{messages['association.association_profile']}</H4>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['association.association_name']}
                     value={userData?.title}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['association.association_name_en']}
                     value={userData?.title_en}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['association.association_trades']}
                     value={userData?.trade_title}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <DetailsInputView
-                    label={messages['association.trade_no']}
-                    value={userData?.trade_number}
-                    isLoading={false}
-                  />
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['divisions.label']}
                     value={userData?.loc_division_title}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['districts.label']}
                     value={userData?.loc_district_title}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['upazilas.label']}
                     value={userData?.loc_upazila_title}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['association.association_address']}
                     value={userData?.address}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_name']}
                     value={userData?.contact_person_name}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_name_en']}
                     value={userData?.contact_person_name_en}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_designation']}
                     value={userData?.contact_person_designation}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_designation_en']}
                     value={userData?.contact_person_designation_en}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_mobile']}
                     value={userData?.contact_person_mobile}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.contact_person_email']}
                     value={userData?.contact_person_email}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['institute.name_of_the_office_head']}
                     value={userData?.name_of_the_office_head}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['institute.name_of_the_office_head_en']}
                     value={userData?.name_of_the_office_head_en}
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={
                       messages['institute.name_of_the_office_head_designation']
@@ -283,7 +277,7 @@ const AssociationProfile = () => {
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={
                       messages[
@@ -294,7 +288,7 @@ const AssociationProfile = () => {
                     isLoading={false}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DetailsInputView
                     label={messages['common.skills']}
                     value={(userData?.skills || [])
@@ -339,7 +333,6 @@ const AssociationProfile = () => {
       {!closeEditModal && (
         <AssociationProfileEditPopup
           userData={userData}
-          mutateAssociation={mutateAssociation}
           onClose={onClickCloseEditModal}
         />
       )}

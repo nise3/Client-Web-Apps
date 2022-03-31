@@ -13,6 +13,7 @@ import {useFetchJobContactInformation} from '../../../../../services/IndustryMan
 import {useFetchUsers} from '../../../../../services/userManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {saveContactInformation} from '../../../../../services/IndustryManagement/JobService';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
@@ -34,6 +35,9 @@ const ContactInformation = ({
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [userFilters] = useState<any>({row_status: RowStatus.ACTIVE});
   const {data: users, isLoading: isLoadingUsers} = useFetchUsers(userFilters);
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -101,7 +105,7 @@ const ContactInformation = ({
   );
 
   return isReady ? (
-    <Box mt={2}>
+    <Box mt={2} id={id}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.contract_info']}
       </Typography>

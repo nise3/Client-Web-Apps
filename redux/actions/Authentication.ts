@@ -276,7 +276,7 @@ export const getYouthAuthUserObject = (
   };
 };
 
-export const Signout = () => {
+export const signOut = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
@@ -291,5 +291,5 @@ export const Signout = () => {
  * @deprecated use Signout() instead
  */
 export const onJWTAuthSignout = () => {
-  return Signout();
+  return signOut();
 };
