@@ -25,7 +25,10 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
   data,
   onClick: onClickCallback,
 }) => {
-  const thumbImg = data.content_type == GalleryAlbumContentTypes.IMAGE ? data.image_path : data.content_thumb_image_path;
+  const thumbImg =
+    data.content_type == GalleryAlbumContentTypes.IMAGE
+      ? data.image_path
+      : data.content_thumb_image_path;
   return (
     <Card>
       <CardActionArea
@@ -44,22 +47,34 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
         <CardMedia
           component='img'
           height='140'
-          image={
-            thumbImg ?? '/images/blank_gray_image.png'
-          }
+          image={thumbImg ?? '/images/blank_gray_image.png'}
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
           title={data?.title}
         />
-        {data?.content_type == GalleryAlbumContentTypes.VIDEO ? <PlayCircleIcon
-          sx={{
-            position: 'absolute',
-            top: 'calc(30% - 25px)',
-            left: 'calc(50% - 35px)',
-            height: '70px',
-            width: '70px',
-          }}
-          color='primary'
-        /> : <></>}
+
+        {/*        <CardMediaImageView
+          imageUrl={thumbImg ?? '/images/blank_gray_image.png'}
+          height='140'
+          imageAltText={
+            data?.image_alt_title ? data.image_alt_title : data?.title
+          }
+          title={data?.title}
+        />*/}
+
+        {data?.content_type == GalleryAlbumContentTypes.VIDEO ? (
+          <PlayCircleIcon
+            sx={{
+              position: 'absolute',
+              top: 'calc(30% - 25px)',
+              left: 'calc(50% - 35px)',
+              height: '70px',
+              width: '70px',
+            }}
+            color='primary'
+          />
+        ) : (
+          <></>
+        )}
 
         <CardContent>
           <StyledTypography gutterBottom variant='body1'>
