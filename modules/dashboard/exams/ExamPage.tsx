@@ -7,19 +7,15 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import SubjectAddEditPopup from './SubjectAddEditPopup';
-import SubjectDetailsPopup from './SubjectDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IconSubject from '../../../@softbd/icons/IconSubject';
-import {deleteSubject} from '../../../services/instituteManagement/SubjectService';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_EXAM_SUBJECTS} from '../../../@softbd/common/apiRoutes';
+import ExamAddEditPopup from './ExamAddEditPopup';
+import ExamDetailsPopup from './ExamDetailsPopup';
+import IconExam from '../../../@softbd/icons/IconExam';
 
-const SubjectPage = () => {
+const ExamPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  // const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -50,17 +46,17 @@ const SubjectPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteSubjectItem = async (subjectId: number) => {
-    let response = await deleteSubject(subjectId);
-    if (isResponseSuccess(response)) {
+  const deleteExamItem = async (examId: number) => {
+    // let response = await deleteExam(examId);
+    /*if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='subject.label' />}}
+          values={{subject: <IntlMessages id='exam.label' />}}
         />,
       );
       refreshDataTable();
-    }
+    }*/
   };
 
   const refreshDataTable = useCallback(() => {
@@ -69,7 +65,7 @@ const SubjectPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_EXAM_SUBJECTS,
+      urlPath: '',
     });
 
   const columns = useMemo(
@@ -105,7 +101,7 @@ const SubjectPage = () => {
                 }}
               />
               <DeleteButton
-                deleteAction={() => deleteSubjectItem(data.id)}
+                deleteAction={() => deleteExamItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -122,7 +118,7 @@ const SubjectPage = () => {
       <PageBlock
         title={
           <>
-            <IconSubject /> <IntlMessages id='subject.label' />
+            <IconExam /> <IntlMessages id='exam.label' />
           </>
         }
         extra={[
@@ -134,7 +130,7 @@ const SubjectPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['subject.label'],
+                  exam: messages['exam.label'],
                 }}
               />
             }
@@ -150,7 +146,7 @@ const SubjectPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <SubjectAddEditPopup
+          <ExamAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -159,7 +155,7 @@ const SubjectPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <SubjectDetailsPopup
+          <ExamDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -171,4 +167,4 @@ const SubjectPage = () => {
   );
 };
 
-export default SubjectPage;
+export default ExamPage;
