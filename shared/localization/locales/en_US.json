@@ -1874,5 +1874,7 @@
   "common.total": "Total",
   "common.disability": "Disabled",
   "skill_development_monthly_progress_report.label": "Monthly Progress Report on Skills Development Training Activities",
-  "common.create_report": "Create Report"
+  "common.create_report": "Create Report",
+  "common.accessor_type": "Accessor type",
+  "exam.label": "Exam"
 }

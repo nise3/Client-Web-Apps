@@ -497,6 +497,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'help',
             url: '/questions-bank',
           },
+          {
+            id: 'exams',
+            title: 'Exams',
+            messageId: 'exam.label',
+            permissionKey: 'view_any_exam',
+            type: 'item',
+            icon: 'source',
+            url: '/exams',
+          },
         ],
       },
       {

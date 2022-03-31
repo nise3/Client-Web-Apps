@@ -8,6 +8,7 @@ import {
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
+  API_EXAM_SUBJECTS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
@@ -25,9 +26,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -229,3 +230,7 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
       : null,
   );
 };
+
+export function useFetchSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
+}
