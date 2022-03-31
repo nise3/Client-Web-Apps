@@ -31,8 +31,6 @@ export const loadAuthenticateUser = async (
   try {
     const tokenData = getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
 
-    console.log('tokenData: ', tokenData);
-
     const id_token = getBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
     if (loadYouth) {
       removeBrowserCookie(COOKIE_KEY_YOUTH_USER_AS_TRAINER);
@@ -40,12 +38,11 @@ export const loadAuthenticateUser = async (
       setBrowserCookie(COOKIE_KEY_YOUTH_USER_AS_TRAINER, 1);
     }
 
-    console.log('id_token: ', id_token);
-
     const ssoTokenData = JSON.parse(
       Base64.decode((id_token || '..').split('.')[1]),
     );
-    console.log(ssoTokenData);
+
+
     const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
     const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
 
@@ -65,7 +62,7 @@ export const loadAuthenticateUser = async (
             },
           },
         );
-    console.log(coreResponse);
+    //console.log(coreResponse);
 
     const {data} = coreResponse.data;
     dispatch(fetchSuccess());
