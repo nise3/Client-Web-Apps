@@ -133,11 +133,16 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
               url: FILE_SERVER_UPLOAD_ENDPOINT,
               onload: (response: any) => {
                 let res = JSON.parse(response);
-                console.log('res?.filePath', res?.url);
                 if (!allowMultiple) {
-                  setValue(id, res?.url || '');
+                  setValue(
+                    id,
+                    res?.url.substring(res?.url.indexOf('/uploads/') + 9) || '',
+                  );
                 } else {
-                  setValue(id, [...uploadedUrls, res?.url]);
+                  setValue(id, [
+                    ...uploadedUrls,
+                    res?.url.substring(res?.url.indexOf('/uploads/') + 9),
+                  ]);
                 }
                 return 1;
               },
