@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {debounce} from 'lodash';
+import { FILE_SERVER_UPLOAD_ENDPOINT } from '../../common/apiRoutes';
 
 interface EditorProps {
   height?: string;
@@ -24,6 +25,19 @@ interface EditorProps {
 
   [x: string]: any;
 }
+
+// const tineyMceStyle = `
+// figure.image {
+//   display: inline-block;
+//   border: 1px solid gray;
+//   margin: 0 2px 0 1px;
+//   background: #f5f2f0;
+// }
+// figure.image img {
+//   margin: 5px 5px 0 5px;
+// }
+
+// `
 
 /**
  //Basic uses of TextEditor
@@ -84,6 +98,50 @@ const TextEditor = React.forwardRef(
       }
     };
 
+    const imageUploadHandler = (blobInfo: any, success: any, failure: any, progress: any) => {
+      let xhr: XMLHttpRequest, formData: FormData;
+
+      xhr = new XMLHttpRequest();
+      xhr.withCredentials = false;
+      xhr.open('POST', FILE_SERVER_UPLOAD_ENDPOINT);
+    
+      xhr.upload.onprogress = function (e) {
+        progress(e.loaded / e.total * 100);
+      };
+    
+      xhr.onload = function() {
+        let json;
+    
+        if (xhr.status === 403) {
+          failure('HTTP Error: ' + xhr.status, { remove: true });
+          return;
+        }
+    
+        if (xhr.status < 200 || xhr.status >= 300) {
+          failure('HTTP Error: ' + xhr.status);
+          return;
+        }
+    
+        json = JSON.parse(xhr.responseText);
+    
+        if (!json || typeof json.url != 'string') {
+          failure('Invalid JSON: ' + xhr.responseText);
+          return;
+        }
+    
+        success(json.url);
+      };
+    
+      xhr.onerror = function () {
+        failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+      };
+    
+      formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+    
+      xhr.send(formData);
+    }
+
     let toolbar =
       'undo redo formatselect bold italic underline | alignleft aligncenter alignright alignjustify | image media template link';
     return (
@@ -110,11 +168,16 @@ const TextEditor = React.forwardRef(
             ref={ref}
             initialValue={value}
             init={{
+              image_title: true,
               height: height ? height : 700,
               menubar: false,
               branding: false,
               convert_urls: false,
+              image_caption: true,
+              media_strict: false,
+              // content_css: tineyMceStyle,
               // images_upload_handler: tinyMceEditorImageUploader,
+              images_upload_handler: imageUploadHandler,
               fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
               plugins: [
                 'advlist autolink lists link image charmap print preview anchor template linkchecker ',
