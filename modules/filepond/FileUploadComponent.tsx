@@ -136,12 +136,12 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
                 if (!allowMultiple) {
                   setValue(
                     id,
-                    res?.url.substring(res?.url.indexOf('/uploads/') + 9) || '',
+                    res?.url?.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, ''),
                   );
                 } else {
                   setValue(id, [
                     ...uploadedUrls,
-                    res?.url.substring(res?.url.indexOf('/uploads/') + 9),
+                    res?.url?.replace(FILE_SERVER_FILE_VIEW_ENDPOINT, ''),
                   ]);
                 }
                 return 1;
