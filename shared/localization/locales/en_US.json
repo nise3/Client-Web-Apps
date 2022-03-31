@@ -1880,5 +1880,10 @@
   "common.exam_subject_title_en": "Subject Title (English)",
   "common.accessor_type": "Accessor Type",
   "common.accessor": "Accessor",
-  "exam.label": "Exam"
+  "exam.label": "Exam",
+  "common.fill_in_the_blanks": "Fill in the blanks",
+  "common.practical": "Practical",
+  "common.field_work": "Field Work",
+  "common.presentation": "Presentation",
+  "common.descriptive": "Descriptive"
 }

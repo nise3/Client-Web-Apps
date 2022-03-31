@@ -1,11 +1,14 @@
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useEffect, useMemo} from 'react';
-import {useFetchExamQuestionsBank} from '../../../services/instituteManagement/hooks';
+import {useEffect, useMemo, useState} from 'react';
+import {
+  useFetchExamQuestionsBank,
+  useFetchSubjects,
+} from '../../../services/instituteManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   createQuestionsBank,
@@ -21,8 +24,8 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {QuestionType} from '../rplQuestionBanks/QuestionEnums';
 import IconQuestion from '../../../@softbd/icons/IconQuestion';
+import {QuestionType} from './QuestionBanksEnums';
 
 interface IProps {
   itemId: number | null;
@@ -60,11 +63,16 @@ const QuestionsBankAddEditPopup = ({
 
   const isEdit = itemId != null;
 
+  const [subjectFilters] = useState({});
+
   const {
     data: itemData,
     isLoading,
     mutate: mutateQuestionBank,
   } = useFetchExamQuestionsBank(itemId);
+
+  const {data: subjects, isLoading: isFetchingSubjects} =
+    useFetchSubjects(subjectFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -91,8 +99,28 @@ const QuestionsBankAddEditPopup = ({
         label: messages['question.type.mcq'],
       },
       {
+        key: QuestionType.FILL_IN_THE_BLANK,
+        label: messages['common.fill_in_the_blanks'],
+      },
+      {
         key: QuestionType.YES_NO,
         label: messages['question.type.y_n'],
+      },
+      {
+        key: QuestionType.PRACTICAL,
+        label: messages['common.practical'],
+      },
+      {
+        key: QuestionType.FIELD_WORK,
+        label: messages['common.field_work'],
+      },
+      {
+        key: QuestionType.PRESENTATION,
+        label: messages['common.presentation'],
+      },
+      {
+        key: QuestionType.DESCRIPTIVE,
+        label: messages['common.descriptive'],
       },
     ],
     [messages],
@@ -209,9 +237,9 @@ const QuestionsBankAddEditPopup = ({
             required
             id={'subject_id'}
             label={messages['subject.label']}
-            isLoading={false}
+            isLoading={isFetchingSubjects}
             control={control}
-            options={[]} // todo: api call should be implemented after exam api pushed.
+            options={subjects}
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}
