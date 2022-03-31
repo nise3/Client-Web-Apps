@@ -135,7 +135,10 @@ const TextEditor = React.forwardRef(
 
     let toolbar =
       'undo redo formatselect bold italic underline | alignleft aligncenter alignright alignjustify | image media template link';
-    return (
+    
+      
+    
+      return (
       <>
         <InputLabel required={required}>{label}</InputLabel>
         <FormControl fullWidth>
@@ -184,8 +187,32 @@ const TextEditor = React.forwardRef(
               toolbar,
               toolbar_mode: 'wrap',
               setup: function (editor: any) {
+                // editor.ui.registry.addButton('alignright', {
+                //   text: 'My Button',
+                //   onAction: function (_) {
+                //     console.log(' alignright : clicked!')
+                //     // editor.insertContent('&nbsp;<strong>It\'s my button!</strong>&nbsp;');
+                //   }
+                // });
                 editor.on('init', function (e: any) {
                   console.log('The Editor has initialized.');
+                  const button = document.querySelector('button[title="Align right"]');
+                  if (button) {
+                    button.addEventListener('click', event => {
+                      // const videoFrame = document.querySelector('span[data-mce-selected]');
+                      const videoFrame1 = document.querySelector('span[data-mce-selected="1"]');
+                      const videoFrame2 = document.querySelector('span[data-mce-selected="2"]');
+                      var selector = videoFrame1 || videoFrame2;
+                      if (selector) {
+                        // var ifream = videoFrame.querySelector('iframe');
+                        selector.querySelector('iframe').setAttribute('style', 'float: right;')
+                        // console.log(' video selected ', videoFrame);
+                      } else {
+                        console.log(' not selected ');
+                      }
+                    });
+                  }
+
                 });
                 editor.on('focus', function () {});
                 editor.on('blur', function () {});
