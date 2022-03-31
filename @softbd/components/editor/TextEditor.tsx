@@ -9,6 +9,7 @@ import {
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {debounce} from 'lodash';
 import { FILE_SERVER_UPLOAD_ENDPOINT } from '../../common/apiRoutes';
+// import * as css from '../editor/mcestyle.css'
 
 interface EditorProps {
   height?: string;
@@ -26,18 +27,8 @@ interface EditorProps {
   [x: string]: any;
 }
 
-// const tineyMceStyle = `
-// figure.image {
-//   display: inline-block;
-//   border: 1px solid gray;
-//   margin: 0 2px 0 1px;
-//   background: #f5f2f0;
-// }
-// figure.image img {
-//   margin: 5px 5px 0 5px;
-// }
-
-// `
+// const tineyMceStyle = `body.mce-preview-object{display: inline;}`
+// const tineyMceStyle = '/styles/mcestyle.css'
 
 /**
  //Basic uses of TextEditor
@@ -175,9 +166,15 @@ const TextEditor = React.forwardRef(
               convert_urls: false,
               image_caption: true,
               media_strict: false,
-              // content_css: tineyMceStyle,
+              content_style: ".mce-preview-object{display: inline;} iframe{float: left}",
+              // content_css : 'body{background-color: red}',
               // images_upload_handler: tinyMceEditorImageUploader,
               images_upload_handler: imageUploadHandler,
+              // media_url_resolver: function (data, resolve/*, reject*/) {
+              //   console.log(' media_url_resolver :', data, resolve(d=> {
+              //     console.log(d)
+              //   }))
+              // },
               fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
               plugins: [
                 'advlist autolink lists link image charmap print preview anchor template linkchecker ',
@@ -187,7 +184,9 @@ const TextEditor = React.forwardRef(
               toolbar,
               toolbar_mode: 'wrap',
               setup: function (editor: any) {
-                editor.on('init', function (e: any) {});
+                editor.on('init', function (e: any) {
+                  console.log('The Editor has initialized.');
+                });
                 editor.on('focus', function () {});
                 editor.on('blur', function () {});
               },
@@ -236,6 +235,13 @@ const TextEditor = React.forwardRef(
                     '</a>' +
                     '</div>',
                 },
+                {
+                  title: 'Link Button 2',
+                  description: 'Creates a button to view more',
+                  content: `
+                  <a class="link-button MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root" style="border-radius: 5px; border: 1px solid #bfbfbf; padding: 5px 10px 8px; text-decoration: none; color: #1c1c1c;" title="আরো দেখুন" href="http://mcci.nise.asm/about-us" target="_blank" rel="noopener">আরো দেখুন</a>
+                  `
+                }
               ],
               template_cdate_format:
                 '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
