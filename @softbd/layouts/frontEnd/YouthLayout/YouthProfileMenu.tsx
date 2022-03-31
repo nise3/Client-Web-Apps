@@ -26,7 +26,7 @@ import {
   Person,
   Receipt,
   Score,
-  Settings,
+  Settings, Work,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
@@ -151,10 +151,11 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
+        <Divider />
         <Link href={LINK_FRONTEND_YOUTH_MY_JOBS}>
           <MenuItem>
             <ListItemIcon>
-              <DesktopMac />
+              <Work />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.my_jobs']}</ListItemText>
           </MenuItem>
