@@ -1,13 +1,11 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
   Divider,
   Grid,
 } from '@mui/material';
@@ -41,6 +39,8 @@ import {useCustomStyle} from '../../hooks/useCustomStyle';
 import JobScheduleResponsePopup from '../../components/JobScheduleResponsePopup';
 import ConfirmationStatus from '../../components/JobScheduleResponsePopup/ConfirmationStatus';
 import moment from 'moment';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
+import AvatarImageView from '../display/ImageView/AvatarImageView';
 
 const PREFIX = 'JobCardComponent';
 
@@ -310,8 +310,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     <StyledCard className={isGridView ? classes.gridRoot : classes.listRoot}>
       {isGridView ? (
         <React.Fragment>
-          <CardMedia
-            component={'img'}
+          <CardMediaImageView
             className={classes.providerLogo}
             image={getJobProviderImage()}
             title={job.job_title}
@@ -399,12 +398,12 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <React.Fragment>
           <CardHeader
             avatar={
-              <Avatar
+              <AvatarImageView
                 className={classes.providerAvatar}
                 variant={'square'}
                 src={getJobProviderImage()}
-                title={job.job_title}
-                alt={job.job_title}
+                title={job?.job_title}
+                alt={job?.job_title}
               />
             }
             action={

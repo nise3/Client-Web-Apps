@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Box,
-  CardMedia,
   Chip,
   Container,
   Grid,
@@ -19,6 +18,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PublicationListSearchSection from './PublicationListSearchSection';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -229,10 +229,9 @@ const Publications = () => {
                             <Box
                               className={classes.imageBox}
                               sx={{maxWidth: 150}}>
-                              <CardMedia
-                                component='img'
+                              <CardMediaImageView
                                 height='227'
-                                image={publication.image_path}
+                                image={publication?.image_path}
                                 alt='publication'
                               />
                             </Box>
