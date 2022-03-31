@@ -141,6 +141,9 @@ export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
 export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
 
+export const API_INSTITUTE_EXAM_QUESTION_BANK =
+  INSTITUTE_SERVICE_PATH + '/exam-question-banks';
+
 /**             eRPL            */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =

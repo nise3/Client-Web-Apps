@@ -10,8 +10,8 @@ import {
   API_COURSES,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
+  API_INSTITUTE_EXAM_QUESTION_BANK,
   API_INSTITUTE_PROFILE,
-  API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
   API_PROGRAMMES,
@@ -25,9 +25,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -184,15 +184,6 @@ export function useFetchInstituteTraineeYouths() {
   return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
-/**
- * Question Bank
- */
-export const useFetchQuestionBank = (questionId: number | null) => {
-  return useAxiosSWR(
-    questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
-  );
-};
-
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
   return useAxiosSWR(
     courseId
@@ -229,3 +220,11 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
       : null,
   );
 };
+
+export function useFetchExamQuestionsBank(questionsBankId: number | null) {
+  return useAxiosSWR(
+    questionsBankId
+      ? API_INSTITUTE_EXAM_QUESTION_BANK + '/' + questionsBankId
+      : null,
+  );
+}
