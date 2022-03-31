@@ -12,7 +12,6 @@ import {
   updateQuestionsBank,
 } from '../../../services/instituteManagement/QuestionsBankService';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import IconFAQ from '../../../@softbd/icons/IconFAQ';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -23,6 +22,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {QuestionType} from '../rplQuestionBanks/QuestionEnums';
+import IconQuestion from '../../../@softbd/icons/IconQuestion';
 
 interface IProps {
   itemId: number | null;
@@ -162,7 +162,7 @@ const QuestionsBankAddEditPopup = ({
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
-          <IconFAQ />
+          <IconQuestion />
           {isEdit ? (
             <IntlMessages
               id='common.edit'

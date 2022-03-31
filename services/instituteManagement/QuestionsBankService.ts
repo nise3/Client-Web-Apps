@@ -1,11 +1,11 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
-import {API_INSTITUTE_EXAM_QUESTION_BANK} from '../../@softbd/common/apiRoutes';
+import {API_EXAM_QUESTION_BANK} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 export const deleteQuestionsBank = async (questionsBankId: number) => {
   try {
     let response: any = await apiDelete(
-      API_INSTITUTE_EXAM_QUESTION_BANK + '/' + questionsBankId,
+      API_EXAM_QUESTION_BANK + '/' + questionsBankId,
     );
     return response.data;
   } catch (error) {
@@ -19,7 +19,7 @@ export const updateQuestionsBank = async (
 ) => {
   try {
     let response: any = await apiPut(
-      API_INSTITUTE_EXAM_QUESTION_BANK + '/' + questionsBankId,
+      API_EXAM_QUESTION_BANK + '/' + questionsBankId,
       data,
     );
     return response.data;
@@ -30,7 +30,7 @@ export const updateQuestionsBank = async (
 
 export const createQuestionsBank = async (data: any) => {
   try {
-    let response: any = await apiPost(API_INSTITUTE_EXAM_QUESTION_BANK, data);
+    let response: any = await apiPost(API_EXAM_QUESTION_BANK, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

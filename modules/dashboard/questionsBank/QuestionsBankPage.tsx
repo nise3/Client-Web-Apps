@@ -11,13 +11,13 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_INSTITUTE_EXAM_QUESTION_BANK} from '../../../@softbd/common/apiRoutes';
+import {API_EXAM_QUESTION_BANK} from '../../../@softbd/common/apiRoutes';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IconBatch from '../../../@softbd/icons/IconBatch';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import QuestionsBankAddEditPopup from './QuestionsBankAddEditPopup';
 import QuestionsBankDetailsPopup from './QuestionsBankDetailsPopup';
+import IconQuestion from '../../../@softbd/icons/IconQuestion';
 
 const QuestionsBankPage = () => {
   const {messages, locale} = useIntl();
@@ -135,7 +135,7 @@ const QuestionsBankPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_INSTITUTE_EXAM_QUESTION_BANK,
+      urlPath: API_EXAM_QUESTION_BANK,
     });
 
   return (
@@ -143,7 +143,7 @@ const QuestionsBankPage = () => {
       <PageBlock
         title={
           <>
-            <IconBatch /> <IntlMessages id='question-bank.label' />
+            <IconQuestion /> <IntlMessages id='question-bank.label' />
           </>
         }
         extra={[

@@ -10,7 +10,7 @@ import {
   API_COURSES,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
-  API_INSTITUTE_EXAM_QUESTION_BANK,
+  API_EXAM_QUESTION_BANK,
   API_INSTITUTE_PROFILE,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
@@ -223,8 +223,6 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
 
 export function useFetchExamQuestionsBank(questionsBankId: number | null) {
   return useAxiosSWR(
-    questionsBankId
-      ? API_INSTITUTE_EXAM_QUESTION_BANK + '/' + questionsBankId
-      : null,
+    questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
   );
 }
