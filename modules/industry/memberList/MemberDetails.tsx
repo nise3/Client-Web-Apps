@@ -3,9 +3,7 @@ import {useRouter} from 'next/router';
 import {useFetchIndustryMember} from '../../../services/IndustryManagement/hooks';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Button,
-  CardMedia,
   Container,
   Divider,
   Grid,
@@ -24,6 +22,8 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'MemberDetails';
 
@@ -180,8 +180,7 @@ const MemberDetails = () => {
             md: 1,
           }}>
           <Box>
-            <CardMedia
-              component={'img'}
+            <CardMediaImageView
               image={data?.logo ? data?.logo : '/images/blank_image.png'}
               alt={data?.title}
               className={classes.logo}
@@ -219,7 +218,7 @@ const MemberDetails = () => {
               display={'flex'}
               alignItems={'center'}
               flexDirection={'column'}>
-              <Avatar
+              <AvatarImageView
                 className={classes.contact_person_avatar}
                 src={data?.office_head_avatar}
               />
