@@ -61,12 +61,12 @@ function RecentActivityCardView({activity}: any) {
             activity.content_type == ContentTypes.IMAGE && (
               <CardMediaImageView
                 height='140'
-                imageUrl={
+                image={
                   activity.image_path
                     ? activity.image_path
                     : activity.grid_image_path
                 }
-                imageAltText={activity?.image_alt_title}
+                alt={activity?.image_alt_title}
                 title={activity?.title}
               />
             )}
@@ -75,10 +75,10 @@ function RecentActivityCardView({activity}: any) {
               <>
                 <CardMediaImageView
                   height='140'
-                  imageUrl={
+                  image={
                     activity.thumb_image_path ?? '/images/blank_gray_image.png'
                   }
-                  imageAltText={activity?.image_alt_title}
+                  alt={activity?.image_alt_title}
                   title={activity?.title}
                 />
                 <PlayCircleIcon

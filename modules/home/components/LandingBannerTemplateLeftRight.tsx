@@ -89,9 +89,9 @@ const LandingBannerTemplateLeftRight = ({banner}: BannerProps) => {
       </Grid>
       <Grid item xs={12} md={6} sx={{height: '100%'}}>
         <CardMediaImageView
-          imageUrl={banner?.banner_image_path}
+          image={banner?.banner_image_path}
           className={classes.image}
-          imageAltText={banner?.alt_image_title}
+          alt={banner?.alt_image_title}
           title={banner?.title}
         />
       </Grid>
