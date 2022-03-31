@@ -20,13 +20,15 @@ import {
   LINK_FRONTEND_YOUTH_UPDATE_PASSWORD,
 } from '../../../common/appLinks';
 import {
+  AdminPanelSettings,
   DesktopMac,
   KeyboardArrowDown,
   Logout,
   Person,
   Receipt,
   Score,
-  Settings, Work,
+  Settings,
+  Work,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
@@ -125,13 +127,13 @@ const YouthProfileMenu = () => {
         {authUser?.admin_access_type && authUser?.admin_access_type.length > 0 && (
           <MenuItem onClick={onGotoAdminClick}>
             <ListItemIcon>
-              <Person />
+              <AdminPanelSettings />
             </ListItemIcon>
             <ListItemText>{messages['common.goto_admin']}</ListItemText>
           </MenuItem>
         )}
 
-        <Divider />
+        <Divider sx={{margin: '0 !important'}} />
         <Link href={LINK_FRONTEND_YOUTH_MY_CV}>
           <MenuItem>
             <ListItemIcon>
