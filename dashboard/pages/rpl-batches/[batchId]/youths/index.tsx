@@ -5,10 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const BatchesYouthList = asyncComponent(
-  () =>
-    import(
-      '../../../../../modules/dashboard/CAAssignedBatches/BatchesYouthList'
-    ),
+  () => import('../../../../../modules/dashboard/RPLBatches/BatchesYouthList'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();

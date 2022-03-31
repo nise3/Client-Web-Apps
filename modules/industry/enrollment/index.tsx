@@ -574,7 +574,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         label: messages['common.no'],
       },
     ];
-  }, []);
+  }, [locale]);
 
   const changeDivisionAction = useCallback(
     (divisionId: number) => {
@@ -754,10 +754,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     },
     [memberStaticData],
   );
-
-  console.log('errors', errors);
-  console.log('values', getValues());
-  console.log('specialized ', checkedSpecializedArea);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (hasRegisteredAuthority) {

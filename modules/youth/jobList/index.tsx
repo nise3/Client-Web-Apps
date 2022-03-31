@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Container, Grid, Pagination, Stack} from '@mui/material';
+import {Container, Grid, Stack} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {H6} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
@@ -14,9 +14,13 @@ import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobListSearchSection from '../../industry/jobCircular/JobListSearchSection';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {
+  getFilteredQueryParams,
+  objectFilter,
+} from '../../../@softbd/utilities/helpers';
 import {ListAlt, Window} from '@mui/icons-material';
 import {FilterItem} from '../../../shared/Interface/common.interface';
+import CustomPaginationWithPageNumber from '../training/components/CustomPaginationWithPageNumber';
 
 const PREFIX = 'JobList';
 
@@ -49,6 +53,7 @@ const JobList = () => {
   const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const {jobCategory} = router.query;
+  const authUser = useAuthUser<YouthAuthUser>();
   const [jobFilters, setJobFilters] = useState<any>({
     page_size: PageSizes.EIGHT,
   });
@@ -105,12 +110,74 @@ const JobList = () => {
     }
   }, [jobCategory, youthSkillIdArray]);
 
+  const urlParamsUpdate = useCallback((params: any) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: params,
+      },
+      undefined,
+      {shallow: true},
+    );
+  }, []);
+
+  useEffect(() => {
+    let params: any = {
+      page_size: PageSizes.EIGHT,
+    };
+
+    let modifiedParams = getFilteredQueryParams(
+      router.query,
+      PageSizes.EIGHT,
+      page.current,
+    );
+
+    if (Object.keys(modifiedParams).length > 0) urlParamsUpdate(modifiedParams);
+    params = {
+      ...params,
+      ...modifiedParams,
+    };
+    if (modifiedParams.page) {
+      page.current = modifiedParams.page;
+    }
+
+    setJobFilters(objectFilter(params));
+  }, [authUser]);
+
+  useEffect(() => {
+    if (
+      Number(router.query?.page) &&
+      jobsMetaData &&
+      jobsMetaData.total > 0 &&
+      jobsMetaData.total_page < Number(router.query.page)
+    ) {
+      page.current = 1;
+      setJobFilters((prev: any) => ({
+        ...prev,
+        page: page.current,
+      }));
+      urlParamsUpdate({...router.query, page: page.current});
+    }
+  }, [jobsMetaData, router.query]);
+
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
     setJobFilters((params: any) => {
       return {...params, ...{page: currentPage}};
     });
+    urlParamsUpdate({...router.query, page: currentPage});
   }, []);
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setJobFilters((prev: any) => ({
+        ...prev,
+        page_size: event.target.value ? event.target.value : PageSizes.EIGHT,
+      }));
+      urlParamsUpdate({...router.query, page_size: event.target.value});
+    },
+    [router.query],
+  );
 
   const onPopupClose = () => {
     mutateJobs();
@@ -190,7 +257,7 @@ const JobList = () => {
               </Grid>
               {isLoading ? (
                 <PostLoadingSkeleton />
-              ) : (
+              ) : jobs && jobs.length ? (
                 jobs?.map((job: any) => {
                   return (
                     <Grid
@@ -207,11 +274,10 @@ const JobList = () => {
                     </Grid>
                   );
                 })
-              )}
-
-              {(!jobs || (jobs && jobs.length <= 0)) && (
+              ) : (
                 <NoDataFoundComponent messageType={messages['common.job']} />
               )}
+
               {jobsMetaData?.total_page > 1 && (
                 <Grid
                   item
@@ -220,12 +286,13 @@ const JobList = () => {
                   display={'flex'}
                   justifyContent={'center'}>
                   <Stack spacing={2}>
-                    <Pagination
-                      page={page.current}
+                    <CustomPaginationWithPageNumber
                       count={jobsMetaData.total_page}
-                      onChange={onPaginationChange}
-                      color={'primary'}
-                      shape='rounded'
+                      currentPage={1}
+                      queryPageNumber={page.current}
+                      onPaginationChange={onPaginationChange}
+                      rowsPerPage={Number(router.query.page_size)}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                   </Stack>
                 </Grid>

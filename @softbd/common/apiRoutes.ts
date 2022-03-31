@@ -17,7 +17,7 @@ export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
 export const FILE_SERVER_FILE_VIEW_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_FILE_VIEW_ENDPOINT
-  : 'https://file-phase1.nise.gov.bd/uploads/';
+  : 'https://file.nise.gov.bd/uploads/';
 
 export const FILE_SERVER_FILE_DELETE_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_FILE_DELETE_ENDPOINT
@@ -116,9 +116,6 @@ export const API_REJECT_COURSE_ENROLLMENT =
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
-export const API_ASSESSMENT_PAYMENT_PAY =
-  INSTITUTE_SERVICE_PATH +
-  '/rpl-applications/payment/payment-via-ek-pay/pay-now';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
@@ -153,18 +150,23 @@ export const API_RTO_COUNTRIES = INSTITUTE_SERVICE_PATH + '/rto-countries';
 export const API_RPL_SECTORS = INSTITUTE_SERVICE_PATH + '/rpl-sectors';
 export const API_RPL_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/rpl-occupations';
 export const API_RPL_LEVELS = INSTITUTE_SERVICE_PATH + '/rpl-levels';
-export const API_SUBJECTS = INSTITUTE_SERVICE_PATH + '/subjects';
-export const API_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/assessment';
-export const API_QUESTION_BANK = INSTITUTE_SERVICE_PATH + '/question-banks';
-export const API_ASSESSMENT_QUESTIONS =
-  INSTITUTE_SERVICE_PATH + '/assessment-questions';
+export const API_RPL_SUBJECTS = INSTITUTE_SERVICE_PATH + '/rpl-subjects';
+export const API_RPL_ASSESSMENTS = INSTITUTE_SERVICE_PATH + '/rpl-assessments';
+export const API_RPL_QUESTION_BANK =
+  INSTITUTE_SERVICE_PATH + '/rpl-question-banks';
+export const API_RPL_ASSESSMENT_QUESTIONS =
+  INSTITUTE_SERVICE_PATH + '/rpl-assessment-questions';
 export const API_RPL_APPLICATION = INSTITUTE_SERVICE_PATH + '/rpl-applications';
 export const API_RPL_APPLICATION_POST =
   INSTITUTE_SERVICE_PATH + '/rpl-application';
-export const API_ASSESSMENT_QUESTION_SETS =
-  INSTITUTE_SERVICE_PATH + '/assessment-question-sets';
-export const API_RPL_ASSESSMENT = INSTITUTE_SERVICE_PATH + '/rpl-assessment';
+export const API_RPL_ASSESSMENT_QUESTION_SETS =
+  INSTITUTE_SERVICE_PATH + '/rpl-assessment-question-sets';
+export const API_RPL_SELF_ASSESSMENT =
+  INSTITUTE_SERVICE_PATH + '/rpl-self-assessment';
 export const API_RTO_BATCH = INSTITUTE_SERVICE_PATH + '/rto-batches';
+export const API_ASSESSMENT_PAYMENT_PAY =
+  INSTITUTE_SERVICE_PATH +
+  '/rpl-applications/payment/payment-via-ek-pay/pay-now';
 
 /**             eRPL End         */
 
@@ -199,8 +201,8 @@ export const API_PUBLIC_RPL_SECTORS = TSP_PUBLIC_SERVICE_PATH + '/rpl-sectors';
 export const API_PUBLIC_RPL_OCCUPATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/rpl-occupations';
 
-export const API_PUBLIC_YOUTH_ASSESSMENTS_QUESTIONS =
-  TSP_PUBLIC_SERVICE_PATH + '/assessment-questions';
+export const API_PUBLIC_RPL_ASSESSMENTS_QUESTIONS =
+  TSP_PUBLIC_SERVICE_PATH + '/rpl-assessment-questions';
 export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/registered-training-organizations';
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
@@ -298,6 +300,10 @@ export const API_ORGANIZATION_USER_REJECTION =
   ORGANIZATION_SERVICE_PATH + '/organization-user-rejection';
 export const API_ORGANIZATION_USER_APPROVAL =
   ORGANIZATION_SERVICE_PATH + '/organization-user-approval';
+export const API_ORGANIZATION_PROFILE_UPDATE =
+  ORGANIZATION_SERVICE_PATH + '/organization-profile-update';
+export const API_ORGANIZATION_PROFILE =
+  ORGANIZATION_SERVICE_PATH + '/organization-profile';
 //Industry section end
 
 //Industry Association section start
@@ -452,8 +458,13 @@ export const API_SHOW_IN_LANDING_PAGE_STATUS_CHANGE =
   API_JOBS + '/show-in-landing-page-status-change';
 export const API__PUBLIC_NASCIB_MEMBER_REGISTRATION =
   ORGANIZATION_SERVICE_PATH + '/public/nascib-members/open-registration';
+export const API_PUBLIC_SMEF_MEMBER_REGISTRATION =
+  ORGANIZATION_SERVICE_PATH + '/public/smef-members/open-registration';
 export const API_PUBLIC_NASCIB_MEMBER_STATIC_DATA =
   ORGANIZATION_SERVICE_PATH + '/public/nascib-members/get-static-data';
+
+export const API_PUBLIC_SMEF_MEMBER_STATIC_DATA =
+  ORGANIZATION_SERVICE_PATH + '/public/smef-members/get-static-data';
 export const API_PUBLIC_NASCIB_MEMBER_REGISTRATION_PAYMENT_PAGE =
   ORGANIZATION_SERVICE_PATH +
   '/public/nascib-members/payment/pay-via-ssl/pay-now';
