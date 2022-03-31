@@ -1,12 +1,12 @@
 import React from 'react';
 import TextInputSkeleton from '../skeleton/TextInputSkeleton/TextInputSkeleton';
-import {Box, CardMedia} from '@mui/material';
+import {CardMedia} from '@mui/material';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 
 interface CardMediaImageViewProps {
-  imageUrl: string;
+  image: string;
   sx?: any;
-  imageAltText?: string;
+  alt?: string;
   isLoading?: boolean;
   title?: string;
   className?: string;
@@ -15,32 +15,30 @@ interface CardMediaImageViewProps {
 }
 
 const CardMediaImageView = ({
-  imageUrl,
+  image,
   sx,
-  imageAltText,
+  alt,
   isLoading,
   title,
   className,
   height,
   width,
 }: CardMediaImageViewProps) => {
-  const absoluteImageUrl = FILE_SERVER_FILE_VIEW_ENDPOINT + imageUrl || '';
+  const absoluteImageUrl = FILE_SERVER_FILE_VIEW_ENDPOINT + image || '';
 
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <Box>
-      <CardMedia
-        component='img'
-        image={absoluteImageUrl}
-        sx={sx}
-        alt={imageAltText ? imageAltText : 'Image'}
-        title={title}
-        className={className}
-        height={height}
-        width={width}
-      />
-    </Box>
+    <CardMedia
+      component='img'
+      image={absoluteImageUrl}
+      sx={sx}
+      alt={alt ? alt : 'Image'}
+      title={title}
+      className={className}
+      height={height}
+      width={width}
+    />
   );
 };
 

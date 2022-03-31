@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
   Divider,
   Grid,
 } from '@mui/material';
@@ -41,6 +40,7 @@ import {useCustomStyle} from '../../hooks/useCustomStyle';
 import JobScheduleResponsePopup from '../../components/JobScheduleResponsePopup';
 import ConfirmationStatus from '../../components/JobScheduleResponsePopup/ConfirmationStatus';
 import moment from 'moment';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
 
 const PREFIX = 'JobCardComponent';
 
@@ -310,8 +310,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     <StyledCard className={isGridView ? classes.gridRoot : classes.listRoot}>
       {isGridView ? (
         <React.Fragment>
-          <CardMedia
-            component={'img'}
+          <CardMediaImageView
             className={classes.providerLogo}
             image={getJobProviderImage()}
             title={job.job_title}

@@ -105,12 +105,12 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   return (
     <StyledCard>
       <CardMediaImageView
-        imageUrl={
+        image={
           course?.cover_image ? course?.cover_image : '/images/blank_image.png'
         }
         className={classes.trainingCardImage}
         title={course.title}
-        imageAltText={course.title}
+        alt={course.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
         <Avatar

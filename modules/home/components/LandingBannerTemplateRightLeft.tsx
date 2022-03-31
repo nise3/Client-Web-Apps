@@ -50,10 +50,10 @@ const LandingBannerTemplateRightLeft = ({banner}: BannerProps) => {
     <StyledGrid container>
       <Grid item xs={12} md={6} sx={{height: '100%'}}>
         <CardMediaImageView
-            imageUrl={banner?.banner_image_path}
-            className={classes.image}
-            imageAltText={banner?.image_alt_title}
-            title={banner?.title}
+          image={banner?.banner_image_path}
+          className={classes.image}
+          alt={banner?.image_alt_title}
+          title={banner?.title}
         />
       </Grid>
       <Grid

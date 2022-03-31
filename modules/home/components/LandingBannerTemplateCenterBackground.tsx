@@ -53,9 +53,9 @@ const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
   return (
     <StyledBox>
       <CardMediaImageView
-        imageUrl={banner?.banner_image_path}
+        image={banner?.banner_image_path}
         className={classes.image}
-        imageAltText={banner?.image_alt_title}
+        alt={banner?.image_alt_title}
         title={banner?.title}
       />
       <Box sx={{margin: 'auto'}}>
