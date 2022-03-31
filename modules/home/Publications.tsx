@@ -9,6 +9,7 @@ import SectionTitle from './SectionTitle';
 import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'Publications';
 
@@ -66,14 +67,14 @@ const Publications = () => {
         <Box mr={1} ml={1} key={key}>
           <Card className={classes.cardItem}>
             <Box className={classes.imageAlt}>
-              <img
+              <CardMediaImageView
                 className={classes.image}
-                src={
+                imageUrl={
                   publication?.image_path
                     ? publication?.image_path
                     : '/images/blank_image.png'
                 }
-                alt={publication?.image_alt_title}
+                imageAltText={publication?.image_alt_title}
                 title={publication?.title}
               />
             </Box>

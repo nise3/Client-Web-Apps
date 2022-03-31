@@ -1,6 +1,7 @@
 import {Box, CardMedia} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'LandingBannerTemplateCenterBackground';
 
@@ -41,11 +42,10 @@ interface BannerProps {
 const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
   return (
     <StyledBox>
-      <CardMedia
-        component='img'
-        image={banner?.banner_image_path}
+      <CardMediaImageView
+        imageUrl={banner?.banner_image_path}
         className={classes.image}
-        alt={banner?.image_alt_title}
+        imageAltText={banner?.image_alt_title}
         title={banner?.title}
       />
     </StyledBox>
