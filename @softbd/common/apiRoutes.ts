@@ -183,6 +183,9 @@ export const API_TRAINING_CENTERS_REPORTING_PROGRESS =
 export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
   API_TRAINING_CENTERS + '/reporting/income-expenditure';
 
+/**exam manegement*/
+export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
+
 /**training center report end*/
 
 /** All institute service privates routes section end */

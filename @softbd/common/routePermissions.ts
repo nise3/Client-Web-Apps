@@ -303,4 +303,8 @@ export const routePermissions: any = {
     routePrefix: '/questions-bank',
     permissionKeys: ['view_any_question_bank'],
   },
+  '/exams': {
+    routePrefix: '/exams',
+    permissionKeys: ['view_any_exam'],
+  },
 };

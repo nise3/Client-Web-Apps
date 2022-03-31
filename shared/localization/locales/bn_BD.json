@@ -1880,5 +1880,6 @@
   "common.exam_subject_title": "বিষয় শিরোনাম",
   "common.exam_subject_title_en": "বিষয় শিরোনাম (ইংরেজি)",
   "common.accessor_type": "অ্যাক্সেসর ধরণ",
-  "common.accessor": "অ্যাক্সেসর"
+  "common.accessor": "অ্যাক্সেসর",
+  "exam.label": "পরীক্ষা"
 }

@@ -1879,5 +1879,6 @@
   "common.exam_subject_title": "Subject Title",
   "common.exam_subject_title_en": "Subject Title (English)",
   "common.accessor_type": "Accessor Type",
-  "common.accessor": "Accessor"
+  "common.accessor": "Accessor",
+  "exam.label": "Exam"
 }

@@ -8,6 +8,7 @@ import {
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
+  API_EXAM_SUBJECTS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
   API_EXAM_QUESTION_BANK,
@@ -225,4 +226,8 @@ export function useFetchExamQuestionsBank(questionsBankId: number | null) {
   return useAxiosSWR(
     questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
   );
+}
+
+export function useFetchSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
 }
