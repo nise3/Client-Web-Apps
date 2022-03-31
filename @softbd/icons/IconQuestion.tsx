@@ -1,7 +1,7 @@
 import {Help} from '@mui/icons-material';
 import React from 'react';
 
-const IconProgramme = () => {
+const IconQuestion = () => {
   return (
     <>
       <Help />
@@ -9,4 +9,4 @@ const IconProgramme = () => {
   );
 };
 
-export default React.memo(IconProgramme);
+export default React.memo(IconQuestion);
