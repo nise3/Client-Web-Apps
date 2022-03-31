@@ -1876,6 +1876,10 @@
   "common.disability": "প্রতিবন্ধী",
   "skill_development_monthly_progress_report.label": "দক্ষতা উন্নয়ন প্রশিক্ষণ কার্যক্রমের মাসিক অগ্রগতির প্রতিবেদন",
   "common.create_report": "রিপোর্ট তৈরি করুন",
-  "common.accessor_type": "Accessor type",
+  "common.question_type": "বিষয় ধরণ",
+  "common.exam_subject_title": "বিষয় শিরোনাম",
+  "common.exam_subject_title_en": "বিষয় শিরোনাম (ইংরেজি)",
+  "common.accessor_type": "অ্যাক্সেসর ধরণ",
+  "common.accessor": "অ্যাক্সেসর",
   "exam.label": "পরীক্ষা"
 }

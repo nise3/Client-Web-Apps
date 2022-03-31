@@ -11,8 +11,8 @@ import {
   API_EXAM_SUBJECTS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
+  API_EXAM_QUESTION_BANK,
   API_INSTITUTE_PROFILE,
-  API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
   API_PROGRAMMES,
@@ -185,15 +185,6 @@ export function useFetchInstituteTraineeYouths() {
   return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
-/**
- * Question Bank
- */
-export const useFetchQuestionBank = (questionId: number | null) => {
-  return useAxiosSWR(
-    questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
-  );
-};
-
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
   return useAxiosSWR(
     courseId
@@ -230,6 +221,12 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
       : null,
   );
 };
+
+export function useFetchExamQuestionsBank(questionsBankId: number | null) {
+  return useAxiosSWR(
+    questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
+  );
+}
 
 export function useFetchSubject(subjectId: number | null) {
   return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
