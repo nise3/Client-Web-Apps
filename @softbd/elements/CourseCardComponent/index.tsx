@@ -5,7 +5,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   LinearProgress,
   Typography,
 } from '@mui/material';
@@ -16,6 +15,7 @@ import {getCourseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
 import {H5, H6} from '../common';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
 
 const PREFIX = 'CourseCardComponent';
 
@@ -104,12 +104,11 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
 
   return (
     <StyledCard>
-      <CardMedia
-        component={'img'}
-        className={classes.trainingCardImage}
+      <CardMediaImageView
         image={
           course?.cover_image ? course?.cover_image : '/images/blank_image.png'
         }
+        className={classes.trainingCardImage}
         title={course.title}
         alt={course.title}
       />

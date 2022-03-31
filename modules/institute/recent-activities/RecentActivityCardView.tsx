@@ -3,7 +3,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   Typography,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
@@ -15,6 +14,7 @@ import {useIntl} from 'react-intl';
 import React from 'react';
 import ContentTypes from '../../dashboard/recentActivities/ContentTypes';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'RecentActivityCardView';
 
@@ -59,8 +59,7 @@ function RecentActivityCardView({activity}: any) {
         <CardActionArea>
           {activity.content_type &&
             activity.content_type == ContentTypes.IMAGE && (
-              <CardMedia
-                component='img'
+              <CardMediaImageView
                 height='140'
                 image={
                   activity.image_path
@@ -74,8 +73,7 @@ function RecentActivityCardView({activity}: any) {
           {activity.content_type &&
             activity.content_type != ContentTypes.IMAGE && (
               <>
-                <CardMedia
-                  component='img'
+                <CardMediaImageView
                   height='140'
                   image={
                     activity.thumb_image_path ?? '/images/blank_gray_image.png'
