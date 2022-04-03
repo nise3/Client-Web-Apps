@@ -231,3 +231,7 @@ export function useFetchExamQuestionsBank(questionsBankId: number | null) {
 export function useFetchSubject(subjectId: number | null) {
   return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
 }
+
+export function useFetchSubjects(params: any) {
+  return useAxiosSWR([API_EXAM_SUBJECTS, params]);
+}

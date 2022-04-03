@@ -1,11 +1,14 @@
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useEffect, useMemo} from 'react';
-import {useFetchExamQuestionsBank} from '../../../services/instituteManagement/hooks';
+import React, {useEffect, useMemo, useState} from 'react';
+import {
+  useFetchExamQuestionsBank,
+  useFetchSubjects,
+} from '../../../services/instituteManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   createQuestionsBank,
@@ -15,14 +18,14 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import {Grid} from '@mui/material';
+import {Box, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import {QuestionType} from '../rplQuestionBanks/QuestionEnums';
 import IconQuestion from '../../../@softbd/icons/IconQuestion';
+import {OPTIONS, QuestionType} from './QuestionBanksEnums';
+import {AnswerType} from '../rplQuestionBanks/QuestionEnums';
 
 interface IProps {
   itemId: number | null;
@@ -43,9 +46,7 @@ const initialValues = {
   option_3_en: '',
   option_4: '',
   option_4_en: '',
-  answers: {
-    a: '',
-  },
+  answers: [],
   row_status: '1',
 };
 
@@ -60,11 +61,19 @@ const QuestionsBankAddEditPopup = ({
 
   const isEdit = itemId != null;
 
+  const [subjectFilters] = useState({});
+  const [isMCQ, setIsMCQ] = useState<boolean>(false);
+  const [isYesNo, setIsYesNo] = useState<boolean>(false);
+  const [isFillInBlank, setIsFillInBlank] = useState<boolean>(false);
+
   const {
     data: itemData,
     isLoading,
     mutate: mutateQuestionBank,
   } = useFetchExamQuestionsBank(itemId);
+
+  const {data: subjects, isLoading: isFetchingSubjects} =
+    useFetchSubjects(subjectFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -81,8 +90,40 @@ const QuestionsBankAddEditPopup = ({
         .string()
         .required()
         .label(messages['common.question_type'] as string),
+      option_1: isMCQ
+        ? yup
+            .string()
+            .required()
+            .label(messages['option.option1'] as string)
+        : yup.string(),
+      option_2: isMCQ
+        ? yup
+            .string()
+            .required()
+            .label(messages['option.option2'] as string)
+        : yup.string(),
+      option_3: isMCQ
+        ? yup
+            .string()
+            .required()
+            .label(messages['option.option3'] as string)
+        : yup.string(),
+      option_4: isMCQ
+        ? yup
+            .string()
+            .required()
+            .label(messages['option.option4'] as string)
+        : yup.string(),
+      answers:
+        isMCQ || isYesNo
+          ? yup
+              .array()
+              .of(yup.number())
+              .min(1)
+              .label(messages['question.answer'] as string)
+          : yup.string(),
     });
-  }, [messages]);
+  }, [messages, isMCQ, isYesNo]);
 
   const questionTypes = useMemo(
     () => [
@@ -91,8 +132,64 @@ const QuestionsBankAddEditPopup = ({
         label: messages['question.type.mcq'],
       },
       {
+        key: QuestionType.FILL_IN_THE_BLANK,
+        label: messages['common.fill_in_the_blanks'],
+      },
+      {
         key: QuestionType.YES_NO,
         label: messages['question.type.y_n'],
+      },
+      {
+        key: QuestionType.PRACTICAL,
+        label: messages['common.practical'],
+      },
+      {
+        key: QuestionType.FIELD_WORK,
+        label: messages['common.field_work'],
+      },
+      {
+        key: QuestionType.PRESENTATION,
+        label: messages['common.presentation'],
+      },
+      {
+        key: QuestionType.DESCRIPTIVE,
+        label: messages['common.descriptive'],
+      },
+    ],
+    [messages],
+  );
+
+  const answerOptions = useMemo(
+    () => [
+      {
+        id: OPTIONS.OPTION_1,
+        label: messages['option.option1'],
+      },
+      {
+        id: OPTIONS.OPTION_2,
+        label: messages['option.option2'],
+      },
+      {
+        id: OPTIONS.OPTION_3,
+        label: messages['option.option3'],
+      },
+      {
+        id: OPTIONS.OPTION_4,
+        label: messages['option.option4'],
+      },
+    ],
+    [messages],
+  );
+
+  const yesNoOption = useMemo(
+    () => [
+      {
+        id: AnswerType.YES,
+        label: messages['answer.type.yes'],
+      },
+      {
+        id: AnswerType.NO,
+        label: messages['answer.type.no'],
       },
     ],
     [messages],
@@ -115,7 +212,7 @@ const QuestionsBankAddEditPopup = ({
         subject_id: itemData?.subject_id,
         title: itemData?.title,
         title_en: itemData?.title_en,
-        question_type: itemData?.option_1,
+        question_type: itemData?.question_type,
         option_1: itemData?.option_1,
         option_1_en: itemData?.option_1_en,
         option_2: itemData?.option_2,
@@ -127,6 +224,11 @@ const QuestionsBankAddEditPopup = ({
         answer: itemData?.answer,
         row_status: itemData?.row_status,
       };
+      setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
+      setIsFillInBlank(
+        String(itemData?.type) == QuestionType.FILL_IN_THE_BLANK,
+      );
+      setIsYesNo(String(itemData?.type) == QuestionType.YES_NO);
 
       reset(data);
     } else {
@@ -135,10 +237,14 @@ const QuestionsBankAddEditPopup = ({
   }, [itemData]);
 
   const onChangeType = (value: any) => {
-    console.log('changed=>', value);
+    setIsMCQ(String(value) == QuestionType.MCQ);
+    setIsFillInBlank(String(value) == QuestionType.FILL_IN_THE_BLANK);
+    setIsYesNo(String(value) == QuestionType.YES_NO);
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data->', data);
+
     try {
       if (itemId) {
         await updateQuestionsBank(itemId, data);
@@ -185,6 +291,35 @@ const QuestionsBankAddEditPopup = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'subject_id'}
+            label={messages['subject.label']}
+            isLoading={isFetchingSubjects}
+            control={control}
+            options={subjects}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomFormSelect
+            required
+            id='question_type'
+            label={messages['question.type']}
+            isLoading={false}
+            control={control}
+            options={questionTypes}
+            optionValueProp='key'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+            onChange={onChangeType}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <CustomTextInput
             required
             id={'title'}
@@ -193,6 +328,13 @@ const QuestionsBankAddEditPopup = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+          {isFillInBlank && (
+            <Box
+              sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+              Ex: This is [[fill in the blank]] question.(Ans will be in [[]],
+              and it will be blank in question.)
+            </Box>
+          )}
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
@@ -204,118 +346,104 @@ const QuestionsBankAddEditPopup = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <CustomFilterableFormSelect
-            required
-            id={'subject_id'}
-            label={messages['subject.label']}
-            isLoading={false}
-            control={control}
-            options={[]} // todo: api call should be implemented after exam api pushed.
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {isMCQ && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_1'}
+                label={messages['option.option1']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_1_en'}
+                label={messages['option.option1_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_2'}
+                label={messages['option.option2']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_2_en'}
+                label={messages['option.option2_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_3'}
+                label={messages['option.option3']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_3_en'}
+                label={messages['option.option3_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id={'option_4'}
+                label={messages['option.option4']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'option_4_en'}
+                label={messages['option.option4_en']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+          </>
+        )}
 
-        <Grid item xs={12}>
-          <FormRadioButtons
-            required
-            id='question_type'
-            label={'question.type'}
-            radios={questionTypes}
-            control={control}
-            defaultValue={initialValues.question_type}
-            isLoading={isLoading}
-            onChange={onChangeType}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_1'}
-            label={messages['option.option1']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_1_en'}
-            label={messages['option.option1_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_2'}
-            label={messages['option.option2']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_2_en'}
-            label={messages['option.option2_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_3'}
-            label={messages['option.option3']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_3_en'}
-            label={messages['option.option3_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_4'}
-            label={messages['option.option4']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'option_4_en'}
-            label={messages['option.option4_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <CustomFormSelect
-            id='answer'
-            label={messages['question.answer']}
-            isLoading={isLoading}
-            control={control}
-            options={[]} //todo: this might be changed after api end decision. currently accepting [].
-            optionValueProp='id'
-            optionTitleProp={['label']}
-            errorInstance={errors}
-          />
-        </Grid>
+        {(isMCQ || isYesNo) && (
+          <Grid item xs={6}>
+            <CustomFormSelect
+              id='answers'
+              required={true}
+              label={messages['question.answer']}
+              isLoading={false}
+              control={control}
+              options={isMCQ ? answerOptions : yesNoOption}
+              optionValueProp={'id'}
+              optionTitleProp={['label']}
+              errorInstance={errors}
+              multiple={isMCQ ? true : false}
+              defaultValue={[]}
+            />
+          </Grid>
+        )}
       </Grid>
     </HookFormMuiModal>
   );

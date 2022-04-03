@@ -1881,5 +1881,10 @@
   "common.exam_subject_title_en": "বিষয় শিরোনাম (ইংরেজি)",
   "common.accessor_type": "অ্যাক্সেসর ধরণ",
   "common.accessor": "অ্যাক্সেসর",
-  "exam.label": "পরীক্ষা"
+  "exam.label": "পরীক্ষা",
+  "common.fill_in_the_blanks": "শূন্যস্থান পূরণ",
+  "common.practical": "ব্যবহারিক",
+  "common.field_work": "মাঠকর্ম",
+  "common.presentation": "উপস্থাপনা",
+  "common.descriptive": "বর্ণনামূলক"
 }
