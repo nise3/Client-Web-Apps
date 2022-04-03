@@ -16,6 +16,7 @@ import {RiEditBoxFill} from 'react-icons/ri';
 import AssociationProfileEditPopup from './AssociationProfileEditPopup';
 import {useFetchIndustryAssocProfile} from '../../../services/IndustryAssociationManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'AssociationProfile';
 
@@ -95,7 +96,7 @@ const AssociationProfile = () => {
                   display={'flex'}
                   alignItems={'center'}
                   flexDirection={'column'}>
-                  <Avatar
+                  <AvatarImageView
                     className={classes.contact_person_avatar}
                     src={userData?.logo}
                   />
