@@ -1,4 +1,4 @@
-import React, {ForwardedRef} from 'react';
+import React, {ForwardedRef, useState} from 'react';
 import {Editor as TinymceEditor} from '@tinymce/tinymce-react';
 import {
   FormControl,
@@ -64,6 +64,8 @@ const TextEditor = React.forwardRef(
     if (matches) {
       errorObj = errorInstance?.[matches[1]]?.[matches[2]];
     }
+
+    let selectedNode: any = null;
 
     const onActivateUI = () => {
       // @ts-ignore
@@ -169,7 +171,10 @@ const TextEditor = React.forwardRef(
               convert_urls: false,
               image_caption: true,
               media_strict: false,
-              content_style: ".mce-preview-object{display: inline;} iframe{float: left}",
+              // content_style: `
+              // .mce-preview-object{display: inline;} 
+              // iframe{float: left}
+              // `,
               // content_css : 'body{background-color: red}',
               // images_upload_handler: tinyMceEditorImageUploader,
               images_upload_handler: imageUploadHandler,
@@ -192,28 +197,24 @@ const TextEditor = React.forwardRef(
                 //   onAction: function (_) {
                 //     console.log(' alignright : clicked!')
                 //     // editor.insertContent('&nbsp;<strong>It\'s my button!</strong>&nbsp;');
-                //   }
-                // });
-                editor.on('init', function (e: any) {
-                  console.log('The Editor has initialized.');
-                  const button = document.querySelector('button[title="Align right"]');
-                  if (button) {
-                    button.addEventListener('click', event => {
-                      // const videoFrame = document.querySelector('span[data-mce-selected]');
-                      const videoFrame1 = document.querySelector('span[data-mce-selected="1"]');
-                      const videoFrame2 = document.querySelector('span[data-mce-selected="2"]');
-                      var selector = videoFrame1 || videoFrame2;
-                      if (selector) {
-                        // var ifream = videoFrame.querySelector('iframe');
-                        selector.querySelector('iframe').setAttribute('style', 'float: right;')
-                        // console.log(' video selected ', videoFrame);
-                      } else {
-                        console.log(' not selected ');
-                      }
-                    });
+                // 
+                editor.on('ExecCommand', (cmd: any, ui?: boolean, value?: any)=> {
+                  // if(command ==)
+                  switch (cmd.command) {
+                    case "JustifyLeft":
+                      selectedNode?.setAttribute('style', 'float: left;');
+                      break;
+                    case "JustifyRight":
+                      // console.log('right');
+                      selectedNode?.setAttribute('style', 'float: right;');
+                      break;
+                    default:
+                      break;
                   }
-
-                });
+                }),
+                editor.on('objectselected', (node: Node, targetClone?: Node)=> {
+                  selectedNode = node.target;
+                }),
                 editor.on('focus', function () {});
                 editor.on('blur', function () {});
               },
