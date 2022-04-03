@@ -70,7 +70,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
               <AvatarImageView
-                src={notice?.grid_image_path ?? '/images/blank_image.png'}
+                src={notice?.grid_image_path}
                 alt={notice?.image_alt_title}
                 className={classes.avatarImage}
                 variant='square'

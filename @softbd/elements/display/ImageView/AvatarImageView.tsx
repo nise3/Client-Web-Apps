@@ -9,6 +9,7 @@ interface AvatarImageViewProps {
   className?: string;
   variant?: any;
   title?: string;
+  defaultImage?: string;
 }
 
 const AvatarImageView = ({
@@ -18,8 +19,9 @@ const AvatarImageView = ({
   className,
   variant,
   title,
+  defaultImage = '/images/blank_image.png',
 }: AvatarImageViewProps) => {
-  const absoluteSrc = FILE_SERVER_FILE_VIEW_ENDPOINT + src || '';
+  const absoluteSrc = src ? FILE_SERVER_FILE_VIEW_ENDPOINT + src : defaultImage;
 
   return (
     <Avatar
