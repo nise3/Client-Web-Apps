@@ -4,7 +4,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   LinearProgress,
   Typography,
 } from '@mui/material';
@@ -13,6 +12,7 @@ import {useRouter} from 'next/router';
 import {courseDuration, getIntlNumber} from '../../@softbd/utilities/helpers';
 import TagChip from '../../@softbd/elements/display/TagChip';
 import IntlMessages from '../../@crema/utility/IntlMessages';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'TrainingCard';
 
@@ -91,12 +91,11 @@ const TrainingCard: FC<TrainingCardProps> = ({course}) => {
 
   return (
     <StyledCard>
-      <CardMedia
-        component={'img'}
+      <CardMediaImageView
         className={classes.trainingCardImage}
         image={course?.cover_image}
-        title={course.title}
-        alt={course.title}
+        title={course?.title}
+        alt={course?.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
         <Box className={classes.courseFee}>

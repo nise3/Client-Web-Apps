@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -37,6 +36,7 @@ import CandidateCvPopup from './CandidateCvPopup';
 import AssignSchedulePopup from './AssignSchedule';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import MarksAsInterviewedFromPopup from './MarksAsInterviewedFromPopup';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'CandidateComponent';
 
@@ -604,7 +604,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
           <Grid item xs={4}>
             <Grid container>
               <Grid item xs={3}>
-                <Avatar
+                <AvatarImageView
                   src={candidate?.youth_profile?.photo}
                   sx={{height: '60px', width: '60px'}}
                 />

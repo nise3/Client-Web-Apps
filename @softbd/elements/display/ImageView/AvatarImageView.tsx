@@ -3,12 +3,13 @@ import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 import {Avatar} from '@mui/material';
 
 interface AvatarImageViewProps {
-  src: string;
+  src: any;
   sx?: any;
   alt?: string;
   className?: string;
   variant?: any;
   title?: string;
+  defaultImage?: string;
 }
 
 const AvatarImageView = ({
@@ -18,8 +19,9 @@ const AvatarImageView = ({
   className,
   variant,
   title,
+  defaultImage = '/images/blank_image.png',
 }: AvatarImageViewProps) => {
-  const absoluteSrc = FILE_SERVER_FILE_VIEW_ENDPOINT + src || '';
+  const absoluteSrc = src ? FILE_SERVER_FILE_VIEW_ENDPOINT + src : defaultImage;
 
   return (
     <Avatar

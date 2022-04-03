@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import {Button, Divider, Grid, Skeleton, Typography} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -16,6 +9,7 @@ import {RiEditBoxFill} from 'react-icons/ri';
 import AssociationProfileEditPopup from './AssociationProfileEditPopup';
 import {useFetchIndustryAssocProfile} from '../../../services/IndustryAssociationManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'AssociationProfile';
 
@@ -95,7 +89,7 @@ const AssociationProfile = () => {
                   display={'flex'}
                   alignItems={'center'}
                   flexDirection={'column'}>
-                  <Avatar
+                  <AvatarImageView
                     className={classes.contact_person_avatar}
                     src={userData?.logo}
                   />
