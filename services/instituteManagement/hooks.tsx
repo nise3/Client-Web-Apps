@@ -233,5 +233,5 @@ export function useFetchSubject(subjectId: number | null) {
 }
 
 export function useFetchSubjects(params: any) {
-  return useAxiosSWR([API_PUBLIC_INSTITUTES, params]);
+  return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
