@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import {H2, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -13,6 +13,7 @@ import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import {LINK_NICE3_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'Nise3WorkProcess';
 
@@ -163,10 +164,9 @@ const Nise3WorkProcess = () => {
                   {blockData.attachment_type == ContentTypes.IMAGE &&
                     blockData.image_path && (
                       <Zoom>
-                        <CardMedia
-                          component={'img'}
+                        <CardMediaImageView
                           className={classes.imageView}
-                          image={blockData.image_path}
+                          image={blockData?.image_path}
                           alt={blockData?.image_alt_title}
                         />
                       </Zoom>

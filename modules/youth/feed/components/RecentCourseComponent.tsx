@@ -1,12 +1,13 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../../@softbd/common/appLinks';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'RecentCourseComponent';
 
@@ -52,7 +53,7 @@ const RecentCourseComponent = ({data: course}: any) => {
     <>
       <StyledBox display={'flex'}>
         <Box>
-          <Avatar
+          <AvatarImageView
             alt='provider image'
             variant={'square'}
             src={course?.logo ? course?.logo : '/images/blank_image.png'}

@@ -1,7 +1,6 @@
 import {styled} from '@mui/material/styles';
 import {
   Box,
-  CardMedia,
   Container,
   Grid,
   Skeleton,
@@ -25,6 +24,7 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import React, {useEffect, useState} from 'react';
 import {useFetchPublicRecentActivityDetails} from '../../../services/cmsManagement/hooks';
 import {useRouter} from 'next/router';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'RecentActivitiesDetails';
 
@@ -128,8 +128,7 @@ const RecentActivitiesDetails = () => {
               <Grid item xs={12} my={3}>
                 {data?.content_type &&
                   data.content_type == ContentTypes.IMAGE && (
-                    <CardMedia
-                      component='img'
+                    <CardMediaImageView
                       height='400'
                       image={data?.image_path}
                       alt={data?.title}

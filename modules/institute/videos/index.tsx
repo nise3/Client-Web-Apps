@@ -6,7 +6,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   Chip,
   Container,
   Grid,
@@ -33,6 +32,7 @@ import {H2} from '../../../@softbd/elements/common';
 import clsx from 'clsx';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'InstituteVideos';
 
@@ -263,8 +263,7 @@ const InstituteVideos = () => {
                                 });
                                 setOpenDialog(true);
                               }}>
-                              <CardMedia
-                                component='img'
+                              <CardMediaImageView
                                 height='140'
                                 image={
                                   data?.content_thumb_image_path ??

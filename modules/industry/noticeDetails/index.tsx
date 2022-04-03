@@ -3,7 +3,6 @@ import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
-  CardMedia,
   Container,
   Grid,
   Skeleton,
@@ -21,6 +20,7 @@ import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks'
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'NoticeDetails';
 
@@ -121,8 +121,7 @@ const NoticeDetails = () => {
           </Grid>
         ) : (
           <Grid item xs={12}>
-            <CardMedia
-              component='img'
+            <CardMediaImageView
               height='300'
               image={
                 notice?.main_image_path

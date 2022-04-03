@@ -17,6 +17,7 @@ import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
 import {checkPermission} from '../../../@crema/utility/authorizations';
 import {useIntl} from 'react-intl';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'UserInfo';
 
@@ -140,7 +141,10 @@ const UserInfo: React.FC = () => {
     <StyledBox>
       <Box display='flex' alignItems='center'>
         {user && user?.profile_pic ? (
-          <Avatar className={classes.profilePic} src={user.profile_pic} />
+          <AvatarImageView
+            className={classes.profilePic}
+            src={user?.profile_pic}
+          />
         ) : (
           <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>
         )}
