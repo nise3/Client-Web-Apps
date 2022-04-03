@@ -26,6 +26,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import IconQuestion from '../../../@softbd/icons/IconQuestion';
 import {OPTIONS, QuestionType} from './QuestionBanksEnums';
 import {AnswerType} from '../rplQuestionBanks/QuestionEnums';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 interface IProps {
   itemId: number | null;
@@ -95,33 +96,37 @@ const QuestionsBankAddEditPopup = ({
             .string()
             .required()
             .label(messages['option.option1'] as string)
-        : yup.string(),
+        : yup.string().nullable(),
       option_2: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option2'] as string)
-        : yup.string(),
+        : yup.string().nullable(),
       option_3: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option3'] as string)
-        : yup.string(),
+        : yup.string().nullable(),
       option_4: isMCQ
         ? yup
             .string()
             .required()
             .label(messages['option.option4'] as string)
-        : yup.string(),
-      answers:
-        isMCQ || isYesNo
-          ? yup
-              .array()
-              .of(yup.number())
-              .min(1)
-              .label(messages['question.answer'] as string)
-          : yup.string(),
+        : yup.string().nullable(),
+      answers: isMCQ
+        ? yup
+            .array()
+            .of(yup.mixed())
+            .min(1)
+            .label(messages['question.answer'] as string)
+        : isYesNo
+        ? yup
+            .string()
+            .required()
+            .label(messages['option.answer'] as string)
+        : yup.mixed(),
     });
   }, [messages, isMCQ, isYesNo]);
 
@@ -206,6 +211,8 @@ const QuestionsBankAddEditPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
+  // console.log('getValues->', getValues());
+
   useEffect(() => {
     if (itemData) {
       let data: any = {
@@ -221,7 +228,10 @@ const QuestionsBankAddEditPopup = ({
         option_3_en: itemData?.option_3_en,
         option_4: itemData?.option_4,
         option_4_en: itemData?.option_4_en,
-        answer: itemData?.answer,
+        answers:
+          isYesNo && itemData?.answers
+            ? itemData?.answers[0]
+            : itemData?.answers,
         row_status: itemData?.row_status,
       };
       setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
@@ -242,8 +252,47 @@ const QuestionsBankAddEditPopup = ({
     setIsYesNo(String(value) == QuestionType.YES_NO);
   };
 
+  useEffect(() => {
+    if (itemData && itemData.question_type == QuestionType.MCQ) {
+      setIsMCQ(String(itemData.question_type) == QuestionType.MCQ);
+    }
+    if (itemData && itemData.question_type == QuestionType.FILL_IN_THE_BLANK) {
+      setIsFillInBlank(
+        String(itemData.question_type) == QuestionType.FILL_IN_THE_BLANK,
+      );
+    }
+    if (itemData && itemData.question_type == QuestionType.YES_NO) {
+      setIsYesNo(String(itemData.question_type) == QuestionType.YES_NO);
+    }
+  }, [itemData]);
+
+  // console.log('errors->', errors);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data->', data);
+    // console.log('data->', data);
+
+    if (!isMCQ) {
+      data.option_1 = '';
+      data.option_1_en = '';
+      data.option_2 = '';
+      data.option_2_en = '';
+      data.option_3 = '';
+      data.option_3_en = '';
+      data.option_4 = '';
+      data.option_4_en = '';
+    }
+
+    if (!isEdit && (!isMCQ || !isYesNo)) {
+      data.answers = [];
+    }
+
+    if (isYesNo && data.answers) {
+      data.answers = [String(data.answers)];
+    }
+
+    if (isMCQ && data && data.answers) {
+      data.answers = data?.answers.map((ans: any) => String(ans));
+    }
 
     try {
       if (itemId) {
@@ -440,10 +489,18 @@ const QuestionsBankAddEditPopup = ({
               optionTitleProp={['label']}
               errorInstance={errors}
               multiple={isMCQ ? true : false}
-              defaultValue={[]}
+              defaultValue={initialValues.answers}
             />
           </Grid>
         )}
+        <Grid item xs={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );
