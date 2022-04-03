@@ -18,6 +18,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import QuestionsBankAddEditPopup from './QuestionsBankAddEditPopup';
 import QuestionsBankDetailsPopup from './QuestionsBankDetailsPopup';
 import IconQuestion from '../../../@softbd/icons/IconQuestion';
+import {QuestionType} from './QuestionBanksEnums';
 
 const QuestionsBankPage = () => {
   const {messages, locale} = useIntl();
@@ -101,7 +102,11 @@ const QuestionsBankPage = () => {
       },
       {
         Header: messages['question.type'],
-        accessor: 'question_type',
+        // accessor: 'question_type',
+        Cell: (props: any) => {
+          let data = props.row.original?.question_type;
+          return <div>{questionType(data)}</div>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -137,6 +142,27 @@ const QuestionsBankPage = () => {
     useReactTableFetchData({
       urlPath: API_EXAM_QUESTION_BANK,
     });
+
+  const questionType = (data: any) => {
+    switch (String(data)) {
+      case QuestionType.MCQ:
+        return messages['question.type.mcq'];
+      case QuestionType.FILL_IN_THE_BLANK:
+        return messages['common.fill_in_the_blanks'];
+      case QuestionType.YES_NO:
+        return messages['question.type.y_n'];
+      case QuestionType.PRACTICAL:
+        return messages['common.practical'];
+      case QuestionType.FIELD_WORK:
+        return messages['common.field_work'];
+      case QuestionType.PRESENTATION:
+        return messages['common.presentation'];
+      case QuestionType.DESCRIPTIVE:
+        return messages['common.descriptive'];
+      default:
+        return '';
+    }
+  };
 
   return (
     <>

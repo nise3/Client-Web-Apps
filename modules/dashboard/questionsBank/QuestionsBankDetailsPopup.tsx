@@ -26,6 +26,27 @@ const QuestionsBankDetailsPopup = ({
 
   const {data: itemData, isLoading} = useFetchExamQuestionsBank(itemId);
 
+  const questionType = (data: any) => {
+    switch (String(data)) {
+      case QuestionType.MCQ:
+        return messages['question.type.mcq'];
+      case QuestionType.FILL_IN_THE_BLANK:
+        return messages['common.fill_in_the_blanks'];
+      case QuestionType.YES_NO:
+        return messages['question.type.y_n'];
+      case QuestionType.PRACTICAL:
+        return messages['common.practical'];
+      case QuestionType.FIELD_WORK:
+        return messages['common.field_work'];
+      case QuestionType.PRESENTATION:
+        return messages['common.presentation'];
+      case QuestionType.DESCRIPTIVE:
+        return messages['common.descriptive'];
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -65,7 +86,7 @@ const QuestionsBankDetailsPopup = ({
               <Grid item xs={12}>
                 <DetailsInputView
                   label={messages['question.type']}
-                  value={itemData?.question_type}
+                  value={questionType(itemData?.question_type)}
                   isLoading={isLoading}
                 />
               </Grid>
@@ -94,7 +115,7 @@ const QuestionsBankDetailsPopup = ({
             </Grid>
           </Grid>
 
-          {QuestionType.MCQ == itemData?.question_type && (
+          {itemData && QuestionType.MCQ == itemData?.question_type && (
             <>
               <Grid item xs={6}>
                 <Grid container spacing={5}>
@@ -186,14 +207,16 @@ const QuestionsBankDetailsPopup = ({
               </Grid>
             </>
           )}
-          {(QuestionType.MCQ == itemData.question_type ||
-            QuestionType.YES_NO == itemData.question_type) && (
+          {(QuestionType.MCQ == itemData?.question_type ||
+            QuestionType.YES_NO == itemData?.question_type) && (
             <Grid item xs={6}>
               <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <DetailsInputView
                     label={messages['question.answer']}
-                    value={itemData?.answer}
+                    value={(itemData?.answers || [])
+                      .map((ans: any) => ans)
+                      .join(', ')}
                     isLoading={isLoading}
                   />
                 </Grid>

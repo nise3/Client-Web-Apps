@@ -118,7 +118,7 @@ const QuestionsBankAddEditPopup = ({
       answers: isMCQ
         ? yup
             .array()
-            .of(yup.number())
+            .of(yup.mixed())
             .min(1)
             .label(messages['question.answer'] as string)
         : isYesNo
@@ -211,6 +211,8 @@ const QuestionsBankAddEditPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
+  // console.log('getValues->', getValues());
+
   useEffect(() => {
     if (itemData) {
       let data: any = {
@@ -226,7 +228,10 @@ const QuestionsBankAddEditPopup = ({
         option_3_en: itemData?.option_3_en,
         option_4: itemData?.option_4,
         option_4_en: itemData?.option_4_en,
-        answers: itemData?.answers?.map((ans: any) => Number(ans)),
+        answers:
+          isYesNo && itemData?.answers
+            ? itemData?.answers[0]
+            : itemData?.answers,
         row_status: itemData?.row_status,
       };
       setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
@@ -282,8 +287,7 @@ const QuestionsBankAddEditPopup = ({
     }
 
     if (isYesNo && data.answers) {
-      let arr: any = [];
-      data.answers = [...arr, String(data.answers)];
+      data.answers = [String(data.answers)];
     }
 
     if (isMCQ && data && data.answers) {
