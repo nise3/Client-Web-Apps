@@ -12,6 +12,8 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import ExamAddEditPopup from './ExamAddEditPopup';
 import ExamDetailsPopup from './ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
+import {Link} from '../../../@softbd/elements/common';
+import {Button} from '@mui/material';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -135,6 +137,9 @@ const ExamPage = () => {
               />
             }
           />,
+          <Link href={'/exams/question-list'}>
+            <Button>Questions</Button>{' '}
+          </Link>,
         ]}>
         <ReactTable
           columns={columns}
