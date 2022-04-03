@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import {getEmbeddedVideoUrl} from '../../../@softbd/utilities/helpers';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const StyledDialog = styled(Dialog)(({theme}) => ({
   padding: theme.spacing(0),
@@ -68,12 +69,12 @@ const CustomizedDialogs: FC<CustomizedDialogsProps> = ({
           )}
         </DialogTitle>
         <DialogContent>
-          {data.imagePath && (
-            <img
-              style={{display: 'block'}}
+          {data?.imagePath && (
+            <CardMediaImageView
+              sx={{display: 'block'}}
               width={'100%'}
-              height={350}
-              src={data.imagePath}
+              height='350'
+              image={data?.imagePath}
             />
           )}
 

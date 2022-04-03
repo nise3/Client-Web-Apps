@@ -3,7 +3,7 @@ import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 import {Avatar} from '@mui/material';
 
 interface AvatarImageViewProps {
-  src: string;
+  src: any;
   sx?: any;
   alt?: string;
   className?: string;
