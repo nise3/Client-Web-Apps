@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, CardMedia, Container, Grid} from '@mui/material';
+import {Button, Container, Grid} from '@mui/material';
 import {Zoom} from 'react-awesome-reveal';
 import {H1, Link} from '../../@softbd/elements/common';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -13,6 +13,7 @@ import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'SelfAssessment';
 
@@ -109,10 +110,9 @@ const SelfAssessment = () => {
                 {blockData.attachment_type == ContentTypes.IMAGE &&
                   blockData.image_path && (
                     <Zoom>
-                      <CardMedia
+                      <CardMediaImageView
                         sx={{maxHeight: '265px', objectFit: 'unset'}}
-                        component={'img'}
-                        image={blockData.image_path}
+                        image={blockData?.image_path}
                         alt={blockData?.image_alt_title}
                       />
                     </Zoom>

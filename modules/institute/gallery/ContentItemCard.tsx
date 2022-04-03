@@ -1,14 +1,9 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import {Card, CardActionArea, CardContent, Typography} from '@mui/material';
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import GalleryAlbumContentTypes from '../../dashboard/galleryAlbumContents/GalleryAlbumContentTypes';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const StyledTypography = styled(Typography)(({theme}) => ({
   whiteSpace: 'nowrap',
@@ -44,8 +39,7 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
           }
           onClickCallback(eventData);
         }}>
-        <CardMedia
-          component='img'
+        <CardMediaImageView
           height='140'
           image={thumbImg ?? '/images/blank_gray_image.png'}
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}

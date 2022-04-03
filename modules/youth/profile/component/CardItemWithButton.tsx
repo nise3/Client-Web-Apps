@@ -4,6 +4,7 @@ import {BorderColor} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import CircularDeleteButton from './CircularDeleteButton';
 import React from 'react';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'CardItemWithButton';
 
@@ -117,7 +118,10 @@ const CardItemWithButton = ({
               image={
                 fileType == 'pdf'
                   ? '/images/pdf.png'
-                  : portfolio?.file_path + '?id=' + portfolio?.id
+                  : FILE_SERVER_FILE_VIEW_ENDPOINT +
+                    portfolio?.file_path +
+                    '?id=' +
+                    portfolio?.id
               }
             />
           </Link>

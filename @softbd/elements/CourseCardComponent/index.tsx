@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -16,6 +15,7 @@ import {useRouter} from 'next/router';
 import {useCustomStyle} from '../../hooks/useCustomStyle';
 import {H5, H6} from '../common';
 import CardMediaImageView from '../display/ImageView/CardMediaImageView';
+import AvatarImageView from '../display/ImageView/AvatarImageView';
 
 const PREFIX = 'CourseCardComponent';
 
@@ -113,7 +113,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
         alt={course.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
-        <Avatar
+        <AvatarImageView
           variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}

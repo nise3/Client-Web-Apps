@@ -1,6 +1,7 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/material';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
 
 const PREFIX = 'LogoCustomizable';
 
@@ -71,9 +72,9 @@ const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
     <StyledBox className={className}>
       <Box className={classes.logoRoot}>
         <Box sx={{display: {sm: 'block'}}}>
-          <img
+          <CardMediaImageView
             className={classes.logo}
-            src={instituteLogo}
+            image={instituteLogo}
             alt={instituteName}
           />
         </Box>
