@@ -20,6 +20,7 @@ import {
 } from '../../../services/instituteManagement/SubjectService';
 import {IExamSubject} from '../../../shared/Interface/institute.interface';
 import IconSubject from '../../../@softbd/icons/IconSubject';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 interface SubjectAddEditPopupProps {
   itemId: number | null;
@@ -30,6 +31,7 @@ interface SubjectAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
+  row_status: '1',
 };
 
 const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
@@ -61,6 +63,7 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
+    control,
     formState: {errors, isSubmitting},
   } = useForm<IExamSubject>({
     resolver: yupResolver(validationSchema),
@@ -71,6 +74,7 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
+        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -140,6 +144,14 @@ const SubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
             label={messages['common.title_en']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
             isLoading={isLoading}
           />
         </Grid>

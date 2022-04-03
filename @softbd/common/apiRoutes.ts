@@ -141,8 +141,11 @@ export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
 export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
 
+/**exam manegement*/
 export const API_EXAM_QUESTION_BANK =
   INSTITUTE_SERVICE_PATH + '/exam-question-banks';
+
+export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
 
 /**             eRPL            */
 
@@ -182,9 +185,6 @@ export const API_TRAINING_CENTERS_REPORTING_PROGRESS =
 
 export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
   API_TRAINING_CENTERS + '/reporting/income-expenditure';
-
-/**exam management*/
-export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
 
 /**training center report end*/
 

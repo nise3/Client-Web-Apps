@@ -1,10 +1,10 @@
-import {Engineering} from '@mui/icons-material';
+import {Source} from '@mui/icons-material';
 import React from 'react';
 
 const IconExam = () => {
   return (
     <>
-      <Engineering />
+      <Source />
     </>
   );
 };
