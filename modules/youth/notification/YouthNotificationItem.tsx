@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import {IconButton, ListItem, Menu, MenuItem, Typography} from '@mui/material';
 import {Fonts} from '../../../shared/constants/AppEnums';
 import clsx from 'clsx';
 import {NotificationData} from '../../../@crema/services/db/notifications/notification';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'YouthNotificationItem';
 
@@ -74,10 +74,10 @@ const YouthNotificationItem: React.FC<NotificationItemProps> = ({item}) => {
         }>
         <Box mr={4}>
           <ListItemAvatar className={classes.minWidth0}>
-            <Avatar
+            <AvatarImageView
               className={classes.avatar}
               alt='Remy Sharp'
-              src={item.image}
+              src={item?.image}
             />
           </ListItemAvatar>
         </Box>

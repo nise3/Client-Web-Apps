@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -14,6 +13,7 @@ import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'NoticeCard';
 
@@ -69,7 +69,7 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
-              <Avatar
+              <AvatarImageView
                 src={notice?.grid_image_path ?? '/images/blank_image.png'}
                 alt={notice?.image_alt_title}
                 className={classes.avatarImage}

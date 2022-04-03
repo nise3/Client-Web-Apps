@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Card, CardContent, Divider, Grid, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, EmojiEventsOutlined, Schedule} from '@mui/icons-material';
@@ -30,6 +22,7 @@ import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -138,6 +131,7 @@ const PersonalInfoSection = () => {
     return firstName + ' ' + lastName;
   };
 
+  // @ts-ignore
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
   ) : (
@@ -145,7 +139,7 @@ const PersonalInfoSection = () => {
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
           <Grid item xs={12} sm={2}>
-            <Avatar
+            <AvatarImageView
               alt='youth profile pic'
               src={authUser?.photo}
               sx={{height: 100, width: 100, margin: 'auto'}}
