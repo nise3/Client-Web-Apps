@@ -101,11 +101,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
         <Grid item xs={12} md={2} sx={{position: 'relative'}}>
           <CardMediaImageView
             alt={course?.title}
-            image={
-              course?.cover_image
-                ? course?.cover_image
-                : '/images/blank_image.png'
-            }
+            image={course?.cover_image}
             height='100%'
             title={course?.title}
           />
@@ -128,11 +124,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                     <Grid item xs={2}>
                       <CardMediaImageView
                         alt={course?.title}
-                        image={
-                          course?.logo
-                            ? course?.logo
-                            : '/images/blank_image.png'
-                        }
+                        image={course?.logo}
                         className={classes.jobProviderImage}
                       />
                     </Grid>

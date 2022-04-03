@@ -105,9 +105,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
   return (
     <StyledCard>
       <CardMediaImageView
-        image={
-          course?.cover_image ? course?.cover_image : '/images/blank_image.png'
-        }
+        image={course?.cover_image}
         className={classes.trainingCardImage}
         title={course.title}
         alt={course.title}
@@ -117,7 +115,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}
-          src={course?.logo ? course?.logo : '/images/blank_image.png'}
+          src={course?.logo}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
