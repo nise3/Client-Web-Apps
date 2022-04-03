@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import {Button, Divider, Grid, Skeleton, Typography} from '@mui/material';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
