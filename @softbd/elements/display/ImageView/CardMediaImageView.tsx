@@ -12,6 +12,7 @@ interface CardMediaImageViewProps {
   className?: string;
   height?: string;
   width?: string;
+  defaultImage?: string;
 }
 
 const CardMediaImageView = ({
@@ -23,8 +24,11 @@ const CardMediaImageView = ({
   className,
   height,
   width,
+  defaultImage = '/images/blank_image.png',
 }: CardMediaImageViewProps) => {
-  const absoluteImageUrl = FILE_SERVER_FILE_VIEW_ENDPOINT + image || '';
+  const absoluteImageUrl = image
+    ? FILE_SERVER_FILE_VIEW_ENDPOINT + image
+    : defaultImage;
 
   return isLoading ? (
     <TextInputSkeleton />
