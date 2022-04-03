@@ -18,7 +18,7 @@ import {
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
-  useFetchInstitute,
+  useFetchAllInstitutes,
   useFetchProgramme,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -66,7 +66,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitute(instituteFilters);
+    useFetchAllInstitutes(instituteFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
