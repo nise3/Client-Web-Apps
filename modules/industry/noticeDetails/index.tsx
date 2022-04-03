@@ -123,12 +123,9 @@ const NoticeDetails = () => {
           <Grid item xs={12}>
             <CardMediaImageView
               height='300'
-              image={
-                notice?.main_image_path
-                  ? notice?.main_image_path
-                  : '/images/notice_details.jpg'
-              }
+              image={notice?.main_image_path}
               alt={notice?.image_alt_title}
+              defaultImage={'/images/notice_details.jpg'}
               title={notice?.title}
             />
           </Grid>

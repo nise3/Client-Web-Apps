@@ -71,7 +71,7 @@ const AssociationMembersSection = () => {
             <Box className={classes.imageAlt}>
               <CardMediaImageView
                 className={classes.image}
-                image={member?.logo ?? '/images/blank_image.png'}
+                image={member?.logo}
                 alt={member?.title}
                 title={member?.title}
               />

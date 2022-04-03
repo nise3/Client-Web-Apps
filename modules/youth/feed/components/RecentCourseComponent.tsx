@@ -56,7 +56,7 @@ const RecentCourseComponent = ({data: course}: any) => {
           <AvatarImageView
             alt='provider image'
             variant={'square'}
-            src={course?.logo ? course?.logo : '/images/blank_image.png'}
+            src={course?.logo}
             className={classes.courseProviderImage}
           />
         </Box>
