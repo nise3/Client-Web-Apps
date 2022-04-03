@@ -1873,5 +1873,7 @@
   "common.total": "Total",
   "common.disability": "Disabled",
   "skill_development_monthly_progress_report.label": "Monthly Progress Report on Skills Development Training Activities",
-  "common.create_report": "Create Report"
+  "common.create_report": "Create Report",
+  "course.available_training_centers": "This course is available in the training centers below",
+  "course.no_training_center_found": "No training center found with active batches"
 }
