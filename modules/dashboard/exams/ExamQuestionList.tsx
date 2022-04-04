@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body1, H4, S1} from '../../../@softbd/elements/common';
+import {Body1, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {QuestionType} from '../questionsBank/QuestionBanksEnums';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -58,6 +58,12 @@ const examQuestions = {
       question_type: 5,
     },
     {
+      id: 6,
+      title: '[[]]I am a [[]] engineer [[]] softbd ',
+      title_en: '[[]]I am a [[]] engineer  [[]] softbd ',
+      question_type: 2,
+    },
+    {
       id: 7,
       title: 'Write down about your profession',
       title_en: 'Write down about your profession',
@@ -103,22 +109,25 @@ const ExamQuestionList = () => {
   return (
     <Paper sx={{padding: '25px'}}>
       <Grid container spacing={1}>
-        <Grid item display={'flex'} justifyContent={'center'} xs={12}>
-          <H4>{examQuestions?.exam_title}</H4>
-        </Grid>
-        <Grid item display={'flex'} justifyContent={'center'} xs={12}>
-          <S1>
+        <Grid
+          item
+          display={'flex'}
+          alignItems={'center'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+          xs={12}>
+          <H6>{examQuestions?.exam_title}</H6>
+          <Body1>
             {messages['subject.label']}
             {': '}
             {examQuestions?.exam_subject_title}
-          </S1>
-        </Grid>
-        <Grid item display={'flex'} justifyContent={'center'} xs={12}>
-          <S1>
+          </Body1>
+          <Body1>
             {messages['common.date']} {': '}
             {examQuestions?.exam_date}
-          </S1>
+          </Body1>
         </Grid>
+
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={6}>
@@ -204,11 +213,11 @@ const ExamQuestionList = () => {
                                           width: '150px',
                                           marginTop: '-8px',
                                         }}
-                                      />
+                                      />{' '}
                                     </>
                                   );
                                 } else {
-                                  return <Body1>{element}</Body1>;
+                                  return <>{element}</>;
                                 }
                               },
                             )}
