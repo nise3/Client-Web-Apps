@@ -19,6 +19,7 @@ export const COOKIE_KEY_SEND_TIME = 'send_time';
 export const COOKIE_KEY_COURSE_ID = 'enrollment_course_id';
 export const COOKIE_NASCIB_MEMBER_REGISTRATION_PAYMENT_ID =
   'nascib_member_registration_payment_id';
+export const COOKIE_KEY_YOUTH_USER_AS_TRAINER = 'youth_user_as_trainer';
 export const IS_LOCAL_IDP = true;
 export const IS_LOCAL_APM = true;
 export const NOT_LOGOUT_ERROR_CODE = 'access_denied';
