@@ -17,6 +17,11 @@ import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
 import {checkPermission} from '../../../@crema/utility/authorizations';
 import {useIntl} from 'react-intl';
+import {loadAuthenticateUser} from '../../../redux/actions/AuthUserLoad';
+import {useDispatch} from 'react-redux';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_YOUTH_USER_AS_TRAINER} from '../../constants/AppConst';
+import {Divider} from '@mui/material';
 
 const PREFIX = 'UserInfo';
 
@@ -86,6 +91,18 @@ const UserInfo: React.FC = () => {
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const user: CommonAuthUser | null = useAuthUser();
   const {messages} = useIntl();
+  const dispatch = useDispatch();
+  const [isYouthAsTrainerUser] = useState<any>(
+    getBrowserCookie(COOKIE_KEY_YOUTH_USER_AS_TRAINER),
+  );
+
+  const gotoYouthProfile = useCallback(async () => {
+    try {
+      await loadAuthenticateUser(dispatch, true);
+    } catch (error) {
+      console.log('user load failed: ', error);
+    }
+  }, []);
 
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);
@@ -165,6 +182,14 @@ const UserInfo: React.FC = () => {
                 <MenuItem onClick={openDetailsModal}>
                   {messages['my_account.label']}
                 </MenuItem>
+                {isYouthAsTrainerUser && isYouthAsTrainerUser == '1' && (
+                  <Divider sx={{margin: '0 !important'}} />
+                )}
+                {isYouthAsTrainerUser && isYouthAsTrainerUser == '1' && (
+                  <MenuItem onClick={gotoYouthProfile}>
+                    {messages['common.goto_youth']}
+                  </MenuItem>
+                )}
                 {user?.isIndustryAssociationUser &&
                   checkPermission(user, ['view_any_association_profile']) && (
                     <MenuItem>
@@ -189,6 +214,7 @@ const UserInfo: React.FC = () => {
                       </Link>
                     </MenuItem>
                   )}
+                <Divider sx={{margin: '0 !important'}} />
                 <MenuItem>
                   <Link href={getSSOLogoutUrl()}>
                     {messages['common.logout']}
