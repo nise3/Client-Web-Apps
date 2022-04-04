@@ -20,6 +20,7 @@ import {
   LINK_FRONTEND_YOUTH_UPDATE_PASSWORD,
 } from '../../../common/appLinks';
 import {
+  AdminPanelSettings,
   DesktopMac,
   KeyboardArrowDown,
   Logout,
@@ -27,9 +28,14 @@ import {
   Receipt,
   Score,
   Settings,
+  Work,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
+import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {loadAuthenticateUser} from '../../../../redux/actions/AuthUserLoad';
+import {useDispatch} from 'react-redux';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -63,6 +69,16 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
+  const authUser = useAuthUser<YouthAuthUser>();
+  const dispatch = useDispatch();
+
+  const onGotoAdminClick = useCallback(async () => {
+    try {
+      await loadAuthenticateUser(dispatch, false);
+    } catch (error) {
+      console.log('user load failed: ', error);
+    }
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -105,7 +121,19 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
-        <Divider />
+
+        {authUser?.admin_access_type &&
+          authUser?.admin_access_type.length > 0 && <Divider />}
+        {authUser?.admin_access_type && authUser?.admin_access_type.length > 0 && (
+          <MenuItem onClick={onGotoAdminClick}>
+            <ListItemIcon>
+              <AdminPanelSettings />
+            </ListItemIcon>
+            <ListItemText>{messages['common.goto_admin']}</ListItemText>
+          </MenuItem>
+        )}
+
+        <Divider sx={{margin: '0 !important'}} />
         <Link href={LINK_FRONTEND_YOUTH_MY_CV}>
           <MenuItem>
             <ListItemIcon>
@@ -125,10 +153,11 @@ const YouthProfileMenu = () => {
             </ListItemText>
           </MenuItem>
         </Link>
+        <Divider />
         <Link href={LINK_FRONTEND_YOUTH_MY_JOBS}>
           <MenuItem>
             <ListItemIcon>
-              <DesktopMac />
+              <Work />
             </ListItemIcon>
             <ListItemText>{messages['youth_feed_menu.my_jobs']}</ListItemText>
           </MenuItem>
