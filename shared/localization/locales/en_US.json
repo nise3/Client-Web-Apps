@@ -1885,5 +1885,11 @@
   "common.practical": "Practical",
   "common.field_work": "Field Work",
   "common.presentation": "Presentation",
-  "common.descriptive": "Descriptive"
+  "common.descriptive": "Descriptive",
+  "common.online": "Online",
+  "common.off_online": "Offline",
+  "common.exam_type": "Exam Type",
+  "common.exam_purpose": "Purpose",
+  "common.total_marks": "Total marks",
+  "common.exam_sets": "Exam sets"
 }

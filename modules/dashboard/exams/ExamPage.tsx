@@ -9,9 +9,10 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import ExamAddEditPopup from './ExamAddEditPopup';
+import ExamAddEditPage from './examCreateUpdate/ExamAddEditPage';
 import ExamDetailsPopup from './ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
+import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -65,7 +66,7 @@ const ExamPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: '',
+      urlPath: API_EXAMS,
     });
 
   const columns = useMemo(
@@ -146,7 +147,7 @@ const ExamPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ExamAddEditPopup
+          <ExamAddEditPage
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
