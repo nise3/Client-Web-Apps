@@ -1082,7 +1082,7 @@
   "common.publish_at": "Publish at",
   "common.archived_at": "Archived at",
   "common.main_image_path": "Main Image",
-  "common.file_path": "File Path",
+  "common.file_path": "File",
   "common.file_alt_title": "File alt title",
   "common.notice_or_news": "Notice or News",
   "common.other_language_fields": "Other language fields",
@@ -1886,5 +1886,6 @@
   "common.field_work": "Field Work",
   "common.presentation": "Presentation",
   "common.descriptive": "Descriptive",
-  "common.total_marks": "Total marks"
+  "common.total_marks": "Total marks",
+  "common.time_remaining": "Time remaining"
 }

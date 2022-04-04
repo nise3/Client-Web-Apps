@@ -1081,7 +1081,7 @@
   "common.published_by": "প্রকাশিত",
   "common.publish": "প্রকাশনা",
   "common.main_image_path": "প্রধান ছবি",
-  "common.file_path": "ফাইল পাথ",
+  "common.file_path": "ফাইল",
   "common.file_alt_title": "ফাইলের অল্টারনেটিভ টাইটেল",
   "common.notice_or_news": "বিজ্ঞপ্তি বা সংবাদ",
   "common.other_language_fields": "অন্যান্য ভাষার ক্ষেত্র",
@@ -1887,6 +1887,7 @@
   "common.field_work": "মাঠকর্ম",
   "common.presentation": "উপস্থাপনা",
   "common.descriptive": "বর্ণনামূলক",
-  "common.total_marks": "পূর্ন নাম্বার"
+  "common.total_marks": "পূর্ন নাম্বার",
+  "common.time_remaining": "অবশিষ্ট সময়"
 
 }
