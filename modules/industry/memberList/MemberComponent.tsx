@@ -65,7 +65,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         className={classes.cardHeader}
         avatar={
           member?.logo ? (
-            <AvatarImageView className={classes.avatar} src={member.logo} />
+            <AvatarImageView className={classes.avatar} src={member?.logo} />
           ) : (
             <Avatar className={classes.avatar}>
               {member?.title?.charAt(0)}
