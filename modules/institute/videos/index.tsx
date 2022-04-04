@@ -265,10 +265,8 @@ const InstituteVideos = () => {
                               }}>
                               <CardMediaImageView
                                 height='140'
-                                image={
-                                  data?.content_thumb_image_path ??
-                                  '/images/blank_gray_image.png'
-                                }
+                                image={data?.content_thumb_image_path}
+                                defaultImage={'/images/blank_gray_image.png'}
                                 alt={data?.title}
                                 title={data?.title}
                               />

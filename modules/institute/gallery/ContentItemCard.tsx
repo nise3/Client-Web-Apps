@@ -41,8 +41,9 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
         }}>
         <CardMediaImageView
           height='140'
-          image={thumbImg ?? '/images/blank_gray_image.png'}
+          image={thumbImg}
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
+          defaultImage={'/images/blank_gray_image.png'}
           title={data?.title}
         />
 

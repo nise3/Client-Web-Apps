@@ -181,7 +181,7 @@ const MemberDetails = () => {
           }}>
           <Box>
             <CardMediaImageView
-              image={data?.logo ? data?.logo : '/images/blank_image.png'}
+              image={data?.logo}
               alt={data?.title}
               className={classes.logo}
             />
