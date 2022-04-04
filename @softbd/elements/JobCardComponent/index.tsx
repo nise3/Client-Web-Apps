@@ -220,7 +220,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   };
 
   const getJobProviderImage = () => {
-    let logo = '/images/blank_image.png';
+    let logo = 'images/blank_image.png';
     if (job?.industry_association_id && job?.industry_association_logo) {
       if (job?.organization_id && job?.organization_logo) {
         logo = job.organization_logo;
@@ -313,8 +313,8 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
           <CardMediaImageView
             className={classes.providerLogo}
             image={getJobProviderImage()}
-            title={job.job_title}
-            alt={job.job_title}
+            title={job?.job_title}
+            alt={job?.job_title}
           />
           <CardContent sx={{paddingBottom: '5px'}}>
             <H5

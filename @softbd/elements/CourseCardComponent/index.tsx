@@ -107,8 +107,8 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
       <CardMediaImageView
         image={course?.cover_image}
         className={classes.trainingCardImage}
-        title={course.title}
-        alt={course.title}
+        title={course?.title}
+        alt={course?.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
         <AvatarImageView
