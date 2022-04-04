@@ -66,53 +66,55 @@ const EventMiniCalendarView = () => {
 
   return (
     <Card>
-      <Grid style={{padding: 20}} xs={12} md={12}>
-        <CustomFilterableSelect
-          id='training_center_id'
-          label={messages['common.training_center']}
-          isLoading={isLoadingTrainingCenter}
-          options={trainingCenters}
-          optionValueProp={'id'}
-          optionTitleProp={['title']}
-          defaultValue={selectedTrainingCenter}
-          onChange={(value: any) => {
-            setSelectedTrainingCenter(value);
-          }}
-        />
-      </Grid>
       <CardContent>
-        <Grid item xs={12} md={12}>
-          {isOpenDetailsView ? (
-            <div>
-              <EventCalendarDetails itemData={selectedItem} />
-              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Box style={{paddingTop: 20}}>
-                  <CancelButton onClick={onClose} isLoading={false} />
-                </Box>
-              </Box>
-            </div>
-          ) : (
-            <Calendar
-              events={eventsList || null}
-              localizer={localizer}
-              selectable={true}
-              style={{height: 500}}
-              startAccessor='start'
-              endAccessor='end'
-              defaultDate={moment().toDate()}
-              views={['month']}
-              onView={(view: View) =>
-                setViewFilters((prev) => {
-                  return {
-                    ...prev,
-                    ...{type: view === 'agenda' ? 'schedule' : view},
-                  };
-                })
-              }
-              onNavigate={onNavigateEvent}
-              onSelectEvent={onSelectEvent}
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={12}>
+            <CustomFilterableSelect
+              id='training_center_id'
+              label={messages['common.training_center']}
+              isLoading={isLoadingTrainingCenter}
+              options={trainingCenters}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              defaultValue={selectedTrainingCenter}
+              onChange={(value: any) => {
+                setSelectedTrainingCenter(value);
+              }}
             />
-          )}
+          </Grid>
+          <Grid item xs={12} md={12}>
+            {isOpenDetailsView ? (
+              <div>
+                <EventCalendarDetails itemData={selectedItem} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <Box style={{paddingTop: 20}}>
+                    <CancelButton onClick={onClose} isLoading={false} />
+                  </Box>
+                </Box>
+              </div>
+            ) : (
+              <Calendar
+                events={eventsList || null}
+                localizer={localizer}
+                selectable={true}
+                style={{height: 500}}
+                startAccessor='start'
+                endAccessor='end'
+                defaultDate={moment().toDate()}
+                views={['month']}
+                onView={(view: View) =>
+                  setViewFilters((prev) => {
+                    return {
+                      ...prev,
+                      ...{type: view === 'agenda' ? 'schedule' : view},
+                    };
+                  })
+                }
+                onNavigate={onNavigateEvent}
+                onSelectEvent={onSelectEvent}
+              />
+            )}
+          </Grid>
         </Grid>
       </CardContent>
     </Card>

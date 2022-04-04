@@ -1876,5 +1876,7 @@
   "skill_development_monthly_progress_report.label": "দক্ষতা উন্নয়ন প্রশিক্ষণ কার্যক্রমের মাসিক অগ্রগতির প্রতিবেদন",
   "common.create_report": "রিপোর্ট তৈরি করুন",
   "course.available_training_centers": "এই কোর্সটি নীচের প্রশিক্ষণ কেন্দ্রগুলিতে পাওয়া যাচ্ছে",
-  "course.no_training_center_found": "সক্রিয় ব্যাচ সহ কোন প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি"
+  "course.no_training_center_found": "সক্রিয় ব্যাচ সহ কোন প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি",
+  "common.goto_admin": "অ্যাডমিন প্যানেল",
+  "common.goto_youth": "ইয়ুথ প্রোফাইল"
 }
