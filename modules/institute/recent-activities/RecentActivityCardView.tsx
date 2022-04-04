@@ -75,9 +75,8 @@ function RecentActivityCardView({activity}: any) {
               <>
                 <CardMediaImageView
                   height='140'
-                  image={
-                    activity.thumb_image_path ?? '/images/blank_gray_image.png'
-                  }
+                  image={activity.thumb_image_path}
+                  defaultImage={'/images/blank_gray_image.png'}
                   alt={activity?.image_alt_title}
                   title={activity?.title}
                 />
