@@ -414,7 +414,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                             </TableHead>
                             <TableBody>
                               {(item?.batches || []).map(
-                                (batch: Batch, index: number) => (
+                                (batch: any, index: number) => (
                                   <TableRow key={index}>
                                     <TableCell component='th'>
                                       {batch?.title}
