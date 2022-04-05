@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
 import {Body1, H6} from '../../../@softbd/elements/common';
@@ -11,6 +11,10 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import cookieInstance from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
+import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
+import {getTimer} from '../../../@softbd/utilities/helpers';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -59,8 +63,8 @@ const examQuestions = {
     },
     {
       id: 6,
-      title: '[[]]I am a [[]] engineer [[]] softbd ',
-      title_en: '[[]]I am a [[]] engineer  [[]] softbd ',
+      title: '[[]]am a [[]] engineer [[]] softbd ',
+      title_en: '[[]]am a [[]] engineer  [[]] softbd ',
       question_type: 2,
     },
     {
@@ -79,7 +83,8 @@ const ExamQuestionList = () => {
   const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
   const [isOption3Checked, setIsOption3Checked] = useState<boolean>(false);
   const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);
-
+  const [timer, setTimer] = useState<string | null>('01:06:39');
+  const [submitDisable, setSubmitDisable] = useState<boolean>(false);
   const validationSchema: any = useMemo(() => {
     return yup.object().shape({
       answers: yup
@@ -88,6 +93,50 @@ const ExamQuestionList = () => {
         .required()
         .label(messages['common.answer'] as string),
     });
+  }, []);
+
+  useEffect(() => {
+    const current = new Date();
+    let expireDate = new Date();
+    const expireTime = expireDate.getTime() + EXAM_TIME_IN_MILLIS;
+    expireDate.setTime(expireTime);
+
+    cookieInstance.set(COOKIE_KEY_EXAM_TIME, current.getTime(), {
+      expires: expireDate,
+    });
+    let date = cookieInstance.get(COOKIE_KEY_EXAM_TIME);
+    if (date) {
+      date = Number(date);
+      const currentDate = new Date();
+
+      if (date && currentDate.getTime() - date < EXAM_TIME_IN_MILLIS) {
+        const expireTime = date + EXAM_TIME_IN_MILLIS;
+        const timeout = expireTime - currentDate.getTime();
+
+        if (timeout > 0) {
+          const interval = setInterval(() => {
+            let remainingTime = getTimer(date);
+            setTimer(
+              remainingTime.hour +
+                ':' +
+                remainingTime.min +
+                ':' +
+                remainingTime.sec,
+            );
+            if (
+              remainingTime.hour < 1 &&
+              remainingTime.min < 1 &&
+              remainingTime.sec < 1
+            ) {
+              clearInterval(interval);
+              setSubmitDisable(true);
+            }
+          }, 1000);
+        }
+      } else {
+        setTimer(null);
+      }
+    }
   }, []);
 
   const {
@@ -108,7 +157,7 @@ const ExamQuestionList = () => {
 
   return (
     <Paper sx={{padding: '25px'}}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <Grid
           item
           display={'flex'}
@@ -128,21 +177,13 @@ const ExamQuestionList = () => {
           </Body1>
         </Grid>
 
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={6}>
-              <Body1>
-                {messages['common.time_remaining']} {': '}
-              </Body1>
-            </Grid>
-            <Grid item xs={6} display={'flex'} justifyContent={'space-between'}>
-              <Body1 sx={{marginLeft: 'auto'}}>
-                {messages['common.total_marks']}
-                {': '}
-                {examQuestions?.total_marks}
-              </Body1>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
+          <Body1>{messages['common.time_remaining'] + ': ' + timer}</Body1>
+          <Body1 sx={{marginLeft: 'auto'}}>
+            {messages['common.total_marks']}
+            {': '}
+            {examQuestions?.total_marks}
+          </Body1>
         </Grid>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
@@ -170,24 +211,26 @@ const ExamQuestionList = () => {
                               (element: any, itemIndex: any) => {
                                 if (element == '') {
                                   return (
-                                    <CustomTextInput
-                                      id={
-                                        'answers[' +
-                                        index +
-                                        '][' +
-                                        indexNo++ +
-                                        ']'
-                                      }
-                                      label={''}
-                                      register={register}
-                                      errorInstance={errors}
-                                      isLoading={false}
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '150px',
-                                        marginTop: '-8px',
-                                      }}
-                                    />
+                                    <>
+                                      <CustomTextInput
+                                        id={
+                                          'answers[' +
+                                          index +
+                                          '][' +
+                                          indexNo++ +
+                                          ']'
+                                        }
+                                        label={''}
+                                        register={register}
+                                        errorInstance={errors}
+                                        isLoading={false}
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '150px',
+                                          marginTop: '-8px',
+                                        }}
+                                      />{' '}
+                                    </>
                                   );
                                 } else if (
                                   itemIndex !=
@@ -329,7 +372,7 @@ const ExamQuestionList = () => {
                 type={'submit'}
                 variant={'contained'}
                 color={'primary'}
-                disabled={isSubmitting}>
+                disabled={isSubmitting || submitDisable}>
                 {messages['common.submit']}
               </Button>
             </Grid>
