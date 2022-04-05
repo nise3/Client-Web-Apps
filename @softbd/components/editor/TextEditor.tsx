@@ -26,6 +26,7 @@ interface EditorProps {
 
   [x: string]: any;
 }
+const IMAGE_MARGIN: number = 15;
 
 // const tineyMceStyle = `body.mce-preview-object{display: inline;}`
 // const tineyMceStyle = '/styles/mcestyle.css'
@@ -171,10 +172,14 @@ const TextEditor = React.forwardRef(
               convert_urls: false,
               image_caption: true,
               media_strict: false,
-              // content_style: `
-              // .mce-preview-object{display: inline;} 
-              // iframe{float: left}
-              // `,
+              content_style: `
+              .mce-preview-object{display: inline;} 
+              iframe{float: left;}
+              span[style="float: left;"] > iframe{margin-right: ${IMAGE_MARGIN}px}
+              span[style="float: right;"] > iframe{margin-left: ${IMAGE_MARGIN}px}
+              img[data-mce-style="float: left;"]{margin-right: ${IMAGE_MARGIN}px;}
+              img[data-mce-style="float: right;"]{margin-left: ${IMAGE_MARGIN - 5}px;}
+              `,
               // content_css : 'body{background-color: red}',
               // images_upload_handler: tinyMceEditorImageUploader,
               images_upload_handler: imageUploadHandler,
