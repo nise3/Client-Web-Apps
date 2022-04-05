@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import {Button} from '@mui/material';
 import {Link} from '../../../@softbd/elements/common';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'UserInfoDetailsPopup';
 
@@ -63,7 +64,7 @@ export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
       <Grid container spacing={5}>
         <Grid item xs={12}>
           {authUser?.profile_pic ? (
-            <Avatar
+            <AvatarImageView
               className={classes.ProfileImage}
               src={authUser?.profile_pic}
             />

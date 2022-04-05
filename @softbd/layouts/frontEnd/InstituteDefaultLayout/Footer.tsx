@@ -71,8 +71,8 @@ const StyledContainer = styled(Grid)(({theme}) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
-    '-webkitLineClamp': '4',
-    '-webkitBoxOrient': 'vertical',
+    WebkitLineClamp: '4',
+    WebkitBoxOrient: 'vertical',
   },
 }));
 

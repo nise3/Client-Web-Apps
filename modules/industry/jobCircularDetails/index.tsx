@@ -880,7 +880,7 @@ const JobCircularDetails = () => {
               <CardContent>
                 <Body2>
                   <b>
-                    {messages['job_preview_summary.application_deadline']}
+                    {messages['job_preview_summary.application_deadline']}{' '}
                     {jobData?.primary_job_information?.application_deadline
                       ? formatDate(
                           jobData.primary_job_information.application_deadline,

@@ -1,7 +1,6 @@
 import {styled} from '@mui/material/styles';
 import {
   Box,
-  CardMedia,
   Chip,
   Container,
   Grid,
@@ -28,6 +27,7 @@ import CustomizedDialogs from '../Components/ImageDialog';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'GalleryAlbumDetails';
 
@@ -152,8 +152,7 @@ const GalleryAlbumDetails = () => {
               <Skeleton variant='rectangular' width={'100%'} height={350} />
             ) : (
               <Box className={classes.coverImageBox}>
-                <CardMedia
-                  component='img'
+                <CardMediaImageView
                   image={currentGalleryAlbum?.main_image_path}
                   className={classes.coverImage}
                   alt={currentGalleryAlbum?.image_alt_title}
@@ -268,24 +267,22 @@ const GalleryAlbumDetails = () => {
               ) : galleryAlbumContents && galleryAlbumContents?.length > 0 ? (
                 <Grid item xs={12}>
                   <Grid container spacing={5}>
-                    {(galleryAlbumContents || [])
-                      .slice(0, 3)
-                      ?.map((data: any) => (
-                        <Grid
-                          item
-                          md={3}
-                          justifyContent={'center'}
-                          mt={3}
-                          key={data.id}>
-                          <ContentItemCard
-                            data={data}
-                            onClick={(eventData: any) => {
-                              setVideoData(eventData);
-                              setOpenDialog(true);
-                            }}
-                          />
-                        </Grid>
-                      ))}
+                    {(galleryAlbumContents || []).map((data: any) => (
+                      <Grid
+                        item
+                        md={3}
+                        justifyContent={'center'}
+                        mt={3}
+                        key={data.id}>
+                        <ContentItemCard
+                          data={data}
+                          onClick={(eventData: any) => {
+                            setVideoData(eventData);
+                            setOpenDialog(true);
+                          }}
+                        />
+                      </Grid>
+                    ))}
                   </Grid>
                 </Grid>
               ) : (

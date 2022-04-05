@@ -1,10 +1,11 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Card, Grid} from '@mui/material';
+import {Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {Star} from '@mui/icons-material';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'FeatureJobComponent';
 
@@ -72,10 +73,10 @@ const FeatureJobComponent: FC<FeatureJobProps> = ({data}) => {
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
         <Grid item xs={2} mr={1}>
-          <Avatar
+          <AvatarImageView
             className={classes.jobProviderImage}
             alt='provider image'
-            src={data.imageUrl}
+            src={data?.imageUrl}
           />
         </Grid>
         <Grid item xs={8}>

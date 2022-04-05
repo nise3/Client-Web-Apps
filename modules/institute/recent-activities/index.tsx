@@ -11,8 +11,7 @@ import {H1, H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {useFetchPublicRecentActivities} from '../../../services/cmsManagement/hooks';
 
-let defaultImage =
-  'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
+let defaultImage = '/images/recent_activity_blank.avif';
 
 const PREFIX = 'RecentActivities';
 

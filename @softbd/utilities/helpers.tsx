@@ -539,3 +539,11 @@ export const getMobilePhoneValidationSchema = (
       ),
   });
 };
+
+export const isValidLatitude = (lat: any) => {
+  return lat && isFinite(lat) && Math.abs(lat) <= 90;
+};
+
+export const isValidLongitude = (lng: any) => {
+  return lng && isFinite(lng) && Math.abs(lng) <= 180;
+};

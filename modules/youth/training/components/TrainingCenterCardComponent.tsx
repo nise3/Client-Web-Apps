@@ -1,16 +1,11 @@
 import React, {FC} from 'react';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import {Box, Card, CardContent, Typography} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 
 import {styled} from '@mui/material/styles';
+import CardMediaImageView from '../../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'CustomFilterableSelect';
 
@@ -52,12 +47,15 @@ const TrainingCenterCardComponent: FC<TrainingCenterCardComponentProps> = ({
 
   return (
     <StyledCard>
-      <CardMedia image={trainingCenter.image} title={trainingCenter.name} />
+      <CardMediaImageView
+        image={trainingCenter?.image}
+        title={trainingCenter?.name}
+      />
       <CardContent>
-        <Avatar
+        <AvatarImageView
           className={classes.providerLogo}
-          alt={trainingCenter.name}
-          src={trainingCenter.logo}
+          alt={trainingCenter?.name}
+          src={trainingCenter?.logo}
         />
         <Box fontWeight={'bold'} marginTop={'20px'}>
           {trainingCenter.name}
