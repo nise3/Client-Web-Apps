@@ -247,14 +247,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
-                <OnlineExam useFrom={{register, errors}} />
+                <OnlineExam useFrom={{register, errors, control}} />
               </Grid>
             )}
 
             {(examType == ExamTypes.OFF_ONLINE ||
               examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
-                <OffLineExam useFrom={{register, errors}} />
+                <OffLineExam useFrom={{register, errors, control}} />
               </Grid>
             )}
 

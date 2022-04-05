@@ -223,6 +223,10 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
   );
 };
 
+export function useFetchExamQuestionsBanks(params: any) {
+  return useAxiosSWR([API_EXAM_QUESTION_BANK]);
+}
+
 export function useFetchExamQuestionsBank(questionsBankId: number | null) {
   return useAxiosSWR(
     questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
