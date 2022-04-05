@@ -150,14 +150,14 @@ const GalleryAlbumContentDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.grid_image_path']}
-              imageUrl={itemData?.grid_image_path}
+              imageUrl={itemData?.content_grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.thumb_image_path']}
-              imageUrl={itemData?.thumb_image_path}
+              imageUrl={itemData?.content_thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>
