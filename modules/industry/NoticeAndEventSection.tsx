@@ -243,6 +243,14 @@ const NoticeAndEventSection = () => {
                   });
                 }}
                 components={componentObject}
+                formats={{
+                  monthHeaderFormat: (date, culture, localizer) => {
+                    return formatDate(date, {
+                      month: 'long',
+                      year: 'numeric',
+                    });
+                  },
+                }}
               />
             </Grid>
           </Grid>
