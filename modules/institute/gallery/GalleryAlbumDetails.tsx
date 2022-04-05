@@ -267,24 +267,22 @@ const GalleryAlbumDetails = () => {
               ) : galleryAlbumContents && galleryAlbumContents?.length > 0 ? (
                 <Grid item xs={12}>
                   <Grid container spacing={5}>
-                    {(galleryAlbumContents || [])
-                      .slice(0, 3)
-                      ?.map((data: any) => (
-                        <Grid
-                          item
-                          md={3}
-                          justifyContent={'center'}
-                          mt={3}
-                          key={data.id}>
-                          <ContentItemCard
-                            data={data}
-                            onClick={(eventData: any) => {
-                              setVideoData(eventData);
-                              setOpenDialog(true);
-                            }}
-                          />
-                        </Grid>
-                      ))}
+                    {(galleryAlbumContents || []).map((data: any) => (
+                      <Grid
+                        item
+                        md={3}
+                        justifyContent={'center'}
+                        mt={3}
+                        key={data.id}>
+                        <ContentItemCard
+                          data={data}
+                          onClick={(eventData: any) => {
+                            setVideoData(eventData);
+                            setOpenDialog(true);
+                          }}
+                        />
+                      </Grid>
+                    ))}
                   </Grid>
                 </Grid>
               ) : (
