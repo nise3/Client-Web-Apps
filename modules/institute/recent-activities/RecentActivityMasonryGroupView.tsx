@@ -111,7 +111,9 @@ function RecentActivityMasonryGroupView({items}: any) {
               }>
               <img
                 {...srcset(
-                  FILE_SERVER_FILE_VIEW_ENDPOINT + item.collage_image_path,
+                  item?.id
+                    ? FILE_SERVER_FILE_VIEW_ENDPOINT + item.collage_image_path
+                    : item.collage_image_path,
                   25,
                   masonryPositions[item.collage_position - 1]?.rows,
                   masonryPositions[item.collage_position - 1]?.cols,
