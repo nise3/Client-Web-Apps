@@ -152,7 +152,6 @@ const EventSection = () => {
   // example implementation of a wrapper
   const ColoredDateCellWrapper = (evnt: any) => {
     const { children, value } = evnt;
-    // console.log('check ColoredDateCellWrapper ', children);
     const currentDate = parsDate(value);
     let _backgroundColor = '';
     if (hasEvent(currentDate, startDates)) {
@@ -185,6 +184,16 @@ const EventSection = () => {
       }
 
     </div>
+  }
+  const componentObject = {
+    dateCellWrapper: ColoredDateCellWrapper,
+    month: {
+      dateHeader: customDateCellWrap,
+      header: (e:any) => {
+        const lbl = messages[`calendar.${e.label}`];
+        return <span>{lbl}</span>
+      }
+    }
   }
 
   return (
@@ -247,16 +256,7 @@ const EventSection = () => {
                     return { ...prev, month, year };
                   });
                 }}
-                components={{
-                  dateCellWrapper: ColoredDateCellWrapper,
-                  month: {
-                    dateHeader: customDateCellWrap,
-                    header: (e) => {
-                      const lbl = messages[`calendar.${e.label}`];
-                      return <span>{lbl}</span>
-                    }
-                  }
-                }}
+                components={componentObject}
               />
             </Grid>
           </Grid>
