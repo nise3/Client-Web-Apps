@@ -307,8 +307,12 @@ export const routePermissions: any = {
     routePrefix: '/exams',
     permissionKeys: ['view_any_exam'],
   },
-  '/create-update': {
-    routePrefix: '/create-update',
+  '/create': {
+    routePrefix: '/create',
+    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+  },
+  '/update/': {
+    routePrefix: '/update/',
     permissionKeys: ['view_any_exam'], //TODO: this will be change letter
   },
 };

@@ -13,6 +13,7 @@ import ExamAddEditPage from './examCreateUpdate/ExamAddEditPage';
 import ExamDetailsPopup from './ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
 import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
+import {Link} from '../../../@softbd/elements/common';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -123,19 +124,20 @@ const ExamPage = () => {
           </>
         }
         extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  exam: messages['exam.label'],
-                }}
-              />
-            }
-          />,
+          <Link key={1} href={'/exams/create'}>
+            <AddButton
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['exam.label'],
+                  }}
+                />
+              }
+            />
+          </Link>,
         ]}>
         <ReactTable
           columns={columns}

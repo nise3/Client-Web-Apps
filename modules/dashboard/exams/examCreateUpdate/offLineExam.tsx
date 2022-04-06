@@ -130,15 +130,15 @@ const OffLineExam = ({useFrom}: IProps) => {
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={'venue'}
-              label={messages['common.venue']}
-              register={useFrom.register}
-              errorInstance={useFrom.errors}
-              isLoading={false}
-            />
-          </Grid>
+          {/*<Grid item xs={6}>*/}
+          {/*  <CustomTextInput*/}
+          {/*    id={'venue'}*/}
+          {/*    label={messages['common.venue']}*/}
+          {/*    register={useFrom.register}*/}
+          {/*    errorInstance={useFrom.errors}*/}
+          {/*    isLoading={false}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={12} md={6}>
             <CustomTimePicker
               id='start_time'
@@ -162,16 +162,16 @@ const OffLineExam = ({useFrom}: IProps) => {
               isLoading={false}
             />
           </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={'total_marks'}
-              label={messages['common.total_marks']}
-              type={'number'}
-              register={useFrom.register}
-              errorInstance={useFrom.errors}
-              isLoading={false}
-            />
-          </Grid>
+          {/*<Grid item xs={6}>*/}
+          {/*  <CustomTextInput*/}
+          {/*    id={'total_marks'}*/}
+          {/*    label={messages['common.total_marks']}*/}
+          {/*    type={'number'}*/}
+          {/*    register={useFrom.register}*/}
+          {/*    errorInstance={useFrom.errors}*/}
+          {/*    isLoading={false}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6}>
             <TextField
               inputRef={examSetField}
@@ -206,12 +206,11 @@ const OffLineExam = ({useFrom}: IProps) => {
 
           {/*Exam Sets*/}
           {examSets?.map((item, i) => (
-            //Todo: working on dynamic id
             <Fragment key={i}>
               <Grid item xs={6}>
                 <CustomTextInput
-                  // sx={{display: 'none'}}
-                  id={'question_sets' + '[id]'}
+                  sx={{display: 'none'}}
+                  id={'question_sets' + `[${i}]` + '[id]'}
                   label={messages['common.set_name']}
                   register={useFrom.register}
                   errorInstance={useFrom.errors}

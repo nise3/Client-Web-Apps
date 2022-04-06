@@ -102,15 +102,6 @@ const OnlineExam = ({useFrom}: IProps) => {
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={'venue'}
-              label={messages['common.venue']}
-              register={useFrom.register}
-              errorInstance={useFrom.errors}
-              isLoading={false}
-            />
-          </Grid>
           <Grid item xs={12} md={6}>
             <CustomTimePicker
               id='start_time'
@@ -127,7 +118,7 @@ const OnlineExam = ({useFrom}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id={'total_marks'}
+              id={'venue'}
               label={messages['common.venue']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
