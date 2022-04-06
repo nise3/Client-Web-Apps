@@ -500,7 +500,7 @@ const JobCircularDetails = () => {
           id={'job_posting.application_gender_req_two'}
           values={{
             gender1: messages['common.female'],
-            gender2: messages['common.other'],
+            gender2: messages['common.others'],
           }}
         />
       );
@@ -509,25 +509,25 @@ const JobCircularDetails = () => {
         <IntlMessages
           id={'job_posting.application_gender_req_one'}
           values={{
-            gender1: messages['common.male'],
+            gender: messages['common.male'],
           }}
         />
       );
     } else if (female) {
       return (
         <IntlMessages
-          id={'job_posting.application_gender_req_two'}
+          id={'job_posting.application_gender_req_one'}
           values={{
-            gender1: messages['common.female'],
+            gender: messages['common.female'],
           }}
         />
       );
     } else {
       return (
         <IntlMessages
-          id={'job_posting.application_gender_req_two'}
+          id={'job_posting.application_gender_req_one'}
           values={{
-            gender2: messages['common.other'],
+            gender: messages['common.others'],
           }}
         />
       );
