@@ -1,14 +1,9 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import {Card, CardActionArea, CardContent, Typography} from '@mui/material';
 import React from 'react';
 import {Link} from '../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../../@softbd/common/appLinks';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const StyledTypography = styled(Typography)(({theme}) => ({
   whiteSpace: 'nowrap',
@@ -31,8 +26,7 @@ function GalleryItemCardView({item}: any) {
       <Link href={`${path}/${item.id}`} passHref>
         <Card>
           <CardActionArea>
-            <CardMedia
-              component='img'
+            <CardMediaImageView
               height='150'
               image={image}
               sx={{objectFit: 'unset'}}

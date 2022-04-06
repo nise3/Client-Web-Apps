@@ -1,8 +1,9 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
-import {Avatar, Box, Button} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {S2} from '../../../../@softbd/elements/common';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'NearbyFreelancer';
 
@@ -40,7 +41,7 @@ const NearbyFreelancerComponent: FC<NearbyFreelancerComponentProps> = ({
   return (
     <StyledStyledBox display={'flex'}>
       <Box>
-        <Avatar
+        <AvatarImageView
           alt='youth image'
           src={freelanceUser?.photo}
           className={classes.userImage}

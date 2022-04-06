@@ -23,6 +23,10 @@ import {
   useFetchContactInfo,
   useFetchPublicIndustryAssocDetails,
 } from '../../../services/IndustryManagement/hooks';
+import {
+  isValidLatitude,
+  isValidLongitude,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'IndustryContact';
 
@@ -122,10 +126,10 @@ const ContactPage = () => {
 
   useEffect(() => {
     setMapCenter({
-      lat: industryAssociationDetails?.location_latitude
+      lat: isValidLatitude(industryAssociationDetails?.location_latitude)
         ? parseFloat(industryAssociationDetails?.location_latitude)
         : 23.776488939377593,
-      lng: industryAssociationDetails?.location_longitude
+      lng: isValidLongitude(industryAssociationDetails?.location_longitude)
         ? parseFloat(industryAssociationDetails?.location_longitude)
         : 90.38155009066672,
     });
@@ -322,9 +326,7 @@ const ContactPage = () => {
         <Grid container maxWidth='lg' sx={{margin: 'auto'}}>
           <Grid item xs={12}>
             <H3 fontWeight={'bold'}>{messages['common.contact_office']}</H3>
-            <Text>
-              BDBL Bhaban (Level 5 - West), 12 Kawran Bazar, Dhaka -1215
-            </Text>
+            <Text>{industryAssociationDetails?.address}</Text>
           </Grid>
           <Grid item xs={12} mt={2}>
             <Grid container spacing={3} p={2}>

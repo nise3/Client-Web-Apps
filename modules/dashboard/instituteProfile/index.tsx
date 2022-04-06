@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import {Button, Divider, Grid, Skeleton, Typography} from '@mui/material';
 import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Call, Email} from '@mui/icons-material';
@@ -16,6 +9,7 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import InstituteProfileEditPopup from './InstituteProfileEditPopup';
 import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'InstituteProfile';
 
@@ -91,7 +85,7 @@ const InstituteProfile = () => {
                 display={'flex'}
                 alignItems={'center'}
                 flexDirection={'column'}>
-                <Avatar
+                <AvatarImageView
                   className={classes.contact_person_avatar}
                   src={profileData?.logo}
                 />

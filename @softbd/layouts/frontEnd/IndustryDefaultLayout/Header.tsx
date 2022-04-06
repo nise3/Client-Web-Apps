@@ -24,6 +24,7 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
+import CardMediaImageView from '../../../elements/display/ImageView/CardMediaImageView';
 
 interface AppHeaderProps {}
 
@@ -108,9 +109,9 @@ const Header: React.FC<AppHeaderProps> = () => {
             className={classes.headerHalfLogo}>
             {industryAssociationDetails?.logo && (
               <Box sx={{marginRight: '10px'}}>
-                <img
+                <CardMediaImageView
                   className={classes.logoInstitute}
-                  src={industryAssociationDetails?.logo}
+                  image={industryAssociationDetails?.logo}
                   alt='industry logo'
                 />
               </Box>
