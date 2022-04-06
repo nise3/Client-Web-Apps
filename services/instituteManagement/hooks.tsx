@@ -233,10 +233,6 @@ export function useFetchExamQuestionsBank(questionsBankId: number | null) {
   );
 }
 
-export function useFetchExamQuestionsBanks(params: any) {
-  return useAxiosSWR(params ? [API_EXAM_QUESTION_BANK, params] : null);
-}
-
 export function useFetchSubject(subjectId: number | null) {
   return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
 }
@@ -244,6 +240,7 @@ export function useFetchSubject(subjectId: number | null) {
 export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
+
 export function useFetchExam(examId: number | null) {
   return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
