@@ -9,6 +9,7 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_VISITOR_FEEDBACKS} from '../../../@softbd/common/apiRoutes';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const VisitorFeedbackPage = () => {
   const {messages} = useIntl();
@@ -42,7 +43,11 @@ const VisitorFeedbackPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

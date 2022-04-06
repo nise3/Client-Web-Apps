@@ -1,16 +1,16 @@
-import React, { useCallback, useMemo, useState } from "react";
-import PageBlock from "../../../@softbd/utilities/PageBlock";
-import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
-import { useIntl } from "react-intl";
-import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
-import { API_RTO_COUNTRIES } from "../../../@softbd/common/apiRoutes";
-import ReactTable from "../../../@softbd/table/Table/ReactTable";
-import RTOCountryAddEditPopup from "./RTOCountryAddEditPopup";
+import React, {useCallback, useMemo, useState} from 'react';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {useIntl} from 'react-intl';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_RTO_COUNTRIES} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import RTOCountryAddEditPopup from './RTOCountryAddEditPopup';
 
-
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import IconCountry from "../../../@softbd/icons/IconCountry";
-import LocaleLanguage from "../../../@softbd/utilities/LocaleLanguage";
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import IconCountry from '../../../@softbd/icons/IconCountry';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const RTOCountryPage = () => {
   const {messages, locale} = useIntl();
@@ -21,16 +21,11 @@ const RTOCountryPage = () => {
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
-
     setIsOpenAddEditModal(true);
-
   }, []);
-
-
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -43,7 +38,11 @@ const RTOCountryPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 
@@ -57,7 +56,6 @@ const RTOCountryPage = () => {
         accessor: 'title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
-
     ],
     [messages, locale],
   );
@@ -106,7 +104,6 @@ const RTOCountryPage = () => {
             refreshDataTable={refreshDataTable}
           />
         )}
-
       </PageBlock>
     </>
   );

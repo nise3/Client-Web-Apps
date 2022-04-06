@@ -16,6 +16,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CABatchManagePopup from './RPLBatchManagePopup';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomChipCertificationStatus from './CustomChipCertificationStatus';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const RPLBatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -62,7 +63,11 @@ const RPLBatchesPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,
