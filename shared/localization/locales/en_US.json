@@ -1889,5 +1889,20 @@
   "common.practical": "Practical",
   "common.field_work": "Field Work",
   "common.presentation": "Presentation",
-  "common.descriptive": "Descriptive"
+  "common.descriptive": "Descriptive",
+  "common.online": "Online",
+  "common.off_online": "Offline",
+  "common.exam_type": "Exam Type",
+  "common.exam_purpose": "Purpose",
+  "common.total_marks": "Total marks",
+  "common.individual_marks": "Individual marks",
+  "common.exam_sets": "Exam sets",
+  "common.set_name": "Set name",
+  "common.set_name_en": "Set name (English)",
+  "common.number_of_questions": "Number of questions",
+  "common.question_selection_type": "Question selection type",
+  "common.fixed": "Fixed",
+  "common.random": "Random",
+  "common.random_from_elect": "Random from Selected",
+  "common.number_of_sets": "Number of sets"
 }

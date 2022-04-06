@@ -1890,5 +1890,20 @@
   "common.practical": "ব্যবহারিক",
   "common.field_work": "মাঠকর্ম",
   "common.presentation": "উপস্থাপনা",
-  "common.descriptive": "বর্ণনামূলক"
+  "common.descriptive": "বর্ণনামূলক",
+  "common.online": "অনলাইন",
+  "common.off_online": "অফলাইন",
+  "common.exam_type": "পরীক্ষার ধরন",
+  "common.exam_purpose": "উদ্দেশ্য",
+  "common.total_marks": "মোট নাম্বার",
+  "common.individual_marks": "স্বতন্ত্র নাম্বার",
+  "common.exam_sets": "পরীক্ষা সেট",
+  "common.set_name": "সেটের নাম",
+  "common.set_name_en": "সেটের নাম (ইংরেজি)",
+  "common.number_of_questions": "প্রশ্নের সংখ্যা",
+  "common.question_selection_type": "প্রশ্ন নির্বাচনের ধরন",
+  "common.fixed": "ফিক্সড",
+  "common.random": "এলোমেলো",
+  "common.random_from_elect": "নির্বাচিত থেকে এলোমেলো",
+  "common.number_of_sets": "সেটের সংখ্যা"
 }

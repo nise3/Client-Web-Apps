@@ -147,6 +147,8 @@ export const API_EXAM_QUESTION_BANK =
 
 export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
 
+export const API_EXAMS = INSTITUTE_SERVICE_PATH + '/exams';
+
 /**             eRPL            */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =

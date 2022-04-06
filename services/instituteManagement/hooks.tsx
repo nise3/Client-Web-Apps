@@ -29,6 +29,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
+  API_EXAMS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -222,6 +223,10 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
   );
 };
 
+export function useFetchExamQuestionsBanks(params: any) {
+  return useAxiosSWR([API_EXAM_QUESTION_BANK]);
+}
+
 export function useFetchExamQuestionsBank(questionsBankId: number | null) {
   return useAxiosSWR(
     questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
@@ -234,4 +239,7 @@ export function useFetchSubject(subjectId: number | null) {
 
 export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
+}
+export function useFetchExam(examId: number | null) {
+  return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
