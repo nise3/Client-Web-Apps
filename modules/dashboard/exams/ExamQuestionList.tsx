@@ -114,6 +114,7 @@ const ExamQuestionList = () => {
         const timeout = expireTime - currentDate.getTime();
 
         if (timeout > 0) {
+
           const interval = setInterval(() => {
             let remainingTime = getTimer(date);
             setTimer(remainingTime.timer);
