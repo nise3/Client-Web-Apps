@@ -127,13 +127,13 @@ const ExamPage = () => {
         extra={[
           <Link key={1} href={'/exams/create'}>
             <AddButton
-              onClick={() => openAddEditModal(null)}
+              onClick={() => {}}
               isLoading={loading}
               tooltip={
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    exam: messages['exam.label'],
+                    subject: messages['exam.label'],
                   }}
                 />
               }

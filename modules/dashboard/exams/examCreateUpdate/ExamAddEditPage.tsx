@@ -28,6 +28,9 @@ import {
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
 import OnlineExam from './onlineExam';
 import OffLineExam from './offLineExam';
+import {ArrowBack} from '@mui/icons-material';
+import {useRouter} from 'next/router';
+import {cloneDeep} from 'lodash';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -52,6 +55,8 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const router = useRouter();
 
   const isEdit = itemId != null;
 
@@ -115,15 +120,19 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    formData.purpose_name = 'COURSE';
+    let data = cloneDeep(formData);
+
+    data.purpose_name = 'BATCH';
+
+    console.log('formdata->', data);
 
     try {
       if (itemId) {
-        await updateExam(itemId, formData);
+        await updateExam(itemId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
       } else {
-        await createExam(formData);
+        await createExam(data);
         createSuccessMessage('exam.label');
       }
     } catch (error: any) {
@@ -168,22 +177,17 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             )}
           </>
         }
-        // extra={[
-        //   <AddButton
-        //     key={1}
-        //     onClick={() => openAddEditModal(null)}
-        //     isLoading={loading}
-        //     tooltip={
-        //       <IntlMessages
-        //         id={'common.add_new'}
-        //         values={{
-        //           exam: messages['exam.label'],
-        //         }}
-        //       />
-        //     }
-        //   />,
-        // ]}
-      >
+        extra={[
+          <Button
+            key={1}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={() => router.back()}>
+            <ArrowBack />
+            {messages['common.back']}
+          </Button>,
+        ]}>
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
