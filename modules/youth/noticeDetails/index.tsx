@@ -2,9 +2,9 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
-  CardMedia,
   Container,
   Grid,
+  Skeleton,
   Tooltip,
   Typography,
   useTheme,
@@ -18,8 +18,8 @@ import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
-import {Skeleton} from '@mui/material';
 import {Link} from '../../../@softbd/elements/common';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'NoticeDetails';
 
@@ -121,8 +121,7 @@ const NoticeDetails = () => {
           <>
             {notice && notice?.main_image_path && (
               <Grid item xs={12}>
-                <CardMedia
-                  component='img'
+                <CardMediaImageView
                   height='400'
                   sx={{
                     objectFit: 'unset',

@@ -1,14 +1,9 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import {Card, CardActionArea, CardContent, Typography} from '@mui/material';
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import GalleryAlbumContentTypes from '../../dashboard/galleryAlbumContents/GalleryAlbumContentTypes';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const StyledTypography = styled(Typography)(({theme}) => ({
   whiteSpace: 'nowrap',
@@ -25,7 +20,10 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
   data,
   onClick: onClickCallback,
 }) => {
-  const thumbImg = data.content_type == GalleryAlbumContentTypes.IMAGE ? data.image_path : data.content_thumb_image_path;
+  const thumbImg =
+    data.content_type == GalleryAlbumContentTypes.IMAGE
+      ? data.image_path
+      : data.content_thumb_image_path;
   return (
     <Card>
       <CardActionArea
@@ -41,25 +39,37 @@ const ContentItemCard: FC<ContentItemCardProps> = ({
           }
           onClickCallback(eventData);
         }}>
-        <CardMedia
-          component='img'
+        <CardMediaImageView
           height='140'
-          image={
-            thumbImg ?? '/images/blank_gray_image.png'
-          }
+          image={thumbImg}
           alt={data?.image_alt_title ? data.image_alt_title : data?.title}
+          defaultImage={'/images/blank_gray_image.png'}
           title={data?.title}
         />
-        {data?.content_type == GalleryAlbumContentTypes.VIDEO ? <PlayCircleIcon
-          sx={{
-            position: 'absolute',
-            top: 'calc(30% - 25px)',
-            left: 'calc(50% - 35px)',
-            height: '70px',
-            width: '70px',
-          }}
-          color='primary'
-        /> : <></>}
+
+        {/*        <CardMediaImageView
+          imageUrl={thumbImg ?? '/images/blank_gray_image.png'}
+          height='140'
+          imageAltText={
+            data?.image_alt_title ? data.image_alt_title : data?.title
+          }
+          title={data?.title}
+        />*/}
+
+        {data?.content_type == GalleryAlbumContentTypes.VIDEO ? (
+          <PlayCircleIcon
+            sx={{
+              position: 'absolute',
+              top: 'calc(30% - 25px)',
+              left: 'calc(50% - 35px)',
+              height: '70px',
+              width: '70px',
+            }}
+            color='primary'
+          />
+        ) : (
+          <></>
+        )}
 
         <CardContent>
           <StyledTypography gutterBottom variant='body1'>

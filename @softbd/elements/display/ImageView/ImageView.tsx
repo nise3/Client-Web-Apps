@@ -6,6 +6,7 @@ import {Box, CardMedia} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 
 const PREFIX = 'ImageView';
 
@@ -59,6 +60,8 @@ const ImageView = ({
 }: ImageViewProps) => {
   const {messages} = useIntl();
 
+  const absoluteImageUrl = FILE_SERVER_FILE_VIEW_ENDPOINT + imageUrl || '';
+
   return isLoading ? (
     <TextInputSkeleton />
   ) : (
@@ -69,7 +72,7 @@ const ImageView = ({
           component='img'
           height='194'
           className={classes.image}
-          image={imageUrl}
+          image={absoluteImageUrl}
           alt={imageAltText ? imageAltText : 'Image'}
         />
       ) : (

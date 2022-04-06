@@ -28,14 +28,13 @@ const StyledContainer = styled(Container)(({theme}) => ({
   marginBottom: 20,
   [`& .${classes.paperBox}`]: {
     width: '80%',
-    minHeight: '80vh',
     margin: 'auto',
-    padding: 'auto',
+    padding: '20px',
   },
   [`& .${classes.btn}`]: {marginRight: 20},
   [`& .${classes.typography}`]: {
     textAlign: 'center',
-    marginTop: 28,
+    marginTop: 10,
     marginBottom: 30,
   },
 }));
@@ -45,6 +44,7 @@ interface FormData {
   new_password: String;
   confirm_new_password: String;
 }
+
 const UpdatePasswordPage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
@@ -98,6 +98,14 @@ const UpdatePasswordPage = () => {
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
+  };
+
+  const onRestClick = () => {
+    reset({
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: '',
+    });
   };
   return (
     <StyledContainer>
@@ -157,19 +165,10 @@ const UpdatePasswordPage = () => {
                 variant={'contained'}
                 color={'primary'}
                 disabled={isSubmitting}>
-                Submit
+                {messages['common.submit']}
               </Button>
-              <Button
-                variant='outlined'
-                color='error'
-                onClick={() =>
-                  reset({
-                    current_password: '',
-                    new_password: '',
-                    new_password_confirmation: '',
-                  })
-                }>
-                Reset
+              <Button variant='outlined' color='error' onClick={onRestClick}>
+                {messages['common.reset']}
               </Button>
             </Grid>
           </Grid>

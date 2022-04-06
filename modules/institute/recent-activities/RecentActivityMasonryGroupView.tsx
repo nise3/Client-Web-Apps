@@ -12,6 +12,7 @@ import {Link} from '../../../@softbd/elements/common';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
 import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../../@softbd/common/appLinks';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'RecentActivityMasonryGroupView';
 
@@ -110,7 +111,9 @@ function RecentActivityMasonryGroupView({items}: any) {
               }>
               <img
                 {...srcset(
-                  item.collage_image_path,
+                  item?.id
+                    ? FILE_SERVER_FILE_VIEW_ENDPOINT + item.collage_image_path
+                    : item.collage_image_path,
                   25,
                   masonryPositions[item.collage_position - 1]?.rows,
                   masonryPositions[item.collage_position - 1]?.cols,
