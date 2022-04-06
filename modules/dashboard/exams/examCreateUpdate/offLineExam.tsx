@@ -13,7 +13,6 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import {QuestionSelectionType} from '../ExamEnums';
 import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 // const initialValues = {
 //   start_time: '',
@@ -290,8 +289,8 @@ const OffLineExam = ({useFrom}: IProps) => {
 
           {/*Exam Section Questions*/}
           <Grid item xs={6}>
-            <CustomFilterableFormSelect
-              required
+            <CustomFormSelect
+              required={true}
               id={'questions' + '[question_id]'}
               label={messages['common.question']}
               isLoading={isLoadingQuestions}
@@ -300,6 +299,8 @@ const OffLineExam = ({useFrom}: IProps) => {
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={useFrom.errors}
+              multiple={true}
+              defaultValue={[]}
             />
           </Grid>
           <Grid item xs={6}>

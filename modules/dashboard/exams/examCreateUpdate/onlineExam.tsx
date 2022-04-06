@@ -8,7 +8,6 @@ import CustomTimePicker from '../../../../@softbd/elements/input/TimePicker';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import {QuestionSelectionType} from '../ExamEnums';
-import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
 
 // const initialValues = {
@@ -178,8 +177,8 @@ const OnlineExam = ({useFrom}: IProps) => {
           </Grid>
           {/*Exam Section Questions*/}
           <Grid item xs={6}>
-            <CustomFilterableFormSelect
-              required
+            <CustomFormSelect
+              required={true}
               id={'questions' + '[question_id]'}
               label={messages['common.question']}
               isLoading={isLoadingQuestions}
@@ -188,6 +187,8 @@ const OnlineExam = ({useFrom}: IProps) => {
               optionValueProp={'id'}
               optionTitleProp={['title']}
               errorInstance={useFrom.errors}
+              multiple={true}
+              defaultValue={[]}
             />
           </Grid>
           <Grid item xs={6}>
