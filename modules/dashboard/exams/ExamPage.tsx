@@ -133,14 +133,17 @@ const ExamPage = () => {
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    exam: messages['exam.label'],
+                    subject: messages['exam.label'],
                   }}
                 />
               }
             />
           </Link>,
-          <Link key={2} href={'/exams/question-list'}>
+          <Link key={2} href={'/exams/question-paper'}>
             <Button>Questions</Button>{' '}
+          </Link>,
+          <Link key={2} href={'/exams/examinee-list'}>
+            <Button>Examinees</Button>{' '}
           </Link>,
         ]}>
         <ReactTable

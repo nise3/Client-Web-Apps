@@ -307,8 +307,12 @@ export const routePermissions: any = {
     routePrefix: '/exams',
     permissionKeys: ['view_any_exam'],
   },
-  '/exams/question-list': {
-    routePrefix: '/exams/question-list',
+  '/exams/question-paper': {
+    routePrefix: '/exams/question-paper',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/examinee-list': {
+    routePrefix: '/exams/examinee-list',
     permissionKeys: ['view_any_exam'],
   },
   '/create': {
