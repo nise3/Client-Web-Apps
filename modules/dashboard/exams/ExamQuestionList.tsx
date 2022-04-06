@@ -116,18 +116,8 @@ const ExamQuestionList = () => {
         if (timeout > 0) {
           const interval = setInterval(() => {
             let remainingTime = getTimer(date);
-            setTimer(
-              remainingTime.hour +
-                ':' +
-                remainingTime.min +
-                ':' +
-                remainingTime.sec,
-            );
-            if (
-              remainingTime.hour < 1 &&
-              remainingTime.min < 1 &&
-              remainingTime.sec < 1
-            ) {
+            setTimer(remainingTime.timer);
+            if (remainingTime.clearInterval) {
               clearInterval(interval);
               setSubmitDisable(true);
             }
