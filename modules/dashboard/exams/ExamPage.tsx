@@ -12,8 +12,9 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import ExamAddEditPage from './examCreateUpdate/ExamAddEditPage';
 import ExamDetailsPopup from './ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
-import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
 import {Link} from '../../../@softbd/elements/common';
+import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
+import {Button} from '@mui/material';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -132,11 +133,14 @@ const ExamPage = () => {
                 <IntlMessages
                   id={'common.add_new'}
                   values={{
-                    subject: messages['exam.label'],
+                    exam: messages['exam.label'],
                   }}
                 />
               }
             />
+          </Link>,
+          <Link key={2} href={'/exams/question-list'}>
+            <Button>Questions</Button>{' '}
           </Link>,
         ]}>
         <ReactTable

@@ -1081,7 +1081,7 @@
   "common.published_by": "প্রকাশিত",
   "common.publish": "প্রকাশনা",
   "common.main_image_path": "প্রধান ছবি",
-  "common.file_path": "ফাইল পাথ",
+  "common.file_path": "ফাইল",
   "common.file_alt_title": "ফাইলের অল্টারনেটিভ টাইটেল",
   "common.notice_or_news": "বিজ্ঞপ্তি বা সংবাদ",
   "common.other_language_fields": "অন্যান্য ভাষার ক্ষেত্র",
@@ -1905,5 +1905,7 @@
   "common.fixed": "ফিক্সড",
   "common.random": "এলোমেলো",
   "common.random_from_elect": "নির্বাচিত থেকে এলোমেলো",
-  "common.number_of_sets": "সেটের সংখ্যা"
+  "common.number_of_sets": "সেটের সংখ্যা",
+  "common.time_remaining": "অবশিষ্ট সময়"
+
 }
