@@ -225,7 +225,7 @@ export const isValidationError = (response: any) => {
 };
 
 export const getObjectArrayFromValueArray = (valueArray: any) => {
-  if (valueArray && Array.isArray(valueArray)) {
+  if (valueArray && Array.isArray(valueArray) && valueArray.length > 0) {
     return valueArray.map((item: any) => {
       return {value: item};
     });
@@ -522,4 +522,28 @@ export const getFilteredQueryParams = (
   }
 
   return params;
+};
+
+export const getMobilePhoneValidationSchema = (
+  yup: any,
+  regex: any,
+  label: any,
+) => {
+  return yup.object().shape({
+    value: yup
+      .mixed()
+      .test(
+        'mobile_number_validation',
+        label as string,
+        (value: any) => !value || Boolean(value.match(regex)),
+      ),
+  });
+};
+
+export const isValidLatitude = (lat: any) => {
+  return lat && isFinite(lat) && Math.abs(lat) <= 90;
+};
+
+export const isValidLongitude = (lng: any) => {
+  return lng && isFinite(lng) && Math.abs(lng) <= 180;
 };

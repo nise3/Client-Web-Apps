@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, SyntheticEvent, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Avatar,
@@ -11,7 +11,14 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Paper,
   Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material';
 import {TabContext, TabList} from '@mui/lab';
@@ -27,13 +34,22 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
 import {
   getCourseDuration,
+  getIntlDateFromString,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
 import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import {useFetchTrainingCentersWithBatches} from '../../../services/instituteManagement/hooks';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
 const PREFIX = 'CourseContentSection';
 
 const classes = {
+  iconStyle: `${PREFIX}-iconStyle`,
+  accordion: `${PREFIX}-accordion`,
   sectionTitleStyle: `${PREFIX}-sectionTitleStyle`,
   dFlexAlignCenter: `${PREFIX}-dFlexAlignCenter`,
   courseBadgeBox: `${PREFIX}-courseBadgeBox`,
@@ -49,6 +65,9 @@ const classes = {
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.accordion}`]: {
+    marginBottom: '10px',
+  },
   [`& .${classes.sectionTitleStyle}`]: {
     fontSize: '1rem',
     fontWeight: 'bold',
@@ -152,8 +171,7 @@ const lessonsList = [
 ];
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
-  const {messages, formatNumber} = useIntl();
-
+  const {messages, formatNumber, formatDate} = useIntl();
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();
   const lessonRef = useRef<any>();
@@ -164,6 +182,14 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const targetGroupRef = useRef<any>();
   const trainerRef = useRef<any>();
   const trainingMethodologyRef = useRef<any>();
+
+  const [expandedState, setExpanded] = useState<string | false>(false);
+  const {data: trainingCentersWithBatches, isLoading: trainingCentersLoading} =
+    useFetchTrainingCentersWithBatches(course?.id);
+  const handleChangeAccordion =
+    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -333,6 +359,106 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 </Box>
               </Grid>
             </Grid>
+
+            <Box ref={overviewRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course.available_training_centers']}
+              </h2>
+              <Grid item xs={12} my={2}>
+                {!course?.id || trainingCentersLoading ? (
+                  <TextInputSkeleton />
+                ) : trainingCentersWithBatches &&
+                  trainingCentersWithBatches.length ? (
+                  trainingCentersWithBatches.map((item: any) => (
+                    <Accordion
+                      className={classes.accordion}
+                      expanded={expandedState === item?.id}
+                      onChange={handleChangeAccordion(item?.id)}
+                      key={item?.id}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls='panel1bh-content'
+                        id='panel1bh-header'>
+                        <Typography
+                          sx={{
+                            width: '100%',
+                            color:
+                              expandedState == item?.id ? 'primary.main' : '',
+                          }}>
+                          {item?.title}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <TableContainer component={Paper}>
+                          <Table
+                            size={'small'}
+                            aria-label="Training Center's table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  {messages['rpl_batch.title']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.registration_start_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.registration_end_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.start_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.end_date']}
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {(item?.batches || []).map(
+                                (batch: any, index: number) => (
+                                  <TableRow key={index}>
+                                    <TableCell component='th'>
+                                      {batch?.title}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.registration_start_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.registration_end_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.batch_start_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.batch_end_date,
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                ),
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                ) : (
+                  <Typography>
+                    {messages['course.no_training_center_found']}
+                  </Typography>
+                )}
+              </Grid>
+            </Box>
 
             <Box ref={overviewRef} className={classes.boxMargin}>
               <h2 className={classes.sectionTitleStyle}>

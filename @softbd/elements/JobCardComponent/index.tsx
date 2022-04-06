@@ -1,13 +1,11 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
   Divider,
   Grid,
 } from '@mui/material';
@@ -41,6 +39,8 @@ import {useCustomStyle} from '../../hooks/useCustomStyle';
 import JobScheduleResponsePopup from '../../components/JobScheduleResponsePopup';
 import ConfirmationStatus from '../../components/JobScheduleResponsePopup/ConfirmationStatus';
 import moment from 'moment';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
+import AvatarImageView from '../display/ImageView/AvatarImageView';
 
 const PREFIX = 'JobCardComponent';
 
@@ -220,7 +220,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
   };
 
   const getJobProviderImage = () => {
-    let logo = '/images/blank_image.png';
+    let logo = '';
     if (job?.industry_association_id && job?.industry_association_logo) {
       if (job?.organization_id && job?.organization_logo) {
         logo = job.organization_logo;
@@ -251,8 +251,8 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_from_to'}
           values={{
-            from: job?.minimum_year_of_experience,
-            to: job?.maximum_year_of_experience,
+            from: formatNumber(job?.minimum_year_of_experience),
+            to: formatNumber(job?.maximum_year_of_experience),
           }}
         />
       );
@@ -261,7 +261,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_at_least'}
           values={{
-            from: job?.minimum_year_of_experience,
+            from: formatNumber(job?.minimum_year_of_experience),
           }}
         />
       );
@@ -270,7 +270,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <IntlMessages
           id={'job_preview.experience_at_most'}
           values={{
-            from: job?.maximum_year_of_experience,
+            from: formatNumber(job?.maximum_year_of_experience),
           }}
         />
       );
@@ -310,12 +310,11 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     <StyledCard className={isGridView ? classes.gridRoot : classes.listRoot}>
       {isGridView ? (
         <React.Fragment>
-          <CardMedia
-            component={'img'}
+          <CardMediaImageView
             className={classes.providerLogo}
             image={getJobProviderImage()}
-            title={job.job_title}
-            alt={job.job_title}
+            title={job?.job_title}
+            alt={job?.job_title}
           />
           <CardContent sx={{paddingBottom: '5px'}}>
             <H5
@@ -399,12 +398,12 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
         <React.Fragment>
           <CardHeader
             avatar={
-              <Avatar
+              <AvatarImageView
                 className={classes.providerAvatar}
                 variant={'square'}
                 src={getJobProviderImage()}
-                title={job.job_title}
-                alt={job.job_title}
+                title={job?.job_title}
+                alt={job?.job_title}
               />
             }
             action={

@@ -101,6 +101,15 @@ const UpdatePasswordPage = () => {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
+  const onRestClick = () => {
+    reset({
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: '',
+    });
+  };
+
   return (
     <StyledContainer>
       <Paper variant='outlined' className={classes.paperBox}>
@@ -159,19 +168,10 @@ const UpdatePasswordPage = () => {
                 variant={'contained'}
                 color={'primary'}
                 disabled={isSubmitting}>
-                Submit
+                {messages['common.submit']}
               </Button>
-              <Button
-                variant='outlined'
-                color='error'
-                onClick={() =>
-                  reset({
-                    current_password: '',
-                    new_password: '',
-                    new_password_confirmation: '',
-                  })
-                }>
-                Reset
+              <Button variant='outlined' color='error' onClick={onRestClick}>
+                {messages['common.reset']}
               </Button>
             </Grid>
           </Grid>

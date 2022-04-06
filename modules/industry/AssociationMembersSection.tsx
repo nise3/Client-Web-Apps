@@ -9,6 +9,7 @@ import {useFetchPublicIndustryMembers} from '../../services/IndustryManagement/h
 import {LINK_FRONTEND_INDUSTRY_MEMBER_LIST} from '../../@softbd/common/appLinks';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'Partners';
 
@@ -68,9 +69,9 @@ const AssociationMembersSection = () => {
         <Box mr={1} ml={1}>
           <Card className={classes.cardItem}>
             <Box className={classes.imageAlt}>
-              <img
+              <CardMediaImageView
                 className={classes.image}
-                src={member?.logo ?? '/images/blank_image.png'}
+                image={member?.logo}
                 alt={member?.title}
                 title={member?.title}
               />

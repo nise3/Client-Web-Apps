@@ -3,14 +3,14 @@ import {apiPost} from '../../@softbd/common/api';
 import {
   API_RPL_APPLICATION,
   API_RPL_APPLICATION_POST,
-  API_RPL_ASSESSMENT,
+  API_RPL_SELF_ASSESSMENT,
 } from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {IAssessmentBatchAssign} from '../../shared/Interface/assessmentManagement.interface';
 
-export const createRplAssessment = async (data: IRplAssessment) => {
+export const createRplSelfAssessment = async (data: IRplAssessment) => {
   try {
-    let response: any = await apiPost(API_RPL_ASSESSMENT, data);
+    let response: any = await apiPost(API_RPL_SELF_ASSESSMENT, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

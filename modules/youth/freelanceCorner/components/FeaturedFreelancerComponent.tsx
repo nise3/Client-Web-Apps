@@ -1,8 +1,9 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Card, Grid} from '@mui/material';
+import {Box, Card, Grid} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {Star} from '@mui/icons-material';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'FeaturedFreelancerComponent';
 
@@ -77,10 +78,10 @@ const FeaturedFreelancerComponent: FC<FeaturedFreelancerComponentProps> = ({
     <StyledCard>
       <Grid container spacing={2} alignItems={'center'}>
         <Grid item xs={2}>
-          <Avatar
+          <AvatarImageView
             className={classes.freelanceUserImage}
             alt='user image'
-            src={freelanceUser.image}
+            src={freelanceUser?.image}
           />
         </Grid>
         <Grid item xs={8}>

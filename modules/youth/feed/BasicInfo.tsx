@@ -1,6 +1,6 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button, Card, LinearProgress} from '@mui/material';
+import {Box, Button, Card, LinearProgress} from '@mui/material';
 import BasicInfoItemBox from './components/BasicInfoItemBox';
 import {useIntl} from 'react-intl';
 import {H2, Link} from '../../../@softbd/elements/common';
@@ -8,6 +8,7 @@ import {LINK_FRONTEND_YOUTH_ROOT} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {getIntlNumber} from '../../../@softbd/utilities/helpers';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'BasicInfo';
 
@@ -64,9 +65,9 @@ const BasicInfo = () => {
       <StyledCard>
         <Box className={classes.topCover} />
         <Box className={classes.container}>
-          <Avatar
+          <AvatarImageView
             alt={'youth profile pic'}
-            src={authUser?.photo ? authUser?.photo : '/images/blank_image.png'}
+            src={authUser?.photo}
             className={classes.userImage}
           />
           <H2 className={classes.userName}>

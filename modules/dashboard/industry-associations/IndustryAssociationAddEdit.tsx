@@ -4,7 +4,10 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  MOBILE_NUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -42,6 +45,12 @@ import {
 } from '../../../services/IndustryManagement/IndustryAssociationService';
 import {useFetchIndustryAssociationTrades} from '../../../services/IndustryAssociationManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
+import {
+  getMobilePhoneValidationSchema,
+  getObjectArrayFromValueArray,
+  getValuesFromObjectArray,
+} from '../../../@softbd/utilities/helpers';
 
 interface IndustryAssociationAddEditPopup {
   itemId: number | null;
@@ -75,6 +84,8 @@ const initialValues = {
   contact_person_mobile: '',
   trade_number: '',
   logo: '',
+  phone_numbers: [{value: ''}],
+  mobile_numbers: [{value: ''}],
 };
 
 const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
@@ -152,6 +163,24 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         .trim()
         .required()
         .label(messages['common.address'] as string),
+      phone_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            PHONE_NUMBER_REGEX,
+            messages['common.invalid_phone'],
+          ),
+        ),
+      mobile_numbers: yup
+        .array()
+        .of(
+          getMobilePhoneValidationSchema(
+            yup,
+            MOBILE_NUMBER_REGEX,
+            messages['common.invalid_mobile'],
+          ),
+        ),
       email: yup
         .string()
         .required()
@@ -278,6 +307,8 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
         row_status: String(itemData?.row_status),
         trade_number: itemData?.trade_number,
         logo: itemData?.logo,
+        phone_numbers: getObjectArrayFromValueArray(itemData?.phone_numbers),
+        mobile_numbers: getObjectArrayFromValueArray(itemData?.mobile_numbers),
       });
 
       setDistrictsList(
@@ -310,6 +341,8 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
     data: INewIndustryAssociation,
   ) => {
     try {
+      data.phone_numbers = getValuesFromObjectArray(data.phone_numbers);
+      data.mobile_numbers = getValuesFromObjectArray(data.mobile_numbers);
       if (itemId) {
         await updateIndustryAssociation(itemId, data);
         updateSuccessMessage('industry_association_reg.label');
@@ -381,6 +414,26 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
               />
             </Grid>
 
+            <Grid item xs={12} md={6}>
+              <CustomFieldArray
+                id='phone_numbers'
+                labelLanguageId={'common.phone'}
+                isLoading={isLoading}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item container xs={12} md={6} alignSelf='flex-start'>
+              <CustomFieldArray
+                id='mobile_numbers'
+                labelLanguageId={'common.mobile'}
+                isLoading={isLoading}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
             <Grid item xs={6}>
               <CustomTextInput
                 required
@@ -392,7 +445,6 @@ const IndustryAssociationAddEditPopup: FC<IndustryAssociationAddEditPopup> = ({
                 placeholder='017xxxxxxxx'
               />
             </Grid>
-
             <Grid item xs={6}>
               <CustomTextInput
                 required

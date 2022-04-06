@@ -5,6 +5,7 @@ import {
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
   COOKIE_KEY_SSO_SESSION_STATE,
+  COOKIE_KEY_YOUTH_USER_AS_TRAINER,
 } from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
@@ -22,12 +23,6 @@ import {
   removeBrowserCookie,
   setBrowserCookie,
 } from '../../@softbd/libs/cookieInstance';
-// import {Gender} from '../../@softbd/utilities/Genders';
-// import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
-// import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
-// import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
-// import {Religion} from '../../@softbd/utilities/Religions';
-// import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
 import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
@@ -37,9 +32,6 @@ import {
   TYouthAuthUserSSOResponse,
 } from '../../shared/Interface/IAuthentication';
 import {API_SSO_AUTHORIZE_CODE_GRANT} from '../../@softbd/common/apiRoutes';
-// import {IOrganization} from '../../shared/Interface/organization.interface';
-// import {IInstitute} from '../../shared/Interface/institute.interface';
-// import {IRole} from '../../shared/Interface/userManagement.interface';
 
 type TOnSSOSignInCallbackCode = string;
 
@@ -54,9 +46,6 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    // let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-    //   ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-    //   : 'https://core.bus-staging.softbdltd.com';
     const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       : null;
@@ -65,7 +54,6 @@ export const onSSOSignInCallback = (
 
     try {
       const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
-        // urlHost + '/sso-authorize-code-grant',
         API_SSO_AUTHORIZE_CODE_GRANT,
         {
           code,
@@ -107,13 +95,6 @@ export const onSSOSignInCallback = (
       setDefaultAuthorizationHeader(tokenData?.access_token);
       await dispatch(setAuthAccessTokenData(tokenData));
       await loadAuthUser(dispatch, tokenData);
-
-      /** This redirection logic is moved to @softbd/layouts/hoc/DefaultPage/withData.tsx */
-      /*
-      if (redirected_from?.length) {
-        window.location.href = redirected_from;
-      }
-      */
     } catch (err: any) {
       console.log('onSSOSignInCallback - error!!!!', err);
     }
@@ -136,9 +117,13 @@ export const loadAuthUser = async (
     const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     console.log('permission call: appAccessTokenData', appAccessTokenData);
 
+    const isYouthAsTrainerUser = getBrowserCookie(
+      COOKIE_KEY_YOUTH_USER_AS_TRAINER,
+    );
+
     //TODO: This api will be '/user-profile or /auth-profile'
     const coreResponse =
-      ssoTokenData.user_type == UserTypes.YOUTH_USER
+      ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser
         ? await apiGet(youthServicePath + '/youth-profile', {
             headers: {
               Authorization: 'Bearer ' + appAccessTokenData?.access_token,
@@ -161,7 +146,7 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.user_type == UserTypes.YOUTH_USER
+        ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
@@ -237,6 +222,7 @@ export const getYouthAuthUserObject = (
     uid: authUser?.sub,
     youthId: authUser?.id,
     youthCode: authUser?.code,
+    admin_access_type: authUser?.admin_access_type,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,
@@ -290,7 +276,7 @@ export const getYouthAuthUserObject = (
   };
 };
 
-export const Signout = () => {
+export const signOut = () => {
   return (dispatch: Dispatch<AppActions | any>) => {
     dispatch(fetchStart());
     dispatch({type: SIGNOUT_AUTH_SUCCESS});
@@ -301,20 +287,9 @@ export const Signout = () => {
   };
 };
 
-// export const onJWTAuthSignout = () => {
-//   return (dispatch: Dispatch<AppActions | any>) => {
-//     dispatch(fetchStart());
-//     dispatch({type: SIGNOUT_AUTH_SUCCESS});
-//     removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
-//     removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
-//     dispatch(fetchSuccess());
-//     console.log('logged out.');
-//   };
-// };
-
 /**
  * @deprecated use Signout() instead
  */
 export const onJWTAuthSignout = () => {
-  return Signout();
+  return signOut();
 };

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, Card, CardMedia, Grid, Typography} from '@mui/material';
+import {Box, Button, Card, Grid, Typography} from '@mui/material';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {courseDuration} from '../../../../@softbd/utilities/helpers';
 import {useIntl} from 'react-intl';
@@ -20,6 +20,7 @@ import {
 } from '../../../../@softbd/common/constants';
 import {H3, Link} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import CardMediaImageView from '../../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'CourseInfoBlock';
 
@@ -98,15 +99,10 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
     <StyledCard>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2} sx={{position: 'relative'}}>
-          <CardMedia
-            component='img'
-            alt={course.title}
-            image={
-              course.cover_image
-                ? course.cover_image
-                : '/images/blank_image.png'
-            }
-            sx={{height: '100%'}}
+          <CardMediaImageView
+            alt={course?.title}
+            image={course?.cover_image}
+            height='100%'
             title={course?.title}
           />
           <Link href={`/course-details/${course?.id}`} passHref>
@@ -126,12 +122,9 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                 <Grid item xs={8}>
                   <Grid container>
                     <Grid item xs={2}>
-                      <CardMedia
-                        component='img'
-                        alt={course.title}
-                        image={
-                          course.logo ? course.logo : '/images/blank_image.png'
-                        }
+                      <CardMediaImageView
+                        alt={course?.title}
+                        image={course?.logo}
                         className={classes.jobProviderImage}
                       />
                     </Grid>

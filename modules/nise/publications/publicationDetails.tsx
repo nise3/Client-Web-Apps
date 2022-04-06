@@ -1,7 +1,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
+import {Box, Button, Container, Grid, Tooltip} from '@mui/material';
 // import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 // import ShareIcon from '@mui/icons-material/Share';
 // import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
@@ -13,6 +13,7 @@ import {useFetchPublicPublication} from '../../../services/cmsManagement/hooks';
 import {ArrowBack} from '@mui/icons-material';
 import {Skeleton} from '@mui/lab';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'PublicationDetails';
 
@@ -148,8 +149,7 @@ const PublicationDetails = () => {
                 alignItems: 'center',
                 flexDirection: 'column',
               }}>
-              <CardMedia
-                component='img'
+              <CardMediaImageView
                 height='200'
                 sx={{width: '150px'}}
                 image={publicationData?.image_path}

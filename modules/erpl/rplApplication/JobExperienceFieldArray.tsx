@@ -92,11 +92,13 @@ const JobExperienceFieldArray = ({
     <Grid container item spacing={4}>
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
         <CustomFilterableFormSelect
+          required
           id={`${id}[rto_country_id]`}
           label={messages['common.country']}
           isLoading={false}
           control={control}
           options={countries}
+          errorInstance={errors}
           optionValueProp={'country_id'}
           optionTitleProp={['title']}
           onChange={onCountryChange}
@@ -105,12 +107,14 @@ const JobExperienceFieldArray = ({
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
         <CustomFilterableFormSelect
+          required
           id={`${id}[rpl_sector_id]`}
           label={messages['common.sector']}
           isLoading={isSectorLoading}
           control={control}
           options={rplSectors || []}
           optionValueProp={'id'}
+          errorInstance={errors}
           optionTitleProp={['title']}
           onChange={onSectorChange}
         />
@@ -118,12 +122,14 @@ const JobExperienceFieldArray = ({
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
         <CustomFilterableFormSelect
+          required
           id={`${id}[rpl_occupation_id]`}
           label={messages['common.occupation']}
           isLoading={isOccupationLoading}
           control={control}
           options={rplOccupations || []}
           optionValueProp={'id'}
+          errorInstance={errors}
           optionTitleProp={['title']}
           onChange={onOccupationChange}
         />
@@ -131,10 +137,12 @@ const JobExperienceFieldArray = ({
 
       <Grid item xs={12} md={3} style={{paddingBottom: 20}}>
         <CustomFilterableFormSelect
+          required
           id={`${id}[rpl_level_id]`}
           label={messages['common.skill_level']}
           isLoading={isLevelLoading}
           control={control}
+          errorInstance={errors}
           options={rplLevels || []}
           optionValueProp={'id'}
           optionTitleProp={['title', 'sequence_order']}

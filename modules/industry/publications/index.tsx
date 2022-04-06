@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Box,
-  CardMedia,
   Chip,
   Container,
   Grid,
@@ -19,6 +18,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import PublicationListSearchSection from './PublicationListSearchSection';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'Publications';
 const classes = {
@@ -175,17 +175,19 @@ const Publications = () => {
           <Grid item md={12} mt={{xs: 4, md: 5}}>
             <Grid container>
               <Grid item xs={12}>
-                <Body2 gutterBottom sx={{fontWeight: 'bold'}}>
+                <Body2
+                  gutterBottom
+                  sx={{fontWeight: 'bold', display: 'inline-block'}}>
                   {messages['total_result.institute']}{' '}
-                  <Chip
-                    label={
-                      publications && publications?.length
-                        ? formatNumber(publications?.length)
-                        : formatNumber(0)
-                    }
-                    className={classes.chipStyle}
-                  />
                 </Body2>
+                <Chip
+                  label={
+                    publications && publications?.length
+                      ? formatNumber(publications?.length)
+                      : formatNumber(0)
+                  }
+                  className={classes.chipStyle}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
@@ -229,10 +231,9 @@ const Publications = () => {
                             <Box
                               className={classes.imageBox}
                               sx={{maxWidth: 150}}>
-                              <CardMedia
-                                component='img'
+                              <CardMediaImageView
                                 height='227'
-                                image={publication.image_path}
+                                image={publication?.image_path}
                                 alt='publication'
                               />
                             </Box>
