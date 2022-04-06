@@ -1,21 +1,24 @@
-import React, { useCallback, useMemo, useState } from "react";
-import PageBlock from "../../../@softbd/utilities/PageBlock";
-import AddButton from "../../../@softbd/elements/button/AddButton/AddButton";
-import { useIntl } from "react-intl";
-import ReadButton from "../../../@softbd/elements/button/ReadButton/ReadButton";
-import EditButton from "../../../@softbd/elements/button/EditButton/EditButton";
-import DeleteButton from "../../../@softbd/elements/button/DeleteButton/DeleteButton";
-import DatatableButtonGroup from "../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup";
-import useReactTableFetchData from "../../../@softbd/hooks/useReactTableFetchData";
-import { API_RPL_SECTORS } from "../../../@softbd/common/apiRoutes";
-import ReactTable from "../../../@softbd/table/Table/ReactTable";
-import useNotiStack from "../../../@softbd/hooks/useNotifyStack";
-import { isResponseSuccess } from "../../../@softbd/utilities/helpers";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import RPLSectorsDetailsPopup from "./RPLSectorsDetailsPopup";
-import RPLSectorsAddEditPopup from "./RPLSectorsAddEditPopup";
-import { deleteRPLSector } from "../../../services/CertificateAuthorityManagement/RPLSectorService";
-import IconInstitute from "../../../@softbd/icons/IconInstitute";
+import React, {useCallback, useMemo, useState} from 'react';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import {useIntl} from 'react-intl';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_RPL_SECTORS} from '../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import RPLSectorsDetailsPopup from './RPLSectorsDetailsPopup';
+import RPLSectorsAddEditPopup from './RPLSectorsAddEditPopup';
+import {deleteRPLSector} from '../../../services/CertificateAuthorityManagement/RPLSectorService';
+import IconInstitute from '../../../@softbd/icons/IconInstitute';
 
 const RPLSectorsPage = () => {
   const {messages, locale} = useIntl();
@@ -70,7 +73,11 @@ const RPLSectorsPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

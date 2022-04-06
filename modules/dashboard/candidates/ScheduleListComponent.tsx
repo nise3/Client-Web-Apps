@@ -9,7 +9,10 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_RECRUITMENT_STEPS} from '../../../@softbd/common/apiRoutes';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import ScheduleCreateComponentPopup from './ScheduleCreateComponent';
 import CustomChipInviteType from './CustomChipInviteType';
@@ -70,7 +73,11 @@ const ScheduleListComponentPopup = ({
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

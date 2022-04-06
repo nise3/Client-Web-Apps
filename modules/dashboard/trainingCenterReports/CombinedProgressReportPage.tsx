@@ -14,6 +14,7 @@ import {API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS} from '../../../@softbd
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const CombinedProgressReportPage = () => {
   const {messages} = useIntl();
@@ -41,7 +42,13 @@ const CombinedProgressReportPage = () => {
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
+        },
         disableFilters: true,
         disableSortBy: true,
       },

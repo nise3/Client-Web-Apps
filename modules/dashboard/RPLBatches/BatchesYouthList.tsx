@@ -15,6 +15,7 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {Button} from '@mui/material';
 import {ArrowBack} from '@mui/icons-material';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -31,7 +32,11 @@ const YouthPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

@@ -13,6 +13,7 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUser} from 'react-icons/fi';
 import {Button} from '@mui/material';
 import {ArrowBack} from '@mui/icons-material';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const RTOBatchYouthPage = () => {
   const {messages} = useIntl();
@@ -28,7 +29,11 @@ const RTOBatchYouthPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 
