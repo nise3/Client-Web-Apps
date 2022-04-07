@@ -15,7 +15,7 @@ interface IProps {
 const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
   const {messages} = useIntl();
 
-  const [isMcqChecked, setIsMcqChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const questionSelectionType = useMemo(
     () => [
@@ -47,14 +47,14 @@ const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
           label={messages['question.type.mcq']}
           register={useFrom.register}
           errorInstance={useFrom.errors}
-          checked={isMcqChecked}
+          checked={isChecked}
           onChange={() => {
-            setIsMcqChecked((prev) => !prev);
+            setIsChecked((prev) => !prev);
           }}
           isLoading={false}
         />
       </Grid>
-      {isMcqChecked && (
+      {isChecked && (
         <Grid item xs={9}>
           <Grid container spacing={3}>
             <Grid item xs={6}>

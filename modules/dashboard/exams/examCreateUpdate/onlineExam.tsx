@@ -1,15 +1,14 @@
 import Grid from '@mui/material/Grid';
 import React, {useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import CustomDateTimeField from '../../../../@softbd/elements/input/CustomDateTimeField';
 import Box from '@mui/material/Box';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomTimePicker from '../../../../@softbd/elements/input/TimePicker';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {Body1} from '../../../../@softbd/elements/common';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
+import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 
 // const initialValues = {
 //   start_time: '',
@@ -80,24 +79,18 @@ const OnlineExam = ({useFrom}: IProps) => {
         <legend style={{color: '#0a8fdc'}}>{messages['common.online']}</legend>
         <Grid container spacing={5}>
           <Grid item xs={6}>
-            <CustomDateTimeField
+            <CustomDateTimePicker
               id='exam_date'
               label={messages['common.exam_date']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={3}>
-            <CustomTimePicker
-              id='start_time'
-              label={messages['common.start_time']}
-              register={useFrom.register}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <CustomTimePicker
-              id='end_time'
-              label={messages['common.end_time']}
+          <Grid item xs={6}>
+            <CustomTextInput
+              id='duration'
+              type={'number'}
+              label={messages['common.duration_min']}
               register={useFrom.register}
             />
           </Grid>

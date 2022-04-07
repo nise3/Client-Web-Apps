@@ -1905,5 +1905,6 @@
   "common.random": "Random",
   "common.random_from_elect": "Random from Selected",
   "common.number_of_sets": "Number of sets",
-  "common.time_remaining": "Time remaining"
+  "common.time_remaining": "Time remaining",
+  "common.duration_min": "Duration (minutes)"
 }
