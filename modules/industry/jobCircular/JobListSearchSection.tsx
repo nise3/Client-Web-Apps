@@ -358,7 +358,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={skills}
                   isLoading={isLoadingSkills}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
 
@@ -371,7 +371,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={jobSectors}
                   isLoading={isLoadingJobSector}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -383,7 +383,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={occupations}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -407,7 +407,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
             </Grid>
