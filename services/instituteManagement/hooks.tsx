@@ -224,7 +224,7 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
 };
 
 export function useFetchExamQuestionsBanks(params: any) {
-  return useAxiosSWR([API_EXAM_QUESTION_BANK]);
+  return useAxiosSWR([API_EXAM_QUESTION_BANK, params]);
 }
 
 export function useFetchExamQuestionsBank(questionsBankId: number | null) {

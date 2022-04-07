@@ -1906,6 +1906,6 @@
   "common.random": "এলোমেলো",
   "common.random_from_elect": "নির্বাচিত থেকে এলোমেলো",
   "common.number_of_sets": "সেটের সংখ্যা",
-  "common.time_remaining": "অবশিষ্ট সময়"
-
+  "common.time_remaining": "অবশিষ্ট সময়",
+  "common.duration_min": "সময়কাল (মিনিট)"
 }
