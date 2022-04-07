@@ -9,6 +9,7 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import SkillDevelopmentReportDetailsPopup from './SkillDevelopmentReportDetailsPopup';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {Link} from '../../../@softbd/elements/common';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const SkillDevelopmentReportPage = () => {
   const {messages} = useIntl();
@@ -32,7 +33,11 @@ const SkillDevelopmentReportPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 
