@@ -12,6 +12,7 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -27,7 +28,11 @@ const YouthPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

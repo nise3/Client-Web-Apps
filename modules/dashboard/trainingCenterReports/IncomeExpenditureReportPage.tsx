@@ -13,6 +13,7 @@ import IncomeExpenditureReportDetailsPopup from './IncomeExpenditureReportDetail
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const IncomeExpenditureReportPage = () => {
   const {messages} = useIntl();
@@ -40,7 +41,11 @@ const IncomeExpenditureReportPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 

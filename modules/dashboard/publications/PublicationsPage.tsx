@@ -15,7 +15,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Book} from '@mui/icons-material';
@@ -76,7 +79,11 @@ const PublicationsPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

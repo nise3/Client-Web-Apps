@@ -8,6 +8,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_GET_JOB_CANDIDATES} from '../../../@softbd/common/apiRoutes';
 import {useRouter} from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const CandidatesPageV1 = () => {
   const {messages, locale} = useIntl();
@@ -29,7 +30,11 @@ const CandidatesPageV1 = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
