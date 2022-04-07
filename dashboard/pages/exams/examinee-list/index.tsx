@@ -4,7 +4,7 @@ import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const ExamPage = asyncComponent(
+const ExamineeListPage = asyncComponent(
   () => import('../../../../modules/dashboard/exams/examineeList/ExamineeList'),
 );
 export default DashboardPage(() => {
@@ -12,7 +12,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['examinee.label'] as string} />
-      <ExamPage />
+      <ExamineeListPage />
     </>
   );
 });

@@ -1,7 +1,7 @@
 import {Person} from '@mui/icons-material';
 import React from 'react';
 
-const IconExam = () => {
+const IconExaminee = () => {
   return (
     <>
       <Person />
@@ -9,4 +9,4 @@ const IconExam = () => {
   );
 };
 
-export default React.memo(IconExam);
+export default React.memo(IconExaminee);
