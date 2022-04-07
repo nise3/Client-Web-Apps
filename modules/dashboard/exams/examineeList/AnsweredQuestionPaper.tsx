@@ -1,20 +1,20 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
+import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body1, H6} from '../../../@softbd/elements/common';
+import {Body1, H6} from '../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {QuestionType} from '../questionsBank/QuestionBanksEnums';
-import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
+import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import yup from '../../../@softbd/libs/yup';
+import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import yup from '../../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
-import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
-import {getTimer} from '../../../@softbd/utilities/helpers';
+import cookieInstance from '../../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_EXAM_TIME} from '../../../../shared/constants/AppConst';
+import {EXAM_TIME_IN_MILLIS} from '../../../../@softbd/common/constants';
+import {getTimer} from '../../../../@softbd/utilities/helpers';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -77,7 +77,7 @@ const examQuestions = {
   exam_date: '10/12/22',
   total_marks: 100,
 };
-const ExamQuestionList = () => {
+const ExamQuestionPaper = () => {
   const {messages} = useIntl();
   const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
   const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
@@ -114,7 +114,6 @@ const ExamQuestionList = () => {
         const timeout = expireTime - currentDate.getTime();
 
         if (timeout > 0) {
-
           const interval = setInterval(() => {
             let remainingTime = getTimer(date);
             setTimer(remainingTime.timer);
@@ -374,4 +373,4 @@ const ExamQuestionList = () => {
   );
 };
 
-export default ExamQuestionList;
+export default ExamQuestionPaper;
