@@ -13,6 +13,9 @@ import {Body1} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {ExamTypes} from '../ExamEnums';
 
 // const initialValues = {
 //   start_time: '',
@@ -23,14 +26,17 @@ import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateT
 
 interface IProps {
   useFrom: any;
+  examType: string;
 }
 
-const OffLineExam = ({useFrom}: IProps) => {
-  const {messages} = useIntl();
+const OffLineExam = ({useFrom, examType}: IProps) => {
+  const {messages, formatNumber} = useIntl();
 
   const examSetField = useRef<any>();
 
   const [examSets, setExamSets] = useState<Array<any>>([]);
+
+  const isMixed = examType == ExamTypes.MIXED;
 
   // const [isMcqChecked, setIsMcqChecked] = useState<boolean>(false);
   // const [isFillInBlanksChecked, setIsFillInBlanksChecked] =
@@ -67,54 +73,36 @@ const OffLineExam = ({useFrom}: IProps) => {
   const questionTypes = useMemo(
     () => [
       {
-        key: QuestionType.MCQ,
+        id: QuestionType.MCQ,
         label: messages['question.type.mcq'],
       },
       {
-        key: QuestionType.FILL_IN_THE_BLANK,
+        id: QuestionType.FILL_IN_THE_BLANK,
         label: messages['common.fill_in_the_blanks'],
       },
       {
-        key: QuestionType.YES_NO,
+        id: QuestionType.YES_NO,
         label: messages['question.type.y_n'],
       },
       {
-        key: QuestionType.PRACTICAL,
+        id: QuestionType.PRACTICAL,
         label: messages['common.practical'],
       },
       {
-        key: QuestionType.FIELD_WORK,
+        id: QuestionType.FIELD_WORK,
         label: messages['common.field_work'],
       },
       {
-        key: QuestionType.PRESENTATION,
+        id: QuestionType.PRESENTATION,
         label: messages['common.presentation'],
       },
       {
-        key: QuestionType.DESCRIPTIVE,
+        id: QuestionType.DESCRIPTIVE,
         label: messages['common.descriptive'],
       },
     ],
     [messages],
   );
-
-  /*  const questionSelectionType = useMemo(
-    () => [
-      {
-        key: QuestionSelectionType.FIXED,
-        label: messages['common.fixed'],
-      },
-      {
-        key: QuestionSelectionType.RANDOM,
-        label: messages['common.random'],
-      },
-      {
-        key: QuestionSelectionType.RANDOM_FROM_QUESTION_BANK,
-        label: messages['common.random_from_elect'],
-      },
-    ],
-    [messages],
-  );*/
 
   return (
     <Box sx={{marginTop: '10px'}}>
@@ -126,7 +114,7 @@ const OffLineExam = ({useFrom}: IProps) => {
           {/*Exams*/}
           <Grid item xs={6}>
             <CustomDateTimePicker
-              id='exam_date'
+              id={isMixed ? `offline[exam_date]` : 'exam_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
@@ -134,7 +122,7 @@ const OffLineExam = ({useFrom}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='duration'
+              id={isMixed ? `offline[duration]` : 'duration'}
               type={'number'}
               label={messages['common.duration_min']}
               register={useFrom.register}
@@ -142,23 +130,13 @@ const OffLineExam = ({useFrom}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id={'venue'}
+              id={isMixed ? `offline[venue]` : 'venue'}
               label={messages['common.venue']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
               isLoading={false}
             />
           </Grid>
-          {/*<Grid item xs={6}>*/}
-          {/*  <CustomTextInput*/}
-          {/*    id={'total_marks'}*/}
-          {/*    label={messages['common.total_marks']}*/}
-          {/*    type={'number'}*/}
-          {/*    register={useFrom.register}*/}
-          {/*    errorInstance={useFrom.errors}*/}
-          {/*    isLoading={false}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
 
           {/*for design purpose*/}
           <Grid item xs={6} />
@@ -196,208 +174,87 @@ const OffLineExam = ({useFrom}: IProps) => {
           <Grid item xs={6} />
 
           {/*Exam Sets*/}
-          {examSets?.map((item, i) => (
-            <Fragment key={i}>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  sx={{display: 'none'}}
-                  id={'question_sets' + `[${i}]` + '[id]'}
-                  label={messages['common.set_name']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  isLoading={false}
-                  defaultValue={item.id}
-                />
-                <CustomTextInput
-                  id={'title'}
-                  label={messages['common.set_name']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  isLoading={false}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextInput
-                  id={'title_en'}
-                  label={messages['common.set_name_en']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  isLoading={false}
-                />
-              </Grid>
-            </Fragment>
-          ))}
+          {examSets?.map((item, i) => {
+            const idPrefix = isMixed ? `offline[sets]` : 'sets';
+            return (
+              <Fragment key={i}>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    sx={{display: 'none'}}
+                    id={`${idPrefix}[${i}][id]`}
+                    label={messages['common.set_name']}
+                    register={useFrom.register}
+                    errorInstance={useFrom.errors}
+                    isLoading={false}
+                    defaultValue={item.id}
+                  />
+                  <CustomTextInput
+                    id={`${idPrefix}[${i}][title]`}
+                    label={
+                      (
+                        <IntlMessages
+                          id='common.set_name'
+                          values={{
+                            subject: (
+                              <IntlMessages
+                                id={String(getIntlNumber(formatNumber, i + 1))}
+                              />
+                            ),
+                          }}
+                        />
+                      ) as unknown as string
+                    }
+                    register={useFrom.register}
+                    errorInstance={useFrom.errors}
+                    isLoading={false}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    id={`${idPrefix}[${i}][title_en]`}
+                    label={
+                      (
+                        <IntlMessages
+                          id='common.set_name_en'
+                          values={{
+                            subject: (
+                              <IntlMessages
+                                id={String(getIntlNumber(formatNumber, i + 1))}
+                              />
+                            ),
+                          }}
+                        />
+                      ) as unknown as string
+                    }
+                    register={useFrom.register}
+                    errorInstance={useFrom.errors}
+                    isLoading={false}
+                  />
+                </Grid>
+              </Fragment>
+            );
+          })}
 
           {/*Exam Sections*/}
           <Grid item xs={12}>
             <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
           </Grid>
 
-          {questionTypes.map((questionType, i) => (
-            <Grid key={i} item xs={12}>
-              <ExamQuestionTypeSection
-                useFrom={useFrom}
-                questionType={questionType}
-                index={i}
-              />
-            </Grid>
-          ))}
-
-          {/*Todo: question_type key will not be like this
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[1]'}
-                  label={messages['question.type.mcq']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isMcqChecked}
-                  onChange={() => {
-                    setIsMcqChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
+          {questionTypes.map((questionType, i) => {
+            const idPrefix = isMixed
+              ? `offline[exam_questions]`
+              : 'exam_questions';
+            return (
+              <Grid key={i} item xs={12}>
+                <ExamQuestionTypeSection
+                  useFrom={useFrom}
+                  questionType={questionType}
+                  index={i}
+                  idPrefix={idPrefix}
                 />
               </Grid>
-              {isMcqChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[2]'}
-                  label={messages['common.fill_in_the_blanks']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isFillInBlanksChecked}
-                  onChange={() => {
-                    setIsFillInBlanksChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isFillInBlanksChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[3]'}
-                  label={messages['question.type.y_n']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isYNChecked}
-                  onChange={() => {
-                    setIsYNChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isYNChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[4]'}
-                  label={messages['common.practical']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isPracticalChecked}
-                  onChange={() => {
-                    setIsPracticalChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isPracticalChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[5]'}
-                  label={messages['common.field_work']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isFieldWorkChecked}
-                  onChange={() => {
-                    setIsFieldWorkChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isFieldWorkChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[6]'}
-                  label={messages['common.presentation']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isPresentationChecked}
-                  onChange={() => {
-                    setIsPresentationChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isPresentationChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[7]'}
-                  label={messages['common.descriptive']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isDescriptiveChecked}
-                  onChange={() => {
-                    setIsDescriptiveChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isDescriptiveChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>*/}
+            );
+          })}
 
           {/*Exam Section Questions*/}
           <Grid item xs={6}>

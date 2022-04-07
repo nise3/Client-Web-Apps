@@ -16,6 +16,7 @@ import {
   useFetchCourses,
   useFetchExam,
   useFetchSubjects,
+  useFetchTrainingCentersWithBatches,
 } from '../../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import RowStatus from '../../../../@softbd/utilities/RowStatus';
@@ -78,6 +79,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const [examType, setExamType] = useState<any>(null);
 
+  const [courseId, setCourseId] = useState<any>(null);
+  const {
+    data: trainingCentersWithBatches,
+    isLoading: isTrainingCentersLoading,
+  } = useFetchTrainingCentersWithBatches(courseId);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -124,6 +131,34 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
     data.purpose_name = 'BATCH';
 
+    if (examType !== ExamTypes.MIXED) {
+      let arr: any = data.exam_questions.filter(
+        (item: any) => item.is_question_checked != false,
+      );
+
+      data.exam_questions = arr.map(
+        ({is_question_checked, ...rest}: any) => rest,
+      );
+    }
+
+    if (examType == ExamTypes.MIXED) {
+      let arrOnline: any = data.online.exam_questions.filter(
+        (item: any) => item.is_question_checked != false,
+      );
+
+      data.online.exam_questions = arrOnline.map(
+        ({is_question_checked, ...rest}: any) => rest,
+      );
+
+      let arrOffline: any = data.offline?.exam_questions.filter(
+        (item: any) => item.is_question_checked != false,
+      );
+
+      data.offline.exam_questions = arrOffline.map(
+        ({is_question_checked, ...rest}: any) => rest,
+      );
+    }
+
     console.log('formdata->', data);
 
     try {
@@ -156,6 +191,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       },
     ],
     [messages],
+  );
+
+  const onChangeCourse = useCallback(
+    (courseId: any) => {
+      setCourseId(courseId);
+    },
+    [courses],
   );
 
   return (
@@ -238,11 +280,37 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
-                id='purpose_id'
-                label={messages['common.exam_purpose']}
+                id='course_id'
+                label={messages['common.courses']}
                 isLoading={isLoadingCourse}
                 control={control}
                 options={courses}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={onChangeCourse}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id='training_center_id'
+                label={messages['training_center.label']}
+                isLoading={isTrainingCentersLoading}
+                control={control}
+                options={trainingCentersWithBatches}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CustomFilterableFormSelect
+                id='purpose_id'
+                label={messages['common.exam_purpose']}
+                isLoading={isTrainingCentersLoading}
+                control={control}
+                options={trainingCentersWithBatches.batches || []} //todo: remain form here
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
@@ -251,14 +319,20 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
-                <OnlineExam useFrom={{register, errors, control}} />
+                <OnlineExam
+                  useFrom={{register, errors, control}}
+                  examType={examType}
+                />
               </Grid>
             )}
 
             {(examType == ExamTypes.OFF_ONLINE ||
               examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
-                <OffLineExam useFrom={{register, errors, control}} />
+                <OffLineExam
+                  useFrom={{register, errors, control}}
+                  examType={examType}
+                />
               </Grid>
             )}
 

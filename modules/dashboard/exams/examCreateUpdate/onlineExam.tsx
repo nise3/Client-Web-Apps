@@ -9,20 +9,23 @@ import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {Body1} from '../../../../@softbd/elements/common';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
+import {ExamTypes} from '../ExamEnums';
 
 // const initialValues = {
 //   start_time: '',
 //   end_time: '',
-//   venue: '',
 //   Total_marks: '',
 // };
 
 interface IProps {
   useFrom: any;
+  examType: string;
 }
 
-const OnlineExam = ({useFrom}: IProps) => {
+const OnlineExam = ({useFrom, examType}: IProps) => {
   const {messages} = useIntl();
+
+  const isMixed = examType == ExamTypes.MIXED;
 
   const [questionBankFilters] = useState({});
   const {data: questions, isLoading: isLoadingQuestions} =
@@ -80,7 +83,7 @@ const OnlineExam = ({useFrom}: IProps) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <CustomDateTimePicker
-              id='exam_date'
+              id={isMixed ? `online[exam_date]` : 'exam_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
@@ -88,28 +91,12 @@ const OnlineExam = ({useFrom}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
-              id='duration'
+              id={isMixed ? `online[duration]` : 'duration'}
               type={'number'}
               label={messages['common.duration_min']}
               register={useFrom.register}
             />
           </Grid>
-
-          {/*Exam Sections*/}
-          {/*<Grid item xs={6}>*/}
-          {/*  <CustomFormSelect*/}
-          {/*    required*/}
-          {/*    id={'exam_questions' + '[question_type]'}*/}
-          {/*    label={messages['question.type']}*/}
-          {/*    isLoading={false}*/}
-          {/*    control={useFrom.control}*/}
-          {/*    errorInstance={useFrom.errors}*/}
-          {/*    options={questionTypes}*/}
-          {/*    onChange={onChangeType}*/}
-          {/*    optionValueProp='key'*/}
-          {/*    optionTitleProp={['label']}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
 
           <Grid item xs={12}>
             <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
@@ -117,147 +104,21 @@ const OnlineExam = ({useFrom}: IProps) => {
 
           {/*Todo: question_type key will not be like this*/}
 
-          {questionTypes.map((questionType, i) => (
-            <Grid key={i} item xs={12}>
-              <ExamQuestionTypeSection
-                useFrom={useFrom}
-                questionType={questionType}
-                index={i}
-              />
-            </Grid>
-          ))}
-          {/*<Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[2]'}
-                  label={messages['common.fill_in_the_blanks']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isFillInBlanksChecked}
-                  onChange={() => {
-                    setIsFillInBlanksChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
+          {questionTypes.map((questionType, i) => {
+            const idPrefix = isMixed
+              ? `online[exam_questions]`
+              : 'exam_questions';
+            return (
+              <Grid key={i} item xs={12}>
+                <ExamQuestionTypeSection
+                  useFrom={useFrom}
+                  questionType={questionType}
+                  index={i}
+                  idPrefix={idPrefix}
                 />
               </Grid>
-              {isFillInBlanksChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[3]'}
-                  label={messages['question.type.y_n']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isYNChecked}
-                  onChange={() => {
-                    setIsYNChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isYNChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[4]'}
-                  label={messages['common.practical']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isPracticalChecked}
-                  onChange={() => {
-                    setIsPracticalChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isPracticalChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[5]'}
-                  label={messages['common.field_work']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isFieldWorkChecked}
-                  onChange={() => {
-                    setIsFieldWorkChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isFieldWorkChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[6]'}
-                  label={messages['common.presentation']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isPresentationChecked}
-                  onChange={() => {
-                    setIsPresentationChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isPresentationChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <CustomCheckbox
-                  id={'exam_questions' + '[question_type]' + '[7]'}
-                  label={messages['common.descriptive']}
-                  register={useFrom.register}
-                  errorInstance={useFrom.errors}
-                  checked={isDescriptiveChecked}
-                  onChange={() => {
-                    setIsDescriptiveChecked((prev) => !prev);
-                  }}
-                  isLoading={false}
-                />
-              </Grid>
-              {isDescriptiveChecked && (
-                <Grid item xs={9}>
-                  <ExamQuestionTypeSection useFrom={useFrom} />
-                </Grid>
-              )}
-            </Grid>
-          </Grid>*/}
+            );
+          })}
 
           {/*Exam Section Questions*/}
           <Grid item xs={6}>
