@@ -20,6 +20,7 @@ import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks'
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'NoticeDetails';
 
@@ -91,7 +92,9 @@ const NoticeDetails = () => {
               </Tooltip>
               <Tooltip title={messages['common.download_label']}>
                 {notice?.file_path ? (
-                  <Link target={'_blank'} href={notice?.file_path}>
+                  <Link
+                    target={'_blank'}
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + notice.file_path}>
                     <SystemUpdateAltOutlinedIcon
                       className={classes.icon}
                       sx={{backgroundColor: '#2fc94d'}}
