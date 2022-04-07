@@ -484,7 +484,7 @@ const CourseListHeaderSection = ({
                   options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
             </Grid>

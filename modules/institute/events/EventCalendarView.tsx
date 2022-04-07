@@ -14,7 +14,7 @@ import {
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {H1} from '../../../@softbd/elements/common';
-import {useIntl} from 'react-intl';
+import {createIntl, useIntl} from 'react-intl';
 import {
   ICalendar,
   ICalendarQuery,
@@ -25,15 +25,21 @@ import {
   getCalenderViewFilter,
   getNavigationFilter,
 } from '../../../services/global/globalService';
+import {createIntlCache} from '@formatjs/intl';
 
 const localizer = momentLocalizer(moment);
 
 const InstituteEventCalendarView = () => {
-  const {messages} = useIntl();
-  // let requestQuery: ICalendarQuery = {
-  //   type: 'month',
-  //   institute_id: vendor?.id,
-  // };
+  const {messages, formatDate, locale, formatNumber} = useIntl();
+  const dateFormat = 'YYYY-MM-DD';
+  const cache = createIntlCache();
+  const intl = createIntl(
+    {
+      locale: locale,
+      messages: {},
+    },
+    cache,
+  );
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
@@ -44,6 +50,14 @@ const InstituteEventCalendarView = () => {
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
   let {data: events} = useFetchPublicCalenderEvents(viewFilters);
+
+  const startDates = eventsList.map((e) =>
+    moment(e.start).format(dateFormat),
+  ) as string[];
+  const hasEvent = (currentDate: string, allDates: string[]): boolean =>
+    allDates.find((e) => e == currentDate) != undefined;
+  const parsDate = (datevalue: any): string =>
+    moment(datevalue).format(dateFormat);
 
   useEffect(() => {
     addStartEndPropsToList(events);
@@ -74,6 +88,38 @@ const InstituteEventCalendarView = () => {
     setViewFilters((prev) => {
       return getCalenderViewFilter(view, prev);
     });
+  };
+
+  const customDateCellWrap = (e: any) => {
+    const dateNumber = intl.formatNumber(e.label);
+    const dateFontSize = {fontSize: '1.5rem'};
+    const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
+    return (
+      <div>
+        {hasEvent(parsDate(e.date), startDates) ? (
+          <div style={{position: 'relative'}}>{dateSpan}</div>
+        ) : (
+          dateSpan
+        )}
+      </div>
+    );
+  };
+
+  const componentObject = {
+    month: {
+      dateHeader: customDateCellWrap,
+      header: (e: any) => {
+        const lbl = messages[`calendar.${e.label}`];
+        return <span>{lbl}</span>;
+      },
+    },
+    week: {
+      header: (e: any) => {
+        const labelArr = e.label.split(' ');
+        const lbl = messages[`calendar.${labelArr[1]}`];
+        return <span>{lbl}</span>;
+      },
+    },
   };
 
   return (
@@ -107,6 +153,55 @@ const InstituteEventCalendarView = () => {
                 onView={onViewEvent}
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
+                components={componentObject}
+                formats={{
+                  monthHeaderFormat: (date, culture, localizer) => {
+                    return formatDate(date, {
+                      month: 'long',
+                      year: 'numeric',
+                    });
+                  },
+                  dayRangeHeaderFormat: (range, culture, localizer) => {
+                    let lbl = '';
+                    if (range.start.getMonth() == range.end.getMonth()) {
+                      lbl += formatDate(range.start, {
+                        month: 'long',
+                      });
+                      lbl +=
+                        ' ' +
+                        formatNumber(range.start.getDate()) +
+                        ' - ' +
+                        formatNumber(range.end.getDate());
+                    } else {
+                      lbl += formatDate(range.start, {
+                        month: 'long',
+                        day: 'numeric',
+                      });
+                      lbl += ' - ';
+                      lbl += formatDate(range.end, {
+                        month: 'long',
+                        day: 'numeric',
+                      });
+                    }
+
+                    return lbl;
+                  },
+                  dayHeaderFormat: (date, culture, localizer) => {
+                    return formatDate(date, {
+                      weekday: 'long',
+                      month: 'short',
+                      day: '2-digit',
+                    });
+                  },
+                  agendaHeaderFormat: (range, culture, localizer) => {
+                    let lbl = '';
+                    lbl += formatDate(range.start);
+                    lbl += ' - ';
+                    lbl += formatDate(range.end);
+
+                    return lbl;
+                  },
+                }}
               />
             )}
           </Grid>
