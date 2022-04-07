@@ -13,6 +13,7 @@ import {API_TRAINING_CENTERS_REPORTING_PROGRESS} from '../../../@softbd/common/a
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {hasCreateTrainingCenterReportPermission} from '../../../services/instituteManagement/policies';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const MonthlyProgressReportPage = () => {
   const {messages} = useIntl();
@@ -40,7 +41,11 @@ const MonthlyProgressReportPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 

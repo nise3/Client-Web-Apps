@@ -3,7 +3,10 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_NOTICE_OR_NEWSES} from '../../../@softbd/common/apiRoutes';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {deleteNoticeOrNews} from '../../../services/cmsManagement/NoticeOrNewsService';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
@@ -114,7 +117,11 @@ const NoticeOrNewsPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,
