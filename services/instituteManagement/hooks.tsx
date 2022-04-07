@@ -194,7 +194,7 @@ export const useFetchQuestionBank = (questionId: number | null) => {
 };
 
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     courseId
       ? API_PUBLIC_COURSE_DETAILS + '/' + courseId + '/training-centers/batches'
       : null,
