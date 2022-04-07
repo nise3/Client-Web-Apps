@@ -2,9 +2,6 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
 import {Box, Button, Container, Grid, Tooltip} from '@mui/material';
-// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-// import ShareIcon from '@mui/icons-material/Share';
-// import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
@@ -14,6 +11,7 @@ import {ArrowBack} from '@mui/icons-material';
 import {Skeleton} from '@mui/lab';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'PublicationDetails';
 
@@ -82,31 +80,16 @@ const PublicationDetails = () => {
               md={7}
               textAlign={'right'}
               className={classes.buttons}>
-              {/*<Tooltip title={messages['common.like']}>
-                <ThumbUpAltIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#008fff'}}
-                />
-              </Tooltip>
-              <Tooltip title={messages['common.share_label']}>
-                <ShareIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#4E4E98'}}
-                />
-              </Tooltip>
-              <Tooltip title={messages['common.print']}>
-                <PrintOutlinedIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#ffb700b8'}}
-                />
-              </Tooltip>*/}
-
               <Body1 sx={{fontWeight: 'bold', padding: '10px'}}>
                 {messages['common.download']}
               </Body1>
 
               {publicationData?.file_path ? (
-                <Link target={'_blank'} href={publicationData?.file_path}>
+                <Link
+                  target={'_blank'}
+                  href={
+                    FILE_SERVER_FILE_VIEW_ENDPOINT + publicationData.file_path
+                  }>
                   <Tooltip title={messages['common.download_label']}>
                     <SystemUpdateAltOutlinedIcon
                       className={classes.icon}

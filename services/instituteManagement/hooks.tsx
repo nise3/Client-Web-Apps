@@ -112,7 +112,7 @@ export function useFetchCourseList(pathVariable: string, params: any) {
 }
 
 export function useFetchUpcomingCourseList(params: any) {
-  return useAxiosSWR([API_PUBLIC_COURSE_LIST, params]);
+  return useDataLocalizationAxiosSWR([API_PUBLIC_COURSE_LIST, params]);
 }
 
 export function useFetchPublicCourseDetailsWithParams(

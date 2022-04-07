@@ -7,10 +7,6 @@ import {
   Divider,
   Grid,
   Link,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Paper,
   Tab,
   Table,
@@ -22,12 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import {TabContext, TabList} from '@mui/lab';
-import {
-  Alarm,
-  CardMembership,
-  Language,
-  PlayCircleOutline,
-} from '@mui/icons-material';
+import {Alarm, CardMembership, Language} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -151,7 +142,7 @@ interface CourseContentProps {
   course: any;
 }
 
-const lessonsList = [
+/*const lessonsList = [
   {
     name: 'Introduction',
     duration: '6.22',
@@ -168,7 +159,7 @@ const lessonsList = [
     name: 'Operation with data types',
     duration: '6.22',
   },
-];
+];*/
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
   const {messages, formatNumber, formatDate} = useIntl();
@@ -498,7 +489,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 )}
               </Box>
 
-              <Grid container>
+              {/*<Grid container>
                 <Grid item xs={12} sm={8} md={7} className={classes.lessonBox}>
                   <List dense={false} className={classes.listStyle}>
                     {(lessonsList || []).map((lesson: any, index: any) => {
@@ -522,7 +513,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     })}
                   </List>
                 </Grid>
-              </Grid>
+              </Grid>*/}
             </Box>
 
             <Box ref={objectiveRef} className={classes.boxMargin}>
