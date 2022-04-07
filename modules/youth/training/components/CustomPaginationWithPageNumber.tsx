@@ -74,7 +74,7 @@ const CustomPaginationWithPageNumber = ({
         count={count}
         page={0}
         onPageChange={() => {}}
-        rowsPerPage={rowsPerPage}
+        rowsPerPage={rowsPerPage ? rowsPerPage : 0}
         onRowsPerPageChange={onRowsPerPageChangeCallback}
         labelRowsPerPage={labelRowsPerPage}
         rowsPerPageOptions={rowsPerPageOptions}
@@ -87,7 +87,14 @@ const CustomPaginationWithPageNumber = ({
         shape='rounded'
         onChange={onPaginationChange}
         renderItem={(item: PaginationRenderItemParams) => {
-          return <PaginationItem {...item} />;
+          const props = {
+            ...item,
+            page:
+              item.type == 'page' && item.page
+                ? formatNumber(item.page)
+                : item.page,
+          };
+          return <PaginationItem {...props} />;
         }}
       />
     </StyledBox>

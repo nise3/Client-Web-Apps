@@ -16,6 +16,7 @@ import {H3, Link} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'Certifications';
 const classes = {
@@ -112,17 +113,22 @@ const Certifications: FC<CertificationsProps> = ({
               </Grid>
               <Grid item xs={12} sm={4} md={4}>
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                  <Link
-                    href={certificate?.certificate_file_path}
-                    target={'_blank'}
-                    style={{marginRight: '10px'}}>
-                    <IconButton
-                      color='primary'
-                      aria-label='view certificate'
-                      component='span'>
-                      <VisibilityIcon />
-                    </IconButton>
-                  </Link>
+                  {certificate?.certificate_file_path && (
+                    <Link
+                      href={
+                        FILE_SERVER_FILE_VIEW_ENDPOINT +
+                        certificate.certificate_file_path
+                      }
+                      target={'_blank'}
+                      style={{marginRight: '10px'}}>
+                      <IconButton
+                        color='primary'
+                        aria-label='view certificate'
+                        component='span'>
+                        <VisibilityIcon />
+                      </IconButton>
+                    </Link>
+                  )}
                   <CustomParabolaButton
                     buttonVariant={'outlined'}
                     title={messages['common.edit_btn'] as string}
