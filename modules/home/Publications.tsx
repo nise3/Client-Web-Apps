@@ -1,4 +1,4 @@
-import {Box, Card, Container, Grid} from '@mui/material';
+import {Box, Button, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
@@ -10,6 +10,9 @@ import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {LINK_FRONTEND_NISE_PUBLICATIONS} from '../../@softbd/common/appLinks';
+import {ArrowRightAlt} from '@mui/icons-material';
+import PageSizes from '../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'Publications';
 
@@ -19,6 +22,7 @@ const classes = {
   image: `${PREFIX}-image`,
   imageAlt: `${PREFIX}-imageAlt`,
   title: `${PREFIX}-title`,
+  seeMore: `${PREFIX}-seeMore`,
 };
 
 const StyledGrid = styled(Grid)(({theme}) => ({
@@ -50,6 +54,10 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     textOverflow: 'ellipsis',
     fontWeight: 'bold',
   },
+  [`& .${classes.seeMore}`]: {
+    marginTop: '15px',
+    marginBottom: '15px',
+  },
 }));
 
 const Publications = () => {
@@ -57,6 +65,7 @@ const Publications = () => {
 
   const [publicationsFilters] = useState({
     row_status: RowStatus.ACTIVE,
+    page_size: PageSizes.TEN,
   });
   const {data: publications, isLoading: isLoadingPublications} =
     useFetchPublicPublications(publicationsFilters);
@@ -111,6 +120,24 @@ const Publications = () => {
             />
           )}
         </Box>
+        {publications && publications?.length > 0 && (
+          <Grid item container justifyContent='center' spacing={2}>
+            <Link
+              href={`${LINK_FRONTEND_NISE_PUBLICATIONS}`}
+              passHref
+              className={classes.seeMore}>
+              <Button
+                variant='outlined'
+                color='primary'
+                endIcon={<ArrowRightAlt />}
+                style={{
+                  borderRadius: '10px',
+                }}>
+                {messages['common.see_more']}
+              </Button>
+            </Link>
+          </Grid>
+        )}
       </Container>
     </StyledGrid>
   );

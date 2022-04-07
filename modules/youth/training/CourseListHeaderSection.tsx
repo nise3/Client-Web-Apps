@@ -408,7 +408,7 @@ const CourseListHeaderSection = ({
                     options={institutes}
                     isLoading={false}
                     optionValueProp={'id'}
-                    optionTitleProp={['title']}
+                    optionTitleProp={['title', 'title_en']}
                   />
                 </Grid>
               )}
@@ -484,7 +484,7 @@ const CourseListHeaderSection = ({
                   options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                 />
               </Grid>
             </Grid>

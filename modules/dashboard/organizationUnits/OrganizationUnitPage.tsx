@@ -17,7 +17,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import OrganizationUnitDetailsPopup from './OrganizationUnitDetailsPopup';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import Link from 'next/link';
 import {Button} from '@mui/material';
 import {AccountTreeOutlined} from '@mui/icons-material';
@@ -86,7 +89,11 @@ const OrganizationUnitPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

@@ -383,7 +383,10 @@ export default function ReactTable<T extends object>({
                             }}
                             key={index}
                             className={classes.tableCell}>
-                            {cell.render('Cell')}
+                            {cell.render('Cell', {
+                              currentPageIndex: pageIndex,
+                              currentPageSize: pageSize,
+                            })}
                           </TableCell>
                         );
                       })}

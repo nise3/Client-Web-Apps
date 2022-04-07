@@ -16,7 +16,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const OccupationsPage = () => {
@@ -72,7 +75,11 @@ const OccupationsPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

@@ -14,6 +14,7 @@ import AssignBatchPopup from './RPLAssessmentBatchAssignPopup';
 import {FiUserCheck} from 'react-icons/fi';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CustomChipStatus from '../memberList/CustomChipStatus';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const RPLAssessmentManagementPage = () => {
   const {messages, locale} = useIntl();
@@ -82,7 +83,11 @@ const RPLAssessmentManagementPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

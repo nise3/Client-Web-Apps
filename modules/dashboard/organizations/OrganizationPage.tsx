@@ -16,7 +16,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
@@ -116,7 +119,11 @@ const OrganizationPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

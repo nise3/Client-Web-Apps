@@ -547,3 +547,11 @@ export const isValidLatitude = (lat: any) => {
 export const isValidLongitude = (lng: any) => {
   return lng && isFinite(lng) && Math.abs(lng) <= 180;
 };
+
+export const getCalculatedSerialNo = (
+  index: number,
+  page: number | null | undefined,
+  size: number | null | undefined,
+) => {
+  return page && size ? page * size + (index + 1) : index + 1;
+};

@@ -9,6 +9,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {
+  getCalculatedSerialNo,
   getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
@@ -80,7 +81,11 @@ const IndustryAssociationMemberJobsPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
