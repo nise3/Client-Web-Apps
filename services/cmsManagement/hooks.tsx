@@ -196,7 +196,7 @@ export function useFetchPublications(params: any) {
   return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
 }
 export function useFetchPublicPublications(params: any) {
-  return useAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
 }
 
 export function useFetchPublication(publicationId: number | null) {
