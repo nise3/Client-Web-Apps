@@ -15,6 +15,7 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 import {Link} from '../../../@softbd/elements/common';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const CVBankPage = () => {
   const {messages} = useIntl();
@@ -47,7 +48,11 @@ const CVBankPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

@@ -13,6 +13,7 @@ import NextLink from 'next/link';
 import {Link} from '@mui/material';
 import {FiDownload, FiMessageCircle, FiUserCheck} from 'react-icons/fi';
 import Visibility from '@mui/icons-material/Visibility';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const FreelanceCornerPage = () => {
   const {messages} = useIntl();
@@ -44,7 +45,11 @@ const FreelanceCornerPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

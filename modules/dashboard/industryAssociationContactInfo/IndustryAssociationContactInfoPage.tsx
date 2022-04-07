@@ -2,7 +2,10 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import React, {useCallback, useMemo, useState} from 'react';
 import {deleteContactInfoItem} from '../../../services/IndustryAssociationManagement/ContactInfoService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -17,7 +20,7 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import IconOrganization from "../../../@softbd/icons/IconOrganization";
+import IconOrganization from '../../../@softbd/icons/IconOrganization';
 
 const IndustryAssociationContactInfoPage = () => {
   const {messages, locale} = useIntl();
@@ -71,7 +74,13 @@ const IndustryAssociationContactInfoPage = () => {
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
+        },
         disableFilters: true,
         disableSortBy: true,
       },
