@@ -15,6 +15,7 @@ const PREFIX = 'StaticContent';
 
 const classes = {
   icon: `${PREFIX}-icon`,
+  content: `${PREFIX}-content`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => {
@@ -25,6 +26,12 @@ const StyledContainer = styled(Container)(({theme}) => {
       padding: '2px',
       borderRadius: '3px',
       '&:not(:last-child)': {marginRight: '10px'},
+    },
+
+    [`& .${classes.content}`]: {
+      [`& pre`]: {
+        whiteSpace: 'break-spaces',
+      },
     },
 
     [`& .editor-template-table`]: {
@@ -128,9 +135,14 @@ const StaticContent = () => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                {data.content ? <div dangerouslySetInnerHTML={{__html: data.content}} />:
-                <NoDataFoundComponent/>}
-
+                {data.content ? (
+                  <div
+                    className={classes.content}
+                    dangerouslySetInnerHTML={{__html: data.content}}
+                  />
+                ) : (
+                  <NoDataFoundComponent />
+                )}
               </Grid>
             </Grid>
           ) : (
