@@ -10,9 +10,15 @@ interface IProps {
   useFrom: any;
   questionType: any;
   index: number;
+  idPrefix?: any;
 }
 
-const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
+const ExamQuestionTypeSection = ({
+  useFrom,
+  questionType,
+  index,
+  idPrefix,
+}: IProps) => {
   const {messages} = useIntl();
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -43,8 +49,8 @@ const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
     <Grid container spacing={1}>
       <Grid item xs={3}>
         <CustomCheckbox
-          id={`exam_questions[${index}][question_type]`}
-          label={messages['question.type.mcq']}
+          id={`${idPrefix}[${index}][is_question_checked]`}
+          label={questionType.label}
           register={useFrom.register}
           errorInstance={useFrom.errors}
           checked={isChecked}
@@ -54,12 +60,22 @@ const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
           isLoading={false}
         />
       </Grid>
+      <Grid item xs={3} sx={{display: 'none'}}>
+        <CustomTextInput
+          id={`${idPrefix}[${index}][question_type]`}
+          label={questionType.label}
+          register={useFrom.register}
+          errorInstance={useFrom.errors}
+          defaultValue={questionType.id}
+          isLoading={false}
+        />
+      </Grid>
       {isChecked && (
         <Grid item xs={9}>
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <CustomTextInput
-                id={`exam_questions[${index}][number_of_questions]`}
+                id={`${idPrefix}[${index}][number_of_questions]`}
                 label={messages['common.number_of_questions']}
                 type={'number'}
                 register={useFrom.register}
@@ -69,7 +85,7 @@ const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
             </Grid>
             <Grid item xs={6}>
               <CustomTextInput
-                id={`exam_questions[${index}][total_marks]`}
+                id={`${idPrefix}[${index}][total_marks]`}
                 label={messages['common.total_marks']}
                 type={'number'}
                 register={useFrom.register}
@@ -81,7 +97,7 @@ const ExamQuestionTypeSection = ({useFrom, questionType, index}: IProps) => {
             <Grid item xs={6}>
               <CustomFormSelect
                 required
-                id={`exam_questions[${index}][question_selection_type]`}
+                id={`${idPrefix}[${index}][question_selection_type]`}
                 label={messages['common.question_selection_type']}
                 isLoading={false}
                 control={useFrom.control}
