@@ -14,6 +14,7 @@ import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'NoticeCard';
 
@@ -105,7 +106,9 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
               )}
               {notice?.file_path && (
                 <Button color={'primary'} variant={'outlined'}>
-                  <Link target={'_blank'} href={notice?.file_path}>
+                  <Link
+                    target={'_blank'}
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + notice.file_path}>
                     {messages['common.download']}
                   </Link>
                 </Button>

@@ -18,6 +18,7 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PersonIcon from '@mui/icons-material/Person';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const HumanResourceDemandPage = () => {
   const {messages, locale} = useIntl();
@@ -70,7 +71,11 @@ const HumanResourceDemandPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

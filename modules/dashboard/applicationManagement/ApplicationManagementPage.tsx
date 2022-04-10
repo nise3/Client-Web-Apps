@@ -7,7 +7,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
@@ -79,7 +82,11 @@ const ApplicationManagementPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

@@ -13,7 +13,10 @@ import TrainerDetailsPopup from './TrainerDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconTrainer from '../../../@softbd/icons/IconTrainer';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_TRAINERS} from '../../../@softbd/common/apiRoutes';
@@ -69,7 +72,13 @@ const TrainersPage = () => {
     () => [
       {
         Header: '#',
-        accessor: 'id',
+        Cell: (props: any) => {
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
+        },
         disableFilters: true,
         disableSortBy: true,
       },
