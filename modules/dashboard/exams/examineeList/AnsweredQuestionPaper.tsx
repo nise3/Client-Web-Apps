@@ -1,12 +1,16 @@
 import React from 'react';
 import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
-import {Checkbox, FormControlLabel, Grid, Paper} from '@mui/material';
+import {Grid, Paper} from '@mui/material';
 import {Body1} from '../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import MCQTypeComponent from './MCQTypeAnswer';
+import FillInTheBlankTypeAnswer from './FillInTheBlankTypeAnswer';
+import FileViewAnswer from './FileViewAnswer';
+import YesNoTypeAnswer from './YesNoTypeAnswer';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -48,6 +52,7 @@ const answerSheet = {
       question_type: 2,
       mark: 1,
       obtained_mark: 1,
+      answer: ['software', 'at', 'ltd'],
     },
     {
       id: 3,
@@ -65,6 +70,7 @@ const answerSheet = {
       question_type: 5,
       mark: 1,
       obtained_mark: 1,
+      answer: '/images/dummy2.jpg',
     },
     {
       id: 6,
@@ -101,6 +107,7 @@ const answerSheet = {
       mark: 1,
       obtained_mark: 1,
       answer: [2, 4],
+      correct_answer: [1, 3],
     },
   ],
   exam_date: '10/12/22',
@@ -119,7 +126,6 @@ const StyledPaper = styled(Paper)(({theme}) => ({
 }));
 const ExamQuestionPaper = () => {
   const {messages} = useIntl();
-
   return (
     <StyledPaper>
       <Grid container spacing={2}>
@@ -164,64 +170,25 @@ const ExamQuestionPaper = () => {
           <Grid container spacing={2}>
             {answerSheet && answerSheet?.questions.length ? (
               answerSheet?.questions.map((question: any, index: number) => {
-                let fillInTheBlankItems: any = [];
-                if (question?.question_type == QuestionType.FILL_IN_THE_BLANK) {
-                  fillInTheBlankItems = question?.title.split('[[]]');
-                }
-
                 return (
                   <React.Fragment key={question?.id}>
                     {question?.question_type ==
-                      QuestionType.FILL_IN_THE_BLANK &&
-                    fillInTheBlankItems &&
-                    fillInTheBlankItems.length ? (
-                      <Grid item xs={12}>
-                        <Body1
-                          sx={{fontWeight: 'bold', display: 'inline-block'}}>
-                          {index + 1 + '. '}
-                        </Body1>
-                        <Body1>
-                          {fillInTheBlankItems.map(
-                            (element: any, itemIndex: any) => {
-                              if (element == '') {
-                                return (
-                                  <>
-                                    {/*  <DetailsInputView
-                                      label={''}
-                                      isLoading={false}
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '150px',
-                                        marginTop: '-8px',
-                                      }}
-                                    />*/}
-                                  </>
-                                );
-                              } else if (
-                                itemIndex !=
-                                fillInTheBlankItems.length - 2
-                              ) {
-                                return (
-                                  <>
-                                    {element}{' '}
-                                    {/* <DetailsInputView
-                                      label={''}
-                                      isLoading={false}
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '150px',
-                                        marginTop: '-8px',
-                                      }}
-                                      />*/}
-                                  </>
-                                );
-                              } else {
-                                return <>{element}</>;
-                              }
-                            },
-                          )}
-                        </Body1>
-                      </Grid>
+                    QuestionType.FILL_IN_THE_BLANK ? (
+                      <>
+                        <Grid item xs={11} display={'flex'}>
+                          <Body1
+                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                            {index + 1 + '.  '}
+                          </Body1>
+                          <FillInTheBlankTypeAnswer question={question} />
+                        </Grid>
+                        <Grid item xs={1}>
+                          <Body1
+                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                            {question?.obtained_mark}
+                          </Body1>
+                        </Grid>
+                      </>
                     ) : (
                       <>
                         <Grid item xs={11}>
@@ -243,59 +210,19 @@ const ExamQuestionPaper = () => {
                         </Grid>
                         <Grid item xs={11}>
                           {question?.question_type == QuestionType.MCQ && (
-                            <>
-                              <FormControlLabel
-                                disabled
-                                control={
-                                  <Checkbox
-                                    checked={question.answer.includes(1)}
-                                  />
-                                }
-                                label={question?.option_1}
-                                componentsProps={{
-                                  typography: {
-                                    sx: {color: 'green !important'},
-                                  },
-                                }}
-                              />
-                              <FormControlLabel
-                                disabled
-                                control={
-                                  <Checkbox
-                                    checked={question.answer.includes(2)}
-                                  />
-                                }
-                                label={question?.option_2}
-                              />
-                              <FormControlLabel
-                                disabled
-                                control={
-                                  <Checkbox
-                                    checked={question.answer.includes(3)}
-                                  />
-                                }
-                                label={question?.option_3}
-                              />
-                              <FormControlLabel
-                                disabled
-                                control={
-                                  <Checkbox
-                                    checked={question.answer.includes(4)}
-                                  />
-                                }
-                                label={question?.option_4}
-                              />{' '}
-                            </>
+                            <MCQTypeComponent question={question} />
                           )}
                           {question?.question_type == QuestionType.YES_NO && (
-                            <></>
+                            <YesNoTypeAnswer question={question} />
                           )}
                           {(question?.question_type ==
                             QuestionType.PRESENTATION ||
                             question?.question_type ==
                               QuestionType.FIELD_WORK ||
                             question?.question_type ==
-                              QuestionType.PRACTICAL) && <></>}
+                              QuestionType.PRACTICAL) && (
+                            <FileViewAnswer question={question} />
+                          )}
                           {question?.question_type ==
                             QuestionType.DESCRIPTIVE && (
                             <DetailsInputView
