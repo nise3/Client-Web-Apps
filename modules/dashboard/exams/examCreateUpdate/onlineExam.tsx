@@ -31,17 +31,6 @@ const OnlineExam = ({useFrom, examType}: IProps) => {
   const {data: questions, isLoading: isLoadingQuestions} =
     useFetchExamQuestionsBanks(questionBankFilters);
 
-  // const [isMcqChecked, setIsMcqChecked] = useState<boolean>(false);
-  // const [isFillInBlanksChecked, setIsFillInBlanksChecked] =
-  //   useState<boolean>(false);
-  // const [isYNChecked, setIsYNChecked] = useState<boolean>(false);
-  // const [isPracticalChecked, setIsPracticalChecked] = useState<boolean>(false);
-  // const [isFieldWorkChecked, setIsFieldWorkChecked] = useState<boolean>(false);
-  // const [isPresentationChecked, setIsPresentationChecked] =
-  //   useState<boolean>(false);
-  // const [isDescriptiveChecked, setIsDescriptiveChecked] =
-  //   useState<boolean>(false);
-
   const questionTypes = useMemo(
     () => [
       {
@@ -101,8 +90,6 @@ const OnlineExam = ({useFrom, examType}: IProps) => {
           <Grid item xs={12}>
             <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
           </Grid>
-
-          {/*Todo: question_type key will not be like this*/}
 
           {questionTypes.map((questionType, i) => {
             const idPrefix = isMixed

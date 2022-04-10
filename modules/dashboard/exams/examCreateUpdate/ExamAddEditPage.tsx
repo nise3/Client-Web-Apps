@@ -101,6 +101,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     register,
     control,
     setError,
+    setValue,
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
@@ -344,7 +345,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OnlineExam
-                  useFrom={{register, errors, control}}
+                  useFrom={{register, errors, control, setValue}}
                   examType={examType}
                 />
               </Grid>

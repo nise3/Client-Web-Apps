@@ -1,10 +1,12 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {QuestionSelectionType} from '../../ExamEnums';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import Button from '@mui/material/Button';
+import QuestionSetPopup from './questionSetPopup/QuestionSetPopup';
 
 interface IProps {
   useFrom: any;
@@ -22,6 +24,10 @@ const ExamQuestionTypeSection = ({
   const {messages} = useIntl();
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
+    useState<boolean>(false);
+  const [questionTypeId, setQuestionTypeId] = useState<any>('');
 
   const questionSelectionType = useMemo(
     () => [
@@ -45,6 +51,15 @@ const ExamQuestionTypeSection = ({
     console.log('onChangeType=>', value);
   };
 
+  const openAddQuestionModal = useCallback(() => {
+    setIsAddQuestionAssignModal(true);
+  }, []);
+
+  const closeAddQuestionModal = useCallback(() => {
+    setIsAddQuestionAssignModal(false);
+    setQuestionTypeId('');
+  }, []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={3}>
@@ -56,6 +71,8 @@ const ExamQuestionTypeSection = ({
           checked={isChecked}
           onChange={() => {
             setIsChecked((prev) => !prev);
+            console.log('questionType.id->', questionType.id);
+            setQuestionTypeId(questionType.id); //todo: question type if for filter questions
           }}
           isLoading={false}
         />
@@ -108,7 +125,20 @@ const ExamQuestionTypeSection = ({
                 optionTitleProp={['label']}
               />
             </Grid>
+
+            <Grid item xs={6}>
+              <Button onClick={() => openAddQuestionModal()}>Add</Button>
+            </Grid>
           </Grid>
+
+          {isOpenAddQuestionModal && (
+            <QuestionSetPopup
+              key={1}
+              onClose={closeAddQuestionModal}
+              questionType={questionTypeId}
+              useFrom={useFrom}
+            />
+          )}
         </Grid>
       )}
     </Grid>
