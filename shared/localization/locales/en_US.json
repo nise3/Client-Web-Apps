@@ -1908,5 +1908,9 @@
   "common.random_from_elect": "Random from Selected",
   "common.number_of_sets": "Number of sets",
   "common.time_remaining": "Time remaining",
-  "common.duration_min": "Duration (minutes)"
+  "common.duration_min": "Duration (minutes)",
+  "common.exam_title": "Exam title",
+  "common.examinee_name": "Examinee name",
+  "common.total_obtained_marks": "Total obtained marks",
+  "common.duration": "Duration"
 }

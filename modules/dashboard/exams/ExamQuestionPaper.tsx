@@ -79,7 +79,7 @@ const examQuestions = {
 };
 const ExamQuestionPaper = () => {
   const {messages} = useIntl();
-  const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
+  const [isOption1Checked, setIsOption1Checked] = useState<boolean>(true);
   const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
   const [isOption3Checked, setIsOption3Checked] = useState<boolean>(false);
   const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);

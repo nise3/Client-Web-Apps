@@ -1911,5 +1911,9 @@
   "common.random_from_elect": "নির্বাচিত থেকে রেনডম",
   "common.number_of_sets": "সেটের সংখ্যা",
   "common.time_remaining": "অবশিষ্ট সময়",
-  "common.duration_min": "সময়কাল (মিনিট)"
+  "common.duration_min": "সময়কাল (মিনিট)",
+  "common.exam_title": "পরীক্ষার টাইটেল",
+  "common.examinee_name": "পরীক্ষার্থীর নাম",
+  "common.total_obtained_marks": "মোট প্রাপ্ত নম্বর",
+  "common.duration": "সময়কাল"
 }
