@@ -331,7 +331,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 id='purpose_id'
-                label={messages['common.exam_purpose']}
+                label={messages['batches.label']}
                 isLoading={isTrainingCentersLoading}
                 control={control}
                 options={batches}
