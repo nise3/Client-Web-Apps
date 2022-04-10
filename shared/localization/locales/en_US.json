@@ -321,6 +321,7 @@
   "common.organization": "Organization",
   "common.organization_registration": "Organization registration",
   "common.organization_name": "Organization name",
+  "common.organization_name_en": "Organization name (En)",
   "common.contact_person_info": "Contact Person Information",
   "common.contact_person_name": "Contact person name",
   "common.contact_person_mobile": "Contact person mobile no",
@@ -1877,5 +1878,12 @@
   "course.available_training_centers": "This course is available in the training centers below",
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
-  "common.goto_youth": "Youth profile"
+  "common.goto_youth": "Youth profile",
+  "4ir_project.label": "4IR Projects",
+  "4ir.label": "4IR",
+  "project.name": "Project Name",
+  "project.name_en": "Project Name (En)",
+  "project.details": "Project Details",
+  "project.details_en": "Project Details (En)",
+  "project.start_date": "Project start date"
 }
