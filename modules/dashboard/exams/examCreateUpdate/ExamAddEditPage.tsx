@@ -74,10 +74,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const [courseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: courses, isLoading: isLoadingCourse} =
+  const {data: coursesData, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
   const [examType, setExamType] = useState<any>(null);
+  const [courses, setCourses] = useState<Array<any>>([]);
+  const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
+  const [batches, setBatches] = useState<Array<any>>([]);
 
   const [courseId, setCourseId] = useState<any>(null);
   const {
@@ -104,6 +107,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    setCourses(coursesData);
+  }, [coursesData]);
+
+  useEffect(() => {
+    setTrainingCenters(trainingCentersWithBatches);
+  }, [trainingCentersWithBatches]);
 
   useEffect(() => {
     if (itemData) {
@@ -196,6 +207,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const onChangeCourse = useCallback(
     (courseId: any) => {
       setCourseId(courseId);
+      setTrainingCenters([]);
+      setBatches([]);
+    },
+    [courses],
+  );
+
+  const onChangeTrainingCenter = useCallback(
+    (trainingCenterId: any) => {
+      let arr = (trainingCenters || []).filter(
+        (item: any) => item.id == trainingCenterId,
+      );
+      setBatches(arr[0]?.batches);
     },
     [courses],
   );
@@ -297,10 +320,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 label={messages['training_center.label']}
                 isLoading={isTrainingCentersLoading}
                 control={control}
-                options={trainingCentersWithBatches}
+                options={trainingCenters}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                onChange={onChangeTrainingCenter}
               />
             </Grid>
 
@@ -310,7 +334,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 label={messages['common.exam_purpose']}
                 isLoading={isTrainingCentersLoading}
                 control={control}
-                options={trainingCentersWithBatches.batches || []} //todo: remain form here
+                options={batches}
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
