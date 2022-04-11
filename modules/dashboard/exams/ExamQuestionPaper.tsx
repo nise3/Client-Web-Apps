@@ -63,8 +63,8 @@ const examQuestions = {
     },
     {
       id: 6,
-      title: '[[]]am a [[]] engineer [[]] softbd ',
-      title_en: '[[]]am a [[]] engineer  [[]] softbd ',
+      title: '[[]] am a [[]] engineer [[]] softbd ',
+      title_en: '[[]] am a [[]] engineer  [[]] softbd ',
       question_type: 2,
     },
     {
@@ -79,7 +79,7 @@ const examQuestions = {
 };
 const ExamQuestionPaper = () => {
   const {messages} = useIntl();
-  const [isOption1Checked, setIsOption1Checked] = useState<boolean>(true);
+  const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
   const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
   const [isOption3Checked, setIsOption3Checked] = useState<boolean>(false);
   const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);
@@ -185,7 +185,9 @@ const ExamQuestionPaper = () => {
                   if (
                     question?.question_type == QuestionType.FILL_IN_THE_BLANK
                   ) {
-                    fillInTheBlankItems = question?.title.split('[[]]');
+                    fillInTheBlankItems = question?.title.split(
+                      /(?=\[\[\]\])|(?<=\[\[\]\])/g,
+                    );
                   }
                   let indexNo = 0;
                   return (
@@ -194,67 +196,30 @@ const ExamQuestionPaper = () => {
                         QuestionType.FILL_IN_THE_BLANK &&
                       fillInTheBlankItems &&
                       fillInTheBlankItems.length ? (
-                        <Grid item xs={12}>
-                          <Body1>
-                            {index + 1 + '. '}
-                            {fillInTheBlankItems.map(
-                              (element: any, itemIndex: any) => {
-                                if (element == '') {
-                                  return (
-                                    <>
-                                      <CustomTextInput
-                                        id={
-                                          'answers[' +
-                                          index +
-                                          '][' +
-                                          indexNo++ +
-                                          ']'
-                                        }
-                                        label={''}
-                                        register={register}
-                                        errorInstance={errors}
-                                        isLoading={false}
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '150px',
-                                          marginTop: '-8px',
-                                        }}
-                                      />{' '}
-                                    </>
-                                  );
-                                } else if (
-                                  itemIndex !=
-                                  fillInTheBlankItems.length - 2
-                                ) {
-                                  return (
-                                    <>
-                                      {element}{' '}
-                                      <CustomTextInput
-                                        id={
-                                          'answers[' +
-                                          index +
-                                          '][' +
-                                          indexNo++ +
-                                          ']'
-                                        }
-                                        label={''}
-                                        register={register}
-                                        errorInstance={errors}
-                                        isLoading={false}
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '150px',
-                                          marginTop: '-8px',
-                                        }}
-                                      />{' '}
-                                    </>
-                                  );
-                                } else {
-                                  return <>{element}</>;
-                                }
-                              },
-                            )}
-                          </Body1>
+                        <Grid item xs={12} display={'flex'}>
+                          <Body1>{index + 1 + '. '}</Body1>
+                          {fillInTheBlankItems.map((item: any) => {
+                            if (item == '[[]]') {
+                              return (
+                                <CustomTextInput
+                                  id={`answer[${index}][${indexNo++}]`}
+                                  label={''}
+                                  register={register}
+                                  errorInstance={errors}
+                                  isLoading={false}
+                                  style={{
+                                    display: 'inline-block',
+                                    width: '150px',
+                                    marginTop: '-8px',
+                                  }}
+                                />
+                              );
+                            } else {
+                              return (
+                                <Body1 sx={{whiteSpace: 'pre'}}>{item}</Body1>
+                              );
+                            }
+                          })}
                         </Grid>
                       ) : (
                         <>

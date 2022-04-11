@@ -266,6 +266,7 @@
   "common.status": "Status",
   "common.all": "All",
   "common.none": "None",
+  "exam.none": "None",
   "common.login": "Login",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
@@ -1912,5 +1913,8 @@
   "common.exam_title": "Exam title",
   "common.examinee_name": "Examinee name",
   "common.total_obtained_marks": "Total obtained marks",
-  "common.duration": "Duration"
+  "common.duration": "Duration",
+  "common.show_file": "Show file",
+  "common.obtained_mark": "Obtained mark",
+  "common.marks_distribution": "Marks distribution"
 }

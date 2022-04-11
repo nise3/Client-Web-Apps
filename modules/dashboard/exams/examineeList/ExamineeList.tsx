@@ -69,7 +69,7 @@ const ExamineeListPage = () => {
           // let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <Link href={'/exams/answered-question-paper'}>
+              <Link href={'/exams/examinee-list/marking'}>
                 <Button
                   variant={'outlined'}
                   color={'primary'}
@@ -77,7 +77,7 @@ const ExamineeListPage = () => {
                   {messages['common.marks_distribution']}
                 </Button>
               </Link>
-              <Link href={'/exams/answered-question-paper'}>
+              <Link href={'/exams/examinee-list/marks-sheet'}>
                 <Button variant={'outlined'} color={'primary'}>
                   {messages['common.answer_sheet']}
                 </Button>
