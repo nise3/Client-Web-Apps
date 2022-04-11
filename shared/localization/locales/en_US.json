@@ -267,6 +267,7 @@
   "common.all": "All",
   "common.none": "None",
   "common.login": "Login",
+  "common.cdap_login": "CDAP Login",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
   "common.orLoginWith": "or Login",
