@@ -9,6 +9,9 @@ export const API_PUBLIC_BACK_CHANNEL = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
 export const API_SSO_AUTHORIZE_CODE_GRANT =
   API_PUBLIC_BACK_CHANNEL + '/sso-authorize-code-grant';
 
+export const API_CDAP_AUTHORIZE_ID_TOKEN_GRANT =
+  API_PUBLIC_BACK_CHANNEL + '/cdap-authorize-id-token-grant';
+
 export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT

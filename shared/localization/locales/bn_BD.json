@@ -99,6 +99,7 @@
   "common.all": "সব",
   "common.none": "কোনটিই নয়",
   "common.login": "লগইন",
+  "common.cdap_login": "CDAP লগইন",
   "common.rememberMe": "মনে রাখুন",
   "common.forgetPassword": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
   "common.orLoginWith": "অথবা লগইন ",
