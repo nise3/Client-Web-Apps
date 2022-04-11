@@ -26,6 +26,7 @@ import {
 import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 
 interface ProjectAddEditPopupProps {
   itemId: number | null;
@@ -55,6 +56,9 @@ const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
+  const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
+  const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
+  const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
   const [occupation, setOccupation] = useState<Array<any>>([]);
   const [isLoadingOccupation, setIsLoadingOccupation] =
     useState<boolean>(false);
@@ -112,6 +116,10 @@ const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         project_budget: itemData?.project_budget,
         project_check_list: itemData?.project_check_list,
       });
+
+      setIsProjectFinalized(itemData?.roadmap_finalized);
+      setIsProjectReviewed(itemData?.projects_reviewed);
+      setIsProjectApproved(itemData?.projects_approved);
     } else {
       reset(initialValues);
     }
@@ -245,6 +253,51 @@ const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='project_budget'
+            label={messages['project.project_budget']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomCheckbox
+            id='roadmap_finalized'
+            label={messages['project.roadmap_finalized']}
+            register={register}
+            errorInstance={errors}
+            checked={isProjectFinalized}
+            onChange={() => {
+              setIsProjectFinalized((prev) => !prev);
+            }}
+            isLoading={false}
+          />
+          <CustomCheckbox
+            id='projects_reviewed'
+            label={messages['project.projects_reviewed']}
+            register={register}
+            errorInstance={errors}
+            checked={isProjectReviewed}
+            onChange={() => {
+              setIsProjectReviewed((prev) => !prev);
+            }}
+            isLoading={false}
+          />
+          <CustomCheckbox
+            id='projects_approved'
+            label={messages['project.projects_approved']}
+            register={register}
+            errorInstance={errors}
+            checked={isProjectApproved}
+            onChange={() => {
+              setIsProjectApproved((prev) => !prev);
+            }}
+            isLoading={false}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

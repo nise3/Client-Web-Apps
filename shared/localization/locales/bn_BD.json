@@ -1886,5 +1886,9 @@
   "project.name_en": "প্রজেক্ট এর নাম (ইংরেজী)",
   "project.details": "প্রজেক্ট এর বিস্তারিত",
   "project.details_en": "প্রজেক্ট এর বিস্তারিত (ইংরেজী)",
-  "project.start_date": "প্রজেক্ট শুরুর তারিখ"
+  "project.start_date": "প্রজেক্ট শুরুর তারিখ",
+  "project.project_budget": "প্রজেক্ট বাজেট",
+  "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
+  "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
+  "project.projects_approved": "প্রকল্প অনুমোদিত"
 }

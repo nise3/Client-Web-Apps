@@ -8,8 +8,8 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {useFetchBranch} from '../../../services/instituteManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -19,7 +19,7 @@ type Props = {
 
 const ProjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchBranch(itemId);
+  const {data: itemData, isLoading} = useFetch4IRProject(itemId);
 
   return (
     <>
@@ -29,7 +29,7 @@ const ProjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconBranch />
-            <IntlMessages id='branch.label' />
+            <IntlMessages id='4ir_project.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -48,36 +48,64 @@ const ProjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title']}
-              value={itemData?.title}
+              label={messages['project.name']}
+              value={itemData?.project_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.title_en']}
-              value={itemData?.title_en}
+              label={messages['project.name_en']}
+              value={itemData?.project_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['institute.label']}
-              value={itemData?.institute_title_en}
+              label={messages['common.organization_name']}
+              value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.address}
+              label={messages['common.organization_name_en']}
+              value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.google_map_src']}
-              value={itemData?.google_map_src}
+              label={messages['project.details']}
+              value={itemData?.project_details}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['project.details_en']}
+              value={itemData?.project_details_en}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['project.start_date']}
+              value={itemData?.project_start_date}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['menu.occupations']}
+              value={itemData?.occupation_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['project.project_budget']}
+              value={itemData?.project_budget}
               isLoading={isLoading}
             />
           </Grid>
