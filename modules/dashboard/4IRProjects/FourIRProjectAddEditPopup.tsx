@@ -17,7 +17,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {getAllOccupations} from '../../../services/4IRManagement/OccupationService';
+import {getAll4IROccupations} from '../../../services/4IRManagement/OccupationService';
 import {IProject} from '../../../shared/Interface/4IR.interface';
 import {
   createProject,
@@ -45,7 +45,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
+const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -93,7 +93,7 @@ const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     setIsLoadingOccupation(true);
     (async () => {
       try {
-        let response = await getAllOccupations({
+        let response = await getAll4IROccupations({
           row_status: RowStatus.ACTIVE,
         });
 
@@ -310,4 +310,4 @@ const ProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default ProjectAddEditPopup;
+export default FourIRProjectAddEditPopup;

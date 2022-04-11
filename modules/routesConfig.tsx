@@ -669,7 +669,7 @@ const routesConfig: NavItemProps[] = [
         icon: 'person',
         children: [
           {
-            id: '4ir-projects',
+            id: '4ir_projects',
             title: '4IR Projects',
             messageId: '4ir_project.label',
             permissionKey: 'view_any_4ir_project',

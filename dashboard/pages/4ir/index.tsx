@@ -4,8 +4,8 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const _4IRProjectListPage = asyncComponent(
-  () => import('../../../modules/dashboard/4IRProjectList/ProjectListPage'),
+const FourIRProjectListPage = asyncComponent(
+  () => import('../../../modules/dashboard/4IRProjects/FourIRProjectsPage'),
 );
 
 export default DashboardPage(() => {
@@ -13,7 +13,7 @@ export default DashboardPage(() => {
   return (
     <>
       <PageMeta title={messages['4ir_project.label'] as string} />
-      <_4IRProjectListPage />
+      <FourIRProjectListPage />
     </>
   );
 });

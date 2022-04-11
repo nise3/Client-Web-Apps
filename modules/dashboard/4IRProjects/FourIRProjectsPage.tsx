@@ -9,8 +9,8 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import ProjectAddEditPopup from './ProjectAddEditPopup';
-import ProjectDetailsPopup from './ProjectDetailsPopup';
+import FourIRProjectAddEditPopup from './FourIRProjectAddEditPopup';
+import FourIRProjectDetailsPopup from './FourIRProjectDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -22,7 +22,7 @@ import {
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 
-const ProjectListPage = () => {
+const FourIRProjectsPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -160,7 +160,7 @@ const ProjectListPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ProjectAddEditPopup
+          <FourIRProjectAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -169,7 +169,7 @@ const ProjectListPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <ProjectDetailsPopup
+          <FourIRProjectDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -181,4 +181,4 @@ const ProjectListPage = () => {
   );
 };
 
-export default ProjectListPage;
+export default FourIRProjectsPage;

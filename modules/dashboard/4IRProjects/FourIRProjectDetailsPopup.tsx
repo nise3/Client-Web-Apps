@@ -17,7 +17,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const ProjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const FourIRProjectDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetch4IRProject(itemId);
 
@@ -122,4 +126,4 @@ const ProjectDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default ProjectDetailsPopup;
+export default FourIRProjectDetailsPopup;
