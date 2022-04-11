@@ -17,9 +17,9 @@ export const getCDAPLoginUrl = () => {
 
   return (
     CDAP_CONFIG.authUrl +
-    '?response_type=id_token&client_id=' +
+    '?response_type=id_token token&client_id=' +
     CDAP_CONFIG.clientId +
-    '&scope=openid&nonce=13e2312637dg136e1&' +
+    '&scope=openid profile email&nonce=13e2312637dg136e1&' +
     'redirect_uri=' +
     encodeURI(redirectUrl.toString())
   );

@@ -41,6 +41,15 @@ export const createUser = async (data: IUser) => {
   }
 };
 
+export const CDAPUserLogin = async (data: any) => {
+  try {
+    let response: any = await apiPost(API_USERS, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
 export const updateUser = async (userId: number, data: IUser) => {
   try {
     let response: any = await apiPut(API_USERS + '/' + userId, data);

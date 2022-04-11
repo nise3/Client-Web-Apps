@@ -9,16 +9,12 @@ import {setBrowserCookie} from '../../@softbd/libs/cookieInstance';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
 import {loadAuthUser, setAuthAccessTokenData} from './Authentication';
-import {API_CDAP_AUTHORIZE_ID_TOKEN_GRANT} from '../../@softbd/common/apiRoutes';
-import {TOnSSOSignInCallback} from '../../shared/Interface/IAuthentication';
 import axios from 'axios';
-
-type TOnCDAPSignInCallbackIdToken = string;
+import {CDAPUserLogin} from '../../services/userManagement/UserService';
 
 export const onCDAPSignInCallback = (
-  id_token: TOnCDAPSignInCallbackIdToken,
+  callBackInfo: any,
   redirected_from?: string,
-  session_state?: string,
 ) => {
   return async (dispatch: Dispatch<AppActions>) => {
     const redirectUrl = new URL(getHostUrl() + '/callback');
@@ -26,53 +22,53 @@ export const onCDAPSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
-      ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
-      : null;
-
     try {
-      const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
-        API_CDAP_AUTHORIZE_ID_TOKEN_GRANT,
-        {
-          id_token,
-          redirect_uri: redirectUrl.toString(),
-        },
+      const {data: CDAPUserData}: {data: any} = await axios.post(
+        'https://cdap.mygov.bd/api/userinfo',
+        {},
         {
           headers: {
-            apikey: apiKey,
+            Authorization: callBackInfo?.access_token,
           },
         },
       );
 
-      console.log('on CDAP SignInCallback', tokenData);
+      console.log('on CDAP SignInCallback', CDAPUserData);
+
+      /*      const userInfo = await CDAPUserLogin(CDAPUserData);
+      console.log('user info form our api: ', userInfo);*/
 
       let expireDate = new Date();
       expireDate.setTime(
-        new Date().getTime() + Number(tokenData.expires_in) * 1000,
+        new Date().getTime() + Number(callBackInfo?.expires_in) * 1000,
       );
 
-      await setBrowserCookie(COOKIE_KEY_SSO_SESSION_STATE, session_state, {
-        expires: expireDate,
-      });
+      await setBrowserCookie(
+        COOKIE_KEY_SSO_SESSION_STATE,
+        callBackInfo?.session_state,
+        {
+          expires: expireDate,
+        },
+      );
 
       await setBrowserCookie(
         COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
         JSON.stringify({
-          access_token: tokenData.access_token,
-          expires_in: tokenData.expires_in,
-          refresh_token: tokenData.refresh_token,
+          access_token: callBackInfo?.access_token,
+          expires_in: callBackInfo?.expires_in,
+          refresh_token: callBackInfo?.refresh_token,
         }),
         {expires: expireDate},
       );
 
-      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, tokenData.id_token, {
+      await setBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN, callBackInfo?.id_token, {
         expires: expireDate,
       });
 
       //TODO: temporary
-      setDefaultAuthorizationHeader(tokenData?.access_token);
-      await dispatch(setAuthAccessTokenData(tokenData));
-      await loadAuthUser(dispatch, tokenData);
+      setDefaultAuthorizationHeader(callBackInfo?.access_token);
+      await dispatch(setAuthAccessTokenData(callBackInfo));
+      await loadAuthUser(dispatch, callBackInfo);
     } catch (err: any) {
       console.log('onSSOSignInCallback - error!!!!', err);
     }
