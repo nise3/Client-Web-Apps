@@ -81,12 +81,21 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const [courses, setCourses] = useState<Array<any>>([]);
   const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
   const [batches, setBatches] = useState<Array<any>>([]);
+  const [subjectId, setSubjectId] = useState<any>(null);
 
   const [courseId, setCourseId] = useState<any>(null);
   const {
     data: trainingCentersWithBatches,
     isLoading: isTrainingCentersLoading,
   } = useFetchTrainingCentersWithBatches(courseId);
+
+  useEffect(() => {
+    setCourses(coursesData);
+  }, [coursesData]);
+
+  useEffect(() => {
+    setTrainingCenters(trainingCentersWithBatches);
+  }, [trainingCentersWithBatches]);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -101,20 +110,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     register,
     control,
     setError,
+    setValue,
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
-  useEffect(() => {
-    setCourses(coursesData);
-  }, [coursesData]);
-
-  useEffect(() => {
-    setTrainingCenters(trainingCentersWithBatches);
-  }, [trainingCentersWithBatches]);
 
   useEffect(() => {
     if (itemData) {
@@ -135,6 +137,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const onChangeExamType = useCallback((value) => {
     setExamType(String(value));
     console.log('value->', String(value));
+  }, []);
+
+  const onSubjectChange = useCallback((value) => {
+    console.log('value->', String(value));
+    setSubjectId(value);
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
@@ -215,12 +222,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const onChangeTrainingCenter = useCallback(
     (trainingCenterId: any) => {
-      let arr = (trainingCenters || []).filter(
+      let arr = trainingCenters.filter(
         (item: any) => item.id == trainingCenterId,
       );
       setBatches(arr[0]?.batches);
     },
-    [courses],
+    [trainingCenters],
   );
 
   return (
@@ -280,6 +287,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                onChange={onSubjectChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -344,8 +352,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OnlineExam
-                  useFrom={{register, errors, control}}
+                  useFrom={{register, errors, control, setValue}}
                   examType={examType}
+                  subjectId={subjectId}
                 />
               </Grid>
             )}
@@ -354,8 +363,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OffLineExam
-                  useFrom={{register, errors, control}}
+                  useFrom={{register, errors, control, setValue}}
                   examType={examType}
+                  subjectId={subjectId}
                 />
               </Grid>
             )}

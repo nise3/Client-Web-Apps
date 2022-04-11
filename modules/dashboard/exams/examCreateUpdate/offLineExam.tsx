@@ -27,9 +27,10 @@ import {ExamTypes} from '../ExamEnums';
 interface IProps {
   useFrom: any;
   examType: string;
+  subjectId: any;
 }
 
-const OffLineExam = ({useFrom, examType}: IProps) => {
+const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const {messages, formatNumber} = useIntl();
 
   const examSetField = useRef<any>();
@@ -163,10 +164,6 @@ const OffLineExam = ({useFrom, examType}: IProps) => {
                   </InputAdornment>
                 ),
               }}
-              //not ideal way
-              // onKeyDown={(event) => {
-              //   if (event.code == 'Enter') onInput();
-              // }}
             />
           </Grid>
 
@@ -251,6 +248,8 @@ const OffLineExam = ({useFrom, examType}: IProps) => {
                   questionType={questionType}
                   index={i}
                   idPrefix={idPrefix}
+                  subjectId={subjectId}
+                  examSets={examSets}
                 />
               </Grid>
             );
@@ -270,16 +269,6 @@ const OffLineExam = ({useFrom, examType}: IProps) => {
               errorInstance={useFrom.errors}
               multiple={true}
               defaultValue={[]}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={'questions' + '[individual_marks]'}
-              label={messages['common.individual_marks']}
-              type={'number'}
-              register={useFrom.register}
-              errorInstance={useFrom.errors}
-              isLoading={false}
             />
           </Grid>
         </Grid>
