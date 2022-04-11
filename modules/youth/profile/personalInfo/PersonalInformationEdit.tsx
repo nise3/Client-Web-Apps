@@ -441,7 +441,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   const onSubmit: SubmitHandler<YouthPersonalInfo> = async (
     data: YouthPersonalInfo,
   ) => {
-    console.log(data);
     if (data.physical_disability_status == PhysicalDisabilityStatus.NO) {
       delete data.physical_disabilities;
     }

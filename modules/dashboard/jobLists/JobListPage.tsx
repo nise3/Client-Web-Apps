@@ -82,7 +82,7 @@ const JobListPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_lists.label' />}}
+          values={{subject: <IntlMessages id='common.jobs' />}}
         />,
       );
       refreshDataTable();
