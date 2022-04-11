@@ -593,6 +593,7 @@
   "common.company_address": "কোম্পানির ঠিকানা",
   "common.organizationInfoText": "সংস্থার তথ্য",
   "common.organization_name": "সংস্থার নাম",
+  "common.organization_name_en": "সংস্থার নাম (ইংরেজি)",
   "common.instituteInfoText": "প্রতিষ্ঠানের তথ্য",
   "common.userInfoText": "ব্যবহারকারীর তথ্য",
   "common.head_of_office": "অফিসের প্রধান",
@@ -1878,5 +1879,16 @@
   "course.available_training_centers": "এই কোর্সটি নীচের প্রশিক্ষণ কেন্দ্রগুলিতে পাওয়া যাচ্ছে",
   "course.no_training_center_found": "সক্রিয় ব্যাচ সহ কোন প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি",
   "common.goto_admin": "অ্যাডমিন প্যানেল",
-  "common.goto_youth": "ইয়ুথ প্রোফাইল"
+  "common.goto_youth": "ইয়ুথ প্রোফাইল",
+  "4ir_project.label": "4 আই আর প্রজেক্ট",
+  "4ir.label": "4 আই আর",
+  "project.name": "প্রজেক্ট এর নাম",
+  "project.name_en": "প্রজেক্ট এর নাম (ইংরেজী)",
+  "project.details": "প্রজেক্ট এর বিস্তারিত",
+  "project.details_en": "প্রজেক্ট এর বিস্তারিত (ইংরেজী)",
+  "project.start_date": "প্রজেক্ট শুরুর তারিখ",
+  "project.project_budget": "প্রজেক্ট বাজেট",
+  "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
+  "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
+  "project.projects_approved": "প্রকল্প অনুমোদিত"
 }

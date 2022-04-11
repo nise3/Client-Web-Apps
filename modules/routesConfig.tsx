@@ -662,6 +662,24 @@ const routesConfig: NavItemProps[] = [
         ],
       },
       {
+        id: '4ir',
+        title: '4IR',
+        messageId: '4ir.label',
+        type: 'collapse',
+        icon: 'person',
+        children: [
+          {
+            id: '4ir_projects',
+            title: '4IR Projects',
+            messageId: '4ir_project.label',
+            permissionKey: 'view_any_4ir_project',
+            type: 'item',
+            icon: 'work',
+            url: '/4ir',
+          },
+        ],
+      },
+      {
         id: 'cv_bank',
         title: 'CV Bank',
         messageId: 'common.cv_bank',

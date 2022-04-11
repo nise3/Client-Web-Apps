@@ -182,6 +182,12 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 
 /**training center report end*/
 
+/** 4IR service routes section start*/
+export const API_4IR_PROJECTS = INSTITUTE_SERVICE_PATH + '/4ir-projects';
+export const API_4IR_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/4ir-occupations';
+
+/** 4IR service routes section end*/
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
