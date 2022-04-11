@@ -17,13 +17,6 @@ import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import {ExamTypes} from '../ExamEnums';
 
-// const initialValues = {
-//   start_time: '',
-//   end_time: '',
-//   venue: '',
-//   Total_marks: '',
-// };
-
 interface IProps {
   useFrom: any;
   examType: string;
@@ -39,17 +32,6 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
 
   const isMixed = examType == ExamTypes.MIXED;
 
-  // const [isMcqChecked, setIsMcqChecked] = useState<boolean>(false);
-  // const [isFillInBlanksChecked, setIsFillInBlanksChecked] =
-  //   useState<boolean>(false);
-  // const [isYNChecked, setIsYNChecked] = useState<boolean>(false);
-  // const [isPracticalChecked, setIsPracticalChecked] = useState<boolean>(false);
-  // const [isFieldWorkChecked, setIsFieldWorkChecked] = useState<boolean>(false);
-  // const [isPresentationChecked, setIsPresentationChecked] =
-  //   useState<boolean>(false);
-  // const [isDescriptiveChecked, setIsDescriptiveChecked] =
-  //   useState<boolean>(false);
-
   const [questionBankFilters] = useState({});
   const {data: questions, isLoading: isLoadingQuestions} =
     useFetchExamQuestionsBanks(questionBankFilters);
@@ -59,7 +41,6 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
       let arr: any = Array.from(
         Array(Number(examSetField.current.value)).keys(),
       );
-      // let arr = [...'0'.repeat(examSetField.current.value).split('').keys()]; //only for experimental purpose
 
       let array: any = arr.map((item: any, i: any) => {
         return {
@@ -254,23 +235,6 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               </Grid>
             );
           })}
-
-          {/*Exam Section Questions*/}
-          <Grid item xs={6}>
-            <CustomFormSelect
-              required={true}
-              id={'questions' + '[question_id]'}
-              label={messages['common.question']}
-              isLoading={isLoadingQuestions}
-              control={useFrom.control}
-              options={questions}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
-              errorInstance={useFrom.errors}
-              multiple={true}
-              defaultValue={[]}
-            />
-          </Grid>
         </Grid>
       </fieldset>
     </Box>

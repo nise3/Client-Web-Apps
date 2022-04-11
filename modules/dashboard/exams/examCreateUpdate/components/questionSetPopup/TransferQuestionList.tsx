@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
-import {useFetchRPLQuestionBanks} from '../../../../../../services/CertificateAuthorityManagement/hooks';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -19,14 +18,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import RPLQuestionEdit from '../../../../rplAssessmentQuestionSets/RPLQuestionEdit';
 import {useFetchExamQuestionsBanks} from '../../../../../../services/instituteManagement/hooks';
-
-const not = (a: any[], b: any[]) => {
-  return a.filter((value) => b?.indexOf(value) === -1);
-};
-
-const intersection = (checked: any[], questionList: any[]) => {
-  return checked?.filter((value) => questionList?.indexOf(value) !== -1);
-};
+import {intersection, not} from '../../../../../../@softbd/utilities/helpers';
 
 interface IProps {
   onEditPopupOpenClose: (open: boolean) => void;
@@ -53,13 +45,9 @@ const TransferQuestionList = ({
     subject_id: subjectId,
     question_type: questionType,
   });
+
   const {data: questionBank, isLoading: isLoadingQuestions} =
     useFetchExamQuestionsBanks(questionBankFilters);
-
-  const [questionFilter] = useState<any>({});
-
-  const {data: questions, isLoading: isFetchingQuestions} =
-    useFetchRPLQuestionBanks(questionFilter);
 
   useEffect(() => {
     if (questionBank && questionBank?.length > 0) {
@@ -76,18 +64,7 @@ const TransferQuestionList = ({
         setLeftQuestionList(questionBank);
       }
     }
-  }, [questions]);
-
-  useEffect(() => {
-    if (questions && questions.length > 0) {
-      setRightQuestionList(
-        questions.map((question: any) => ({
-          ...question,
-          id: question.id,
-        })),
-      );
-    }
-  }, [questions]);
+  }, [questionBank]);
 
   useEffect(() => {
     getQuestionSet(rightQuestionList);
@@ -226,7 +203,7 @@ const TransferQuestionList = ({
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
         <Grid item xs={5}>
-          {isFetchingQuestions ? (
+          {isLoadingQuestions ? (
             <Skeleton
               variant='rectangular'
               width={'100%'}

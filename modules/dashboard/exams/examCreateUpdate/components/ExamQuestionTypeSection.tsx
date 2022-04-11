@@ -146,9 +146,6 @@ const ExamQuestionTypeSection = ({
             {examSets && examSets.length > 0 ? (
               examSets.map((examSet: any) => (
                 <Grid key={examSet.index} item xs={2}>
-                  {/*<Button onClick={() => openAddQuestionModal()}>*/}
-                  {/*  Add {examSet.index + 1} no. set question*/}
-                  {/*</Button>*/}
                   <AddButton
                     key={1}
                     onClick={() => openAddQuestionModal()}

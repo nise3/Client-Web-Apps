@@ -580,3 +580,11 @@ export const getCalculatedSerialNo = (
 ) => {
   return page && size ? page * size + (index + 1) : index + 1;
 };
+
+export const not = (a: any[], b: any[]) => {
+  return a.filter((value) => b?.indexOf(value) === -1);
+};
+
+export const intersection = (checked: any[], dataList: any[]) => {
+  return checked?.filter((value) => dataList?.indexOf(value) !== -1);
+};

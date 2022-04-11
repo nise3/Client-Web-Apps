@@ -9,12 +9,6 @@ import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 import {ExamTypes} from '../ExamEnums';
 
-// const initialValues = {
-//   start_time: '',
-//   end_time: '',
-//   Total_marks: '',
-// };
-
 interface IProps {
   useFrom: any;
   examType: string;
@@ -102,23 +96,6 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
               </Grid>
             );
           })}
-
-          {/*Exam Section Questions*/}
-          {/*<Grid item xs={6}>*/}
-          {/*  <CustomFormSelect*/}
-          {/*    required={true}*/}
-          {/*    id={'questions' + '[question_id]'}*/}
-          {/*    label={messages['common.question']}*/}
-          {/*    isLoading={isLoadingQuestions}*/}
-          {/*    control={useFrom.control}*/}
-          {/*    options={questions}*/}
-          {/*    optionValueProp={'id'}*/}
-          {/*    optionTitleProp={['title']}*/}
-          {/*    errorInstance={useFrom.errors}*/}
-          {/*    multiple={true}*/}
-          {/*    defaultValue={[]}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
         </Grid>
       </fieldset>
     </Box>
