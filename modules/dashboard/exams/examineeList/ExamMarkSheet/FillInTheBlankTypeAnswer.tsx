@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {Body1} from '../../../../@softbd/elements/common';
+import {Body2} from '../../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import {Fonts} from '../../../../shared/constants/AppEnums';
+import {Fonts} from '../../../../../shared/constants/AppEnums';
 
 const PREFIX = 'FillInTheBlankTypeAnswer';
 
@@ -13,15 +13,12 @@ const classes = {
 
 const StyledGrid = styled(Grid)(() => {
   return {
+    display: 'flex',
     [`& .${classes.inputView}`]: {
       fontWeight: Fonts.MEDIUM,
-      width: '100%',
-      padding: '8px',
-      boxShadow: '0px 0px 3px #ddd',
-      borderRadius: '0.25rem',
-      marginTop: '8px',
-      maxHeight: '150px',
-      overflow: 'auto',
+      padding: '0px 30px',
+      borderBottom: '1px solid',
+      textAlign: 'center',
     },
   };
 });
@@ -34,18 +31,19 @@ const FillInTheBlankTypeAnswer: FC<FillInTheBlankTypeComponentProps> = ({
   let fillInTheBlankItems = question?.title.split(
     /(?=\[\[\]\])|(?<=\[\[\]\])/g,
   );
+  console.log('items', fillInTheBlankItems);
   let index = 0;
   return (
     <StyledGrid>
       {fillInTheBlankItems.map((item: any) => {
         if (item == '[[]]') {
           return (
-            <Body1 className={classes.inputView}>
+            <Body2 className={classes.inputView}>
               {question?.answer[index++]}
-            </Body1>
+            </Body2>
           );
         } else {
-          return <Body1 sx={{whiteSpace: 'pre'}}>{item}</Body1>;
+          return <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>;
         }
       })}
     </StyledGrid>

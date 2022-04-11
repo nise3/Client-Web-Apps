@@ -1,16 +1,17 @@
 import React from 'react';
-import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
+import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
 import {Grid, Paper} from '@mui/material';
-import {Body1} from '../../../../@softbd/elements/common';
+import {Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
+import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
-import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import MCQTypeComponent from './MCQTypeAnswer';
+import DetailsInputView from '../../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import FillInTheBlankTypeAnswer from './FillInTheBlankTypeAnswer';
 import FileViewAnswer from './FileViewAnswer';
 import YesNoTypeAnswer from './YesNoTypeAnswer';
+import MCQTypeAnswer from './MCQTypeAnswer';
+import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -40,7 +41,6 @@ const answerSheet = {
       option_4_en: 'd',
       question_type: 1,
       mark: 1,
-      obtained_mark: 1,
       correct_answer: [3, 4],
       answer: [1, 2],
     },
@@ -75,7 +75,7 @@ const answerSheet = {
     {
       id: 6,
       title: '[[]]am a [[]] engineer [[]] softbd ',
-      title_en: '[[]]am a [[]] engineer  [[]] softbd ',
+      title_en: '[[]] am a [[]] engineer  [[]] softbd ',
       question_type: 2,
       mark: 1,
       obtained_mark: 1,
@@ -124,8 +124,8 @@ const classes = {
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
-const ExamQuestionPaper = () => {
-  const {messages} = useIntl();
+const ExamMarkSheetView = () => {
+  const {messages, formatNumber} = useIntl();
   return (
     <StyledPaper>
       <Grid container spacing={2}>
@@ -136,34 +136,42 @@ const ExamQuestionPaper = () => {
           flexDirection={'column'}
           justifyContent={'center'}
           xs={12}>
-          <Body1>{answerSheet?.examinee_name}</Body1>
-          <Body1>{answerSheet?.exam_title}</Body1>
-          <Body1>
+          <Body2>{answerSheet?.examinee_name}</Body2>
+          <Body2>{answerSheet?.exam_title}</Body2>
+          <Body2>
             {messages['subject.label']}
             {': '}
             {answerSheet?.exam_subject_title}
-          </Body1>
-          <Body1>
+          </Body2>
+          <Body2>
             {messages['common.date']} {': '}
             {answerSheet?.exam_date}
-          </Body1>
-          <Body1>
-            {messages['common.total_obtained_marks']} {': '}
-            {answerSheet?.total_obtained_marks}
-          </Body1>
+          </Body2>
+          <Body2>
+            {messages['common.total_obtained_marks'] +
+              ': ' +
+              getIntlNumber(formatNumber, answerSheet?.total_obtained_marks)}
+          </Body2>
         </Grid>
 
         <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-          <Body1>
+          <Body2>
             {messages['common.duration'] + ': ' + answerSheet?.duration}
-          </Body1>
-          <Body1 sx={{marginLeft: 'auto'}}>
+          </Body2>
+          <Body2>
             {messages['common.total_marks']}
             {': '}
             {answerSheet?.total_marks}
-          </Body1>
+          </Body2>
         </Grid>
         <Grid item xs={12}>
+          <Box sx={{borderBottom: 1}} />
+        </Grid>
+        <Grid item xs={11}></Grid>
+        <Grid item xs={1}>
+          <Body2 sx={{textAlign: 'center'}}>
+            {messages['common.obtained_mark']}
+          </Body2>
           <Box sx={{borderBottom: 1}} />
         </Grid>
         <Grid item xs={12}>
@@ -176,41 +184,42 @@ const ExamQuestionPaper = () => {
                     QuestionType.FILL_IN_THE_BLANK ? (
                       <>
                         <Grid item xs={11} display={'flex'}>
-                          <Body1
-                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                          <Body2 sx={{fontWeight: 'bold'}}>
                             {index + 1 + '.  '}
-                          </Body1>
+                          </Body2>
                           <FillInTheBlankTypeAnswer question={question} />
+                          <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
+                            {'(' + question?.mark + ')'}
+                          </Body2>
                         </Grid>
                         <Grid item xs={1}>
-                          <Body1
-                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                          <Body2
+                            sx={{fontWeight: 'bold', textAlign: 'center    '}}>
                             {question?.obtained_mark}
-                          </Body1>
+                          </Body2>
                         </Grid>
                       </>
                     ) : (
                       <>
-                        <Grid item xs={11}>
-                          <Body1
-                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                        <Grid item xs={11} display={'flex'}>
+                          <Body2 sx={{fontWeight: 'bold'}}>
                             {index + 1 + '.  '}
-                          </Body1>
-                          {question?.title}
-                          <Body1
-                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
+                          </Body2>
+                          <Body2>{question?.title}</Body2>
+                          <Body2 sx={{fontWeight: 'bold'}}>
                             {'(' + question?.mark + ')'}
-                          </Body1>
+                          </Body2>
                         </Grid>
                         <Grid item xs={1}>
-                          <Body1
-                            sx={{fontWeight: 'bold', display: 'inline-block'}}>
-                            {question?.obtained_mark}
-                          </Body1>
+                          <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
+                            {question?.obtained_mark
+                              ? question?.obtained_mark
+                              : messages['exam.none']}
+                          </Body2>
                         </Grid>
                         <Grid item xs={11}>
                           {question?.question_type == QuestionType.MCQ && (
-                            <MCQTypeComponent question={question} />
+                            <MCQTypeAnswer question={question} />
                           )}
                           {question?.question_type == QuestionType.YES_NO && (
                             <YesNoTypeAnswer question={question} />
@@ -247,4 +256,4 @@ const ExamQuestionPaper = () => {
   );
 };
 
-export default ExamQuestionPaper;
+export default ExamMarkSheetView;

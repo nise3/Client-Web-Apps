@@ -5,7 +5,6 @@ interface McqTypeComponentProps {
   question: any;
 }
 const MCQTypeAnswer: FC<McqTypeComponentProps> = ({question}) => {
-  console.log('correct ans:', question?.correct_answer);
   return (
     <>
       {' '}

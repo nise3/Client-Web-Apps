@@ -98,6 +98,7 @@
   "common.status": "অবস্থা",
   "common.all": "সব",
   "common.none": "কোনটিই নয়",
+  "exam.none": "নেই",
   "common.login": "লগইন",
   "common.rememberMe": "মনে রাখুন",
   "common.forgetPassword": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
@@ -1889,7 +1890,6 @@
   "examinee.label": "পরীক্ষার্থী",
   "common.preview": "দেখুন",
   "common.answer_sheet": "উত্তরপত্র",
-  "common.marks_distribution": "নাম্বার বিতরন",
   "common.fill_in_the_blanks": "শূন্যস্থান পূরণ",
   "common.practical": "ব্যবহারিক",
   "common.field_work": "মাঠকর্ম",
@@ -1915,5 +1915,8 @@
   "common.exam_title": "পরীক্ষার টাইটেল",
   "common.examinee_name": "পরীক্ষার্থীর নাম",
   "common.total_obtained_marks": "মোট প্রাপ্ত নম্বর",
-  "common.duration": "সময়কাল"
+  "common.duration": "সময়কাল",
+  "common.show_file": "ফাইল দেখুন",
+  "common.obtained_mark": "প্রাপ্ত নাম্বার",
+  "common.marks_distribution": "নাম্বার বিতরণ"
 }

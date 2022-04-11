@@ -315,6 +315,14 @@ export const routePermissions: any = {
     routePrefix: '/exams/examinee-list',
     permissionKeys: ['view_any_exam'],
   },
+  '/exams/examinee-list/marks-sheet': {
+    routePrefix: '/exams/examinee-list/marks-sheet',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/examinee-list/marking': {
+    routePrefix: '/exams/examinee-list/marking',
+    permissionKeys: ['view_any_exam'],
+  },
   '/create': {
     routePrefix: '/create',
     permissionKeys: ['view_any_exam'], //TODO: this will be change letter
