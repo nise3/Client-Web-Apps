@@ -15,13 +15,11 @@ export default DefaultPage(() => {
       window.location.hash.replace('#', ''),
     );
 
+    console.log('authResult: ', authResult);
+
     if (authResult?.id_token) {
       dispatch(
-        onCDAPSignInCallback(
-          query?.id_token as string,
-          query.redirected_from as string,
-          query.session_state as string,
-        ),
+        onCDAPSignInCallback(authResult, authResult?.redirected_from as string),
       );
     } else if (query && query.code) {
       dispatch(
