@@ -13,6 +13,8 @@ interface IProps {
   questionType: any;
   index: number;
   idPrefix?: any;
+  subjectId?: any;
+  examSets?: any;
 }
 
 const ExamQuestionTypeSection = ({
@@ -20,8 +22,12 @@ const ExamQuestionTypeSection = ({
   questionType,
   index,
   idPrefix,
+  subjectId,
+  examSets,
 }: IProps) => {
   const {messages} = useIntl();
+
+  console.log('examSets->', examSets);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -71,7 +77,6 @@ const ExamQuestionTypeSection = ({
           checked={isChecked}
           onChange={() => {
             setIsChecked((prev) => !prev);
-            console.log('questionType.id->', questionType.id);
             setQuestionTypeId(questionType.id); //todo: question type if for filter questions
           }}
           isLoading={false}
@@ -126,9 +131,19 @@ const ExamQuestionTypeSection = ({
               />
             </Grid>
 
-            <Grid item xs={6}>
-              <Button onClick={() => openAddQuestionModal()}>Add</Button>
-            </Grid>
+            {examSets && examSets.length > 0 ? (
+              examSets.map((examSet: any) => (
+                <Grid key={examSet.index} item xs={6}>
+                  <Button onClick={() => openAddQuestionModal()}>
+                    Add {examSet.index + 1} no. set question
+                  </Button>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={6}>
+                <Button onClick={() => openAddQuestionModal()}>Add</Button>
+              </Grid>
+            )}
           </Grid>
 
           {isOpenAddQuestionModal && (
@@ -137,6 +152,7 @@ const ExamQuestionTypeSection = ({
               onClose={closeAddQuestionModal}
               questionType={questionTypeId}
               useFrom={useFrom}
+              subjectId={subjectId}
             />
           )}
         </Grid>

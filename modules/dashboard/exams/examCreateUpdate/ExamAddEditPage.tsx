@@ -81,6 +81,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const [courses, setCourses] = useState<Array<any>>([]);
   const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
   const [batches, setBatches] = useState<Array<any>>([]);
+  const [subjectId, setSubjectId] = useState<any>(null);
 
   const [courseId, setCourseId] = useState<any>(null);
   const {
@@ -136,6 +137,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const onChangeExamType = useCallback((value) => {
     setExamType(String(value));
     console.log('value->', String(value));
+  }, []);
+
+  const onSubjectChange = useCallback((value) => {
+    console.log('value->', String(value));
+    setSubjectId(value);
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
@@ -281,6 +287,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 optionValueProp={'id'}
                 optionTitleProp={['title']}
                 errorInstance={errors}
+                onChange={onSubjectChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -347,6 +354,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 <OnlineExam
                   useFrom={{register, errors, control, setValue}}
                   examType={examType}
+                  subjectId={subjectId}
                 />
               </Grid>
             )}
@@ -355,8 +363,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OffLineExam
-                  useFrom={{register, errors, control}}
+                  useFrom={{register, errors, control, setValue}}
                   examType={examType}
+                  subjectId={subjectId}
                 />
               </Grid>
             )}

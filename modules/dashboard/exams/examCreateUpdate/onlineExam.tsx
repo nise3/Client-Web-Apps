@@ -1,10 +1,8 @@
 import Grid from '@mui/material/Grid';
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {Body1} from '../../../../@softbd/elements/common';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
@@ -20,16 +18,13 @@ import {ExamTypes} from '../ExamEnums';
 interface IProps {
   useFrom: any;
   examType: string;
+  subjectId: any;
 }
 
-const OnlineExam = ({useFrom, examType}: IProps) => {
+const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
   const {messages} = useIntl();
 
   const isMixed = examType == ExamTypes.MIXED;
-
-  const [questionBankFilters] = useState({});
-  const {data: questions, isLoading: isLoadingQuestions} =
-    useFetchExamQuestionsBanks(questionBankFilters);
 
   const questionTypes = useMemo(
     () => [
@@ -102,27 +97,28 @@ const OnlineExam = ({useFrom, examType}: IProps) => {
                   questionType={questionType}
                   index={i}
                   idPrefix={idPrefix}
+                  subjectId={subjectId}
                 />
               </Grid>
             );
           })}
 
           {/*Exam Section Questions*/}
-          <Grid item xs={6}>
-            <CustomFormSelect
-              required={true}
-              id={'questions' + '[question_id]'}
-              label={messages['common.question']}
-              isLoading={isLoadingQuestions}
-              control={useFrom.control}
-              options={questions}
-              optionValueProp={'id'}
-              optionTitleProp={['title']}
-              errorInstance={useFrom.errors}
-              multiple={true}
-              defaultValue={[]}
-            />
-          </Grid>
+          {/*<Grid item xs={6}>*/}
+          {/*  <CustomFormSelect*/}
+          {/*    required={true}*/}
+          {/*    id={'questions' + '[question_id]'}*/}
+          {/*    label={messages['common.question']}*/}
+          {/*    isLoading={isLoadingQuestions}*/}
+          {/*    control={useFrom.control}*/}
+          {/*    options={questions}*/}
+          {/*    optionValueProp={'id'}*/}
+          {/*    optionTitleProp={['title']}*/}
+          {/*    errorInstance={useFrom.errors}*/}
+          {/*    multiple={true}*/}
+          {/*    defaultValue={[]}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6}>
             <CustomTextInput
               id={'questions' + '[individual_marks]'}

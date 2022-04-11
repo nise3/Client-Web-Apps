@@ -1,11 +1,6 @@
-import {useIntl} from 'react-intl';
-import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import * as React from 'react';
-import {
-  useFetchRPLAssessmentQuestions,
-  useFetchRPLQuestionBanks,
-  useFetchRPLSubjects,
-} from '../../../../../../services/CertificateAuthorityManagement/hooks';
+import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {useFetchRPLQuestionBanks} from '../../../../../../services/CertificateAuthorityManagement/hooks';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -21,9 +16,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Edit} from '@mui/icons-material';
 import Grid from '@mui/material/Grid';
-import CustomFilterableSelect from '../../../../../youth/training/components/CustomFilterableSelect';
 import Button from '@mui/material/Button';
 import RPLQuestionEdit from '../../../../rplAssessmentQuestionSets/RPLQuestionEdit';
+import {useFetchExamQuestionsBanks} from '../../../../../../services/instituteManagement/hooks';
 
 const not = (a: any[], b: any[]) => {
   return a.filter((value) => b?.indexOf(value) === -1);
@@ -37,13 +32,16 @@ interface IProps {
   onEditPopupOpenClose: (open: boolean) => void;
   useFrom?: any;
   getQuestionSet: any;
+  subjectId: any;
+  questionType: any;
 }
 
 const TransferQuestionList = ({
   getQuestionSet,
   onEditPopupOpenClose,
+  subjectId,
+  questionType,
 }: IProps) => {
-  const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
   >(false);
@@ -51,19 +49,14 @@ const TransferQuestionList = ({
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
   const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([]);
 
-  const [subjectId, setSubjectId] = useState<any>(null);
-  const [subjectFilters] = useState({});
-  const {data: subjects, isLoading: isFetchingSubjects} =
-    useFetchRPLSubjects(subjectFilters);
-
-  const [assessmentQuestionFilter] = useState({
-    assessment_question_set_id: 1,
+  const [questionBankFilters] = useState({
+    subject_id: subjectId,
+    question_type: questionType,
   });
-  const {data: assessmentQuestions, isLoading} = useFetchRPLAssessmentQuestions(
-    assessmentQuestionFilter,
-  );
+  const {data: questionBank, isLoading: isLoadingQuestions} =
+    useFetchExamQuestionsBanks(questionBankFilters);
 
-  const [questionFilter, setQuestionFilter] = useState<any>(null);
+  const [questionFilter] = useState<any>({});
 
   const {data: questions, isLoading: isFetchingQuestions} =
     useFetchRPLQuestionBanks(questionFilter);
@@ -86,15 +79,15 @@ const TransferQuestionList = ({
   }, [questions]);
 
   useEffect(() => {
-    if (assessmentQuestions && assessmentQuestions.length > 0) {
+    if (questionBank && questionBank.length > 0) {
       setRightQuestionList(
-        assessmentQuestions.map((question: any) => ({
+        questionBank.map((question: any) => ({
           ...question,
-          id: question.question_id,
+          id: question.id,
         })),
       );
     }
-  }, [assessmentQuestions]);
+  }, [questionBank]);
 
   useEffect(() => {
     getQuestionSet(rightQuestionList);
@@ -104,15 +97,6 @@ const TransferQuestionList = ({
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
-
-  const handleSubjectChange = (subjectId: any) => {
-    setSubjectId(subjectId ? subjectId : null);
-    if (subjectId) {
-      setQuestionFilter({
-        subject_id: subjectId,
-      });
-    }
-  };
 
   const leftChecked = intersection(checked, leftQuestionList);
   const rightChecked = intersection(checked, rightQuestionList);
@@ -241,18 +225,6 @@ const TransferQuestionList = ({
   return (
     <React.Fragment>
       <Grid container spacing={2} justifyContent='center'>
-        <Grid item xs={12}>
-          <CustomFilterableSelect
-            id={'subject_id'}
-            label={messages['subject.select_first']}
-            isLoading={isFetchingSubjects}
-            defaultValue={subjectId}
-            options={subjects}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            onChange={handleSubjectChange}
-          />
-        </Grid>
         <Grid item xs={5}>
           {isFetchingQuestions ? (
             <Skeleton
@@ -306,7 +278,7 @@ const TransferQuestionList = ({
           </Grid>
         </Grid>
         <Grid item xs={5}>
-          {isLoading ? (
+          {isLoadingQuestions ? (
             <Skeleton
               variant='rectangular'
               width={'100%'}

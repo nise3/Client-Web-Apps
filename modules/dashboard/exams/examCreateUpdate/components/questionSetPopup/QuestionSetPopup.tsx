@@ -11,11 +11,19 @@ interface IProps {
   questionType: any;
   onClose: () => void;
   useFrom: any;
+  subjectId: any;
 }
 
-const QuestionSetPopup = ({questionType, useFrom, ...props}: IProps) => {
+const QuestionSetPopup = ({
+  questionType,
+  useFrom,
+  subjectId,
+  ...props
+}: IProps) => {
   const [isQuestionEditFormOpened, setIsQuestionEditFormOpened] =
     useState<boolean>(false);
+
+  console.log('isQuesiotn->', isQuestionEditFormOpened); //todo: this is for removing error
 
   const onEditPopupOpenClose = (open: boolean) => {
     setIsQuestionEditFormOpened(open);
@@ -77,6 +85,8 @@ const QuestionSetPopup = ({questionType, useFrom, ...props}: IProps) => {
             getQuestionSet={getQuestionSet}
             onEditPopupOpenClose={onEditPopupOpenClose}
             useFrom={useFrom}
+            subjectId={subjectId}
+            questionType={questionType}
           />
         </Grid>
         <Grid item xs={12}>
