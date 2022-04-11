@@ -62,9 +62,9 @@ const TransferQuestionList = ({
     useFetchRPLQuestionBanks(questionFilter);
 
   useEffect(() => {
-    if (questions && questions?.length > 0) {
+    if (questionBank && questionBank?.length > 0) {
       if (rightQuestionList?.length > 0) {
-        const filteredQuestions = questions?.filter((ques: any) =>
+        const filteredQuestions = questionBank?.filter((ques: any) =>
           rightQuestionList?.every(
             (rightSideQuestion: any) =>
               rightSideQuestion?.question_id !== ques?.id,
@@ -73,21 +73,21 @@ const TransferQuestionList = ({
 
         setLeftQuestionList(filteredQuestions);
       } else {
-        setLeftQuestionList(questions);
+        setLeftQuestionList(questionBank);
       }
     }
   }, [questions]);
 
   useEffect(() => {
-    if (questionBank && questionBank.length > 0) {
+    if (questions && questions.length > 0) {
       setRightQuestionList(
-        questionBank.map((question: any) => ({
+        questions.map((question: any) => ({
           ...question,
           id: question.id,
         })),
       );
     }
-  }, [questionBank]);
+  }, [questions]);
 
   useEffect(() => {
     getQuestionSet(rightQuestionList);

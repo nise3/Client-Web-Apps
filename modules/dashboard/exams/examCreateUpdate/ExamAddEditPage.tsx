@@ -89,6 +89,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     isLoading: isTrainingCentersLoading,
   } = useFetchTrainingCentersWithBatches(courseId);
 
+  useEffect(() => {
+    setCourses(coursesData);
+  }, [coursesData]);
+
+  useEffect(() => {
+    setTrainingCenters(trainingCentersWithBatches);
+  }, [trainingCentersWithBatches]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
@@ -109,14 +117,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
-
-  useEffect(() => {
-    setCourses(coursesData);
-  }, [coursesData]);
-
-  useEffect(() => {
-    setTrainingCenters(trainingCentersWithBatches);
-  }, [trainingCentersWithBatches]);
 
   useEffect(() => {
     if (itemData) {
@@ -222,12 +222,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const onChangeTrainingCenter = useCallback(
     (trainingCenterId: any) => {
-      let arr = (trainingCenters || []).filter(
+      let arr = trainingCenters.filter(
         (item: any) => item.id == trainingCenterId,
       );
       setBatches(arr[0]?.batches);
     },
-    [courses],
+    [trainingCenters],
   );
 
   return (

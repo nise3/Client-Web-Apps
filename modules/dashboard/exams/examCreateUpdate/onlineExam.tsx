@@ -119,16 +119,6 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
           {/*    defaultValue={[]}*/}
           {/*  />*/}
           {/*</Grid>*/}
-          <Grid item xs={6}>
-            <CustomTextInput
-              id={'questions' + '[individual_marks]'}
-              label={messages['common.individual_marks']}
-              type={'number'}
-              register={useFrom.register}
-              errorInstance={useFrom.errors}
-              isLoading={false}
-            />
-          </Grid>
         </Grid>
       </fieldset>
     </Box>
