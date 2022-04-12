@@ -10,7 +10,7 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ExamAddEditPage from './examCreateUpdate/ExamAddEditPage';
-import ExamDetailsPopup from './ExamDetailsPopup';
+import ExamDetailsPopup from './examDetails/ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
 import {Link} from '../../../@softbd/elements/common';
 import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
@@ -40,7 +40,8 @@ const ExamPage = () => {
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
+      // setSelectedItemId(itemId);
+      setSelectedItemId(6); //todo : for mock purpose
     },
     [selectedItemId],
   );
@@ -125,6 +126,7 @@ const ExamPage = () => {
           </>
         }
         extra={[
+          <ReadButton key={8} onClick={() => openDetailsModal(data.id)} />,
           <Link key={1} href={'/exams/create'}>
             <AddButton
               onClick={() => {}}
@@ -157,7 +159,7 @@ const ExamPage = () => {
         />
         {isOpenAddEditModal && (
           <ExamAddEditPage
-            key={1}
+            key={3}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -166,7 +168,7 @@ const ExamPage = () => {
 
         {isOpenDetailsModal && selectedItemId && (
           <ExamDetailsPopup
-            key={1}
+            key={4}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

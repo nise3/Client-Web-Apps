@@ -200,8 +200,8 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         label: messages['common.online'],
       },
       {
-        id: ExamTypes.OFF_ONLINE,
-        label: messages['common.off_online'],
+        id: ExamTypes.OFFLINE,
+        label: messages['common.offline'],
       },
       {
         id: ExamTypes.MIXED,
@@ -359,8 +359,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               </Grid>
             )}
 
-            {(examType == ExamTypes.OFF_ONLINE ||
-              examType == ExamTypes.MIXED) && (
+            {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OffLineExam
                   useFrom={{register, errors, control, setValue}}

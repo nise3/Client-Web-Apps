@@ -1894,7 +1894,7 @@
   "common.presentation": "Presentation",
   "common.descriptive": "Descriptive",
   "common.online": "Online",
-  "common.off_online": "Offline",
+  "common.offline": "Offline",
   "common.exam_type": "Exam Type",
   "common.exam_purpose": "Purpose",
   "common.total_marks": "Total marks",

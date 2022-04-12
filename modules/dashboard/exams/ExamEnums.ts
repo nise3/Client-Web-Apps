@@ -1,6 +1,6 @@
 export enum ExamTypes {
   ONLINE = '1',
-  OFF_ONLINE = '2',
+  OFFLINE = '2',
   MIXED = '3',
 }
 
