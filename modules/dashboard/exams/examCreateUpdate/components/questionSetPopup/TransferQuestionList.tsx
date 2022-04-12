@@ -1,24 +1,17 @@
 import * as React from 'react';
-import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Skeleton,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {Edit} from '@mui/icons-material';
+import {Box, Skeleton, Typography} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import RPLQuestionEdit from '../../../../rplAssessmentQuestionSets/RPLQuestionEdit';
 import {useFetchExamQuestionsBanks} from '../../../../../../services/instituteManagement/hooks';
 import {intersection, not} from '../../../../../../@softbd/utilities/helpers';
+import {Edit} from '@mui/icons-material';
+import QuestionEditPopup from './QuestionEditPopup';
 
 interface IProps {
   onEditPopupOpenClose: (open: boolean) => void;
@@ -34,9 +27,6 @@ const TransferQuestionList = ({
   subjectId,
   questionType,
 }: IProps) => {
-  const [accordionExpandedState, setAccordionExpandedState] = useState<
-    string | false
-  >(false);
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
   const [rightQuestionList, setRightQuestionList] = React.useState<any[]>([]);
@@ -69,11 +59,6 @@ const TransferQuestionList = ({
   useEffect(() => {
     getQuestionSet(rightQuestionList);
   }, [rightQuestionList]);
-
-  const handleAccordionExpandedChange =
-    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
-      setAccordionExpandedState(isExpanded ? panel : false);
-    };
 
   const leftChecked = intersection(checked, leftQuestionList);
   const rightChecked = intersection(checked, rightQuestionList);
@@ -149,11 +134,14 @@ const TransferQuestionList = ({
   const customList = (questions: any[], isRightQuestions = false) => (
     <Paper sx={{width: '100%', overflow: 'auto', height: '100%'}}>
       <List dense component='div' role='list'>
-        {questions?.map((value: any) => {
+        {questions?.map((value: any, index) => {
           const labelId = `transfer-list-item-${value?.id}-label`;
 
           return (
-            <ListItem key={value?.id} role='listitem'>
+            <ListItem
+              key={value?.id}
+              role='listitem'
+              sx={index != 0 ? {borderBottom: '1px solid #bdb7b7'} : {}}>
               <ListItemIcon>
                 <Checkbox
                   checked={checked?.some((item) => item?.id === value?.id)}
@@ -165,32 +153,19 @@ const TransferQuestionList = ({
                   onClick={handleToggle(value)}
                 />
               </ListItemIcon>
-              <Accordion
-                sx={{width: '100%'}}
-                expanded={accordionExpandedState === value}
-                onChange={handleAccordionExpandedChange(value)}
-                key={value}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls='panel2a-content'
-                  id='panel2a-header'
-                  sx={{justifyContent: 'space-between'}}>
-                  <Typography sx={{width: '90%'}}>{value?.title}</Typography>
-                  {isRightQuestions && (
-                    <Edit
-                      sx={{
-                        alignSelf: 'center',
-                        position: 'absolute',
-                        right: '45px',
-                      }}
-                      onClick={() => handleEditQuestion(value?.id)}
-                    />
-                  )}
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>{value?.answer}</Typography>
-                </AccordionDetails>
-              </Accordion>
+              <Box display={'flex'} alignItems={'center'}>
+                <Typography sx={{width: '90%'}}>{value?.title}</Typography>
+                {isRightQuestions && (
+                  <Edit
+                    sx={{
+                      marginLeft: '10px',
+                      fontSize: '1.3rem',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleEditQuestion(value?.id)}
+                  />
+                )}
+              </Box>
             </ListItem>
           );
         })}
@@ -268,7 +243,7 @@ const TransferQuestionList = ({
         </Grid>
       </Grid>
       {isOpenEditForm && (
-        <RPLQuestionEdit
+        <QuestionEditPopup
           itemData={editableQuestion}
           onClose={handleCloseQuestionEdit}
           getEditedQuestion={getEditedQuestion}
