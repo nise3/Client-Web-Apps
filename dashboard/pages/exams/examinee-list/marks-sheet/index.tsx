@@ -4,7 +4,7 @@ import DashboardPage from '../../../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const AnsweredQuestionPaper = asyncComponent(
+const ExamMarkSheetPage = asyncComponent(
   () =>
     import(
       '../../../../../modules/dashboard/exams/examineeList/ExamMarkSheet/ExamMarkSheetView'
@@ -14,8 +14,8 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['exam.label'] as string} />
-      <AnsweredQuestionPaper />
+      <PageMeta title={messages['common.answer_sheet'] as string} />
+      <ExamMarkSheetPage />
     </>
   );
 });

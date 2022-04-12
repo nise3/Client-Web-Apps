@@ -66,6 +66,37 @@ export const religions = [
   },
 ];
 
+export const question_type = [
+  {
+    id: 1,
+    label: 'MCQ',
+  },
+  {
+    id: 2,
+    label: 'Fill in the blank',
+  },
+  {
+    id: 3,
+    label: 'YES/NO',
+  },
+  {
+    id: 4,
+    label: 'Practical',
+  },
+  {
+    id: 5,
+    label: 'Field Work',
+  },
+  {
+    id: 6,
+    label: 'Presentation',
+  },
+  {
+    id: 7,
+    label: 'Descriptive',
+  },
+];
+
 export const catchBlockHandler = (error: any, message = '') => {
   throw error;
 };

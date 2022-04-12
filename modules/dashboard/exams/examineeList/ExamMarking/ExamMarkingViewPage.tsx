@@ -1,18 +1,10 @@
-import React from 'react';
-import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
-import {Button, Grid, InputAdornment, Paper, TextField} from '@mui/material';
+import React, {useEffect} from 'react';
+import {Button, Grid, Paper} from '@mui/material';
 import {Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
-import DetailsInputView from '../../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import FillInTheBlankTypeAnswer from '../ExamMarkSheet/FillInTheBlankTypeAnswer';
-import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
-import YesNoTypeAnswer from '../ExamMarkSheet/YesNoTypeAnswer';
-import MCQTypeAnswer from '../ExamMarkSheet/MCQTypeAnswer';
-import FileViewAnswer from '../ExamMarkSheet/FileViewAnswer';
-import EditIcon from '@mui/icons-material/Edit';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 
 /*
 interface ExamQuestionListProps {
@@ -31,7 +23,7 @@ const answerSheet = {
     {
       id: 1,
       title:
-        'What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name ddddddddddd?',
+        'What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name ?',
       title_en: 'What is your name?',
       option_1: 'a',
       option_1_en: 'a',
@@ -74,6 +66,10 @@ const answerSheet = {
       mark: 1,
       obtained_mark: 1,
       answer: '/images/dummy2.jpg',
+      marks: {
+        mark: 1,
+        question_id: 5,
+      },
     },
     {
       id: 6,
@@ -91,8 +87,12 @@ const answerSheet = {
       question_type: 7,
       mark: 1,
       obtained_mark: 1,
-      answer:
-        'A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as',
+      marks: {
+        mark: 1,
+        question_id: 5,
+      },
+      /* answer:
+        'A profession is a disciplined group of individuals who adhere to ethical standards and who vcvxvvxcvx .profession has been further defined as A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as',*/
     },
     {
       id: 8,
@@ -128,8 +128,45 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
 const ExamMarkingViewPage = () => {
-  const {register} = useForm<any>();
   const {messages} = useIntl();
+  /*  const {updateSuccessMessage} = useSuccessMessage();*/
+
+  const {
+    reset,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm<any>();
+
+  useEffect(() => {
+    let data: any = {};
+    if (answerSheet) {
+      const questionsData = answerSheet?.questions;
+      if (questionsData) {
+        questionsData.map((item: any, index: any) => {
+          if (item?.marks) {
+            console.log('item', item.marks);
+            data['marks[' + index + '][mark]'] = item?.mark;
+            data['marks[' + index + '][question_id]'] = item?.question_id;
+          }
+        });
+      }
+      console.log('data dd', data);
+      reset(data);
+    }
+  }, [answerSheet]);
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data submit', data);
+    try {
+      /*     await updateExamMarks(itemId, data);
+      updateSuccessMessage('common.marks_distribution');*/
+      // mutateExamMark();
+      /*props.onClose();
+      refreshDataTable();*/
+    } catch (error: any) {
+      /*   processServerSideErrors({error, setError, validationSchema, errorStack});*/
+    }
+  };
   return (
     <StyledPaper>
       <Grid container spacing={2}>
@@ -176,111 +213,123 @@ const ExamMarkingViewPage = () => {
           <Box sx={{borderBottom: 1}} />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={2}>
-            {answerSheet && answerSheet?.questions.length ? (
-              answerSheet?.questions.map((question: any, index: number) => {
-                return (
-                  <React.Fragment key={question?.id}>
-                    {question?.question_type ==
-                    QuestionType.FILL_IN_THE_BLANK ? (
-                      <>
-                        <Grid item xs={10} display={'flex'}>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {index + 1 + '.  '}
-                          </Body2>
-                          <FillInTheBlankTypeAnswer question={question} />
-                          <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
-                            {'(' + question?.mark + ')'}
-                          </Body2>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Body2
-                            sx={{fontWeight: 'bold', textAlign: 'center    '}}>
-                            {question?.obtained_mark}
-                          </Body2>
-                        </Grid>
-                      </>
-                    ) : (
-                      <>
-                        <Grid item xs={10} display={'flex'}>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {index + 1 + '.  '}
-                          </Body2>
-                          <Body2>{question?.title}</Body2>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {'(' + question?.mark + ')'}
-                          </Body2>
-                        </Grid>
-                        <Grid item xs={2}>
-                          {question?.question_type == QuestionType.MCQ ||
-                          question?.question_type == QuestionType.YES_NO ? (
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+            <Grid container spacing={2}>
+              {/*  {answerSheet && answerSheet?.questions.length ? (
+                answerSheet?.questions.map((question: any, index: number) => {
+                  return (
+                    <React.Fragment key={question?.id}>
+                      {question?.question_type ==
+                      QuestionType.FILL_IN_THE_BLANK ? (
+                        <>
+                          <Grid item xs={10} display={'flex'}>
+                            <Body2 sx={{fontWeight: 'bold'}}>
+                              {index + 1 + '.  '}
+                            </Body2>
+                            <FillInTheBlankTypeView section={question} />
+                            <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
+                              {'(' + question?.mark + ')'}
+                            </Body2>
+                          </Grid>
+                          <Grid item xs={2}>
                             <Body2
-                              sx={{fontWeight: 'bold', textAlign: 'center'}}>
+                              sx={{
+                                fontWeight: 'bold',
+                                textAlign: 'center    ',
+                              }}>
                               {question?.obtained_mark}
                             </Body2>
-                          ) : (
-                            <>
-                              <TextField
-                                id={'marks[' + index + '][mark]'}
-                                label='Mark'
-                                size='small'
-                                sx={{width: '100px'}}
-                                InputProps={{
-                                  endAdornment: (
-                                    <InputAdornment position='end'>
-                                      <EditIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
+                          </Grid>
+                        </>
+                      ) : (
+                        <>
+                          <Grid item xs={10} display={'flex'}>
+                            <Body2 sx={{fontWeight: 'bold'}}>
+                              {index + 1 + '.  '}
+                            </Body2>
+                            <Body2>{question?.title}</Body2>
+                            <Body2 sx={{fontWeight: 'bold'}}>
+                              {'(' + question?.mark + ')'}
+                            </Body2>
+                          </Grid>
+                          <Grid item xs={2}>
+                            {question?.question_type == QuestionType.MCQ ||
+                            question?.question_type == QuestionType.YES_NO ? (
+                              <Body2
+                                sx={{fontWeight: 'bold', textAlign: 'center'}}>
+                                {question?.obtained_mark}
+                              </Body2>
+                            ) : (
+                              <>
+                                <TextField
+                                  id={'marks[' + index + '][mark]'}
+                                  label='Mark'
+                                  type={'number'}
+                                  size='small'
+                                  sx={{width: '100px'}}
+                                  {...register('marks[' + index + '][mark]')}
+                                  InputProps={{
+                                    endAdornment: (
+                                      <InputAdornment position='end'>
+                                        <EditIcon />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                                <TextField
+                                  id={'marks[' + index + '][question_id]'}
+                                  type={'hidden'}
+                                  {...register(
+                                    'answers[' + index + '][question_id]',
+                                  )}
+                                  defaultValue={question?.question_id}
+                                  sx={{display: 'none'}}
+                                />
+                              </>
+                            )}
+                          </Grid>
+                          <Grid item xs={10}>
+                            {question?.question_type == QuestionType.MCQ && (
+                              <MCQTypeView question={question} />
+                            )}
+                            {question?.question_type == QuestionType.YES_NO && (
+                              <YesNoTypeView question={question} />
+                            )}
+                            {(question?.question_type ==
+                              QuestionType.PRESENTATION ||
+                              question?.question_type ==
+                                QuestionType.FIELD_WORK ||
+                              question?.question_type ==
+                                QuestionType.PRACTICAL) && (
+                              <FileView question={question} />
+                            )}
+                            {question?.question_type ==
+                              QuestionType.DESCRIPTIVE && (
+                              <DetailsInputView
+                                label={messages['common.answer']}
+                                value={question?.answer}
+                                isLoading={false}
                               />
-                              <TextField
-                                id={'marks[' + index + '][question_id]'}
-                                type={'hidden'}
-                                {...register(
-                                  'answers[' + index + '][question_id]',
-                                )}
-                                defaultValue={question?.question_id}
-                                sx={{display: 'none'}}
-                              />
-                            </>
-                          )}
-                        </Grid>
-                        <Grid item xs={10}>
-                          {question?.question_type == QuestionType.MCQ && (
-                            <MCQTypeAnswer question={question} />
-                          )}
-                          {question?.question_type == QuestionType.YES_NO && (
-                            <YesNoTypeAnswer question={question} />
-                          )}
-                          {(question?.question_type ==
-                            QuestionType.PRESENTATION ||
-                            question?.question_type ==
-                              QuestionType.FIELD_WORK ||
-                            question?.question_type ==
-                              QuestionType.PRACTICAL) && (
-                            <FileViewAnswer question={question} />
-                          )}
-                          {question?.question_type ==
-                            QuestionType.DESCRIPTIVE && (
-                            <DetailsInputView
-                              label={messages['common.answer']}
-                              value={question?.answer}
-                              isLoading={false}
-                            />
-                          )}
-                        </Grid>
-                      </>
-                    )}
-                  </React.Fragment>
-                );
-              })
-            ) : (
-              <NoDataFoundComponent />
-            )}
-          </Grid>
-        </Grid>
-        <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
-          <Button variant={'contained'}>{messages['common.submit']}</Button>
+                            )}
+                          </Grid>
+                        </>
+                      )}
+                    </React.Fragment>
+                  );
+                })
+              ) : (
+                <NoDataFoundComponent />
+              )}*/}
+              <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+                <Button
+                  variant={'contained'}
+                  disabled={isSubmitting}
+                  type={'submit'}>
+                  {messages['common.submit']}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
       </Grid>
     </StyledPaper>
