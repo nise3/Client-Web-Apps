@@ -263,34 +263,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <CustomFormSelect
-                required
-                id={'type'}
-                label={messages['common.exam_type']}
-                isLoading={false}
-                control={control}
-                options={examTypes}
-                optionValueProp={'id'}
-                optionTitleProp={['label']}
-                errorInstance={errors}
-                onChange={onChangeExamType}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomFilterableFormSelect
-                required
-                id={'subject_id'}
-                label={messages['subject.label']}
-                isLoading={isLoadingSubjects}
-                control={control}
-                options={subjects}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-                onChange={onSubjectChange}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
                 id='title'
@@ -307,6 +279,20 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomFilterableFormSelect
+                required
+                id={'subject_id'}
+                label={messages['subject.label']}
+                isLoading={isLoadingSubjects}
+                control={control}
+                options={subjects}
+                optionValueProp={'id'}
+                optionTitleProp={['title']}
+                errorInstance={errors}
+                onChange={onSubjectChange}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -348,16 +334,31 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 errorInstance={errors}
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomFormSelect
+                required
+                id={'type'}
+                label={messages['common.exam_type']}
+                isLoading={false}
+                control={control}
+                options={examTypes}
+                optionValueProp={'id'}
+                optionTitleProp={['label']}
+                errorInstance={errors}
+                onChange={onChangeExamType}
+              />
+            </Grid>
 
-            {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) && (
-              <Grid item xs={12}>
-                <OnlineExam
-                  useFrom={{register, errors, control, setValue}}
-                  examType={examType}
-                  subjectId={subjectId}
-                />
-              </Grid>
-            )}
+            {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) &&
+              subjectId && (
+                <Grid item xs={12}>
+                  <OnlineExam
+                    useFrom={{register, errors, control, setValue}}
+                    examType={examType}
+                    subjectId={subjectId}
+                  />
+                </Grid>
+              )}
 
             {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>

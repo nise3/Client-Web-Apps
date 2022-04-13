@@ -67,6 +67,10 @@ const ExamQuestionTypeSection = ({
     setQuestionTypeId('');
   }, []);
 
+  const onQuestionsSubmitted = (questions: any) => {
+    console.log('questions', questions);
+  };
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={3}>
@@ -184,8 +188,8 @@ const ExamQuestionTypeSection = ({
               key={1}
               onClose={closeAddQuestionModal}
               questionType={questionTypeId}
-              useFrom={useFrom}
               subjectId={subjectId}
+              onQuestionsSubmitted={onQuestionsSubmitted}
             />
           )}
         </Grid>
