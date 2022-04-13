@@ -78,7 +78,7 @@ export const cookieDomain = () => {
 export const gotoLoginSignUpPage = (path: string) => {
   const params =
     typeof window !== 'undefined'
-      ? 'redirected_from=' + window.location.href
+      ? 'redirected_from=' + window?.location?.href
       : '';
 
   const niseUrl = new URL(niseDomain());

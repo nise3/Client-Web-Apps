@@ -88,6 +88,7 @@ export const API_PERMISSION_SUB_GROUPS =
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
+export const API_YOUTH_EXIST_CHECK = YOUTH_SERVICE_PATH + '/youth-exist-check';
 export const PROFILE_UPDATE = '/profile-update';
 export const UPDATE_PASSWORD = '/password-update';
 
@@ -221,6 +222,8 @@ export const API_YOUTHS = YOUTH_SERVICE_PATH + '/youths';
 
 export const API_YOUTH_REGISTRATION =
   YOUTH_SERVICE_PATH + '/youth-registration';
+export const API_YOUTH_REGISTRATION_CDAP =
+  YOUTH_SERVICE_PATH + '/cdap-youth-create';
 export const API_YOUTH_REGISTRATION_VERIFICATION =
   YOUTH_SERVICE_PATH + '/youth-profile-verification';
 export const API_SEND_YOUTH_REGISTRATION_VERIFICATION_CODE =
