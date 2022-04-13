@@ -1896,5 +1896,11 @@
   "project.project_budget": "প্রজেক্ট বাজেট",
   "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
   "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
-  "project.projects_approved": "প্রকল্প অনুমোদিত"
+  "project.projects_approved": "প্রকল্প অনুমোদিত",
+  "4ir_cell.label": "4 আই আর সেল",
+  "4ir_cs.label": "4 আই আর কমপ্লিটেন্সি স্ট্যান্ডার্ড",
+  "4ir_cs.experts_list": "এক্সপার্টস লিস্ট",
+  "4ir_cs.approved_by":  "অনুমোদনকারী",
+  "4ir_cs.organization_name":  "ডেভেলপার প্রতিষ্ঠানের নাম",
+  "4ir_cs.supported_by":  "সহায়তায়"
 }

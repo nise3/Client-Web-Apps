@@ -4,9 +4,7 @@ import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const FourIRProjectListPage = asyncComponent(
-  () => import('../../../modules/dashboard/4IRTNAReport/FourIRTNAReportPage'),
-);
+const FourIRProjectListPage = asyncComponent(() => import('../../../modules/dashboard/4IRCS/FourIRCSPage'));
 
 export default DashboardPage(() => {
   const {messages} = useIntl();
