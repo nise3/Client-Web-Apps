@@ -50,6 +50,7 @@ import {
   COOKIE_KEY_CDAP_SESSION_STATE,
   COOKIE_KEY_CDAP_USER_DATA,
 } from '../../../shared/constants/AppConst';
+import {LINK_FRONTEND_YOUTH_FEED} from '../../../@softbd/common/appLinks';
 
 const PREFIX = 'YouthRegistrationCDAP';
 
@@ -95,12 +96,12 @@ const initialValues = {
 };
 
 const YouthRegistration = () => {
-  const CDAPUser = getBrowserCookie(COOKIE_KEY_CDAP_USER_DATA);
-  const callbackInfo = getBrowserCookie(COOKIE_KEY_CALLBACK_INFO);
-
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const router = useRouter();
+
+  const CDAPUser = getBrowserCookie(COOKIE_KEY_CDAP_USER_DATA);
+  const callbackInfo = getBrowserCookie(COOKIE_KEY_CALLBACK_INFO);
   const [CDAPUserData] = useState(CDAPUser?.data);
   console.log('CDAPUserData: ', CDAPUserData);
 
@@ -244,7 +245,10 @@ const YouthRegistration = () => {
         gender: CDAPUserData?.gender || Genders.MALE,
         date_of_birth: CDAPUserData?.date_of_birth,
         email: CDAPUserData?.email,
-        mobile: CDAPUserData?.mobile,
+        mobile:
+          String(CDAPUserData?.mobile).length == 10
+            ? '0' + CDAPUserData?.mobile
+            : CDAPUserData?.mobile,
       });
     } else {
       reset(initialValues);
@@ -294,6 +298,7 @@ const YouthRegistration = () => {
       data.skills = skillIds;
 
       data.user_name_type = 2;
+
       const response = await youthRegistrationCDAP(data, callbackInfo);
       console.log('the CDAP REG response: ', response);
 
@@ -326,8 +331,10 @@ const YouthRegistration = () => {
 
       successStack(<IntlMessages id='youth_registration.success' />);
       setIsFormSubmitted(true);
+
       removeBrowserCookie(COOKIE_KEY_CDAP_USER_DATA);
-      router.push(youthDomain()).then((r) => {});
+      removeBrowserCookie(COOKIE_KEY_CALLBACK_INFO);
+      router.push(youthDomain() + LINK_FRONTEND_YOUTH_FEED).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -452,6 +459,7 @@ const YouthRegistration = () => {
                 register={register}
                 errorInstance={errors}
                 placeholder='example@gmail.com'
+                disabled={CDAPUserData?.email}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -462,6 +470,7 @@ const YouthRegistration = () => {
                 register={register}
                 errorInstance={errors}
                 placeholder='017xxxxxxxx'
+                disabled={CDAPUserData?.mobile}
               />
             </Grid>
 

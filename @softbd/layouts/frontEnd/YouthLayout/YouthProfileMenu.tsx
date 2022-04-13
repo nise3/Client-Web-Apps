@@ -182,15 +182,19 @@ const YouthProfileMenu = () => {
             <ListItemText>{messages['youth_feed_menu.settings']}</ListItemText>
           </MenuItem>
         </Link>
-        <Divider />
-        <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
-          <MenuItem>
-            <ListItemIcon>
-              <LockResetIcon />
-            </ListItemIcon>
-            <ListItemText>{messages['update_password.label']}</ListItemText>
-          </MenuItem>
-        </Link>
+        {authUser?.youth_auth_source &&
+          Number(authUser.youth_auth_source) != 1 && <Divider />}
+        {authUser?.youth_auth_source &&
+          Number(authUser.youth_auth_source) != 1 && (
+            <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
+              <MenuItem>
+                <ListItemIcon>
+                  <LockResetIcon />
+                </ListItemIcon>
+                <ListItemText>{messages['update_password.label']}</ListItemText>
+              </MenuItem>
+            </Link>
+          )}
         <Divider />
         <Link href={getSSOLogoutUrl()}>
           <MenuItem>
