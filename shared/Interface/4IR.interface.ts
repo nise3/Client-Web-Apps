@@ -13,3 +13,25 @@ export interface IProject extends IIdTitleCreateUpdateAt {
   project_check_list: any[];
   row_status?: number | string;
 }
+
+export interface ICell extends IIdTitleCreateUpdateAt {
+  name: string;
+  name_en?: string;
+  email: string;
+  mobile_number: string;
+  address?: string;
+  designation: string;
+  designation_en?: string;
+  row_status?: number | string;
+}
+
+export interface ICS extends IIdTitleCreateUpdateAt {
+  experts_list: string;
+  level?: string;
+  approved_by?: string;
+  organization_name?: string;
+  sector_name?: string;
+  supported_by?: string;
+  comment?: string;
+  row_status?: number | string;
+}

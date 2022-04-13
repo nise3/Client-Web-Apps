@@ -1891,5 +1891,6 @@
   "project.project_budget": "প্রজেক্ট বাজেট",
   "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
   "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
-  "project.projects_approved": "প্রকল্প অনুমোদিত"
+  "project.projects_approved": "প্রকল্প অনুমোদিত",
+  "4ir_cell.label": "4 আই আর সেল"
 }

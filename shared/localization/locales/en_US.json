@@ -1890,5 +1890,6 @@
   "project.project_budget": "Project Budget",
   "project.roadmap_finalized": "Roadmap Finalized",
   "project.projects_reviewed": "Projects reviewed by Secretary of relevant Ministries",
-  "project.projects_approved": "Projects Approved"
+  "project.projects_approved": "Projects Approved",
+  "4ir_cell.label": "4IR Cell"
 }
