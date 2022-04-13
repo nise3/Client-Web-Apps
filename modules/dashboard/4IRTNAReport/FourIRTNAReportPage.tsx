@@ -8,16 +8,12 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import FourIRImplemntingTeamAddEditPopup from './FourIRImplemntingTeamAddEditPopup';
-import FourIRImplemntingTeamDetailsPopup from './FourIRImplemntingTeamDetailsPopup';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
+import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
@@ -51,18 +47,6 @@ const FourIRImplemntingTeamPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteImplementingTeamItem = async (projectId: number) => {
-    let response = await deleteImplementingTeam(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
   const refreshDataTable = useCallback(() => {}, []);
 
   const columns = useMemo(
@@ -81,20 +65,20 @@ const FourIRImplemntingTeamPage = () => {
       },
 
       {
-        Header: messages['common.name'],
+        Header: messages['common.workshop_name'],
       },
       {
-        Header: messages['common.email'],
+        Header: messages['common.required_skill'],
       },
       {
-        Header: messages['common.phone_number'],
+        Header: messages['common.start_date'],
       },
       {
-        Header: messages['role.label'],
+        Header: messages['common.end_date'],
         isVisible: false,
       },
       {
-        Header: messages['common.designation'],
+        Header: messages['common.venue'],
         isVisible: false,
       },
 
@@ -107,7 +91,7 @@ const FourIRImplemntingTeamPage = () => {
               <ReadButton onClick={() => {}} />
               <EditButton onClick={() => {}} />
               <DeleteButton
-                deleteAction={() => deleteImplementingTeamItem(data.id)}
+                deleteAction={() => {}}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -121,7 +105,7 @@ const FourIRImplemntingTeamPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: './4ir_implementing_team',
+      urlPath: './4ir_TNA_report',
     });
 
   return (
@@ -129,19 +113,19 @@ const FourIRImplemntingTeamPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.implementing_team' />
+            <IconBranch /> <IntlMessages id='4ir.TNA_report' />
           </>
         }
         extra={[
           <AddButton
             key={1}
-            onClick={() => openAddEditModal(null)}
+            onClick={() => openAddEditModal(1)}
             isLoading={false}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir.implementing_team'],
+                  subject: messages['4ir.TNA_report'],
                 }}
               />
             }
@@ -157,7 +141,7 @@ const FourIRImplemntingTeamPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRImplemntingTeamAddEditPopup
+          <FourIRTNAReportAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -166,7 +150,7 @@ const FourIRImplemntingTeamPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRImplemntingTeamDetailsPopup
+          <FourIRTNAReportDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}

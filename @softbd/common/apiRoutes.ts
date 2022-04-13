@@ -187,6 +187,8 @@ export const API_4IR_PROJECTS = INSTITUTE_SERVICE_PATH + '/4ir-projects';
 export const API_4IR_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/4ir-occupations';
 export const API_4IR_CELL = INSTITUTE_SERVICE_PATH + '/4ir-cell';
 export const API_4IR_CS = INSTITUTE_SERVICE_PATH + '/4ir-cs';
+export const API_4IR_IMPLEMENTNG_TEAM =
+  INSTITUTE_SERVICE_PATH + '/4ir-implementing-team';
 
 /** 4IR service routes section end*/
 
