@@ -89,9 +89,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   return (
     <Box sx={{marginTop: '10px'}}>
       <fieldset>
-        <legend style={{color: '#0a8fdc'}}>
-          {messages['common.off_online']}
-        </legend>
+        <legend style={{color: '#0a8fdc'}}>{messages['common.offline']}</legend>
         <Grid container spacing={5}>
           {/*Exams*/}
           <Grid item xs={6}>
