@@ -36,6 +36,15 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {loadAuthenticateUser} from '../../../../redux/actions/AuthUserLoad';
 import {useDispatch} from 'react-redux';
+import {removeBrowserCookie} from '../../../libs/cookieInstance';
+import {
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_CDAP_SESSION_STATE,
+} from '../../../../shared/constants/AppConst';
+import {signOut} from '../../../../redux/actions';
+import {useRouter} from 'next/router';
+import {niseDomain} from '../../../common/constants';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -71,6 +80,7 @@ const YouthProfileMenu = () => {
   const {messages} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onGotoAdminClick = useCallback(async () => {
     try {
@@ -88,6 +98,16 @@ const YouthProfileMenu = () => {
   }, []);
   const handleClose = useCallback(() => {
     setAnchorEl(null);
+  }, []);
+
+  const onCDAPLogout = useCallback(async () => {
+    try {
+      removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+      removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+      removeBrowserCookie(COOKIE_KEY_CDAP_SESSION_STATE);
+      await dispatch(signOut());
+      router.push(niseDomain());
+    } catch (error) {}
   }, []);
 
   return (
@@ -196,14 +216,24 @@ const YouthProfileMenu = () => {
             </Link>
           )}
         <Divider />
-        <Link href={getSSOLogoutUrl()}>
-          <MenuItem>
+        {authUser?.youth_auth_source &&
+        Number(authUser.youth_auth_source) == 1 ? (
+          <MenuItem onClick={onCDAPLogout}>
             <ListItemIcon>
               <Logout />
             </ListItemIcon>
             <ListItemText>{messages['common.logout']}</ListItemText>
           </MenuItem>
-        </Link>
+        ) : (
+          <Link href={getSSOLogoutUrl()}>
+            <MenuItem>
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText>{messages['common.logout']}</ListItemText>
+            </MenuItem>
+          </Link>
+        )}
       </StyledMenu>
     </div>
   );
