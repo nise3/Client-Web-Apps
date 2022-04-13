@@ -12,11 +12,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  createImplementingTeam,
-  updateImplementingTeam,
-} from '../../../services/4IRManagement/ImplementingTeamService';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -33,14 +28,14 @@ interface ImplementingTeamAddEditPopupProps {
 //   designation: '',
 // };
 
-const FourIRImplemntingTeamAddEditPopup: FC<
+const FourIRMentoringTeamAddEditPopup: FC<
   ImplementingTeamAddEditPopupProps
 > = ({itemId, refreshDataTable, ...props}) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  //   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  // const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -67,6 +62,7 @@ const FourIRImplemntingTeamAddEditPopup: FC<
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
   };
@@ -81,13 +77,13 @@ const FourIRImplemntingTeamAddEditPopup: FC<
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir.implementing_team' />}}
+              values={{subject: <IntlMessages id='4ir.mentoring_team' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
               values={{
-                subject: <IntlMessages id='4ir.implementing_team' />,
+                subject: <IntlMessages id='4ir.mentoring_team' />,
               }}
             />
           )}
@@ -166,7 +162,4 @@ const FourIRImplemntingTeamAddEditPopup: FC<
     </HookFormMuiModal>
   );
 };
-export default FourIRImplemntingTeamAddEditPopup;
-function updateSuccessMessage(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+export default FourIRMentoringTeamAddEditPopup;

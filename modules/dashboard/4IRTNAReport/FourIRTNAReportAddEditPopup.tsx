@@ -12,11 +12,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  createImplementingTeam,
-  updateImplementingTeam,
-} from '../../../services/4IRManagement/ImplementingTeamService';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -25,35 +22,54 @@ interface ImplementingTeamAddEditPopupProps {
 }
 
 // const initialValues = {
-//   name: '',
-//   name_en: '',
-//   email: '',
-//   phone_number: '',
-//   role: '',
+//   workshop_name: '',
+//   required_skill: '',
+//   start_date: '',
+//   end_date: '',
+//   venue: '',
 //   designation: '',
 // };
 
-const FourIRImplemntingTeamAddEditPopup: FC<
-  ImplementingTeamAddEditPopupProps
-> = ({itemId, refreshDataTable, ...props}) => {
+const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  //   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  // const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      name: yup
+      workshop_name: yup
         .string()
         .title()
         .required()
-        .label(messages['common.title'] as string),
-      email: yup
+        .label(messages['common.workshop_name'] as string),
+      required_skill: yup
         .string()
-        .email()
+        .title()
         .required()
-        .label(messages['common.email'] as string),
+        .label(messages['common.required_skill'] as string),
+      start_date: yup
+        .string()
+        .title()
+        .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+        .label(messages['common.start_date'] as string),
+      end_date: yup
+        .string()
+        .title()
+        .required()
+        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
+        .label(messages['common.end_date'] as string),
+      venue: yup
+        .string()
+        .title()
+        .required()
+        .label(messages['common.venue'] as string),
     });
   }, [messages]);
 
@@ -62,11 +78,13 @@ const FourIRImplemntingTeamAddEditPopup: FC<
     register,
     reset,
     setError,
+    setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
   };
@@ -81,13 +99,13 @@ const FourIRImplemntingTeamAddEditPopup: FC<
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir.implementing_team' />}}
+              values={{subject: <IntlMessages id='4ir.TNA_report' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
               values={{
-                subject: <IntlMessages id='4ir.implementing_team' />,
+                subject: <IntlMessages id='4ir.TNA_report' />,
               }}
             />
           )}
@@ -105,68 +123,63 @@ const FourIRImplemntingTeamAddEditPopup: FC<
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='name'
-            label={messages['common.name']}
+            id='workshop_name'
+            label={messages['common.workshop_name']}
             register={register}
             errorInstance={errors}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='name_en'
-            label={messages['common.name_en']}
+            id='skill_required'
+            label={messages['common.required_skill']}
             register={register}
             errorInstance={errors}
             isLoading={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='email'
-            label={messages['common.email']}
+          <CustomDateTimeField
+            id='start_date'
+            label={messages['common.start_date']}
             register={register}
             errorInstance={errors}
             isLoading={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='phone_number'
-            label={messages['common.phone_number']}
+          <CustomDateTimeField
+            id='end_date'
+            label={messages['common.end_date']}
             register={register}
             errorInstance={errors}
             isLoading={false}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid item xs={12} sm={6} md={6} alignSelf='center'>
           <CustomTextInput
             required
-            id='role'
-            label={messages['role.label']}
+            id='venue'
+            label={messages['common.venue']}
             register={register}
             errorInstance={errors}
             isLoading={false}
             rows={3}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomTextInput
-            required
-            id='designation'
-            label={messages['common.designation']}
-            register={register}
+        <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            id='project_file'
             errorInstance={errors}
-            isLoading={false}
-            rows={3}
+            setValue={setValue}
+            register={register}
+            sizeLimitText={'3MB'}
+            label={messages['common.project_upload']}
+            required={false}
           />
         </Grid>
       </Grid>
     </HookFormMuiModal>
   );
 };
-export default FourIRImplemntingTeamAddEditPopup;
-function updateSuccessMessage(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+export default FourIRTNAReportAddEditPopup;
