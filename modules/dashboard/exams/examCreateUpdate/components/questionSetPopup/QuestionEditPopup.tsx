@@ -170,10 +170,9 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  // console.log('getValues->', getValues());
-
   useEffect(() => {
     let data: any = {
+      id: itemData?.id,
       subject_id: itemData?.subject_id,
       title: itemData?.title,
       title_en: itemData?.title_en,
@@ -187,12 +186,16 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       option_4: itemData?.option_4,
       option_4_en: itemData?.option_4_en,
       answers:
-        isYesNo && itemData?.answers ? itemData?.answers[0] : itemData?.answers,
+        itemData?.question_type == QuestionType.YES_NO && itemData?.answers
+          ? itemData?.answers[0]
+          : itemData?.answers,
       row_status: itemData?.row_status,
     };
-    setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
-    setIsFillInBlank(String(itemData?.type) == QuestionType.FILL_IN_THE_BLANK);
-    setIsYesNo(String(itemData?.type) == QuestionType.YES_NO);
+    setIsMCQ(String(itemData?.question_type) == QuestionType.MCQ);
+    setIsFillInBlank(
+      String(itemData?.question_type) == QuestionType.FILL_IN_THE_BLANK,
+    );
+    setIsYesNo(String(itemData?.question_type) == QuestionType.YES_NO);
 
     reset(data);
   }, [itemData]);
@@ -217,11 +220,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
     }
   }, [itemData]);
 
-  // console.log('errors->', errors);
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    // console.log('data->', data);
-
     if (!isMCQ) {
       data.option_1 = '';
       data.option_1_en = '';
@@ -246,6 +245,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
     }
 
     try {
+      getEditedQuestion(data);
       updateSuccessMessage('question-bank.label');
       props.onClose();
     } catch (error: any) {}

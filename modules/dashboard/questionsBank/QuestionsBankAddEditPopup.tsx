@@ -229,16 +229,16 @@ const QuestionsBankAddEditPopup = ({
         option_4: itemData?.option_4,
         option_4_en: itemData?.option_4_en,
         answers:
-          isYesNo && itemData?.answers
+          itemData?.question_type == QuestionType.YES_NO && itemData?.answers
             ? itemData?.answers[0]
             : itemData?.answers,
         row_status: itemData?.row_status,
       };
-      setIsMCQ(String(itemData?.type) == QuestionType.MCQ);
+      setIsMCQ(String(itemData?.question_type) == QuestionType.MCQ);
       setIsFillInBlank(
-        String(itemData?.type) == QuestionType.FILL_IN_THE_BLANK,
+        String(itemData?.question_type) == QuestionType.FILL_IN_THE_BLANK,
       );
-      setIsYesNo(String(itemData?.type) == QuestionType.YES_NO);
+      setIsYesNo(String(itemData?.question_type) == QuestionType.YES_NO);
 
       reset(data);
     } else {

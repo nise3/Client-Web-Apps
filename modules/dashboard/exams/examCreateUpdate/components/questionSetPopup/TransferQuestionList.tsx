@@ -15,7 +15,6 @@ import QuestionEditPopup from './QuestionEditPopup';
 
 interface IProps {
   onEditPopupOpenClose: (open: boolean) => void;
-  useFrom?: any;
   getQuestionSet: any;
   subjectId: any;
   questionType: any;
