@@ -1,68 +1,47 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {Grid} from '@mui/material';
-import {Body1, Body2} from '../../../../../@softbd/elements/common';
-import {question_type} from '../../../../../@softbd/utilities/helpers';
+import {Body2} from '../../../../../@softbd/elements/common';
 import DetailsInputView from '../../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 interface DescriptiveViewProps {
-  section: any;
+  question: any;
+  inputField?: ReactNode;
+  index: number;
 }
 
-const DescriptiveTypeView: FC<DescriptiveViewProps> = ({section}) => {
+const DescriptiveTypeView: FC<DescriptiveViewProps> = ({
+  question,
+  inputField,
+  index,
+}) => {
   const {messages} = useIntl();
-  const questions = section?.questions;
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} display={'flex'}>
-        <Body1 sx={{fontWeight: 'bold'}}>
-          {messages['common.type'] + ': '}
-        </Body1>
-        <Body2 sx={{marginTop: '3px'}}>
-          {question_type[section?.question_type - 1].label}
+      <Grid item xs={10} display={'flex'}>
+        <Body2 sx={{fontWeight: 'bold'}}>{index + '. ' + ' '}</Body2>
+        <Body2>{question?.title}</Body2>
+        <Body2 sx={{fontWeight: 'bold'}}>{'(' + question?.mark + ')'}</Body2>
+      </Grid>
+      <Grid item xs={2}>
+        <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
+          {inputField ? (
+            inputField
+          ) : question?.obtained_mark ? (
+            <>{question?.individual_marks}</>
+          ) : (
+            <>{messages['exam.none']}</>
+          )}
+          {/* {}*/}
         </Body2>
       </Grid>
-      <Grid item xs={12} display={'flex'}>
-        <Body1 sx={{fontWeight: 'bold'}}>
-          {messages['common.total_marks'] + ': '}
-        </Body1>
-        <Body2 sx={{marginTop: '3px'}}>{section?.total_marks}</Body2>
+      <Grid item xs={10} sx={{marginLeft: '20px'}}>
+        <DetailsInputView
+          label={messages['common.answer']}
+          value={question?.answer}
+          isLoading={false}
+        />
       </Grid>
-      {questions && questions.length ? (
-        questions.map((question: any, index: number) => {
-          return (
-            <>
-              <Grid item xs={10} display={'flex'}>
-                <Body2 sx={{fontWeight: 'bold'}}>
-                  {'Q' + (index + 1) + '. ' + ' '}
-                </Body2>
-                <Body2>{question?.title}</Body2>
-                <Body2 sx={{fontWeight: 'bold'}}>
-                  {'(' + question?.mark + ')'}
-                </Body2>
-              </Grid>
-              <Grid item xs={2}>
-                <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-                  {question?.obtained_mark ? (
-                    <>{question?.obtained_mark}</>
-                  ) : (
-                    <>{messages['exam.none']}</>
-                  )}
-                </Body2>
-              </Grid>
-              <Grid item xs={10} sx={{marginLeft: '20px'}}>
-                <DetailsInputView
-                  label={messages['common.answer']}
-                  value={question?.answer}
-                  isLoading={false}
-                />
-              </Grid>
-            </>
-          );
-        })
-      ) : (
-        <></>
-      )}
     </Grid>
   );
 };

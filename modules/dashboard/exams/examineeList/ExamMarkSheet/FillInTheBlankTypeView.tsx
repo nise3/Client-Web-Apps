@@ -1,11 +1,8 @@
-import React, {FC, ReactNode} from 'react';
-import {Body1, Body2} from '../../../../../@softbd/elements/common';
+import React, {FC} from 'react';
+import {Body2} from '../../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
-import {useIntl} from 'react-intl';
-import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
-import {question_type} from '../../../../../@softbd/utilities/helpers';
 
 const PREFIX = 'FillInTheBlankTypeView';
 
@@ -25,83 +22,40 @@ const StyledGrid = styled(Grid)(() => {
   };
 });
 interface FillInTheBlankTypeComponentProps {
-  section: any;
-  inputField?: ReactNode;
+  question: any;
+  index: number;
 }
 const FillInTheBlankTypeView: FC<FillInTheBlankTypeComponentProps> = ({
-  section,
-  inputField,
+  question,
+  index,
 }) => {
-  const {messages} = useIntl();
-  const questions = section?.questions;
-
+  let fillInTheBlankItems = question?.title.split(
+    /(?=\[\[\]\])|(?<=\[\[\]\])/g,
+  );
+  let questionIndex = 0;
   return (
-    <StyledGrid container spacing={1}>
-      <Grid item xs={12} display={'flex'}>
-        <Body1 sx={{fontWeight: 'bold'}}>
-          {messages['common.type'] + ': '}
-        </Body1>
-        <Body2 sx={{marginTop: '3px'}}>
-          {question_type[section?.question_type - 1].label}
-        </Body2>
-      </Grid>
-      <Grid item xs={12} display={'flex'}>
-        <Body1 sx={{fontWeight: 'bold'}}>
-          {messages['common.total_marks'] + ': '}
-        </Body1>
-        <Body2 sx={{marginTop: '3px'}}>{section?.total_marks}</Body2>
-      </Grid>
-      {questions && questions.length ? (
-        questions.map((question: any, index: number) => {
-          let fillInTheBlankItems = question?.title.split(
-            /(?=\[\[\]\])|(?<=\[\[\]\])/g,
-          );
-          let questionIndex = 0;
-          return (
-            <>
-              {' '}
-              <Grid item xs={10} display={'flex'} key={1}>
-                <Body2 sx={{fontWeight: 'bold'}}>
-                  {'Q' + (index + 1) + '. ' + ' '}
-                </Body2>
-                {fillInTheBlankItems.map((item: any) => {
-                  if (item == '[[]]') {
-                    return (
-                      <>
-                        {' '}
-                        <Body2 className={classes.inputView}>
-                          {question?.answer[questionIndex++]}
-                        </Body2>
-                      </>
-                    );
-                  } else {
-                    return <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>;
-                  }
-                })}
-              </Grid>
-              <Grid item xs={2}>
-                <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-                  {question?.obtained_mark}
-                </Body2>
-              </Grid>
-            </>
-          );
-        })
-      ) : (
-        <NoDataFoundComponent />
-      )}
-      <Grid item xs={12} display={'flex'}>
-        {/* {fillInTheBlankItems.map((item: any) => {
+    <StyledGrid container spacing={2}>
+      <Grid item xs={10} display={'flex'} key={1}>
+        <Body2 sx={{fontWeight: 'bold'}}>{index + '. ' + ' '}</Body2>
+        {fillInTheBlankItems.map((item: any) => {
           if (item == '[[]]') {
             return (
-              <Body2 className={classes.inputView}>
-                {question?.answer[index++]}
-              </Body2>
+              <>
+                {' '}
+                <Body2 className={classes.inputView}>
+                  {question?.answer[questionIndex++]}
+                </Body2>
+              </>
             );
           } else {
             return <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>;
           }
-        })}*/}
+        })}
+      </Grid>
+      <Grid item xs={2}>
+        <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
+          {question?.individual_marks}
+        </Body2>
       </Grid>
     </StyledGrid>
   );

@@ -1461,6 +1461,7 @@
   "common.topic_name": "Topic Name",
   "common.difficulty": "Difficulty",
   "common.marks": "Marks",
+  "common.mark": "Marks",
   "common.import": "Imports",
   "common.vacancy_approval_status": "Vacancy approval Status",
   "common.hour": "Hour",
