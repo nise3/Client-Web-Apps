@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -48,7 +48,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const isEdit = itemId != null;
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-
+  const [fileLinks, setFileLinks] = useState<any>([]);
   const {
     data: itemData,
     isLoading,
@@ -60,7 +60,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
       experts_list: yup
         .string()
         .title()
-        .label(messages['common.experts_list'] as string),
+        .label(messages['4ir_cs.experts_list'] as string),
     });
   }, [messages]);
 
@@ -78,6 +78,14 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
+      let urlPaths: any = [];
+      let files = itemData?.projects;
+      /**To fetch active cv paths**/
+      files.map((file: any) => {
+        urlPaths.push(file.file_link);
+      });
+      setFileLinks(urlPaths);
+
       reset({
         experts_list: itemData?.experts_list,
         level: itemData?.level,
@@ -87,11 +95,8 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         supported_by: itemData?.supported_by,
         comment: itemData?.comment,
         row_status: itemData?.row_status,
+        //projects: urlPaths,
       });
-
-      /*setIsProjectFinalized(itemData?.roadmap_finalized);
-      setIsProjectReviewed(itemData?.projects_reviewed);
-      setIsProjectApproved(itemData?.projects_approved);*/
     } else {
       reset(initialValues);
     }
@@ -101,11 +106,11 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     try {
       if (itemId) {
         await updateCS(itemId, data);
-        updateSuccessMessage('4ir_cell.label');
+        updateSuccessMessage('4ir_cs.label');
         mutateProject();
       } else {
         await createCS(data);
-        createSuccessMessage('4ir_cell.label');
+        createSuccessMessage('4ir_cs.label');
       }
       props.onClose();
       refreshDataTable();
@@ -124,12 +129,12 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir_cell.label' />}}
+              values={{subject: <IntlMessages id='4ir_cs.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='4ir_cell.label' />}}
+              values={{subject: <IntlMessages id='4ir_cs.label' />}}
             />
           )}
         </>
@@ -147,7 +152,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='experts_list'
-            label={messages['common.experts_list']}
+            label={messages['4ir_cs.experts_list']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -165,7 +170,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='approved_by'
-            label={messages['common.approved_by']}
+            label={messages['4ir_cs.approved_by']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -174,7 +179,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='organization_name'
-            label={messages['common.organization_name']}
+            label={messages['4ir_cs.organization_name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -183,7 +188,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='sector_name'
-            label={messages['common.sector_name']}
+            label={messages['rpl_sector.name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -192,7 +197,7 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='supported_by'
-            label={messages['common.supported_by']}
+            label={messages['4ir_cs.supported_by']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -212,15 +217,14 @@ const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
-            id='cover_image'
-            //defaultFileUrl={itemData?.cover_image}
+            id='projects'
+            defaultFileUrl={fileLinks}
             errorInstance={errors}
             setValue={setValue}
             register={register}
-            label={messages['common.cover_image']}
+            label={messages['common.project']}
             required={false}
-            /*height={'400'}
-            width={'600'}*/
+            // uploadedUrls={watch('projects')}
           />
         </Grid>
         <Grid item xs={12}>

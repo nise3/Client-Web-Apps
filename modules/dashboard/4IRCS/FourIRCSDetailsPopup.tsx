@@ -29,7 +29,7 @@ const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir_cell.label' />
+            <IntlMessages id='4ir_cs.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -48,42 +48,42 @@ const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.name']}
+              label={messages['4ir_cs.experts_list']}
               value={itemData?.experts_list}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.name_en']}
+              label={messages['common.level']}
               value={itemData?.level}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.designation']}
+              label={messages['4ir_cs.approved_by']}
               value={itemData?.approved_by}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.designation_en']}
+              label={messages['4ir_cs.organization_name']}
               value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.email']}
+              label={messages['rpl_sector.name']}
               value={itemData?.sector_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.address']}
+              label={messages['4ir_cs.supported_by']}
               value={itemData?.supported_by}
               isLoading={isLoading}
             />
@@ -91,7 +91,7 @@ const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
 
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.mobile']}
+              label={messages['common.comment']}
               value={itemData?.comment}
               isLoading={isLoading}
             />

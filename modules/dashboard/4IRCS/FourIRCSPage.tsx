@@ -58,7 +58,7 @@ const FourIRCSPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='4ir_cs.label' />}}
         />,
       );
       refreshDataTable();
@@ -85,11 +85,11 @@ const FourIRCSPage = () => {
       },
 
       {
-        Header: messages['common.name'],
+        Header: messages['common.level'],
         accessor: 'level',
       },
       {
-        Header: messages['common.mobile'],
+        Header: messages['common.organization_name'],
         accessor: 'organization_name',
       },
       {
@@ -132,7 +132,7 @@ const FourIRCSPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_cell.label' />
+            <IconBranch /> <IntlMessages id='4ir_cs.label' />
           </>
         }
         extra={[
@@ -144,7 +144,7 @@ const FourIRCSPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir_cell.label'],
+                  subject: messages['4ir_cs.label'],
                 }}
               />
             }
