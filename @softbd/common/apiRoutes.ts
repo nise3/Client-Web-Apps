@@ -185,6 +185,8 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 /** 4IR service routes section start*/
 export const API_4IR_PROJECTS = INSTITUTE_SERVICE_PATH + '/4ir-projects';
 export const API_4IR_OCCUPATIONS = INSTITUTE_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_IMPLEMENTNG_TEAM =
+  INSTITUTE_SERVICE_PATH + '/4ir-implementing-team';
 
 /** 4IR service routes section end*/
 
