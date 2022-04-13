@@ -144,7 +144,8 @@ const YouthRegistration = () => {
         .array()
         .of(yup.object())
         .min(1, messages['common.must_have_one_skill'] as string)
-        .label(messages['common.skills'] as string),
+        .label(messages['common.skills'] as string)
+        .required(),
       date_of_birth: yup
         .string()
         .trim()
