@@ -1,19 +1,19 @@
 import React from 'react';
-import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
 import {Button, Grid, InputAdornment, Paper, TextField} from '@mui/material';
-import {Body2} from '../../../../../@softbd/elements/common';
+import {Body1, Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
-import DetailsInputView from '../../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import FillInTheBlankTypeAnswer from '../ExamMarkSheet/FillInTheBlankTypeAnswer';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
-import YesNoTypeAnswer from '../ExamMarkSheet/YesNoTypeAnswer';
-import MCQTypeAnswer from '../ExamMarkSheet/MCQTypeAnswer';
-import FileViewAnswer from '../ExamMarkSheet/FileViewAnswer';
+import FillInTheBlankTypeView from '../ExamMarkSheet/FillInTheBlankTypeView';
+import MCQTypeView from '../ExamMarkSheet/MCQTypeView';
+import YesNoTypeView from '../ExamMarkSheet/YesNoTypeView';
+import FileView from '../ExamMarkSheet/FileView';
+import DescriptiveTypeView from '../ExamMarkSheet/DescriptiveTypeView';
+import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
+import {question_type} from '../../../../../@softbd/utilities/helpers';
 import EditIcon from '@mui/icons-material/Edit';
-import {useForm} from 'react-hook-form';
-
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -22,101 +22,141 @@ interface ExamQuestionListProps {
 
 const answerSheet = {
   id: 1,
-  exam_title: 'Yearly Exam',
-  examinee_name: 'Afrar Jahin',
-  answers: [],
-  exam_subject_title: 'Subject',
-  exam_subject_title_en: 'Subject',
-  questions: [
-    {
-      id: 1,
-      title:
-        'What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name ddddddddddd?',
-      title_en: 'What is your name?',
-      option_1: 'a',
-      option_1_en: 'a',
-      option_2: 'b',
-      option_2_en: 'b',
-      option_3: 'c',
-      option_3_en: 'c',
-      option_4: 'd',
-      option_4_en: 'd',
-      question_type: 1,
-      mark: 1,
-      obtained_mark: 1,
-      correct_answer: [3, 4],
-      answer: [1, 2],
-    },
-
-    {
-      id: 2,
-      title: 'I am a [[]] engineer [[]] softbd [[]]',
-      title_en: 'I am a [[]] engineer  [[]] softbd [[]]',
-      question_type: 2,
-      mark: 1,
-      obtained_mark: 1,
-      answer: ['software', 'at', 'ltd'],
-    },
-    {
-      id: 3,
-      title: 'Is this question?',
-      title_en: 'Is this question?',
-      question_type: 3,
-      mark: 1,
-      obtained_mark: 1,
-      answer: 1,
-    },
-    {
-      id: 5,
-      title: 'Please upload your field work file',
-      title_en: 'Please upload your field work file',
-      question_type: 5,
-      mark: 1,
-      obtained_mark: 1,
-      answer: '/images/dummy2.jpg',
-    },
-    {
-      id: 6,
-      title: '[[]]am a [[]] engineer [[]] softbd ',
-      title_en: '[[]] am a [[]] engineer  [[]] softbd ',
-      question_type: 2,
-      mark: 1,
-      obtained_mark: 1,
-      answer: ['I', 'soft', 'at'],
-    },
-    {
-      id: 7,
-      title: 'Write down about your profession',
-      title_en: 'Write down about your profession',
-      question_type: 7,
-      mark: 1,
-      obtained_mark: 1,
-      answer:
-        'A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as',
-    },
-    {
-      id: 8,
-      title: 'What is your age?',
-      title_en: 'What is your name?',
-      option_1: '20',
-      option_1_en: '20',
-      option_2: '30',
-      option_2_en: '30',
-      option_3: '40',
-      option_3_en: '40',
-      option_4: 'd',
-      option_4_en: 'd',
-      question_type: 1,
-      mark: 1,
-      obtained_mark: 1,
-      answer: [2, 4],
-      correct_answer: [1, 3],
-    },
-  ],
+  title: 'Yearly Exam',
+  exam_id: 1,
+  youth_id: 1,
+  youth_name: 'Afrar Jahin',
+  email: 'afrarjahin@gmail.com',
+  subject_title: 'Subject',
   exam_date: '10/12/22',
   total_obtained_marks: 66,
   total_marks: 100,
   duration: '1 hour',
+  exam_sections: [
+    {
+      Uuid: 11,
+      question_type: 1,
+      total_marks: 20,
+      questions: [
+        {
+          id: 1,
+          title:
+            ' What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name ddddddddddd?',
+          title_en: 'What is your name?',
+          option_1: 'a',
+          option_1_en: 'a',
+          option_2: 'b',
+          option_2_en: 'b',
+          option_3: 'c',
+          option_3_en: 'c',
+          option_4: 'd',
+          option_4_en: 'd',
+          mark: 1,
+          correct_answer: [3, 4],
+          answer: [1, 2],
+          exam_result_id: 1,
+        },
+        {
+          id: 2,
+          title: 'What is your age?',
+          title_en: 'What is your name?',
+          option_1: '20',
+          option_1_en: '20',
+          option_2: '30',
+          option_2_en: '30',
+          option_3: '40',
+          option_3_en: '40',
+          option_4: 'd',
+          option_4_en: 'd',
+          mark: 1,
+          individual_marks: 1,
+          answer: [2, 4],
+          correct_answer: [1, 3],
+        },
+      ],
+    },
+    {
+      Uuid: 11,
+      question_type: 2,
+      total_marks: 20,
+      questions: [
+        {
+          id: 1,
+          title: 'I am a [[]] engineer [[]] softbd [[]]',
+          title_en: 'I am a [[]] engineer  [[]] softbd [[]]',
+          mark: 1,
+          individual_marks: 1,
+          answer: ['software', 'at', 'ltd'],
+        },
+        {
+          id: 2,
+          title: 'She is a [[]] engineer [[]] softbd [[]]',
+          title_en: 'She is a [[]] engineer  [[]] softbd [[]]',
+          mark: 1,
+          individual_marks: 1,
+          answer: ['software', 'at', 'ltd'],
+        },
+      ],
+    },
+    {
+      Uuid: 11,
+      question_type: 3,
+      total_marks: 20,
+      questions: [
+        {
+          id: 1,
+          title: 'Is this question?',
+          title_en: 'Is this question?',
+          mark: 1,
+          individual_marks: 1,
+          answer: 1,
+          correct_answer: 1,
+        },
+        {
+          id: 2,
+          title: 'Done your work?',
+          title_en: 'Done your work?',
+          mark: 1,
+          individual_marks: 1,
+          answer: 1,
+          correct_answer: 2,
+        },
+      ],
+    },
+    {
+      Uuid: 11,
+      question_type: 5,
+      total_marks: 20,
+      questions: [
+        {
+          id: 5,
+          title: 'Please upload your field work file',
+          title_en: 'Please upload your field work file',
+          mark: 1,
+          individual_marks: 1,
+          answer: '/images/dummy2.jpg',
+          exam_result_id: 1,
+        },
+      ],
+    },
+    {
+      Uuid: 11,
+      question_type: 7,
+      total_marks: 20,
+      questions: [
+        {
+          id: 1,
+          title: 'Write down about your profession',
+          title_en: 'Write down about your profession',
+          mark: 1,
+          individual_marks: 1,
+          exam_result_id: 1,
+          answer:
+            'A profession is a disciplined group of individuals who adhere to ethical standards and whods/ A profession has been further defined as A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as',
+        },
+      ],
+    },
+  ],
 };
 
 /*const PREFIX = 'AnsweredQuestionPaper';
@@ -128,8 +168,109 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
 const ExamMarkingViewPage = () => {
-  const {register} = useForm<any>();
   const {messages} = useIntl();
+  /*  const {updateSuccessMessage} = useSuccessMessage();*/
+  let questionIndex = 1;
+  let examResultIds: any = [];
+  let marksIndex = 0;
+  const {
+    handleSubmit,
+    register,
+    formState: {isSubmitting},
+  } = useForm<any>();
+
+  const getQuestionTypeComponent = (questionType: any, question: any) => {
+    // const examResultId = question?.exam_result_id;
+    if (
+      questionType != QuestionType.YES_NO &&
+      questionType != QuestionType.MCQ &&
+      questionType != QuestionType.FILL_IN_THE_BLANK
+    ) {
+      examResultIds.push(question?.exam_result_id);
+    }
+    switch (String(questionType)) {
+      case QuestionType.YES_NO:
+        return <YesNoTypeView question={question} index={questionIndex++} />;
+      case QuestionType.MCQ:
+        return <MCQTypeView question={question} index={questionIndex++} />;
+      case QuestionType.FILL_IN_THE_BLANK:
+        return (
+          <FillInTheBlankTypeView question={question} index={questionIndex++} />
+        );
+      case QuestionType.DESCRIPTIVE:
+        return (
+          <DescriptiveTypeView
+            question={question}
+            index={questionIndex++}
+            inputField={
+              <TextField
+                id={'marks[' + marksIndex + '][marks_achieved]'}
+                label={messages['common.mark']}
+                type={'number'}
+                size='small'
+                sx={{width: '110px'}}
+                {...register('marks[' + marksIndex++ + '][marks_achieved]')}
+                defaultValue={question?.individual_marks}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end' sx={{width: '20px'}}>
+                      <EditIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            }
+          />
+        );
+      default:
+        return (
+          <FileView
+            question={question}
+            index={questionIndex++}
+            inputField={
+              <TextField
+                id={'marks[' + marksIndex + '][marks_achieved]'}
+                label={messages['common.mark']}
+                type={'number'}
+                size='small'
+                sx={{width: '110px'}}
+                {...register('marks[' + marksIndex++ + '][marks_achieved]')}
+                defaultValue={question?.individual_marks}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end' sx={{width: '20px'}}>
+                      <EditIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            }
+          />
+        );
+    }
+  };
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data submit', data);
+    if (examResultIds) {
+      examResultIds.map((examResultId: any, index: number) => {
+        data.marks[index].exam_result_id = examResultId;
+      });
+    }
+    data.exam_id = answerSheet?.exam_id;
+    data.youth_id = answerSheet?.youth_id;
+
+    console.log(' format data', data);
+    try {
+      /*     await updateExamMarks(itemId, data);
+      updateSuccessMessage('common.marks_distribution');*/
+      // mutateExamMark();
+      /*props.onClose();
+      refreshDataTable();*/
+    } catch (error: any) {
+      /*   processServerSideErrors({error, setError, validationSchema, errorStack});*/
+    }
+  };
   return (
     <StyledPaper>
       <Grid container spacing={2}>
@@ -140,13 +281,16 @@ const ExamMarkingViewPage = () => {
           flexDirection={'column'}
           justifyContent={'center'}
           xs={12}>
-          <Body2>{answerSheet?.examinee_name}</Body2>
-          <Body2>{answerSheet?.exam_title}</Body2>
+          <Body2>{answerSheet?.youth_name}</Body2>
+          <Body2>{answerSheet?.title}</Body2>
           <Body2>
-            {messages['subject.label'] + ': ' + answerSheet?.exam_subject_title}
+            {messages['subject.label']}
+            {': '}
+            {answerSheet?.subject_title}
           </Body2>
           <Body2>
-            {messages['common.date'] + ': ' + answerSheet?.exam_date}
+            {messages['common.date']} {': '}
+            {answerSheet?.exam_date}
           </Body2>
           <Body2>
             {messages['common.total_obtained_marks'] +
@@ -176,111 +320,67 @@ const ExamMarkingViewPage = () => {
           <Box sx={{borderBottom: 1}} />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={2}>
-            {answerSheet && answerSheet?.questions.length ? (
-              answerSheet?.questions.map((question: any, index: number) => {
-                return (
-                  <React.Fragment key={question?.id}>
-                    {question?.question_type ==
-                    QuestionType.FILL_IN_THE_BLANK ? (
-                      <>
-                        <Grid item xs={10} display={'flex'}>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {index + 1 + '.  '}
-                          </Body2>
-                          <FillInTheBlankTypeAnswer question={question} />
-                          <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
-                            {'(' + question?.mark + ')'}
-                          </Body2>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Body2
-                            sx={{fontWeight: 'bold', textAlign: 'center    '}}>
-                            {question?.obtained_mark}
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+            <Grid container spacing={2}>
+              {answerSheet && answerSheet?.exam_sections.length ? (
+                answerSheet?.exam_sections.map(
+                  (section: any, index: number) => {
+                    return (
+                      <React.Fragment key={section?.id}>
+                        <Grid item xs={12} display={'flex'}>
+                          <Body1 sx={{fontWeight: 'bold'}}>
+                            {question_type[section?.question_type - 1].label +
+                              ' | ' +
+                              messages['common.total_marks'] +
+                              ': '}
+                          </Body1>
+                          <Body2 sx={{marginTop: '3px'}}>
+                            {section?.total_marks}
                           </Body2>
                         </Grid>
-                      </>
-                    ) : (
-                      <>
-                        <Grid item xs={10} display={'flex'}>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {index + 1 + '.  '}
-                          </Body2>
-                          <Body2>{question?.title}</Body2>
-                          <Body2 sx={{fontWeight: 'bold'}}>
-                            {'(' + question?.mark + ')'}
-                          </Body2>
-                        </Grid>
-                        <Grid item xs={2}>
-                          {question?.question_type == QuestionType.MCQ ||
-                          question?.question_type == QuestionType.YES_NO ? (
-                            <Body2
-                              sx={{fontWeight: 'bold', textAlign: 'center'}}>
-                              {question?.obtained_mark}
-                            </Body2>
-                          ) : (
-                            <>
-                              <TextField
-                                id={'marks[' + index + '][mark]'}
-                                label='Mark'
-                                size='small'
-                                sx={{width: '100px'}}
-                                InputProps={{
-                                  endAdornment: (
-                                    <InputAdornment position='end'>
-                                      <EditIcon />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                              <TextField
-                                id={'marks[' + index + '][question_id]'}
-                                type={'hidden'}
-                                {...register(
-                                  'answers[' + index + '][question_id]',
+
+                        {section?.questions && section?.questions.length ? (
+                          section?.questions.map((question: any) => {
+                            return (
+                              <Grid item xs={12} key={question?.id}>
+                                {getQuestionTypeComponent(
+                                  section?.question_type,
+                                  question,
                                 )}
-                                defaultValue={question?.question_id}
-                                sx={{display: 'none'}}
-                              />
-                            </>
-                          )}
-                        </Grid>
-                        <Grid item xs={10}>
-                          {question?.question_type == QuestionType.MCQ && (
-                            <MCQTypeAnswer question={question} />
-                          )}
-                          {question?.question_type == QuestionType.YES_NO && (
-                            <YesNoTypeAnswer question={question} />
-                          )}
-                          {(question?.question_type ==
-                            QuestionType.PRESENTATION ||
-                            question?.question_type ==
-                              QuestionType.FIELD_WORK ||
-                            question?.question_type ==
-                              QuestionType.PRACTICAL) && (
-                            <FileViewAnswer question={question} />
-                          )}
-                          {question?.question_type ==
-                            QuestionType.DESCRIPTIVE && (
-                            <DetailsInputView
-                              label={messages['common.answer']}
-                              value={question?.answer}
-                              isLoading={false}
+                              </Grid>
+                            );
+                          })
+                        ) : (
+                          <NoDataFoundComponent />
+                        )}
+
+                        {/*{section.question_type == QuestionType.DESCRIPTIVE && (
+                          <Grid item xs={12}>
+                            <DescriptiveTypeView
+                              section={section || []}
+                              inputField={
+
+                              }
                             />
-                          )}
-                        </Grid>
-                      </>
-                    )}
-                  </React.Fragment>
-                );
-              })
-            ) : (
-              <NoDataFoundComponent />
-            )}
-          </Grid>
-        </Grid>
-        <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
-          <Button variant={'contained'}>{messages['common.submit']}</Button>
+                          </Grid>
+                        )}*/}
+                      </React.Fragment>
+                    );
+                  },
+                )
+              ) : (
+                <NoDataFoundComponent />
+              )}
+              <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+                <Button
+                  variant={'contained'}
+                  disabled={isSubmitting}
+                  type={'submit'}>
+                  {messages['common.submit']}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
       </Grid>
     </StyledPaper>
