@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {useIntl} from 'react-intl';
 import {
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -10,7 +9,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import {ChevronRight} from '@mui/icons-material';
 import NearbyFreelancerComponent from './components/NearbyFreelancerComponent';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
