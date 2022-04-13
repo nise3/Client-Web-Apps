@@ -1913,6 +1913,7 @@
   "common.time_remaining": "অবশিষ্ট সময়",
   "common.duration_min": "সময়কাল (মিনিট)",
   "common.exam_title": "পরীক্ষার টাইটেল",
+  "common.exam_name": "পরীক্ষার নাম",
   "common.examinee_name": "পরীক্ষার্থীর নাম",
   "common.total_obtained_marks": "মোট প্রাপ্ত নম্বর",
   "common.duration": "সময়কাল",

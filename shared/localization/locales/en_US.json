@@ -1916,5 +1916,6 @@
   "common.duration": "Duration",
   "common.show_file": "Show file",
   "common.obtained_mark": "Obtained mark",
-  "common.marks_distribution": "Marks distribution"
+  "common.marks_distribution": "Marks distribution",
+  "common.exam_name": "Exam name"
 }

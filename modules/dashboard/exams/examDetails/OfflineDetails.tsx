@@ -24,8 +24,8 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
 
   const [openQuestionToggle, setOpenQuestionToggle] = useState<boolean>(false);
 
-  const questionSelectionType = (type: any) => {
-    switch (type) {
+  const questionSelectionType = (data: any) => {
+    switch (data) {
       case QuestionSelectionType.FIXED:
         return messages['common.fixed'];
       case QuestionSelectionType.RANDOM:
@@ -35,8 +35,8 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
     }
   };
 
-  const questionType = (type: any) => {
-    switch (type) {
+  const questionType = (data: any) => {
+    switch (data) {
       case QuestionType.MCQ:
         return messages['question.type.mcq'];
       case QuestionType.FILL_IN_THE_BLANK:
@@ -130,7 +130,7 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
         <Grid container spacing={1}>
           <Grid item xs={3} mt={3}>
             <QuestionTypeCheckedBox
-              label={questionType(itemData.question_type)}
+              label={itemData ? questionType(itemData.question_type) : ''}
             />
           </Grid>
           <Grid item xs={9}>
@@ -146,9 +146,11 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
               <Grid item xs={3}>
                 <DetailsInputView
                   label={messages['common.question_selection_type']}
-                  value={questionSelectionType(
-                    itemData?.question_selection_type,
-                  )}
+                  value={
+                    itemData
+                      ? questionSelectionType(itemData?.question_selection_type)
+                      : ''
+                  }
                   isLoading={isLoading}
                 />
               </Grid>
