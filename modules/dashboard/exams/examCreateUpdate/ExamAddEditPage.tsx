@@ -205,7 +205,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       },
       {
         id: ExamTypes.MIXED,
-        label: messages['album_type.mixed'],
+        label: messages['common.mixed'],
       },
     ],
     [messages],

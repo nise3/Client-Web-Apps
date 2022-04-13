@@ -1111,7 +1111,7 @@
   "common.static_page": "Static Page",
   "album_type.image": "Image",
   "album_type.video": "Video",
-  "album_type.mixed": "Mixed",
+  "common.mixed": "Mixed",
   "common.facebook": "Facebook",
   "common.youtube": "Youtube",
   "notice_type.notice": "Notice",

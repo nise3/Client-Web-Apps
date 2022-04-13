@@ -53,7 +53,7 @@ const GalleryAlbumPage = () => {
       },
       {
         id: AlbumTypes.MIXED,
-        label: messages['album_type.mixed'],
+        label: messages['common.mixed'],
       },
     ],
     [messages],
@@ -127,7 +127,7 @@ const GalleryAlbumPage = () => {
       case AlbumTypes.VIDEO:
         return messages['album_type.video'];
       case AlbumTypes.MIXED:
-        return messages['album_type.mixed'];
+        return messages['common.mixed'];
       default:
         return '';
     }

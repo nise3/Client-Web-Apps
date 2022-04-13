@@ -28,7 +28,7 @@ const OnlineDetails = ({itemData, isLoading}: IProps) => {
       case QuestionSelectionType.RANDOM:
         return messages['common.random'];
       case QuestionSelectionType.RANDOM_FROM_QUESTION_BANK:
-        return messages['album_type.random_from_elect'];
+        return messages['common.random_from_elect'];
     }
   };
 

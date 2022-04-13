@@ -131,7 +131,7 @@ const ExamDetailsPopup = ({
       case ExamTypes.OFFLINE:
         return messages['common.offline'];
       case ExamTypes.MIXED:
-        return messages['album_type.mixed'];
+        return messages['common.mixed'];
     }
   };
 
