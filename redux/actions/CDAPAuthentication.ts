@@ -22,6 +22,7 @@ import {
   LINK_YOUTH_SIGNUP_CDAP,
 } from '../../@softbd/common/appLinks';
 import {API_YOUTH_EXIST_CHECK} from '../../@softbd/common/apiRoutes';
+import {apiGet} from '../../@softbd/common/api';
 
 export const onCDAPSignInCallback = (
   callBackInfo: any,
@@ -51,8 +52,8 @@ export const onCDAPSignInCallback = (
         new Date().getTime() + Number(callBackInfo?.expires_in) * 10000,
       );
 
-      const {data: userInfo}: {data: any} = await axios.get(
-        process.env.NEXT_PUBLIC_API_BASE_URL + API_YOUTH_EXIST_CHECK,
+      const {data: userInfo}: {data: any} = await apiGet(
+        API_YOUTH_EXIST_CHECK,
         {
           headers: {
             Authorization: 'Bearer ' + appAccessTokenData?.access_token,
@@ -60,7 +61,6 @@ export const onCDAPSignInCallback = (
           },
         },
       );
-      console.log('user info form our api: ', userInfo);
 
       if (!userInfo?.data?.youth_exist) {
         await setBrowserCookie(COOKIE_KEY_CDAP_USER_DATA, CDAPUserData, {

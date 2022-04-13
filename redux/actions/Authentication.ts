@@ -148,7 +148,9 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser
+        !ssoTokenData.user_type ||
+        (ssoTokenData.user_type == UserTypes.YOUTH_USER &&
+          !isYouthAsTrainerUser)
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
@@ -225,6 +227,7 @@ export const getYouthAuthUserObject = (
     youthId: authUser?.id,
     youthCode: authUser?.code,
     admin_access_type: authUser?.admin_access_type,
+    youth_auth_source: authUser?.youth_auth_source,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,

@@ -7,21 +7,18 @@ import * as queryString from 'querystring';
 import {onCDAPSignInCallback} from '../../redux/actions/CDAPAuthentication';
 
 export default DefaultPage(() => {
-  console.log('call in indiside callback: ');
   const router = useRouter();
   const query = router.query;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('call in callback: ');
     const authResult: any = queryString.parse(
       window.location.hash.replace('#', ''),
     );
 
-    console.log('authResult: ', authResult);
+    console.log('cdap_access_token: ', authResult);
 
     if (authResult?.id_token) {
-      console.log('in if id_token: ');
       dispatch(
         onCDAPSignInCallback(
           authResult,
@@ -30,7 +27,6 @@ export default DefaultPage(() => {
         ),
       );
     } else if (query && query.code) {
-      console.log('in else if query');
       dispatch(
         onSSOSignInCallback(
           query?.code as string,
