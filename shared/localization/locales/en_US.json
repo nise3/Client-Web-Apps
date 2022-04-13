@@ -231,6 +231,7 @@
   "dashboard.JobTrends": "Job Trends",
   "dashboard.Map": "Map",
   "common.currently_working": "Currently working",
+  "common.currently_working_here": "I currently work here",
   "common.enter_bkash_number": "Enter your bkash number",
   "common.enter_bkash_pin": "Enter your bkash pin",
   "common.choose_payment_method": "Choose payment method",
@@ -267,6 +268,7 @@
   "common.all": "All",
   "common.none": "None",
   "common.login": "Login",
+  "common.cdap_login": "Login with CDAP",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
   "common.orLoginWith": "or Login",
@@ -1877,5 +1879,6 @@
   "course.available_training_centers": "This course is available in the training centers below",
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
-  "common.goto_youth": "Youth profile"
+  "common.goto_youth": "Youth profile",
+  "cdap.required_info": "Please provide the required information"
 }
