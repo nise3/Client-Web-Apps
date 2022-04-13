@@ -12,7 +12,7 @@ import {useIntl} from 'react-intl';
 interface Props extends ButtonProps {}
 
 const GotoDashboardButton = ({className, ...extra}: Props) => {
-  const authUser = useAuthUser();
+  const authUser: any = useAuthUser();
   const {messages} = useIntl();
 
   const onClickButton = useCallback(() => {
@@ -37,6 +37,9 @@ const GotoDashboardButton = ({className, ...extra}: Props) => {
       onClick={onClickButton}
       buttonText={messages['menu.my_life'] as string}
       icon={<Person />}
+      cdapLogout={
+        authUser?.youth_auth_source && Number(authUser.youth_auth_source) == 1
+      }
     />
   ) : (
     <GotoProfileMenu
