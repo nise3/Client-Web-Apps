@@ -209,37 +209,37 @@ const ExamDetailsPopup = ({
             />
           </Grid>
 
-          {itemData && itemData?.exam_type == ExamTypes.ONLINE && (
+          {itemData && itemData?.type == ExamTypes.ONLINE && (
             <OnlineDetails itemData={itemData} isLoading={isLoading} />
           )}
 
-          {itemData && itemData?.exam_type == ExamTypes.OFFLINE && (
+          {itemData && itemData?.type == ExamTypes.OFFLINE && (
             <OfflineDetails itemData={itemData} isLoading={isLoading} />
           )}
 
           {/*todo: ui is not good.should work on ui*/}
-          {itemData && itemData?.exam_type == ExamTypes.MIXED && (
+          {itemData && itemData?.type == ExamTypes.MIXED && (
             <>
               <Grid item xs={12}>
-                <Grid container spacing={3}>
-                  <fieldset>
-                    <legend style={{color: '#0a8fdc'}}>
-                      {messages['common.online']}
-                    </legend>
+                <fieldset>
+                  <legend style={{color: '#0a8fdc'}}>
+                    {messages['common.online']}
+                  </legend>
+                  <Grid container spacing={3}>
                     <OnlineDetails itemData={itemData} isLoading={isLoading} />
-                  </fieldset>
-                </Grid>
+                  </Grid>
+                </fieldset>
               </Grid>
 
               <Grid item xs={12}>
-                <Grid container spacing={3}>
-                  <fieldset>
-                    <legend style={{color: '#0a8fdc'}}>
-                      {messages['common.offline']}
-                    </legend>
+                <fieldset>
+                  <legend style={{color: '#0a8fdc'}}>
+                    {messages['common.offline']}
+                  </legend>
+                  <Grid container spacing={3}>
                     <OfflineDetails itemData={itemData} isLoading={isLoading} />
-                  </fieldset>
-                </Grid>
+                  </Grid>
+                </fieldset>
               </Grid>
             </>
           )}

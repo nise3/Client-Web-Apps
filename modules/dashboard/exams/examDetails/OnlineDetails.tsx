@@ -74,7 +74,7 @@ const OnlineDetails = ({itemData, isLoading}: IProps) => {
 
       <Grid item xs={12}>
         <Grid container spacing={1}>
-          <Grid item xs={3} sx={{display: 'flex', alignItems: 'center'}}>
+          <Grid item xs={3} mt={3}>
             <QuestionTypeCheckedBox
               label={questionType(itemData.question_type)}
             />
