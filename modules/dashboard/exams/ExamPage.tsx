@@ -15,6 +15,8 @@ import IconExam from '../../../@softbd/icons/IconExam';
 import {Link} from '../../../@softbd/elements/common';
 import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
 import {Button} from '@mui/material';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {ExamTypes} from './ExamEnums';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -40,8 +42,7 @@ const ExamPage = () => {
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
-      // setSelectedItemId(itemId);
-      setSelectedItemId(6); //todo : for mock purpose
+      setSelectedItemId(itemId);
     },
     [selectedItemId],
   );
@@ -72,6 +73,17 @@ const ExamPage = () => {
       urlPath: API_EXAMS,
     });
 
+  const examType = (type: any) => {
+    switch (type) {
+      case ExamTypes.ONLINE:
+        return messages['common.online'];
+      case ExamTypes.OFFLINE:
+        return messages['common.offline'];
+      case ExamTypes.MIXED:
+        return messages['common.mixed'];
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -87,14 +99,31 @@ const ExamPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        inVisible: false,
+        Header: messages['subject.title'],
+        accessor: 'exam_subject_title',
+      },
+      {
+        Header: messages['common.exam_type'],
+        accessor: 'type',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <div>{examType(data)}</div>;
+        },
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
       },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          console.log('data->', data);
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
@@ -126,7 +155,6 @@ const ExamPage = () => {
           </>
         }
         extra={[
-          <ReadButton key={8} onClick={() => openDetailsModal(data.id)} />,
           <Link key={1} href={'/exams/create'}>
             <AddButton
               onClick={() => {}}

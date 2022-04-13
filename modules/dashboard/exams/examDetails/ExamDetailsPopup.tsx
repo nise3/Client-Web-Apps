@@ -11,6 +11,7 @@ import IconExam from '../../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../ExamEnums';
 import OnlineDetails from './OnlineDetails';
 import OfflineDetails from './OfflineDetails';
+import {useFetchExam} from '../../../../services/instituteManagement/hooks';
 
 interface ExamDetailsPopupProps {
   itemId: number;
@@ -25,107 +26,10 @@ const ExamDetailsPopup = ({
 }: ExamDetailsPopupProps) => {
   const {messages} = useIntl();
 
-  const isLoading = false;
-  const itemData = {
-    id: 1,
-    type: '2',
-    subject_title: 'subject 1',
-    title: 'Title',
-    title_en: 'Title en',
-    course_title: 'course',
-    training_center_title: 'Training center',
-    batch_title: 'Batch',
-    exam_date: '2020-05-10',
-    duration: '60',
-    exam_type: '3',
-    question_type: '1',
-    number_of_questions: '20',
-    total_marks: '100',
-    question_selection_type: '1',
-    individual_marks: '10',
-    questions: [
-      {
-        id: 1,
-        question: 'This is question 1?',
-      },
-      {
-        id: 2,
-        question: 'This is question 2?',
-      },
-      {
-        id: 3,
-        question: 'This is question 3?',
-      },
-      {
-        id: 4,
-        question: 'This is question 4?',
-      },
-    ],
-    venue: 'SoftBD',
-    question_sets: [
-      {
-        id: '1',
-        title: 'Question Set 1',
-        title_en: 'Question Set en 1',
-      },
-      {
-        id: '2',
-        title: 'Question Set 2',
-        title_en: 'Question Set en 2',
-      },
-    ],
-    offline_question_sets: [
-      {
-        id: '1',
-        title: 'Question Set 1',
-        title_en: 'Question Set en 1',
-        questions: [
-          {
-            id: 1,
-            question: 'This is question 1?',
-          },
-          {
-            id: 2,
-            question: 'This is question 2?',
-          },
-          {
-            id: 3,
-            question: 'This is question 3?',
-          },
-          {
-            id: 4,
-            question: 'This is question 4?',
-          },
-        ],
-      },
-      {
-        id: '2',
-        title: 'Question Set 2',
-        title_en: 'Question Set en 2',
-        questions: [
-          {
-            id: 1,
-            question: 'This is question 1?',
-          },
-          {
-            id: 2,
-            question: 'This is question 2?',
-          },
-          {
-            id: 3,
-            question: 'This is question 3?',
-          },
-          {
-            id: 4,
-            question: 'This is question 4?',
-          },
-        ],
-      },
-    ],
-  };
+  const {data: itemData, isLoading: isLoadingExam} = useFetchExam(itemId);
 
-  const examType = (type: any) => {
-    switch (type) {
+  const examType = (data: any) => {
+    switch (data) {
       case ExamTypes.ONLINE:
         return messages['common.online'];
       case ExamTypes.OFFLINE:
@@ -149,11 +53,11 @@ const ExamDetailsPopup = ({
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
-            <CancelButton onClick={props.onClose} isLoading={isLoading} />
+            <CancelButton onClick={props.onClose} isLoading={isLoadingExam} />
             <EditButton
               variant={'contained'}
               onClick={() => openEditModal(itemData.id)}
-              isLoading={isLoading}
+              isLoading={isLoadingExam}
             />
           </>
         }>
@@ -161,63 +65,55 @@ const ExamDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.exam_type']}
-              value={examType(itemData?.type)}
-              isLoading={isLoading}
+              value={itemData ? examType(itemData?.type) : ''}
+              isLoading={isLoadingExam}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['subject.label']}
-              value={itemData?.subject_title}
-              isLoading={isLoading}
+              label={messages['subject.title']}
+              value={itemData?.exam_subject_title}
+              isLoading={isLoadingExam}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.title']}
+              label={messages['subject.title_en']}
+              value={itemData?.exam_subject_title_en}
+              isLoading={isLoadingExam}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.exam_name']}
               value={itemData?.title}
-              isLoading={isLoading}
+              isLoading={isLoadingExam}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.title_en']}
               value={itemData?.title_en}
-              isLoading={isLoading}
+              isLoading={isLoadingExam}
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.courses']}
-              value={itemData?.course_title}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['training_center.label']}
-              value={itemData?.training_center_title}
-              isLoading={isLoading}
-            />
-          </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['batches.label']}
               value={itemData?.batch_title}
-              isLoading={isLoading}
+              isLoading={isLoadingExam}
             />
           </Grid>
 
           {itemData && itemData?.type == ExamTypes.ONLINE && (
-            <OnlineDetails itemData={itemData} isLoading={isLoading} />
+            <OnlineDetails itemData={itemData} isLoading={isLoadingExam} />
           )}
 
           {itemData && itemData?.type == ExamTypes.OFFLINE && (
-            <OfflineDetails itemData={itemData} isLoading={isLoading} />
+            <OfflineDetails itemData={itemData} isLoading={isLoadingExam} />
           )}
 
-          {/*todo: ui is not good.should work on ui*/}
           {itemData && itemData?.type == ExamTypes.MIXED && (
             <>
               <Grid item xs={12}>
@@ -226,7 +122,10 @@ const ExamDetailsPopup = ({
                     {messages['common.online']}
                   </legend>
                   <Grid container spacing={3}>
-                    <OnlineDetails itemData={itemData} isLoading={isLoading} />
+                    <OnlineDetails
+                      itemData={itemData}
+                      isLoading={isLoadingExam}
+                    />
                   </Grid>
                 </fieldset>
               </Grid>
@@ -237,7 +136,10 @@ const ExamDetailsPopup = ({
                     {messages['common.offline']}
                   </legend>
                   <Grid container spacing={3}>
-                    <OfflineDetails itemData={itemData} isLoading={isLoading} />
+                    <OfflineDetails
+                      itemData={itemData}
+                      isLoading={isLoadingExam}
+                    />
                   </Grid>
                 </fieldset>
               </Grid>
