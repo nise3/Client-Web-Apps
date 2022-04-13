@@ -15,6 +15,15 @@ import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
 import Box from '@mui/material/Box';
+import {removeBrowserCookie} from '../../../libs/cookieInstance';
+import {
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_CDAP_SESSION_STATE,
+} from '../../../../shared/constants/AppConst';
+import {signOut} from '../../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {useRouter} from 'next/router';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -50,10 +59,19 @@ interface Props extends ButtonProps {
   onClick: () => void;
   buttonText: string;
   icon: React.ReactNode;
+  cdapLogout?: boolean;
 }
 
-const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
+const GotoProfileMenu = ({
+  onClick,
+  buttonText,
+  icon,
+  cdapLogout,
+  ...extra
+}: Props) => {
   const {messages} = useIntl();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -63,6 +81,16 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
   }, []);
   const handleClose = useCallback(() => {
     setAnchorEl(null);
+  }, []);
+
+  const onCDAPLogout = useCallback(async () => {
+    try {
+      removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+      removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+      removeBrowserCookie(COOKIE_KEY_CDAP_SESSION_STATE);
+      await dispatch(signOut());
+      router.reload();
+    } catch (error) {}
   }, []);
 
   return (
@@ -93,14 +121,24 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
           <ListItemText>{buttonText}</ListItemText>
         </MenuItem>
         <Divider sx={{margin: '0 !important'}} />
-        <Link href={getSSOLogoutUrl()}>
-          <MenuItem>
+
+        {cdapLogout ? (
+          <MenuItem onClick={onCDAPLogout}>
             <ListItemIcon>
               <Logout />
             </ListItemIcon>
             <ListItemText>{messages['common.logout']}</ListItemText>
           </MenuItem>
-        </Link>
+        ) : (
+          <Link href={getSSOLogoutUrl()}>
+            <MenuItem>
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText>{messages['common.logout']}</ListItemText>
+            </MenuItem>
+          </Link>
+        )}
       </StyledMenu>
     </Box>
   );

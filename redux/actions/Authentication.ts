@@ -66,7 +66,7 @@ export const onSSOSignInCallback = (
         },
       );
 
-      console.log('onSSOSignInCallback', tokenData);
+      console.log('on SSOSignIn Callback', tokenData);
 
       let expireDate = new Date();
       expireDate.setTime(
@@ -100,6 +100,7 @@ export const onSSOSignInCallback = (
     }
   };
 };
+
 /** TODO: This Function should not be here */
 export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
@@ -111,7 +112,7 @@ export const loadAuthUser = async (
     const ssoTokenData = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    console.log(ssoTokenData);
+    console.log('ssoTokenData: ', ssoTokenData);
     const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
     const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
     const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
@@ -123,7 +124,8 @@ export const loadAuthUser = async (
 
     //TODO: This api will be '/user-profile or /auth-profile'
     const coreResponse =
-      ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser
+      !ssoTokenData.user_type ||
+      (ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser)
         ? await apiGet(youthServicePath + '/youth-profile', {
             headers: {
               Authorization: 'Bearer ' + appAccessTokenData?.access_token,
@@ -146,7 +148,9 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser
+        !ssoTokenData.user_type ||
+        (ssoTokenData.user_type == UserTypes.YOUTH_USER &&
+          !isYouthAsTrainerUser)
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
@@ -223,6 +227,7 @@ export const getYouthAuthUserObject = (
     youthId: authUser?.id,
     youthCode: authUser?.code,
     admin_access_type: authUser?.admin_access_type,
+    youth_auth_source: authUser?.youth_auth_source,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,

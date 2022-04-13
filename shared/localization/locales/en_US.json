@@ -267,6 +267,7 @@
   "common.all": "All",
   "common.none": "None",
   "common.login": "Login",
+  "common.cdap_login": "Login with CDAP",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
   "common.orLoginWith": "or Login",
@@ -1877,5 +1878,6 @@
   "course.available_training_centers": "This course is available in the training centers below",
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
-  "common.goto_youth": "Youth profile"
+  "common.goto_youth": "Youth profile",
+  "cdap.required_info": "Please provide the required information"
 }
