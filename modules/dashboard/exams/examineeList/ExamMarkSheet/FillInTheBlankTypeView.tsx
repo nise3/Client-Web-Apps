@@ -36,7 +36,9 @@ const FillInTheBlankTypeView: FC<FillInTheBlankTypeComponentProps> = ({
   return (
     <StyledGrid container spacing={2}>
       <Grid item xs={10} display={'flex'} key={1}>
-        <Body2 sx={{fontWeight: 'bold'}}>{index + '. ' + ' '}</Body2>
+        <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
+          {index + '. ' + ' '}
+        </Body2>
         {fillInTheBlankItems.map((item: any) => {
           if (item == '[[]]') {
             return (

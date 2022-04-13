@@ -17,7 +17,9 @@ const YesNoTypeView: FC<YesNoTypeViewProps> = ({question, index}) => {
     <Grid container spacing={1}>
       <>
         <Grid item xs={10} display={'flex'}>
-          <Body2 sx={{fontWeight: 'bold'}}>{index + '. ' + ' '}</Body2>
+          <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
+            {index + '. ' + ' '}
+          </Body2>
           <Body2>{question?.title}</Body2>
           <Body2 sx={{fontWeight: 'bold'}}>{'(' + question?.mark + ')'}</Body2>
         </Grid>
