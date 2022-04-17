@@ -1888,6 +1888,12 @@
   "4ir.implementing_team": "ইম্প্লিমেন্টিং টিম",
   "4ir.mentoring_team": "মেন্টরিং টিম",
   "4ir.TNA_report": "টিএনএ  রিপোর্ট",
+  "4ir.scale_up": "স্কেল আপ",
+  "4ir_scaleUp.label": "4 আই আর স্কেল আপ",
+  "4ir.project_advancement": "প্রজেক্ট এডভান্সমেন্ট ",
+  "4ir.previous_budget": "পূর্ববর্তী বাজেট",
+  "4ir.project_budget": "প্রজেক্ট এর বাজেট",
+  "4ir.project_details": "প্রজেক্টের বর্ণনা",
   "project.name": "প্রজেক্ট এর নাম",
   "project.name_en": "প্রজেক্ট এর নাম (ইংরেজী)",
   "project.details": "প্রজেক্ট এর বিস্তারিত",
@@ -1900,7 +1906,7 @@
   "4ir_cell.label": "4 আই আর সেল",
   "4ir_cs.label": "4 আই আর কমপ্লিটেন্সি স্ট্যান্ডার্ড",
   "4ir_cs.experts_list": "এক্সপার্টস লিস্ট",
-  "4ir_cs.approved_by":  "অনুমোদনকারী",
-  "4ir_cs.organization_name":  "ডেভেলপার প্রতিষ্ঠানের নাম",
-  "4ir_cs.supported_by":  "সহায়তায়"
+  "4ir_cs.approved_by": "অনুমোদনকারী",
+  "4ir_cs.organization_name": "ডেভেলপার প্রতিষ্ঠানের নাম",
+  "4ir_cs.supported_by": "সহায়তায়"
 }

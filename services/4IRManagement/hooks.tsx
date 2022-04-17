@@ -3,6 +3,7 @@ import {
   API_4IR_CELL,
   API_4IR_CS,
   API_4IR_PROJECTS,
+  API_4IR_SCALE_UP,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRProject(projectId: number | null) {
@@ -15,4 +16,8 @@ export function useFetch4IRCell(cellId: number | null) {
 
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
+}
+
+export function useFetch4IRScaleUp(scaleUpId: number | null) {
+  return useAxiosSWR(scaleUpId ? API_4IR_SCALE_UP + '/' + scaleUpId : null);
 }

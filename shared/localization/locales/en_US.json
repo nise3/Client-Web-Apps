@@ -1887,6 +1887,12 @@
   "4ir.implementing_team": "Implementing Team",
   "4ir.mentoring_team": "Mentoring Team",
   "4ir.TNA_report": "TNA Report",
+  "4ir.scale_up": "Scale Up",
+  "4ir_scaleUp.label": "4IR Scale Up",
+  "4ir.project_advancement": "Project Advancement",
+  "4ir.previous_budget": "Previous budget",
+  "4ir.project_budget": "Project Budget",
+  "4ir.project_details": "প্Project Details",
   "project.name": "Project Name",
   "project.name_en": "Project Name (En)",
   "project.details": "Project Details",
@@ -1899,8 +1905,7 @@
   "4ir_cell.label": "4IR Cell",
   "4ir_cs.label": "4IR Completancy Standard",
   "4ir_cs.experts_list": "Experts List",
-  "4ir_cs.approved_by":  "Approved by",
-  "4ir_cs.organization_name":  "Developer Organization Name",
-  "4ir_cs.supported_by":  "Supported by"
-
+  "4ir_cs.approved_by": "Approved by",
+  "4ir_cs.organization_name": "Developer Organization Name",
+  "4ir_cs.supported_by": "Supported by"
 }
