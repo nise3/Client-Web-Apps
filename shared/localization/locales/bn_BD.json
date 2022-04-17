@@ -621,6 +621,7 @@
   "common.type_of_employee": "চাকুরির ধরন",
   "common.type_of_identity_card": "পরিচয় পত্রের ধরন",
   "common.country": "দেশ",
+  "common.file_name": "ফাইলের নাম",
   "common.phone_code": "ফোন কোড",
   "job_experience.label": "চাকুরির অভিজ্ঞতা",
   "common.job_responsibilities_bn": "কাজের দায়িত্ব",
@@ -1900,7 +1901,9 @@
   "4ir_cell.label": "4 আই আর সেল",
   "4ir_cs.label": "4 আই আর কমপ্লিটেন্সি স্ট্যান্ডার্ড",
   "4ir_cs.experts_list": "এক্সপার্টস লিস্ট",
-  "4ir_cs.approved_by":  "অনুমোদনকারী",
-  "4ir_cs.organization_name":  "ডেভেলপার প্রতিষ্ঠানের নাম",
-  "4ir_cs.supported_by":  "সহায়তায়"
+  "4ir_cs.approved_by": "অনুমোদনকারী",
+  "4ir_cs.organization_name": "ডেভেলপার প্রতিষ্ঠানের নাম",
+  "4ir_cs.supported_by": "সহায়তায়",
+  "4ir_CBLM.label": " 4 আই আর সিবিএলএম",
+  "4ir.CBLM": "সিবিএলএম"
 }
