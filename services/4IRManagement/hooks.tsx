@@ -2,6 +2,7 @@ import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_4IR_CELL,
   API_4IR_CS,
+  API_4IR_Curriculum,
   API_4IR_PROJECTS,
 } from '../../@softbd/common/apiRoutes';
 
@@ -15,4 +16,8 @@ export function useFetch4IRCell(cellId: number | null) {
 
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
+}
+
+export function useFetch4IRCurriculum(CurrId: number | null) {
+  return useAxiosSWR(CurrId ? API_4IR_Curriculum + '/' + CurrId : null);
 }

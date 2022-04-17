@@ -23,7 +23,7 @@ import {
   updateCell,
 } from '../../../services/4IRManagement/CellService';
 
-interface ProjectAddEditPopupProps {
+interface CellAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -40,7 +40,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRCellAddEditPopup: FC<ProjectAddEditPopupProps> = ({
+const FourIRCellAddEditPopup: FC<CellAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props

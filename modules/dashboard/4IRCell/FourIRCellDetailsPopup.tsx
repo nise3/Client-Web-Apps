@@ -9,7 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRCell} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -19,7 +19,7 @@ type Props = {
 
 const FourIRCellDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRProject(itemId);
+  const {data: itemData, isLoading} = useFetch4IRCell(itemId);
 
   return (
     <>
