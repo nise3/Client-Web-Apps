@@ -1,19 +1,31 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Container, Grid, Typography} from '@mui/material';
 import CourseCardComponent from '../../../@softbd/elements/CourseCardComponent';
 import {useIntl} from 'react-intl';
 import {useFetchYouthCourses} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
+import ViewExamsPopup from './ViewExamsPopup';
 
 const MyCoursePage = () => {
   const {messages} = useIntl();
-
   const [courseFilters] = useState({});
+  const [isOpenViewExamModal, setIsOpenViewExamModal] = useState(false);
+  const [courseExam, setCourseExam] = useState([]);
 
   const {data: courseList, isLoading: isLoadingCourses} =
     useFetchYouthCourses(courseFilters);
 
+  const onCloseViewExamModal = useCallback(() => {
+    setCourseExam([]);
+    setIsOpenViewExamModal(false);
+  }, []);
+
+  const handleViewExam = (e: any, exams: any) => {
+    e.preventDefault();
+    setCourseExam(exams);
+    setIsOpenViewExamModal(true);
+  };
   return (
     <Container maxWidth={'lg'} sx={{padding: 5}}>
       {isLoadingCourses ? (
@@ -41,7 +53,9 @@ const MyCoursePage = () => {
                           created_at: course.course_created_at,
                           duration: course.duration,
                           progress: (course.id * 40) % 100,
+                          exams: course?.exams,
                         }}
+                        handleViewExam={handleViewExam}
                       />
                     </Link>
                   </Grid>
@@ -56,6 +70,9 @@ const MyCoursePage = () => {
             {messages['common.no_enrolled_course_found']}
           </Typography>
         </Grid>
+      )}
+      {isOpenViewExamModal && (
+        <ViewExamsPopup onClose={onCloseViewExamModal} exams={courseExam} />
       )}
     </Container>
   );

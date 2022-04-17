@@ -148,6 +148,8 @@ export const API_EXAM_QUESTION_BANK =
 export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
 
 export const API_EXAMS = INSTITUTE_SERVICE_PATH + '/exams';
+export const API_EXAM_QUESTION_PAPER =
+  INSTITUTE_SERVICE_PATH + '/exam-question-paper';
 
 /**             eRPL            */
 
