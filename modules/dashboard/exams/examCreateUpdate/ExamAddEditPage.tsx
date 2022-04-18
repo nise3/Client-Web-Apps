@@ -59,14 +59,15 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const router = useRouter();
+  const examId = Number(router.query.id);
 
-  const isEdit = itemId != null;
+  const isEdit = examId != null;
 
   const {
     data: itemData,
     isLoading: isLoadingExam,
     mutate: mutateExam,
-  } = useFetchExam(itemId);
+  } = useFetchExam(examId);
 
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isLoadingSubjects} =
@@ -137,11 +138,23 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         purpose_id: itemData?.purpose_id,
         type: itemData?.type,
         row_status: itemData?.row_status,
+        exam_date:
+          examType == ExamTypes.ONLINE
+            ? itemData?.exams[0].exam_date.replace(' ', 'T')
+            : null,
+        duration:
+          examType == ExamTypes.ONLINE ? itemData?.exams[0].duration : null,
       };
+      console.log('data->', data);
       reset(data);
     } else {
       reset(initialValues);
     }
+  }, [itemData]);
+
+  useEffect(() => {
+    setExamType(String(itemData?.type));
+    setSubjectId(itemData?.subject_id);
   }, [itemData]);
 
   const onChangeExamType = useCallback((value) => {
@@ -202,8 +215,8 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     console.log('formdata->', data);
 
     try {
-      if (itemId) {
-        await updateExam(itemId, data);
+      if (examId) {
+        await updateExam(examId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
       } else {
@@ -292,6 +305,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -301,6 +317,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
             <Grid item xs={6}>
