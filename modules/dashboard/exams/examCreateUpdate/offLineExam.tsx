@@ -7,7 +7,6 @@ import {TextField} from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
-import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
 import {Body1} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
@@ -30,10 +29,6 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const [examSets, setExamSets] = useState<Array<any>>([]);
 
   const isMixed = examType == ExamTypes.MIXED;
-
-  const [questionBankFilters] = useState({});
-  const {data: questions, isLoading: isLoadingQuestions} =
-    useFetchExamQuestionsBanks(questionBankFilters);
 
   const onInput = useCallback(() => {
     if (examSetField.current.value <= 5) {

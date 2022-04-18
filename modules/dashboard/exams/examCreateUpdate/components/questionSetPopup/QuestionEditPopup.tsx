@@ -51,6 +51,10 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.question_type'] as string),
+      individual_mark: yup
+        .string()
+        .required()
+        .label(messages['common.marks'] as string),
       option_1: isMCQ
         ? yup
             .string()
@@ -185,6 +189,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       option_3_en: itemData?.option_3_en,
       option_4: itemData?.option_4,
       option_4_en: itemData?.option_4_en,
+      individual_mark: itemData?.individual_mark,
       answers:
         itemData?.question_type == QuestionType.YES_NO && itemData?.answers
           ? itemData?.answers[0]
@@ -275,6 +280,34 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={6}>
+          <CustomTextInput
+            required
+            id={'title'}
+            label={messages['common.question']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+          {isFillInBlank && (
+            <Box
+              sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+              Ex: This is [[fill in the blank]] question.(Ans will be in [[]],
+              and it will be blank in question.)
+            </Box>
+          )}
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTextInput
+            id={'title_en'}
+            label={messages['common.question_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
           <CustomFormSelect
             required
             id='question_type'
@@ -292,24 +325,8 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id={'title'}
-            label={messages['common.question']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
-          {isFillInBlank && (
-            <Box
-              sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
-              Ex: This is [[fill in the blank]] question.(Ans will be in [[]],
-              and it will be blank in question.)
-            </Box>
-          )}
-        </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'title_en'}
-            label={messages['common.question_en']}
+            id={'individual_mark'}
+            label={messages['common.marks']}
             register={register}
             errorInstance={errors}
             isLoading={false}
