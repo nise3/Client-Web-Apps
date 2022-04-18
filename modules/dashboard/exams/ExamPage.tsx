@@ -17,10 +17,12 @@ import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
 import {Button} from '@mui/material';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {ExamTypes} from './ExamEnums';
+import {useRouter} from 'next/router';
 
 const ExamPage = () => {
   const {messages} = useIntl();
   // const {successStack} = useNotiStack();
+  const router = useRouter();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -129,7 +131,7 @@ const ExamPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton
                 onClick={() => {
-                  console.log('id: ', data.id);
+                  router.push(`update/${data.id}`);
                   openAddEditModal(data.id);
                 }}
               />

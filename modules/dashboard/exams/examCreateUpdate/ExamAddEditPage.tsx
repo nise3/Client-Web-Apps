@@ -105,6 +105,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['exam.label'] as string),
+      purpose_id: yup
+        .string()
+        .required()
+        .label(messages['batches.label'] as string),
+      type: yup
+        .string()
+        .required()
+        .label(messages['common.exam_type'] as string),
     });
   }, [messages]);
 
@@ -138,11 +146,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const onChangeExamType = useCallback((value) => {
     setExamType(String(value));
-    console.log('value->', String(value));
   }, []);
 
   const onSubjectChange = useCallback((value) => {
-    console.log('value->', String(value));
     setSubjectId(value);
   }, []);
 
@@ -152,6 +158,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     let data = cloneDeep(formData);
 
     data.purpose_name = 'BATCH';
+
+    data.exam_date =
+      data.exam_date
+        .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+        .replace('T', ' ') + ':00';
 
     if (examType !== ExamTypes.MIXED) {
       let arr: any = data.exam_questions.filter(
@@ -180,6 +191,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         ({is_question_checked, ...rest}: any) => rest,
       );
     }
+
+    // total_marks total_marks
+    data.total_marks = (data.exam_questions || [])
+      .map((item: any) => Number(item?.total_marks))
+      .reduce((prev: any, curr: any) => {
+        return prev + curr;
+      }, 0);
 
     console.log('formdata->', data);
 
