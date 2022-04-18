@@ -32,6 +32,7 @@ import OffLineExam from './offLineExam';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {cloneDeep} from 'lodash';
+import {S2} from '../../../../@softbd/elements/common';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -77,6 +78,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {data: coursesData, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
+  const [totalMarks] = useState<number>(0);
   const [examType, setExamType] = useState<any>(null);
   const [courses, setCourses] = useState<Array<any>>([]);
   const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
@@ -145,6 +147,8 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    console.log('submitted data', formData);
+
     let data = cloneDeep(formData);
 
     data.purpose_name = 'BATCH';
@@ -349,6 +353,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               />
             </Grid>
 
+            <Grid item xs={12} md={6}>
+              <S2>
+                {messages['common.total_marks']}: {totalMarks}
+              </S2>
+            </Grid>
+
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) &&
               subjectId && (
                 <Grid item xs={12}>
@@ -386,7 +396,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             type={'submit'}
             variant={'contained'}
             color={'primary'}>
-            {messages['common.save_and_continue']}
+            {messages['common.submit']}
           </Button>
         </form>
       </PageBlock>

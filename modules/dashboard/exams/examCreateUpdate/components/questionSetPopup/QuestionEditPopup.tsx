@@ -232,7 +232,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       data.option_4_en = '';
     }
 
-    if (!isMCQ || !isYesNo) {
+    if (!isMCQ && !isYesNo) {
       data.answers = [];
     }
 

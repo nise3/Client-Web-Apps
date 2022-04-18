@@ -282,7 +282,7 @@ const QuestionsBankAddEditPopup = ({
       data.option_4_en = '';
     }
 
-    if (!isEdit && (!isMCQ || !isYesNo)) {
+    if (!isEdit && !isMCQ && !isYesNo) {
       data.answers = [];
     }
 
@@ -290,7 +290,7 @@ const QuestionsBankAddEditPopup = ({
       data.answers = [String(data.answers)];
     }
 
-    if (isMCQ && data && data.answers) {
+    if (isMCQ && data.answers) {
       data.answers = data?.answers.map((ans: any) => String(ans));
     }
 
@@ -488,7 +488,7 @@ const QuestionsBankAddEditPopup = ({
               optionValueProp={'id'}
               optionTitleProp={['label']}
               errorInstance={errors}
-              multiple={isMCQ ? true : false}
+              multiple={isMCQ}
               defaultValue={initialValues.answers}
             />
           </Grid>

@@ -31,6 +31,7 @@ const ExamQuestionTypeSection = ({
   console.log('examSets->', examSets);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
 
   const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
     useState<boolean>(false);
@@ -54,8 +55,8 @@ const ExamQuestionTypeSection = ({
     [messages],
   );
 
-  const onChangeQuestionType = (value: any) => {
-    console.log('onChangeType=>', value);
+  const onChangeQuestionSelectionType = (type: any) => {
+    setSelectedSelectionType(type ? type : null);
   };
 
   const openAddQuestionModal = useCallback(() => {
@@ -121,7 +122,7 @@ const ExamQuestionTypeSection = ({
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <CustomFormSelect
                 required
                 id={`${idPrefix}[${index}][question_selection_type]`}
@@ -130,26 +131,18 @@ const ExamQuestionTypeSection = ({
                 control={useFrom.control}
                 errorInstance={useFrom.errors}
                 options={questionSelectionType}
-                onChange={onChangeQuestionType}
+                onChange={onChangeQuestionSelectionType}
                 optionValueProp='key'
                 optionTitleProp={['label']}
               />
             </Grid>
 
-            <Grid item xs={3}>
-              <CustomTextInput
-                id={'questions' + '[individual_marks]'}
-                label={messages['common.marks']}
-                type={'number'}
-                register={useFrom.register}
-                errorInstance={useFrom.errors}
-                isLoading={false}
-              />
-            </Grid>
-
-            {examSets && examSets.length > 0 ? (
+            {selectedSelectionType &&
+            selectedSelectionType != QuestionSelectionType.RANDOM &&
+            examSets &&
+            examSets.length > 0 ? (
               examSets.map((examSet: any) => (
-                <Grid key={examSet.index} item xs={2}>
+                <Grid key={examSet.index} item xs={1}>
                   <AddButton
                     key={1}
                     onClick={() => openAddQuestionModal()}
@@ -165,8 +158,9 @@ const ExamQuestionTypeSection = ({
                   />
                 </Grid>
               ))
-            ) : (
-              <Grid item xs={2}>
+            ) : selectedSelectionType &&
+              selectedSelectionType != QuestionSelectionType.RANDOM ? (
+              <Grid item xs={1}>
                 <AddButton
                   onClick={() => openAddQuestionModal()}
                   isLoading={false}
@@ -180,6 +174,8 @@ const ExamQuestionTypeSection = ({
                   }
                 />
               </Grid>
+            ) : (
+              <></>
             )}
           </Grid>
 
