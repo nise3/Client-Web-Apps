@@ -7,9 +7,9 @@ import IconExaminee from '../../../../@softbd/icons/IconExaminee';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import ReactTable from '../../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
-import {API_EXAMS} from '../../../../@softbd/common/apiRoutes';
+import {API_EXAM_YOUTH_LIST} from '../../../../@softbd/common/apiRoutes';
 import {Link} from '../../../../@softbd/elements/common';
-import {useFetchExamQuestionPaper} from '../../../../services/instituteManagement/hooks';
+import {useRouter} from 'next/router';
 
 /*const examinees = [
   {
@@ -35,16 +35,15 @@ const ExamineeListPage = () => {
   const [selectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal] = useState(false);
   const [isToggleTable] = useState<boolean>(false);
-
-  const {data: youthList, isLoading: isLoadingYouth} =
-    useFetchExamQuestionPaper();
+  const router = useRouter();
+  const {examId} = router.query;
   /*  const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);*/
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_EXAMS,
+      urlPath: API_EXAM_YOUTH_LIST + '/' + examId,
     });
   console.log(data);
   const columns = useMemo(
@@ -104,7 +103,7 @@ const ExamineeListPage = () => {
         }>
         <ReactTable
           columns={columns}
-          data={examinees}
+          data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

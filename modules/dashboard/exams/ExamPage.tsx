@@ -172,7 +172,7 @@ const ExamPage = () => {
           <Link key={2} href={'/exams/question-paper'}>
             <Button>Questions</Button>{' '}
           </Link>,
-          <Link key={3} href={'/exams/examinee-list'}>
+          <Link key={3} href={'/exams/youth-list/1'}>
             <Button>Examinees</Button>{' '}
           </Link>,
         ]}>

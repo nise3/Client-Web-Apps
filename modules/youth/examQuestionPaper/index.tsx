@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body2, H6} from '../../../@softbd/elements/common';
+import {Body1, Body2, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -13,11 +13,13 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import cookieInstance from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
 import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
-import {getTimer} from '../../../@softbd/utilities/helpers';
+import {getTimer, question_type} from '../../../@softbd/utilities/helpers';
 import {useFetchExamQuestionPaper} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import {QuestionType} from '../../dashboard/questionsBank/QuestionBanksEnums';
 import {Skeleton} from '@mui/lab';
+import QuestionTitleHeader from './QuestionTitleHeader';
+import moment from 'moment';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -81,6 +83,8 @@ const examQuestions = {
   total_marks: 100,
 };*/
 const ExamQuestionPaper = () => {
+  let questionIndex = 1;
+  let answerIndex = 0;
   const {messages} = useIntl();
   const router = useRouter();
   const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
@@ -89,6 +93,9 @@ const ExamQuestionPaper = () => {
   const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);
   const [timer, setTimer] = useState<string | null>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(false);
+  const [hasExamStarted, setHasExamStarted] = useState(false);
+  const [hasExamEnded, sethasExamEnded] = useState(false);
+
   const {examId} = router.query;
 
   const {data: examQuestions, isLoading: isLoadingExamQuestions} =
@@ -103,6 +110,28 @@ const ExamQuestionPaper = () => {
         .label(messages['common.answer'] as string),
     });
   }, []);
+  useEffect(() => {
+    let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
+    if (examQuestions) {
+      let examDate = examQuestions?.exam_date;
+
+      console.log('examData', examDate);
+      console.log('currentDate', currentDate);
+      let duration = moment.duration(
+        moment(currentDate).diff(moment(examDate)),
+      );
+      let minutes = Number(duration.asMinutes());
+      console.log('minutes', minutes);
+      if (minutes > examQuestions?.duration) {
+        sethasExamEnded(true);
+      } else if (minutes < 0) {
+        setHasExamStarted(false);
+      } else {
+        sethasExamEnded(false);
+        setHasExamStarted(true);
+      }
+    }
+  }, [examQuestions]);
 
   useEffect(() => {
     if (!isLoadingExamQuestions) {
@@ -164,194 +193,301 @@ const ExamQuestionPaper = () => {
   };
 
   return (
-    <Paper sx={{padding: '25px'}}>
+    <Paper
+      sx={{
+        padding: '25px',
+        margin: '30px',
+        boxShadow: '1px 1px 5px 2px #7b6a6a1f',
+      }}>
       <Grid container spacing={2}>
-        <Grid
-          item
-          display={'flex'}
-          alignItems={'center'}
-          flexDirection={'column'}
-          justifyContent={'center'}
-          xs={12}>
-          <H6>{examQuestions?.exam_title}</H6>
-          <Body2>
-            {messages['subject.label']}
-            {': '}
-            {examQuestions?.exam_subject_title}
-          </Body2>
-          <Body2>
-            {messages['common.date']} {': '}
-            {examQuestions?.exam_date}
-          </Body2>
-        </Grid>
+        {hasExamEnded ? (
+          <Body1>{'Exam has ended'}</Body1>
+        ) : hasExamStarted ? (
+          <>
+            <Grid
+              item
+              display={'flex'}
+              alignItems={'center'}
+              flexDirection={'column'}
+              justifyContent={'center'}
+              xs={12}>
+              <H6>{examQuestions?.exam_title}</H6>
+              <Body2>
+                {messages['subject.label']}
+                {': '}
+                {examQuestions?.exam_subject_title}
+              </Body2>
+              <Body2>
+                {messages['common.date']} {': '}
+                {examQuestions?.exam_date}
+              </Body2>
+            </Grid>
 
-        <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-          <Body2>{messages['common.time_remaining'] + ': ' + timer}</Body2>
-          <Body2 sx={{marginLeft: 'auto'}}>
-            {messages['common.total_marks']}
-            {': '}
-            {examQuestions?.total_marks}
-          </Body2>
-        </Grid>
-        <Grid item xs={12}>
-          <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-            <Grid container spacing={1}>
-              {isLoadingExamQuestions ? (
-                <Skeleton variant='text' />
-              ) : examQuestions && examQuestions?.questions.length ? (
-                examQuestions?.questions.map((question: any, index: number) => {
-                  let fillInTheBlankItems: any = [];
-                  if (
-                    question?.question_type == QuestionType.FILL_IN_THE_BLANK
-                  ) {
-                    fillInTheBlankItems = question?.title.split(
-                      /(?=\[\[\]\])|(?<=\[\[\]\])/g,
-                    );
-                  }
-                  let indexNo = 0;
-                  return (
-                    <React.Fragment key={question?.id}>
-                      {question?.question_type ==
-                        QuestionType.FILL_IN_THE_BLANK &&
-                      fillInTheBlankItems &&
-                      fillInTheBlankItems.length ? (
-                        <Grid item xs={12} display={'flex'}>
-                          <Body2>{index + 1 + '. '}</Body2>
-                          {fillInTheBlankItems.map((item: any) => {
-                            if (item == '[[]]') {
-                              return (
-                                <CustomTextInput
-                                  id={`answer[${index}][${indexNo++}]`}
-                                  label={''}
-                                  register={register}
-                                  errorInstance={errors}
-                                  isLoading={false}
-                                  style={{
-                                    display: 'inline-block',
-                                    width: '150px',
-                                    marginTop: '-8px',
-                                  }}
-                                />
-                              );
-                            } else {
-                              return (
-                                <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>
-                              );
-                            }
-                          })}
-                        </Grid>
-                      ) : (
-                        <>
-                          <Grid item xs={12}>
-                            {index + 1 + '. ' + question?.title}
-                          </Grid>
-                          <Grid item xs={12}>
-                            {question?.question_type == QuestionType.MCQ && (
-                              <>
-                                <CustomCheckbox
-                                  id={'answers[' + index + '][0]'}
-                                  label={question?.option_1}
-                                  register={register}
-                                  errorInstance={errors}
-                                  checked={isOption1Checked}
-                                  onChange={() => {
-                                    setIsOption1Checked((prev) => !prev);
-                                  }}
-                                  isLoading={false}
-                                />
-                                <CustomCheckbox
-                                  id={'answers[' + index + '][1]'}
-                                  label={question?.option_2}
-                                  register={register}
-                                  errorInstance={errors}
-                                  checked={isOption2Checked}
-                                  onChange={() => {
-                                    setIsOption2Checked((prev: any) => !prev);
-                                  }}
-                                  isLoading={false}
-                                />
-                                <CustomCheckbox
-                                  id={'answers[' + index + '][2]'}
-                                  label={question?.option_3}
-                                  register={register}
-                                  errorInstance={errors}
-                                  checked={isOption3Checked}
-                                  onChange={() => {
-                                    setIsOption3Checked((prev: any) => !prev);
-                                  }}
-                                  isLoading={false}
-                                />
-                                <CustomCheckbox
-                                  id={'answers[' + index + '][3]'}
-                                  label={question?.option_4}
-                                  register={register}
-                                  errorInstance={errors}
-                                  checked={isOption4Checked}
-                                  onChange={() => {
-                                    setIsOption4Checked((prev: any) => !prev);
-                                  }}
-                                  isLoading={false}
-                                />{' '}
-                              </>
-                            )}
-                            {question?.question_type == QuestionType.YES_NO && (
-                              <FormRadioButtons
-                                id={'answers[' + index + ']'}
-                                control={control}
-                                radios={[
-                                  {label: messages['common.yes'], key: 1},
-                                  {label: messages['common.no'], key: 2},
-                                ]}
-                              />
-                            )}
-                            {(question?.question_type ==
-                              QuestionType.PRESENTATION ||
-                              question?.question_type ==
-                                QuestionType.FIELD_WORK ||
-                              question?.question_type ==
-                                QuestionType.PRACTICAL) && (
-                              <FileUploadComponent
-                                id={'answers[' + index + ']'}
-                                setValue={setValue}
-                                errorInstance={errors}
-                                register={register}
-                                label={messages['common.file_path']}
-                              />
-                            )}
-                            {question?.question_type ==
-                              QuestionType.DESCRIPTIVE && (
-                              <CustomTextInput
-                                id={'answers[' + index + ']'}
-                                label={''}
-                                multiline={true}
-                                rows={3}
-                                register={register}
-                                errorInstance={errors}
-                                isLoading={false}
-                              />
-                            )}
-                          </Grid>
-                        </>
-                      )}
-                    </React.Fragment>
-                  );
-                })
-              ) : (
-                <NoDataFoundComponent />
-              )}
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              justifyContent={'space-between'}>
+              <Body2>{messages['common.time_remaining'] + ': ' + timer}</Body2>
+              <Body2 sx={{marginLeft: 'auto'}}>
+                {messages['common.total_marks']}
+                {': '}
+                {examQuestions?.total_marks}
+              </Body2>
             </Grid>
-            <Grid item display={'flex'} justifyContent={'space-between'}>
-              <Button
-                sx={{marginLeft: 'auto', marginTop: '10px'}}
-                type={'submit'}
-                variant={'contained'}
-                color={'primary'}
-                disabled={isSubmitting || submitDisable}>
-                {messages['common.submit']}
-              </Button>
+            <Grid item xs={12}>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+                <Grid container spacing={1}>
+                  {isLoadingExamQuestions ? (
+                    <Skeleton variant='text' />
+                  ) : examQuestions && examQuestions?.exam_sections.length ? (
+                    examQuestions?.exam_sections.map(
+                      (section: any, index: number) => {
+                        let indexNo = 0;
+                        return (
+                          <React.Fragment key={section?.id}>
+                            <Grid item xs={12} display={'flex'}>
+                              <Body1
+                                sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
+                                {question_type[section?.question_type - 1]
+                                  .label +
+                                  ' | ' +
+                                  messages['common.total_marks'] +
+                                  ': '}
+                              </Body1>
+                              <Body2 sx={{marginTop: '3px'}}>
+                                {section?.total_marks}
+                              </Body2>
+                            </Grid>
+                            {section?.questions && section?.questions.length ? (
+                              section?.questions.map((question: any) => {
+                                if (
+                                  section?.question_type == QuestionType?.MCQ
+                                ) {
+                                  return (
+                                    <React.Fragment key={question?.id}>
+                                      <QuestionTitleHeader
+                                        index={questionIndex++}
+                                        question={question}
+                                      />
+                                      <Grid
+                                        item
+                                        xs={10}
+                                        display={'flex'}
+                                        flexDirection={'column'}>
+                                        <CustomCheckbox
+                                          id={
+                                            'questions[' +
+                                            answerIndex++ +
+                                            '].answers[0]'
+                                          }
+                                          label={question?.option_1}
+                                          register={register}
+                                          errorInstance={errors}
+                                          checked={isOption1Checked}
+                                          onChange={() => {
+                                            setIsOption1Checked(
+                                              (prev) => !prev,
+                                            );
+                                          }}
+                                          isLoading={false}
+                                        />
+                                        <CustomCheckbox
+                                          id={
+                                            'questions[' +
+                                            answerIndex++ +
+                                            '].answers[1]'
+                                          }
+                                          label={question?.option_2}
+                                          register={register}
+                                          errorInstance={errors}
+                                          checked={isOption2Checked}
+                                          onChange={() => {
+                                            setIsOption2Checked(
+                                              (prev: any) => !prev,
+                                            );
+                                          }}
+                                          isLoading={false}
+                                        />
+                                        <CustomCheckbox
+                                          id={
+                                            'questions[' +
+                                            answerIndex++ +
+                                            '].answers[2]'
+                                          }
+                                          label={question?.option_3}
+                                          register={register}
+                                          errorInstance={errors}
+                                          checked={isOption3Checked}
+                                          onChange={() => {
+                                            setIsOption3Checked(
+                                              (prev: any) => !prev,
+                                            );
+                                          }}
+                                          isLoading={false}
+                                        />
+                                        <CustomCheckbox
+                                          id={
+                                            'questions[' +
+                                            answerIndex++ +
+                                            '].answers[3]'
+                                          }
+                                          label={question?.option_4}
+                                          register={register}
+                                          errorInstance={errors}
+                                          checked={isOption4Checked}
+                                          onChange={() => {
+                                            setIsOption4Checked(
+                                              (prev: any) => !prev,
+                                            );
+                                          }}
+                                          isLoading={false}
+                                        />
+                                      </Grid>
+                                    </React.Fragment>
+                                  );
+                                } else if (
+                                  section?.question_type == QuestionType.YES_NO
+                                ) {
+                                  return (
+                                    <React.Fragment key={question?.id}>
+                                      <QuestionTitleHeader
+                                        index={questionIndex++}
+                                        question={question}
+                                      />
+                                      <FormRadioButtons
+                                        id={
+                                          'questions[' +
+                                          answerIndex++ +
+                                          '].answers[0]'
+                                        }
+                                        control={control}
+                                        radios={[
+                                          {
+                                            label: messages['common.yes'],
+                                            key: 1,
+                                          },
+                                          {
+                                            label: messages['common.no'],
+                                            key: 2,
+                                          },
+                                        ]}
+                                      />
+                                    </React.Fragment>
+                                  );
+                                } else if (
+                                  section?.question_type ==
+                                  QuestionType.DESCRIPTIVE
+                                ) {
+                                  return (
+                                    <React.Fragment key={question?.id}>
+                                      <QuestionTitleHeader
+                                        question={question}
+                                        index={questionIndex++}
+                                      />
+                                      <CustomTextInput
+                                        id={
+                                          'questions[' +
+                                          answerIndex++ +
+                                          '].answers[0]'
+                                        }
+                                        label={''}
+                                        multiline={true}
+                                        rows={3}
+                                        register={register}
+                                        errorInstance={errors}
+                                        isLoading={false}
+                                      />
+                                    </React.Fragment>
+                                  );
+                                } else if (
+                                  section?.question_type ==
+                                  QuestionType.FILL_IN_THE_BLANK
+                                ) {
+                                  let fillInTheBlankItems =
+                                    question?.title.split(
+                                      /(?=\[\[\]\])|(?<=\[\[\]\])/g,
+                                    );
+                                  return (
+                                    <React.Fragment key={question?.id}>
+                                      <Grid item xs={12} display={'flex'}>
+                                        <Body2>{questionIndex++ + '. '}</Body2>
+                                        {fillInTheBlankItems.map(
+                                          (item: any) => {
+                                            if (item == '[[]]') {
+                                              return (
+                                                <CustomTextInput
+                                                  id={`answer[${index}][${indexNo++}]`}
+                                                  label={''}
+                                                  register={register}
+                                                  errorInstance={errors}
+                                                  isLoading={false}
+                                                  style={{
+                                                    display: 'inline-block',
+                                                    width: '150px',
+                                                    marginTop: '-8px',
+                                                  }}
+                                                />
+                                              );
+                                            } else {
+                                              return (
+                                                <Body2 sx={{whiteSpace: 'pre'}}>
+                                                  {item}
+                                                </Body2>
+                                              );
+                                            }
+                                          },
+                                        )}
+                                      </Grid>
+                                    </React.Fragment>
+                                  );
+                                } else {
+                                  return (
+                                    <React.Fragment>
+                                      <QuestionTitleHeader
+                                        index={questionIndex++}
+                                        question={question}
+                                      />
+                                      <FileUploadComponent
+                                        id={'questions[' + index + ']'}
+                                        setValue={setValue}
+                                        errorInstance={errors}
+                                        register={register}
+                                        label={messages['common.file_path']}
+                                      />
+                                    </React.Fragment>
+                                  );
+                                }
+                              })
+                            ) : (
+                              <NoDataFoundComponent />
+                            )}
+                          </React.Fragment>
+                        );
+                      },
+                    )
+                  ) : (
+                    <NoDataFoundComponent />
+                  )}
+                </Grid>
+                <Grid item display={'flex'} justifyContent={'space-between'}>
+                  <Button
+                    sx={{marginLeft: 'auto', marginTop: '10px'}}
+                    type={'submit'}
+                    variant={'contained'}
+                    color={'primary'}
+                    disabled={isSubmitting || submitDisable}>
+                    {messages['common.submit']}
+                  </Button>
+                </Grid>
+              </form>
             </Grid>
-          </form>
-        </Grid>
+          </>
+        ) : (
+          <>
+            <Body1>{'Exam has not started yet'}</Body1>
+          </>
+        )}
       </Grid>
     </Paper>
   );
