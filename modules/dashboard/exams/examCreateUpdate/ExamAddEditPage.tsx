@@ -302,7 +302,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 id='course_id'
-                label={messages['common.courses']}
+                label={messages['course.label']}
                 isLoading={isLoadingCourse}
                 control={control}
                 options={courses}
@@ -328,6 +328,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
+                required
                 id='purpose_id'
                 label={messages['batches.label']}
                 isLoading={isTrainingCentersLoading}

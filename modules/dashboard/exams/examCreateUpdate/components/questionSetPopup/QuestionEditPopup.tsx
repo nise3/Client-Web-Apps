@@ -14,9 +14,9 @@ import HookFormMuiModal from '../../../../../../@softbd/modals/HookFormMuiModal/
 import {isBreakPointUp} from '../../../../../../@crema/utility/Utils';
 import IntlMessages from '../../../../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../../../../@softbd/elements/button/CancelButton/CancelButton';
-import SubmitButton from '../../../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomTextInput from '../../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import SubmitButton from '../../../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 
 interface QuestionEditPopupProps {
   itemData: any;
@@ -262,11 +262,15 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
           values={{subject: <IntlMessages id='question-bank.label' />}}
         />
       }
-      handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={false} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
+          <SubmitButton
+            isSubmitting={isSubmitting}
+            isLoading={false}
+            type={'button'}
+            onClick={() => handleSubmit(onSubmit)()}
+          />
         </>
       }>
       <Grid container spacing={5}>

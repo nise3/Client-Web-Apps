@@ -28,14 +28,14 @@ const ExamQuestionTypeSection = ({
 }: IProps) => {
   const {messages} = useIntl();
 
-  console.log('examSets->', examSets);
-
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
 
   const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
     useState<boolean>(false);
   const [questionTypeId, setQuestionTypeId] = useState<any>('');
+  const [numberOfQuestion, setNumberOfQuestion] = useState<number | null>(null);
+  const [marks, setMarks] = useState<number | null>(null);
 
   const questionSelectionType = useMemo(
     () => [
@@ -65,11 +65,10 @@ const ExamQuestionTypeSection = ({
 
   const closeAddQuestionModal = useCallback(() => {
     setIsAddQuestionAssignModal(false);
-    setQuestionTypeId('');
   }, []);
 
-  const onQuestionsSubmitted = (questions: any) => {
-    console.log('questions', questions);
+  const onQuestionsSubmitted = (data: any) => {
+    useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
   };
 
   return (
@@ -83,7 +82,7 @@ const ExamQuestionTypeSection = ({
           checked={isChecked}
           onChange={() => {
             setIsChecked((prev) => !prev);
-            setQuestionTypeId(questionType.id); //todo: question type if for filter questions
+            setQuestionTypeId(questionType.id);
           }}
           isLoading={false}
         />
@@ -103,22 +102,30 @@ const ExamQuestionTypeSection = ({
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <CustomTextInput
+                required
                 id={`${idPrefix}[${index}][number_of_questions]`}
                 label={messages['common.number_of_questions']}
                 type={'number'}
                 register={useFrom.register}
                 errorInstance={useFrom.errors}
                 isLoading={false}
+                onInput={(value: string) => {
+                  setNumberOfQuestion(value ? Number(value) : null);
+                }}
               />
             </Grid>
             <Grid item xs={3}>
               <CustomTextInput
+                required
                 id={`${idPrefix}[${index}][total_marks]`}
                 label={messages['common.total_marks']}
                 type={'number'}
                 register={useFrom.register}
                 errorInstance={useFrom.errors}
                 isLoading={false}
+                onInput={(value: string) => {
+                  setMarks(value ? Number(value) : null);
+                }}
               />
             </Grid>
 
@@ -139,6 +146,8 @@ const ExamQuestionTypeSection = ({
 
             {selectedSelectionType &&
             selectedSelectionType != QuestionSelectionType.RANDOM &&
+            numberOfQuestion &&
+            marks &&
             examSets &&
             examSets.length > 0 ? (
               examSets.map((examSet: any) => (
@@ -159,7 +168,9 @@ const ExamQuestionTypeSection = ({
                 </Grid>
               ))
             ) : selectedSelectionType &&
-              selectedSelectionType != QuestionSelectionType.RANDOM ? (
+              selectedSelectionType != QuestionSelectionType.RANDOM &&
+              numberOfQuestion &&
+              marks ? (
               <Grid item xs={1}>
                 <AddButton
                   onClick={() => openAddQuestionModal()}
@@ -179,15 +190,21 @@ const ExamQuestionTypeSection = ({
             )}
           </Grid>
 
-          {isOpenAddQuestionModal && (
-            <QuestionSetPopup
-              key={1}
-              onClose={closeAddQuestionModal}
-              questionType={questionTypeId}
-              subjectId={subjectId}
-              onQuestionsSubmitted={onQuestionsSubmitted}
-            />
-          )}
+          {isOpenAddQuestionModal &&
+            numberOfQuestion &&
+            marks &&
+            selectedSelectionType && (
+              <QuestionSetPopup
+                key={1}
+                onClose={closeAddQuestionModal}
+                questionType={questionTypeId}
+                subjectId={subjectId}
+                totalQuestions={numberOfQuestion}
+                totalMarks={marks}
+                selectionType={String(selectedSelectionType)}
+                onQuestionsSubmitted={onQuestionsSubmitted}
+              />
+            )}
         </Grid>
       )}
     </Grid>

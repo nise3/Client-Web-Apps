@@ -12,19 +12,24 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import yup from '../../../../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {QuestionSelectionType} from '../../../ExamEnums';
 
 interface IProps {
   questionType: any;
   onClose: () => void;
   subjectId: any;
-  selectableQuestions?: number;
+  totalQuestions: number;
+  totalMarks: number;
+  selectionType: string;
   onQuestionsSubmitted: (data: any) => void;
 }
 
 const QuestionSetPopup = ({
   questionType,
   subjectId,
-  selectableQuestions,
+  totalQuestions,
+  totalMarks,
+  selectionType,
   onQuestionsSubmitted,
   ...props
 }: IProps) => {
@@ -38,18 +43,22 @@ const QuestionSetPopup = ({
       questions: yup
         .array()
         .of(yup.object({}))
-        .min(1, messages['common.must_have_one_question'] as string)
+        .min(
+          totalQuestions,
+          messages['common.must_have_one_question'] as string,
+        )
         .test(
           'questions',
           messages['common.must_have_one_question'] as string,
-          (value) => {
-            console.log('asdasd', value, selectableQuestions);
-            return true;
+          (value: any) => {
+            return selectionType == QuestionSelectionType.FIXED
+              ? value && value?.length <= totalQuestions
+              : value && value?.length > totalQuestions;
           },
         )
         .label(messages['common.addQuestion'] as string),
     });
-  }, [messages, selectableQuestions]);
+  }, [messages, totalQuestions, selectionType]);
 
   const {
     handleSubmit,
@@ -66,6 +75,7 @@ const QuestionSetPopup = ({
   const getQuestionSet = (questionList: any) => {
     let questionsFormValues = questionList.map((question: any) => {
       return {
+        id: question?.id,
         subject_id: question?.subject_id,
         title: question?.title,
         title_en: question?.title_en,
@@ -90,11 +100,11 @@ const QuestionSetPopup = ({
     setValue('questions', questionsFormValues);
   };
 
+  console.log('error', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isQuestionEditFormOpened) {
       try {
         onQuestionsSubmitted(data);
-
         props.onClose();
       } catch (error: any) {}
     }
@@ -112,15 +122,19 @@ const QuestionSetPopup = ({
             values={{
               subject: <IntlMessages id='common.addQuestion' />,
             }}
-          />{' '}
+          />
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
-      handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
           <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <SubmitButton
+            isSubmitting={isSubmitting}
+            isLoading={false}
+            type={'button'}
+            onClick={() => handleSubmit(onSubmit)()}
+          />
         </>
       }>
       <Grid container spacing={5}>
