@@ -78,17 +78,22 @@ const TransferQuestionList = ({
   };
 
   const handleAllRight = () => {
-    setRightQuestionList(rightQuestionList.concat(leftQuestionList));
+    const leftQ = [...leftQuestionList];
+    leftQ.map((question: any) => {
+      question.individual_mark = eachQuestionMark;
+    });
+
+    setRightQuestionList(rightQuestionList.concat(leftQ));
     setLeftQuestionList([]);
   };
 
   const moveCheckedToRight = () => {
-    /*const leftQ = [...leftChecked];
+    const leftQ = [...leftChecked];
     leftQ.map((question: any) => {
       question.individual_mark = eachQuestionMark;
-    });*/
+    });
 
-    setRightQuestionList(rightQuestionList.concat(leftChecked));
+    setRightQuestionList(rightQuestionList.concat(leftQ));
     setLeftQuestionList(not(leftQuestionList, leftChecked));
     setChecked(not(checked, leftChecked));
   };

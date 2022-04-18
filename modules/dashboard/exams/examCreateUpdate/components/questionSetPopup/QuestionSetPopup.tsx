@@ -13,6 +13,8 @@ import {useIntl} from 'react-intl';
 import yup from '../../../../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {QuestionSelectionType} from '../../../ExamEnums';
+import {S2} from '../../../../../../@softbd/elements/common';
+import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 
 interface IProps {
   questionType: any;
@@ -34,6 +36,7 @@ const QuestionSetPopup = ({
   ...props
 }: IProps) => {
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
 
   const [isQuestionEditFormOpened, setIsQuestionEditFormOpened] =
     useState<boolean>(false);
@@ -88,6 +91,7 @@ const QuestionSetPopup = ({
         option_3_en: question?.option_3_en,
         option_4: question?.option_4,
         option_4_en: question?.option_4_en,
+        individual_mark: question?.individual_mark,
         answers:
           question?.question_type == QuestionType.YES_NO &&
           question?.answers?.length > 0
@@ -100,12 +104,23 @@ const QuestionSetPopup = ({
     setValue('questions', questionsFormValues);
   };
 
-  console.log('error', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isQuestionEditFormOpened) {
       try {
-        onQuestionsSubmitted(data);
-        props.onClose();
+        let totMark: number = 0;
+
+        if (data.questions) {
+          data.questions.map((question: any) => {
+            totMark += Number(question?.individual_mark);
+          });
+        }
+
+        if (totMark > totalMarks) {
+          errorStack("Selected questions mark can't be more than total mark");
+        } else {
+          onQuestionsSubmitted(data);
+          props.onClose();
+        }
       } catch (error: any) {}
     }
   };
@@ -139,19 +154,35 @@ const QuestionSetPopup = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
+          <S2>
+            {selectionType == QuestionSelectionType.FIXED
+              ? `Please Select only ${totalQuestions} questions`
+              : `Please Select more than ${totalQuestions} questions`}
+          </S2>
+          <S2 sx={{display: 'flex'}}>
+            Total Marks:{' '}
+            <Typography sx={{color: 'green', marginLeft: '10px'}}>
+              {totalMarks}
+            </Typography>
+          </S2>
+        </Grid>
+        <Grid item xs={12}>
           <TransferQuestionList
             getQuestionSet={getQuestionSet}
             onEditPopupOpenClose={onEditPopupOpenClose}
             subjectId={subjectId}
             questionType={questionType}
-            eachQuestionMark={totalMarks / totalQuestions}
+            eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{color: 'red', fontSize: '14px', fontWeight: '500'}}>
-            {errors?.questions?.message ?? null}
-          </Typography>
-        </Grid>
+        {errors?.questions?.message && (
+          <Grid item xs={12}>
+            <Typography
+              sx={{color: 'red', fontSize: '14px', fontWeight: '500'}}>
+              {errors?.questions?.message}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
     </HookFormMuiModal>
   );
