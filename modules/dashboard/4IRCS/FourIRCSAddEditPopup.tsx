@@ -21,7 +21,7 @@ import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
 
-interface ProjectAddEditPopupProps {
+interface CSAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -38,7 +38,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRCSAddEditPopup: FC<ProjectAddEditPopupProps> = ({
+const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props

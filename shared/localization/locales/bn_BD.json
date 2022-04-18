@@ -1905,5 +1905,9 @@
   "4ir_cs.organization_name": "ডেভেলপার প্রতিষ্ঠানের নাম",
   "4ir_cs.supported_by": "সহায়তায়",
   "4ir_CBLM.label": " 4 আই আর সিবিএলএম",
-  "4ir.CBLM": "সিবিএলএম"
+  "4ir.CBLM": "সিবিএলএম",
+  "4ir_curriculum.label": "4 আই আর কারিকুলাম",
+  "common.event_description": "ঘটনার বিবরণ",
+  "4ir_showcasing.label": "4 আই আর শোকেসিং",
+  "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান"
 }
