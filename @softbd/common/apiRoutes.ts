@@ -191,6 +191,7 @@ export const API_4IR_IMPLEMENTNG_TEAM =
   INSTITUTE_SERVICE_PATH + '/4ir-implementing-team';
 export const API_4IR_CBLM = INSTITUTE_SERVICE_PATH + '/4ir-cblm';
 export const API_4IR_Curriculum = INSTITUTE_SERVICE_PATH + '/4ir-curriculum';
+export const API_4IR_SCALE_UP = INSTITUTE_SERVICE_PATH + '/4ir-scale-up';
 
 /** 4IR service routes section end*/
 
