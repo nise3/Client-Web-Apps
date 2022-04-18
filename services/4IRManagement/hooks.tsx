@@ -16,3 +16,7 @@ export function useFetch4IRCell(cellId: number | null) {
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
 }
+
+export function useFetch4IRCBLM(CBLMId: number | null) {
+  return useAxiosSWR(CBLMId ? API_4IR_CS + '/' + CBLMId : null);
+}

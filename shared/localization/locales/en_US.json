@@ -1761,6 +1761,7 @@
   "common.occupation": "Occupation",
   "yup_array_items_validation_max": "{path} can't be more then {max} item",
   "common.level": "Level",
+  "common.file_name": "File Name",
   "common.find_our_location_on_map": "Find our location on map",
   "assessment_payment.success": "Congratulation! Your payment has been successfully done for RPL assessment application.",
   "common.sector": "Sector",
@@ -1899,8 +1900,9 @@
   "4ir_cell.label": "4IR Cell",
   "4ir_cs.label": "4IR Completancy Standard",
   "4ir_cs.experts_list": "Experts List",
-  "4ir_cs.approved_by":  "Approved by",
-  "4ir_cs.organization_name":  "Developer Organization Name",
-  "4ir_cs.supported_by":  "Supported by"
-
+  "4ir_cs.approved_by": "Approved by",
+  "4ir_cs.organization_name": "Developer Organization Name",
+  "4ir_cs.supported_by": "Supported by",
+  "4ir_CBLM.label": " 4IR CBLM",
+  "4ir.CBLM": "CBLM"
 }
