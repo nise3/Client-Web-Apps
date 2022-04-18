@@ -175,7 +175,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
               label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
-          {true && (
+          {isMyCoursePage && (
             <Button
               variant={'outlined'}
               size={'small'}
@@ -184,7 +184,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
                   handleViewExam(e, course?.exams);
                 }
               }}>
-              View exams
+              {messages['common.view_exam']}
             </Button>
           )}
         </Box>

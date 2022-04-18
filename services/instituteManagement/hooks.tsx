@@ -248,3 +248,7 @@ export function useFetchExam(examId: number | null) {
 export function useFetchExamQuestionPaper(examId: number | null) {
   return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
 }
+
+export function useFetchExamYouthList(examId: number | null) {
+  return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
+}

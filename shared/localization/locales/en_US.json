@@ -1920,5 +1920,6 @@
   "common.marks_distribution": "Marks distribution",
   "common.exam_name": "Exam name",
   "common.exam_schedule": "Exam schedule",
-  "common.attend_exam": "Attend"
+  "common.attend_exam": "Attend",
+  "common.view_exam": "View exams"
 }

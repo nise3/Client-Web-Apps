@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body1, H6} from '../../../@softbd/elements/common';
+import {Body2, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -82,16 +82,18 @@ const examQuestions = {
 };*/
 const ExamQuestionPaper = () => {
   const {messages} = useIntl();
+  const router = useRouter();
   const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
   const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
   const [isOption3Checked, setIsOption3Checked] = useState<boolean>(false);
   const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);
-  const [timer, setTimer] = useState<string | null>('01:06:39');
+  const [timer, setTimer] = useState<string | null>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(false);
-  const router = useRouter();
   const {examId} = router.query;
+
   const {data: examQuestions, isLoading: isLoadingExamQuestions} =
     useFetchExamQuestionPaper(Number(examId));
+
   const validationSchema: any = useMemo(() => {
     return yup.object().shape({
       answers: yup
@@ -103,38 +105,47 @@ const ExamQuestionPaper = () => {
   }, []);
 
   useEffect(() => {
-    const current = new Date();
-    let expireDate = new Date();
-    const expireTime = expireDate.getTime() + EXAM_TIME_IN_MILLIS;
-    expireDate.setTime(expireTime);
+    if (!isLoadingExamQuestions) {
+      setTimer('1:20:00');
+    }
+  }, [isLoadingExamQuestions]);
 
-    cookieInstance.set(COOKIE_KEY_EXAM_TIME, current.getTime(), {
-      expires: expireDate,
-    });
-    let date = cookieInstance.get(COOKIE_KEY_EXAM_TIME);
-    if (date) {
-      date = Number(date);
-      const currentDate = new Date();
+  useEffect(() => {
+    /*    console.log('isLoadingexamq', isLoadingExamQuestions);*/
+    if (!isLoadingExamQuestions) {
+      const current = new Date();
+      let expireDate = new Date();
+      const expireTime = expireDate.getTime() + EXAM_TIME_IN_MILLIS;
+      expireDate.setTime(expireTime);
 
-      if (date && currentDate.getTime() - date < EXAM_TIME_IN_MILLIS) {
-        const expireTime = date + EXAM_TIME_IN_MILLIS;
-        const timeout = expireTime - currentDate.getTime();
+      cookieInstance.set(COOKIE_KEY_EXAM_TIME, current.getTime(), {
+        expires: expireDate,
+      });
+      let date = cookieInstance.get(COOKIE_KEY_EXAM_TIME);
+      if (date) {
+        date = Number(date);
+        const currentDate = new Date();
 
-        if (timeout > 0) {
-          const interval = setInterval(() => {
-            let remainingTime = getTimer(date);
-            setTimer(remainingTime.timer);
-            if (remainingTime.clearInterval) {
-              clearInterval(interval);
-              setSubmitDisable(true);
-            }
-          }, 1000);
+        if (date && currentDate.getTime() - date < EXAM_TIME_IN_MILLIS) {
+          const expireTime = date + EXAM_TIME_IN_MILLIS;
+          const timeout = expireTime - currentDate.getTime();
+
+          if (timeout > 0) {
+            const interval = setInterval(() => {
+              let remainingTime = getTimer(date);
+              setTimer(remainingTime.timer);
+              if (remainingTime.clearInterval) {
+                clearInterval(interval);
+                setSubmitDisable(true);
+              }
+            }, 1000);
+          }
+        } else {
+          setTimer(null);
         }
-      } else {
-        setTimer(null);
       }
     }
-  }, []);
+  }, [isLoadingExamQuestions]);
 
   const {
     register,
@@ -163,30 +174,30 @@ const ExamQuestionPaper = () => {
           justifyContent={'center'}
           xs={12}>
           <H6>{examQuestions?.exam_title}</H6>
-          <Body1>
+          <Body2>
             {messages['subject.label']}
             {': '}
             {examQuestions?.exam_subject_title}
-          </Body1>
-          <Body1>
+          </Body2>
+          <Body2>
             {messages['common.date']} {': '}
             {examQuestions?.exam_date}
-          </Body1>
+          </Body2>
         </Grid>
 
         <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-          <Body1>{messages['common.time_remaining'] + ': ' + timer}</Body1>
-          <Body1 sx={{marginLeft: 'auto'}}>
+          <Body2>{messages['common.time_remaining'] + ': ' + timer}</Body2>
+          <Body2 sx={{marginLeft: 'auto'}}>
             {messages['common.total_marks']}
             {': '}
             {examQuestions?.total_marks}
-          </Body1>
+          </Body2>
         </Grid>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
             <Grid container spacing={1}>
               {isLoadingExamQuestions ? (
-                <Skeleton variant='text'></Skeleton>
+                <Skeleton variant='text' />
               ) : examQuestions && examQuestions?.questions.length ? (
                 examQuestions?.questions.map((question: any, index: number) => {
                   let fillInTheBlankItems: any = [];
@@ -205,7 +216,7 @@ const ExamQuestionPaper = () => {
                       fillInTheBlankItems &&
                       fillInTheBlankItems.length ? (
                         <Grid item xs={12} display={'flex'}>
-                          <Body1>{index + 1 + '. '}</Body1>
+                          <Body2>{index + 1 + '. '}</Body2>
                           {fillInTheBlankItems.map((item: any) => {
                             if (item == '[[]]') {
                               return (
@@ -224,7 +235,7 @@ const ExamQuestionPaper = () => {
                               );
                             } else {
                               return (
-                                <Body1 sx={{whiteSpace: 'pre'}}>{item}</Body1>
+                                <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>
                               );
                             }
                           })}

@@ -9,8 +9,9 @@ import ReactTable from '../../../../@softbd/table/Table/ReactTable';
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
 import {API_EXAMS} from '../../../../@softbd/common/apiRoutes';
 import {Link} from '../../../../@softbd/elements/common';
+import {useFetchExamQuestionPaper} from '../../../../services/instituteManagement/hooks';
 
-const examinees = [
+/*const examinees = [
   {
     id: 1,
     name: 'Afrar Jahin',
@@ -26,7 +27,7 @@ const examinees = [
     name: 'Afrin',
     marks: 90,
   },
-];
+];*/
 const ExamineeListPage = () => {
   const {messages} = useIntl();
   // const {successStack} = useNotiStack();
@@ -35,6 +36,8 @@ const ExamineeListPage = () => {
   const [isOpenDetailsModal] = useState(false);
   const [isToggleTable] = useState<boolean>(false);
 
+  const {data: youthList, isLoading: isLoadingYouth} =
+    useFetchExamQuestionPaper();
   /*  const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);*/

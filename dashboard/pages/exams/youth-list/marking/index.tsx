@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const MarkingViewPage = asyncComponent(
   () =>
     import(
-      '../../../../../modules/dashboard/exams/examineeList/ExamMarking/ExamMarkingViewPage'
+      '../../../../../modules/dashboard/exams/youthList/ExamMarking/ExamMarkingViewPage'
     ),
 );
 export default DashboardPage(() => {
