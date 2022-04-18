@@ -196,7 +196,7 @@ const ExamPage = () => {
 
         {isOpenDetailsModal && selectedItemId && (
           <ExamDetailsPopup
-            key={4}
+            key={selectedItemId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

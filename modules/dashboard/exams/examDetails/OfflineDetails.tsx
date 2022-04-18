@@ -1,18 +1,12 @@
 import {useIntl} from 'react-intl';
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 import {QuestionSelectionType} from '../ExamEnums';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
-import {Fab, Grid, ListItemText} from '@mui/material';
+import {Grid} from '@mui/material';
 import QuestionTypeCheckedBox from '../components/QuestionTypeCheckedBox';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import Tooltip from '@mui/material/Tooltip';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
-import {Body1} from '../../../../@softbd/elements/common';
 
 interface IProps {
   itemData: any;
@@ -22,21 +16,23 @@ interface IProps {
 const OfflineDetails = ({itemData, isLoading}: IProps) => {
   const {messages, formatNumber} = useIntl();
 
-  const [openQuestionToggle, setOpenQuestionToggle] = useState<boolean>(false);
+  // const [openQuestionToggle, setOpenQuestionToggle] = useState<boolean>(false);
 
   const questionSelectionType = (data: any) => {
-    switch (data) {
+    switch (String(data)) {
       case QuestionSelectionType.FIXED:
         return messages['common.fixed'];
       case QuestionSelectionType.RANDOM:
         return messages['common.random'];
       case QuestionSelectionType.RANDOM_FROM_QUESTION_BANK:
         return messages['common.random_from_elect'];
+      default:
+        return '';
     }
   };
 
   const questionType = (data: any) => {
-    switch (data) {
+    switch (String(data)) {
       case QuestionType.MCQ:
         return messages['question.type.mcq'];
       case QuestionType.FILL_IN_THE_BLANK:
@@ -51,12 +47,14 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
         return messages['common.presentation'];
       case QuestionType.DESCRIPTIVE:
         return messages['common.descriptive'];
+      default:
+        return '';
     }
   };
 
-  const OnClickQuestionToggle = () => {
-    setOpenQuestionToggle((prev: boolean) => !prev);
-  };
+  // const OnClickQuestionToggle = () => {
+  //   setOpenQuestionToggle((prev: boolean) => !prev);
+  // };
 
   return (
     <>
@@ -126,49 +124,52 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
         </Fragment>
       ))}
 
-      <Grid item xs={12}>
-        <Grid container spacing={1}>
-          <Grid item xs={3} mt={3}>
-            <QuestionTypeCheckedBox
-              label={itemData ? questionType(itemData.question_type) : ''}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <DetailsInputView
-                  label={messages['common.number_of_questions']}
-                  value={itemData?.number_of_questions}
-                  isLoading={isLoading}
-                />
-              </Grid>
+      {(itemData?.exam_sections || []).map((data: any, i: number) => (
+        <Grid key={i} item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={3} mt={3}>
+              <QuestionTypeCheckedBox
+                label={data ? questionType(data.question_type) : ''}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <Grid container spacing={3}>
+                <Grid item xs={3}>
+                  <DetailsInputView
+                    label={messages['common.number_of_questions']}
+                    value={data?.number_of_questions}
+                    isLoading={isLoading}
+                  />
+                </Grid>
 
-              <Grid item xs={3}>
-                <DetailsInputView
-                  label={messages['common.question_selection_type']}
-                  value={
-                    itemData
-                      ? questionSelectionType(itemData?.question_selection_type)
-                      : ''
-                  }
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <DetailsInputView
-                  label={messages['common.marks']}
-                  value={itemData?.individual_marks}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <DetailsInputView
-                  label={messages['common.total_marks']}
-                  value={itemData?.total_marks}
-                  isLoading={isLoading}
-                />
-              </Grid>
-              <Grid item xs={2} mt={3}>
+                <Grid item xs={3}>
+                  <DetailsInputView
+                    label={messages['common.question_selection_type']}
+                    value={
+                      data
+                        ? questionSelectionType(data?.question_selection_type)
+                        : ''
+                    }
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <DetailsInputView
+                    label={messages['common.marks']}
+                    value={data?.individual_marks}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <DetailsInputView
+                    label={messages['common.total_marks']}
+                    value={data?.total_marks}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+
+                {/*todo: this will update after question has given into api*/}
+                {/*<Grid item xs={2} mt={3}>
                 <Tooltip title={messages['question_set.label'] as any}>
                   <Fab
                     size='small'
@@ -182,10 +183,10 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
                     )}
                   </Fab>
                 </Tooltip>
-              </Grid>
-              {openQuestionToggle && (
+              </Grid>*/}
+                {/*{openQuestionToggle && (
                 <>
-                  {(itemData.offline_question_sets || []).map(
+                  {(data.offline_question_sets || []).map(
                     (questionSet: any) => (
                       <Grid key={questionSet.id} item xs={6}>
                         <Body1>{questionSet.title}</Body1>
@@ -200,11 +201,12 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
                     ),
                   )}
                 </>
-              )}
+              )}*/}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      ))}
     </>
   );
 };

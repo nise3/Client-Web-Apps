@@ -5,13 +5,14 @@ import CancelButton from '../../../../@softbd/elements/button/CancelButton/Cance
 import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
 import {Grid} from '@mui/material';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import IconExam from '../../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../ExamEnums';
 import OnlineDetails from './OnlineDetails';
 import OfflineDetails from './OfflineDetails';
 import {useFetchExam} from '../../../../services/instituteManagement/hooks';
+import {cloneDeep} from 'lodash';
 
 interface ExamDetailsPopupProps {
   itemId: number;
@@ -28,14 +29,43 @@ const ExamDetailsPopup = ({
 
   const {data: itemData, isLoading: isLoadingExam} = useFetchExam(itemId);
 
+  const [onlineExamData, setOnlineExamData] = useState<any>();
+  const [offlineExamData, setOfflineExamData] = useState<any>();
+
+  useEffect(() => {
+    let arr = cloneDeep(itemData);
+
+    if (itemData?.type === Number(ExamTypes.ONLINE)) {
+      setOnlineExamData(itemData.exams[0]);
+    }
+
+    if (itemData?.type === Number(ExamTypes.OFFLINE)) {
+      setOfflineExamData(itemData.exams[0]);
+    }
+
+    if (itemData?.type === Number(ExamTypes.MIXED)) {
+      let onData: any = (arr.exams || []).filter(
+        (item: any) => item.type == Number(ExamTypes.ONLINE),
+      );
+      setOnlineExamData(onData[0]);
+
+      let offData: any = (arr.exams || []).filter(
+        (item: any) => item.type == Number(ExamTypes.OFFLINE),
+      );
+      setOfflineExamData(offData[0]);
+    }
+  }, [itemData]);
+
   const examType = (data: any) => {
-    switch (data) {
+    switch (String(data)) {
       case ExamTypes.ONLINE:
         return messages['common.online'];
       case ExamTypes.OFFLINE:
         return messages['common.offline'];
       case ExamTypes.MIXED:
         return messages['common.mixed'];
+      default:
+        return '';
     }
   };
 
@@ -107,11 +137,17 @@ const ExamDetailsPopup = ({
           </Grid>
 
           {itemData && itemData?.type == ExamTypes.ONLINE && (
-            <OnlineDetails itemData={itemData} isLoading={isLoadingExam} />
+            <OnlineDetails
+              itemData={onlineExamData}
+              isLoading={isLoadingExam}
+            />
           )}
 
           {itemData && itemData?.type == ExamTypes.OFFLINE && (
-            <OfflineDetails itemData={itemData} isLoading={isLoadingExam} />
+            <OfflineDetails
+              itemData={offlineExamData}
+              isLoading={isLoadingExam}
+            />
           )}
 
           {itemData && itemData?.type == ExamTypes.MIXED && (
