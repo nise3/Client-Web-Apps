@@ -140,7 +140,7 @@ const TransferQuestionList = ({
             <ListItem
               key={value?.id}
               role='listitem'
-              sx={index != 0 ? {borderBottom: '1px solid #bdb7b7'} : {}}>
+              sx={index != 0 ? {borderTop: '1px solid #bdb7b7'} : {}}>
               <ListItemIcon>
                 <Checkbox
                   checked={checked?.some((item) => item?.id === value?.id)}

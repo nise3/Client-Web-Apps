@@ -7,7 +7,6 @@ import {TextField} from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
-import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useFetchExamQuestionsBanks} from '../../../../services/instituteManagement/hooks';
 import {Body1} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';

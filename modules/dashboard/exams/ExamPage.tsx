@@ -74,7 +74,7 @@ const ExamPage = () => {
     });
 
   const examType = (type: any) => {
-    switch (type) {
+    switch (String(type)) {
       case ExamTypes.ONLINE:
         return messages['common.online'];
       case ExamTypes.OFFLINE:
@@ -107,7 +107,7 @@ const ExamPage = () => {
         accessor: 'type',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <div>{examType(data)}</div>;
+          return <div>{examType(data.type)}</div>;
         },
       },
       {
