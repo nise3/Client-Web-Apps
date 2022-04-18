@@ -210,7 +210,7 @@ const InstituteEventCalendarView = () => {
                     });
                     const [time, ampm] = format.split(' ');
                     if (locale === LanguageCodes.BN) {
-                      format = (ampm == 'AM') ? `${time} পুর্বাহ্ন` : `${time} অপরাহ্ন`;
+                      format = `${time} ${messages[ampm]}`;
                     }
                     return format;
                   }

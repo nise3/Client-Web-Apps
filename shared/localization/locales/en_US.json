@@ -1877,5 +1877,7 @@
   "course.available_training_centers": "This course is available in the training centers below",
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
-  "common.goto_youth": "Youth profile"
+  "common.goto_youth": "Youth profile",
+  "AM": "AM",
+  "PM": "PM"
 }
