@@ -79,6 +79,8 @@ const QuestionSetPopup = ({
     let questionsFormValues = questionList.map((question: any) => {
       return {
         id: question?.id,
+        accessor_id: question?.accessor_id,
+        accessor_type: question?.accessor_type,
         subject_id: question?.subject_id,
         title: question?.title,
         title_en: question?.title_en,
