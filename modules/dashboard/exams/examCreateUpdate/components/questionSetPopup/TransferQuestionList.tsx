@@ -18,6 +18,7 @@ interface IProps {
   getQuestionSet: any;
   subjectId: any;
   questionType: any;
+  eachQuestionMark: number;
 }
 
 const TransferQuestionList = ({
@@ -25,6 +26,7 @@ const TransferQuestionList = ({
   onEditPopupOpenClose,
   subjectId,
   questionType,
+  eachQuestionMark,
 }: IProps) => {
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
@@ -81,6 +83,11 @@ const TransferQuestionList = ({
   };
 
   const moveCheckedToRight = () => {
+    /*const leftQ = [...leftChecked];
+    leftQ.map((question: any) => {
+      question.individual_mark = eachQuestionMark;
+    });*/
+
     setRightQuestionList(rightQuestionList.concat(leftChecked));
     setLeftQuestionList(not(leftQuestionList, leftChecked));
     setChecked(not(checked, leftChecked));

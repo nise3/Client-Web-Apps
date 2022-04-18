@@ -144,6 +144,7 @@ const QuestionSetPopup = ({
             onEditPopupOpenClose={onEditPopupOpenClose}
             subjectId={subjectId}
             questionType={questionType}
+            eachQuestionMark={totalMarks / totalQuestions}
           />
         </Grid>
         <Grid item xs={12}>
