@@ -1880,5 +1880,6 @@
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
   "common.goto_youth": "Youth profile",
-  "cdap.required_info": "Please provide the required information"
+  "cdap.required_info": "Please provide the required information",
+  "common.submitted_feedback" : "Your feedback has been noted. Thank you for contacting us."
 }

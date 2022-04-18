@@ -10,7 +10,10 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
 import yup from '../../../@softbd/libs/yup';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  EMAIL_REGEX,
+  MOBILE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
@@ -149,10 +152,13 @@ const ContactPage = () => {
         .label(messages['common.mobile'] as string)
         .matches(MOBILE_NUMBER_REGEX),
       email: yup
-        .string()
-        .email()
-        .nullable(true)
-        .label(messages['common.email'] as string),
+        .mixed()
+        .label(messages['common.email'] as string)
+        .test(
+          'email_validation',
+          messages['common.validation_email_error'] as string,
+          (value) => !value || Boolean(value.match(EMAIL_REGEX)),
+        ),
 
       comment: yup
         .string()
@@ -180,7 +186,7 @@ const ContactPage = () => {
       //console.log(data);
       successStack(
         <IntlMessages
-          id='common.subject_sent_successfully'
+          id='common.submitted_feedback'
           values={{subject: <IntlMessages id='common.your_info' />}}
         />,
       );
