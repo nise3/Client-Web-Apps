@@ -509,7 +509,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-        <CustomFormSelect
+          <CustomFormSelect
             id='trainers'
             label={messages['trainers.label']}
             isLoading={isLoadingTrainers}
