@@ -4,6 +4,7 @@ import {
   API_4IR_CS,
   API_4IR_Curriculum,
   API_4IR_PROJECTS,
+  API_4IR_SCALE_UP,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRProject(projectId: number | null) {
@@ -24,4 +25,7 @@ export function useFetch4IRCBLM(CBLMId: number | null) {
 
 export function useFetch4IRCurriculum(CurrId: number | null) {
   return useAxiosSWR(CurrId ? API_4IR_Curriculum + '/' + CurrId : null);
+}
+export function useFetch4IRScaleUp(scaleUpId: number | null) {
+  return useAxiosSWR(scaleUpId ? API_4IR_SCALE_UP + '/' + scaleUpId : null);
 }

@@ -1888,6 +1888,12 @@
   "4ir.implementing_team": "Implementing Team",
   "4ir.mentoring_team": "Mentoring Team",
   "4ir.TNA_report": "TNA Report",
+  "4ir.scale_up": "Scale Up",
+  "4ir_scaleUp.label": "4IR Scale Up",
+  "4ir.project_advancement": "Project Advancement",
+  "4ir.previous_budget": "Previous budget",
+  "4ir.project_budget": "Project Budget",
+  "4ir.project_details": "প্Project Details",
   "project.name": "Project Name",
   "project.name_en": "Project Name (En)",
   "project.details": "Project Details",
@@ -1902,6 +1908,7 @@
   "4ir_cs.experts_list": "Experts List",
   "4ir_cs.approved_by": "Approved by",
   "4ir_cs.organization_name": "Developer Organization Name",
+<<<<<<< HEAD
   "4ir_cs.supported_by": "Supported by",
   "4ir_CBLM.label": " 4IR CBLM",
   "4ir.CBLM": "CBLM",
@@ -1909,4 +1916,7 @@
   "common.event_description": "Event description",
   "4ir_showcasing.label": "4IR Showcasing",
   "4ir_showcasing.invite_others": "Invite others"
+=======
+  "4ir_cs.supported_by": "Supported by"
+>>>>>>> sourav/feat-scale_up
 }
