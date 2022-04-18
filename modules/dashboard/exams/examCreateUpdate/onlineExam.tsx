@@ -61,6 +61,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <CustomDateTimePicker
+              required
               id={isMixed ? `online[exam_date]` : 'exam_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
@@ -69,6 +70,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={isMixed ? `online[duration]` : 'duration'}
               type={'number'}
               label={messages['common.duration_min']}
