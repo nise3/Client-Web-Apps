@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import {momentLocalizer, View} from 'react-big-calendar';
+import { momentLocalizer, View } from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
-import {useFetchPublicCalenderEvents} from '../../../services/cmsManagement/hooks';
+import { useFetchPublicCalenderEvents } from '../../../services/cmsManagement/hooks';
 import {
   Box,
   Card,
@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {H1} from '../../../@softbd/elements/common';
-import {createIntl, useIntl} from 'react-intl';
+import { H1 } from '../../../@softbd/elements/common';
+import { createIntl, useIntl } from 'react-intl';
 import {
   ICalendar,
   ICalendarQuery,
@@ -25,12 +25,13 @@ import {
   getCalenderViewFilter,
   getNavigationFilter,
 } from '../../../services/global/globalService';
-import {createIntlCache} from '@formatjs/intl';
+import { createIntlCache } from '@formatjs/intl';
+import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
 
 const localizer = momentLocalizer(moment);
 
 const InstituteEventCalendarView = () => {
-  const {messages, formatDate, locale, formatNumber} = useIntl();
+  const { messages, formatDate, locale, formatNumber, formatTime } = useIntl();
   const dateFormat = 'YYYY-MM-DD';
   const cache = createIntlCache();
   const intl = createIntl(
@@ -49,7 +50,7 @@ const InstituteEventCalendarView = () => {
 
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
 
-  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
+  let { data: events } = useFetchPublicCalenderEvents(viewFilters);
 
   const startDates = eventsList.map((e) =>
     moment(e.start).format(dateFormat),
@@ -92,12 +93,12 @@ const InstituteEventCalendarView = () => {
 
   const customDateCellWrap = (e: any) => {
     const dateNumber = intl.formatNumber(e.label);
-    const dateFontSize = {fontSize: '1.5rem'};
+    const dateFontSize = { fontSize: '1.5rem' };
     const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
     return (
       <div>
         {hasEvent(parsDate(e.date), startDates) ? (
-          <div style={{position: 'relative'}}>{dateSpan}</div>
+          <div style={{ position: 'relative' }}>{dateSpan}</div>
         ) : (
           dateSpan
         )}
@@ -123,20 +124,20 @@ const InstituteEventCalendarView = () => {
   };
 
   return (
-    <Container maxWidth={'lg'} sx={{mt: 5, mb: 5}}>
+    <Container maxWidth={'lg'} sx={{ mt: 5, mb: 5 }}>
       <Card>
         <CardHeader
           title={
-            <H1 style={{fontSize: '2.25rem'}}>{messages['menu.calendar']}</H1>
+            <H1 style={{ fontSize: '2.25rem' }}>{messages['menu.calendar']}</H1>
           }
         />
         <CardContent>
-          <Grid item xs={12} md={12} style={{paddingTop: 20}}>
+          <Grid item xs={12} md={12} style={{ paddingTop: 20 }}>
             {isOpenDetailsView ? (
               <div>
                 <EventCalendarDetails itemData={selectedItem} />
-                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  <Box style={{paddingTop: 20}}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Box style={{ paddingTop: 20 }}>
                     <CancelButton onClick={onClose} isLoading={false} />
                   </Box>
                 </Box>
@@ -146,7 +147,7 @@ const InstituteEventCalendarView = () => {
                 events={eventsList}
                 localizer={localizer}
                 selectable={true}
-                style={{height: '100vh'}}
+                style={{ height: '100vh' }}
                 startAccessor='start'
                 endAccessor='end'
                 defaultDate={moment().toDate()}
@@ -201,6 +202,18 @@ const InstituteEventCalendarView = () => {
 
                     return lbl;
                   },
+                  timeGutterFormat: (date, culture, localizer) => {
+                    let format = intl.formatTime(date, {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hourCycle: 'h12'
+                    });
+                    const [time, ampm] = format.split(' ');
+                    if (locale === LanguageCodes.BN) {
+                      format = (ampm == 'AM') ? `${time} পুর্বাহ্ন` : `${time} অপরাহ্ন`;
+                    }
+                    return format;
+                  }
                 }}
               />
             )}
