@@ -57,6 +57,8 @@ export interface YouthAuthUser extends AuthUser {
   gender: Gender;
   mobile: string;
   user_name_type: number;
+  admin_access_type?: any;
+  youth_auth_source?: number;
   date_of_birth: string;
   physical_disability_status: number;
   marital_status: MaritalStatusType;

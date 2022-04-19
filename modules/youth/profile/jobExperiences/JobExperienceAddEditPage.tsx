@@ -48,13 +48,6 @@ const initialValues = {
   area_of_businesses: [],
 };
 
-const employmentTypes = [
-  {id: 1, title: 'Full-time'},
-  {id: 2, title: 'Part-time'},
-  {id: 3, title: 'Casual'},
-  {id: 4, title: 'Apprentice/Trainee'},
-];
-
 const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   itemId,
   onClose: closeJobExperienceAddEditPage,
@@ -79,6 +72,28 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
     useState<any>([]);
   const [selectedAreaOfExperienceList, setSelectedAreaOfExperienceList] =
     useState<any>([]);
+  const employmentTypes = [
+    {
+      id: 1,
+      title: 'পূর্ণকালীন',
+      title_en: 'Full-time',
+    },
+    {
+      id: 2,
+      title: 'খন্ডকালীন',
+      title_en: 'Part-time',
+    },
+    {
+      id: 3,
+      title: 'ক্যাজুয়াল',
+      title_en: 'Casual',
+    },
+    {
+      id: 4,
+      title: 'ইন্টার্নশীপ',
+      title_en: 'Apprentice/Trainee',
+    },
+  ];
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -154,6 +169,8 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
           ? getMomentDateFormat(itemData?.end_date, 'YYYY-MM-DD')
           : '',
         employment_type_id: itemData?.employment_type_id,
+        area_of_businesses: itemData?.area_of_businesses,
+        area_of_experiences: itemData?.area_of_experiences,
       });
       setCurrentWorkStatus(itemData?.is_currently_working);
       setSelectedAreaOfExperienceList(itemData?.area_of_experiences);
@@ -297,7 +314,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 control={control}
                 options={areaOfExperienceData}
                 optionValueProp='id'
-                optionTitleProp={['title']}
+                optionTitleProp={['title', 'title_en']}
                 defaultValue={selectedAreaOfExperienceList}
                 errorInstance={errors}
                 onChange={onAreaOfExperienceChange}
@@ -329,7 +346,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                   control={control}
                   options={employmentTypes}
                   optionValueProp={'id'}
-                  optionTitleProp={['title']}
+                  optionTitleProp={['title', 'title_en']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -363,7 +380,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                     checked={currentWorkStatus == 1}
                   />
                 }
-                label='I currently work here'
+                label={messages['common.currently_working_here'] as string}
               />
             </Grid>
             <Grid item container spacing={2} xs={12} md={12}>

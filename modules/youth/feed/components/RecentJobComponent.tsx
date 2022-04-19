@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 import {H3, Link} from '../../../../@softbd/elements/common';
@@ -16,6 +16,7 @@ import {useRouter} from 'next/router';
 import {gotoLoginSignUpPage} from '../../../../@softbd/common/constants';
 import JobApplyPopup from '../../../../@softbd/components/JobApplyPopup';
 import {SHOW} from '../../../dashboard/jobLists/jobPost/enums/JobPostEnums';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'RecentJobComponent';
 
@@ -112,10 +113,10 @@ const RecentJobComponent: FC<RecentJobProps> = ({data}) => {
   return (
     <StyledBox display={'flex'}>
       <Box>
-        <Avatar
+        <AvatarImageView
           alt='provider image'
           variant={'square'}
-          src={data.industry_association_logo}
+          src={data?.industry_association_logo}
           className={classes.jobProviderImage}
         />
       </Box>

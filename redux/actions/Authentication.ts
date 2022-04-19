@@ -5,6 +5,7 @@ import {
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
   COOKIE_KEY_SSO_SESSION_STATE,
+  COOKIE_KEY_YOUTH_USER_AS_TRAINER,
 } from '../../shared/constants/AppConst';
 import {CommonAuthUser, YouthAuthUser} from '../types/models/CommonAuthUser';
 import {AppActions} from '../types';
@@ -22,12 +23,6 @@ import {
   removeBrowserCookie,
   setBrowserCookie,
 } from '../../@softbd/libs/cookieInstance';
-// import {Gender} from '../../@softbd/utilities/Genders';
-// import {IdentityNumberType} from '../../@softbd/utilities/IdentityNumberTypes';
-// import {FreedomFighterStatusType} from '../../@softbd/utilities/FreedomFighterStatus';
-// import {MaritalStatusType} from '../../@softbd/utilities/MaritalStatus';
-// import {Religion} from '../../@softbd/utilities/Religions';
-// import {EthnicGroupStatusType} from '../../@softbd/utilities/EthnicGroupStatus';
 import {setDefaultAuthorizationHeader} from '../../@softbd/libs/axiosInstance';
 import axios from 'axios';
 import {getHostUrl, paramsBuilder} from '../../@softbd/common/SSOConfig';
@@ -37,9 +32,6 @@ import {
   TYouthAuthUserSSOResponse,
 } from '../../shared/Interface/IAuthentication';
 import {API_SSO_AUTHORIZE_CODE_GRANT} from '../../@softbd/common/apiRoutes';
-// import {IOrganization} from '../../shared/Interface/organization.interface';
-// import {IInstitute} from '../../shared/Interface/institute.interface';
-// import {IRole} from '../../shared/Interface/userManagement.interface';
 
 type TOnSSOSignInCallbackCode = string;
 
@@ -54,9 +46,6 @@ export const onSSOSignInCallback = (
       redirectUrl.search = paramsBuilder({redirected_from: redirected_from});
     }
 
-    // let urlHost = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-    //   ? process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
-    //   : 'https://core.bus-staging.softbdltd.com';
     const apiKey = process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       ? process.env.NEXT_PUBLIC_BACK_CHANNEL_API_KEY
       : null;
@@ -65,7 +54,6 @@ export const onSSOSignInCallback = (
 
     try {
       const {data: tokenData}: {data: TOnSSOSignInCallback} = await axios.post(
-        // urlHost + '/sso-authorize-code-grant',
         API_SSO_AUTHORIZE_CODE_GRANT,
         {
           code,
@@ -78,7 +66,7 @@ export const onSSOSignInCallback = (
         },
       );
 
-      console.log('onSSOSignInCallback', tokenData);
+      console.log('on SSOSignIn Callback', tokenData);
 
       let expireDate = new Date();
       expireDate.setTime(
@@ -112,6 +100,7 @@ export const onSSOSignInCallback = (
     }
   };
 };
+
 /** TODO: This Function should not be here */
 export const loadAuthUser = async (
   dispatch: Dispatch<AppActions | any>,
@@ -123,15 +112,20 @@ export const loadAuthUser = async (
     const ssoTokenData = JSON.parse(
       Base64.decode((tokenData.id_token || '..').split('.')[1]),
     );
-    console.log(ssoTokenData);
+    console.log('ssoTokenData: ', ssoTokenData);
     const youthServicePath = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH;
     const coreServicePath = process.env.NEXT_PUBLIC_CORE_SERVICE_PATH;
     const appAccessTokenData = getBrowserCookie(COOKIE_KEY_APP_ACCESS_TOKEN);
     console.log('permission call: appAccessTokenData', appAccessTokenData);
 
+    const isYouthAsTrainerUser = getBrowserCookie(
+      COOKIE_KEY_YOUTH_USER_AS_TRAINER,
+    );
+
     //TODO: This api will be '/user-profile or /auth-profile'
     const coreResponse =
-      ssoTokenData.user_type == UserTypes.YOUTH_USER
+      !ssoTokenData.user_type ||
+      (ssoTokenData.user_type == UserTypes.YOUTH_USER && !isYouthAsTrainerUser)
         ? await apiGet(youthServicePath + '/youth-profile', {
             headers: {
               Authorization: 'Bearer ' + appAccessTokenData?.access_token,
@@ -154,7 +148,9 @@ export const loadAuthUser = async (
     dispatch({
       type: UPDATE_AUTH_USER,
       payload:
-        ssoTokenData.user_type == UserTypes.YOUTH_USER
+        !ssoTokenData.user_type ||
+        (ssoTokenData.user_type == UserTypes.YOUTH_USER &&
+          !isYouthAsTrainerUser)
           ? getYouthAuthUserObject({...ssoTokenData, ...data})
           : getCommonAuthUserObject({...ssoTokenData, ...data}),
     });
@@ -230,6 +226,8 @@ export const getYouthAuthUserObject = (
     uid: authUser?.sub,
     youthId: authUser?.id,
     youthCode: authUser?.code,
+    admin_access_type: authUser?.admin_access_type,
+    youth_auth_source: authUser?.youth_auth_source,
     username: authUser?.username,
     date_of_birth: authUser?.date_of_birth,
     first_name: authUser?.first_name,

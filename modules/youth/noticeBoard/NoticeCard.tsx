@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -14,6 +13,8 @@ import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'NoticeCard';
 
@@ -69,8 +70,8 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
-              <Avatar
-                src={notice?.grid_image_path ?? '/images/blank_image.png'}
+              <AvatarImageView
+                src={notice?.grid_image_path}
                 alt={notice?.image_alt_title}
                 className={classes.avatarImage}
                 variant='square'
@@ -105,7 +106,9 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
               )}
               {notice?.file_path && (
                 <Button color={'primary'} variant={'outlined'}>
-                  <Link target={'_blank'} href={notice?.file_path}>
+                  <Link
+                    target={'_blank'}
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + notice.file_path}>
                     {messages['common.download']}
                   </Link>
                 </Button>

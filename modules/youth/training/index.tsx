@@ -3,7 +3,6 @@ import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
 import PopularCoursesSection from './PopularCoursesSection';
-import NearbyTrainingCenterSection from './NearbyTrainingCenterSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {styled} from '@mui/material/styles';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -77,9 +76,9 @@ const CourseListPage = () => {
           <Grid item xs={12}>
             <TrendingCoursesSection filters={filters} showAllCourses={false} />
           </Grid>
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}> //TODO temporarily commented
             <NearbyTrainingCenterSection showAllNearbyTrainingCenter={false} />
-          </Grid>
+          </Grid>*/}
         </Grid>
       </Container>
     </StyledTrainingRoot>

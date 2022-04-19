@@ -1,18 +1,11 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Button, Card, CardContent, Grid, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TagChip from '../../../../@softbd/elements/display/TagChip';
 import {Share} from '@mui/icons-material';
 import {ISkill} from '../../../../shared/Interface/organization.interface';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'FreelancerCardComponent';
 
@@ -63,7 +56,7 @@ const FreelancerCardComponent: FC<FreelancerCardComponentProps> = ({
           <Grid container spacing={2}>
             <Grid item xs={12} sm={7} md={7}>
               <Box sx={{display: 'flex'}}>
-                <Avatar
+                <AvatarImageView
                   src={freelancer?.photo}
                   sx={{width: '60px', height: '60px'}}
                 />

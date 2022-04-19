@@ -15,6 +15,7 @@ import {KeyboardArrowDown, Login} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
+import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -98,6 +99,15 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
               <Login />
             </ListItemIcon>
             <ListItemText>{messages['common.login']}</ListItemText>
+          </MenuItem>
+        </Link>
+        <Divider sx={{margin: '0 !important'}} />
+        <Link href={getCDAPLoginUrl()}>
+          <MenuItem>
+            <ListItemIcon>
+              <Login />
+            </ListItemIcon>
+            <ListItemText>{messages['common.cdap_login']}</ListItemText>
           </MenuItem>
         </Link>
       </StyledMenu>
