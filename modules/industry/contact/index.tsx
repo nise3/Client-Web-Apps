@@ -348,30 +348,33 @@ const ContactPage = () => {
                 </Grid>
               ) : (
                 <>
-                  {contactInfoData?.map((contact: any) => (
-                    <Grid item xs={12} sm={2} md={3} key={contact.id}>
-                      <Box className={classes.contactBox}>
-                        <H6
-                          sx={{
-                            color: 'primary.main',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          }}
-                          title={contact?.title}>
-                          {contact?.title}
-                        </H6>
-                        <Text className={classes.contactBoxItem}>
-                          <Call className={classes.contactBoxItemIcon} />
-                          {contact?.mobile}
-                        </Text>
-                        <Text className={classes.contactBoxItem}>
-                          <Email className={classes.contactBoxItemIcon} />
-                          {contact?.email}
-                        </Text>
-                      </Box>
-                    </Grid>
-                  ))}
+                  {contactInfoData?.map(
+                    (contact: any) =>
+                      contact.row_status == '1' && (
+                        <Grid item xs={12} sm={2} md={3} key={contact.id}>
+                          <Box className={classes.contactBox}>
+                            <H6
+                              sx={{
+                                color: 'primary.main',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                              title={contact?.title}>
+                              {contact?.title}
+                            </H6>
+                            <Text className={classes.contactBoxItem}>
+                              <Call className={classes.contactBoxItemIcon} />
+                              {contact?.mobile}
+                            </Text>
+                            <Text className={classes.contactBoxItem}>
+                              <Email className={classes.contactBoxItemIcon} />
+                              {contact?.email}
+                            </Text>
+                          </Box>
+                        </Grid>
+                      ),
+                  )}
                 </>
               )}
             </Grid>

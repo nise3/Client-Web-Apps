@@ -465,7 +465,7 @@ const MoreJobInformation = ({
               isLoading={isLoadingJobLocations}
               control={control}
               options={jobLocations || []}
-              optionTitleProp={['title']}
+              optionTitleProp={['title', 'title_en']}
               optionValueProp={'location_id'}
               errorInstance={errors}
             />
