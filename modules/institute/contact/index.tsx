@@ -22,6 +22,10 @@ import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeed
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
 import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
+import {
+  isValidLatitude,
+  isValidLongitude,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'InstituteContact';
 
@@ -102,23 +106,37 @@ const InstituteContact = () => {
   const [mapLocations, setMapLocations] = useState([]);
 
   useEffect(() => {
-    setMapLocations(trainingCenters);
+    if (trainingCenters && trainingCenters.length > 0) {
+      let locations: any = [];
+      trainingCenters.map((tc: any) => {
+        if (
+          isValidLatitude(tc?.location_latitude) &&
+          isValidLongitude(tc?.location_longitude)
+        ) {
+          locations.push({
+            title: tc.title,
+            lat: tc.location_latitude,
+            lng: tc.location_longitude,
+          });
+        }
+      });
+      setMapLocations(locations);
+    }
   }, [trainingCenters]);
 
-  const onChangeMapValue = (value: any) => {
+  const onChangeMapValue = (trainingCenterId: any) => {
     let filterData = trainingCenters?.filter(
-      (item: any) => item.title === value,
+      (item: any) => item.id == trainingCenterId,
     );
-    let newArr: any = [...filterData];
-    setMapLocations(newArr);
-    if (newArr.length > 0) {
+
+    if (filterData.length > 0) {
       if (
-        !isNaN(parseFloat(newArr[0]?.location_latitude)) &&
-        !isNaN(parseFloat(newArr[0]?.location_longitude))
+        isValidLatitude(filterData[0]?.location_latitude) &&
+        isValidLongitude(filterData[0]?.location_longitude)
       ) {
         setMapCenter({
-          lat: parseFloat(newArr[0].location_latitude),
-          lng: parseFloat(newArr[0].location_longitude),
+          lat: parseFloat(filterData[0].location_latitude),
+          lng: parseFloat(filterData[0].location_longitude),
         });
       }
     }
@@ -177,6 +195,7 @@ const InstituteContact = () => {
     }
   };
 
+  console.log('mapLocations: ', mapLocations);
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>
@@ -288,7 +307,7 @@ const InstituteContact = () => {
                       label={messages['common.location']}
                       isLoading={false}
                       control={control}
-                      optionValueProp={'title'}
+                      optionValueProp={'id'}
                       options={trainingCenters}
                       optionTitleProp={['title']}
                       onChange={onChangeMapValue}
@@ -303,8 +322,8 @@ const InstituteContact = () => {
                         {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
                             key={i}
-                            lat={item.location_latitude}
-                            lng={item.location_longitude}
+                            lat={item.lat}
+                            lng={item.lng}
                             text={item.title}
                           />
                         ))}

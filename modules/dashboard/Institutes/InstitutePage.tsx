@@ -17,7 +17,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import InstituteDetailsPopup from './InstituteDetailsPopup';
 import InstituteAddEditPopup from './InstituteAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import RejectButton from '../../../@softbd/elements/button/RejectButton/RejectButton';
@@ -135,7 +138,11 @@ const InstitutePage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

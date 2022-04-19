@@ -16,7 +16,10 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {deleteTrainingCenter} from '../../../services/instituteManagement/TrainingCenterService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -78,7 +81,11 @@ const TrainingCenterPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

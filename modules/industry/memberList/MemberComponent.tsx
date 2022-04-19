@@ -13,6 +13,7 @@ import {H5, Link, Text} from '../../../@softbd/elements/common';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {Room} from '@mui/icons-material';
 import {useRouter} from 'next/router';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'MemberComponent';
 
@@ -64,7 +65,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         className={classes.cardHeader}
         avatar={
           member?.logo ? (
-            <Avatar className={classes.avatar} src={member.logo} />
+            <AvatarImageView className={classes.avatar} src={member?.logo} />
           ) : (
             <Avatar className={classes.avatar}>
               {member?.title?.charAt(0)}

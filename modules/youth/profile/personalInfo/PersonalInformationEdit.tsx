@@ -121,7 +121,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     useState<boolean>(false);
   const [identityNumberType, setIdentityNumberType] = useState<
     string | undefined
-  >(IdentityNumberTypes.NID);
+  >();
 
   const getIdentityNumberFieldCaption = useCallback(() => {
     switch (String(identityNumberType)) {
@@ -205,13 +205,16 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      identity_number: yup
-        .string()
-        .trim()
-        .matches(NID_REGEX)
-        .label(messages['common.identity_number'] as string),
+      identity_number: Boolean(identityNumberType)
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .matches(NID_REGEX)
+            .label(messages['common.identity_number'] as string)
+        : yup.mixed(),
     });
-  }, [messages, userNameType, disabilityStatus]);
+  }, [messages, userNameType, disabilityStatus, identityNumberType]);
 
   const physicalDisabilities = useMemo(
     () => [
@@ -444,7 +447,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     data.does_belong_to_ethnic_group = isBelongToEthnicGroup
       ? EthnicGroupStatus.YES
       : EthnicGroupStatus.NO;
-
     try {
       await updateYouthPersonalInfo(data);
       updateSuccessMessage('personal_info.label');
@@ -453,7 +455,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
   return (
     <Zoom in={true}>
       <Box>
@@ -588,23 +589,24 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   },
                 ]}
                 control={control}
-                defaultValue={IdentityNumberTypes.NID}
+                defaultValue={identityNumberType}
                 isLoading={false}
                 onChange={onIdentityTypeChange}
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='identity_number'
-                label={getIdentityNumberFieldCaption()}
-                isLoading={false}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
+            {identityNumberType && (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='identity_number'
+                  label={getIdentityNumberFieldCaption()}
+                  isLoading={false}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='gender'

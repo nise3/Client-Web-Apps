@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import {
@@ -22,6 +22,7 @@ import {
   gotoLoginSignUpPage,
   youthDomain,
 } from '../../../@softbd/common/constants';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -161,13 +162,8 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <CardMedia
-            component={'img'}
-            image={
-              course?.cover_image
-                ? course?.cover_image
-                : '/images/blank_image.png'
-            }
+          <CardMediaImageView
+            image={course?.cover_image}
             sx={{height: 300, width: '100%', backgroundSize: '100%'}}
             title={course?.title}
           />

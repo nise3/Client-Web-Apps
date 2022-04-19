@@ -6,6 +6,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
+  getCalculatedSerialNo,
   getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
@@ -81,7 +82,11 @@ const BatchesPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

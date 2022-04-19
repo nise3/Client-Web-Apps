@@ -11,7 +11,10 @@ import GalleryAlbumAddEditPopup from './GalleryAlbumAddEditPopup';
 import GalleryAlbumDetailsPopup from './GalleryAlbumDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconVideo from '../../../@softbd/icons/IconVideo';
 import {deleteGalleryAlbum} from '../../../services/cmsManagement/GalleryAlbumService';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -135,7 +138,11 @@ const GalleryAlbumPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

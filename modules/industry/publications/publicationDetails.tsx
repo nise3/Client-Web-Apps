@@ -1,7 +1,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
+import {Box, Button, Container, Grid, Tooltip} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
@@ -11,6 +11,7 @@ import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useRouter} from 'next/router';
 import {useFetchPublicPublication} from '../../../services/IndustryManagement/hooks';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'PublicationDetails';
 
@@ -105,10 +106,9 @@ const PublicationDetails = () => {
             alignItems: 'center',
             flexDirection: 'column',
           }}>
-          <CardMedia
-            component='img'
+          <CardMediaImageView
             height='200'
-            sx={{width: '150px'}}
+            width='150px'
             image={publicationData?.image_path}
             alt={publicationData?.title}
           />
