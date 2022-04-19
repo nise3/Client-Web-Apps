@@ -122,6 +122,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     control,
     setError,
     setValue,
+    getValues,
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
@@ -402,7 +403,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               subjectId && (
                 <Grid item xs={12}>
                   <OnlineExam
-                    useFrom={{register, errors, control, setValue}}
+                    useFrom={{register, errors, control, setValue, getValues}}
                     examType={examType}
                     subjectId={subjectId}
                   />
@@ -412,7 +413,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) && (
               <Grid item xs={12}>
                 <OffLineExam
-                  useFrom={{register, errors, control, setValue}}
+                  useFrom={{register, errors, control, setValue, getValues}}
                   examType={examType}
                   subjectId={subjectId}
                 />

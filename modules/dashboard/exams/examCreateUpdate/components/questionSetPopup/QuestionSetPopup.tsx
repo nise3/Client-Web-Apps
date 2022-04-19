@@ -6,7 +6,6 @@ import {isBreakPointUp} from '../../../../../../@crema/utility/Utils';
 import CancelButton from '../../../../../../@softbd/elements/button/CancelButton/CancelButton';
 import {Grid, Typography} from '@mui/material';
 import TransferQuestionList from './TransferQuestionList';
-import {QuestionType} from '../../../../questionsBank/QuestionBanksEnums';
 import SubmitButton from '../../../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
@@ -94,11 +93,7 @@ const QuestionSetPopup = ({
         option_4: question?.option_4,
         option_4_en: question?.option_4_en,
         individual_mark: question?.individual_mark,
-        answers:
-          question?.question_type == QuestionType.YES_NO &&
-          question?.answers?.length > 0
-            ? question?.answers[0]
-            : question?.answers,
+        answers: question?.answers,
         row_status: question?.row_status,
       };
     });
