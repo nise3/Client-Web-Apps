@@ -139,22 +139,23 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         type: itemData?.type,
         row_status: itemData?.row_status,
         exam_date:
-          examType == ExamTypes.ONLINE
+          itemData?.type == ExamTypes.ONLINE
             ? itemData?.exams[0].exam_date.replace(' ', 'T')
             : null,
         duration:
-          examType == ExamTypes.ONLINE ? itemData?.exams[0].duration : null,
+          itemData?.type == ExamTypes.ONLINE
+            ? itemData?.exams[0].duration
+            : null,
       };
+
       console.log('data->', data);
+      setExamType(String(itemData?.type));
+      setSubjectId(itemData?.subject_id);
+
       reset(data);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
-
-  useEffect(() => {
-    setExamType(String(itemData?.type));
-    setSubjectId(itemData?.subject_id);
   }, [itemData]);
 
   const onChangeExamType = useCallback((value) => {

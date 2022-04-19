@@ -17,12 +17,12 @@ import {cloneDeep} from 'lodash';
 interface ExamDetailsPopupProps {
   itemId: number;
   onClose: () => void;
-  openEditModal: (id: number) => void;
+  openEditPage: (id: number) => void;
 }
 
 const ExamDetailsPopup = ({
   itemId,
-  openEditModal,
+  openEditPage,
   ...props
 }: ExamDetailsPopupProps) => {
   const {messages} = useIntl();
@@ -86,7 +86,7 @@ const ExamDetailsPopup = ({
             <CancelButton onClick={props.onClose} isLoading={isLoadingExam} />
             <EditButton
               variant={'contained'}
-              onClick={() => openEditModal(itemData.id)}
+              onClick={() => openEditPage(itemData.id)}
               isLoading={isLoadingExam}
             />
           </>

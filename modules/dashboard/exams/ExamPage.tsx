@@ -9,7 +9,6 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import ExamAddEditPage from './examCreateUpdate/ExamAddEditPage';
 import ExamDetailsPopup from './examDetails/ExamDetailsPopup';
 import IconExam from '../../../@softbd/icons/IconExam';
 import {Link} from '../../../@softbd/elements/common';
@@ -21,24 +20,15 @@ import {useRouter} from 'next/router';
 
 const ExamPage = () => {
   const {messages} = useIntl();
-  // const {successStack} = useNotiStack();
   const router = useRouter();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [isToggleTable] = useState<boolean>(false);
 
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
-  }, []);
-
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
+  const openAddEditPage = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    console.log('itemId: ', itemId);
-    setSelectedItemId(itemId);
+    router.push(`/exams/update/${itemId}`);
   }, []);
 
   const openDetailsModal = useCallback(
@@ -66,9 +56,9 @@ const ExamPage = () => {
     }*/
   };
 
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, []);
+  /*  const refreshDataTable = useCallback(() => {
+      setIsToggleTable((previousToggle) => !previousToggle);
+    }, []);*/
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -132,7 +122,6 @@ const ExamPage = () => {
               <EditButton
                 onClick={() => {
                   router.push(`/exams/update/${data.id}`);
-                  openAddEditModal(data.id);
                 }}
               />
               <DeleteButton
@@ -187,21 +176,12 @@ const ExamPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {isOpenAddEditModal && (
-          <ExamAddEditPage
-            key={3}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
-
         {isOpenDetailsModal && selectedItemId && (
           <ExamDetailsPopup
             key={selectedItemId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
+            openEditPage={openAddEditPage}
           />
         )}
       </PageBlock>
