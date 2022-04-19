@@ -27,6 +27,7 @@ import {
 } from '../../../services/global/globalService';
 import { createIntlCache } from '@formatjs/intl';
 import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
+import { calendarFormatOption } from '../../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
@@ -123,6 +124,67 @@ const InstituteEventCalendarView = () => {
     },
   };
 
+  // const calendarFormat = {
+  //   monthHeaderFormat: (date: any) => {
+  //     return formatDate(date, {
+  //       month: 'long',
+  //       year: 'numeric',
+  //     });
+  //   },
+  //   dayRangeHeaderFormat: (range: any) => {
+  //     let lbl = '';
+  //     if (range.start.getMonth() == range.end.getMonth()) {
+  //       lbl += formatDate(range.start, {
+  //         month: 'long',
+  //       });
+  //       lbl +=
+  //         ' ' +
+  //         formatNumber(range.start.getDate()) +
+  //         ' - ' +
+  //         formatNumber(range.end.getDate());
+  //     } else {
+  //       lbl += formatDate(range.start, {
+  //         month: 'long',
+  //         day: 'numeric',
+  //       });
+  //       lbl += ' - ';
+  //       lbl += formatDate(range.end, {
+  //         month: 'long',
+  //         day: 'numeric',
+  //       });
+  //     }
+
+  //     return lbl;
+  //   },
+  //   dayHeaderFormat: (date: any) => {
+  //     return formatDate(date, {
+  //       weekday: 'long',
+  //       month: 'short',
+  //       day: '2-digit',
+  //     });
+  //   },
+  //   agendaHeaderFormat: (range: any) => {
+  //     let lbl = '';
+  //     lbl += formatDate(range.start);
+  //     lbl += ' - ';
+  //     lbl += formatDate(range.end);
+
+  //     return lbl;
+  //   },
+  //   timeGutterFormat: (date: any) => {
+  //     let format = intl.formatTime(date, {
+  //       hour: '2-digit',
+  //       minute: '2-digit',
+  //       hourCycle: 'h12'
+  //     });
+  //     const [time, ampm] = format.split(' ');
+  //     if (locale === LanguageCodes.BN) {
+  //       format = `${time} ${messages[ampm]}`;
+  //     }
+  //     return format;
+  //   }
+  // }
+
   return (
     <Container maxWidth={'lg'} sx={{ mt: 5, mb: 5 }}>
       <Card>
@@ -155,66 +217,7 @@ const InstituteEventCalendarView = () => {
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
                 components={componentObject}
-                formats={{
-                  monthHeaderFormat: (date, culture, localizer) => {
-                    return formatDate(date, {
-                      month: 'long',
-                      year: 'numeric',
-                    });
-                  },
-                  dayRangeHeaderFormat: (range, culture, localizer) => {
-                    let lbl = '';
-                    if (range.start.getMonth() == range.end.getMonth()) {
-                      lbl += formatDate(range.start, {
-                        month: 'long',
-                      });
-                      lbl +=
-                        ' ' +
-                        formatNumber(range.start.getDate()) +
-                        ' - ' +
-                        formatNumber(range.end.getDate());
-                    } else {
-                      lbl += formatDate(range.start, {
-                        month: 'long',
-                        day: 'numeric',
-                      });
-                      lbl += ' - ';
-                      lbl += formatDate(range.end, {
-                        month: 'long',
-                        day: 'numeric',
-                      });
-                    }
-
-                    return lbl;
-                  },
-                  dayHeaderFormat: (date, culture, localizer) => {
-                    return formatDate(date, {
-                      weekday: 'long',
-                      month: 'short',
-                      day: '2-digit',
-                    });
-                  },
-                  agendaHeaderFormat: (range, culture, localizer) => {
-                    let lbl = '';
-                    lbl += formatDate(range.start);
-                    lbl += ' - ';
-                    lbl += formatDate(range.end);
-
-                    return lbl;
-                  },
-                  timeGutterFormat: (date, culture, localizer) => {
-                    let format = intl.formatTime(date, {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hourCycle: 'h12'
-                    });
-                    const [time, ampm] = format.split(' ');
-                    if (locale === LanguageCodes.BN) {
-                      format = `${time} ${messages[ampm]}`;
-                    }
-                    return format;
-                  }
-                }}
+                formats={calendarFormatOption}
               />
             )}
           </Grid>
