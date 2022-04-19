@@ -131,7 +131,7 @@ const ExamPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton
                 onClick={() => {
-                  router.push(`update/${data.id}`);
+                  router.push(`/exams/update/${data.id}`);
                   openAddEditModal(data.id);
                 }}
               />
