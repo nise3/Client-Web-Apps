@@ -12,7 +12,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import RTODetailsPopup from './RTODetailsPopup';
 import RTOAddEditPopup from './RTOAddEditPopup';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconInstitute from '../../../@softbd/icons/IconInstitute';
 import CustomChipStatus from '../memberList/CustomChipStatus';
@@ -71,7 +74,11 @@ const RTOPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,

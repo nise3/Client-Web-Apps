@@ -231,6 +231,7 @@
   "dashboard.JobTrends": "Job Trends",
   "dashboard.Map": "Map",
   "common.currently_working": "Currently working",
+  "common.currently_working_here": "I currently work here",
   "common.enter_bkash_number": "Enter your bkash number",
   "common.enter_bkash_pin": "Enter your bkash pin",
   "common.choose_payment_method": "Choose payment method",
@@ -267,6 +268,7 @@
   "common.all": "All",
   "common.none": "None",
   "common.login": "Login",
+  "common.cdap_login": "Login with CDAP",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
   "common.orLoginWith": "or Login",
@@ -1879,5 +1881,6 @@
   "common.goto_admin": "Admin panel",
   "common.goto_youth": "Youth profile",
   "AM": "AM",
-  "PM": "PM"
+  "PM": "PM",
+  "cdap.required_info": "Please provide the required information"
 }

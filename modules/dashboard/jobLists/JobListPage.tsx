@@ -18,6 +18,7 @@ import {
   publishJob,
 } from '../../../services/IndustryManagement/JobService';
 import {
+  getCalculatedSerialNo,
   getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
@@ -81,7 +82,7 @@ const JobListPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='job_lists.label' />}}
+          values={{subject: <IntlMessages id='common.jobs' />}}
         />,
       );
       refreshDataTable();
@@ -131,7 +132,11 @@ const JobListPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {

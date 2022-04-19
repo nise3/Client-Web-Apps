@@ -70,6 +70,7 @@ export interface TYouthAuthUserSSOResponse {
   mobile: string;
   user_name_type: number;
   admin_access_type?: any;
+  youth_auth_source?: number;
   freedom_fighter_status: FreedomFighterStatusType;
   identity_number_type: IdentityNumberType;
   identity_number?: string;

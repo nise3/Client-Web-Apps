@@ -1,6 +1,7 @@
 export const LINK_LOGIN = '/signin';
 export const LINK_SIGNUP = '/sign-up';
 export const LINK_YOUTH_SIGNUP = '/youth-registration';
+export const LINK_YOUTH_SIGNUP_CDAP = '/youth-registration-cdap';
 export const LINK_INSTITUTE_SIGNUP = '/institute-registration';
 export const LINK_ORGANIZATION_SIGNUP = '/organization-registration';
 export const LINK_INDUSTRY_ASSOCIATION_SIGNUP =
@@ -121,10 +122,10 @@ export const LINK_FRONTEND_NISE_TRAINING = '/training';
 export const LINK_FRONTEND_NISE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_NISE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_FRONTEND_NISE_CALENDAR = '/calendar';
+export const LINK_FRONTEND_NISE_PUBLICATIONS = '/publications';
 export const LINK_FRONTEND_FAQ = '/faqs';
 export const LINK_FRONTEND_COURSE_LIST = '/course-list';
 export const LINK_FRONTEND_COURSE_DETAILS = '/course-details/';
-
 export const LINK_FRONTEND_JOBS = '/jobs';
 export const LINK_FRONTEND_JOB_DETAILS = '/job-details/';
 export const LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS =

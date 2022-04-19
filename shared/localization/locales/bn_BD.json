@@ -99,6 +99,7 @@
   "common.all": "সব",
   "common.none": "কোনটিই নয়",
   "common.login": "লগইন",
+  "common.cdap_login": "CDAP লগইন",
   "common.rememberMe": "মনে রাখুন",
   "common.forgetPassword": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
   "common.orLoginWith": "অথবা লগইন ",
@@ -464,6 +465,7 @@
   "course.phd_passing_info": "পিএইচডি পাসের তথ্য",
   "course.occupation_info": "পেশার তথ্য",
   "common.currently_working": "বর্তমানে কর্মরত",
+  "common.currently_working_here": "বর্তমানে এখানে কর্মরত আছি",
   "course.guardian_info": "অভিভাবক তথ্য",
   "course.miscellaneous_info": "অন্যান্য তথ্য",
   "common.validation_required_error": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
@@ -1288,7 +1290,7 @@
   "job_posting.not_applicable": "প্রযোজ্য নয়",
   "job_posting.employment_status": "কর্মসংস্থানের অবস্থা",
   "common.employment_status": "কর্মসংস্থানের অবস্থা",
-  "job_posting.employment_status_full_time": "পূর্ণকাল",
+  "job_posting.employment_status_full_time": "পূর্ণকালীন",
   "job_posting.employment_status_part_time": "খন্ডকালীন",
   "job_posting.employment_status_internship": "ইন্টার্নশীপ",
   "job_posting.employment_status_contractual": "চুক্তিভিত্তিক",
@@ -1785,8 +1787,8 @@
   "calendar.Thu": "বৃহঃ",
   "calendar.Fri": "শুক্র",
   "calendar.Sat": "শনি",
-  "yup_validation_invalid_start_date" : "শুরুর তারিখ অবশ্যই আজকের থেকে কম বা সমান হতে হবে",
-  "yup_validation_invalid_end_date" : "শেষ তারিখ অবশ্যই শুরুর তারিখের চেয়ে বেশি বা সমান হতে হবে",
+  "yup_validation_invalid_start_date": "শুরুর তারিখ অবশ্যই আজকের থেকে কম বা সমান হতে হবে",
+  "yup_validation_invalid_end_date": "শেষ তারিখ অবশ্যই শুরুর তারিখের চেয়ে বেশি বা সমান হতে হবে",
   "update_password.label": "পাসওয়ার্ড আপডেট",
   "skill_development_report.approved_trade_number": "অনুমোদিত ট্রেড নম্বর",
   "skill_development_report.current_trade_number": "বর্তমান ট্রেড নম্বর",
@@ -1880,5 +1882,6 @@
   "common.goto_admin": "অ্যাডমিন প্যানেল",
   "common.goto_youth": "ইয়ুথ প্রোফাইল",
   "AM": "পূর্বাহ্ন",
-  "PM": "অপরাহ্ন"
+  "PM": "অপরাহ্ন",
+  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন"
 }

@@ -12,7 +12,10 @@ import {API_INDUSTRY_ASSOCIATION_MEMBERS} from '../../../@softbd/common/apiRoute
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import MemberListAddEditPopup from './MemberListAddEditPopup';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   reApproveOrgMemberShip,
@@ -121,7 +124,11 @@ const MemberListPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
