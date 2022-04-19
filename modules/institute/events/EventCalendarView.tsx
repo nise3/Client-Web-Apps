@@ -25,23 +25,24 @@ import {
   getCalenderViewFilter,
   getNavigationFilter,
 } from '../../../services/global/globalService';
-import { createIntlCache } from '@formatjs/intl';
-import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
-import { calendarFormatOption } from '../../../services/CalendarService/CalendarService';
+// import { createIntlCache } from '@formatjs/intl';
+// import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
+import { calendarService } from '../../../services/CalendarService/CalendarService';
+import { eventListeners } from '@popperjs/core';
 
 const localizer = momentLocalizer(moment);
 
 const InstituteEventCalendarView = () => {
-  const { messages, formatDate, locale, formatNumber, formatTime } = useIntl();
-  const dateFormat = 'YYYY-MM-DD';
-  const cache = createIntlCache();
-  const intl = createIntl(
-    {
-      locale: locale,
-      messages: {},
-    },
-    cache,
-  );
+  const useIntlObj = useIntl();
+  // const dateFormat = 'YYYY-MM-DD';
+  // const cache = createIntlCache();
+  // const intl = createIntl(
+  //   {
+  //     locale: locale,
+  //     messages: {},
+  //   },
+  //   cache,
+  // );
 
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
@@ -53,13 +54,13 @@ const InstituteEventCalendarView = () => {
 
   let { data: events } = useFetchPublicCalenderEvents(viewFilters);
 
-  const startDates = eventsList.map((e) =>
-    moment(e.start).format(dateFormat),
-  ) as string[];
-  const hasEvent = (currentDate: string, allDates: string[]): boolean =>
-    allDates.find((e) => e == currentDate) != undefined;
-  const parsDate = (datevalue: any): string =>
-    moment(datevalue).format(dateFormat);
+  // const startDates = eventsList.map((e) =>
+  //   moment(e.start).format(dateFormat),
+  // ) as string[];
+  // const hasEvent = (currentDate: string, allDates: string[]): boolean =>
+  //   allDates.find((e) => e == currentDate) != undefined;
+  // const parsDate = (datevalue: any): string =>
+  //   moment(datevalue).format(dateFormat);
 
   useEffect(() => {
     addStartEndPropsToList(events);
@@ -92,38 +93,42 @@ const InstituteEventCalendarView = () => {
     });
   };
 
-  const customDateCellWrap = (e: any) => {
-    const dateNumber = intl.formatNumber(e.label);
-    const dateFontSize = { fontSize: '1.5rem' };
-    const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
-    return (
-      <div>
-        {hasEvent(parsDate(e.date), startDates) ? (
-          <div style={{ position: 'relative' }}>{dateSpan}</div>
-        ) : (
-          dateSpan
-        )}
-      </div>
-    );
-  };
+  const calendarServiceOpt = calendarService(eventsList, useIntlObj)
 
-  const componentObject = {
-    month: {
-      dateHeader: customDateCellWrap,
-      header: (e: any) => {
-        const lbl = messages[`calendar.${e.label}`];
-        return <span>{lbl}</span>;
-      },
-    },
-    week: {
-      header: (e: any) => {
-        const labelArr = e.label.split(' ');
-        const lbl = messages[`calendar.${labelArr[1]}`];
-        return <span>{lbl}</span>;
-      },
-    },
-  };
+  // const customDateCellWrap = (e: any) => {
+  //   const dateNumber = intl.formatNumber(e.label);
+  //   const dateFontSize = { fontSize: '1.5rem' };
+  //   const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
+  //   return (
+  //     <div>
+  //       {hasEvent(parsDate(e.date), startDates) ? (
+  //         <div style={{ position: 'relative' }}>{dateSpan}</div>
+  //       ) : (
+  //         dateSpan
+  //       )}
+  //     </div>
+  //   );
+  // };
 
+  // const componentObject = {
+  //   month: {
+  //     dateHeader: customDateCellWrap,
+  //     header: (e: any) => {
+  //       const lbl = messages[`calendar.${e.label}`];
+  //       return <span>{lbl}</span>;
+  //     },
+  //   },
+  //   week: {
+  //     header: (e: any) => {
+  //       const labelArr = e.label.split(' ');
+  //       const lbl = messages[`calendar.${labelArr[1]}`];
+  //       return <span>{lbl}</span>;
+  //     },
+  //   },
+  // };
+// const calendarFormat = calendarFormatOption(
+//   locale, messages, formatDate, formatNumber
+// )
   // const calendarFormat = {
   //   monthHeaderFormat: (date: any) => {
   //     return formatDate(date, {
@@ -190,7 +195,7 @@ const InstituteEventCalendarView = () => {
       <Card>
         <CardHeader
           title={
-            <H1 style={{ fontSize: '2.25rem' }}>{messages['menu.calendar']}</H1>
+            <H1 style={{ fontSize: '2.25rem' }}>{useIntlObj.messages['menu.calendar']}</H1>
           }
         />
         <CardContent>
@@ -216,8 +221,8 @@ const InstituteEventCalendarView = () => {
                 onView={onViewEvent}
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
-                components={componentObject}
-                formats={calendarFormatOption}
+                components={calendarServiceOpt.componentObject}
+                formats={calendarServiceOpt.calendarFormatOption}
               />
             )}
           </Grid>
