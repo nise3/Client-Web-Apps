@@ -5,7 +5,7 @@
 
 variables:
 
-  hostName: nise.gov.bd
+  hostName: mcci.nise.gov.bd
 
   # if values is false, then creating ingress will be escape
   enableEngress: true
@@ -13,15 +13,14 @@ variables:
   # ingress cluster-issuer class
   ingressClusterIssuer: "k-issuer"
 
-    # is lts acme, value is boolean
+  # is lts acme, value is boolean
   ltsAcme: false
-
   # app version, changing version will auto deploy the app to current version
 
-  imageAppVersion:  "prod-1.10"
+  imageAppVersion: "prod-1.9"
 
   # increase this when you need scale up
-  replicaCount: 6
+  replicaCount: 1
 
   imagePullPolicy: IfNotPresent
 
@@ -34,7 +33,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.nise.gov.bd/nise3-cube-client-web-nise
+  imageRepository: "registry.nise.gov.bd/nise3-cube-client-web-industry"
 
 
   #auto scaling config
@@ -47,10 +46,6 @@ variables:
   #autoScalingTargetCPUUtilizationPercentage: 80
 
   #autoScalingTargetMemoryUtilizationPercentage: 80
-
-
-  # application config
-  # mysql-service.db
 
 
   #control git realese branch

@@ -11,11 +11,6 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     {{end}}
     nginx.ingress.kubernetes.io/ssl-passthrough: 'true'
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
 spec:
   tls:
     - hosts:
