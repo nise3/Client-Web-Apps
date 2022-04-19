@@ -206,6 +206,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
         )}
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='code'
             label={messages['programme.programme_code']}
             register={register}
