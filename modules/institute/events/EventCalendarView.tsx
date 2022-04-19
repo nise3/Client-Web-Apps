@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import { momentLocalizer, View } from 'react-big-calendar';
-import Calendar from '../../../@softbd/calendar/Calendar';
-import { useFetchPublicCalenderEvents } from '../../../services/cmsManagement/hooks';
 import {
   Box,
   Card,
   CardContent,
   CardHeader,
   Container,
-  Grid,
+  Grid
 } from '@mui/material';
-import EventCalendarDetails from './EventCalendarDetails';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { momentLocalizer, View } from 'react-big-calendar';
+import { useIntl } from 'react-intl';
+import Calendar from '../../../@softbd/calendar/Calendar';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import { H1 } from '../../../@softbd/elements/common';
-import { createIntl, useIntl } from 'react-intl';
-import {
-  ICalendar,
-  ICalendarQuery,
-} from '../../../shared/Interface/common.interface';
+import { calendarService } from '../../../services/CalendarService/CalendarService';
+import { useFetchPublicCalenderEvents } from '../../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
   getCalenderViewFilter,
-  getNavigationFilter,
+  getNavigationFilter
 } from '../../../services/global/globalService';
-// import { createIntlCache } from '@formatjs/intl';
-// import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
-import { calendarService } from '../../../services/CalendarService/CalendarService';
-import { eventListeners } from '@popperjs/core';
+import {
+  ICalendar,
+  ICalendarQuery
+} from '../../../shared/Interface/common.interface';
+import EventCalendarDetails from './EventCalendarDetails';
 
 const localizer = momentLocalizer(moment);
 
