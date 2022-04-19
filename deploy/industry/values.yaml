@@ -5,7 +5,7 @@
 
 variables:
 
-  hostName: staging.nise3.xyz
+  hostName: mcci-staging.nise3.xyz
 
   # if values is false, then creating ingress will be escape
   enableEngress: true
