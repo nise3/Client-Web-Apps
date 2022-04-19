@@ -88,6 +88,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           {/*Exams*/}
           <Grid item xs={6}>
             <CustomDateTimePicker
+              required
               id={isMixed ? `offline[exam_date]` : 'exam_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
@@ -96,6 +97,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={isMixed ? `offline[duration]` : 'duration'}
               type={'number'}
               label={messages['common.duration_min']}
@@ -104,6 +106,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={isMixed ? `offline[venue]` : 'venue'}
               label={messages['common.venue']}
               register={useFrom.register}

@@ -106,6 +106,10 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['exam.label'] as string),
+      subject_id: yup
+        .string()
+        .required()
+        .label(messages['subject.label'] as string),
       purpose_id: yup
         .string()
         .required()
@@ -114,6 +118,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.exam_type'] as string),
+      online: yup
+        .mixed()
+        .label(messages['common.exam_type'] as string)
+        .when('type', {
+          is: (value: any) => value,
+          then: yup.mixed().required(),
+        }),
     });
   }, [messages]);
 
@@ -306,9 +317,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -318,9 +326,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
             </Grid>
             <Grid item xs={6}>
