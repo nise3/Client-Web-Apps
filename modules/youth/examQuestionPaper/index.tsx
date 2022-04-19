@@ -3,7 +3,6 @@ import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
 import {Body1, Body2, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
@@ -19,78 +18,24 @@ import {useRouter} from 'next/router';
 import {QuestionType} from '../../dashboard/questionsBank/QuestionBanksEnums';
 import {Skeleton} from '@mui/lab';
 import QuestionTitleHeader from './QuestionTitleHeader';
+import QuestionSkeleton from './QuestionSkeleton';
+import MCQTypeQuestion from './MCQTypeQuestion';
 import moment from 'moment';
+import {submitExamPaper} from '../../../services/instituteManagement/ExamService';
+import HiddenInput from './HiddenInput';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 /*
 interface ExamQuestionListProps {
   questions: any;
 
 }*/
-/*
-const examQuestions = {
-  id: 1,
-  exam_title: 'Yearly Exam',
-  answers: [],
-  exam_subject_title: 'Subject',
-  exam_subject_title_en: 'Subject',
-  questions: [
-    {
-      id: 1,
-      title: 'What is your name?',
-      title_en: 'What is your name?',
-      option_1: 'a',
-      option_1_en: 'a',
-      option_2: 'b',
-      option_2_en: 'b',
-      option_3: 'c',
-      option_3_en: 'c',
-      option_4: 'd',
-      option_4_en: 'd',
-      question_type: 1,
-    },
 
-    {
-      id: 2,
-      title: 'I am a [[]] engineer [[]] softbd [[]]',
-      title_en: 'I am a [[]] engineer  [[]] softbd [[]]',
-      question_type: 2,
-    },
-    {
-      id: 3,
-      title: 'Is this question?',
-      title_en: 'Is this question?',
-      question_type: 3,
-    },
-    {
-      id: 5,
-      title: 'Please upload your field work file',
-      title_en: 'Please upload your field work file',
-      question_type: 5,
-    },
-    {
-      id: 6,
-      title: '[[]] am a [[]] engineer [[]] softbd ',
-      title_en: '[[]] am a [[]] engineer  [[]] softbd ',
-      question_type: 2,
-    },
-    {
-      id: 7,
-      title: 'Write down about your profession',
-      title_en: 'Write down about your profession',
-      question_type: 7,
-    },
-  ],
-  exam_date: '10/12/22',
-  total_marks: 100,
-};*/
 const ExamQuestionPaper = () => {
   let questionIndex = 1;
   let answerIndex = 0;
   const {messages} = useIntl();
   const router = useRouter();
-  const [isOption1Checked, setIsOption1Checked] = useState<boolean>(false);
-  const [isOption2Checked, setIsOption2Checked] = useState<boolean>(false);
-  const [isOption3Checked, setIsOption3Checked] = useState<boolean>(false);
-  const [isOption4Checked, setIsOption4Checked] = useState<boolean>(false);
+
   const [timer, setTimer] = useState<string | null>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(false);
   const [hasExamStarted, setHasExamStarted] = useState(false);
@@ -102,13 +47,7 @@ const ExamQuestionPaper = () => {
     useFetchExamQuestionPaper(Number(examId));
 
   const validationSchema: any = useMemo(() => {
-    return yup.object().shape({
-      answers: yup
-        .array()
-        .of(yup.mixed())
-        .required()
-        .label(messages['common.answer'] as string),
-    });
+    return yup.object().shape({});
   }, []);
   useEffect(() => {
     let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -187,9 +126,12 @@ const ExamQuestionPaper = () => {
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     console.log('formData: ', formData);
-
+    formData.exam_id = examId;
+    await submitExamPaper(formData);
     try {
-    } catch (error: any) {}
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -202,7 +144,13 @@ const ExamQuestionPaper = () => {
       <Grid container spacing={2}>
         {hasExamEnded ? (
           <Body1>{'Exam has ended'}</Body1>
-        ) : hasExamStarted ? (
+        ) : !hasExamStarted ? (
+          <>
+            <Body1>{'Exam has not started yet'}</Body1>
+          </>
+        ) : isLoadingExamQuestions ? (
+          <QuestionSkeleton />
+        ) : (
           <>
             <Grid
               item
@@ -211,11 +159,11 @@ const ExamQuestionPaper = () => {
               flexDirection={'column'}
               justifyContent={'center'}
               xs={12}>
-              <H6>{examQuestions?.exam_title}</H6>
+              <H6>{examQuestions?.title}</H6>
               <Body2>
                 {messages['subject.label']}
                 {': '}
-                {examQuestions?.exam_subject_title}
+                {examQuestions?.subject_title}
               </Body2>
               <Body2>
                 {messages['common.date']} {': '}
@@ -241,231 +189,188 @@ const ExamQuestionPaper = () => {
                   {isLoadingExamQuestions ? (
                     <Skeleton variant='text' />
                   ) : examQuestions && examQuestions?.exam_sections.length ? (
-                    examQuestions?.exam_sections.map(
-                      (section: any, index: number) => {
-                        let indexNo = 0;
-                        return (
-                          <React.Fragment key={section?.id}>
-                            <Grid item xs={12} display={'flex'}>
-                              <Body1
-                                sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-                                {question_type[section?.question_type - 1]
-                                  .label +
-                                  ' | ' +
-                                  messages['common.total_marks'] +
-                                  ': '}
-                              </Body1>
-                              <Body2 sx={{marginTop: '3px'}}>
-                                {section?.total_marks}
-                              </Body2>
-                            </Grid>
-                            {section?.questions && section?.questions.length ? (
-                              section?.questions.map((question: any) => {
-                                if (
-                                  section?.question_type == QuestionType?.MCQ
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.id}>
-                                      <QuestionTitleHeader
-                                        index={questionIndex++}
-                                        question={question}
-                                      />
-                                      <Grid
-                                        item
-                                        xs={10}
-                                        display={'flex'}
-                                        flexDirection={'column'}>
-                                        <CustomCheckbox
-                                          id={
-                                            'questions[' +
-                                            answerIndex++ +
-                                            '].answers[0]'
-                                          }
-                                          label={question?.option_1}
-                                          register={register}
-                                          errorInstance={errors}
-                                          checked={isOption1Checked}
-                                          onChange={() => {
-                                            setIsOption1Checked(
-                                              (prev) => !prev,
-                                            );
-                                          }}
-                                          isLoading={false}
-                                        />
-                                        <CustomCheckbox
-                                          id={
-                                            'questions[' +
-                                            answerIndex++ +
-                                            '].answers[1]'
-                                          }
-                                          label={question?.option_2}
-                                          register={register}
-                                          errorInstance={errors}
-                                          checked={isOption2Checked}
-                                          onChange={() => {
-                                            setIsOption2Checked(
-                                              (prev: any) => !prev,
-                                            );
-                                          }}
-                                          isLoading={false}
-                                        />
-                                        <CustomCheckbox
-                                          id={
-                                            'questions[' +
-                                            answerIndex++ +
-                                            '].answers[2]'
-                                          }
-                                          label={question?.option_3}
-                                          register={register}
-                                          errorInstance={errors}
-                                          checked={isOption3Checked}
-                                          onChange={() => {
-                                            setIsOption3Checked(
-                                              (prev: any) => !prev,
-                                            );
-                                          }}
-                                          isLoading={false}
-                                        />
-                                        <CustomCheckbox
-                                          id={
-                                            'questions[' +
-                                            answerIndex++ +
-                                            '].answers[3]'
-                                          }
-                                          label={question?.option_4}
-                                          register={register}
-                                          errorInstance={errors}
-                                          checked={isOption4Checked}
-                                          onChange={() => {
-                                            setIsOption4Checked(
-                                              (prev: any) => !prev,
-                                            );
-                                          }}
-                                          isLoading={false}
-                                        />
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type == QuestionType.YES_NO
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.id}>
-                                      <QuestionTitleHeader
-                                        index={questionIndex++}
-                                        question={question}
-                                      />
-                                      <FormRadioButtons
-                                        id={
-                                          'questions[' +
-                                          answerIndex++ +
-                                          '].answers[0]'
+                    examQuestions?.exam_sections.map((section: any) => {
+                      return (
+                        <React.Fragment key={section?.id}>
+                          <Grid item xs={12} display={'flex'}>
+                            <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
+                              {question_type[section?.question_type - 1].label +
+                                ' | ' +
+                                messages['common.total_marks'] +
+                                ': '}
+                            </Body1>
+                            <Body2 sx={{marginTop: '3px'}}>
+                              {section?.total_marks}
+                            </Body2>
+                          </Grid>
+                          {section?.questions && section?.questions.length ? (
+                            section?.questions.map((question: any) => {
+                              let indexNo = 0;
+                              if (section?.question_type == QuestionType?.MCQ) {
+                                let ansIndex = answerIndex++;
+
+                                return (
+                                  <React.Fragment key={question?.id}>
+                                    <QuestionTitleHeader
+                                      index={ansIndex}
+                                      question={question}
+                                    />
+                                    <MCQTypeQuestion
+                                      index={ansIndex}
+                                      question={question}
+                                      register={register}
+                                    />
+                                    <HiddenInput
+                                      register={register}
+                                      index={ansIndex}
+                                      section={section}
+                                      question={question}
+                                    />
+                                  </React.Fragment>
+                                );
+                              } else if (
+                                section?.question_type == QuestionType.YES_NO
+                              ) {
+                                let ansIndex = answerIndex++;
+                                return (
+                                  <React.Fragment key={question?.id}>
+                                    <QuestionTitleHeader
+                                      index={questionIndex++}
+                                      question={question}
+                                    />
+                                    <FormRadioButtons
+                                      id={
+                                        'questions[' + ansIndex + '].answers[0]'
+                                      }
+                                      control={control}
+                                      radios={[
+                                        {
+                                          label: messages['common.yes'],
+                                          key: 1,
+                                        },
+                                        {
+                                          label: messages['common.no'],
+                                          key: 2,
+                                        },
+                                      ]}
+                                    />
+                                    <HiddenInput
+                                      register={register}
+                                      index={ansIndex}
+                                      section={section}
+                                      question={question}
+                                    />
+                                  </React.Fragment>
+                                );
+                              } else if (
+                                section?.question_type ==
+                                QuestionType.DESCRIPTIVE
+                              ) {
+                                let ansIndex = answerIndex++;
+                                return (
+                                  <React.Fragment key={question?.id}>
+                                    <QuestionTitleHeader
+                                      question={question}
+                                      index={questionIndex++}
+                                    />
+                                    <CustomTextInput
+                                      id={
+                                        'questions[' + ansIndex + '].answers[0]'
+                                      }
+                                      label={''}
+                                      multiline={true}
+                                      rows={3}
+                                      register={register}
+                                      errorInstance={errors}
+                                      isLoading={false}
+                                    />
+                                    <HiddenInput
+                                      register={register}
+                                      index={ansIndex}
+                                      section={section}
+                                      question={question}
+                                    />
+                                  </React.Fragment>
+                                );
+                              } else if (
+                                section?.question_type ==
+                                QuestionType.FILL_IN_THE_BLANK
+                              ) {
+                                let fillInTheBlankItems = question?.title.split(
+                                  /(?=\[\[\]\])|(?<=\[\[\]\])/g,
+                                );
+                                let ansIndex = answerIndex++;
+
+                                return (
+                                  <React.Fragment key={question?.id}>
+                                    <Grid item xs={12} display={'flex'}>
+                                      <Body2>{ansIndex + '. '}</Body2>
+                                      {fillInTheBlankItems.map((item: any) => {
+                                        if (item == '[[]]') {
+                                          return (
+                                            <CustomTextInput
+                                              id={`answers[${ansIndex}][${indexNo++}]`}
+                                              label={''}
+                                              register={register}
+                                              errorInstance={errors}
+                                              isLoading={false}
+                                              style={{
+                                                display: 'inline-block',
+                                                width: '150px',
+                                                marginTop: '-8px',
+                                              }}
+                                            />
+                                          );
+                                        } else {
+                                          return (
+                                            <Body2 sx={{whiteSpace: 'pre'}}>
+                                              {item}
+                                            </Body2>
+                                          );
                                         }
-                                        control={control}
-                                        radios={[
-                                          {
-                                            label: messages['common.yes'],
-                                            key: 1,
-                                          },
-                                          {
-                                            label: messages['common.no'],
-                                            key: 2,
-                                          },
-                                        ]}
-                                      />
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type ==
-                                  QuestionType.DESCRIPTIVE
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.id}>
-                                      <QuestionTitleHeader
-                                        question={question}
-                                        index={questionIndex++}
-                                      />
-                                      <CustomTextInput
-                                        id={
-                                          'questions[' +
-                                          answerIndex++ +
-                                          '].answers[0]'
-                                        }
-                                        label={''}
-                                        multiline={true}
-                                        rows={3}
+                                      })}
+                                      <HiddenInput
                                         register={register}
-                                        errorInstance={errors}
-                                        isLoading={false}
-                                      />
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type ==
-                                  QuestionType.FILL_IN_THE_BLANK
-                                ) {
-                                  let fillInTheBlankItems =
-                                    question?.title.split(
-                                      /(?=\[\[\]\])|(?<=\[\[\]\])/g,
-                                    );
-                                  return (
-                                    <React.Fragment key={question?.id}>
-                                      <Grid item xs={12} display={'flex'}>
-                                        <Body2>{questionIndex++ + '. '}</Body2>
-                                        {fillInTheBlankItems.map(
-                                          (item: any) => {
-                                            if (item == '[[]]') {
-                                              return (
-                                                <CustomTextInput
-                                                  id={`answer[${index}][${indexNo++}]`}
-                                                  label={''}
-                                                  register={register}
-                                                  errorInstance={errors}
-                                                  isLoading={false}
-                                                  style={{
-                                                    display: 'inline-block',
-                                                    width: '150px',
-                                                    marginTop: '-8px',
-                                                  }}
-                                                />
-                                              );
-                                            } else {
-                                              return (
-                                                <Body2 sx={{whiteSpace: 'pre'}}>
-                                                  {item}
-                                                </Body2>
-                                              );
-                                            }
-                                          },
-                                        )}
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else {
-                                  return (
-                                    <React.Fragment>
-                                      <QuestionTitleHeader
-                                        index={questionIndex++}
+                                        index={ansIndex}
+                                        section={section}
                                         question={question}
                                       />
-                                      <FileUploadComponent
-                                        id={'questions[' + index + ']'}
-                                        setValue={setValue}
-                                        errorInstance={errors}
-                                        register={register}
-                                        label={messages['common.file_path']}
-                                      />
-                                    </React.Fragment>
-                                  );
-                                }
-                              })
-                            ) : (
-                              <NoDataFoundComponent />
-                            )}
-                          </React.Fragment>
-                        );
-                      },
-                    )
+                                    </Grid>
+                                  </React.Fragment>
+                                );
+                              } else {
+                                let ansIndex = answerIndex++;
+                                return (
+                                  <React.Fragment>
+                                    <QuestionTitleHeader
+                                      index={questionIndex++}
+                                      question={question}
+                                    />
+                                    <FileUploadComponent
+                                      id={
+                                        'questions[' + ansIndex + '].file_path'
+                                      }
+                                      setValue={setValue}
+                                      errorInstance={errors}
+                                      register={register}
+                                      label={messages['common.file_path']}
+                                    />
+                                    <HiddenInput
+                                      register={register}
+                                      index={ansIndex}
+                                      section={section}
+                                      question={question}
+                                    />
+                                  </React.Fragment>
+                                );
+                              }
+                            })
+                          ) : (
+                            <NoDataFoundComponent />
+                          )}
+                        </React.Fragment>
+                      );
+                    })
                   ) : (
                     <NoDataFoundComponent />
                   )}
@@ -482,10 +387,6 @@ const ExamQuestionPaper = () => {
                 </Grid>
               </form>
             </Grid>
-          </>
-        ) : (
-          <>
-            <Body1>{'Exam has not started yet'}</Body1>
           </>
         )}
       </Grid>
