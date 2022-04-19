@@ -17,7 +17,10 @@ import {
   useFetchPublicInstituteDetails,
   useFetchPublicTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  EMAIL_REGEX,
+  MOBILE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
@@ -155,10 +158,13 @@ const InstituteContact = () => {
         .label(messages['common.phone_number'] as string)
         .matches(MOBILE_NUMBER_REGEX),
       email: yup
-        .string()
-        .email()
-        .nullable(true)
-        .label(messages['common.email'] as string),
+        .mixed()
+        .label(messages['common.email'] as string)
+        .test(
+          'email_validation',
+          messages['common.validation_email_error'] as string,
+          (value) => !value || Boolean(value.match(EMAIL_REGEX)),
+        ),
 
       comment: yup
         .string()
@@ -195,7 +201,6 @@ const InstituteContact = () => {
     }
   };
 
-  console.log('mapLocations: ', mapLocations);
   return (
     <StyledGrid sx={{maxWidth: '100%'}}>
       <Grid textAlign={'center'} className={classes.heading}>

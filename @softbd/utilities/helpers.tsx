@@ -548,6 +548,9 @@ export const isValidLongitude = (lng: any) => {
   return lng && isFinite(lng) && Math.abs(lng) <= 180;
 };
 
+export const convertEnglishDigitsToBengali = (digits: any) =>
+  digits.replace(/\d/g, (number: any) => '০১২৩৪৫৬৭৮৯'[number]);
+
 export const getCalculatedSerialNo = (
   index: number,
   page: number | null | undefined,
