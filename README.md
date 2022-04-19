@@ -53,5 +53,13 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 ```
 
 
+#Note: Do not merge develop, staging and master with one another
 
-deploy build commit is - RELEASE = any message 
+###Deployment Steps
+#####1. Update this branch with the latest code
+#####2. Open version.yaml file from `deploy` folder.
+#####3. To deploy a module change `imageRelease` to `true` and increase `imageAppVersion` to create a new image version
+#####4. Deploy build commit is - `RELEASE = any message`
+#####5. This will build pipeline in gitlab.
+#####6. After build success. Open deploy/module(admin, nise, ....) folder and open values.yaml and change `imageAppVersion` with current version and push to git
+
