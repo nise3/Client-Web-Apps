@@ -105,11 +105,15 @@ const InstituteFAQ = () => {
                         width: '100%',
                         color: expandedState == item.id ? 'primary.main' : '',
                       }}>
-                      {item.question}
+                      {item?.question ||
+                        'No Question has been added in English language'}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>{item.answer}</Typography>
+                    <Typography>
+                      {item?.answer ||
+                        'No Answer has been added in English language'}
+                    </Typography>
                   </AccordionDetails>
                 </Accordion>
               ))
