@@ -92,7 +92,7 @@ const QuestionSetPopup = ({
         option_3_en: question?.option_3_en,
         option_4: question?.option_4,
         option_4_en: question?.option_4_en,
-        individual_mark: question?.individual_mark,
+        individual_marks: question?.individual_marks,
         answers: question?.answers,
         row_status: question?.row_status,
       };
