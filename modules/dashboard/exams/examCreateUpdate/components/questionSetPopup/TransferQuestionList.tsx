@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
-import {Box, Skeleton, Typography} from '@mui/material';
+import {Box, Skeleton, Tooltip, Typography} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {useFetchExamQuestionsBanks} from '../../../../../../services/instituteManagement/hooks';
@@ -18,6 +18,7 @@ interface IProps {
   getQuestionSet: any;
   subjectId: any;
   questionType: any;
+  eachQuestionMark: number;
 }
 
 const TransferQuestionList = ({
@@ -25,6 +26,7 @@ const TransferQuestionList = ({
   onEditPopupOpenClose,
   subjectId,
   questionType,
+  eachQuestionMark,
 }: IProps) => {
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
@@ -76,12 +78,22 @@ const TransferQuestionList = ({
   };
 
   const handleAllRight = () => {
-    setRightQuestionList(rightQuestionList.concat(leftQuestionList));
+    const leftQ = [...leftQuestionList];
+    leftQ.map((question: any) => {
+      question.individual_mark = eachQuestionMark;
+    });
+
+    setRightQuestionList(rightQuestionList.concat(leftQ));
     setLeftQuestionList([]);
   };
 
   const moveCheckedToRight = () => {
-    setRightQuestionList(rightQuestionList.concat(leftChecked));
+    const leftQ = [...leftChecked];
+    leftQ.map((question: any) => {
+      question.individual_mark = eachQuestionMark;
+    });
+
+    setRightQuestionList(rightQuestionList.concat(leftQ));
     setLeftQuestionList(not(leftQuestionList, leftChecked));
     setChecked(not(checked, leftChecked));
   };
@@ -133,36 +145,51 @@ const TransferQuestionList = ({
   const customList = (questions: any[], isRightQuestions = false) => (
     <Paper sx={{width: '100%', overflow: 'auto', height: '100%'}}>
       <List dense component='div' role='list'>
-        {questions?.map((value: any, index) => {
-          const labelId = `transfer-list-item-${value?.id}-label`;
+        {questions?.map((question: any, index) => {
+          const labelId = `transfer-list-item-${question?.id}-label`;
 
           return (
             <ListItem
-              key={value?.id}
+              key={question?.id}
               role='listitem'
-              sx={index != 0 ? {borderBottom: '1px solid #bdb7b7'} : {}}>
+              sx={index != 0 ? {borderTop: '1px solid #bdb7b7'} : {}}>
               <ListItemIcon>
                 <Checkbox
-                  checked={checked?.some((item) => item?.id === value?.id)}
+                  checked={checked?.some((item) => item?.id === question?.id)}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{
                     'aria-labelledby': labelId,
                   }}
-                  onClick={handleToggle(value)}
+                  onClick={handleToggle(question)}
                 />
               </ListItemIcon>
               <Box display={'flex'} alignItems={'center'}>
-                <Typography sx={{width: '90%'}}>{value?.title}</Typography>
+                <Typography sx={{width: '90%'}}>{question?.title}</Typography>
                 {isRightQuestions && (
-                  <Edit
-                    sx={{
-                      marginLeft: '10px',
-                      fontSize: '1.3rem',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => handleEditQuestion(value?.id)}
-                  />
+                  <>
+                    {question?.individual_mark && (
+                      <Tooltip title={'Individual Mark'} arrow>
+                        <Typography
+                          sx={{
+                            fontWeight: 'bold',
+                            color: 'green',
+                            marginLeft: '15px',
+                          }}>
+                          {question?.individual_mark}
+                        </Typography>
+                      </Tooltip>
+                    )}
+                    <Edit
+                      sx={{
+                        marginLeft: '6px',
+                        marginBottom: '5px',
+                        fontSize: '1.3rem',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => handleEditQuestion(question?.id)}
+                    />
+                  </>
                 )}
               </Box>
             </ListItem>

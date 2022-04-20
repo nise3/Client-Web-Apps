@@ -1,6 +1,5 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {QuestionSelectionType} from '../../ExamEnums';
@@ -8,6 +7,7 @@ import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox
 import QuestionSetPopup from './questionSetPopup/QuestionSetPopup';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import AddButton from '../../../../../@softbd/elements/button/AddButton/AddButton';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface IProps {
   useFrom: any;
@@ -28,13 +28,14 @@ const ExamQuestionTypeSection = ({
 }: IProps) => {
   const {messages} = useIntl();
 
-  console.log('examSets->', examSets);
-
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
 
   const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
     useState<boolean>(false);
   const [questionTypeId, setQuestionTypeId] = useState<any>('');
+  const [numberOfQuestion, setNumberOfQuestion] = useState<number | null>(null);
+  const [marks, setMarks] = useState<number | null>(null);
 
   const questionSelectionType = useMemo(
     () => [
@@ -54,8 +55,8 @@ const ExamQuestionTypeSection = ({
     [messages],
   );
 
-  const onChangeQuestionType = (value: any) => {
-    console.log('onChangeType=>', value);
+  const onChangeQuestionSelectionType = (type: any) => {
+    setSelectedSelectionType(type ? type : null);
   };
 
   const openAddQuestionModal = useCallback(() => {
@@ -64,11 +65,10 @@ const ExamQuestionTypeSection = ({
 
   const closeAddQuestionModal = useCallback(() => {
     setIsAddQuestionAssignModal(false);
-    setQuestionTypeId('');
   }, []);
 
-  const onQuestionsSubmitted = (questions: any) => {
-    console.log('questions', questions);
+  const onQuestionsSubmitted = (data: any) => {
+    useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
   };
 
   return (
@@ -82,7 +82,7 @@ const ExamQuestionTypeSection = ({
           checked={isChecked}
           onChange={() => {
             setIsChecked((prev) => !prev);
-            setQuestionTypeId(questionType.id); //todo: question type if for filter questions
+            setQuestionTypeId(questionType.id);
           }}
           isLoading={false}
         />
@@ -102,27 +102,35 @@ const ExamQuestionTypeSection = ({
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <CustomTextInput
+                required
                 id={`${idPrefix}[${index}][number_of_questions]`}
                 label={messages['common.number_of_questions']}
                 type={'number'}
                 register={useFrom.register}
                 errorInstance={useFrom.errors}
                 isLoading={false}
+                onInput={(value: string) => {
+                  setNumberOfQuestion(value ? Number(value) : null);
+                }}
               />
             </Grid>
             <Grid item xs={3}>
               <CustomTextInput
+                required
                 id={`${idPrefix}[${index}][total_marks]`}
                 label={messages['common.total_marks']}
                 type={'number'}
                 register={useFrom.register}
                 errorInstance={useFrom.errors}
                 isLoading={false}
+                onInput={(value: string) => {
+                  setMarks(value ? Number(value) : null);
+                }}
               />
             </Grid>
 
-            <Grid item xs={4}>
-              <CustomFormSelect
+            <Grid item xs={3}>
+              <CustomFilterableFormSelect
                 required
                 id={`${idPrefix}[${index}][question_selection_type]`}
                 label={messages['common.question_selection_type']}
@@ -130,26 +138,20 @@ const ExamQuestionTypeSection = ({
                 control={useFrom.control}
                 errorInstance={useFrom.errors}
                 options={questionSelectionType}
-                onChange={onChangeQuestionType}
+                onChange={onChangeQuestionSelectionType}
                 optionValueProp='key'
                 optionTitleProp={['label']}
               />
             </Grid>
 
-            <Grid item xs={3}>
-              <CustomTextInput
-                id={'questions' + '[individual_marks]'}
-                label={messages['common.marks']}
-                type={'number'}
-                register={useFrom.register}
-                errorInstance={useFrom.errors}
-                isLoading={false}
-              />
-            </Grid>
-
-            {examSets && examSets.length > 0 ? (
+            {selectedSelectionType &&
+            selectedSelectionType != QuestionSelectionType.RANDOM &&
+            numberOfQuestion &&
+            marks &&
+            examSets &&
+            examSets.length > 0 ? (
               examSets.map((examSet: any) => (
-                <Grid key={examSet.index} item xs={2}>
+                <Grid key={examSet.index} item xs={1}>
                   <AddButton
                     key={1}
                     onClick={() => openAddQuestionModal()}
@@ -165,8 +167,11 @@ const ExamQuestionTypeSection = ({
                   />
                 </Grid>
               ))
-            ) : (
-              <Grid item xs={2}>
+            ) : selectedSelectionType &&
+              selectedSelectionType != QuestionSelectionType.RANDOM &&
+              numberOfQuestion &&
+              marks ? (
+              <Grid item xs={1}>
                 <AddButton
                   onClick={() => openAddQuestionModal()}
                   isLoading={false}
@@ -180,18 +185,26 @@ const ExamQuestionTypeSection = ({
                   }
                 />
               </Grid>
+            ) : (
+              <></>
             )}
           </Grid>
 
-          {isOpenAddQuestionModal && (
-            <QuestionSetPopup
-              key={1}
-              onClose={closeAddQuestionModal}
-              questionType={questionTypeId}
-              subjectId={subjectId}
-              onQuestionsSubmitted={onQuestionsSubmitted}
-            />
-          )}
+          {isOpenAddQuestionModal &&
+            numberOfQuestion &&
+            marks &&
+            selectedSelectionType && (
+              <QuestionSetPopup
+                key={1}
+                onClose={closeAddQuestionModal}
+                questionType={questionTypeId}
+                subjectId={subjectId}
+                totalQuestions={numberOfQuestion}
+                totalMarks={marks}
+                selectionType={String(selectedSelectionType)}
+                onQuestionsSubmitted={onQuestionsSubmitted}
+              />
+            )}
         </Grid>
       )}
     </Grid>

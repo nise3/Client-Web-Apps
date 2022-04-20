@@ -32,6 +32,7 @@ import OffLineExam from './offLineExam';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {cloneDeep} from 'lodash';
+import {S2} from '../../../../@softbd/elements/common';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -58,14 +59,15 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const router = useRouter();
+  const examId = Number(router.query.id);
 
-  const isEdit = itemId != null;
+  const isEdit = examId != null;
 
   const {
     data: itemData,
     isLoading: isLoadingExam,
     mutate: mutateExam,
-  } = useFetchExam(itemId);
+  } = useFetchExam(examId);
 
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isLoadingSubjects} =
@@ -77,6 +79,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {data: coursesData, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
+  const [totalMarks] = useState<number>(0);
   const [examType, setExamType] = useState<any>(null);
   const [courses, setCourses] = useState<Array<any>>([]);
   const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
@@ -97,14 +100,141 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     setTrainingCenters(trainingCentersWithBatches);
   }, [trainingCentersWithBatches]);
 
+  const examQuestionsSchema = useMemo(() => {
+    return yup.array().of(
+      yup.object().shape({
+        is_question_checked: yup.boolean(),
+        number_of_questions: yup
+          .mixed()
+          .label(messages['common.number_of_questions'] as string)
+          .when('is_question_checked', {
+            is: (value: any) => value,
+            then: yup.string().required(),
+          }),
+        total_marks: yup
+          .mixed()
+          .label(messages['common.total_marks'] as string)
+          .when('is_question_checked', {
+            is: (value: any) => value,
+            then: yup.string().required(),
+          }),
+        question_selection_type: yup
+          .mixed()
+          .label(messages['common.question_selection_type'] as string)
+          .when('is_question_checked', {
+            is: (value: any) => value,
+            then: yup.string().required(),
+          }),
+      }),
+    );
+  }, []);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
         .required()
         .label(messages['exam.label'] as string),
+      subject_id: yup
+        .string()
+        .required()
+        .label(messages['subject.label'] as string),
+      purpose_id: yup
+        .string()
+        .required()
+        .label(messages['batches.label'] as string),
+      type: yup
+        .string()
+        .required()
+        .label(messages['common.exam_type'] as string),
+      exam_date:
+        examType == ExamTypes.MIXED
+          ? yup.string()
+          : yup
+              .mixed()
+              .required()
+              .label(messages['common.exam_date'] as string),
+      duration:
+        examType == ExamTypes.MIXED
+          ? yup.string()
+          : yup
+              .mixed()
+              .required()
+              .label(messages['common.duration_min'] as string),
+      total_set:
+        examType == ExamTypes.OFFLINE
+          ? yup
+              .mixed()
+              .required()
+              .label(messages['common.number_of_sets'] as string)
+              .test(
+                'total_set_validation',
+                messages['common.number_of_sets_min_max'] as string,
+                (value) => Boolean(Number(value) >= 2 && Number(value) <= 5),
+              )
+          : yup.string(),
+      online:
+        examType == ExamTypes.MIXED
+          ? yup.object().shape({
+              exam_date: yup
+                .mixed()
+                .required()
+                .label(messages['common.exam_date'] as string),
+              duration: yup
+                .mixed()
+                .required()
+                .label(messages['common.duration_min'] as string),
+              exam_questions: examQuestionsSchema,
+            })
+          : yup.object().shape({}),
+      offline:
+        examType == ExamTypes.MIXED
+          ? yup.object().shape({
+              exam_date: yup
+                .mixed()
+                .required()
+                .label(messages['common.exam_date'] as string),
+              duration: yup
+                .mixed()
+                .required()
+                .label(messages['common.duration_min'] as string),
+              total_set: yup
+                .mixed()
+                .required()
+                .label(messages['common.number_of_sets'] as string)
+                .test(
+                  'total_set_validation',
+                  messages['common.number_of_sets_min_max'] as string,
+                  (value) => Boolean(Number(value) >= 2 && Number(value) <= 5),
+                ),
+              sets: yup.array().of(
+                yup.object().shape({
+                  title: yup
+                    .string()
+                    .required()
+                    .label(messages['common.set_name'] as string),
+                }),
+              ),
+              exam_questions: examQuestionsSchema,
+            })
+          : yup.object().shape({}),
+      sets:
+        examType == ExamTypes.OFFLINE
+          ? yup.array().of(
+              yup.object().shape({
+                title: yup
+                  .string()
+                  .required()
+                  .label(messages['common.set_name'] as string),
+              }),
+            )
+          : yup.array(),
+      exam_questions:
+        examType == ExamTypes.MIXED
+          ? yup.object().shape({})
+          : examQuestionsSchema,
     });
-  }, [messages]);
+  }, [messages, examType]);
 
   const {
     register,
@@ -127,7 +257,20 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         purpose_id: itemData?.purpose_id,
         type: itemData?.type,
         row_status: itemData?.row_status,
+        exam_date:
+          itemData?.type == ExamTypes.ONLINE
+            ? itemData?.exams[0].exam_date.replace(' ', 'T')
+            : null,
+        duration:
+          itemData?.type == ExamTypes.ONLINE
+            ? itemData?.exams[0].duration
+            : null,
       };
+
+      console.log('data->', data);
+      setExamType(String(itemData?.type));
+      setSubjectId(itemData?.subject_id);
+
       reset(data);
     } else {
       reset(initialValues);
@@ -136,18 +279,25 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const onChangeExamType = useCallback((value) => {
     setExamType(String(value));
-    console.log('value->', String(value));
   }, []);
 
   const onSubjectChange = useCallback((value) => {
-    console.log('value->', String(value));
     setSubjectId(value);
   }, []);
 
+  console.log('error', errors);
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
+    console.log('submitted data', formData);
+
     let data = cloneDeep(formData);
 
     data.purpose_name = 'BATCH';
+
+    data.exam_date =
+      data.exam_date
+        .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+        .replace('T', ' ') + ':00';
 
     if (examType !== ExamTypes.MIXED) {
       let arr: any = data.exam_questions.filter(
@@ -177,11 +327,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       );
     }
 
+    // total_marks total_marks
+    data.total_marks = (data.exam_questions || [])
+      .map((item: any) => Number(item?.total_marks))
+      .reduce((prev: any, curr: any) => {
+        return prev + curr;
+      }, 0);
+
     console.log('formdata->', data);
 
     try {
-      if (itemId) {
-        await updateExam(itemId, data);
+      if (examId) {
+        await updateExam(examId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
       } else {
@@ -298,7 +455,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 id='course_id'
-                label={messages['common.courses']}
+                label={messages['course.label']}
                 isLoading={isLoadingCourse}
                 control={control}
                 options={courses}
@@ -324,6 +481,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
+                required
                 id='purpose_id'
                 label={messages['batches.label']}
                 isLoading={isTrainingCentersLoading}
@@ -349,6 +507,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               />
             </Grid>
 
+            <Grid item xs={12} md={6}>
+              <S2>
+                {messages['common.total_marks']}: {totalMarks}
+              </S2>
+            </Grid>
+
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) &&
               subjectId && (
                 <Grid item xs={12}>
@@ -360,15 +524,16 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 </Grid>
               )}
 
-            {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) && (
-              <Grid item xs={12}>
-                <OffLineExam
-                  useFrom={{register, errors, control, setValue}}
-                  examType={examType}
-                  subjectId={subjectId}
-                />
-              </Grid>
-            )}
+            {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) &&
+              subjectId && (
+                <Grid item xs={12}>
+                  <OffLineExam
+                    useFrom={{register, errors, control, setValue}}
+                    examType={examType}
+                    subjectId={subjectId}
+                  />
+                </Grid>
+              )}
 
             <Grid item xs={6}>
               <FormRowStatus
@@ -386,7 +551,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             type={'submit'}
             variant={'contained'}
             color={'primary'}>
-            {messages['common.save_and_continue']}
+            {messages['common.submit']}
           </Button>
         </form>
       </PageBlock>

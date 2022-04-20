@@ -12,23 +12,31 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import yup from '../../../../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {QuestionSelectionType} from '../../../ExamEnums';
+import {S2} from '../../../../../../@softbd/elements/common';
+import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 
 interface IProps {
   questionType: any;
   onClose: () => void;
   subjectId: any;
-  selectableQuestions?: number;
+  totalQuestions: number;
+  totalMarks: number;
+  selectionType: string;
   onQuestionsSubmitted: (data: any) => void;
 }
 
 const QuestionSetPopup = ({
   questionType,
   subjectId,
-  selectableQuestions,
+  totalQuestions,
+  totalMarks,
+  selectionType,
   onQuestionsSubmitted,
   ...props
 }: IProps) => {
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
 
   const [isQuestionEditFormOpened, setIsQuestionEditFormOpened] =
     useState<boolean>(false);
@@ -38,18 +46,22 @@ const QuestionSetPopup = ({
       questions: yup
         .array()
         .of(yup.object({}))
-        .min(1, messages['common.must_have_one_question'] as string)
+        .min(
+          totalQuestions,
+          messages['common.must_have_one_question'] as string,
+        )
         .test(
           'questions',
           messages['common.must_have_one_question'] as string,
-          (value) => {
-            console.log('asdasd', value, selectableQuestions);
-            return true;
+          (value: any) => {
+            return selectionType == QuestionSelectionType.FIXED
+              ? value && value?.length <= totalQuestions
+              : value && value?.length > totalQuestions;
           },
         )
         .label(messages['common.addQuestion'] as string),
     });
-  }, [messages, selectableQuestions]);
+  }, [messages, totalQuestions, selectionType]);
 
   const {
     handleSubmit,
@@ -66,6 +78,9 @@ const QuestionSetPopup = ({
   const getQuestionSet = (questionList: any) => {
     let questionsFormValues = questionList.map((question: any) => {
       return {
+        id: question?.id,
+        accessor_id: question?.accessor_id,
+        accessor_type: question?.accessor_type,
         subject_id: question?.subject_id,
         title: question?.title,
         title_en: question?.title_en,
@@ -78,6 +93,7 @@ const QuestionSetPopup = ({
         option_3_en: question?.option_3_en,
         option_4: question?.option_4,
         option_4_en: question?.option_4_en,
+        individual_mark: question?.individual_mark,
         answers:
           question?.question_type == QuestionType.YES_NO &&
           question?.answers?.length > 0
@@ -93,9 +109,20 @@ const QuestionSetPopup = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     if (!isQuestionEditFormOpened) {
       try {
-        onQuestionsSubmitted(data);
+        let totMark: number = 0;
 
-        props.onClose();
+        if (data.questions) {
+          data.questions.map((question: any) => {
+            totMark += Number(question?.individual_mark);
+          });
+        }
+
+        if (totMark > totalMarks) {
+          errorStack("Selected questions mark can't be more than total mark");
+        } else {
+          onQuestionsSubmitted(data);
+          props.onClose();
+        }
       } catch (error: any) {}
     }
   };
@@ -112,31 +139,52 @@ const QuestionSetPopup = ({
             values={{
               subject: <IntlMessages id='common.addQuestion' />,
             }}
-          />{' '}
+          />
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
-      handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
           <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <SubmitButton
+            isSubmitting={isSubmitting}
+            isLoading={false}
+            type={'button'}
+            onClick={() => handleSubmit(onSubmit)()}
+          />
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <S2>
+            {selectionType == QuestionSelectionType.FIXED
+              ? `Please Select only ${totalQuestions} questions`
+              : `Please Select more than ${totalQuestions} questions`}
+          </S2>
+          <S2 sx={{display: 'flex'}}>
+            Total Marks:{' '}
+            <Typography sx={{color: 'green', marginLeft: '10px'}}>
+              {totalMarks}
+            </Typography>
+          </S2>
+        </Grid>
         <Grid item xs={12}>
           <TransferQuestionList
             getQuestionSet={getQuestionSet}
             onEditPopupOpenClose={onEditPopupOpenClose}
             subjectId={subjectId}
             questionType={questionType}
+            eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{color: 'red', fontSize: '14px', fontWeight: '500'}}>
-            {errors?.questions?.message ?? null}
-          </Typography>
-        </Grid>
+        {errors?.questions?.message && (
+          <Grid item xs={12}>
+            <Typography
+              sx={{color: 'red', fontSize: '14px', fontWeight: '500'}}>
+              {errors?.questions?.message}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
     </HookFormMuiModal>
   );
