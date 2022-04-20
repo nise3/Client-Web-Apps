@@ -186,7 +186,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
   const features = useMemo(
     () => [
       {
-        id: 0,
+        id: 2,
         label: messages['common.no'],
       },
       {
@@ -364,7 +364,9 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      console.log('formData: ', formData);
+      if (formData?.featured == 2) {
+        formData.featured = 0;
+      }
       if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
         formData.content_type = GalleryAlbumContentTypes.IMAGE;
       } else if (galleryAlbum.album_type == AlbumTypes.VIDEO) {

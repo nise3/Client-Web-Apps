@@ -1476,6 +1476,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                       setValue={setValue}
                       register={register}
                       label={messages['upload_and_upload_type.upload']}
+                      acceptedFileTypes={['image/*', 'application/pdf']}
                     />
                   </Grid>
                   <Grid item xs={6}>
