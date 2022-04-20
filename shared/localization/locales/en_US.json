@@ -1920,5 +1920,8 @@
   "common.obtained_mark": "Obtained mark",
   "common.marks_distribution": "Marks distribution",
   "common.exam_name": "Exam name",
+  "common.exam_schedule": "Exam schedule",
+  "common.attend_exam": "Attend",
+  "common.view_exam": "View exams",
   "common.number_of_sets_min_max": "Number of sets should be between 2 and 5"
 }

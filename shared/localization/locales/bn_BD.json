@@ -1922,5 +1922,8 @@
   "common.show_file": "ফাইল দেখুন",
   "common.obtained_mark": "প্রাপ্ত নাম্বার",
   "common.marks_distribution": "নাম্বার বিতরণ",
+  "common.exam_schedule": "এক্সাম সময়সূচী",
+  "common.attend_exam": "অংশগ্রহণ",
+  "common.view_exam": "পরীক্ষা",
   "common.number_of_sets_min_max": "সেটের সংখ্যা ২ এবং ৫ এর মধ্যে হতে হবে"
 }

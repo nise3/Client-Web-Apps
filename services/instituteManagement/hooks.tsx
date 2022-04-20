@@ -30,6 +30,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_EXAMS,
+  API_EXAM_QUESTION_PAPER,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -243,4 +244,11 @@ export function useFetchSubjects(params: any) {
 
 export function useFetchExam(examId: number | null) {
   return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
+}
+export function useFetchExamQuestionPaper(examId: number | null) {
+  return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
+}
+
+export function useFetchExamYouthList(examId: number | null) {
+  return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
 }
