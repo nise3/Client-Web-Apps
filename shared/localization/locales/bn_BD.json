@@ -1882,5 +1882,8 @@
   "common.goto_admin": "অ্যাডমিন প্যানেল",
   "common.goto_youth": "ইয়ুথ প্রোফাইল",
   "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
-  "common.submitted_feedback" : "আপনার প্রতিক্রিয়া লক্ষ্য করা হয়েছে। আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ।"
+  "common.submitted_feedback" : "আপনার প্রতিক্রিয়া লক্ষ্য করা হয়েছে। আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ।",
+  "filePond.file_type": "ফালের ধরন সঠিক নয়",
+  "filePond.max_file_size": "সর্বোচ্চ ফাইল সাইজ ",
+  "filePond.total_max_file_size": "মোট সর্বোচ্চ ফাইল সাইজ ৫০ MB"
 }
