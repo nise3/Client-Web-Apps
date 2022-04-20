@@ -80,7 +80,7 @@ const TransferQuestionList = ({
   const handleAllRight = () => {
     const leftQ = [...leftQuestionList];
     leftQ.map((question: any) => {
-      question.individual_mark = eachQuestionMark;
+      question.individual_marks = eachQuestionMark;
     });
 
     setRightQuestionList(rightQuestionList.concat(leftQ));
@@ -90,7 +90,7 @@ const TransferQuestionList = ({
   const moveCheckedToRight = () => {
     const leftQ = [...leftChecked];
     leftQ.map((question: any) => {
-      question.individual_mark = eachQuestionMark;
+      question.individual_marks = eachQuestionMark;
     });
 
     setRightQuestionList(rightQuestionList.concat(leftQ));
@@ -168,7 +168,7 @@ const TransferQuestionList = ({
                 <Typography sx={{width: '90%'}}>{question?.title}</Typography>
                 {isRightQuestions && (
                   <>
-                    {question?.individual_mark && (
+                    {question?.individual_marks && (
                       <Tooltip title={'Individual Mark'} arrow>
                         <Typography
                           sx={{
@@ -176,7 +176,7 @@ const TransferQuestionList = ({
                             color: 'green',
                             marginLeft: '15px',
                           }}>
-                          {question?.individual_mark}
+                          {question?.individual_marks}
                         </Typography>
                       </Tooltip>
                     )}

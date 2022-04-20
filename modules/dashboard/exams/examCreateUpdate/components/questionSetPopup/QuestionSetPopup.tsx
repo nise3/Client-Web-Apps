@@ -108,7 +108,7 @@ const QuestionSetPopup = ({
 
         if (data.questions) {
           data.questions.map((question: any) => {
-            totMark += Number(question?.individual_mark);
+            totMark += Number(question?.individual_marks);
           });
         }
 
