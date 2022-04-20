@@ -804,6 +804,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 register={register}
                 label={messages['common.cv']}
                 required={false}
+                acceptedFileTypes={['image/*', 'application/pdf']}
               />
             </Grid>
             <Grid item xs={12} md={6}>
