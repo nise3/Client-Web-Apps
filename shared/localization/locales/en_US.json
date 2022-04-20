@@ -1901,8 +1901,9 @@
   "common.total_marks": "Total marks",
   "common.individual_marks": "Individual marks",
   "common.exam_sets": "Exam sets",
-  "common.set_name": "Set {subject} name",
-  "common.set_name_en": "Set {subject} name (English)",
+  "common.set_name": "Set name",
+  "common.set": "Set",
+  "common.set_name_en": "Set name (English)",
   "common.number_of_questions": "Number of questions",
   "common.question_selection_type": "Question selection type",
   "common.fixed": "Fixed",
@@ -1918,5 +1919,6 @@
   "common.show_file": "Show file",
   "common.obtained_mark": "Obtained mark",
   "common.marks_distribution": "Marks distribution",
-  "common.exam_name": "Exam name"
+  "common.exam_name": "Exam name",
+  "common.number_of_sets_min_max": "Number of sets should be between 2 and 5"
 }
