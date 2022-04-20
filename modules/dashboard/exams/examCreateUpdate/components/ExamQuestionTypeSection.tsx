@@ -2,11 +2,12 @@ import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {QuestionSelectionType} from '../../ExamEnums';
+import {ExamTypes, QuestionSelectionType} from '../../ExamEnums';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import QuestionSetPopup from './questionSetPopup/QuestionSetPopup';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import AddButton from '../../../../../@softbd/elements/button/AddButton/AddButton';
+import {cloneDeep} from 'lodash';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface IProps {
@@ -16,6 +17,7 @@ interface IProps {
   idPrefix?: any;
   subjectId?: any;
   examSets?: any;
+  examType?: any;
 }
 
 const ExamQuestionTypeSection = ({
@@ -25,11 +27,17 @@ const ExamQuestionTypeSection = ({
   idPrefix,
   subjectId,
   examSets,
+  examType,
 }: IProps) => {
   const {messages} = useIntl();
 
+  const isOffline = examType == ExamTypes.OFFLINE;
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
+  const [offlineQuestions, setOfflineQuestions] = useState<any>([]);
+  const [offlineQuestionModalIndex, setOfflineQuestionModalIndex] =
+    useState<any>(null);
 
   const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
     useState<boolean>(false);
@@ -59,7 +67,17 @@ const ExamQuestionTypeSection = ({
     setSelectedSelectionType(type ? type : null);
   };
 
-  const openAddQuestionModal = useCallback(() => {
+  const openAddQuestionModal = useCallback((index?: any) => {
+    if (isOffline) {
+      setOfflineQuestionModalIndex(index);
+
+      let initialOfflineQue = examSets.map((data: any) => {
+        return {id: data.id, questions: []};
+      });
+      setOfflineQuestions(initialOfflineQue);
+      // console.log('arrq->', initialOfflineQue);
+    }
+
     setIsAddQuestionAssignModal(true);
   }, []);
 
@@ -68,7 +86,22 @@ const ExamQuestionTypeSection = ({
   }, []);
 
   const onQuestionsSubmitted = (data: any) => {
-    useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
+    if (isOffline) {
+      let ques = cloneDeep(offlineQuestions);
+
+      ques[offlineQuestionModalIndex].questions = data.questions;
+
+      setOfflineQuestions(ques);
+
+      offlineQuestions[offlineQuestionModalIndex].questions = ques;
+
+      useFrom.setValue(
+        `${idPrefix}[${index}][question_sets]`,
+        offlineQuestions,
+      );
+    } else {
+      useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
+    }
   };
 
   return (
@@ -150,11 +183,11 @@ const ExamQuestionTypeSection = ({
             marks &&
             examSets &&
             examSets.length > 0 ? (
-              examSets.map((examSet: any) => (
+              examSets.map((examSet: any, index: number) => (
                 <Grid key={examSet.index} item xs={1}>
                   <AddButton
                     key={1}
-                    onClick={() => openAddQuestionModal()}
+                    onClick={() => openAddQuestionModal(index)}
                     isLoading={false}
                     tooltip={
                       <IntlMessages

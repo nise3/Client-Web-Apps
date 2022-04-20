@@ -90,6 +90,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               label={messages['common.exam_date']}
               register={useFrom.register}
               errorInstance={useFrom.errors}
+              required
             />
           </Grid>
           <Grid item xs={6}>
@@ -99,6 +100,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               type={'number'}
               label={messages['common.duration_min']}
               register={useFrom.register}
+              required
             />
           </Grid>
           <Grid item xs={6}>
@@ -108,6 +110,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               register={useFrom.register}
               errorInstance={useFrom.errors}
               isLoading={false}
+              required
             />
           </Grid>
 
@@ -157,6 +160,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                     errorInstance={useFrom.errors}
                     isLoading={false}
                     defaultValue={item.id}
+                    required
                   />
                   <CustomTextInput
                     required
@@ -165,6 +169,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                     register={useFrom.register}
                     errorInstance={useFrom.errors}
                     isLoading={false}
+                    required
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -198,6 +203,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                   idPrefix={idPrefix}
                   subjectId={subjectId}
                   examSets={examSets}
+                  examType={examType}
                 />
               </Grid>
             );
