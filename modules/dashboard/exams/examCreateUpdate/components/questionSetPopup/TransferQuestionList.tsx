@@ -19,6 +19,7 @@ interface IProps {
   subjectId: any;
   questionType: any;
   eachQuestionMark: number;
+  selectedQuestions: any;
 }
 
 const TransferQuestionList = ({
@@ -27,6 +28,7 @@ const TransferQuestionList = ({
   subjectId,
   questionType,
   eachQuestionMark,
+  selectedQuestions,
 }: IProps) => {
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
@@ -42,11 +44,11 @@ const TransferQuestionList = ({
 
   useEffect(() => {
     if (questionBank && questionBank?.length > 0) {
+      setRightQuestionList(selectedQuestions);
       if (rightQuestionList?.length > 0) {
         const filteredQuestions = questionBank?.filter((ques: any) =>
           rightQuestionList?.every(
-            (rightSideQuestion: any) =>
-              rightSideQuestion?.question_id !== ques?.id,
+            (rightSideQuestion: any) => rightSideQuestion?.id !== ques?.id,
           ),
         );
 
@@ -55,7 +57,7 @@ const TransferQuestionList = ({
         setLeftQuestionList(questionBank);
       }
     }
-  }, [questionBank]);
+  }, [questionBank, rightQuestionList, selectedQuestions]);
 
   useEffect(() => {
     getQuestionSet(rightQuestionList);

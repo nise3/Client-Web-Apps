@@ -36,6 +36,7 @@ const ExamQuestionTypeSection = ({
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
   const [offlineQuestions, setOfflineQuestions] = useState<any>([]);
+  const [localQuestions, setLocalQuestions] = useState<any>([]);
   const [offlineQuestionModalIndex, setOfflineQuestionModalIndex] =
     useState<any>(null);
 
@@ -95,9 +96,11 @@ const ExamQuestionTypeSection = ({
       ques[offlineQuestionModalIndex].questions = data.questions;
 
       setOfflineQuestions(ques);
+      setLocalQuestions(ques);
 
       useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
     } else {
+      setLocalQuestions([{questions: data.questions}]);
       useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
     }
   };
@@ -234,6 +237,11 @@ const ExamQuestionTypeSection = ({
                 totalMarks={marks}
                 selectionType={String(selectedSelectionType)}
                 onQuestionsSubmitted={onQuestionsSubmitted}
+                selectedQuestions={
+                  isOffline
+                    ? localQuestions[offlineQuestionModalIndex]?.questions
+                    : localQuestions[0]?.questions
+                }
               />
             )}
         </Grid>

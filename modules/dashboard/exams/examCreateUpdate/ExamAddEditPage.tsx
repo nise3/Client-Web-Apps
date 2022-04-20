@@ -341,9 +341,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         await updateExam(examId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
+        router.back();
       } else {
         await createExam(data);
         createSuccessMessage('exam.label');
+        router.back();
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});

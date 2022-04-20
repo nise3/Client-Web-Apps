@@ -22,6 +22,7 @@ interface IProps {
   totalQuestions: number;
   totalMarks: number;
   selectionType: string;
+  selectedQuestions: any;
   onQuestionsSubmitted: (data: any) => void;
 }
 
@@ -32,6 +33,7 @@ const QuestionSetPopup = ({
   totalMarks,
   selectionType,
   onQuestionsSubmitted,
+  selectedQuestions,
   ...props
 }: IProps) => {
   const {messages} = useIntl();
@@ -170,6 +172,7 @@ const QuestionSetPopup = ({
             subjectId={subjectId}
             questionType={questionType}
             eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
+            selectedQuestions={selectedQuestions || []}
           />
         </Grid>
         {errors?.questions?.message && (
