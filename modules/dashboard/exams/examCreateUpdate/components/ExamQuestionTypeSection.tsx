@@ -1,6 +1,5 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {QuestionSelectionType} from '../../ExamEnums';
@@ -8,6 +7,7 @@ import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox
 import QuestionSetPopup from './questionSetPopup/QuestionSetPopup';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import AddButton from '../../../../../@softbd/elements/button/AddButton/AddButton';
+import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
 
 interface IProps {
   useFrom: any;
@@ -130,7 +130,7 @@ const ExamQuestionTypeSection = ({
             </Grid>
 
             <Grid item xs={3}>
-              <CustomFormSelect
+              <CustomFilterableFormSelect
                 required
                 id={`${idPrefix}[${index}][question_selection_type]`}
                 label={messages['common.question_selection_type']}
