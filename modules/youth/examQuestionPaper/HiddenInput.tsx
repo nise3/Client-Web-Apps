@@ -30,6 +30,13 @@ const HiddenInput: FC<HiddenInputProps> = ({
         defaultValue={question?.question_id}
         sx={{display: 'none'}}
       />
+      <TextField
+        id={'questions[' + index + '].individual_marks'}
+        type={'hidden'}
+        {...register('questions[' + index + '].individual_marks')}
+        defaultValue={question?.individual_marks}
+        sx={{display: 'none'}}
+      />
     </>
   );
 };

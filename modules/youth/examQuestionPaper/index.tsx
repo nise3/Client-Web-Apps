@@ -24,6 +24,8 @@ import moment from 'moment';
 import {submitExamPaper} from '../../../services/instituteManagement/ExamService';
 import HiddenInput from './HiddenInput';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -35,7 +37,8 @@ const ExamQuestionPaper = () => {
   let answerIndex = 0;
   const {messages} = useIntl();
   const router = useRouter();
-
+  const authUser = useAuthUser();
+  const {errorStack} = useNotiStack();
   const [timer, setTimer] = useState<string | null>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(false);
   const [hasExamStarted, setHasExamStarted] = useState(false);
@@ -49,18 +52,16 @@ const ExamQuestionPaper = () => {
   const validationSchema: any = useMemo(() => {
     return yup.object().shape({});
   }, []);
+
   useEffect(() => {
     let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
     if (examQuestions) {
       let examDate = examQuestions?.exam_date;
 
-      console.log('examData', examDate);
-      console.log('currentDate', currentDate);
       let duration = moment.duration(
         moment(currentDate).diff(moment(examDate)),
       );
       let minutes = Number(duration.asMinutes());
-      console.log('minutes', minutes);
       if (minutes > examQuestions?.duration) {
         sethasExamEnded(true);
       } else if (minutes < 0) {
@@ -79,7 +80,6 @@ const ExamQuestionPaper = () => {
   }, [isLoadingExamQuestions]);
 
   useEffect(() => {
-    /*    console.log('isLoadingexamq', isLoadingExamQuestions);*/
     if (!isLoadingExamQuestions) {
       const current = new Date();
       let expireDate = new Date();
@@ -119,14 +119,31 @@ const ExamQuestionPaper = () => {
     register,
     control,
     setValue,
-    // setError,
+    setError,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  const onSubmit: SubmitHandler<any> = async (formData: any) => {
-    console.log('formData: ', formData);
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('data: ', data);
+    let formData = data;
+    if (authUser && authUser?.isYouthUser) {
+      formData.youth_id = authUser?.youthId;
+    }
     formData.exam_id = examId;
+    if (formData.questions) {
+      formData.questions.map((question: any) => {
+        if (question.answers) {
+          question.answers.map((answer: any, index: number) => {
+            if (answer === true) {
+              question.answers[index] = String(1);
+            } else if (answer === false) {
+              question.answers[index] = String(0);
+            }
+          });
+        }
+      });
+    }
     await submitExamPaper(formData);
     try {
     } catch (error: any) {
@@ -185,7 +202,7 @@ const ExamQuestionPaper = () => {
             </Grid>
             <Grid item xs={12}>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-                <Grid container spacing={1}>
+                <Grid container spacing={2}>
                   {isLoadingExamQuestions ? (
                     <Skeleton variant='text' />
                   ) : examQuestions && examQuestions?.exam_sections.length ? (
@@ -212,7 +229,7 @@ const ExamQuestionPaper = () => {
                                 return (
                                   <React.Fragment key={question?.id}>
                                     <QuestionTitleHeader
-                                      index={ansIndex}
+                                      index={questionIndex++}
                                       question={question}
                                     />
                                     <MCQTypeQuestion
@@ -309,7 +326,7 @@ const ExamQuestionPaper = () => {
                                         if (item == '[[]]') {
                                           return (
                                             <CustomTextInput
-                                              id={`answers[${ansIndex}][${indexNo++}]`}
+                                              id={`questions[${ansIndex}].answers[${indexNo++}]`}
                                               label={''}
                                               register={register}
                                               errorInstance={errors}
