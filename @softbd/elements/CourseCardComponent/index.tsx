@@ -108,18 +108,6 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
-  /* const [isOpenViewExamModal, setIsOpenViewExamModal] = useState(false);
-
-  const onCloseViewExamModal = useCallback((e) => {
-    console.log('close event', e);
-    e.preventDefault();
-    setIsOpenViewExamModal(false);
-  }, []);
-  const handleViewExam = useCallback((e) => {
-    console.log('open event', e);
-    e.preventDefault();
-    setIsOpenViewExamModal(true);
-  }, []);*/
 
   return (
     <StyledCard>
@@ -175,18 +163,6 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
               label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
-          {isMyCoursePage && (
-            <Button
-              variant={'outlined'}
-              size={'small'}
-              onClick={(e) => {
-                if (handleViewExam) {
-                  handleViewExam(e, course?.exams);
-                }
-              }}>
-              {messages['common.view_exam']}
-            </Button>
-          )}
         </Box>
 
         {isMyCoursePage && course?.total_enroll && (
@@ -209,6 +185,20 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
                 values={{subject: formatNumber(course.progress) + '%'}}
               />
             </Box>
+          </Box>
+        )}
+        {isMyCoursePage && course?.exams && (
+          <Box sx={{textAlign: 'center', paddingTop: '10px'}}>
+            <Button
+              variant={'outlined'}
+              size={'small'}
+              onClick={(e) => {
+                if (handleViewExam) {
+                  handleViewExam(e, course.exams);
+                }
+              }}>
+              {messages['common.view_exam']}
+            </Button>
           </Box>
         )}
       </CardContent>

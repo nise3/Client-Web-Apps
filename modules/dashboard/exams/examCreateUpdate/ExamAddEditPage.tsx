@@ -33,6 +33,7 @@ import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {cloneDeep} from 'lodash';
 import {S2} from '../../../../@softbd/elements/common';
+import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -63,11 +64,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const isEdit = examId != null;
 
+  const [examParams] = useState<any>({
+    purpose_name: ExamPurposeNames.BATCH,
+  });
   const {
     data: itemData,
     isLoading: isLoadingExam,
     mutate: mutateExam,
-  } = useFetchExam(examId);
+  } = useFetchExam(examId, examParams);
 
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isLoadingSubjects} =
@@ -288,7 +292,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
     let data = cloneDeep(formData);
 
-    data.purpose_name = 'BATCH';
+    data.purpose_name = ExamPurposeNames.BATCH;
 
     data.exam_date =
       data.exam_date

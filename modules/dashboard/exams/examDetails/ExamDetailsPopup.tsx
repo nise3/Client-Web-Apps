@@ -13,6 +13,7 @@ import OnlineDetails from './OnlineDetails';
 import OfflineDetails from './OfflineDetails';
 import {useFetchExam} from '../../../../services/instituteManagement/hooks';
 import {cloneDeep} from 'lodash';
+import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 
 interface ExamDetailsPopupProps {
   itemId: number;
@@ -27,7 +28,13 @@ const ExamDetailsPopup = ({
 }: ExamDetailsPopupProps) => {
   const {messages} = useIntl();
 
-  const {data: itemData, isLoading: isLoadingExam} = useFetchExam(itemId);
+  const [examParams] = useState<any>({
+    purpose_name: ExamPurposeNames.BATCH,
+  });
+  const {data: itemData, isLoading: isLoadingExam} = useFetchExam(
+    itemId,
+    examParams,
+  );
 
   const [onlineExamData, setOnlineExamData] = useState<any>();
   const [offlineExamData, setOfflineExamData] = useState<any>();
