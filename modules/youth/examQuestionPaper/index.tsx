@@ -159,15 +159,9 @@ const ExamQuestionPaper = () => {
         boxShadow: '1px 1px 5px 2px #7b6a6a1f',
       }}>
       <Grid container spacing={2}>
-        {hasExamEnded ? (
-          <Body1>{'Exam has ended'}</Body1>
-        ) : !hasExamStarted ? (
-          <>
-            <Body1>{'Exam has not started yet'}</Body1>
-          </>
-        ) : isLoadingExamQuestions ? (
+        {isLoadingExamQuestions ? (
           <QuestionSkeleton />
-        ) : (
+        ) : examQuestions ? (
           <>
             <Grid
               item
@@ -405,6 +399,14 @@ const ExamQuestionPaper = () => {
               </form>
             </Grid>
           </>
+        ) : hasExamEnded ? (
+          <Body1>{'Exam has ended'}</Body1>
+        ) : !hasExamStarted ? (
+          <>
+            <Body1>{'Exam has not started yet'}</Body1>
+          </>
+        ) : (
+          <></>
         )}
       </Grid>
     </Paper>
