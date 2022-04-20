@@ -73,7 +73,6 @@ const ExamQuestionTypeSection = ({
         return {id: data.id, questions: []};
       });
       setOfflineQuestions(initialOfflineQue);
-      console.log('arrq->', initialOfflineQue);
     }
   }, [examSets]);
 
@@ -96,8 +95,6 @@ const ExamQuestionTypeSection = ({
       ques[offlineQuestionModalIndex].questions = data.questions;
 
       setOfflineQuestions(ques);
-
-      console.log('ques 2=>', ques);
 
       useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
     } else {
