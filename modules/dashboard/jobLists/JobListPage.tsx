@@ -19,7 +19,7 @@ import {
 } from '../../../services/IndustryManagement/JobService';
 import {
   getCalculatedSerialNo,
-  getMomentDateFormat,
+  //getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
@@ -149,7 +149,8 @@ const JobListPage = () => {
         accessor: 'job_title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
-      {
+
+      /*{
         Header: messages['common.member'],
         accessor: 'organization_title',
         Cell: (props: any) => {
@@ -190,7 +191,7 @@ const JobListPage = () => {
             </>
           );
         },
-      },
+      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
