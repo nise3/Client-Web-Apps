@@ -1925,5 +1925,7 @@
   "common.exam_schedule": "এক্সাম সময়সূচী",
   "common.attend_exam": "অংশগ্রহণ",
   "common.view_exam": "পরীক্ষা",
-  "common.number_of_sets_min_max": "সেটের সংখ্যা ২ এবং ৫ এর মধ্যে হতে হবে"
+  "common.number_of_sets_min_max": "সেটের সংখ্যা ২ এবং ৫ এর মধ্যে হতে হবে",
+  "exam.ended": "পরীক্ষা শেষ হয়েছে",
+  "exam.not_started": "পরীক্ষা শুরু হয়নি"
 }

@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body1, Body2, H6} from '../../../@softbd/elements/common';
+import {Body1, Body2, H4, H6} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -12,7 +12,11 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import cookieInstance from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
 import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
-import {getTimer, question_type} from '../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getTimer,
+  question_type,
+} from '../../../@softbd/utilities/helpers';
 import {useFetchExamQuestionPaper} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import {QuestionType} from '../../dashboard/questionsBank/QuestionBanksEnums';
@@ -36,7 +40,7 @@ interface ExamQuestionListProps {
 const ExamQuestionPaper = () => {
   let questionIndex = 1;
   let answerIndex = 0;
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
   const router = useRouter();
   const authUser = useAuthUser();
   const {errorStack} = useNotiStack();
@@ -73,14 +77,14 @@ const ExamQuestionPaper = () => {
 
   useEffect(() => {
     let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
-    if (examQuestions) {
-      let examDate = examQuestions?.exam_date;
+    if (examQuestionData) {
+      let examDate = examQuestionData?.exam_date;
 
       let duration = moment.duration(
         moment(currentDate).diff(moment(examDate)),
       );
       let minutes = Number(duration.asMinutes());
-      if (minutes > examQuestions?.duration) {
+      if (minutes > examQuestionData?.duration) {
         sethasExamEnded(true);
       } else if (minutes < 0) {
         setHasExamStarted(false);
@@ -89,7 +93,7 @@ const ExamQuestionPaper = () => {
         setHasExamStarted(true);
       }
     }
-  }, [examQuestions]);
+  }, [examQuestionData]);
 
   useEffect(() => {
     if (!isLoadingExamQuestions) {
@@ -182,11 +186,13 @@ const ExamQuestionPaper = () => {
         {isLoadingExamQuestions ? (
           <QuestionSkeleton />
         ) : hasExamEnded ? (
-          <Body1>{'Exam has ended'}</Body1>
+          <Grid item xs={12}>
+            <H4 sx={{textAlign: 'center'}}>{messages['exam.ended']}</H4>
+          </Grid>
         ) : !hasExamStarted ? (
-          <>
-            <Body1>{'Exam has not started yet'}</Body1>
-          </>
+          <Grid item xs={12}>
+            <H4 sx={{textAlign: 'center'}}>{messages['exam.not_started']}</H4>
+          </Grid>
         ) : examQuestionData ? (
           <>
             <Grid
@@ -204,7 +210,7 @@ const ExamQuestionPaper = () => {
               </Body2>
               <Body2>
                 {messages['common.date']} {': '}
-                {examQuestionData?.exam_date}
+                {getIntlDateFromString(formatDate, examQuestionData?.exam_date)}
               </Body2>
             </Grid>
 
@@ -217,7 +223,7 @@ const ExamQuestionPaper = () => {
               <Body2 sx={{marginLeft: 'auto'}}>
                 {messages['common.total_marks']}
                 {': '}
-                {examQuestionData?.total_marks}
+                {Math.floor(examQuestionData?.total_marks)}
               </Body2>
             </Grid>
             <Grid item xs={12}>
