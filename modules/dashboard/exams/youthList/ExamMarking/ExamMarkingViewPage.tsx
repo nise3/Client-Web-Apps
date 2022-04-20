@@ -353,17 +353,6 @@ const ExamMarkingViewPage = () => {
                         ) : (
                           <NoDataFoundComponent />
                         )}
-
-                        {/*{section.question_type == QuestionType.DESCRIPTIVE && (
-                          <Grid item xs={12}>
-                            <DescriptiveTypeView
-                              section={section || []}
-                              inputField={
-
-                              }
-                            />
-                          </Grid>
-                        )}*/}
                       </React.Fragment>
                     );
                   },

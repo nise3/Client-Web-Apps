@@ -3,16 +3,13 @@ import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import Box from '@mui/material/Box';
 import React, {Fragment, useCallback, useMemo, useRef, useState} from 'react';
-import {TextField} from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
-import {Body1} from '../../../../@softbd/elements/common';
+import {Body1, S2} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import {ExamTypes} from '../ExamEnums';
 
 interface IProps {
@@ -88,6 +85,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           {/*Exams*/}
           <Grid item xs={6}>
             <CustomDateTimePicker
+              required
               id={isMixed ? `offline[exam_date]` : 'exam_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
@@ -97,6 +95,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
+              required
               id={isMixed ? `offline[duration]` : 'duration'}
               type={'number'}
               label={messages['common.duration_min']}
@@ -115,23 +114,21 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
             />
           </Grid>
 
-          {/*for design purpose*/}
-          <Grid item xs={6} />
-
           <Grid item xs={6}>
-            <TextField
+            <CustomTextInput
+              required
+              id={isMixed ? `offline[total_set]` : 'total_set'}
+              label={messages['common.number_of_sets']}
+              register={useFrom.register}
+              errorInstance={useFrom.errors}
+              isLoading={false}
+              type={'number'}
               inputRef={examSetField}
-              fullWidth
-              type='number'
-              variant='outlined'
-              size='small'
-              label={messages['common.number_of_sets'] as string}
-              defaultValue={1}
-              required={true}
+              defaultValue={'2'}
               InputProps={{
                 inputProps: {
                   max: 5,
-                  min: 0,
+                  min: 2,
                 },
                 endAdornment: (
                   <InputAdornment position='start'>
@@ -144,14 +141,16 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
             />
           </Grid>
 
-          {/*for design purpose*/}
-          <Grid item xs={6} />
-
           {/*Exam Sets*/}
           {examSets?.map((item, i) => {
             const idPrefix = isMixed ? `offline[sets]` : 'sets';
             return (
               <Fragment key={i}>
+                <Grid item xs={12}>
+                  <S2 sx={{marginBottom: '-30px'}}>
+                    {messages['common.set']} {formatNumber(i + 1)}
+                  </S2>
+                </Grid>
                 <Grid item xs={6}>
                   <CustomTextInput
                     sx={{display: 'none'}}
@@ -164,21 +163,9 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                     required
                   />
                   <CustomTextInput
+                    required
                     id={`${idPrefix}[${i}][title]`}
-                    label={
-                      (
-                        <IntlMessages
-                          id='common.set_name'
-                          values={{
-                            subject: (
-                              <IntlMessages
-                                id={String(getIntlNumber(formatNumber, i + 1))}
-                              />
-                            ),
-                          }}
-                        />
-                      ) as unknown as string
-                    }
+                    label={messages['common.set_name']}
                     register={useFrom.register}
                     errorInstance={useFrom.errors}
                     isLoading={false}
@@ -188,20 +175,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                 <Grid item xs={6}>
                   <CustomTextInput
                     id={`${idPrefix}[${i}][title_en]`}
-                    label={
-                      (
-                        <IntlMessages
-                          id='common.set_name_en'
-                          values={{
-                            subject: (
-                              <IntlMessages
-                                id={String(getIntlNumber(formatNumber, i + 1))}
-                              />
-                            ),
-                          }}
-                        />
-                      ) as unknown as string
-                    }
+                    label={messages['common.set_name']}
                     register={useFrom.register}
                     errorInstance={useFrom.errors}
                     isLoading={false}

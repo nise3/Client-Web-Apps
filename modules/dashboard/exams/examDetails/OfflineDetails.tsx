@@ -5,8 +5,7 @@ import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import {Grid} from '@mui/material';
 import QuestionTypeCheckedBox from '../components/QuestionTypeCheckedBox';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import IntlMessages from '../../../../@crema/utility/IntlMessages';
-import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {S2} from '../../../../@softbd/elements/common';
 
 interface IProps {
   itemData: any;
@@ -81,42 +80,21 @@ const OfflineDetails = ({itemData, isLoading}: IProps) => {
       </Grid>
       {(itemData?.question_sets || []).map((set: any, i: number) => (
         <Fragment key={set.id}>
+          <Grid item xs={12}>
+            <S2 sx={{marginBottom: '-30px'}}>
+              {messages['common.set']} {formatNumber(i + 1)}
+            </S2>
+          </Grid>
           <Grid key={set.id} item xs={12} md={6}>
             <DetailsInputView
-              label={
-                (
-                  <IntlMessages
-                    id='common.set_name'
-                    values={{
-                      subject: (
-                        <IntlMessages
-                          id={String(getIntlNumber(formatNumber, i + 1))}
-                        />
-                      ),
-                    }}
-                  />
-                ) as unknown as string
-              }
+              label={messages['common.set_name']}
               value={set?.title}
               isLoading={isLoading}
             />
           </Grid>
           <Grid key={set.id} item xs={12} md={6}>
             <DetailsInputView
-              label={
-                (
-                  <IntlMessages
-                    id='common.set_name_en'
-                    values={{
-                      subject: (
-                        <IntlMessages
-                          id={String(getIntlNumber(formatNumber, i + 1))}
-                        />
-                      ),
-                    }}
-                  />
-                ) as unknown as string
-              }
+              label={messages['common.set_name']}
               value={set?.title_en}
               isLoading={isLoading}
             />

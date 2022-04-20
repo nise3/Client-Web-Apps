@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 const ExamMarkSheetPage = asyncComponent(
   () =>
     import(
-      '../../../../../modules/dashboard/exams/examineeList/ExamMarkSheet/ExamMarkSheetView'
+      '../../../../../modules/dashboard/exams/youthList/ExamMarkSheet/ExamMarkSheetView'
     ),
 );
 export default DashboardPage(() => {

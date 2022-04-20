@@ -1903,8 +1903,9 @@
   "common.total_marks": "মোট নাম্বার",
   "common.individual_marks": "স্বতন্ত্র নাম্বার",
   "common.exam_sets": "পরীক্ষা সেট",
-  "common.set_name": "সেটের {subject} এর নাম",
-  "common.set_name_en": "সেটের {subject} এর নাম (ইংরেজি)",
+  "common.set_name": "সেটের নাম",
+  "common.set": "সেট",
+  "common.set_name_en": "সেটের নাম (ইংরেজি)",
   "common.number_of_questions": "প্রশ্নের সংখ্যা",
   "common.question_selection_type": "প্রশ্ন নির্বাচনের ধরন",
   "common.fixed": "ফিক্সড",
@@ -1920,5 +1921,9 @@
   "common.duration": "সময়কাল",
   "common.show_file": "ফাইল দেখুন",
   "common.obtained_mark": "প্রাপ্ত নাম্বার",
-  "common.marks_distribution": "নাম্বার বিতরণ"
+  "common.marks_distribution": "নাম্বার বিতরণ",
+  "common.exam_schedule": "এক্সাম সময়সূচী",
+  "common.attend_exam": "অংশগ্রহণ",
+  "common.view_exam": "পরীক্ষা",
+  "common.number_of_sets_min_max": "সেটের সংখ্যা ২ এবং ৫ এর মধ্যে হতে হবে"
 }

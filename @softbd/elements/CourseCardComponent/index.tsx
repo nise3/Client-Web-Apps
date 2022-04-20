@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   LinearProgress,
@@ -69,6 +70,8 @@ const StyledCard = styled(Card)(({theme}) => ({
 
   [`& .${classes.tagBox}`]: {
     marginTop: 5,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 
   [`& .${classes.courseTitle}`]: {
@@ -93,14 +96,30 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 interface CourseCardComponentProps {
   course: any;
+  handleViewExam?: (e: any, exams: any) => void;
 }
 
-const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
+const CourseCardComponent: FC<CourseCardComponentProps> = ({
+  course,
+  handleViewExam,
+}) => {
   const {messages, formatNumber} = useIntl();
   const customStyle = useCustomStyle();
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
+  /* const [isOpenViewExamModal, setIsOpenViewExamModal] = useState(false);
+
+  const onCloseViewExamModal = useCallback((e) => {
+    console.log('close event', e);
+    e.preventDefault();
+    setIsOpenViewExamModal(false);
+  }, []);
+  const handleViewExam = useCallback((e) => {
+    console.log('open event', e);
+    e.preventDefault();
+    setIsOpenViewExamModal(true);
+  }, []);*/
 
   return (
     <StyledCard>
@@ -155,6 +174,18 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
             <TagChip
               label={getCourseDuration(course.duration, formatNumber, messages)}
             />
+          )}
+          {isMyCoursePage && (
+            <Button
+              variant={'outlined'}
+              size={'small'}
+              onClick={(e) => {
+                if (handleViewExam) {
+                  handleViewExam(e, course?.exams);
+                }
+              }}>
+              {messages['common.view_exam']}
+            </Button>
           )}
         </Box>
 

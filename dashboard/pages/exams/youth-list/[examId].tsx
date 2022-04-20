@@ -4,15 +4,15 @@ import DashboardPage from '../../../../@softbd/layouts/hoc/DashboardPage';
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-const ExamineeListPage = asyncComponent(
-  () => import('../../../../modules/dashboard/exams/examineeList/ExamineeList'),
+const YouthListPage = asyncComponent(
+  () => import('../../../../modules/dashboard/exams/youthList/YouthList'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
       <PageMeta title={messages['examinee.label'] as string} />
-      <ExamineeListPage />
+      <YouthListPage />
     </>
   );
 });
