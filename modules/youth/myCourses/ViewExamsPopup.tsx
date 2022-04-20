@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
@@ -24,6 +24,20 @@ interface ViewExamsPopupProps {
 }
 const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
   const {messages, formatDate} = useIntl();
+
+  const getExamTimeDuration = useCallback((duration: any) => {
+    let hour = Math.floor(duration / 60);
+    let minutes = Math.floor(duration % 60);
+    if (hour > 0) {
+      if (minutes > 0) {
+        return <>{hour + 'hour ' + minutes + ' minutes'}</>;
+      } else {
+        return <>{hour + 'hour '}</>;
+      }
+    } else {
+      return <>{minutes + ' minutes'}</>;
+    }
+  }, []);
   return (
     <FrontendCustomModal
       onClose={onClose}
@@ -44,11 +58,12 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
         <Table size={'small'} aria-label='Language proficiency table'>
           <TableHead>
             <TableRow>
-              <TableCell>{messages['subject.label']}</TableCell>
               <TableCell>{messages['common.title']}</TableCell>
+              <TableCell>{messages['subject.label']}</TableCell>
+
               <TableCell>{messages['common.start_time']}</TableCell>
               <TableCell>{messages['common.duration']}</TableCell>
-              <TableCell>{messages['exam.label']}</TableCell>
+              <TableCell>{''}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -58,17 +73,17 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                 return (
                   <TableRow key={index}>
                     <TableCell component='th' scope='language'>
-                      {exam?.exam_title} {exam?.subject_title}
+                      {exam?.title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
-                      {exam?.title}
+                      {exam?.exam_title} {exam?.subject_title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {exam?.exam_date
                         ? getIntlDateFromString(formatDate, exam?.exam_date)
                         : ''}
                     </TableCell>
-                    <TableCell>{exam?.duration + ' Minutes'}</TableCell>
+                    <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
                     <TableCell>
                       <Link href={`exam/${exam?.exam_id}`}>
                         <Button>{messages['common.attend_exam']}</Button>
