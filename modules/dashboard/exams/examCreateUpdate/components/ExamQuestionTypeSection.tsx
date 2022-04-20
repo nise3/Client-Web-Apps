@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {ExamTypes, QuestionSelectionType} from '../../ExamEnums';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -67,15 +67,19 @@ const ExamQuestionTypeSection = ({
     setSelectedSelectionType(type ? type : null);
   };
 
-  const openAddQuestionModal = useCallback((index?: any) => {
-    if (isOffline) {
-      setOfflineQuestionModalIndex(index);
-
+  useEffect(() => {
+    if (examSets) {
       let initialOfflineQue = examSets.map((data: any) => {
         return {id: data.id, questions: []};
       });
       setOfflineQuestions(initialOfflineQue);
-      // console.log('arrq->', initialOfflineQue);
+      console.log('arrq->', initialOfflineQue);
+    }
+  }, [examSets]);
+
+  const openAddQuestionModal = useCallback((index?: any) => {
+    if (isOffline) {
+      setOfflineQuestionModalIndex(index);
     }
 
     setIsAddQuestionAssignModal(true);
@@ -93,12 +97,9 @@ const ExamQuestionTypeSection = ({
 
       setOfflineQuestions(ques);
 
-      offlineQuestions[offlineQuestionModalIndex].questions = ques;
+      console.log('ques 2=>', ques);
 
-      useFrom.setValue(
-        `${idPrefix}[${index}][question_sets]`,
-        offlineQuestions,
-      );
+      useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
     } else {
       useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
     }

@@ -201,12 +201,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               total_set: yup
                 .mixed()
                 .required()
-                .label(messages['common.number_of_sets'] as string)
-                .test(
-                  'total_set_validation',
-                  messages['common.number_of_sets_min_max'] as string,
-                  (value) => Boolean(Number(value) >= 2 && Number(value) <= 5),
-                ),
+                .label(messages['common.number_of_sets'] as string),
               sets: yup.array().of(
                 yup.object().shape({
                   title: yup
@@ -524,7 +519,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                   />
                 </Grid>
               )}
-              
+
             {(examType == ExamTypes.OFFLINE || examType == ExamTypes.MIXED) &&
               subjectId && (
                 <Grid item xs={12}>
