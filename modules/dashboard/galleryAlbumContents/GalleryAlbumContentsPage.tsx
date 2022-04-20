@@ -101,6 +101,7 @@ const GalleryAlbumContentsPage = () => {
         accessor: 'content_type',
         filter: 'selectFilter',
         selectFilterItems: contentTypeFilterItems,
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           if (data.content_type === GalleryAlbumContentTypes.IMAGE) {
