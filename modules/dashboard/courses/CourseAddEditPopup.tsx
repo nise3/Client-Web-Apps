@@ -34,6 +34,7 @@ import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -93,8 +94,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchPrograms(programmeFilters);
 
-  const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(youthSkillsFilter);
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
@@ -482,18 +482,15 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
+          <CustomSelectAutoComplete
             required
             id='skills'
             label={messages['common.skills']}
-            isLoading={isLoadingSkills}
             control={control}
             options={skills}
-            multiple={true}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            defaultValue={[]}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -687,6 +684,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             required={false}
             height={'400'}
             width={'600'}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12}>
