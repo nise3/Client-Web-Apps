@@ -242,9 +242,16 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
 
-export function useFetchExam(examId: number | null) {
-  return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
+export function useFetchExam(examId: number | null, params?: any) {
+  return useAxiosSWR(
+    examId
+      ? params
+        ? [API_EXAMS + '/' + examId, params]
+        : API_EXAMS + '/' + examId
+      : null,
+  );
 }
+
 export function useFetchExamQuestionPaper(examId: number | null) {
   return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
 }
