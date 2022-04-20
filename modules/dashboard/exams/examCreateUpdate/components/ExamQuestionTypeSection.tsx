@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {ExamTypes, QuestionSelectionType} from '../../ExamEnums';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -35,8 +35,9 @@ const ExamQuestionTypeSection = ({
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
-  const [offlineQuestions, setOfflineQuestions] = useState<any>({});
-  const [oarr, setOarr] = useState<any>([]);
+  const [offlineQuestions, setOfflineQuestions] = useState<any>([]);
+  const [offlineQuestionModalIndex, setOfflineQuestionModalIndex] =
+    useState<any>(null);
 
   const [isOpenAddQuestionModal, setIsAddQuestionAssignModal] =
     useState<boolean>(false);
@@ -66,9 +67,17 @@ const ExamQuestionTypeSection = ({
     setSelectedSelectionType(type ? type : null);
   };
 
-  const openAddQuestionModal = useCallback((setId?: any) => {
-    console.log('exam id->', setId);
-    setOfflineQuestions({id: setId, questions: []});
+  const openAddQuestionModal = useCallback((index?: any) => {
+    if (isOffline) {
+      setOfflineQuestionModalIndex(index);
+
+      let initialOfflineQue = examSets.map((data: any) => {
+        return {id: data.id, questions: []};
+      });
+      setOfflineQuestions(initialOfflineQue);
+      // console.log('arrq->', initialOfflineQue);
+    }
+
     setIsAddQuestionAssignModal(true);
   }, []);
 
@@ -78,23 +87,22 @@ const ExamQuestionTypeSection = ({
 
   const onQuestionsSubmitted = (data: any) => {
     if (isOffline) {
-      //todo: work start form here tomorrow...19/4/22
-      console.log('offlineQuestions->', offlineQuestions);
-      let question_sets = cloneDeep(offlineQuestions);
-      question_sets.questions = data.questions;
-      // question_sets = [...question_sets];
-      // let aa: any = [];
-      // aa = [...aa, question_sets];
-      setOarr([...oarr, question_sets]);
-      console.log('question_sets->', oarr);
+      let ques = cloneDeep(offlineQuestions);
+
+      ques[offlineQuestionModalIndex].questions = data.questions;
+
+      setOfflineQuestions(ques);
+
+      offlineQuestions[offlineQuestionModalIndex].questions = ques;
+
+      useFrom.setValue(
+        `${idPrefix}[${index}][question_sets]`,
+        offlineQuestions,
+      );
     } else {
       useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
     }
   };
-
-  useEffect(() => {
-    console.log('question_sets 3->', oarr);
-  }, [oarr]);
 
   return (
     <Grid container spacing={1}>
@@ -175,11 +183,11 @@ const ExamQuestionTypeSection = ({
             marks &&
             examSets &&
             examSets.length > 0 ? (
-              examSets.map((examSet: any) => (
+              examSets.map((examSet: any, index: number) => (
                 <Grid key={examSet.index} item xs={1}>
                   <AddButton
                     key={1}
-                    onClick={() => openAddQuestionModal(examSet.id)}
+                    onClick={() => openAddQuestionModal(index)}
                     isLoading={false}
                     tooltip={
                       <IntlMessages

@@ -111,6 +111,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               register={useFrom.register}
               errorInstance={useFrom.errors}
               isLoading={false}
+              required
             />
           </Grid>
 
@@ -126,6 +127,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               size='small'
               label={messages['common.number_of_sets'] as string}
               defaultValue={1}
+              required={true}
               InputProps={{
                 inputProps: {
                   max: 5,
@@ -180,6 +182,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                     register={useFrom.register}
                     errorInstance={useFrom.errors}
                     isLoading={false}
+                    required
                   />
                 </Grid>
                 <Grid item xs={6}>
