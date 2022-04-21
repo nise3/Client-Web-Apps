@@ -11,8 +11,8 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
 }) => {
   return (
     <>
-      <Grid container>
-        <Grid item xs={10} display={'flex'}>
+      <Grid container spacing={2}>
+        <Grid item xs={11} display={'flex'}>
           <Body2
             sx={{
               fontWeight: 'bold',
@@ -22,7 +22,7 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
           </Body2>
           <Body2>{question?.title}</Body2>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Body2
             sx={{
               fontWeight: 'bold',

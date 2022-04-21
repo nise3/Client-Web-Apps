@@ -1923,5 +1923,7 @@
   "common.exam_schedule": "Exam schedule",
   "common.attend_exam": "Attend",
   "common.view_exam": "View exams",
-  "common.number_of_sets_min_max": "Number of sets should be between 2 and 5"
+  "common.number_of_sets_min_max": "Number of sets should be between 2 and 5",
+  "exam.ended": "Exam has ended",
+  "exam.not_started": "Exam has not started"
 }
