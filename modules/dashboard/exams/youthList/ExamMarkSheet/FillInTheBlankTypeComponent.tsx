@@ -4,7 +4,7 @@ import {styled} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
 
-const PREFIX = 'FillInTheBlankTypeView';
+const PREFIX = 'FillInTheBlankTypeComponent';
 
 const classes = {
   inputView: `${PREFIX}-inputView`,
@@ -25,7 +25,7 @@ interface FillInTheBlankTypeComponentProps {
   question: any;
   index: number;
 }
-const FillInTheBlankTypeView: FC<FillInTheBlankTypeComponentProps> = ({
+const FillInTheBlankTypeComponent: FC<FillInTheBlankTypeComponentProps> = ({
   question,
   index,
 }) => {
@@ -63,4 +63,4 @@ const FillInTheBlankTypeView: FC<FillInTheBlankTypeComponentProps> = ({
   );
 };
 
-export default FillInTheBlankTypeView;
+export default FillInTheBlankTypeComponent;

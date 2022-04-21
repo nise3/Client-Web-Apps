@@ -11,7 +11,7 @@ enum YesNoAnswer {
   YES = 1,
   NO = 2,
 }
-const YesNoTypeView: FC<YesNoTypeViewProps> = ({question, index}) => {
+const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
   const {messages} = useIntl();
   return (
     <Grid container spacing={1}>
@@ -74,4 +74,4 @@ const YesNoTypeView: FC<YesNoTypeViewProps> = ({question, index}) => {
   );
 };
 
-export default YesNoTypeView;
+export default YesNoTypeComponent;

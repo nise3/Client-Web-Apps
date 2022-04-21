@@ -10,7 +10,7 @@ interface DescriptiveViewProps {
   index: number;
 }
 
-const DescriptiveTypeView: FC<DescriptiveViewProps> = ({
+const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
   question,
   inputField,
   index,
@@ -48,4 +48,4 @@ const DescriptiveTypeView: FC<DescriptiveViewProps> = ({
   );
 };
 
-export default DescriptiveTypeView;
+export default DescriptiveTypeComponent;

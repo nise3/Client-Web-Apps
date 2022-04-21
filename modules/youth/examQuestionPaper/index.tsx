@@ -239,7 +239,9 @@ const ExamQuestionPaper = () => {
                         <React.Fragment key={section?.id}>
                           <Grid item xs={12} display={'flex'}>
                             <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-                              {question_type[section?.question_type - 1].label +
+                              {messages[
+                                question_type[section?.question_type - 1].label
+                              ] +
                                 ' | ' +
                                 messages['common.total_marks'] +
                                 ': '}
@@ -405,7 +407,7 @@ const ExamQuestionPaper = () => {
                     })
                   ) : (
                     <NoDataFoundComponent
-                      messageType={messages['questions.label']}
+                      messageType={messages['common.question']}
                     />
                   )}
                 </Grid>

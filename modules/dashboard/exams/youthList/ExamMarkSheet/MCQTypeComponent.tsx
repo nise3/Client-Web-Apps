@@ -7,7 +7,7 @@ interface McqTypeComponentProps {
   question: any;
   index: number;
 }
-const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
+const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
   const {messages} = useIntl();
   return (
     <Grid container spacing={1}>
@@ -16,12 +16,14 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
           {index + '. ' + ' '}
         </Body2>
         <Body2>{question?.title}</Body2>
-        <Body2 sx={{fontWeight: 'bold'}}>{'(' + question?.mark + ')'}</Body2>
+        <Body2 sx={{fontWeight: 'bold'}}>
+          {'(' + question?.individual_marks + ')'}
+        </Body2>
       </Grid>
       <Grid item xs={2}>
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-          {question?.individual_marks ? (
-            <>{question?.individual_marks}</>
+          {question?.achived_mark ? (
+            <>{question?.achived_mark}</>
           ) : (
             <>{messages['exam.none']}</>
           )}
@@ -30,10 +32,10 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
       <Grid item xs={10} display={'flex'} flexDirection={'column'}>
         <FormControlLabel
           disabled
-          control={<Checkbox checked={question?.answer.includes(1)} />}
+          control={<Checkbox checked={question?.answers.includes('1')} />}
           label={question?.option_1}
           componentsProps={
-            question?.correct_answer.includes(1)
+            question?.answers.includes('1')
               ? {
                   typography: {
                     sx: {color: 'green !important'},
@@ -44,10 +46,10 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
         />
         <FormControlLabel
           disabled
-          control={<Checkbox checked={question?.answer.includes(2)} />}
+          control={<Checkbox checked={question?.answers.includes('2')} />}
           label={question?.option_2}
           componentsProps={
-            question?.correct_answer.includes(2)
+            question?.answers.includes('2')
               ? {
                   typography: {
                     sx: {color: 'green !important'},
@@ -58,10 +60,10 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
         />
         <FormControlLabel
           disabled
-          control={<Checkbox checked={question?.answer.includes(3)} />}
+          control={<Checkbox checked={question?.answers.includes('3')} />}
           label={question?.option_3}
           componentsProps={
-            question?.correct_answer.includes(3)
+            question?.answers.includes('3')
               ? {
                   typography: {
                     sx: {color: 'green !important'},
@@ -72,10 +74,10 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
         />
         <FormControlLabel
           disabled
-          control={<Checkbox checked={question?.answer.includes(4)} />}
+          control={<Checkbox checked={question?.answers.includes('4')} />}
           label={question?.option_4}
           componentsProps={
-            question?.correct_answer.includes(4)
+            question?.answers.includes('4')
               ? {
                   typography: {
                     sx: {color: 'green !important'},
@@ -89,4 +91,4 @@ const MCQTypeView: FC<McqTypeComponentProps> = ({question, index}) => {
   );
 };
 
-export default MCQTypeView;
+export default MCQTypeComponent;
