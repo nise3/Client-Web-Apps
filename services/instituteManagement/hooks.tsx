@@ -243,7 +243,7 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
 
-export function useFetchExam(examId: number | null, params?: any) {
+export function useFetchExam(examId: any, params?: any) {
   return useAxiosSWR(
     examId
       ? params
