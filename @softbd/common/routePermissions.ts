@@ -331,4 +331,8 @@ export const routePermissions: any = {
     routePrefix: 'exams/update',
     permissionKeys: ['view_any_exam'], //TODO: this will be change letter
   },
+  'exams/details/': {
+    routePrefix: 'exams/details',
+    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+  },
 };

@@ -28,7 +28,7 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
               fontWeight: 'bold',
               textAlign: 'center',
             }}>
-            {question?.individual_marks}
+            {Number(question?.individual_marks)?.toFixed(0)}
           </Body2>
         </Grid>
       </Grid>
