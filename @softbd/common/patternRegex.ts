@@ -23,3 +23,5 @@ export const EMAIL_REGEX = new RegExp(
   '(<|^)[a-z\\d.]+([a-z\\d.\\s_-]{0,30})+@(?:[a-z\\d]+\\.)+([a-z]{2,})(>|$)',
 );
 export const NID_REGEX = new RegExp('^[0-9]{10}$|^[0-9]{13}$|^[0-9]{17}$');
+
+export const SPECIAL_CHARACTER_VALIDATION = new RegExp('/[^\\w\\s\\][^,]/gi');
