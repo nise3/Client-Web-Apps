@@ -1925,5 +1925,9 @@
   "common.view_exam": "View exams",
   "common.number_of_sets_min_max": "Number of sets should be between 2 and 5",
   "exam.ended": "Exam has ended",
-  "exam.not_started": "Exam has not started"
+  "exam.not_started": "Exam has not started",
+  "common.mcq": "Multiple choice questions",
+  "common.fill_in_the_blank": "Fill in the blanks",
+  "common.yes_no": "Yes/No"
+
 }

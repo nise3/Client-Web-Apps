@@ -154,6 +154,9 @@ export const API_EXAM_YOUTH_LIST = INSTITUTE_SERVICE_PATH + '/exam-youth-list';
 export const API_SUBMIT_EXAM_PAPER =
   INSTITUTE_SERVICE_PATH + '/submit-exam-paper';
 
+export const API_PREVIEW_YOUTH_EXAM =
+  INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
+
 /**             eRPL            */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =

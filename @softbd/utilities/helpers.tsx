@@ -69,31 +69,31 @@ export const religions = [
 export const question_type = [
   {
     id: 1,
-    label: 'MCQ',
+    label: 'common.mcq',
   },
   {
     id: 2,
-    label: 'Fill in the blank',
+    label: 'common.fill_in_the_blank',
   },
   {
     id: 3,
-    label: 'YES/NO',
+    label: 'common.yes_no',
   },
   {
     id: 4,
-    label: 'Practical',
+    label: 'common.practical',
   },
   {
     id: 5,
-    label: 'Field Work',
+    label: 'common.field_work',
   },
   {
     id: 6,
-    label: 'Presentation',
+    label: 'common.presentation',
   },
   {
     id: 7,
-    label: 'Descriptive',
+    label: 'common.descriptive',
   },
 ];
 

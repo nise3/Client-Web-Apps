@@ -11,35 +11,13 @@ import {API_EXAM_YOUTH_LIST} from '../../../../@softbd/common/apiRoutes';
 import {Link} from '../../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 
-/*const examinees = [
-  {
-    id: 1,
-    name: 'Afrar Jahin',
-    marks: 70,
-  },
-  {
-    id: 2,
-    name: 'Nusrat',
-    marks: 80,
-  },
-  {
-    id: 3,
-    name: 'Afrin',
-    marks: 90,
-  },
-];*/
 const ExamineeListPage = () => {
   const {messages} = useIntl();
-  // const {successStack} = useNotiStack();
-
   const [selectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal] = useState(false);
   const [isToggleTable] = useState<boolean>(false);
   const router = useRouter();
   const {examId} = router.query;
-  /*  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, []);*/
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
@@ -58,20 +36,42 @@ const ExamineeListPage = () => {
       },
       {
         Header: messages['common.name'],
-        accessor: 'name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let youthProfle = data?.youth_profile;
+          return youthProfle?.first_name + ' ' + youthProfle?.last_name;
+        },
       },
       {
-        Header: messages['common.marks'],
-        accessor: 'marks',
+        Header: messages['common.mobile'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let youthProfle = data?.youth_profile;
+          return youthProfle?.mobile;
+        },
+      },
+      {
+        Header: messages['common.email'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          let youthProfle = data?.youth_profile;
+          return youthProfle?.email;
+        },
+      },
+      {
+        Header: messages['common.obtained_mark'],
+        accessor: 'marks_achieved',
       },
       ,
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          // let data = props.row.original;
+          let data = props.row.original;
+          let examId = data?.exam_id;
+          let youthId = data?.youth_id;
           return (
             <DatatableButtonGroup>
-              <Link href={'/exams/examinee-list/marking'}>
+              <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
                 <Button
                   variant={'outlined'}
                   color={'primary'}
@@ -79,7 +79,7 @@ const ExamineeListPage = () => {
                   {messages['common.marks_distribution']}
                 </Button>
               </Link>
-              <Link href={'/exams/examinee-list/marks-sheet'}>
+              <Link href={`/exams/youth-list/${examId}/sheet/${youthId}`}>
                 <Button variant={'outlined'} color={'primary'}>
                   {messages['common.answer_sheet']}
                 </Button>

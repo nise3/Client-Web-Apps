@@ -1927,5 +1927,8 @@
   "common.view_exam": "পরীক্ষা",
   "common.number_of_sets_min_max": "সেটের সংখ্যা ২ এবং ৫ এর মধ্যে হতে হবে",
   "exam.ended": "পরীক্ষা শেষ হয়েছে",
-  "exam.not_started": "পরীক্ষা শুরু হয়নি"
+  "exam.not_started": "পরীক্ষা শুরু হয়নি",
+  "common.mcq": "বহুনির্বাচনী",
+  "common.fill_in_the_blank": "শূন্যস্থান পূরন",
+  "common.yes_no": "হ্যা/না"
 }
