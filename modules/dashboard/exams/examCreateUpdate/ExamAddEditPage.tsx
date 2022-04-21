@@ -209,7 +209,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 .test(
                   'total_set_validation',
                   messages['common.number_of_sets_min_max'] as string,
-                  (value) => Boolean(Number(value) >= 2 && Number(value) <= 5),
+                  (value) => Boolean(Number(value) >= 1 && Number(value) <= 5),
                 ),
               sets: yup.array().of(
                 yup.object().shape({
@@ -346,9 +346,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         await updateExam(examId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
+        router.back();
       } else {
         await createExam(data);
         createSuccessMessage('exam.label');
+        router.back();
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});

@@ -121,11 +121,11 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               isLoading={false}
               type={'number'}
               inputRef={examSetField}
-              defaultValue={'2'}
+              defaultValue={'1'}
               InputProps={{
                 inputProps: {
                   max: 5,
-                  min: 2,
+                  min: 1,
                 },
                 endAdornment: (
                   <InputAdornment position='start'>

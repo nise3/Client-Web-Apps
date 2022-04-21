@@ -51,7 +51,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.question_type'] as string),
-      individual_mark: yup
+      individual_marks: yup
         .string()
         .required()
         .label(messages['common.marks'] as string),
@@ -189,7 +189,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       option_3_en: itemData?.option_3_en,
       option_4: itemData?.option_4,
       option_4_en: itemData?.option_4_en,
-      individual_mark: itemData?.individual_mark,
+      individual_marks: itemData?.individual_marks,
       answers:
         itemData?.question_type == QuestionType.YES_NO && itemData?.answers
           ? itemData?.answers[0]
@@ -325,7 +325,7 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
         <Grid item xs={6}>
           <CustomTextInput
             required
-            id={'individual_mark'}
+            id={'individual_marks'}
             label={messages['common.marks']}
             register={register}
             errorInstance={errors}

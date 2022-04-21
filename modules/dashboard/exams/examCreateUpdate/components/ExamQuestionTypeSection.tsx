@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {ExamTypes, QuestionSelectionType} from '../../ExamEnums';
 import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
@@ -36,6 +36,7 @@ const ExamQuestionTypeSection = ({
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
   const [offlineQuestions, setOfflineQuestions] = useState<any>([]);
+  const [localQuestions, setLocalQuestions] = useState<any>([]);
   const [offlineQuestionModalIndex, setOfflineQuestionModalIndex] =
     useState<any>(null);
 
@@ -67,15 +68,18 @@ const ExamQuestionTypeSection = ({
     setSelectedSelectionType(type ? type : null);
   };
 
-  const openAddQuestionModal = useCallback((index?: any) => {
-    if (isOffline) {
-      setOfflineQuestionModalIndex(index);
-
+  useEffect(() => {
+    if (examSets) {
       let initialOfflineQue = examSets.map((data: any) => {
         return {id: data.id, questions: []};
       });
       setOfflineQuestions(initialOfflineQue);
-      // console.log('arrq->', initialOfflineQue);
+    }
+  }, [examSets]);
+
+  const openAddQuestionModal = useCallback((index?: any) => {
+    if (isOffline) {
+      setOfflineQuestionModalIndex(index);
     }
 
     setIsAddQuestionAssignModal(true);
@@ -92,14 +96,11 @@ const ExamQuestionTypeSection = ({
       ques[offlineQuestionModalIndex].questions = data.questions;
 
       setOfflineQuestions(ques);
+      setLocalQuestions(ques);
 
-      offlineQuestions[offlineQuestionModalIndex].questions = ques;
-
-      useFrom.setValue(
-        `${idPrefix}[${index}][question_sets]`,
-        offlineQuestions,
-      );
+      useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
     } else {
+      setLocalQuestions([{questions: data.questions}]);
       useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
     }
   };
@@ -236,6 +237,11 @@ const ExamQuestionTypeSection = ({
                 totalMarks={marks}
                 selectionType={String(selectedSelectionType)}
                 onQuestionsSubmitted={onQuestionsSubmitted}
+                selectedQuestions={
+                  isOffline
+                    ? localQuestions[offlineQuestionModalIndex]?.questions
+                    : localQuestions[0]?.questions
+                }
               />
             )}
         </Grid>
