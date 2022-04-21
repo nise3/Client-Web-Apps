@@ -392,6 +392,16 @@ export const passingYears = () => {
     }
 };*/
 
+export const getIntlTimeFromString = (formatFn: any, dateStr: any) => {
+  const date = new Date(dateStr).toLocaleString();
+  let time = formatFn(date);
+  if (time !== 'Invalid Date') {
+    return time;
+  } else {
+    return '';
+  }
+};
+
 export const getIntlDateFromString = (
   formatFn: any,
   dateStr: any,

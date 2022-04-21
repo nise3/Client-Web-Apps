@@ -16,14 +16,17 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import FrontendCustomModal from '../../../@softbd/modals/FrontendCustomModal/FrontendCustomModal';
 import {useIntl} from 'react-intl';
 import {Link} from '../../../@softbd/elements/common';
-import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getIntlTimeFromString,
+} from '../../../@softbd/utilities/helpers';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
   exams: any;
 }
 const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
-  const {messages, formatDate} = useIntl();
+  const {messages, formatDate, formatTime} = useIntl();
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
@@ -80,7 +83,9 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {exam?.exam_date
-                        ? getIntlDateFromString(formatDate, exam?.exam_date)
+                        ? getIntlDateFromString(formatDate, exam?.exam_date) +
+                          ',' +
+                          getIntlTimeFromString(formatTime, exam?.exam_date)
                         : ''}
                     </TableCell>
                     <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>

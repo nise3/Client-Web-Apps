@@ -26,7 +26,7 @@ const FileView: FC<FileViewAnswerProps> = ({question, index, inputField}) => {
           ) : question?.individual_marks ? (
             <>{question?.individual_marks}</>
           ) : (
-            <>{messages['exam.none']}</>
+            <>{''}</>
           )}
         </Body2>
       </Grid>

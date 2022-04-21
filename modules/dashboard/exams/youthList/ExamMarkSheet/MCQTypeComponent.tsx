@@ -2,13 +2,14 @@ import React, {FC} from 'react';
 import {Checkbox, FormControlLabel, Grid} from '@mui/material';
 import {Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
+import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
 
 interface McqTypeComponentProps {
   question: any;
   index: number;
 }
 const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
-  const {messages} = useIntl();
+  const {formatNumber} = useIntl();
   return (
     <Grid container spacing={1}>
       <Grid item xs={10} display={'flex'}>
@@ -17,16 +18,12 @@ const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
         </Body2>
         <Body2>{question?.title}</Body2>
         <Body2 sx={{fontWeight: 'bold'}}>
-          {'(' + question?.individual_marks + ')'}
+          {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
         </Body2>
       </Grid>
       <Grid item xs={2}>
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-          {question?.achived_mark ? (
-            <>{question?.achived_mark}</>
-          ) : (
-            <>{messages['exam.none']}</>
-          )}
+          {question?.achived_mark ? <>{question?.achived_mark}</> : <>{''}</>}
         </Body2>
       </Grid>
       <Grid item xs={10} display={'flex'} flexDirection={'column'}>

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {FormControlLabel, Grid, Radio, RadioGroup} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {Body2} from '../../../../../@softbd/elements/common';
+import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
 
 interface YesNoTypeViewProps {
   question: any;
@@ -12,7 +13,7 @@ enum YesNoAnswer {
   NO = 2,
 }
 const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   return (
     <Grid container spacing={1}>
       <>
@@ -21,14 +22,18 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
             {index + '. ' + ' '}
           </Body2>
           <Body2>{question?.title}</Body2>
-          <Body2 sx={{fontWeight: 'bold'}}>{'(' + question?.mark + ')'}</Body2>
+          <Body2 sx={{fontWeight: 'bold'}}>
+            {'(' +
+              getIntlNumber(formatNumber, question?.individual_marks) +
+              ')'}
+          </Body2>
         </Grid>
         <Grid item xs={2}>
           <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
             {question?.individual_marks ? (
               <>{question?.individual_marks}</>
             ) : (
-              <>{messages['exam.none']}</>
+              <>{''}</>
             )}
           </Body2>
         </Grid>

@@ -32,7 +32,7 @@ const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
           ) : question?.obtained_mark ? (
             <>{question?.individual_marks}</>
           ) : (
-            <>{messages['exam.none']}</>
+            <>{''}</>
           )}
           {/* {}*/}
         </Body2>

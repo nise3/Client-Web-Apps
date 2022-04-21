@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Grid, Paper} from '@mui/material';
 import {Body1, Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
@@ -10,7 +10,12 @@ import YesNoTypeComponent from './YesNoTypeComponent';
 import FileView from './FileTypeComponent';
 import DescriptiveTypeComponent from './DescriptiveTypeComponent';
 import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
-import {question_type} from '../../../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getIntlNumber,
+  getIntlTimeFromString,
+  question_type,
+} from '../../../../../@softbd/utilities/helpers';
 import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
 import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
@@ -30,7 +35,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
 const ExamMarkingViewPage = () => {
-  const {messages} = useIntl();
+  const {messages, formatDate, formatTime, formatNumber} = useIntl();
   const router = useRouter();
   let questionIndex = 1;
   let {examId, youthId} = router.query;
@@ -38,6 +43,42 @@ const ExamMarkingViewPage = () => {
     Number(examId),
     Number(youthId),
   );
+
+  const getExamTimeDuration = useCallback((duration: any) => {
+    let hour = Math.floor(duration / 60);
+    let minutes = Math.floor(duration % 60);
+    console.log('hour, minutes', hour, minutes);
+    if (hour > 0) {
+      if (minutes > 0) {
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) +
+              ' ' +
+              messages['common.hour'] +
+              ' ' +
+              getIntlNumber(formatNumber, minutes) +
+              ' ' +
+              messages['common.minute']}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) + ' ' + messages['common.hour']}
+          </>
+        );
+      }
+    } else {
+      return (
+        <>
+          {getIntlNumber(formatNumber, minutes) +
+            ' ' +
+            messages['common.minute']}
+        </>
+      );
+    }
+  }, []);
+
   const getQuestionTypeComponent = (questionType: any, question: any) => {
     switch (String(questionType)) {
       case QuestionType.YES_NO:
@@ -87,23 +128,30 @@ const ExamMarkingViewPage = () => {
             </Body2>
             <Body2>
               {messages['common.date']} {': '}
-              {examSheet?.exam_date}
+              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
+            </Body2>
+            <Body2>
+              {messages['common.time']} {': '}
+              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
             </Body2>
             <Body2>
               {messages['common.total_obtained_marks'] +
                 ': ' +
-                examSheet?.total_obtained_marks}
+                getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
             <Body2>
-              {messages['common.duration'] + ': ' + examSheet?.duration}
+              {messages['common.duration'] + ': '}
+              {getExamTimeDuration(
+                examSheet?.duration ? examSheet?.duration : 0,
+              )}
             </Body2>
             <Body2>
               {messages['common.total_marks']}
               {': '}
-              {examSheet?.total_marks}
+              {getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
           </Grid>
           <Grid item xs={12}>
@@ -123,7 +171,7 @@ const ExamMarkingViewPage = () => {
                   return (
                     <React.Fragment key={section?.id}>
                       <Grid item xs={12} display={'flex'}>
-                        <Body1 sx={{fontWeight: 'bold'}}>
+                        <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
                           {messages[
                             question_type[section?.question_type - 1].label
                           ] +
@@ -132,7 +180,7 @@ const ExamMarkingViewPage = () => {
                             ': '}
                         </Body1>
                         <Body2 sx={{marginTop: '3px'}}>
-                          {section?.total_marks}
+                          {getIntlNumber(formatNumber, section?.total_marks)}
                         </Body2>
                       </Grid>
 
