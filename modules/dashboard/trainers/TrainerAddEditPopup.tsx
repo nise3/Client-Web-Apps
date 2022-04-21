@@ -12,6 +12,7 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import {
   MOBILE_NUMBER_REGEX,
   NID_REGEX,
+  SPECIAL_CHARACTER_VALIDATION,
 } from '../../../@softbd/common/patternRegex';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -227,9 +228,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       trainer_name: yup
-        .string()
-        .title()
-        .label(messages['common.title'] as string),
+        .mixed()
+        .label(messages['common.title'] as string)
+        .test(
+          'special character validation',
+          messages['common.special_character_error'] as string,
+          (value) => {
+            const result = Boolean(value.match(SPECIAL_CHARACTER_VALIDATION));
+            return !result;
+          },
+        ),
       mobile: yup
         .string()
         .trim()
