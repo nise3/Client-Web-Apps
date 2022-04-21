@@ -205,7 +205,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               total_set: yup
                 .mixed()
                 .required()
-                .label(messages['common.number_of_sets'] as string),
+                .label(messages['common.number_of_sets'] as string)
+                .test(
+                  'total_set_validation',
+                  messages['common.number_of_sets_min_max'] as string,
+                  (value) => Boolean(Number(value) >= 1 && Number(value) <= 5),
+                ),
               sets: yup.array().of(
                 yup.object().shape({
                   title: yup
