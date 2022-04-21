@@ -20,6 +20,7 @@ interface IProps {
   questionType: any;
   eachQuestionMark: number;
   selectedQuestions: any;
+  selectionType: any;
 }
 
 const TransferQuestionList = ({
@@ -29,6 +30,7 @@ const TransferQuestionList = ({
   questionType,
   eachQuestionMark,
   selectedQuestions,
+  selectionType,
 }: IProps) => {
   const [checked, setChecked] = React.useState<any[]>([]);
   const [leftQuestionList, setLeftQuestionList] = React.useState<any[]>([]);
@@ -44,14 +46,12 @@ const TransferQuestionList = ({
 
   useEffect(() => {
     if (selectedQuestions && selectedQuestions.length > 0) {
-      console.log('selected qqqq', selectedQuestions);
       setRightQuestionList(selectedQuestions);
     }
   }, [selectedQuestions]);
 
   useEffect(() => {
     if (questionBank && questionBank?.length > 0) {
-      console.log('sssss', questionBank);
       if (rightQuestionList?.length > 0) {
         const filteredQuestions = questionBank?.filter((ques: any) =>
           rightQuestionList?.every(
@@ -282,6 +282,7 @@ const TransferQuestionList = ({
           itemData={editableQuestion}
           onClose={handleCloseQuestionEdit}
           getEditedQuestion={getEditedQuestion}
+          selectionType={selectionType}
         />
       )}
     </React.Fragment>

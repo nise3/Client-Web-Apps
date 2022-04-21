@@ -1928,6 +1928,7 @@
   "exam.not_started": "Exam has not started",
   "common.mcq": "Multiple choice questions",
   "common.fill_in_the_blank": "Fill in the blanks",
-  "common.yes_no": "Yes/No"
+  "common.yes_no": "Yes/No",
+  "common.total_mark_exceeded_warning": "Selected questions mark can't be more than total mark"
 
 }

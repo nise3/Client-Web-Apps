@@ -10,7 +10,7 @@ import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {ExamTypes} from '../ExamEnums';
+import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
 import {Button} from '@mui/material';
 import {
   useFetchCourses,
@@ -32,7 +32,6 @@ import OffLineExam from './offLineExam';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {cloneDeep} from 'lodash';
-import {S2} from '../../../../@softbd/elements/common';
 import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import {questionTypesArray} from '../../questionsBank/QuestionBanksEnums';
 
@@ -84,7 +83,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
-  const [totalMarks] = useState<number>(0);
   const [examType, setExamType] = useState<any>(null);
   const [batches, setBatches] = useState<Array<any>>([]);
   const [subjectId, setSubjectId] = useState<any>(null);
@@ -279,7 +277,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               number_of_questions: section?.number_of_questions
                 ? section?.number_of_questions
                 : '',
-              total_marks: section?.total_marks ? section?.total_marks : '',
+              total_marks: section?.total_marks
+                ? Number(section?.total_marks)
+                : '',
               question_selection_type: section?.question_selection_type
                 ? section?.question_selection_type
                 : '',
@@ -334,9 +334,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         (item: any) => item.is_question_checked != false,
       );
 
-      data.exam_questions = arr.map(
-        ({is_question_checked, ...rest}: any) => rest,
-      );
+      data.exam_questions = arr.map(({is_question_checked, ...rest}: any) => {
+        if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
+          delete rest.questions;
+        }
+        return rest;
+      });
     }
 
     if (examType == ExamTypes.MIXED) {
@@ -345,7 +348,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       );
 
       data.online.exam_questions = arrOnline.map(
-        ({is_question_checked, ...rest}: any) => rest,
+        ({is_question_checked, ...rest}: any) => {
+          if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
+            delete rest.questions;
+          }
+          return rest;
+        },
       );
 
       let arrOffline: any = data.offline?.exam_questions.filter(
@@ -353,7 +361,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       );
 
       data.offline.exam_questions = arrOffline.map(
-        ({is_question_checked, ...rest}: any) => rest,
+        ({is_question_checked, ...rest}: any) => {
+          if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
+            delete rest.questions;
+          }
+          return rest;
+        },
       );
     }
 
@@ -363,6 +376,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       .reduce((prev: any, curr: any) => {
         return prev + curr;
       }, 0);
+
+    if (examId && examType == ExamTypes.MIXED) {
+      if (itemData.exams[0].type == ExamTypes.ONLINE) {
+        data.online.exam_id = itemData.exams[0].id;
+        data.offline.exam_id = itemData.exams[1].id;
+      } else if (itemData.exams[0].type == ExamTypes.OFFLINE) {
+        data.online.exam_id = itemData.exams[1].id;
+        data.offline.exam_id = itemData.exams[0].id;
+      }
+    } else {
+      data.exam_id = itemData.exams[0].id;
+    }
 
     console.log('formdata->', data);
 
@@ -534,12 +559,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 errorInstance={errors}
                 onChange={onChangeExamType}
               />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <S2>
-                {messages['common.total_marks']}: {totalMarks}
-              </S2>
             </Grid>
 
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) &&

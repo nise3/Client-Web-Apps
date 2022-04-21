@@ -114,8 +114,11 @@ const QuestionSetPopup = ({
           });
         }
 
-        if (totMark > totalMarks) {
-          errorStack("Selected questions mark can't be more than total mark");
+        if (
+          String(selectionType) == QuestionSelectionType.FIXED &&
+          totMark > totalMarks
+        ) {
+          errorStack(messages['common.total_mark_exceeded_warning']);
         } else {
           onQuestionsSubmitted(data);
           props.onClose();
@@ -173,6 +176,7 @@ const QuestionSetPopup = ({
             questionType={questionType}
             eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
             selectedQuestions={selectedQuestions || []}
+            selectionType={selectionType}
           />
         </Grid>
         {errors?.questions?.message && (

@@ -9,6 +9,7 @@ import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import AddButton from '../../../../../@softbd/elements/button/AddButton/AddButton';
 import {cloneDeep} from 'lodash';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {Body2} from '../../../../../@softbd/elements/common';
 
 interface IProps {
   useFrom: any;
@@ -246,6 +247,12 @@ const ExamQuestionTypeSection = ({
                     />
                   }
                 />
+                <Body2 sx={{textAlign: 'center'}}>
+                  {localQuestions?.[0]?.questions
+                    ? localQuestions?.[0]?.questions.length +
+                      ' question selected'
+                    : 'No question selected'}
+                </Body2>
               </Grid>
             ) : (
               <></>

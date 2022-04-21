@@ -1930,5 +1930,6 @@
   "exam.not_started": "পরীক্ষা শুরু হয়নি",
   "common.mcq": "বহুনির্বাচনী",
   "common.fill_in_the_blank": "শূন্যস্থান পূরন",
-  "common.yes_no": "হ্যা/না"
+  "common.yes_no": "হ্যা/না",
+  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না"
 }

@@ -17,16 +17,19 @@ import CancelButton from '../../../../../../@softbd/elements/button/CancelButton
 import CustomTextInput from '../../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomFormSelect from '../../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SubmitButton from '../../../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import {QuestionSelectionType} from '../../../ExamEnums';
 
 interface QuestionEditPopupProps {
   itemData: any;
   onClose: () => void;
   getEditedQuestion: (data: any) => void;
+  selectionType: any;
 }
 
 const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
   itemData,
   getEditedQuestion,
+  selectionType,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -322,7 +325,14 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid
+          item
+          xs={6}
+          sx={
+            selectionType != QuestionSelectionType.FIXED
+              ? {display: 'none'}
+              : {}
+          }>
           <CustomTextInput
             required
             id={'individual_marks'}

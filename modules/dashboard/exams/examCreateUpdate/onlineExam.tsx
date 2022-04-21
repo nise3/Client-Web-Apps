@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
-import {Body1} from '../../../../@softbd/elements/common';
+import {Body1, S2} from '../../../../@softbd/elements/common';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 import {ExamTypes} from '../ExamEnums';
@@ -68,7 +68,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <CustomTextInput
               required
               id={isMixed ? `online[duration]` : 'duration'}
@@ -76,6 +76,11 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
               label={messages['common.duration_min']}
               register={useFrom.register}
             />
+          </Grid>
+          <Grid item xs={2}>
+            <S2>
+              {messages['common.total_marks']}: {0}
+            </S2>
           </Grid>
 
           <Grid item xs={12}>
