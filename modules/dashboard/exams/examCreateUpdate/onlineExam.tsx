@@ -11,7 +11,7 @@ import {ExamTypes} from '../ExamEnums';
 
 interface IProps {
   useFrom: any;
-  examType: string;
+  examType: number;
   subjectId: any;
 }
 

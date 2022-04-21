@@ -43,8 +43,15 @@ const TransferQuestionList = ({
     useFetchExamQuestionsBanks(questionBankFilters);
 
   useEffect(() => {
-    if (questionBank && questionBank?.length > 0) {
+    if (selectedQuestions && selectedQuestions.length > 0) {
+      console.log('selected qqqq', selectedQuestions);
       setRightQuestionList(selectedQuestions);
+    }
+  }, [selectedQuestions]);
+
+  useEffect(() => {
+    if (questionBank && questionBank?.length > 0) {
+      console.log('sssss', questionBank);
       if (rightQuestionList?.length > 0) {
         const filteredQuestions = questionBank?.filter((ques: any) =>
           rightQuestionList?.every(
@@ -57,7 +64,7 @@ const TransferQuestionList = ({
         setLeftQuestionList(questionBank);
       }
     }
-  }, [questionBank, rightQuestionList, selectedQuestions]);
+  }, [questionBank, rightQuestionList]);
 
   useEffect(() => {
     getQuestionSet(rightQuestionList);

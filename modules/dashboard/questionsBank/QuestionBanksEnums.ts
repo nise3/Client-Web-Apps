@@ -15,6 +15,8 @@ export enum QuestionType {
   DESCRIPTIVE = '7',
 }
 
+export const questionTypesArray = ['1', '2', '3', '4', '5', '6', '7'];
+
 export enum AnswerType {
   YES = '1',
   NO = '2',

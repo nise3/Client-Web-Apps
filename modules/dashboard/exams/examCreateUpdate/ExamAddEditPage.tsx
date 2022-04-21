@@ -34,6 +34,7 @@ import {useRouter} from 'next/router';
 import {cloneDeep} from 'lodash';
 import {S2} from '../../../../@softbd/elements/common';
 import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
+import {questionTypesArray} from '../../questionsBank/QuestionBanksEnums';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -80,29 +81,17 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const [courseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: coursesData, isLoading: isLoadingCourse} =
+  const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
   const [totalMarks] = useState<number>(0);
   const [examType, setExamType] = useState<any>(null);
-  const [courses, setCourses] = useState<Array<any>>([]);
-  const [trainingCenters, setTrainingCenters] = useState<Array<any>>([]);
   const [batches, setBatches] = useState<Array<any>>([]);
   const [subjectId, setSubjectId] = useState<any>(null);
 
   const [courseId, setCourseId] = useState<any>(null);
-  const {
-    data: trainingCentersWithBatches,
-    isLoading: isTrainingCentersLoading,
-  } = useFetchTrainingCentersWithBatches(courseId);
-
-  useEffect(() => {
-    setCourses(coursesData);
-  }, [coursesData]);
-
-  useEffect(() => {
-    setTrainingCenters(trainingCentersWithBatches);
-  }, [trainingCentersWithBatches]);
+  const {data: trainingCenters, isLoading: isTrainingCentersLoading} =
+    useFetchTrainingCentersWithBatches(courseId);
 
   const examQuestionsSchema = useMemo(() => {
     return yup.array().of(
@@ -255,35 +244,71 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
+      console.log('itemdata', itemData);
+
       let data: any = {
         title: itemData?.title,
         title_en: itemData?.title_en,
         subject_id: itemData?.subject_id,
+        course_id: itemData?.course_id,
+        training_center_id: itemData?.training_center_id,
         purpose_id: itemData?.purpose_id,
         type: itemData?.type,
         row_status: itemData?.row_status,
-        exam_date:
-          itemData?.type == ExamTypes.ONLINE
-            ? itemData?.exams[0].exam_date.replace(' ', 'T')
-            : null,
-        duration:
-          itemData?.type == ExamTypes.ONLINE
-            ? itemData?.exams[0].duration
-            : null,
       };
 
+      if (itemData?.type != ExamTypes.MIXED) {
+        data.exam_date = itemData?.exams[0].exam_date.replace(' ', 'T');
+        data.duration = itemData?.exams[0].duration;
+
+        let exam_questions: Array<any> = [];
+
+        if (itemData?.exams[0]?.exam_sections) {
+          questionTypesArray.map((type) => {
+            let section = itemData.exams[0].exam_sections.find(
+              (sec: any) => sec.question_type == Number(type),
+            );
+
+            (section?.questions || []).map((qu: any) => {
+              qu.id = qu.question_id;
+            });
+
+            exam_questions.push({
+              is_question_checked: section != undefined,
+              question_type: type,
+              number_of_questions: section?.number_of_questions
+                ? section?.number_of_questions
+                : '',
+              total_marks: section?.total_marks ? section?.total_marks : '',
+              question_selection_type: section?.question_selection_type
+                ? section?.question_selection_type
+                : '',
+              questions: section?.questions ? section?.questions : [],
+            });
+          });
+        }
+
+        data.exam_questions = exam_questions;
+      }
+
+      if (itemData?.type == ExamTypes.OFFLINE) {
+        data.venue = itemData?.exams[0].venue;
+        data.total_set = 2;
+      }
+
+      onChangeCourse(itemData?.course_id);
+      onChangeTrainingCenter(itemData?.training_center_id);
+
       console.log('data->', data);
-      setExamType(String(itemData?.type));
+      setExamType(itemData?.type);
       setSubjectId(itemData?.subject_id);
 
       reset(data);
-    } else {
-      reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, trainingCenters]);
 
   const onChangeExamType = useCallback((value) => {
-    setExamType(String(value));
+    setExamType(Number(value));
   }, []);
 
   const onSubjectChange = useCallback((value) => {
@@ -375,21 +400,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     [messages],
   );
 
-  const onChangeCourse = useCallback(
-    (courseId: any) => {
-      setCourseId(courseId);
-      setTrainingCenters([]);
-      setBatches([]);
-    },
-    [courses],
-  );
+  const onChangeCourse = useCallback((courseId: any) => {
+    setCourseId(courseId);
+    setBatches([]);
+  }, []);
 
   const onChangeTrainingCenter = useCallback(
     (trainingCenterId: any) => {
-      let arr = trainingCenters.filter(
+      let arr = (trainingCenters || []).filter(
         (item: any) => item.id == trainingCenterId,
       );
-      setBatches(arr[0]?.batches);
+      if (arr && arr.length > 0) setBatches(arr[0]?.batches);
+      else setBatches([]);
     },
     [trainingCenters],
   );

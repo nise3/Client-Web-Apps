@@ -17,7 +17,7 @@ interface IProps {
   idPrefix?: any;
   subjectId?: any;
   examSets?: any;
-  examType?: any;
+  examType?: number;
 }
 
 const ExamQuestionTypeSection = ({
@@ -64,8 +64,36 @@ const ExamQuestionTypeSection = ({
     [messages],
   );
 
+  useEffect(() => {
+    let values: any[];
+    if (idPrefix == 'exam_questions') {
+      values = useFrom.getValues('exam_questions');
+    } else if (idPrefix == 'online[exam_questions]') {
+      values = useFrom.getValues('online').exam_questions;
+    } else {
+      values = useFrom.getValues('offline').exam_questions;
+    }
+    if (values) {
+      let obj = values.find(
+        (val: any) => val.question_type == String(questionType.id),
+      );
+      if (obj) {
+        setIsChecked(obj.is_question_checked);
+        setQuestionTypeId(questionType.id);
+        setMarks(obj.total_marks ? obj.total_marks : null);
+        setNumberOfQuestion(
+          obj.number_of_questions ? obj.number_of_questions : null,
+        );
+        setSelectedSelectionType(
+          obj.question_selection_type ? obj.question_selection_type : null,
+        );
+        setLocalQuestions([{questions: obj.questions}]);
+      }
+    }
+  }, [useFrom.getValues]);
+
   const onChangeQuestionSelectionType = (type: any) => {
-    setSelectedSelectionType(type ? type : null);
+    setSelectedSelectionType(type ? String(type) : null);
   };
 
   useEffect(() => {
@@ -235,7 +263,7 @@ const ExamQuestionTypeSection = ({
                 subjectId={subjectId}
                 totalQuestions={numberOfQuestion}
                 totalMarks={marks}
-                selectionType={String(selectedSelectionType)}
+                selectionType={selectedSelectionType}
                 onQuestionsSubmitted={onQuestionsSubmitted}
                 selectedQuestions={
                   isOffline

@@ -66,7 +66,7 @@ const ExamPage = () => {
     });
 
   const examType = (type: any) => {
-    switch (String(type)) {
+    switch (Number(type)) {
       case ExamTypes.ONLINE:
         return messages['common.online'];
       case ExamTypes.OFFLINE:
@@ -115,7 +115,6 @@ const ExamPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          console.log('data->', data);
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
