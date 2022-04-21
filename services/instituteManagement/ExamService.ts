@@ -1,5 +1,9 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
-import {API_EXAMS, API_SUBMIT_EXAM_PAPER} from '../../@softbd/common/apiRoutes';
+import {
+  API_EXAMS,
+  API_SUBMIT_EXAM_PAPER,
+  API_YOUTH_EXAM_MARK_UPDATE,
+} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 
 //Todo: data interface should add after clear requirement.
@@ -33,6 +37,15 @@ export const deleteExam = async (examId: number) => {
 export const submitExamPaper = async (data: any) => {
   try {
     let response: any = await apiPost(API_SUBMIT_EXAM_PAPER, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const youthExamMarkUpdate = async (data: any) => {
+  try {
+    let response: any = await apiPut(API_YOUTH_EXAM_MARK_UPDATE, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

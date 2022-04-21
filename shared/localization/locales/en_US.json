@@ -1465,6 +1465,7 @@
   "common.import": "Imports",
   "common.vacancy_approval_status": "Vacancy approval Status",
   "common.hour": "Hour",
+  "common.minute": "Minute",
   "common.hours": "Hours",
   "common.not_enrollable": "Not Enrollable",
   "common.assign_permission": "Assign permission to {subject}",

@@ -12,11 +12,18 @@ import YesNoTypeComponent from '../ExamMarkSheet/YesNoTypeComponent';
 import FileView from '../ExamMarkSheet/FileTypeComponent';
 import DescriptiveTypeComponent from '../ExamMarkSheet/DescriptiveTypeComponent';
 import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
-import {question_type} from '../../../../../@softbd/utilities/helpers';
+import {
+  getIntlDateFromString,
+  getIntlNumber,
+  getIntlTimeFromString,
+  question_type,
+} from '../../../../../@softbd/utilities/helpers';
 import EditIcon from '@mui/icons-material/Edit';
 import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
 import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkeleton';
 import {useRouter} from 'next/router';
+import {youthExamMarkUpdate} from '../../../../../services/instituteManagement/ExamService';
+import useSuccessMessage from '../../../../../@softbd/hooks/useSuccessMessage';
 
 /*const answerSheet = {
   id: 1,
@@ -166,9 +173,9 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
 const ExamMarkingViewPage = () => {
-  const {messages} = useIntl();
+  const {messages, formatNumber, formatDate, formatTime} = useIntl();
   const router = useRouter();
-  /*  const {updateSuccessMessage} = useSuccessMessage();*/
+  const {updateSuccessMessage} = useSuccessMessage();
   let questionIndex = 1;
   let examResultIds: any = [];
   let {examId, youthId} = router.query;
@@ -271,14 +278,10 @@ const ExamMarkingViewPage = () => {
 
     console.log(' format data', data);
     try {
-      /*     await updateExamMarks(itemId, data);
-      updateSuccessMessage('common.marks_distribution');*/
+      await youthExamMarkUpdate(data);
+      updateSuccessMessage('common.marks_distribution');
       // mutateExamMark();
-      /*props.onClose();
-      refreshDataTable();*/
-    } catch (error: any) {
-      /*   processServerSideErrors({error, setError, validationSchema, errorStack});*/
-    }
+    } catch (error: any) {}
   };
   return (
     <StyledPaper>
@@ -302,12 +305,16 @@ const ExamMarkingViewPage = () => {
             </Body2>
             <Body2>
               {messages['common.date']} {': '}
-              {examSheet?.exam_date}
+              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
+            </Body2>
+            <Body2>
+              {messages['common.time']} {': '}
+              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
             </Body2>
             <Body2>
               {messages['common.total_obtained_marks'] +
                 ': ' +
-                examSheet?.total_obtained_marks}
+                examSheet?.total_marks}
             </Body2>
           </Grid>
 
@@ -340,7 +347,7 @@ const ExamMarkingViewPage = () => {
                       return (
                         <React.Fragment key={section?.id}>
                           <Grid item xs={12} display={'flex'}>
-                            <Body1 sx={{fontWeight: 'bold'}}>
+                            <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
                               {messages[
                                 question_type[section?.question_type - 1].label
                               ] +
@@ -349,7 +356,10 @@ const ExamMarkingViewPage = () => {
                                 ': '}
                             </Body1>
                             <Body2 sx={{marginTop: '3px'}}>
-                              {section?.total_marks}
+                              {getIntlNumber(
+                                formatNumber,
+                                section?.total_marks,
+                              )}
                             </Body2>
                           </Grid>
 

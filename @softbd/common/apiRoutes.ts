@@ -153,6 +153,8 @@ export const API_EXAM_QUESTION_PAPER =
 export const API_EXAM_YOUTH_LIST = INSTITUTE_SERVICE_PATH + '/exam-youth-list';
 export const API_SUBMIT_EXAM_PAPER =
   INSTITUTE_SERVICE_PATH + '/submit-exam-paper';
+export const API_YOUTH_EXAM_MARK_UPDATE =
+  INSTITUTE_SERVICE_PATH + '/youth-exam-mark-update';
 
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';

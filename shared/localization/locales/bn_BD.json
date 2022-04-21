@@ -1471,6 +1471,7 @@
   "common.total_job_number": "{subject} টি চাকুরি",
   "common.org_job_requirements": "{subject} চাকুরির প্রয়োজনীয়তা",
   "common.hour": "ঘন্টা",
+  "common.minute": "মিনিট",
   "common.hours": "ঘন্টার",
   "common.import": "ইম্পোর্ট",
   "common.not_enrollable": "নথিভুক্ত নয়",
