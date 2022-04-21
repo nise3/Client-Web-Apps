@@ -112,7 +112,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               label={messages['batches.registration_start_date']}
               value={getMomentDateFormat(
                 itemData?.registration_start_date,
-                'Do MMM YYYY',
+                'DD MMM YYYY',
               )}
               isLoading={isLoading}
             />
@@ -122,7 +122,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               label={messages['batches.registration_end_date']}
               value={getMomentDateFormat(
                 itemData?.registration_end_date,
-                'Do MMM YYYY',
+                'DD MMM YYYY',
               )}
               isLoading={isLoading}
             />
@@ -132,7 +132,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               label={messages['batches.start_date']}
               value={getMomentDateFormat(
                 itemData?.batch_start_date,
-                'Do MMM YYYY',
+                'DD MMM YYYY',
               )}
               isLoading={isLoading}
             />
@@ -142,7 +142,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               label={messages['batches.end_date']}
               value={getMomentDateFormat(
                 itemData?.batch_end_date,
-                'Do MMM YYYY',
+                'DD MMM YYYY',
               )}
               isLoading={isLoading}
             />
