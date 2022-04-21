@@ -1,13 +1,22 @@
 import React from 'react';
 import BackgroundIcon from '../../icon/BackgroundIcon';
-import SideMenuButton from './../SideMenuButton';
+import SideMenuButton from '../ui/SideMenuButton';
+import {MenuOption} from '../util/MenuOption';
 
-function ElementsToolButton() {
+interface Props {
+  selectedItem: MenuOption;
+  onClickHandler: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+function BackgroundToolButton({selectedItem, onClickHandler}: Props) {
   return (
-    <SideMenuButton onClick={() => {}} selected={false} icon={BackgroundIcon}>
-      Elements
+    <SideMenuButton
+      onClickHandler={onClickHandler}
+      selected={MenuOption.BACKGROUND === selectedItem}
+      icon={BackgroundIcon}>
+      Background
     </SideMenuButton>
   );
 }
 
-export default ElementsToolButton;
+export default BackgroundToolButton;

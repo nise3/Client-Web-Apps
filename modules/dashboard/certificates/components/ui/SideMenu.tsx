@@ -5,10 +5,6 @@ interface Props {
 }
 
 function SideMenu({children}: Props) {
-  return (
-    <div className='side-panel-tabs'>
-      <div className='side-tabs-container'>{children}</div>
-    </div>
-  );
+  return <div className='side-panel-tabs'>{children}</div>;
 }
 export default SideMenu;

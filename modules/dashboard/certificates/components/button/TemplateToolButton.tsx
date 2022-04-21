@@ -1,13 +1,21 @@
 import React from 'react';
-import ElementIcon from '../../icon/ElementIcon';
-import SideMenuButton from './../SideMenuButton';
+import TemplatesIcon from '../../icon/TemplateIcon';
+import SideMenuButton from '../ui/SideMenuButton';
+import {MenuOption} from '../util/MenuOption';
+interface Props {
+  selectedItem: MenuOption;
+  onClickHandler: React.MouseEventHandler<HTMLButtonElement>;
+}
 
-function ElementsToolButton() {
+function TemplateToolButton({selectedItem, onClickHandler}: Props) {
   return (
-    <SideMenuButton onClick={() => {}} selected={false} icon={ElementIcon}>
-      Elements
+    <SideMenuButton
+      onClickHandler={onClickHandler}
+      selected={MenuOption.TEMEPLATE === selectedItem}
+      icon={TemplatesIcon}>
+      Templates
     </SideMenuButton>
   );
 }
 
-export default ElementsToolButton;
+export default TemplateToolButton;

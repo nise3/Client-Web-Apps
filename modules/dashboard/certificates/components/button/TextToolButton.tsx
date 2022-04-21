@@ -1,13 +1,20 @@
 import React from 'react';
 import TextIcon from '../../icon/TextIcon';
-import SideMenuButton from './../SideMenuButton';
-
-function ElementsToolButton() {
+import SideMenuButton from '../ui/SideMenuButton';
+import {MenuOption} from '../util/MenuOption';
+interface Props {
+  selectedItem: MenuOption;
+  onClickHandler: React.MouseEventHandler<HTMLButtonElement>;
+}
+function TextToolButton({selectedItem, onClickHandler}: Props) {
   return (
-    <SideMenuButton onClick={() => {}} selected={false} icon={TextIcon}>
+    <SideMenuButton
+      onClickHandler={onClickHandler}
+      selected={MenuOption.TEXT === selectedItem}
+      icon={TextIcon}>
       Text
     </SideMenuButton>
   );
 }
 
-export default ElementsToolButton;
+export default TextToolButton;

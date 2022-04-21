@@ -7,6 +7,7 @@ interface Props
   > {
   icon?: React.ComponentType<{className?: string}>;
   selected?: boolean;
+  onClickHandler: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 function SideMenuButton({
@@ -16,18 +17,15 @@ function SideMenuButton({
   disabled,
   onClick,
   className,
+  onClickHandler,
   ...rest
 }: Props) {
   return (
-    <button
-      type='button'
-      tabIndex={disabled ? -1 : 0}
-      disabled={disabled}
-      onClick={disabled ? undefined : onClick}
-      className='side-panel-tab'
-      {...rest}>
-      {Icon && <Icon />}
-      <div>{children}</div>
+    <button onClick={onClickHandler}>
+      <div className={`side-panel-tab ${selected ? 'active' : ''} `}>
+        {Icon && <Icon />}
+        <div>{children}</div>
+      </div>
     </button>
   );
 }
