@@ -295,4 +295,9 @@ export const routePermissions: any = {
     routePrefix: '/rpl-assessment-question-sets',
     permissionKeys: ['view_any_rpl_assessment_question_set'],
   },
+
+  '/certificates': {
+    routePrefix: '/certificate',
+    permissionKeys: ['view_any_certificate_authority'],
+  },
 };
