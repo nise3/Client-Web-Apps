@@ -233,10 +233,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .test(
           'special character validation',
           messages['common.special_character_error'] as string,
-          (value) => {
-            const result = Boolean(value.match(SPECIAL_CHARACTER_VALIDATION));
-            return !result;
-          },
+          (value) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
         ),
       mobile: yup
         .string()
