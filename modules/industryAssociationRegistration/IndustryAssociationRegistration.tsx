@@ -59,7 +59,7 @@ const IndustryAssociationRegistration = () => {
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['association.association_name'] as string),
       mobile: yup
         .string()

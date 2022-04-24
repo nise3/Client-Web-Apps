@@ -269,7 +269,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
         .label(messages['institute.trade_licence_number'] as string),
       title: yup
         .string()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .min(2)
         .label(messages['common.institute'] as string),
       title_en: yup
