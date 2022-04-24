@@ -77,8 +77,17 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       address: yup
         .string()
         .trim()
