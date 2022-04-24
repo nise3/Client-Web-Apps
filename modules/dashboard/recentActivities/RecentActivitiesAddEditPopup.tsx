@@ -123,6 +123,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
         }),
       collage_position: yup
         .mixed()
+        .label(messages['common.collage_position'] as string)
         .test('collage_position', (value) => !value || value),
       collage_image_path: yup
         .mixed()
