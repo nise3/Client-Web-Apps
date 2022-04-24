@@ -33,6 +33,7 @@ const ExamQuestionTypeSection = ({
   const {messages, formatNumber} = useIntl();
 
   const isOffline = examType == ExamTypes.OFFLINE;
+  const isMixed = examType == ExamTypes.MIXED;
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [selectedSelectionType, setSelectedSelectionType] = useState<any>(null);
@@ -118,7 +119,7 @@ const ExamQuestionTypeSection = ({
   }, [examSets]);
 
   const openAddQuestionModal = useCallback((index?: any) => {
-    if (isOffline) {
+    if (isOffline || isMixed) {
       setOfflineQuestionModalIndex(index);
     }
 
@@ -130,7 +131,7 @@ const ExamQuestionTypeSection = ({
   }, []);
 
   const onQuestionsSubmitted = (data: any) => {
-    if (isOffline) {
+    if (isOffline || isMixed) {
       let ques = cloneDeep(offlineQuestions);
 
       ques[offlineQuestionModalIndex].questions = data.questions;
