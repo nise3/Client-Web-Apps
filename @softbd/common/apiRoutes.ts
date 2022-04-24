@@ -144,6 +144,8 @@ export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/certification-authority-dashboard-statistics';
 export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
+export const API_COURSE_ENROLLMENT_IMPORT =
+  INSTITUTE_SERVICE_PATH + '/course-enrollment-bulk-import';
 
 /**             eRPL            */
 
@@ -212,6 +214,8 @@ export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
 export const API_PUBLIC_RPL_APPLICATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/rpl-applications';
+export const API_COURSE_ENROLLMENT_BULK_IMPORT_FORMAT =
+  TSP_PUBLIC_SERVICE_PATH + '/course-enrollment-bulk-import-file-format';
 
 /** All institute service public routes section end */
 
