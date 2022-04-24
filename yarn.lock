@@ -6620,6 +6620,11 @@ filepond-plugin-file-poster@^2.5.0:
   resolved "https://registry.yarnpkg.com/filepond-plugin-file-poster/-/filepond-plugin-file-poster-2.5.1.tgz#8f899593660623b7967f26a7991d18de3e82a639"
   integrity sha512-WMB6Iww//U7KJR9Yt/zZ3cxC7SVySXGTrWPnAQokYSFfDp4uD31JLtyjYAVJnEg6T+niJvNwH48jKn/X3o75og==
 
+filepond-plugin-file-validate-size@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-file-validate-size/-/filepond-plugin-file-validate-size-2.2.6.tgz#8df7833eb874c681dbfc269a889892931b6ce31d"
+  integrity sha512-19raim61Hv8/p5pNQyRFF34WLZzr5Pl1Ryd4O1Tf6tUYxnAtii9WCttom0hSnPQy41dKEdB0E5KPAAqs/NnL7g==
+
 filepond-plugin-file-validate-type@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/filepond-plugin-file-validate-type/-/filepond-plugin-file-validate-type-1.2.6.tgz#5a03e04fb8f70f0df37ff9a285d3d2343cdc55f2"

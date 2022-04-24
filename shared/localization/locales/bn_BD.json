@@ -718,6 +718,7 @@
   "industry.apply_now": "আবেদন করুন",
   "common.apply": "আবেদন",
   "common.taka": "টাকা",
+  "common.special_character_error": "এই $&+,:;=?@#|'<>.^*()%!- অক্ষর গুলির কোনটিই গ্রহনযোগ্য নয়",
   "common.details": "বিস্তারিত",
   "training.search_header": "অনুসন্ধান প্রশিক্ষণ",
   "common.see_all": "সবগুলো",
@@ -1881,5 +1882,10 @@
   "course.no_training_center_found": "সক্রিয় ব্যাচ সহ কোন প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি",
   "common.goto_admin": "অ্যাডমিন প্যানেল",
   "common.goto_youth": "ইয়ুথ প্রোফাইল",
-  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন"
+  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
+  "common.submitted_feedback" : "আপনার প্রতিক্রিয়া লক্ষ্য করা হয়েছে। আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ।",
+  "filePond.file_type": "ফাইলের ধরন সঠিক নয়",
+  "filePond.max_file_size": "সর্বোচ্চ ফাইল সাইজ ",
+  "filePond.total_max_file_size": "মোট সর্বোচ্চ ফাইল সাইজ ৫০ MB",
+  "hr_demand_deadline_exceeded.label": "সময়সীমা অতিক্রম করেছে"
 }

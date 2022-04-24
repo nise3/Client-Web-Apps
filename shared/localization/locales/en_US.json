@@ -926,7 +926,7 @@
   "menu.training": "Training",
   "menu.notice": "Notice",
   "menu.recent_activity": "Recent Activity",
-  "menu.first_page": "First Page",
+  "menu.first_page": "Homepage",
   "menu.jobs": "Jobs",
   "menu.courses": "Courses",
   "menu.training_calender": "Training Calender",
@@ -1589,6 +1589,7 @@
   "common.subject_approved": "{subject} Approved",
   "common.type_of_employee": "Employee Type",
   "common.taka": "Taka",
+  "common.special_character_error": "None of these $&+,:;=?@#|'<>.^*()%!- characters are acceptable",
   "job_requirement.vacancy_provided_by_institute": "Vacancy Provided by Institute",
   "job_requirement.vacancy_provided_by_industry_association": "Vacancy Provided by Industry Association",
   "common.vacancy_approval": "Vacancy Approval",
@@ -1880,5 +1881,10 @@
   "course.no_training_center_found": "No training center found with active batches",
   "common.goto_admin": "Admin panel",
   "common.goto_youth": "Youth profile",
-  "cdap.required_info": "Please provide the required information"
+  "cdap.required_info": "Please provide the required information",
+  "common.submitted_feedback" : "Your feedback has been noted. Thank you for contacting us.",
+  "filePond.file_type": "Invalid file type",
+  "filePond.max_file_size": "Maximum file size is ",
+  "filePond.total_max_file_size": "Total maximum file size is 50MB",
+  "hr_demand_deadline_exceeded.label": "Deadline exceeded"
 }

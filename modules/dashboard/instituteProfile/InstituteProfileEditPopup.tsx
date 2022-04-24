@@ -77,13 +77,27 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       address: yup
         .string()
         .trim()
         .required()
         .label(messages['common.address'] as string),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
       name_of_the_office_head: yup
         .string()
         .trim()
@@ -106,6 +120,12 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.contact_person_designation'] as string),
+      contact_person_email: yup
+        .string()
+        .trim()
+        .required()
+        .email()
+        .label(messages['common.contact_person_email'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -150,6 +170,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
       reset({
         title_en: profileData?.title_en,
         title: profileData?.title,
+        email: profileData?.email,
         loc_division_id: profileData?.loc_division_id,
         loc_district_id: profileData?.loc_district_id,
         loc_upazila_id: profileData?.loc_upazila_id,
@@ -166,6 +187,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         contact_person_designation: profileData?.contact_person_designation,
         contact_person_designation_en:
           profileData?.contact_person_designation_en,
+        contact_person_email: profileData?.contact_person_email,
         /*row_status: String(profileData?.row_status),*/
         logo: profileData?.logo,
       });
@@ -246,6 +268,16 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            placeholder='example@gmail.com'
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -366,7 +398,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-        <Grid item xs={12} sx={{mb:3}}>
+        <Grid item xs={12} sx={{mb: 3}}>
           <Typography variant={'h6'}>
             {messages['common.contact_person_info']}
           </Typography>
@@ -403,6 +435,16 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.contact_person_designation_en']}
             register={register}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='contact_person_email'
+            label={messages['common.contact_person_email']}
+            register={register}
+            errorInstance={errors}
+            placeholder='example@gmail.com'
           />
         </Grid>
         {/*        <Grid item xs={12} md={6}>

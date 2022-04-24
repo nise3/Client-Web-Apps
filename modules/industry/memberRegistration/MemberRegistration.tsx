@@ -60,7 +60,7 @@ const MemberRegistration = () => {
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.organization_name'] as string),
       organization_type_id: yup
         .string()

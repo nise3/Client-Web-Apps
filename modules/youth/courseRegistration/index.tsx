@@ -273,11 +273,19 @@ const YouthCourseRegistrationPage = () => {
         return yup.object().shape({
           first_name: yup
             .string()
-            .title()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
             .label(messages['common.first_name_bn'] as string),
           last_name: yup
             .string()
-            .title()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
             .label(messages['common.last_name_bn'] as string),
           date_of_birth: yup
             .string()
@@ -393,7 +401,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.board'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -473,7 +485,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.board'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -557,7 +573,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.board'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -641,7 +661,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.board'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -721,7 +745,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.major_group_name_bn'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -801,7 +829,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.major_group_name_bn'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -881,7 +913,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.major_group_name_bn'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
@@ -965,7 +1001,11 @@ const YouthCourseRegistrationPage = () => {
                   .label(messages['education.major_group_name_bn'] as string),
                 institute_name: yup
                   .string()
-                  .title()
+                  .title(
+                    'bn',
+                    true,
+                    messages['common.special_character_error'] as string,
+                  )
                   .label(messages['common.institute_name_bn'] as string),
                 is_foreign_institute: yup
                   .boolean()
