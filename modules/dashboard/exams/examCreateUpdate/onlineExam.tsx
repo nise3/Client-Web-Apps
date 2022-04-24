@@ -75,6 +75,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
               type={'number'}
               label={messages['common.duration_min']}
               register={useFrom.register}
+              errorInstance={useFrom.errors}
             />
           </Grid>
           <Grid item xs={2}>

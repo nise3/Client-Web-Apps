@@ -4,6 +4,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import {FormHelperText} from '@mui/material';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getErrorObject} from '../../../utilities/helpers';
 
 type Props = {
   id: string;
@@ -20,27 +23,44 @@ type Props = {
 };
 
 const CustomDateTimePicker: any = (inputProps: Props) => {
+  let errorObj = getErrorObject(inputProps.id, inputProps.errorInstance);
+
   return inputProps.isLoading ? (
     <TextInputSkeleton />
   ) : (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <TextField
-        id={inputProps.id}
-        label={inputProps.label}
-        type='datetime-local'
-        defaultValue={inputProps.defaultValue}
-        variant={inputProps.variant ? inputProps.variant : 'outlined'}
-        size={inputProps.size ? inputProps.size : 'small'}
-        className={inputProps.className}
-        InputLabelProps={{
-          shrink: true,
-          required: inputProps.required || false,
-        }}
-        fullWidth
-        {...inputProps.register(inputProps.id)}
-      />
-    </LocalizationProvider>
+    <>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <TextField
+          id={inputProps.id}
+          label={inputProps.label}
+          type='datetime-local'
+          defaultValue={inputProps.defaultValue}
+          variant={inputProps.variant ? inputProps.variant : 'outlined'}
+          size={inputProps.size ? inputProps.size : 'small'}
+          className={inputProps.className}
+          InputLabelProps={{
+            shrink: true,
+            required: inputProps.required || false,
+          }}
+          fullWidth
+          {...inputProps.register(inputProps.id)}
+        />
+      </LocalizationProvider>
+      {errorObj && errorObj.message ? (
+        <FormHelperText sx={{color: 'error.main'}}>
+          {errorObj.message.hasOwnProperty('key') ? (
+            <IntlMessages
+              id={errorObj.message.key}
+              values={errorObj.message?.values || {}}
+            />
+          ) : (
+            errorObj.message
+          )}
+        </FormHelperText>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
-
 export default CustomDateTimePicker;
