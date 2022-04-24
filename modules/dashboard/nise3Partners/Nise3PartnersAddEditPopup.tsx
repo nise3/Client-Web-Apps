@@ -38,6 +38,7 @@ interface PartnerAddEditPopupProps {
 
 const initialValues = {
   title: '',
+  title_en: '',
   main_image_path: '',
   grid_image_path: '',
   thumb_image_path: '',
@@ -74,16 +75,26 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -91,8 +102,11 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -100,8 +114,11 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });

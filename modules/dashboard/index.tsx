@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 import MostDemandableCourseChart from './charts/barChartMostDemandableCourse';
 import EventMiniCalendarView from '../events/EventMiniCalendarView';
 import JobTrendsChart from './charts/jobTrandeChart';
-// import BangladeshMap from './Map/map.bangladesh';
 import {styled} from '@mui/material';
 import {Box} from '@mui/system';
 import {useAuthUser} from '../../@crema/utility/AppHooks';

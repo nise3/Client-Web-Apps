@@ -42,6 +42,7 @@ interface SliderBannerAddEditPopupProps {
 const initialValues = {
   slider_id: '',
   title: '',
+  title_en: '',
   sub_title: '',
   banner_template_code: '',
   link: '',
@@ -94,11 +95,20 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['slider.label'] as string),
+
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       banner_image_path: yup
         .string()
         .required()
@@ -133,8 +143,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()
@@ -153,8 +166,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()
@@ -173,8 +189,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()

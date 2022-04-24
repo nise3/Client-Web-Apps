@@ -166,12 +166,12 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
     return yup.object().shape({
       name_en: yup
         .string()
-        .title('en')
+        .title('en', true, messages['common.special_character_error'] as string)
         .min(2)
         .label(messages['common.name_en'] as string),
       name: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .min(2)
         .label(messages['common.name'] as string),
       username: yup
