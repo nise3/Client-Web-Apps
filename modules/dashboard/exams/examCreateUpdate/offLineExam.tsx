@@ -2,7 +2,14 @@ import {useIntl} from 'react-intl';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import Box from '@mui/material/Box';
-import React, {Fragment, useCallback, useMemo, useRef, useState} from 'react';
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
@@ -26,6 +33,20 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const [examSets, setExamSets] = useState<Array<any>>([]);
 
   const isMixed = examType == ExamTypes.MIXED;
+
+  useEffect(() => {
+    let sets = useFrom.getValues('sets');
+
+    if (sets) {
+      let array = sets.map((set: any, i: number) => {
+        return {
+          index: i,
+          id: `SET##${i}`,
+        };
+      });
+      setExamSets(array);
+    }
+  }, [useFrom.getValues]);
 
   const onInput = useCallback(() => {
     if (examSetField.current.value <= 5) {
@@ -99,6 +120,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               type={'number'}
               label={messages['common.duration_min']}
               register={useFrom.register}
+              errorInstance={useFrom.errors}
             />
           </Grid>
           <Grid item xs={6}>
