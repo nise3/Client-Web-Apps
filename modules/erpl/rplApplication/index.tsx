@@ -276,7 +276,11 @@ const RPLApplicationForm = () => {
             }),
           institute_name: yup
             .string()
-            .title()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
             .label(messages['common.institute_name'] as string),
           result: yup
             .string()

@@ -128,7 +128,7 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .label(
+              .title(
                 'bn',
                 true,
                 messages['common.special_character_error'] as string,

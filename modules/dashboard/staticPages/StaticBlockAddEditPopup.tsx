@@ -143,7 +143,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
 
       template_code: yup
         .string()
-        .title()
+        .required()
         .label(messages['static_page.template_code'] as string),
       is_button_available: yup
         .string()
