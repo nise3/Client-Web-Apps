@@ -65,9 +65,17 @@ const RPLAssessmentQuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
-        .required()
-        .label(messages['question_set.title'] as string),
+        .title('bn', true, messages['common.special_character_error'] as string)
+        .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       assessment_id: yup
         .string()
         .trim()

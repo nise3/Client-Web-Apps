@@ -1,5 +1,8 @@
 import * as yup from 'yup';
-import {EMAIL_REGEX, TEXT_REGEX_ENGLISH_ONLY} from '../common/patternRegex';
+import {
+  EMAIL_REGEX,
+  SPECIAL_CHARACTER_VALIDATION,
+} from '../common/patternRegex';
 import {AnyObject, Maybe} from 'yup/lib/types';
 import {StringSchema} from 'yup';
 
@@ -81,12 +84,37 @@ yup.setLocale({
   },
 });
 
-function defaultTitleValidation(this: any, local?: 'en' | 'bn') {
+function defaultTitleValidation(
+  this: any,
+  local?: 'en' | 'bn',
+  isRequired: boolean = true,
+  msg?: string,
+) {
   // console.log(appIntl());
-  const validator = this.trim().required();
-  if (local === 'en') {
-    validator.matches(TEXT_REGEX_ENGLISH_ONLY);
-  }
+
+  const validator = isRequired
+    ? this.trim()
+        .required()
+        .test(
+          'special_character_validation',
+          msg ??
+            "None of these $&+,:;=?@#|'<>.^*()%!- characters are acceptable",
+          (value: any) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
+        )
+    : this.test(
+        'special_character_validation',
+        msg ?? "None of these $&+,:;=?@#|'<>.^*()%!- characters are acceptable",
+        (value: any) =>
+          !value ||
+          (value && !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION))),
+      ).nullable();
+  //if (local === 'en') {
+  /*validator.test(
+        'special_character_validation',
+        "error",
+        (value: any) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
+    )*/
+  //}
 
   return validator;
 
@@ -106,7 +134,11 @@ declare module 'yup' {
     TContext extends AnyObject = AnyObject,
     TOut extends TType = TType,
   > extends yup.BaseSchema<TType, TContext, TOut> {
-    title(local?: 'en' | 'bn'): StringSchema<TType, TContext>;
+    title(
+      local?: 'en' | 'bn',
+      isRequired?: boolean,
+      msg?: string,
+    ): StringSchema<TType, TContext>;
   }
 }
 
