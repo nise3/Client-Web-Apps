@@ -56,19 +56,19 @@ const UpdatePasswordPage = () => {
     return yup.object().shape({
       current_password: yup
         .string()
-        .title()
+        .required()
         .min(8)
         .matches(TEXT_REGEX_PASSWORD)
         .label(messages['common.oldPassword'] as string),
       new_password: yup
         .string()
-        .title()
+        .required()
         .min(8)
         .matches(TEXT_REGEX_PASSWORD)
         .label(messages['common.newPassword'] as string),
       new_password_confirmation: yup
         .string()
-        .title()
+        .required()
         .oneOf(
           [yup.ref('new_password'), null],
           messages['common.password_must_match'] as string,

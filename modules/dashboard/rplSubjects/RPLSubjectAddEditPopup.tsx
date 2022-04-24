@@ -51,7 +51,7 @@ const RPLSubjectAddEditPopup: FC<SubjectAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['subject.title'] as string),
       row_status: yup.string(),
     });

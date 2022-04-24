@@ -78,7 +78,7 @@ const MemberListDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.memberId']}
-              value={itemData?.id}
+              value={itemData?.industry_associations[0].pivot.membership_id}
               isLoading={isLoading}
             />
           </Grid>
@@ -190,21 +190,33 @@ const MemberListDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['divisions.label']}
-              value={itemData?.loc_division_title}
+              value={
+                itemData?.loc_division_title_en +
+                '-' +
+                itemData?.loc_division_title
+              }
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['districts.label']}
-              value={itemData?.loc_district_title}
+              value={
+                itemData?.loc_district_title_en +
+                '-' +
+                itemData?.loc_district_title
+              }
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['upazilas.label']}
-              value={itemData?.loc_upazila_title}
+              value={
+                itemData?.loc_upazila_title_en +
+                '-' +
+                itemData?.loc_upazila_title
+              }
               isLoading={isLoading}
             />
           </Grid>

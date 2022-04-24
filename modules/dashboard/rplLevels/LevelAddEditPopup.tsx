@@ -84,9 +84,17 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       rpl_occupation_id: yup
         .string()
         .trim()
@@ -106,8 +114,11 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
         yup.object().shape({
           title: yup
             .string()
-            .trim()
-            .required()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
             .label(messages['rpl_sector.name'] as string),
         }),
       ),

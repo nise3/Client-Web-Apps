@@ -49,6 +49,7 @@ interface NoticeOrNewsAddEditPopupProps {
 const initialValues = {
   type: '',
   title: '',
+  title_en: '',
   institute_id: '',
   organization_id: '',
   industry_association_id: '',
@@ -102,9 +103,17 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       type: yup
         .string()
         .required()
@@ -152,8 +161,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -161,8 +173,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -170,8 +185,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });

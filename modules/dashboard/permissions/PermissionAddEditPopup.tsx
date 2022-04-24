@@ -20,8 +20,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IPermission} from '../../../shared/Interface/userManagement.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CustomFormSelect from "../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect";
-import { PermissionMethodsKeyByLabel } from "../../../@softbd/utilities/Permission";
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {PermissionMethodsKeyByLabel} from '../../../@softbd/utilities/Permission';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -57,13 +57,15 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
       title_en: yup
         .string()
-        .trim()
-        .required()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
         .label(messages['common.title_en'] as string),
       key: yup
         .string()
@@ -86,7 +88,6 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         .label(messages['permission.module'] as string),
     });
   }, [messages]);
-
 
   const methods = useMemo(
     () => [
@@ -255,7 +256,6 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
       </Grid>
     </HookFormMuiModal>
   );

@@ -40,6 +40,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   },
 
   [`& .${classes.search}`]: {
+    display: 'none',
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),

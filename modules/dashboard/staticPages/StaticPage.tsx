@@ -15,9 +15,10 @@ import StaticBlockAddEditPopup from './StaticBlockAddEditPopup';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const StaticPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
   const [showInFilterItems, setShowInFilterItems] = useState<Array<any>>([]);
   const staticPagetypeFilterItems = [
@@ -141,6 +142,12 @@ const StaticPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.type'],
