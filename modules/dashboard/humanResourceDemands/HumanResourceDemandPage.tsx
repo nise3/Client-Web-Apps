@@ -19,6 +19,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import moment from 'moment';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+
 /*import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';*/
 /*import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
@@ -224,10 +227,15 @@ const HumanResourceDemandPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              {/*{(moment(data?.hr_demand?.end_date, 'MM-DD-YYYY')).format('YYYY-MM-DD') > moment() && (
+              {moment(data?.hr_demand?.end_date).isAfter(moment()) ? (
                 <EditButton onClick={() => openAddEditModal(data.id)} />
-              )}*/}
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              ) : (
+                <CommonButton
+                  onClick={() => openAddEditModal(data.id)}
+                  disabled={true}
+                  btnText={'hr_demand_deadline_exceeded.label'}
+                />
+              )}
               <Link href={URL + '?show_cv=1'} passHref>
                 <ReadButton>{messages['common.cv_read']}</ReadButton>
               </Link>

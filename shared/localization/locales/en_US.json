@@ -1885,5 +1885,6 @@
   "common.submitted_feedback" : "Your feedback has been noted. Thank you for contacting us.",
   "filePond.file_type": "Invalid file type",
   "filePond.max_file_size": "Maximum file size is ",
-  "filePond.total_max_file_size": "Total maximum file size is 50MB"
+  "filePond.total_max_file_size": "Total maximum file size is 50MB",
+  "hr_demand_deadline_exceeded.label": "Deadline exceeded"
 }
