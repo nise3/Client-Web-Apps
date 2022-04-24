@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import {useIntl} from 'react-intl';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
@@ -19,10 +19,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import HumanResourceDemandDetailsPopup from './HumanResourceDemandDetailsPopup';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-/*import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
-import {ISelectFilterItem} from '../../../shared/Interface/common.interface';*/
-/*import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';*/
+import moment from 'moment';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 
 const HumanResourceDemandPage = () => {
   const {messages, locale} = useIntl();
@@ -36,12 +39,12 @@ const HumanResourceDemandPage = () => {
     setSelectedItemId(itemId);
   }, []);
 
-  //const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
-  /*const [skillFilters] = useState<any>({});
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  const [skillFilters] = useState<any>({});
   const {data: skills} = useFetchPublicSkills(skillFilters);
   const [skillFilterItems, setSkillFilterItems] = useState<
     Array<ISelectFilterItem>
-  >([]);*/
+  >([]);
 
   const approvalStatusFilterItems = [
     {
@@ -75,7 +78,7 @@ const HumanResourceDemandPage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (skills) {
       setSkillFilterItems(
         skills.map((skill: any) => {
@@ -93,7 +96,7 @@ const HumanResourceDemandPage = () => {
         }),
       );
     }
-  }, [skills]);*/
+  }, [skills]);
 
   const columns = useMemo(
     () => [
@@ -168,7 +171,7 @@ const HumanResourceDemandPage = () => {
           );
         },
       },
-      /*{
+      {
         Header: messages['common.mandatory_skills'],
         accessor: 'skill_ids',
         filter: 'selectFilter',
@@ -180,7 +183,7 @@ const HumanResourceDemandPage = () => {
             <>{skill?.title_en + `, `}</>
           ));
         },
-      },*/
+      },
       {
         Header: messages['common.approval_status'],
         accessor: 'rejected_by_industry_association',
@@ -224,10 +227,15 @@ const HumanResourceDemandPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              {/*{(moment(data?.hr_demand?.end_date, 'MM-DD-YYYY')).format('YYYY-MM-DD') > moment() && (
+              {moment(data?.hr_demand?.end_date).isAfter(moment()) ? (
                 <EditButton onClick={() => openAddEditModal(data.id)} />
-              )}*/}
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              ) : (
+                <CommonButton
+                  onClick={() => openAddEditModal(data.id)}
+                  disabled={true}
+                  btnText={'hr_demand_deadline_exceeded.label'}
+                />
+              )}
               <Link href={URL + '?show_cv=1'} passHref>
                 <ReadButton>{messages['common.cv_read']}</ReadButton>
               </Link>
@@ -240,11 +248,7 @@ const HumanResourceDemandPage = () => {
         sortable: false,
       },
     ],
-    [
-      messages,
-      locale,
-      //skillFilterItems
-    ],
+    [messages, locale, skillFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
