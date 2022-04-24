@@ -72,6 +72,8 @@ const QuestionSetPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
+  console.log('erros->', errors);
+
   const onEditPopupOpenClose = (open: boolean) => {
     setIsQuestionEditFormOpened(open);
   };
@@ -123,7 +125,9 @@ const QuestionSetPopup = ({
           onQuestionsSubmitted(data);
           props.onClose();
         }
-      } catch (error: any) {}
+      } catch (error: any) {
+        console.log('error->', error);
+      }
     }
   };
 

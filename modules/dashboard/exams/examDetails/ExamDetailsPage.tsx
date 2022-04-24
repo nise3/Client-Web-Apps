@@ -33,6 +33,7 @@ import {
 import HiddenInput from '../../../youth/examQuestionPaper/HiddenInput';
 import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 import MCQTypeQuestion from '../../../youth/examQuestionPaper/MCQTypeQuestion';
+import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 const ExamDetailsPage = () => {
   const {messages, formatNumber, formatTime} = useIntl();
@@ -181,7 +182,7 @@ const ExamDetailsPage = () => {
 
                       <Grid item xs={12}>
                         <form autoComplete='off'>
-                          <Grid container spacing={1}>
+                          <Grid container spacing={2} mb={3}>
                             {exam && exam?.exam_sections.length ? (
                               exam.exam_sections.map((section: any) => {
                                 return (
@@ -292,18 +293,10 @@ const ExamDetailsPage = () => {
                                               {questionHeader}
                                               {hiddenFields}
                                               <Grid item xs={11}>
-                                                <CustomTextInput
-                                                  id={
-                                                    'questions[' +
-                                                    ansIndex +
-                                                    '].answers[0]'
-                                                  }
+                                                <DetailsInputView
                                                   label={''}
-                                                  multiline={true}
-                                                  rows={3}
-                                                  register={register}
-                                                  errorInstance={errors}
                                                   isLoading={false}
+                                                  value={''}
                                                 />
                                               </Grid>
                                             </React.Fragment>
