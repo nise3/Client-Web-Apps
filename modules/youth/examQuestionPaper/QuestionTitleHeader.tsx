@@ -1,6 +1,8 @@
 import React, {FC} from 'react';
 import {Grid} from '@mui/material';
 import {Body2} from '../../../@softbd/elements/common';
+import {getIntlNumber} from '../../../@softbd/utilities/helpers';
+import {useIntl} from 'react-intl';
 interface QuestionTitleHeaderProps {
   index: number;
   question: any;
@@ -9,6 +11,7 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
   index,
   question,
 }) => {
+  const {formatNumber} = useIntl();
   return (
     <>
       <Grid container spacing={2}>
@@ -18,7 +21,7 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
               fontWeight: 'bold',
               whiteSpace: 'pre',
             }}>
-            {index + '. ' + ' '}
+            {getIntlNumber(formatNumber, index) + '. ' + ' '}
           </Body2>
           <Body2>{question?.title}</Body2>
         </Grid>
@@ -28,7 +31,7 @@ const QuestionTitleHeader: FC<QuestionTitleHeaderProps> = ({
               fontWeight: 'bold',
               textAlign: 'center',
             }}>
-            {Number(question?.individual_marks)?.toFixed(0)}
+            {getIntlNumber(formatNumber, question?.individual_marks)}
           </Body2>
         </Grid>
       </Grid>
