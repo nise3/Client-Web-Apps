@@ -180,6 +180,8 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
   useEffect(() => {
     let data: any = {
       id: itemData?.id,
+      accessor_id: itemData?.accessor_id,
+      accessor_type: itemData?.accessor_type,
       subject_id: itemData?.subject_id,
       title: itemData?.title,
       title_en: itemData?.title_en,
@@ -194,7 +196,8 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       option_4_en: itemData?.option_4_en,
       individual_marks: itemData?.individual_marks,
       answers:
-        itemData?.question_type == QuestionType.YES_NO && itemData?.answers
+        String(itemData?.question_type) == QuestionType.YES_NO &&
+        itemData?.answers
           ? itemData?.answers[0]
           : itemData?.answers,
       row_status: itemData?.row_status,
@@ -238,10 +241,6 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
       data.option_3_en = '';
       data.option_4 = '';
       data.option_4_en = '';
-    }
-
-    if (!isMCQ && !isYesNo) {
-      data.answers = [];
     }
 
     if (isYesNo && data.answers) {

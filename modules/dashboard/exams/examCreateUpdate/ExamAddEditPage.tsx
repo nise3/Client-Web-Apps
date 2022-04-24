@@ -41,15 +41,6 @@ interface ExamAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
-const initialValues = {
-  title: '',
-  title_en: '',
-  subject_id: '',
-  purpose_id: '',
-  type: '',
-  row_status: '1',
-};
-
 const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
@@ -83,7 +74,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
-  const [examType, setExamType] = useState<any>(null);
+  const [examType, setExamType] = useState<number | null>(null);
   const [batches, setBatches] = useState<Array<any>>([]);
   const [subjectId, setSubjectId] = useState<any>(null);
 
@@ -139,21 +130,21 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .required()
         .label(messages['common.exam_type'] as string),
       exam_date:
-        examType == ExamTypes.MIXED
+        Number(examType) == ExamTypes.MIXED
           ? yup.string()
           : yup
-              .mixed()
-              .required()
-              .label(messages['common.exam_date'] as string),
+              .string()
+              .label(messages['common.exam_date'] as string)
+              .required(),
       duration:
-        examType == ExamTypes.MIXED
+        Number(examType) == ExamTypes.MIXED
           ? yup.string()
           : yup
-              .mixed()
-              .required()
-              .label(messages['common.duration_min'] as string),
+              .string()
+              .label(messages['common.duration_min'] as string)
+              .required(),
       total_set:
-        examType == ExamTypes.OFFLINE
+        Number(examType) == ExamTypes.OFFLINE
           ? yup
               .mixed()
               .required()
@@ -165,28 +156,28 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               )
           : yup.string(),
       online:
-        examType == ExamTypes.MIXED
+        Number(examType) == ExamTypes.MIXED
           ? yup.object().shape({
               exam_date: yup
-                .mixed()
+                .string()
                 .required()
                 .label(messages['common.exam_date'] as string),
               duration: yup
-                .mixed()
+                .string()
                 .required()
                 .label(messages['common.duration_min'] as string),
               exam_questions: examQuestionsSchema,
             })
           : yup.object().shape({}),
       offline:
-        examType == ExamTypes.MIXED
+        Number(examType) == ExamTypes.MIXED
           ? yup.object().shape({
               exam_date: yup
-                .mixed()
+                .string()
                 .required()
                 .label(messages['common.exam_date'] as string),
               duration: yup
-                .mixed()
+                .string()
                 .required()
                 .label(messages['common.duration_min'] as string),
               total_set: yup
@@ -210,7 +201,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             })
           : yup.object().shape({}),
       sets:
-        examType == ExamTypes.OFFLINE
+        Number(examType) == ExamTypes.OFFLINE
           ? yup.array().of(
               yup.object().shape({
                 title: yup
@@ -221,7 +212,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             )
           : yup.array(),
       exam_questions:
-        examType == ExamTypes.MIXED
+        Number(examType) == ExamTypes.MIXED
           ? yup.object().shape({})
           : examQuestionsSchema,
     });
@@ -240,6 +231,40 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  const setFormValues = (data: any, exam: any) => {
+    data.exam_date = exam?.exam_date.replace(' ', 'T');
+    data.duration = exam?.duration;
+
+    let exam_questions: Array<any> = [];
+
+    if (exam?.exam_sections) {
+      questionTypesArray.map((type) => {
+        let section = exam.exam_sections.find(
+          (sec: any) => sec.question_type == Number(type),
+        );
+
+        (section?.questions || []).map((qu: any) => {
+          qu.id = qu.question_id;
+        });
+
+        exam_questions.push({
+          is_question_checked: section != undefined,
+          question_type: type,
+          number_of_questions: section?.number_of_questions
+            ? section?.number_of_questions
+            : '',
+          total_marks: section?.total_marks ? Number(section?.total_marks) : '',
+          question_selection_type: section?.question_selection_type
+            ? section?.question_selection_type
+            : '',
+          questions: section?.questions ? section?.questions : [],
+        });
+      });
+    }
+
+    data.exam_questions = exam_questions;
+  };
+
   useEffect(() => {
     if (itemData) {
       console.log('itemdata', itemData);
@@ -256,39 +281,19 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       };
 
       if (itemData?.type != ExamTypes.MIXED) {
-        data.exam_date = itemData?.exams[0].exam_date.replace(' ', 'T');
-        data.duration = itemData?.exams[0].duration;
-
-        let exam_questions: Array<any> = [];
-
-        if (itemData?.exams[0]?.exam_sections) {
-          questionTypesArray.map((type) => {
-            let section = itemData.exams[0].exam_sections.find(
-              (sec: any) => sec.question_type == Number(type),
-            );
-
-            (section?.questions || []).map((qu: any) => {
-              qu.id = qu.question_id;
-            });
-
-            exam_questions.push({
-              is_question_checked: section != undefined,
-              question_type: type,
-              number_of_questions: section?.number_of_questions
-                ? section?.number_of_questions
-                : '',
-              total_marks: section?.total_marks
-                ? Number(section?.total_marks)
-                : '',
-              question_selection_type: section?.question_selection_type
-                ? section?.question_selection_type
-                : '',
-              questions: section?.questions ? section?.questions : [],
-            });
-          });
+        setFormValues(data, itemData?.exams[0]);
+      } else {
+        if (Number(itemData?.exams[0]?.type) == ExamTypes.ONLINE) {
+          data.online = {};
+          data.offline = {};
+          setFormValues(data.online, itemData?.exams[0]);
+          setFormValues(data.offline, itemData?.exams[1]);
+        } else {
+          data.online = {};
+          data.offline = {};
+          setFormValues(data.online, itemData?.exams[1]);
+          setFormValues(data.offline, itemData?.exams[0]);
         }
-
-        data.exam_questions = exam_questions;
       }
 
       if (itemData?.type == ExamTypes.OFFLINE) {
@@ -324,12 +329,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
     data.purpose_name = ExamPurposeNames.BATCH;
 
-    data.exam_date =
-      data.exam_date
-        .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
-        .replace('T', ' ') + ':00';
-
     if (examType !== ExamTypes.MIXED) {
+      data.exam_date =
+        data.exam_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace('T', ' ') + ':00';
+
       let arr: any = data.exam_questions.filter(
         (item: any) => item.is_question_checked != false,
       );
@@ -343,6 +348,20 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     }
 
     if (examType == ExamTypes.MIXED) {
+      delete data.exam_date;
+      delete data.duration;
+      delete data.exam_questions;
+
+      data.online.exam_date =
+        data.online.exam_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace('T', ' ') + ':00';
+
+      data.offline.exam_date =
+        data.offline.exam_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace('T', ' ') + ':00';
+
       let arrOnline: any = data.online.exam_questions.filter(
         (item: any) => item.is_question_checked != false,
       );
@@ -385,7 +404,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         data.online.exam_id = itemData.exams[1].id;
         data.offline.exam_id = itemData.exams[0].id;
       }
-    } else {
+    } else if (examId) {
       data.exam_id = itemData.exams[0].id;
     }
 
@@ -396,12 +415,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         await updateExam(examId, data);
         updateSuccessMessage('exam.label');
         mutateExam();
-        router.back();
       } else {
         await createExam(data);
         createSuccessMessage('exam.label');
-        router.back();
       }
+      router.back();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -587,7 +605,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               <FormRowStatus
                 id='row_status'
                 control={control}
-                defaultValue={initialValues.row_status}
+                defaultValue={RowStatus.ACTIVE}
                 isLoading={isLoadingExam}
               />
             </Grid>

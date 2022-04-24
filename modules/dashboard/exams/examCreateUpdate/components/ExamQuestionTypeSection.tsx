@@ -234,7 +234,7 @@ const ExamQuestionTypeSection = ({
               selectedSelectionType != QuestionSelectionType.RANDOM &&
               numberOfQuestion &&
               marks ? (
-              <Grid item xs={1}>
+              <Grid item xs={3}>
                 <AddButton
                   onClick={() => openAddQuestionModal()}
                   isLoading={false}
@@ -247,7 +247,12 @@ const ExamQuestionTypeSection = ({
                     />
                   }
                 />
-                <Body2 sx={{textAlign: 'center'}}>
+                <Body2
+                  sx={{
+                    textAlign: 'center',
+                    display: 'inline-block',
+                    marginLeft: '10px',
+                  }}>
                   {localQuestions?.[0]?.questions
                     ? localQuestions?.[0]?.questions.length +
                       ' question selected'
