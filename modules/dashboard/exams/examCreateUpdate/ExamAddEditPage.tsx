@@ -263,6 +263,19 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     }
 
     data.exam_questions = exam_questions;
+
+    if (exam?.type == ExamTypes.OFFLINE) {
+      data.venue = exam.venue;
+      if (exam.exam_sets) {
+        data.total_set = exam.exam_sets.length;
+        data.sets = exam.exam_sets.map((set: any) => {
+          return {
+            title: set.title,
+            title_en: set.title_en,
+          };
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -296,15 +309,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         }
       }
 
-      if (itemData?.type == ExamTypes.OFFLINE) {
-        data.venue = itemData?.exams[0].venue;
-        data.total_set = 2;
-      }
-
       onChangeCourse(itemData?.course_id);
       onChangeTrainingCenter(itemData?.training_center_id);
 
-      console.log('data->', data);
       setExamType(itemData?.type);
       setSubjectId(itemData?.subject_id);
 
@@ -322,6 +329,16 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   console.log('error', errors);
 
+  const getTotalCount = (questions: any) => {
+    let count = 0;
+    (questions || []).map((item: any) => {
+      if (item?.total_marks && !isNaN(item?.total_marks)) {
+        count += Number(item?.total_marks);
+      }
+    });
+    return count;
+  };
+
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     console.log('submitted data', formData);
 
@@ -330,6 +347,10 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     data.purpose_name = ExamPurposeNames.BATCH;
 
     if (examType !== ExamTypes.MIXED) {
+      delete data.online;
+      delete data.offline;
+      if (examType == ExamTypes.ONLINE) delete data.total_set;
+
       data.exam_date =
         data.exam_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
@@ -389,12 +410,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       );
     }
 
-    // total_marks total_marks
-    data.total_marks = (data.exam_questions || [])
-      .map((item: any) => Number(item?.total_marks))
-      .reduce((prev: any, curr: any) => {
-        return prev + curr;
-      }, 0);
+    if (examType != ExamTypes.MIXED) {
+      // total_marks total_marks
+      data.total_marks = getTotalCount(data.exam_questions);
+    } else {
+      data.online.total_marks = getTotalCount(data.online.exam_questions);
+      data.offline.total_marks = getTotalCount(data.offline.exam_questions);
+    }
 
     if (examId && examType == ExamTypes.MIXED) {
       if (itemData.exams[0].type == ExamTypes.ONLINE) {

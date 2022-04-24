@@ -7,15 +7,15 @@ import CustomCheckbox from '../../../../../@softbd/elements/input/CustomCheckbox
 import QuestionSetPopup from './questionSetPopup/QuestionSetPopup';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import AddButton from '../../../../../@softbd/elements/button/AddButton/AddButton';
-import {cloneDeep} from 'lodash';
+import _, {cloneDeep} from 'lodash';
 import CustomFilterableFormSelect from '../../../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {Body2} from '../../../../../@softbd/elements/common';
+import {Body2, S2} from '../../../../../@softbd/elements/common';
 
 interface IProps {
   useFrom: any;
   questionType: any;
   index: number;
-  idPrefix?: any;
+  idPrefix: any;
   subjectId?: any;
   examSets?: any;
   examType?: number;
@@ -30,7 +30,7 @@ const ExamQuestionTypeSection = ({
   examSets,
   examType,
 }: IProps) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
 
   const isOffline = examType == ExamTypes.OFFLINE;
 
@@ -88,10 +88,21 @@ const ExamQuestionTypeSection = ({
         setSelectedSelectionType(
           obj.question_selection_type ? obj.question_selection_type : null,
         );
-        setLocalQuestions([{questions: obj.questions}]);
+
+        if (examSets) {
+          let grouped = _.mapValues(_.groupBy(obj.questions, 'exam_set_uuid'));
+
+          let ques: any = [];
+          Object.keys(grouped).map((key) => {
+            ques.push({questions: grouped[key]});
+          });
+          setLocalQuestions(ques);
+        } else {
+          setLocalQuestions([{questions: obj.questions}]);
+        }
       }
     }
-  }, [useFrom.getValues]);
+  }, [useFrom.getValues, examSets]);
 
   const onChangeQuestionSelectionType = (type: any) => {
     setSelectedSelectionType(type ? String(type) : null);
@@ -215,6 +226,9 @@ const ExamQuestionTypeSection = ({
             examSets.length > 0 ? (
               examSets.map((examSet: any, index: number) => (
                 <Grid key={examSet.index} item xs={1}>
+                  <S2>
+                    {messages['common.set']} {formatNumber(index + 1)}
+                  </S2>
                   <AddButton
                     key={1}
                     onClick={() => openAddQuestionModal(index)}
