@@ -6,8 +6,6 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import FourIRProjectAddEditPopup from './FourIRProjectAddEditPopup';
 import FourIRProjectDetailsPopup from './FourIRProjectDetailsPopup';
@@ -15,14 +13,18 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import TaskIcon from '@mui/icons-material/Task';
 import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {useRouter} from 'next/router';
 
 const FourIRProjectsPage = () => {
+  const router = useRouter();
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -64,6 +66,19 @@ const FourIRProjectsPage = () => {
       refreshDataTable();
     }
   };
+
+  const openIncompleteStep = useCallback(
+    (projectId: any, completionStep: any, formStep: any) => {
+      router.push({
+        pathname: '/4ir/' + projectId,
+        query: {
+          completionStep: completionStep,
+          formStep: formStep,
+        },
+      });
+    },
+    [],
+  );
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -109,6 +124,19 @@ const FourIRProjectsPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
+              <CommonButton
+                onClick={() => {
+                  openIncompleteStep(
+                    data?.id,
+                    data?.completion_step,
+                    data?.form_step,
+                  );
+                }}
+                btnText={`4ir_showcasing.complete_step`}
+                extraText={data?.completion_step}
+                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
+                color='secondary'
+              />
               <DeleteButton
                 deleteAction={() => deleteProjectItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -122,10 +150,27 @@ const FourIRProjectsPage = () => {
     [messages, locale],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_4IR_PROJECTS,
-    });
+  /*  const {onFetchData, data, loading, pageCount, totalCount} =
+              useReactTableFetchData({
+                urlPath: API_4IR_PROJECTS,
+              });*/
+
+  const data = [
+    {
+      id: 2,
+      project_name: 'rouzex project',
+      project_start_date: '12-12-12',
+      row_status: '1',
+      completion_step: 1,
+      form_step: 0,
+    },
+  ];
+  const onFetchData = () => {
+    console.log('data fetched');
+  };
+  const loading = false;
+  const pageCount = 1;
+  const totalCount = 1;
 
   return (
     <>

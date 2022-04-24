@@ -27,6 +27,7 @@ interface Props extends ButtonProps {
   variant?: 'text' | 'outlined' | 'contained' | undefined;
   color?: 'inherit' | 'primary' | 'secondary';
   btnText?: string;
+  extraText?: string;
   startIcon?: React.ReactNode;
 }
 
@@ -36,10 +37,23 @@ const CommonButton = ({
   className,
   variant = 'text',
   btnText,
+  extraText,
   startIcon,
   ...extra
 }: Props) => {
   const defaultHandler = () => {};
+  /*  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  let addedText = '';
+
+  useEffect(() => {
+    if (extraText) {
+      if (language === 'bn') {
+        addedText = convertEnglishDigitsToBengali(extraText);
+      } else {
+        addedText = extraText;
+      }
+    }
+  }, [language, extraText]);*/
 
   return isLoading ? (
     <ButtonSkeleton />
@@ -51,7 +65,9 @@ const CommonButton = ({
       color={extra?.color || 'secondary'}
       variant={variant}
       {...extra}>
-      <IntlMessages id={btnText} />
+      <>
+        <IntlMessages id={btnText} /> {extraText ?? ''}
+      </>
     </StyledButton>
   );
 };
