@@ -69,6 +69,7 @@ const ExamineeListPage = () => {
           let data = props.row.original;
           let examId = data?.exam_id;
           let youthId = data?.youth_id;
+
           return (
             <DatatableButtonGroup>
               <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>

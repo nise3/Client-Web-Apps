@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Grid, InputAdornment, Paper, TextField} from '@mui/material';
 import {Body1, Body2} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
@@ -25,145 +25,6 @@ import {useRouter} from 'next/router';
 import {youthExamMarkUpdate} from '../../../../../services/instituteManagement/ExamService';
 import useSuccessMessage from '../../../../../@softbd/hooks/useSuccessMessage';
 
-/*const answerSheet = {
-  id: 1,
-  title: 'Yearly Exam',
-  exam_id: 1,
-  youth_id: 1,
-  youth_name: 'Afrar Jahin',
-  email: 'afrarjahin@gmail.com',
-  subject_title: 'Subject',
-  exam_date: '10/12/22',
-  total_obtained_marks: 66,
-  total_marks: 100,
-  duration: '1 hour',
-  exam_sections: [
-    {
-      Uuid: 11,
-      question_type: 1,
-      total_marks: 20,
-      questions: [
-        {
-          id: 1,
-          title:
-            ' What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name What is your name ddddddddddd?',
-          title_en: 'What is your name?',
-          option_1: 'a',
-          option_1_en: 'a',
-          option_2: 'b',
-          option_2_en: 'b',
-          option_3: 'c',
-          option_3_en: 'c',
-          option_4: 'd',
-          option_4_en: 'd',
-          mark: 1,
-          correct_answer: [3, 4],
-          answer: [1, 2],
-          exam_result_id: 1,
-        },
-        {
-          id: 2,
-          title: 'What is your age?',
-          title_en: 'What is your name?',
-          option_1: '20',
-          option_1_en: '20',
-          option_2: '30',
-          option_2_en: '30',
-          option_3: '40',
-          option_3_en: '40',
-          option_4: 'd',
-          option_4_en: 'd',
-          mark: 1,
-          individual_marks: 1,
-          answer: [2, 4],
-          correct_answer: [1, 3],
-        },
-      ],
-    },
-    {
-      Uuid: 11,
-      question_type: 2,
-      total_marks: 20,
-      questions: [
-        {
-          id: 1,
-          title: 'I am a [[]] engineer [[]] softbd [[]]',
-          title_en: 'I am a [[]] engineer  [[]] softbd [[]]',
-          mark: 1,
-          individual_marks: 1,
-          answer: ['software', 'at', 'ltd'],
-        },
-        {
-          id: 2,
-          title: 'She is a [[]] engineer [[]] softbd [[]]',
-          title_en: 'She is a [[]] engineer  [[]] softbd [[]]',
-          mark: 1,
-          individual_marks: 1,
-          answer: ['software', 'at', 'ltd'],
-        },
-      ],
-    },
-    {
-      Uuid: 11,
-      question_type: 3,
-      total_marks: 20,
-      questions: [
-        {
-          id: 1,
-          title: 'Is this question?',
-          title_en: 'Is this question?',
-          mark: 1,
-          individual_marks: 1,
-          answer: 1,
-          correct_answer: 1,
-        },
-        {
-          id: 2,
-          title: 'Done your work?',
-          title_en: 'Done your work?',
-          mark: 1,
-          individual_marks: 1,
-          answer: 1,
-          correct_answer: 2,
-        },
-      ],
-    },
-    {
-      Uuid: 11,
-      question_type: 5,
-      total_marks: 20,
-      questions: [
-        {
-          id: 5,
-          title: 'Please upload your field work file',
-          title_en: 'Please upload your field work file',
-          mark: 1,
-          individual_marks: 1,
-          answer: '/images/dummy2.jpg',
-          exam_result_id: 1,
-        },
-      ],
-    },
-    {
-      Uuid: 11,
-      question_type: 7,
-      total_marks: 20,
-      questions: [
-        {
-          id: 1,
-          title: 'Write down about your profession',
-          title_en: 'Write down about your profession',
-          mark: 1,
-          individual_marks: 1,
-          exam_result_id: 1,
-          answer:
-            'A profession is a disciplined group of individuals who adhere to ethical standards and whods/ A profession has been further defined as A profession is a disciplined group of individuals who adhere to ethical standards and who ... A profession has been further defined as',
-        },
-      ],
-    },
-  ],
-};*/
-
 /*const PREFIX = 'AnsweredQuestionPaper';
 const classes = {
   textStyle: `${PREFIX}-textStyle`,
@@ -189,6 +50,41 @@ const ExamMarkingViewPage = () => {
     register,
     formState: {isSubmitting},
   } = useForm<any>();
+
+  const getExamTimeDuration = useCallback((duration: any) => {
+    let hour = Math.floor(duration / 60);
+    let minutes = Math.floor(duration % 60);
+    console.log('hour, minutes', hour, minutes);
+    if (hour > 0) {
+      if (minutes > 0) {
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) +
+              ' ' +
+              messages['common.hour'] +
+              ' ' +
+              getIntlNumber(formatNumber, minutes) +
+              ' ' +
+              messages['common.minute']}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) + ' ' + messages['common.hour']}
+          </>
+        );
+      }
+    } else {
+      return (
+        <>
+          {getIntlNumber(formatNumber, minutes) +
+            ' ' +
+            messages['common.minute']}
+        </>
+      );
+    }
+  }, []);
 
   const getQuestionTypeComponent = (questionType: any, question: any) => {
     // const examResultId = question?.exam_result_id;
@@ -298,34 +194,37 @@ const ExamMarkingViewPage = () => {
             xs={12}>
             <Body2>{examSheet?.youth_name}</Body2>
             <Body2>{examSheet?.title}</Body2>
-            <Body2>
+            <Body2 sx={{whiteSpace: 'pre'}}>
               {messages['subject.label']}
               {': '}
               {examSheet?.subject_title}
             </Body2>
-            <Body2>
+            <Body2 sx={{whiteSpace: 'pre'}}>
               {messages['common.date']} {': '}
               {getIntlDateFromString(formatDate, examSheet?.exam_date)}
             </Body2>
-            <Body2>
+            <Body2 sx={{whiteSpace: 'pre'}}>
               {messages['common.time']} {': '}
               {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
             </Body2>
-            <Body2>
+            <Body2 sx={{whiteSpace: 'pre'}}>
               {messages['common.total_obtained_marks'] +
                 ': ' +
-                examSheet?.total_marks}
+                getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-            <Body2>
-              {messages['common.duration'] + ': ' + examSheet?.duration}
+            <Body2 sx={{whiteSpace: 'pre'}}>
+              {messages['common.duration'] + ': '}
+              {examSheet?.duration
+                ? getExamTimeDuration(examSheet?.duration)
+                : ''}
             </Body2>
-            <Body2>
+            <Body2 sx={{whiteSpace: 'pre'}}>
               {messages['common.total_marks']}
               {': '}
-              {examSheet?.total_marks}
+              {getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
           </Grid>
           <Grid item xs={12}>
@@ -377,6 +276,7 @@ const ExamMarkingViewPage = () => {
                           ) : (
                             <NoDataFoundComponent
                               messageType={messages['common.question']}
+                              messageTextType={'h6'}
                             />
                           )}
                         </React.Fragment>
@@ -384,7 +284,10 @@ const ExamMarkingViewPage = () => {
                     },
                   )
                 ) : (
-                  <NoDataFoundComponent />
+                  <NoDataFoundComponent
+                    messageType={messages['common.question']}
+                    messageTextType={'h6'}
+                  />
                 )}
                 <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
                   <Button

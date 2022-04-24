@@ -144,9 +144,9 @@ const ExamMarkingViewPage = () => {
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
             <Body2>
               {messages['common.duration'] + ': '}
-              {getExamTimeDuration(
-                examSheet?.duration ? examSheet?.duration : 0,
-              )}
+              {examSheet?.duration
+                ? getExamTimeDuration(examSheet?.duration)
+                : ''}
             </Body2>
             <Body2>
               {messages['common.total_marks']}
@@ -196,13 +196,19 @@ const ExamMarkingViewPage = () => {
                           );
                         })
                       ) : (
-                        <NoDataFoundComponent />
+                        <NoDataFoundComponent
+                          messageType={messages['common.question']}
+                          messageTextType={'h6'}
+                        />
                       )}
                     </React.Fragment>
                   );
                 })
               ) : (
-                <NoDataFoundComponent />
+                <NoDataFoundComponent
+                  messageType={messages['common.question']}
+                  messageTextType={'h6'}
+                />
               )}
             </Grid>
           </Grid>

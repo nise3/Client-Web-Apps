@@ -18,6 +18,7 @@ import {useIntl} from 'react-intl';
 import {Link} from '../../../@softbd/elements/common';
 import {
   getIntlDateFromString,
+  getIntlNumber,
   getIntlTimeFromString,
 } from '../../../@softbd/utilities/helpers';
 
@@ -26,19 +27,40 @@ interface ViewExamsPopupProps {
   exams: any;
 }
 const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
-  const {messages, formatDate, formatTime} = useIntl();
+  const {messages, formatDate, formatTime, formatNumber} = useIntl();
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
     let minutes = Math.floor(duration % 60);
+    console.log('hour, minutes', hour, minutes);
     if (hour > 0) {
       if (minutes > 0) {
-        return <>{hour + 'hour ' + minutes + ' minutes'}</>;
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) +
+              ' ' +
+              messages['common.hour'] +
+              ' ' +
+              getIntlNumber(formatNumber, minutes) +
+              ' ' +
+              messages['common.minute']}
+          </>
+        );
       } else {
-        return <>{hour + 'hour '}</>;
+        return (
+          <>
+            {getIntlNumber(formatNumber, hour) + ' ' + messages['common.hour']}
+          </>
+        );
       }
     } else {
-      return <>{minutes + ' minutes'}</>;
+      return (
+        <>
+          {getIntlNumber(formatNumber, minutes) +
+            ' ' +
+            messages['common.minute']}
+        </>
+      );
     }
   }, []);
   return (
