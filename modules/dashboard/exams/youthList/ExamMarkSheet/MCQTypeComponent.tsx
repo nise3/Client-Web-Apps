@@ -14,7 +14,7 @@ const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
     <Grid container spacing={1}>
       <Grid item xs={10} display={'flex'}>
         <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-          {index + '. ' + ' '}
+          {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
         <Body2>{question?.title}</Body2>
         <Body2 sx={{fontWeight: 'bold'}}>
@@ -23,7 +23,11 @@ const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
       </Grid>
       <Grid item xs={2}>
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-          {question?.achived_mark ? <>{question?.achived_mark}</> : <>{''}</>}
+          {question?.achived_mark ? (
+            <>{getIntlNumber(formatNumber, question?.marks_achieved)}</>
+          ) : (
+            <>{''}</>
+          )}
         </Body2>
       </Grid>
       <Grid item xs={10} display={'flex'} flexDirection={'column'}>

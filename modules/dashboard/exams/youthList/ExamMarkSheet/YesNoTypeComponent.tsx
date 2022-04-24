@@ -31,7 +31,7 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
         <Grid item xs={2}>
           <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
             {question?.individual_marks ? (
-              <>{question?.individual_marks}</>
+              <>{getIntlNumber(formatNumber, question?.marks_achieved)}</>
             ) : (
               <>{''}</>
             )}

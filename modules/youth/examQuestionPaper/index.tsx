@@ -14,6 +14,7 @@ import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
 import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
 import {
   getIntlDateFromString,
+  getIntlNumber,
   getTimer,
   question_type,
 } from '../../../@softbd/utilities/helpers';
@@ -40,7 +41,7 @@ interface ExamQuestionListProps {
 const ExamQuestionPaper = () => {
   let questionIndex = 1;
   let answerIndex = 0;
-  const {messages, formatDate} = useIntl();
+  const {messages, formatDate, formatNumber} = useIntl();
   const router = useRouter();
   const authUser = useAuthUser();
   const {errorStack} = useNotiStack();
@@ -167,7 +168,7 @@ const ExamQuestionPaper = () => {
       });
     }
     await submitExamPaper(formData);
-    /**TODO: localstorage clear after submit data*/
+    /**TODO: localstorage clear after submiting data*/
     sethasExamEnded(true);
     try {
     } catch (error: any) {
@@ -223,7 +224,7 @@ const ExamQuestionPaper = () => {
               <Body2 sx={{marginLeft: 'auto'}}>
                 {messages['common.total_marks']}
                 {': '}
-                {Math.floor(examQuestionData?.total_marks)}
+                {getIntlNumber(formatNumber, examQuestionData?.total_marks)}
               </Body2>
             </Grid>
             <Grid item xs={12}>
@@ -247,12 +248,16 @@ const ExamQuestionPaper = () => {
                                 ': '}
                             </Body1>
                             <Body2 sx={{marginTop: '3px'}}>
-                              {section?.total_marks}
+                              {getIntlNumber(
+                                formatNumber,
+                                section?.total_marks,
+                              )}
                             </Body2>
                           </Grid>
                           {section?.questions && section?.questions.length ? (
                             section?.questions.map((question: any) => {
                               let ansIndex = answerIndex++;
+
                               let hiddenFields = (
                                 <HiddenInput
                                   register={register}
@@ -261,12 +266,19 @@ const ExamQuestionPaper = () => {
                                   question={question}
                                 />
                               );
-                              let questionHeader = (
-                                <QuestionTitleHeader
-                                  index={questionIndex++}
-                                  question={question}
-                                />
-                              );
+                              let questionHeader;
+                              if (
+                                section?.question_type !=
+                                QuestionType?.FILL_IN_THE_BLANK
+                              ) {
+                                questionHeader = (
+                                  <QuestionTitleHeader
+                                    index={questionIndex++}
+                                    question={question}
+                                  />
+                                );
+                              }
+
                               if (section?.question_type == QuestionType?.MCQ) {
                                 return (
                                   <React.Fragment key={question?.id}>
@@ -344,10 +356,18 @@ const ExamQuestionPaper = () => {
                                   /(?=\[\[\]\])|(?<=\[\[\]\])/g,
                                 );
                                 let indexNo = 0;
+                                let qIndex = questionIndex++;
                                 return (
                                   <React.Fragment key={question?.id}>
-                                    <Grid item xs={12} display={'flex'}>
-                                      <Body2>{ansIndex + '. '}</Body2>
+                                    <Grid item xs={11} display={'flex'}>
+                                      <Body2
+                                        sx={{
+                                          fontWeight: 'bold',
+                                          textAlign: 'center',
+                                        }}>
+                                        {getIntlNumber(formatNumber, qIndex) +
+                                          '. '}
+                                      </Body2>
                                       {fillInTheBlankItems.map((item: any) => {
                                         if (item == '[[]]') {
                                           return (
@@ -374,15 +394,26 @@ const ExamQuestionPaper = () => {
                                       })}
                                       {hiddenFields}
                                     </Grid>
+                                    <Grid item xs={1}>
+                                      <Body2
+                                        sx={{
+                                          fontWeight: 'bold',
+                                          textAlign: 'center',
+                                        }}>
+                                        {getIntlNumber(
+                                          formatNumber,
+                                          question?.individual_marks,
+                                        )}
+                                      </Body2>
+                                    </Grid>
                                   </React.Fragment>
                                 );
                               } else {
                                 return (
-                                  <React.Fragment>
+                                  <React.Fragment key={question?.id}>
                                     {questionHeader}
                                     {hiddenFields}
                                     <Grid item xs={11}>
-                                      {' '}
                                       <FileUploadComponent
                                         id={
                                           'questions[' +
@@ -400,7 +431,10 @@ const ExamQuestionPaper = () => {
                               }
                             })
                           ) : (
-                            <NoDataFoundComponent />
+                            <NoDataFoundComponent
+                              messageType={messages['common.question']}
+                              messageTextType={'h6'}
+                            />
                           )}
                         </React.Fragment>
                       );
@@ -408,6 +442,7 @@ const ExamQuestionPaper = () => {
                   ) : (
                     <NoDataFoundComponent
                       messageType={messages['common.question']}
+                      messageTextType={'h6'}
                     />
                   )}
                 </Grid>

@@ -3,6 +3,8 @@ import {Body2} from '../../../../../@softbd/elements/common';
 import {styled} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import {Fonts} from '../../../../../shared/constants/AppEnums';
+import {useIntl} from 'react-intl';
+import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
 
 const PREFIX = 'FillInTheBlankTypeComponent';
 
@@ -29,6 +31,7 @@ const FillInTheBlankTypeComponent: FC<FillInTheBlankTypeComponentProps> = ({
   question,
   index,
 }) => {
+  const {formatNumber} = useIntl();
   let fillInTheBlankItems = question?.title.split(
     /(?=\[\[\]\])|(?<=\[\[\]\])/g,
   );
@@ -37,7 +40,7 @@ const FillInTheBlankTypeComponent: FC<FillInTheBlankTypeComponentProps> = ({
     <StyledGrid container spacing={2}>
       <Grid item xs={10} display={'flex'} key={1}>
         <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-          {index + '. ' + ' '}
+          {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
         {fillInTheBlankItems.map((item: any) => {
           if (item == '[[]]') {
@@ -53,10 +56,13 @@ const FillInTheBlankTypeComponent: FC<FillInTheBlankTypeComponentProps> = ({
             return <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>;
           }
         })}
+        <Body2 sx={{fontWeight: 'bold'}}>
+          {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
+        </Body2>
       </Grid>
       <Grid item xs={2}>
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-          {question?.individual_marks}
+          {getIntlNumber(formatNumber, question?.marks_achieved)}
         </Body2>
       </Grid>
     </StyledGrid>

@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
 import {TextField} from '@mui/material';
+import {QuestionSelectionType} from '../../dashboard/exams/ExamEnums';
 interface HiddenInputProps {
   index: number;
   question: any;
@@ -14,7 +15,7 @@ const HiddenInput: FC<HiddenInputProps> = ({
 }) => {
   return (
     <>
-      {section?.question_selection_type != 2 && (
+      {section?.question_selection_type != QuestionSelectionType.RANDOM && (
         <TextField
           id={'questions[' + index + '].exam_section_question_id '}
           type={'hidden'}
