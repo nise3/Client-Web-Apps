@@ -371,6 +371,7 @@
   "service.label": "সার্ভিস",
   "common.subject_created_successfully": "{subject} সফলভাবে তৈরি করা হয়েছে",
   "common.subject_updated_successfully": "{subject} সফলভাবে আপডেট হয়েছে",
+  "common.subject_submitted_successfully": "{subject} সফলভাবে সম্পন্ন হয়েছে",
   "common.subject_deleted_successfully": "{subject} সাফল্যের সাথে মুছে ফেলা হয়েছে",
   "common.subject_publish_successfully": "{subject} সাফল্যের সাথে পাবলিশ হয়েছে",
   "common.subject_rejected": "{subject} বাতিল করা হয়েছে",
