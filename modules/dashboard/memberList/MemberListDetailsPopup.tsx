@@ -78,7 +78,7 @@ const MemberListDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.memberId']}
-              value={itemData?.id}
+              value={itemData?.industry_associations[0].pivot.membership_id}
               isLoading={isLoading}
             />
           </Grid>
