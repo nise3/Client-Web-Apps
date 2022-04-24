@@ -90,8 +90,7 @@ const RPLQuestionEdit: FC<RTOQuestionAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
       answer: yup
         .string()

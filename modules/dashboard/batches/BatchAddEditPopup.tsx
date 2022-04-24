@@ -35,7 +35,6 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {IBatch, ITrainer} from '../../../shared/Interface/institute.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {SPECIAL_CHARACTER_VALIDATION} from '../../../@softbd/common/patternRegex';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -105,22 +104,18 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
-        .mixed()
-        .label(messages['common.title'] as string)
-        .test(
-          'special character validation',
-          messages['common.special_character_error'] as string,
-          (value) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
-        ),
+        .string()
+        .title('bn', true, messages['common.special_character_error'] as string)
+        .label(messages['common.title'] as string),
       title_en: yup
-        .mixed()
-        .label(messages['common.title_en'] as string)
-        .test(
-          'special character validation',
+        .string()
+        .title(
+          'en',
+          false,
           messages['common.special_character_error'] as string,
-          (value) =>
-            !value || !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
-        ),
+        )
+        .label(messages['common.title_en'] as string),
+
       institute_id: authUser?.isSystemUser
         ? yup
             .string()
