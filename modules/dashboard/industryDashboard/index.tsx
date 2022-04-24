@@ -3,8 +3,6 @@ import {Grid} from '@mui/material';
 import clsx from 'clsx';
 import StyledTile from '../../../@softbd/Tile/StyledTile';
 import {styled} from '@mui/material/styles';
-import IndustryOneMonthStatisticsChart from './IndustryOneMonthStatisticsChart';
-import SectorBasedPeopleChart from './SectorBasedPeopleChart';
 import DashboardTabView from './DashboardTabView';
 import {useFetchIndustryAssociationDashboardStatics} from '../../../services/IndustryAssociationManagement/hooks';
 
@@ -123,7 +121,7 @@ const IndustryDashboard = () => {
           message={'common.trending_skills'}
         />
       </Grid>
-      <Grid item xs={12} md={12}>
+      {/*<Grid item xs={12} md={12}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <IndustryOneMonthStatisticsChart />
@@ -132,7 +130,7 @@ const IndustryDashboard = () => {
             <SectorBasedPeopleChart />
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>*/}
       {/*<Grid item xs={12} md={5}>*/}
       {/*  <Card*/}
       {/*    sx={{*/}
