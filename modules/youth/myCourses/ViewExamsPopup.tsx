@@ -21,18 +21,20 @@ import {
   getIntlNumber,
   getIntlTimeFromString,
 } from '../../../@softbd/utilities/helpers';
+import {LINK_FRONTEND_YOUTH_EXAMS} from '../../../@softbd/common/appLinks';
+import {ExamTypes} from '../../dashboard/exams/ExamEnums';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
   exams: any;
 }
+
 const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
   const {messages, formatDate, formatTime, formatNumber} = useIntl();
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
     let minutes = Math.floor(duration % 60);
-    console.log('hour, minutes', hour, minutes);
     if (hour > 0) {
       if (minutes > 0) {
         return (
@@ -63,6 +65,18 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
       );
     }
   }, []);
+
+  const getType = (type: any) => {
+    switch (Number(type)) {
+      case ExamTypes.ONLINE:
+        return messages['common.online'];
+      case ExamTypes.OFFLINE:
+        return messages['common.offline'];
+      default:
+        return '';
+    }
+  };
+
   return (
     <FrontendCustomModal
       onClose={onClose}
@@ -75,7 +89,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
-        <Button startIcon={<CancelIcon />} variant='outlined' onClick={onClose}>
+        <Button
+          startIcon={<CancelIcon />}
+          variant='outlined'
+          onClick={onClose}
+          color={'warning'}>
           {'Cancel'}
         </Button>
       }>
@@ -85,7 +103,7 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
             <TableRow>
               <TableCell>{messages['common.title']}</TableCell>
               <TableCell>{messages['subject.label']}</TableCell>
-
+              <TableCell>{messages['common.type']}</TableCell>
               <TableCell>{messages['common.start_time']}</TableCell>
               <TableCell>{messages['common.duration']}</TableCell>
               <TableCell>{''}</TableCell>
@@ -94,7 +112,6 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
           <TableBody>
             {exams && exams.length ? (
               (exams || []).map((exam: any, index: number) => {
-                console.log('start', exam?.exam_date);
                 return (
                   <TableRow key={index}>
                     <TableCell component='th' scope='language'>
@@ -102,6 +119,9 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {exam?.exam_title} {exam?.subject_title}
+                    </TableCell>
+                    <TableCell component='th' scope='language'>
+                      {getType(exam?.type)}
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {exam?.exam_date
@@ -112,9 +132,14 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                     </TableCell>
                     <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
                     <TableCell>
-                      <Link href={`exam/${exam?.exam_id}`}>
-                        <Button>{messages['common.attend_exam']}</Button>
-                      </Link>
+                      {exam.type == ExamTypes.ONLINE && (
+                        <Link
+                          href={LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`}>
+                          <Button variant={'outlined'}>
+                            {messages['common.attend_exam']}
+                          </Button>
+                        </Link>
+                      )}
                     </TableCell>
                   </TableRow>
                 );

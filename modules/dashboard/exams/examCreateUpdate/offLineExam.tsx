@@ -35,7 +35,12 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const isMixed = examType == ExamTypes.MIXED;
 
   useEffect(() => {
-    let sets = useFrom.getValues('sets');
+    let sets = [];
+    if (isMixed) {
+      sets = useFrom.getValues('offline').sets;
+    } else {
+      sets = useFrom.getValues('sets');
+    }
 
     if (sets) {
       let array = sets.map((set: any, i: number) => {

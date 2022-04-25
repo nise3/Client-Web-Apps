@@ -187,7 +187,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
             </Box>
           </Box>
         )}
-        {isMyCoursePage && course?.exams && (
+        {isMyCoursePage && course?.exams && course?.exams?.length > 0 && (
           <Box sx={{textAlign: 'center', paddingTop: '10px'}}>
             <Button
               variant={'outlined'}

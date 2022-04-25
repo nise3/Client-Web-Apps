@@ -90,16 +90,22 @@ const ExamQuestionTypeSection = ({
           obj.question_selection_type ? obj.question_selection_type : null,
         );
 
-        if (examSets) {
-          let grouped = _.mapValues(_.groupBy(obj.questions, 'exam_set_uuid'));
+        if (obj.questions) {
+          if (examSets) {
+            let grouped = _.mapValues(
+              _.groupBy(obj.questions, 'exam_set_uuid'),
+            );
 
-          let ques: any = [];
-          Object.keys(grouped).map((key) => {
-            ques.push({questions: grouped[key]});
-          });
-          setLocalQuestions(ques);
-        } else {
-          setLocalQuestions([{questions: obj.questions}]);
+            let ques: any = [];
+            Object.keys(grouped).map((key) => {
+              ques.push({questions: grouped[key]});
+            });
+            setLocalQuestions(ques);
+            useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
+          } else {
+            setLocalQuestions([{questions: obj.questions}]);
+            useFrom.setValue(`${idPrefix}[${index}][questions]`, obj.questions);
+          }
         }
       }
     }

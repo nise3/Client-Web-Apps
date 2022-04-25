@@ -361,9 +361,16 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       );
 
       data.exam_questions = arr.map(({is_question_checked, ...rest}: any) => {
-        if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
+        if (
+          String(rest.question_selection_type) == QuestionSelectionType.RANDOM
+        ) {
+          delete rest.questions;
+          delete rest.question_sets;
+        }
+        if (examType == ExamTypes.OFFLINE) {
           delete rest.questions;
         }
+
         return rest;
       });
     }
@@ -389,7 +396,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
       data.online.exam_questions = arrOnline.map(
         ({is_question_checked, ...rest}: any) => {
-          if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
+          if (
+            String(rest.question_selection_type) == QuestionSelectionType.RANDOM
+          ) {
             delete rest.questions;
           }
           return rest;
@@ -402,8 +411,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
       data.offline.exam_questions = arrOffline.map(
         ({is_question_checked, ...rest}: any) => {
-          if (rest.question_selection_type == QuestionSelectionType.RANDOM) {
-            delete rest.questions;
+          delete rest.questions;
+          if (
+            String(rest.question_selection_type) == QuestionSelectionType.RANDOM
+          ) {
+            delete rest.question_sets;
           }
           return rest;
         },
