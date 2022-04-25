@@ -31,7 +31,7 @@ const CourseEnrollmentPopup: FC<CourseEnrollmentPopupProps> = ({
   batchId,
   ...props
 }) => {
-  const {errorStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const {messages} = useIntl();
   const linkRef = useRef<any>();
 
@@ -56,12 +56,14 @@ const CourseEnrollmentPopup: FC<CourseEnrollmentPopupProps> = ({
         errorStack(messages['common.only_xlsx_file']);
         return;
       }
-      let postObj = {
-        course_enrollment_excel_file: data.file[0],
-        course_id: courseId,
-        batch_id: batchId,
-      };
-      await createEnrollmentImport(postObj);
+
+      let formData = new FormData();
+      formData.append('course_id', String(courseId));
+      formData.append('batch_id', String(batchId));
+      formData.append('course_enrollment_excel_file', data?.file[0]);
+
+      await createEnrollmentImport(formData);
+      successStack(messages['common.file_upload_successful']);
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
@@ -79,7 +81,7 @@ const CourseEnrollmentPopup: FC<CourseEnrollmentPopupProps> = ({
     }
   };
   //return a promise that resolves with a File instance
-  const urltoFile = (url: any, filename: any, mimeType: any) => {
+  const urlToFile = (url: any, filename: any, mimeType: any) => {
     return fetch(url)
       .then(function (res) {
         return res.arrayBuffer();
@@ -92,15 +94,18 @@ const CourseEnrollmentPopup: FC<CourseEnrollmentPopupProps> = ({
   const fileDownloadHandler = async (courseId: number, batchId: number) => {
     try {
       let response = await getEnrollmentFileFormat(courseId, batchId);
-      console.log('Get enrollment format: ', response);
+      const fileName =
+        'Course_enrollment_format_batch_id_' +
+        batchId +
+        '_and_course_id_' +
+        courseId;
       //Usage example:
-      urltoFile(
+      urlToFile(
         response.data,
-        'hello.txt',
+        fileName,
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       ).then(function (file) {
-        console.log(file);
-        linkRef.current.href = file;
+        linkRef.current.href = URL.createObjectURL(file);
         linkRef.current.click();
       });
     } catch (e) {
@@ -159,9 +164,6 @@ const CourseEnrollmentPopup: FC<CourseEnrollmentPopupProps> = ({
             onInput={fileUploadHandler}
             errorInstance={errors}
           />
-          {/* <label htmlFor="contained-button-file">
-            <Input id={'fileinput'} name={'file'} type="file" />
-          </label> */}
         </Grid>
       </Grid>
     </HookFormMuiModal>
