@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -16,16 +16,20 @@ import {Button} from '@mui/material';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {ExamTypes} from './ExamEnums';
 import {useRouter} from 'next/router';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {deleteExam} from '../../../services/instituteManagement/ExamService';
 
 const ExamPage = () => {
   const {messages} = useIntl();
+  const {successStack} = useNotiStack();
   const router = useRouter();
 
-  const [isToggleTable] = useState<boolean>(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const deleteExamItem = async (examId: number) => {
-    // let response = await deleteExam(examId);
-    /*if (isResponseSuccess(response)) {
+    let response = await deleteExam(examId);
+    if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
@@ -33,12 +37,12 @@ const ExamPage = () => {
         />,
       );
       refreshDataTable();
-    }*/
+    }
   };
 
-  /*  const refreshDataTable = useCallback(() => {
-      setIsToggleTable((previousToggle) => !previousToggle);
-    }, []);*/
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
