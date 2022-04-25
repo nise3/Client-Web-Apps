@@ -21,7 +21,7 @@ const StyledH3 = styled(Hx)(({theme}) => ({
 type Props = {
   title: string;
   center?: boolean;
-  level?: boolean;
+  level?: string;
 };
 
 const SectionTitle = ({title, center, level}: Props) => {
