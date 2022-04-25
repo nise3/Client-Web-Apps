@@ -227,7 +227,7 @@ const ExamQuestionTypeSection = ({
             examSets.length > 0 ? (
               examSets.map((examSet: any, index: number) => (
                 <Grid key={examSet.index} item xs={1}>
-                  <S2>
+                  <S2 sx={{whiteSpace: 'nowrap'}}>
                     {messages['common.set']} {formatNumber(index + 1)}
                   </S2>
                   <AddButton
@@ -267,6 +267,7 @@ const ExamQuestionTypeSection = ({
                     textAlign: 'center',
                     display: 'inline-block',
                     marginLeft: '10px',
+                    whiteSpace: 'nowrap',
                   }}>
                   {localQuestions?.[0]?.questions
                     ? localQuestions?.[0]?.questions.length +
@@ -293,7 +294,7 @@ const ExamQuestionTypeSection = ({
                 selectionType={selectedSelectionType}
                 onQuestionsSubmitted={onQuestionsSubmitted}
                 selectedQuestions={
-                  isOffline
+                  isOffline || isMixed
                     ? localQuestions[offlineQuestionModalIndex]?.questions
                     : localQuestions[0]?.questions
                 }
