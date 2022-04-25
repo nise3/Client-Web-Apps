@@ -34,6 +34,7 @@ import HiddenInput from '../../../youth/examQuestionPaper/HiddenInput';
 import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 import MCQTypeQuestion from '../../../youth/examQuestionPaper/MCQTypeQuestion';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
 
 const ExamDetailsPage = () => {
   const {messages, formatNumber, formatTime} = useIntl();
@@ -150,7 +151,7 @@ const ExamDetailsPage = () => {
                         display={'flex'}
                         justifyContent={'space-between'}>
                         <Body1 sx={{margin: 'auto'}}>
-                          <Link href={`/exams/youth-list/${exam?.id}`}>
+                          <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
                             <Button>Examinees</Button>{' '}
                           </Link>
                         </Body1>

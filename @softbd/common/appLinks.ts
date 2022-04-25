@@ -41,6 +41,7 @@ export const LINK_COURSES = '/courses';
 export const LINK_EXAM_DETAILS = '/exams/details/';
 export const LINK_EXAM_CREATE = '/exams/create';
 export const LINK_EXAM_UPDATE = '/exams/update/';
+export const LINK_EXAM_YOUTH_LIST = '/exams/youth-list/';
 
 /**  industry association links */
 export const LINK_JOB_LIST = '/jobs';
