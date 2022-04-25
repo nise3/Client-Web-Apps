@@ -33,6 +33,8 @@ const FourIRTNAReportDetailsPopup = ({
     isLoading: false,
   }; //fetching implementing team
 
+  console.log('report details pop up is up and running...');
+
   return (
     <>
       <CustomDetailsViewMuiModal

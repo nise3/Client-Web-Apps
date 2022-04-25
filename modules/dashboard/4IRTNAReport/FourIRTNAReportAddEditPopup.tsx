@@ -14,9 +14,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {
+  createTNAReport,
+  updateTNAReport,
+} from '../../../services/4IRManagement/TNAReportServices';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
+  fourIRProjectId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -32,14 +40,16 @@ interface ImplementingTeamAddEditPopupProps {
 
 const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   itemId,
+  fourIRProjectId,
   refreshDataTable,
+
   ...props
 }) => {
   const {messages} = useIntl();
-  //   const {errorStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -48,7 +58,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .title()
         .required()
         .label(messages['common.workshop_name'] as string),
-      required_skill: yup
+      skill_required: yup
         .string()
         .title()
         .required()
@@ -65,18 +75,18 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.end_date'] as string),
-      venue: yup
+      venue: yup.string().label(messages['common.venue'] as string),
+      file_path: yup
         .string()
-        .title()
         .required()
-        .label(messages['common.venue'] as string),
+        .label(messages['common.file_path'] as string),
     });
   }, [messages]);
 
   const {
-    control,
+    //    control,
     register,
-    reset,
+    //    reset,
     setError,
     setValue,
     handleSubmit,
@@ -86,7 +96,24 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   });
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
+    try {
+      let payload = {
+        four_ir_project_id: fourIRProjectId,
+        ...data,
+      };
+
+      if (itemId !== null) {
+        await updateTNAReport(payload, itemId);
+        updateSuccessMessage('4ir.TNA_report');
+      } else {
+        await createTNAReport(payload);
+        createSuccessMessage('4ir.TNA_report');
+      }
+      props.onClose();
+      refreshDataTable();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -169,7 +196,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
-            id='project_file'
+            id='file_path'
             errorInstance={errors}
             setValue={setValue}
             register={register}

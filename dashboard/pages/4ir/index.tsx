@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 const FourIRProjectListPage = asyncComponent(
-  () => import('../../../modules/dashboard/4IRScaleUp/FourIRScaleUpPage'),
+  () => import('../../../modules/dashboard/4IRTNAReport/FourIRTNAReportPage'),
 );
 
 export default DashboardPage(() => {

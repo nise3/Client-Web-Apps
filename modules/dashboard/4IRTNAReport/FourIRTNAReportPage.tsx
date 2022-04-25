@@ -11,13 +11,19 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
 import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
-
+import {API_4IR_TNA_REPORT} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
-const FourIRImplemntingTeamPage = () => {
+interface IFourIRImplemntingTeamPage {
+  fourIRProjectId: number;
+}
+
+const FourIRImplemntingTeamPage = ({
+  fourIRProjectId = 9,
+}: IFourIRImplemntingTeamPage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -85,11 +91,13 @@ const FourIRImplemntingTeamPage = () => {
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          //   let data = props.row.original;
+          let data = props.row.original;
+          //console.log(data);
+
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => {}}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -105,8 +113,14 @@ const FourIRImplemntingTeamPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: './4ir_TNA_report',
+      urlPath: API_4IR_TNA_REPORT,
+      paramsValueModifier: (params: any) => {
+        params['four_ir_project_id'] = fourIRProjectId;
+        return params;
+      },
     });
+
+  console.log({data, loading});
 
   return (
     <>
@@ -119,7 +133,7 @@ const FourIRImplemntingTeamPage = () => {
         extra={[
           <AddButton
             key={1}
-            onClick={() => openAddEditModal(1)}
+            onClick={() => openAddEditModal(null)}
             isLoading={false}
             tooltip={
               <IntlMessages
@@ -145,6 +159,7 @@ const FourIRImplemntingTeamPage = () => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRProjectId={fourIRProjectId}
             refreshDataTable={refreshDataTable}
           />
         )}
