@@ -33,6 +33,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -188,7 +189,9 @@ const ExamQuestionPaper = () => {
       sethasExamEnded(true);
       localStorage.clear();
       if (examQuestions?.course_id) {
-        router.push(`course-details/${examQuestions?.course_id}`);
+        router
+          .push(LINK_FRONTEND_YOUTH_COURSE_DETAILS + examQuestions?.course_id)
+          .then((r) => {});
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
