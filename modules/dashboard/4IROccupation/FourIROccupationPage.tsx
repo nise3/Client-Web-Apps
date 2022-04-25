@@ -7,32 +7,30 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRProjectAddEditPopup from './FourIRProjectAddEditPopup';
-import FourIRProjectDetailsPopup from './FourIRProjectDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
+import FourIROccupationAddEditPopup from './FourIROccupationAddEditPopup';
+import FourIROccupationDetailsPopup from './FourIROccupationDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import TaskIcon from '@mui/icons-material/Task';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {useRouter} from 'next/router';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import IconSkill from '../../../@softbd/icons/IconSkill';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {useFetchFourIROccupations} from '../../../services/4IRManagement/hooks';
+import {deleteFourIROccupation} from '../../../services/4IRManagement/OccupationService';
 
-const FourIRProjectsPage = () => {
-  const router = useRouter();
-  const {messages, locale} = useIntl();
+const FourIROccupationPage = () => {
+  const {messages} = useIntl();
   const {successStack} = useNotiStack();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [occupationsFilters] = useState({});
+  const {
+    data: occupations,
+    isLoading: isLoadingOccupations,
+    mutate: mutateOccupations,
+  } = useFetchFourIROccupations(occupationsFilters);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -56,35 +54,22 @@ const FourIRProjectsPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
+  const deleteOccupationItem = async (occupationId: number) => {
+    let response = await deleteFourIROccupation(occupationId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='menu.occupations' />}}
         />,
       );
       refreshDataTable();
     }
   };
 
-  const openIncompleteStep = useCallback(
-    (projectId: any, completionStep: any, formStep: any) => {
-      router.push({
-        pathname: '/4ir/' + projectId,
-        query: {
-          completionStep: completionStep,
-          formStep: formStep,
-        },
-      });
-    },
-    [],
-  );
-
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevToggle: any) => !prevToggle);
-  }, [isToggleTable]);
+    mutateOccupations();
+  }, [mutateOccupations]);
 
   const columns = useMemo(
     () => [
@@ -93,31 +78,17 @@ const FourIRProjectsPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return getCalculatedSerialNo(
-            props.row.index,
-            props.currentPageIndex,
-            props.currentPageSize,
-          );
+          return props.row.index + 1;
         },
       },
-
       {
-        Header: messages['common.project'],
-        accessor: 'project_name',
+        Header: messages['common.title'],
+        accessor: 'title',
       },
       {
-        Header: messages['common.organization'],
-        accessor: 'organization_name',
-      },
-      {
-        Header: messages['project.project_budget'],
-        accessor: 'budget',
-        disableFilters: true,
-      },
-      {
-        Header: messages['common.start_date'],
-        accessor: 'start_date',
-        disableFilters: true,
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        inVisible: false,
       },
       {
         Header: messages['common.status'],
@@ -136,21 +107,8 @@ const FourIRProjectsPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(
-                    data?.id,
-                    data?.completion_step,
-                    data?.form_step,
-                  );
-                }}
-                btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
               <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
+                deleteAction={() => deleteOccupationItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -159,32 +117,27 @@ const FourIRProjectsPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages],
   );
-
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_4IR_PROJECTS,
-    });
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_project.label' />
+            <IconSkill /> <IntlMessages id='menu.occupations' />
           </>
         }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={isLoadingOccupations}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir_project.label'],
+                  subject: messages['menu.occupations'],
                 }}
               />
             }
@@ -192,15 +145,12 @@ const FourIRProjectsPage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
+          data={occupations || []}
+          loading={isLoadingOccupations}
+          skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
-          <FourIRProjectAddEditPopup
+          <FourIROccupationAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -209,7 +159,7 @@ const FourIRProjectsPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRProjectDetailsPopup
+          <FourIROccupationDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -221,4 +171,4 @@ const FourIRProjectsPage = () => {
   );
 };
 
-export default FourIRProjectsPage;
+export default FourIROccupationPage;

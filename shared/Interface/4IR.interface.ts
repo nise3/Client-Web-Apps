@@ -35,3 +35,9 @@ export interface ICS extends IIdTitleCreateUpdateAt {
   comment?: string;
   row_status?: number | string;
 }
+
+export interface IOccupation extends IIdTitleCreateUpdateAt {
+  title: string;
+  title_en?: string;
+  row_status?: number | string;
+}

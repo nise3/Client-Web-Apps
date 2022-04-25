@@ -3,6 +3,7 @@ import {
   API_4IR_CELL,
   API_4IR_CS,
   API_4IR_Curriculum,
+  API_4IR_OCCUPATIONS,
   API_4IR_PROJECTS,
 } from '../../@softbd/common/apiRoutes';
 
@@ -24,4 +25,14 @@ export function useFetch4IRCBLM(CBLMId: number | null) {
 
 export function useFetch4IRCurriculum(CurrId: number | null) {
   return useAxiosSWR(CurrId ? API_4IR_Curriculum + '/' + CurrId : null);
+}
+
+export function useFetchFourIROccupation(occupationId: number | null) {
+  return useAxiosSWR(
+    occupationId ? API_4IR_OCCUPATIONS + '/' + occupationId : null,
+  );
+}
+
+export function useFetchFourIROccupations(params: any) {
+  return useAxiosSWR([API_4IR_OCCUPATIONS, params]);
 }

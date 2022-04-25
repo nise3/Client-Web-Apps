@@ -36,8 +36,10 @@ interface ProjectAddEditPopupProps {
 
 const initialValues = {
   project_name: '',
-  occupation_id: '',
+  project_name_en: '',
   organization_name: '',
+  organization_name_en: '',
+  occupation_id: '',
   project_start_date: '',
   project_details: '',
   project_budget: '0',
@@ -109,12 +111,15 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     if (itemData) {
       reset({
         project_name: itemData?.project_name,
-        occupation_id: itemData?.occupation_id,
+        project_name_en: itemData?.project_name_en,
         organization_name: itemData?.organization_name,
+        organization_name_en: itemData?.organization_name_en,
+        occupation_id: itemData?.occupation_id,
         project_start_date: itemData?.project_start_date,
         project_details: itemData?.project_details,
         project_budget: itemData?.project_budget,
         project_check_list: itemData?.project_check_list,
+        row_status: itemData?.row_status,
       });
 
       setIsProjectFinalized(itemData?.roadmap_finalized);
@@ -209,6 +214,19 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id='four_ir_occupation_id'
+            label={messages['menu.occupations']}
+            isLoading={isLoadingOccupation}
+            options={occupation}
+            optionValueProp={'id'}
+            optionTitleProp={['title', 'title_en']}
+            control={control}
+            errorInstance={errors}
+          />
+        </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='project_details'
@@ -238,19 +256,6 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
-            required
-            id='occupation_id'
-            label={messages['menu.occupations']}
-            isLoading={isLoadingOccupation}
-            options={occupation}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
-            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={12} md={6}>
