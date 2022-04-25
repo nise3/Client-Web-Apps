@@ -12,13 +12,17 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import IconExam from '../../../@softbd/icons/IconExam';
 import {Link} from '../../../@softbd/elements/common';
 import {API_EXAMS} from '../../../@softbd/common/apiRoutes';
-import {Button} from '@mui/material';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {ExamTypes} from './ExamEnums';
 import {useRouter} from 'next/router';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteExam} from '../../../services/instituteManagement/ExamService';
+import {
+  LINK_EXAM_CREATE,
+  LINK_EXAM_DETAILS,
+  LINK_EXAM_UPDATE,
+} from '../../../@softbd/common/appLinks';
 
 const ExamPage = () => {
   const {messages} = useIntl();
@@ -103,12 +107,12 @@ const ExamPage = () => {
             <DatatableButtonGroup>
               <ReadButton
                 onClick={() => {
-                  router.push(`/exams/details/${data.id}`);
+                  router.push(LINK_EXAM_DETAILS + `${data.id}`);
                 }}
               />
               <EditButton
                 onClick={() => {
-                  router.push(`/exams/update/${data.id}`);
+                  router.push(LINK_EXAM_UPDATE + `${data.id}`);
                 }}
               />
               <DeleteButton
@@ -133,7 +137,7 @@ const ExamPage = () => {
           </>
         }
         extra={[
-          <Link key={1} href={'/exams/create'}>
+          <Link key={1} href={LINK_EXAM_CREATE}>
             <AddButton
               onClick={() => {}}
               isLoading={loading}
@@ -147,12 +151,12 @@ const ExamPage = () => {
               }
             />
           </Link>,
-          <Link key={2} href={'/exams/question-paper'}>
+          /*<Link key={2} href={'/exams/question-paper'}>
             <Button>Questions</Button>{' '}
           </Link>,
           <Link key={3} href={'/exams/youth-list/1'}>
             <Button>Examinees</Button>{' '}
-          </Link>,
+          </Link>,*/
         ]}>
         <ReactTable
           columns={columns}

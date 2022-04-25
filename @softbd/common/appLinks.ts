@@ -38,6 +38,9 @@ export const LINK_INSTITUTES = '/institutes';
 export const LINK_BRANCHES = '/branches';
 export const LINK_PROGRAMMES = '/programmes';
 export const LINK_COURSES = '/courses';
+export const LINK_EXAM_DETAILS = '/exams/details/';
+export const LINK_EXAM_CREATE = '/exams/create';
+export const LINK_EXAM_UPDATE = '/exams/update/';
 
 /**  industry association links */
 export const LINK_JOB_LIST = '/jobs';
