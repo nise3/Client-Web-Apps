@@ -1881,5 +1881,7 @@
   "course.no_training_center_found": "সক্রিয় ব্যাচ সহ কোন প্রশিক্ষণ কেন্দ্র পাওয়া যায়নি",
   "common.goto_admin": "অ্যাডমিন প্যানেল",
   "common.goto_youth": "ইয়ুথ প্রোফাইল",
-  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন"
+  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
+  "common.result_type": "ফলাফলের ধরণ",
+  "common.purpose_name": "উদ্দেশ্য"
 }

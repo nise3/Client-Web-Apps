@@ -9,6 +9,7 @@ import {
   useAxiosSWR,
   useLocalizedAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
+import certificates from '../../dashboard/pages/certificates';
 
 export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);
@@ -40,4 +41,12 @@ export function useFetchUpazila(upazilaId: number | null) {
 
 export function useFetchCountries(params: any) {
   return useLocalizedAxiosSWR([API_COUNTRIES, params]);
+}
+
+export function useFetchCertificates(params: any) {
+  return useAxiosSWR(['/certificate/', params]);
+}
+
+export function useFetchCertificate(certificateId: number | null) {
+  return useAxiosSWR(certificateId ? '/certificate/' + certificateId : null);
 }
