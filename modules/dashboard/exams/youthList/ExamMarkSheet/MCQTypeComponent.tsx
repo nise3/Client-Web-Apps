@@ -23,7 +23,7 @@ const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
       </Grid>
       <Grid item xs={2}>
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
-          {question?.achived_mark ? (
+          {question?.marks_achieved ? (
             <>{getIntlNumber(formatNumber, question?.marks_achieved)}</>
           ) : (
             <>{''}</>
