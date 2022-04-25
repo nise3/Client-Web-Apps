@@ -122,7 +122,10 @@ const ExamMarkingViewPage = () => {
                 size='small'
                 sx={{width: '110px'}}
                 {...register('marks[' + marksIndex++ + '][marks_achieved]')}
-                defaultValue={question?.individual_marks}
+                defaultValue={getIntlNumber(
+                  formatNumber,
+                  question?.marks_achieved,
+                )}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end' sx={{width: '20px'}}>
@@ -147,7 +150,10 @@ const ExamMarkingViewPage = () => {
                 size='small'
                 sx={{width: '110px'}}
                 {...register('marks[' + marksIndex++ + '][marks_achieved]')}
-                defaultValue={question?.individual_marks}
+                defaultValue={getIntlNumber(
+                  formatNumber,
+                  question?.marks_achieved,
+                )}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end' sx={{width: '20px'}}>
@@ -167,10 +173,15 @@ const ExamMarkingViewPage = () => {
     if (examResultIds) {
       examResultIds.map((examResultId: any, index: number) => {
         data.marks[index].exam_result_id = examResultId;
+        data.marks[index].marks_achieved = isNaN(
+          data.marks[index].marks_achieved,
+        )
+          ? 0
+          : Number(data.marks[index].marks_achieved);
       });
     }
-    data.exam_id = examSheet?.exam_id;
-    data.youth_id = examSheet?.youth_id;
+    data.exam_id = examId;
+    data.youth_id = youthId;
 
     console.log(' format data', data);
     try {
@@ -240,6 +251,7 @@ const ExamMarkingViewPage = () => {
           <Grid item xs={12}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
               <Grid container spacing={2}>
+                <Grid item xs={12}></Grid>
                 {examSheet && examSheet?.exam_sections.length ? (
                   examSheet?.exam_sections.map(
                     (section: any, index: number) => {

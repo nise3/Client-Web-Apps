@@ -431,6 +431,7 @@
   "portfolio.label": "Portfolio",
   "common.subject_created_successfully": "{subject} created successfully",
   "common.subject_updated_successfully": "{subject} updated successfully",
+  "common.subject_submitted_successfully": "{subject} submitted successfully",
   "common.subject_deleted_successfully": "{subject} successfully deleted",
   "common.subject_publish_successfully": "{subject} successfully published",
   "common.subject_sent_successfully": "{subject} successfully sent",

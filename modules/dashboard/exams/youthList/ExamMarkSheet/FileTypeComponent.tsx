@@ -26,7 +26,7 @@ const FileView: FC<FileViewAnswerProps> = ({question, index, inputField}) => {
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
           {inputField ? (
             <>{inputField}</>
-          ) : question?.individual_marks ? (
+          ) : question?.marks_achieved ? (
             <>{getIntlNumber(formatNumber, question?.marks_achieved)}</>
           ) : (
             <>{''}</>

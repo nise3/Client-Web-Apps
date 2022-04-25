@@ -32,6 +32,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
 /*
 interface ExamQuestionListProps {
   questions: any;
@@ -51,26 +53,11 @@ const ExamQuestionPaper = () => {
   const [hasExamEnded, sethasExamEnded] = useState(false);
   const [examQuestionFilter, setExamQuestionFilter] = useState<any>(null);
   const {examId} = router.query;
-
+  const {submissionSuccessMessage} = useSuccessMessage();
   const {data: examQuestions, isLoading: isLoadingExamQuestions} =
     useFetchExamQuestionPaper(examQuestionFilter);
 
   const [examQuestionData, setExamQuestionData] = useState<any>({});
-
-  useEffect(() => {
-    try {
-      let storedQuestions = localStorage.getItem('questionPaper');
-      if (storedQuestions) {
-        setExamQuestionData(JSON.parse(storedQuestions));
-      } else {
-        setExamQuestionFilter(examId);
-        if (examQuestions) {
-          localStorage.setItem('questionPaper', JSON.stringify(examQuestions));
-          setExamQuestionData(examQuestions);
-        }
-      }
-    } catch (e) {}
-  }, [examQuestions]);
 
   const validationSchema: any = useMemo(() => {
     return yup.object().shape({});
@@ -143,34 +130,69 @@ const ExamQuestionPaper = () => {
     control,
     setValue,
     setError,
+    getValues,
+    reset,
     handleSubmit,
     formState: {errors, isSubmitting},
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('data: ', data);
-    let formData = cloneDeep(data);
-    if (authUser && authUser?.isYouthUser) {
-      formData.youth_id = authUser?.youthId;
-    }
-    formData.exam_id = examId;
-    if (formData.questions) {
-      formData.questions.map((question: any) => {
-        if (question.answers) {
-          question.answers.map((answer: any, index: number) => {
-            if (answer === true) {
-              question.answers[index] = String(1);
-            } else if (answer === false) {
-              question.answers[index] = String(0);
-            }
-          });
-        }
-      });
-    }
-    await submitExamPaper(formData);
-    /**TODO: localstorage clear after submiting data*/
-    sethasExamEnded(true);
+  useEffect(() => {
     try {
+      let storedQuestions = localStorage.getItem('questionPaper');
+      if (storedQuestions) {
+        setExamQuestionData(JSON.parse(storedQuestions));
+      } else {
+        setExamQuestionFilter(examId);
+        if (examQuestions) {
+          localStorage.setItem('questionPaper', JSON.stringify(examQuestions));
+          setExamQuestionData(examQuestions);
+        }
+      }
+      let storedAnswers = localStorage.getItem('questionAnswers');
+      if (storedAnswers) {
+        reset(JSON.parse(storedAnswers));
+      }
+    } catch (e) {}
+  }, [examQuestions]);
+
+  useEffect(() => {
+    window.onbeforeunload = function (event) {
+      localStorage.setItem('questionAnswers', JSON.stringify(getValues()));
+      return confirm('Confirm refresh');
+    };
+  }, []);
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    try {
+      console.log('data: ', data);
+      let formData = cloneDeep(data);
+      if (authUser && authUser?.isYouthUser) {
+        formData.youth_id = authUser?.youthId;
+      }
+      formData.exam_id = examId;
+
+      if (formData.questions) {
+        formData.questions.map((question: any) => {
+          if (question.answers) {
+            question.answers.map((answer: any, index: number) => {
+              if (answer === true) {
+                question.answers[index] = String(1);
+              } else if (answer === false) {
+                question.answers[index] = String(0);
+              }
+            });
+          }
+        });
+      }
+      await submitExamPaper(formData);
+      submissionSuccessMessage('common.answer_sheet');
+      sethasExamEnded(true);
+      localStorage.clear();
+      if (examQuestions?.course_id) {
+        router
+          .push(LINK_FRONTEND_YOUTH_COURSE_DETAILS + examQuestions?.course_id)
+          .then((r) => {});
+      }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

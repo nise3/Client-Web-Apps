@@ -32,7 +32,7 @@ const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
         <Body2 sx={{fontWeight: 'bold', textAlign: 'center'}}>
           {inputField ? (
             inputField
-          ) : question?.obtained_mark ? (
+          ) : question?.marks_achieved ? (
             <>{getIntlNumber(formatNumber, question?.marks_achieved)}</>
           ) : (
             <>{''}</>
