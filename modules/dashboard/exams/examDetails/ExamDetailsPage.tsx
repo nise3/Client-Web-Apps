@@ -16,7 +16,7 @@ import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {ArrowBack} from '@mui/icons-material';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {Body1, Body2, H6} from '../../../../@softbd/elements/common';
+import {Body1, Body2, H6, Link} from '../../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
@@ -137,11 +137,22 @@ const ExamDetailsPage = () => {
                       </Grid>
                       <Grid
                         item
-                        xs={12}
+                        xs={10}
                         display={'flex'}
                         justifyContent={'space-between'}>
                         <Body1 sx={{margin: 'auto'}}>
                           {examType(exam?.type)}
+                        </Body1>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={2}
+                        display={'flex'}
+                        justifyContent={'space-between'}>
+                        <Body1 sx={{margin: 'auto'}}>
+                          <Link href={`/exams/youth-list/${exam?.id}`}>
+                            <Button>Examinees</Button>{' '}
+                          </Link>
                         </Body1>
                       </Grid>
                       <Grid
