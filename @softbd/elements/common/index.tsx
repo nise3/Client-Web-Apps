@@ -181,3 +181,18 @@ export const Caption = ({
     {children}
   </Typography>
 );
+
+export const Hx = ({
+  children,
+  centered = false,
+  level = 'h2',
+  ...props
+}: HeadingProp) => (
+  <Typography
+    variant={level}
+    tabIndex={0}
+    style={centered ? {textAlign: 'center'} : {}}
+    {...props}>
+    {children}
+  </Typography>
+);
