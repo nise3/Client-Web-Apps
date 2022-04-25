@@ -115,56 +115,60 @@ const YouthRegistration = () => {
     PhysicalDisabilityStatus.NO,
   );
   //const [userNameType, setUserNameType] = useState<number>(UserNameType.MOBILE);
-  const physicalDisabilities = [
-    {
-      id: PhysicalDisabilities.VISUAL,
-      label: messages['physical_disability.visual'],
-    },
-    {
-      id: PhysicalDisabilities.HEARING,
-      label: messages['physical_disability.hearing'],
-    },
-    {
-      id: PhysicalDisabilities.MENTAL_HEALTH,
-      label: messages['physical_disability.mental_health'],
-    },
-    {
-      id: PhysicalDisabilities.INTELLECTUAL,
-      label: messages['physical_disability.intellectual'],
-    },
-    {
-      id: PhysicalDisabilities.PHYSICAL,
-      label: messages['physical_disability.physical_disability'],
-    },
-    {
-      id: PhysicalDisabilities.SPEECH,
-      label: messages['physical_disability.speech'],
-    },
-    {
-      id: PhysicalDisabilities.DEAF_BLINDNESS,
-      label: messages['physical_disability.deaf_blindness'],
-    },
-    {
-      id: PhysicalDisabilities.CEREBAL_PALSY,
-      label: messages['physical_disability.cerebral_palsy'],
-    },
-    {
-      id: PhysicalDisabilities.DOWN_SYNDROME,
-      label: messages['physical_disability.down_syndrome'],
-    },
-    {
-      id: PhysicalDisabilities.AUTISM_OR_AUTISM_SPECTRUM,
-      label: messages['physical_disability.autism_or_autism_spectrum_disorder'],
-    },
-    {
-      id: PhysicalDisabilities.MULTIPLE,
-      label: messages['physical_disability.multiple'],
-    },
-    {
-      id: PhysicalDisabilities.OTHER,
-      label: messages['physical_disability.other'],
-    },
-  ];
+  const physicalDisabilities = useMemo(
+    () => [
+      {
+        id: PhysicalDisabilities.VISUAL,
+        label: messages['physical_disability.visual'],
+      },
+      {
+        id: PhysicalDisabilities.HEARING,
+        label: messages['physical_disability.hearing'],
+      },
+      {
+        id: PhysicalDisabilities.MENTAL_HEALTH,
+        label: messages['physical_disability.mental_health'],
+      },
+      {
+        id: PhysicalDisabilities.INTELLECTUAL,
+        label: messages['physical_disability.intellectual'],
+      },
+      {
+        id: PhysicalDisabilities.PHYSICAL,
+        label: messages['physical_disability.physical_disability'],
+      },
+      {
+        id: PhysicalDisabilities.SPEECH,
+        label: messages['physical_disability.speech'],
+      },
+      {
+        id: PhysicalDisabilities.DEAF_BLINDNESS,
+        label: messages['physical_disability.deaf_blindness'],
+      },
+      {
+        id: PhysicalDisabilities.CEREBAL_PALSY,
+        label: messages['physical_disability.cerebral_palsy'],
+      },
+      {
+        id: PhysicalDisabilities.DOWN_SYNDROME,
+        label: messages['physical_disability.down_syndrome'],
+      },
+      {
+        id: PhysicalDisabilities.AUTISM_OR_AUTISM_SPECTRUM,
+        label:
+          messages['physical_disability.autism_or_autism_spectrum_disorder'],
+      },
+      {
+        id: PhysicalDisabilities.MULTIPLE,
+        label: messages['physical_disability.multiple'],
+      },
+      {
+        id: PhysicalDisabilities.OTHER,
+        label: messages['physical_disability.other'],
+      },
+    ],
+    [messages],
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
