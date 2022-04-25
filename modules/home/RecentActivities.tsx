@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Container, Grid} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
-import {ArrowRightAlt} from '@mui/icons-material';
-import {Link} from '../../@softbd/elements/common';
+import {SeeMoreLinkButton} from '../../@softbd/elements/common';
 import {useFetchPublicRecentActivities} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
 import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../@softbd/common/appLinks';
@@ -93,17 +92,10 @@ const RecentActivities = () => {
       </Grid>
       {recentActivitiesList && recentActivitiesList.length > 0 && (
         <Grid container justifyContent='center'>
-          <Link
+          <SeeMoreLinkButton
             href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}
-            className={classes.seeMore}>
-            <Button
-              sx={{borderRadius: '10px'}}
-              variant='outlined'
-              color='primary'
-              endIcon={<ArrowRightAlt />}>
-              {messages['freelance_corner.see_more']}
-            </Button>
-          </Link>
+            label={messages['common.see_more'] as string}
+          />
         </Grid>
       )}
     </StyledContainer>

@@ -234,10 +234,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         id: PhysicalDisabilities.INTELLECTUAL,
         label: messages['physical_disability.intellectual'],
       },
-      {
-        id: PhysicalDisabilities.SOCIAL,
-        label: messages['physical_disability.social'],
-      },
     ],
     [messages],
   );

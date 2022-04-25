@@ -1,8 +1,9 @@
 import React from 'react';
 import NextLink from 'next/link';
-import {Typography} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
+import {ArrowRightAlt} from '@mui/icons-material';
 
 interface LinkProp {
   children?: any;
@@ -195,4 +196,26 @@ export const Hx = ({
     {...props}>
     {children}
   </Typography>
+);
+
+export const SeeMoreLinkButton = ({
+  href = '',
+  label = '',
+  color = 'primary',
+  variant = 'outlined',
+  ...props
+}: HeadingProp) => (
+  <Link href={href} style={{display: 'inline-block'}} passhref>
+    <Button
+      variant={variant}
+      color={color}
+      endIcon={<ArrowRightAlt />}
+      tabIndex={-1}
+      style={{
+        borderRadius: '10px',
+      }}
+      {...props}>
+      {label}
+    </Button>
+  </Link>
 );

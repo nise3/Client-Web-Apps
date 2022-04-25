@@ -1,11 +1,10 @@
-import {Box, Button, Container, Grid} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import {Link} from '../../@softbd/elements/common';
+import {Link, SeeMoreLinkButton} from '../../@softbd/elements/common';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 import {useFetchCourseList} from '../../services/instituteManagement/hooks';
 import SectionTitle from './SectionTitle';
@@ -87,20 +86,10 @@ const PopularCourse = () => {
         </Box>
         {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
-            <Link
+            <SeeMoreLinkButton
               href={`${LINK_FRONTEND_COURSE_LIST}/${pathValue}`}
-              passHref
-              className={classes.seeMore}>
-              <Button
-                variant='outlined'
-                color='primary'
-                endIcon={<ArrowRightAlt />}
-                style={{
-                  borderRadius: '10px',
-                }}>
-                {messages['common.see_more']}
-              </Button>
-            </Link>
+              label={messages['common.see_more'] as string}
+            />
           </Grid>
         )}
       </Container>
