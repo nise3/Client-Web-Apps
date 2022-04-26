@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -21,18 +22,7 @@ const FourIRImplemntingTeamDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = {
-    data: {
-      id: 1,
-      name: 'Sourav',
-      name_en: 'Sourav_en',
-      email: 'example.email.com',
-      phone_number: '01777342411',
-      role: 'Developer',
-      designation: 'Senior Software Developer',
-    },
-    isLoading: false,
-  }; //fetching implementing team
+  const {data: itemData, isLoading} = useFetchImplementingTeam(itemId);
 
   return (
     <>
