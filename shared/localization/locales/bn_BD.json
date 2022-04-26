@@ -53,7 +53,7 @@
   "dashboard.totalNumberOfBatch": "মোট ব্যাচ",
   "dashboard.RunningStudent": "মোট ছাত্র-ছাত্রী",
   "dashboard.NumberOfTrainer": "মোট প্রশিক্ষক",
-  "dashboard.MostDemandableCourse": "Most Demandable Course",
+  "dashboard.MostDemandableCourse": "মোস্ট ডিমান্ডেবল কোর্স",
   "dashboard.JobTrends": "Job Trends",
   "dashboard.Map": "ম্যাপ",
   "institute_profile.label": "প্রতিষ্ঠান প্রোফাইল",
@@ -1888,5 +1888,6 @@
   "filePond.max_file_size": "সর্বোচ্চ ফাইল সাইজ ",
   "filePond.total_max_file_size": "মোট সর্বোচ্চ ফাইল সাইজ ৫০ MB",
   "hr_demand_deadline_exceeded.label": "সময়সীমা অতিক্রম করেছে",
-  "common.file_upload_successful": "ফাইল সফলভাবে আপলোড করা হয়েছে"
+  "common.file_upload_successful": "ফাইল সফলভাবে আপলোড করা হয়েছে",
+  "common.value": "ভ্যালু"
 }
