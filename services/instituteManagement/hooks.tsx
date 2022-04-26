@@ -8,13 +8,16 @@ import {
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
+  API_EXAM_QUESTION_BANK,
+  API_EXAM_QUESTION_PAPER,
   API_EXAM_SUBJECTS,
+  API_EXAMS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
-  API_EXAM_QUESTION_BANK,
   API_INSTITUTE_PROFILE,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
+  API_PREVIEW_YOUTH_EXAM,
   API_PROGRAMMES,
   API_PROGRAMS,
   API_PUBLIC_COURSE_DETAILS,
@@ -29,9 +32,6 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
-  API_EXAMS,
-  API_EXAM_QUESTION_PAPER,
-  API_PREVIEW_YOUTH_EXAM,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -254,7 +254,9 @@ export function useFetchExam(examId: any, params?: any) {
 }
 
 export function useFetchExamQuestionPaper(examId: number | null) {
-  return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
+  return useDataLocalizationAxiosSWR(
+    examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null,
+  );
 }
 
 export function useFetchExamYouthList(examId: number | null) {
