@@ -18,6 +18,7 @@ import {
 import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
 import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
 import {useIntl} from 'react-intl';
+import {calendarService} from '../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
@@ -63,7 +64,8 @@ const EventMiniCalendarView = () => {
       return getNavigationFilter(e, prev);
     });
   };
-
+  const intlOpt = useIntl();
+  const calendarServiceOpt = calendarService(eventsList, intlOpt);
   return (
     <Card>
       <CardContent>
@@ -112,6 +114,8 @@ const EventMiniCalendarView = () => {
                 }
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
+                components={calendarServiceOpt.componentObject}
+                formats={calendarServiceOpt.calendarFormatOption}
               />
             )}
           </Grid>

@@ -19,6 +19,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useDispatch} from 'react-redux';
 import {UPDATE_AUTH_USER} from '../../../redux/types/actions/Auth.actions';
 import {getCommonAuthUserObject} from '../../../redux/actions';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 const PREFIX = 'UserInfoEditPopup';
 
@@ -56,6 +57,14 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
         .title('bn', true, messages['common.special_character_error'] as string)
         .min(2)
         .label(messages['common.name'] as string),
+      email: yup
+        .string()
+        .email(messages['validation.emailFormat'] as string)
+        .required(messages['validation.emailRequired'] as string),
+      mobile: yup
+        .string()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
     });
   }, [messages]);
 
@@ -74,6 +83,8 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
     if (authUser) {
       reset({
         name: authUser?.name,
+        email: authUser?.email,
+        mobile: authUser?.mobile,
         name_en: authUser?.displayName,
         profile_pic: authUser?.profile_pic,
       });
@@ -146,7 +157,27 @@ const UserInfoEditPopup: FC<UserInfoEditPopupProps> = ({...props}) => {
           <CustomTextInput
             required
             id='name_en'
-            label={messages['common.title_en']}
+            label={messages['common.name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            required
+            id='email'
+            label={messages['common.email']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextInput
+            required
+            id='mobile'
+            label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
             isLoading={false}

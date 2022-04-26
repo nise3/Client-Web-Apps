@@ -140,29 +140,39 @@ export function useFetchPublicJobs(params: any) {
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobAdditionalInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobCandidateRequirements(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_CANDIDATE_REQUIREMENTS + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_CANDIDATE_REQUIREMENTS + jobId : null,
+  );
 }
 
 export function useFetchJobCompanyInfoVisibility(jobId: string | null) {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
   );
 }
 
 export function useFetchJobMatchingCriteria(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null,
+  );
 }
 
 export function useFetchJobContactInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobPreview(jobId: string | null) {

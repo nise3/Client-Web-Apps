@@ -16,6 +16,9 @@ import {
 } from '../enums/JobPostEnums';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hooks';
+import {LINK_JOB_LIST} from '../../../../../@softbd/common/appLinks';
+import {useRouter} from 'next/router';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
 
 interface Props {
   jobId: string;
@@ -58,6 +61,8 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
   const {data: jobData} = useFetchJobPreview(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const router = useRouter();
+  const {successStack} = useNotiStack();
 
   useEffect(() => {
     if (jobData && jobData?.latest_step) {
@@ -71,11 +76,11 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
     }
   }, [jobData]);
 
-  const onReadyToProcess = () => {
+  /*const onReadyToProcess = () => {
     try {
       onContinue();
     } catch (error: any) {}
-  };
+  };*/
 
   const getJobNature = () => {
     let jobNature: Array<string> = [];
@@ -290,6 +295,15 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
     ) {
       isShowNotApplicable = false;
     }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    /*const onComplete = () => {
+      router
+        .push({
+          pathname: LINK_JOB_LIST,
+        })
+        .then(() => {});
+    };*/
 
     return (
       <ul style={{paddingLeft: '20px'}}>
@@ -886,11 +900,25 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
         </Button>
-        <Button
+        {/*<Button
           onClick={onReadyToProcess}
           variant={'contained'}
           color={'primary'}>
           {messages['common.ready_to_process']}
+        </Button>*/}
+        <Button
+          variant={'contained'}
+          color={'primary'}
+          size={'small'}
+          onClick={() => {
+            successStack(messages['job.posted_successfully']);
+            router
+              .push({
+                pathname: LINK_JOB_LIST,
+              })
+              .then(() => {});
+          }}>
+          {messages['job_posting.end_process']}
         </Button>
       </Box>
     </StyledBox>
