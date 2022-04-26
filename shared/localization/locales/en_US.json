@@ -1882,7 +1882,7 @@
   "common.goto_youth": "Youth profile",
   "common.workshop_name": "Workshop Name",
   "common.project_upload": "Upload Projecct",
-  "common.required_skill": "Skill Required",
+  "common.required_skill": "Skill",
   "4ir_project.label": "4IR Projects",
   "4ir.label": "4IR",
   "4ir.implementing_team": "Implementing Team",
@@ -1908,15 +1908,11 @@
   "4ir_cs.experts_list": "Experts List",
   "4ir_cs.approved_by": "Approved by",
   "4ir_cs.organization_name": "Developer Organization Name",
-<<<<<<< HEAD
-  "4ir_cs.supported_by": "Supported by",
   "4ir_CBLM.label": " 4IR CBLM",
   "4ir.CBLM": "CBLM",
   "4ir_curriculum.label": "4IR Curriculum",
   "common.event_description": "Event description",
   "4ir_showcasing.label": "4IR Showcasing",
-  "4ir_showcasing.invite_others": "Invite others"
-=======
+  "4ir_showcasing.invite_others": "Invite others",
   "4ir_cs.supported_by": "Supported by"
->>>>>>> sourav/feat-scale_up
 }

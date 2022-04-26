@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -21,17 +22,7 @@ const FourIRTNAReportDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = {
-    data: {
-      id: 1,
-      workshop_name: 'Sourav',
-      required_skill: 'Software Development',
-      start_date: '10-12-22',
-      end_date: '01-01-24',
-      venue: 'SoftBD auditorium',
-    },
-    isLoading: false,
-  }; //fetching implementing team
+  const {data: itemData, isLoading} = useFetchTNAReport(itemId);
 
   return (
     <>
@@ -68,7 +59,7 @@ const FourIRTNAReportDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.required_skill']}
-              value={itemData?.required_skill}
+              value={itemData?.skill_required}
               isLoading={isLoading}
             />
           </Grid>

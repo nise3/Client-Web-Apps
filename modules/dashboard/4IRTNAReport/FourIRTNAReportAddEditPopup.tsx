@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -14,32 +15,49 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {
+  createTNAReport,
+  updateTNAReport,
+} from '../../../services/4IRManagement/TNAReportServices';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
+  fourIRProjectId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
-// const initialValues = {
-//   workshop_name: '',
-//   required_skill: '',
-//   start_date: '',
-//   end_date: '',
-//   venue: '',
-//   designation: '',
-// };
+const initialValues = {
+  workshop_name: '',
+  skill_required: '',
+  start_date: '',
+  end_date: '',
+  venue: '',
+  file_path: '',
+};
 
 const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   itemId,
+  fourIRProjectId,
   refreshDataTable,
+
   ...props
 }) => {
   const {messages} = useIntl();
-  //   const {errorStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateTNAReport,
+  } = useFetchTNAReport(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -48,7 +66,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .title()
         .required()
         .label(messages['common.workshop_name'] as string),
-      required_skill: yup
+      skill_required: yup
         .string()
         .title()
         .required()
@@ -65,16 +83,16 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.end_date'] as string),
-      venue: yup
+      venue: yup.string().label(messages['common.venue'] as string),
+      file_path: yup
         .string()
-        .title()
         .required()
-        .label(messages['common.venue'] as string),
+        .label(messages['common.file_path'] as string),
     });
   }, [messages]);
 
   const {
-    control,
+    //    control,
     register,
     reset,
     setError,
@@ -85,8 +103,39 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    if (itemData) {
+      reset({
+        workshop_name: itemData.workshop_name,
+        skill_required: itemData.skill_required,
+        start_date: itemData.start_date,
+        end_date: itemData.end_date,
+        venue: itemData.venue,
+        file_path: itemData.file_path,
+      });
+    } else reset(initialValues);
+  }, [itemData]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
+    try {
+      let payload = {
+        four_ir_project_id: fourIRProjectId,
+        ...data,
+      };
+
+      if (itemId !== null) {
+        await updateTNAReport(payload, itemId);
+        updateSuccessMessage('4ir.TNA_report');
+        mutateTNAReport();
+      } else {
+        await createTNAReport(payload);
+        createSuccessMessage('4ir.TNA_report');
+      }
+      props.onClose();
+      refreshDataTable();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -115,8 +164,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
@@ -169,7 +218,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
-            id='project_file'
+            id='file_path'
             errorInstance={errors}
             setValue={setValue}
             register={register}

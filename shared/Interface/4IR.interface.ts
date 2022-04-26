@@ -43,3 +43,12 @@ export interface IScaleUp extends IIdTitleCreateUpdateAt {
   scale_up: string;
   project_details: string;
 }
+
+export interface ITNAReport {
+  workshop_name: string;
+  skill_required: string;
+  start_date: string;
+  end_date: string;
+  file_path: string;
+  venue?: string;
+}
