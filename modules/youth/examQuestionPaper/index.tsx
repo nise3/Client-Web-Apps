@@ -33,7 +33,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
+import {LINK_FRONTEND_YOUTH_MY_COURSES} from '../../../@softbd/common/appLinks';
 
 const ExamQuestionPaper = () => {
   let questionIndex = 1;
@@ -176,13 +176,18 @@ const ExamQuestionPaper = () => {
         formData.questions.map((question: any) => {
           question.individual_marks = Number(question.individual_marks);
           if (question.answers) {
-            question.answers.map((answer: any, index: number) => {
-              if (answer === true) {
-                question.answers[index] = String(1);
-              } else if (answer === false) {
-                question.answers[index] = String(0);
-              }
-            });
+            if (String(question.question_type) == QuestionType.MCQ) {
+              question.answers.map((answer: any, index: number) => {
+                if (answer) {
+                  question.answers[index] = String(index + 1);
+                } else {
+                  question.answers[index] = String(0);
+                }
+              });
+              question.answers = question.answers.filter(
+                (ans: any) => ans != '0',
+              );
+            }
           }
         });
       }
@@ -191,11 +196,7 @@ const ExamQuestionPaper = () => {
       setHasExamEnded(true);
       localStorage.removeItem('questionPaper');
       localStorage.removeItem('questionAnswers');
-      if (examQuestions?.course_id) {
-        router
-          .push(LINK_FRONTEND_YOUTH_COURSE_DETAILS + examQuestions.course_id)
-          .then((r) => {});
-      }
+      router.push(LINK_FRONTEND_YOUTH_MY_COURSES).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -229,11 +230,6 @@ const ExamQuestionPaper = () => {
               justifyContent={'center'}
               xs={12}>
               <H6>{examQuestionData?.title}</H6>
-              {/*<Body2> todo: this is not need now
-                {messages['subject.label']}
-                {': '}
-                {examQuestionData?.subject_title}
-              </Body2>*/}
               <Body2>
                 {messages['common.date']} {': '}
                 {getIntlDateFromString(formatDate, examQuestionData?.exam_date)}

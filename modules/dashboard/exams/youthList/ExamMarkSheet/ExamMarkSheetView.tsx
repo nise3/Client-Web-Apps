@@ -20,20 +20,11 @@ import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
 import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkeleton';
-/*
-interface ExamQuestionListProps {
-  questions: any;
-
-}*/
-
-/*const PREFIX = 'AnsweredQuestionPaper';
-const classes = {
-  textStyle: `${PREFIX}-textStyle`,
-};*/
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
 }));
+
 const ExamMarkingViewPage = () => {
   const {messages, formatDate, formatTime, formatNumber} = useIntl();
   const router = useRouter();
@@ -47,7 +38,7 @@ const ExamMarkingViewPage = () => {
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
     let minutes = Math.floor(duration % 60);
-    console.log('hour, minutes', hour, minutes);
+
     if (hour > 0) {
       if (minutes > 0) {
         return (
