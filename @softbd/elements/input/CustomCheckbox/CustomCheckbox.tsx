@@ -12,7 +12,7 @@ type Props = {
   register?: any;
   errorInstance?: any;
   checked: boolean | number;
-  onChange: () => void;
+  onChange: (event?: any) => void;
 };
 
 const CustomCheckbox = ({

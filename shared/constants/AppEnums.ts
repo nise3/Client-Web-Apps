@@ -8,6 +8,12 @@ export enum ThemeStyleRadius {
   STANDARD = 4,
 }
 
+export enum ProjectStatus {
+  PROJECT_FINALIZED = 1,
+  PROJECT_REVIEWED = 2,
+  PROJECT_APPROVED = 3,
+}
+
 export enum ThemeMode {
   LIGHT = 'light',
   SEMI_DARK = 'semi-dark',

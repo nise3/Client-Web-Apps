@@ -3,14 +3,15 @@ import {IIdTitleCreateUpdateAt} from './common.interface';
 export interface IProject extends IIdTitleCreateUpdateAt {
   project_name: string;
   project_name_en?: string;
-  occupation_id: number | string;
   organization_name: number | string;
   organization_name_en?: number | string;
-  project_start_date: number | string;
-  project_details?: string;
-  project_details_en?: string;
-  project_budget?: string;
-  project_check_list: any[];
+  four_ir_occupation_id: number | string;
+  start_date: number | string;
+  completion_step: number | string;
+  form_step: number | string;
+  details?: string;
+  budget?: string;
+  tasks: any[];
   row_status?: number | string;
 }
 
@@ -51,4 +52,10 @@ export interface ITNAReport {
   end_date: string;
   file_path: string;
   venue?: string;
+}
+
+export interface IOccupation extends IIdTitleCreateUpdateAt {
+  title: string;
+  title_en?: string;
+  row_status?: number | string;
 }

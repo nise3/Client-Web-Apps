@@ -299,4 +299,8 @@ export const routePermissions: any = {
     routePrefix: '/4ir',
     permissionKeys: ['view_any_4ir_project'],
   },
+  '/4ir-occupations': {
+    routePrefix: '/4ir-occupations',
+    permissionKeys: ['view_any_4ir_occupation'],
+  },
 };

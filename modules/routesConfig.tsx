@@ -677,6 +677,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'work',
             url: '/4ir',
           },
+          {
+            id: '4ir_occupations',
+            title: '4IR Occupations',
+            messageId: 'menu.occupations',
+            permissionKey: 'view_any_4ir_occupation',
+            type: 'item',
+            icon: 'work',
+            url: '/4ir-occupations',
+          },
         ],
       },
       {
