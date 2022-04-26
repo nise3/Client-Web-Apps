@@ -1909,5 +1909,6 @@
   "common.event_description": "Event description",
   "4ir_showcasing.label": "4IR Showcasing",
   "4ir_showcasing.invite_others": "Invite others",
-  "4ir_showcasing.complete_step": "Complete step"
+  "4ir_showcasing.complete_step": "Complete step",
+  "4ir_showcasing.task": "Check at least one of the items"
 }

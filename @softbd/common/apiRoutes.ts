@@ -42,7 +42,7 @@ export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   : '/cms';
 export const FOUR_IR_SERVICE_PATH = process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
-  : '/4ir/4ir';
+  : '/4ir';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
   .NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
@@ -187,7 +187,7 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 
 /** 4IR service routes section start*/
 export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/projects';
-export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/occupations';
+export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/4ir-cell';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/4ir-cs';
 export const API_4IR_IMPLEMENTNG_TEAM =

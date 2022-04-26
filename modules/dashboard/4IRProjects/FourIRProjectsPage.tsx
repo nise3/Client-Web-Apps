@@ -16,6 +16,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import TaskIcon from '@mui/icons-material/Task';
 import {
   getCalculatedSerialNo,
+  getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -117,7 +118,14 @@ const FourIRProjectsPage = () => {
       {
         Header: messages['common.start_date'],
         accessor: 'start_date',
+        filter: 'dateTimeFilter',
         disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.status'],
