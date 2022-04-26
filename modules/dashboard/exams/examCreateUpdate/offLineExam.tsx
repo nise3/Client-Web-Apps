@@ -29,8 +29,10 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const {messages, formatNumber} = useIntl();
 
   const examSetField = useRef<any>();
-
   const [examSets, setExamSets] = useState<Array<any>>([]);
+  const [totalMarks, setTotalMarks] = useState<Array<number>>([
+    0, 0, 0, 0, 0, 0, 0,
+  ]);
 
   const isMixed = examType == ExamTypes.MIXED;
 
@@ -46,7 +48,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
       let array = sets.map((set: any, i: number) => {
         return {
           index: i,
-          id: `SET##${i}`,
+          id: `SET##${i + 1}`,
         };
       });
       setExamSets(array);
@@ -103,13 +105,20 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
     [messages],
   );
 
+  const updateTotalMarks = (index: number, mark: number) => {
+    setTotalMarks((prev) => {
+      prev[index] = mark;
+      return [...prev];
+    });
+  };
+
   return (
     <Box sx={{marginTop: '10px'}}>
       <fieldset>
         <legend style={{color: '#0a8fdc'}}>{messages['common.offline']}</legend>
         <Grid container spacing={5}>
           {/*Exams*/}
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <CustomDateTimePicker
               required
               id={isMixed ? `offline[exam_date]` : 'exam_date'}
@@ -118,7 +127,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <CustomTextInput
               required
               id={isMixed ? `offline[duration]` : 'duration'}
@@ -127,6 +136,12 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
               register={useFrom.register}
               errorInstance={useFrom.errors}
             />
+          </Grid>
+          <Grid item xs={4}>
+            <S2>
+              {messages['common.total_marks']}:{' '}
+              {totalMarks.reduce((a, b) => a + b, 0)}
+            </S2>
           </Grid>
           <Grid item xs={6}>
             <CustomTextInput
@@ -226,6 +241,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                   subjectId={subjectId}
                   examSets={examSets}
                   examType={examType}
+                  setTotalMarks={updateTotalMarks}
                 />
               </Grid>
             );

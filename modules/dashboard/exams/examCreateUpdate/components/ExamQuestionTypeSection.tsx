@@ -19,6 +19,7 @@ interface IProps {
   subjectId?: any;
   examSets?: any;
   examType?: number;
+  setTotalMarks: (index: number, mark: number) => void;
 }
 
 const ExamQuestionTypeSection = ({
@@ -29,6 +30,7 @@ const ExamQuestionTypeSection = ({
   subjectId,
   examSets,
   examType,
+  setTotalMarks,
 }: IProps) => {
   const {messages, formatNumber} = useIntl();
 
@@ -82,7 +84,8 @@ const ExamQuestionTypeSection = ({
       if (obj) {
         setIsChecked(obj.is_question_checked);
         setQuestionTypeId(questionType.id);
-        setMarks(obj.total_marks ? obj.total_marks : null);
+        setMarks(obj?.total_marks ? obj.total_marks : null);
+        setTotalMarks(index, obj?.total_marks ? Number(obj.total_marks) : 0);
         setNumberOfQuestion(
           obj.number_of_questions ? obj.number_of_questions : null,
         );
@@ -101,10 +104,8 @@ const ExamQuestionTypeSection = ({
               ques.push({questions: grouped[key]});
             });
             setLocalQuestions(ques);
-            useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
           } else {
             setLocalQuestions([{questions: obj.questions}]);
-            useFrom.setValue(`${idPrefix}[${index}][questions]`, obj.questions);
           }
         }
       }
@@ -206,6 +207,7 @@ const ExamQuestionTypeSection = ({
                 isLoading={false}
                 onInput={(value: string) => {
                   setMarks(value ? Number(value) : null);
+                  setTotalMarks(index, value ? Number(value) : 0);
                 }}
               />
             </Grid>
@@ -232,7 +234,7 @@ const ExamQuestionTypeSection = ({
             examSets &&
             examSets.length > 0 ? (
               examSets.map((examSet: any, index: number) => (
-                <Grid key={examSet.index} item xs={1}>
+                <Grid key={examSet.index} item xs={1} textAlign={'center'}>
                   <S2 sx={{whiteSpace: 'nowrap'}}>
                     {messages['common.set']} {formatNumber(index + 1)}
                   </S2>
@@ -249,6 +251,18 @@ const ExamQuestionTypeSection = ({
                       />
                     }
                   />
+                  <Body2
+                    sx={{
+                      textAlign: 'center',
+                      display: 'inline-block',
+                      marginTop: '6px',
+                    }}>
+                    {localQuestions?.[index]?.questions
+                      ? formatNumber(
+                          localQuestions?.[index]?.questions.length,
+                        ) + messages['exam.question_selected']
+                      : messages['exam.no_question_selected']}
+                  </Body2>
                 </Grid>
               ))
             ) : selectedSelectionType &&
@@ -276,9 +290,9 @@ const ExamQuestionTypeSection = ({
                     whiteSpace: 'nowrap',
                   }}>
                   {localQuestions?.[0]?.questions
-                    ? localQuestions?.[0]?.questions.length +
-                      ' question selected'
-                    : 'No question selected'}
+                    ? formatNumber(localQuestions?.[0]?.questions.length) +
+                      messages['exam.question_selected']
+                    : messages['exam.no_question_selected']}
                 </Body2>
               </Grid>
             ) : (

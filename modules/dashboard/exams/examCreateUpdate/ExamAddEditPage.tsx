@@ -31,7 +31,7 @@ import OnlineExam from './onlineExam';
 import OffLineExam from './offLineExam';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
-import {cloneDeep} from 'lodash';
+import _, {cloneDeep} from 'lodash';
 import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import {questionTypesArray} from '../../questionsBank/QuestionBanksEnums';
 
@@ -213,7 +213,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
           : yup.array(),
       exam_questions:
         Number(examType) == ExamTypes.MIXED
-          ? yup.object().shape({})
+          ? yup.array().of(yup.object().shape({}))
           : examQuestionsSchema,
     });
   }, [messages, examType]);
@@ -235,35 +235,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     data.exam_date = exam?.exam_date.replace(' ', 'T');
     data.duration = exam?.duration;
 
-    let exam_questions: Array<any> = [];
-
-    if (exam?.exam_sections) {
-      questionTypesArray.map((type) => {
-        let section = exam.exam_sections.find(
-          (sec: any) => sec.question_type == Number(type),
-        );
-
-        (section?.questions || []).map((qu: any) => {
-          qu.id = qu.question_id;
-        });
-
-        exam_questions.push({
-          is_question_checked: section != undefined,
-          question_type: type,
-          number_of_questions: section?.number_of_questions
-            ? section?.number_of_questions
-            : '',
-          total_marks: section?.total_marks ? Number(section?.total_marks) : '',
-          question_selection_type: section?.question_selection_type
-            ? section?.question_selection_type
-            : '',
-          questions: section?.questions ? section?.questions : [],
-        });
-      });
-    }
-
-    data.exam_questions = exam_questions;
-
     if (exam?.type == ExamTypes.OFFLINE) {
       data.venue = exam.venue;
       if (exam.exam_sets) {
@@ -276,12 +247,52 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         });
       }
     }
+
+    let exam_questions: Array<any> = [];
+
+    if (exam?.exam_sections) {
+      questionTypesArray.map((type) => {
+        let section = exam.exam_sections.find(
+          (sec: any) => sec.question_type == Number(type),
+        );
+
+        (section?.questions || []).map((qu: any) => {
+          qu.id = qu.question_id;
+        });
+
+        let secQuestions: any = {
+          is_question_checked: section != undefined,
+          question_type: type,
+          number_of_questions: section?.number_of_questions
+            ? section?.number_of_questions
+            : '',
+          total_marks: section?.total_marks ? Number(section?.total_marks) : '',
+          question_selection_type: section?.question_selection_type
+            ? section?.question_selection_type
+            : '',
+          questions: section?.questions ? section?.questions : [],
+        };
+
+        if (exam?.type == ExamTypes.OFFLINE && section?.questions) {
+          let grouped = _.mapValues(
+            _.groupBy(section.questions, 'exam_set_uuid'),
+          );
+          let ques: any = [];
+          Object.keys(grouped).map((key, i) => {
+            ques.push({id: 'SET##' + (i + 1), questions: grouped[key]});
+          });
+          secQuestions.question_sets = ques;
+        }
+
+        exam_questions.push(secQuestions);
+      });
+    }
+
+    data.exam_questions = exam_questions;
   };
 
   useEffect(() => {
     if (itemData) {
-      console.log('itemdata', itemData);
-
       let data: any = {
         title: itemData?.title,
         title_en: itemData?.title_en,
@@ -528,7 +539,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='title'
+                id={'title'}
                 label={messages['common.title']}
                 register={register}
                 errorInstance={errors}

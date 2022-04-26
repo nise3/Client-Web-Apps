@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid';
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -17,6 +17,9 @@ interface IProps {
 
 const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
   const {messages} = useIntl();
+  const [totalMarks, setTotalMarks] = useState<Array<number>>([
+    0, 0, 0, 0, 0, 0, 0,
+  ]);
 
   const isMixed = examType == ExamTypes.MIXED;
 
@@ -53,13 +56,19 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
     ],
     [messages],
   );
+  const updateTotalMarks = (index: number, mark: number) => {
+    setTotalMarks((prev) => {
+      prev[index] = mark;
+      return [...prev];
+    });
+  };
 
   return (
     <Box sx={{marginTop: '10px'}}>
       <fieldset>
         <legend style={{color: '#0a8fdc'}}>{messages['common.online']}</legend>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <CustomDateTimePicker
               required
               id={isMixed ? `online[exam_date]` : 'exam_date'}
@@ -78,9 +87,10 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
               errorInstance={useFrom.errors}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <S2>
-              {messages['common.total_marks']}: {0}
+              {messages['common.total_marks']}:{' '}
+              {totalMarks.reduce((a, b) => a + b, 0)}
             </S2>
           </Grid>
 
@@ -100,6 +110,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
                   index={i}
                   idPrefix={idPrefix}
                   subjectId={subjectId}
+                  setTotalMarks={updateTotalMarks}
                 />
               </Grid>
             );
