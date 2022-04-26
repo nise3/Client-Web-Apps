@@ -118,3 +118,4 @@ export const FORM_PLACEHOLDER = {
   LONGITUDE: '90.000000...',
   MAP_SOURCE: 'https://www.google.com/maps/place/...',
 };
+

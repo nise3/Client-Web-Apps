@@ -1889,5 +1889,7 @@
   "filePond.total_max_file_size": "মোট সর্বোচ্চ ফাইল সাইজ ৫০ MB",
   "hr_demand_deadline_exceeded.label": "সময়সীমা অতিক্রম করেছে",
   "common.file_upload_successful": "ফাইল সফলভাবে আপলোড করা হয়েছে",
-  "common.value": "ভ্যালু"
+  "common.value": "ভ্যালু",
+  "AM": "পূর্বাহ্ন",
+  "PM": "অপরাহ্ন"
 }

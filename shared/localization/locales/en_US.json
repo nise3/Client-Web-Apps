@@ -1882,11 +1882,13 @@
   "common.goto_admin": "Admin panel",
   "common.goto_youth": "Youth profile",
   "cdap.required_info": "Please provide the required information",
-  "common.submitted_feedback" : "Your feedback has been noted. Thank you for contacting us.",
+  "common.submitted_feedback": "Your feedback has been noted. Thank you for contacting us.",
   "filePond.file_type": "Invalid file type",
   "filePond.max_file_size": "Maximum file size is ",
   "filePond.total_max_file_size": "Total maximum file size is 50MB",
   "hr_demand_deadline_exceeded.label": "Deadline exceeded",
   "common.file_upload_successful": "Upload File Successful",
-  "common.value": "Value"
+  "common.value": "Value",
+  "AM": "AM",
+  "PM": "PM"
 }
