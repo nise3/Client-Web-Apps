@@ -108,6 +108,8 @@ const FourIRCurriculumPage = () => {
       urlPath: API_4IR_Curriculum,
     });
 
+  console.log(data);
+
   return (
     <>
       <PageBlock

@@ -42,7 +42,7 @@ export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   : '/cms';
 export const FOUR_IR_SERVICE_PATH = process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
-  : '/4ir/4ir';
+  : '/4ir';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
   .NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
@@ -188,13 +188,12 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 /** 4IR service routes section start*/
 export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/4ir-projects';
 export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
-export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/4ir-cell';
+export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/4ir-cs';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
-export const API_4IR_IMPLEMENTNG_TEAM =
-  FOUR_IR_SERVICE_PATH + '/4ir-implementing-team';
+export const API_4IR_IMPLEMENTNG_TEAM = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/4ir-cblm';
-export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/4ir-curriculum';
+export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/project-curriculums';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 
 /** 4IR service routes section end*/

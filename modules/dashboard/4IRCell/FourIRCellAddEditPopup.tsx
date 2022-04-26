@@ -26,6 +26,7 @@ import {
 interface CellAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRProjectId: number;
   refreshDataTable: () => void;
 }
 
@@ -43,6 +44,7 @@ const initialValues = {
 const FourIRCellAddEditPopup: FC<CellAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
+  fourIRProjectId,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -100,12 +102,17 @@ const FourIRCellAddEditPopup: FC<CellAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<ICell> = async (data: ICell) => {
     try {
+      let payload = {
+        four_ir_project_id: fourIRProjectId,
+        ...data,
+      };
+
       if (itemId) {
-        await updateCell(itemId, data);
+        await updateCell(itemId, payload);
         updateSuccessMessage('4ir_cell.label');
         mutateProject();
       } else {
-        await createCell(data);
+        await createCell(payload);
         createSuccessMessage('4ir_cell.label');
       }
       props.onClose();

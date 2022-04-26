@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useMemo} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -17,30 +17,40 @@ import {
   updateImplementingTeam,
 } from '../../../services/4IRManagement/ImplementingTeamService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRProjectId: number;
   refreshDataTable: () => void;
 }
 
-// const initialValues = {
-//   name: '',
-//   name_en: '',
-//   email: '',
-//   phone_number: '',
-//   role: '',
-//   designation: '',
-// };
+const initialValues = {
+  name: '',
+  name_en: '',
+  email: '',
+  phone_number: '',
+  role: '',
+  designation: '',
+};
 
 const FourIRImplemntingTeamAddEditPopup: FC<
   ImplementingTeamAddEditPopupProps
-> = ({itemId, refreshDataTable, ...props}) => {
+> = ({itemId, fourIRProjectId, refreshDataTable, ...props}) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  // const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateImplementingTeam,
+  } = useFetchImplementingTeam(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -49,11 +59,16 @@ const FourIRImplemntingTeamAddEditPopup: FC<
         .title()
         .required()
         .label(messages['common.title'] as string),
+      name_en: yup.string().label(messages['common.title_en'] as string),
       email: yup
         .string()
         .email()
         .required()
         .label(messages['common.email'] as string),
+
+      phone_number: yup.string(),
+      role: yup.string(),
+      designation: yup.string(),
     });
   }, [messages]);
 
@@ -67,8 +82,46 @@ const FourIRImplemntingTeamAddEditPopup: FC<
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (itemData != null) {
+      reset({
+        name: itemData.name,
+        name_en: itemId?.name_en,
+        email: itemData.email,
+        phone_number: itemData?.phone_number,
+        role: itemData?.role,
+        designation: itemData?.designation,
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log(data);
+    try {
+      let payload = {
+        four_ir_project_id: fourIRProjectId,
+        team_type: 1,
+        ...data,
+      };
+
+      if (itemId != null) {
+        // update
+        await updateImplementingTeam(itemId, payload);
+        updateSuccessMessage('4ir.implementing_team');
+        mutateImplementingTeam();
+      } else {
+        await createImplementingTeam(payload);
+        createSuccessMessage('4ir.implementing_team');
+      }
+
+      props.onClose();
+      refreshDataTable();
+    } catch (error) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -97,8 +150,8 @@ const FourIRImplemntingTeamAddEditPopup: FC<
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
