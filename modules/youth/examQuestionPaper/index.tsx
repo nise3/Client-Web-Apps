@@ -34,11 +34,6 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../@softbd/common/appLinks';
-/*
-interface ExamQuestionListProps {
-  questions: any;
-
-}*/
 
 const ExamQuestionPaper = () => {
   let questionIndex = 1;
@@ -50,14 +45,15 @@ const ExamQuestionPaper = () => {
   const [timer, setTimer] = useState<string | null>('');
   const [submitDisable, setSubmitDisable] = useState<boolean>(false);
   const [hasExamStarted, setHasExamStarted] = useState(false);
-  const [hasExamEnded, sethasExamEnded] = useState(false);
+  const [hasExamEnded, setHasExamEnded] = useState(false);
   const [examQuestionFilter, setExamQuestionFilter] = useState<any>(null);
   const {examId} = router.query;
   const {submissionSuccessMessage} = useSuccessMessage();
   const {data: examQuestions, isLoading: isLoadingExamQuestions} =
     useFetchExamQuestionPaper(examQuestionFilter);
 
-  const [examQuestionData, setExamQuestionData] = useState<any>({});
+  const [examQuestionData, setExamQuestionData] = useState<any>(null);
+  const [loadingQuestions, setLoadingQuestions] = useState<boolean>(true);
 
   const validationSchema: any = useMemo(() => {
     return yup.object().shape({});
@@ -73,15 +69,19 @@ const ExamQuestionPaper = () => {
       );
       let minutes = Number(duration.asMinutes());
       if (minutes > examQuestionData?.duration) {
-        sethasExamEnded(true);
+        setHasExamEnded(true);
       } else if (minutes < 0) {
         setHasExamStarted(false);
       } else {
-        sethasExamEnded(false);
+        setHasExamEnded(false);
         setHasExamStarted(true);
+        setLoadingQuestions(false);
+        initTimer(currentDate, examDate);
       }
     }
   }, [examQuestionData]);
+
+  const initTimer = (currentDate: string, examDate: string) => {};
 
   useEffect(() => {
     if (!isLoadingExamQuestions) {
@@ -141,16 +141,17 @@ const ExamQuestionPaper = () => {
       let storedQuestions = localStorage.getItem('questionPaper');
       if (storedQuestions) {
         setExamQuestionData(JSON.parse(storedQuestions));
+
+        let storedAnswers = localStorage.getItem('questionAnswers');
+        if (storedAnswers) {
+          reset(JSON.parse(storedAnswers));
+        }
       } else {
         setExamQuestionFilter(examId);
         if (examQuestions) {
           localStorage.setItem('questionPaper', JSON.stringify(examQuestions));
           setExamQuestionData(examQuestions);
         }
-      }
-      let storedAnswers = localStorage.getItem('questionAnswers');
-      if (storedAnswers) {
-        reset(JSON.parse(storedAnswers));
       }
     } catch (e) {}
   }, [examQuestions]);
@@ -186,7 +187,7 @@ const ExamQuestionPaper = () => {
       }
       await submitExamPaper(formData);
       submissionSuccessMessage('common.answer_sheet');
-      sethasExamEnded(true);
+      setHasExamEnded(true);
       localStorage.clear();
       if (examQuestions?.course_id) {
         router
@@ -206,7 +207,7 @@ const ExamQuestionPaper = () => {
         boxShadow: '1px 1px 5px 2px #7b6a6a1f',
       }}>
       <Grid container spacing={2}>
-        {isLoadingExamQuestions ? (
+        {loadingQuestions ? (
           <QuestionSkeleton />
         ) : hasExamEnded ? (
           <Grid item xs={12}>
