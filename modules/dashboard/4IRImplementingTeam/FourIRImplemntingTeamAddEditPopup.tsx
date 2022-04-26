@@ -59,7 +59,14 @@ const FourIRImplemntingTeamAddEditPopup: FC<
         .title()
         .required()
         .label(messages['common.title'] as string),
-      name_en: yup.string().label(messages['common.title_en'] as string),
+      name_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       email: yup
         .string()
         .email()
@@ -73,7 +80,6 @@ const FourIRImplemntingTeamAddEditPopup: FC<
   }, [messages]);
 
   const {
-    control,
     register,
     reset,
     setError,
@@ -85,9 +91,10 @@ const FourIRImplemntingTeamAddEditPopup: FC<
 
   useEffect(() => {
     if (itemData != null) {
+      let name_en = itemData.name_en || '';
       reset({
         name: itemData.name,
-        name_en: itemId?.name_en,
+        name_en: name_en,
         email: itemData.email,
         phone_number: itemData?.phone_number,
         role: itemData?.role,
@@ -99,7 +106,6 @@ const FourIRImplemntingTeamAddEditPopup: FC<
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
     try {
       let payload = {
         four_ir_project_id: fourIRProjectId,
@@ -119,7 +125,7 @@ const FourIRImplemntingTeamAddEditPopup: FC<
 
       props.onClose();
       refreshDataTable();
-    } catch (error) {
+    } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
@@ -220,6 +226,3 @@ const FourIRImplemntingTeamAddEditPopup: FC<
   );
 };
 export default FourIRImplemntingTeamAddEditPopup;
-function updateSuccessMessage(arg0: string) {
-  throw new Error('Function not implemented.');
-}
