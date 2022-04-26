@@ -213,7 +213,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
           : yup.array(),
       exam_questions:
         Number(examType) == ExamTypes.MIXED
-          ? yup.object().shape({})
+          ? yup.array().of(yup.object().shape({}))
           : examQuestionsSchema,
     });
   }, [messages, examType]);
@@ -280,8 +280,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
-      console.log('itemdata', itemData);
-
       let data: any = {
         title: itemData?.title,
         title_en: itemData?.title_en,
@@ -528,7 +526,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='title'
+                id={'title'}
                 label={messages['common.title']}
                 register={register}
                 errorInstance={errors}

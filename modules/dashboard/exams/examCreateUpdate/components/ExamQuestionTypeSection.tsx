@@ -19,6 +19,7 @@ interface IProps {
   subjectId?: any;
   examSets?: any;
   examType?: number;
+  setTotalMarks: (index: number, mark: number) => void;
 }
 
 const ExamQuestionTypeSection = ({
@@ -29,6 +30,7 @@ const ExamQuestionTypeSection = ({
   subjectId,
   examSets,
   examType,
+  setTotalMarks,
 }: IProps) => {
   const {messages, formatNumber} = useIntl();
 
@@ -82,7 +84,8 @@ const ExamQuestionTypeSection = ({
       if (obj) {
         setIsChecked(obj.is_question_checked);
         setQuestionTypeId(questionType.id);
-        setMarks(obj.total_marks ? obj.total_marks : null);
+        setMarks(obj?.total_marks ? obj.total_marks : null);
+        setTotalMarks(index, obj?.total_marks ? Number(obj.total_marks) : 0);
         setNumberOfQuestion(
           obj.number_of_questions ? obj.number_of_questions : null,
         );
@@ -110,6 +113,8 @@ const ExamQuestionTypeSection = ({
       }
     }
   }, [useFrom.getValues, examSets]);
+
+  console.log('useFrom', useFrom.getValues());
 
   const onChangeQuestionSelectionType = (type: any) => {
     setSelectedSelectionType(type ? String(type) : null);
@@ -206,6 +211,7 @@ const ExamQuestionTypeSection = ({
                 isLoading={false}
                 onInput={(value: string) => {
                   setMarks(value ? Number(value) : null);
+                  setTotalMarks(index, value ? Number(value) : 0);
                 }}
               />
             </Grid>
