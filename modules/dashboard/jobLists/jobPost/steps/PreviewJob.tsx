@@ -61,7 +61,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
 
   useEffect(() => {
     if (jobData && jobData?.latest_step) {
-      const latestStep = jobData.latest_step;
+      const latestStep = jobData?.latest_step;
       delete jobData?.latest_step;
 
       if (latestStep >= 7) {
@@ -657,7 +657,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           {jobData?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
               title={messages['job_posting.published_on']}>
-              {formatDate(jobData.primary_job_information.published_at, {
+              {formatDate(jobData?.primary_job_information?.published_at, {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -681,10 +681,10 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
               {messages['job_preview.job_summary']}
             </Box>
             <CardContent>
-              {jobData.primary_job_information.published_at && (
+              {jobData?.primary_job_information?.published_at && (
                 <Body2>
                   <b>{messages['job_posting.published_on']}</b>{' '}
-                  {formatDate(jobData.primary_job_information.published_at, {
+                  {formatDate(jobData?.primary_job_information?.published_at, {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric',
@@ -728,7 +728,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
                 <b>{messages['job_preview_summary.application_deadline']} </b>
                 {jobData?.primary_job_information?.application_deadline
                   ? formatDate(
-                      jobData.primary_job_information.application_deadline,
+                      jobData?.primary_job_information?.application_deadline,
                       {
                         day: '2-digit',
                         month: 'short',
@@ -853,7 +853,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             {messages['job_preview_summary.application_deadline']}{' '}
             {jobData?.primary_job_information?.application_deadline
               ? formatDate(
-                  jobData.primary_job_information.application_deadline,
+                  jobData?.primary_job_information?.application_deadline,
                   {
                     day: '2-digit',
                     month: 'short',
