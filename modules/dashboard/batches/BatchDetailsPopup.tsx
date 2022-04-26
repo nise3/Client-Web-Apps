@@ -110,28 +110,40 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.registration_start_date']}
-              value={getMomentDateFormat(itemData?.registration_start_date)}
+              value={getMomentDateFormat(
+                itemData?.registration_start_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.registration_end_date']}
-              value={getMomentDateFormat(itemData?.registration_end_date)}
+              value={getMomentDateFormat(
+                itemData?.registration_end_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.start_date']}
-              value={getMomentDateFormat(itemData?.batch_start_date)}
+              value={getMomentDateFormat(
+                itemData?.batch_start_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.end_date']}
-              value={getMomentDateFormat(itemData?.batch_end_date)}
+              value={getMomentDateFormat(
+                itemData?.batch_end_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
