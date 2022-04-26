@@ -56,7 +56,7 @@ const svg = `<svg id='svg' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http:
         <tspan>Language Proficiency</tspan>
       </text>
     </g>
-    <g id="language-headling-line">
+    <g id="language-headling-line">q
       <line x1="18" y1="790.854" x2="578" y2="790.854" fill="none" stroke="#bcbec0" stroke-miterlimit="10"/>
     </g>
   </g>
