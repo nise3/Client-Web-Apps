@@ -3,7 +3,6 @@ import StyledTileSection from './StyledTileSection';
 import Grid from '@mui/material/Grid';
 import MostDemandableCourseChart from './charts/barChartMostDemandableCourse';
 import EventMiniCalendarView from '../events/EventMiniCalendarView';
-import JobTrendsChart from './charts/jobTrandeChart';
 import {styled} from '@mui/material';
 import {Box} from '@mui/system';
 import {useAuthUser} from '../../@crema/utility/AppHooks';
@@ -41,9 +40,9 @@ const Dashboard = () => {
             <></>
           )}
 
-          <Grid item sm={12}>
+          {/*<Grid item sm={12}>
             <JobTrendsChart />
-          </Grid>
+          </Grid>*/}
         </Grid>
       </StyledBox>
     </>

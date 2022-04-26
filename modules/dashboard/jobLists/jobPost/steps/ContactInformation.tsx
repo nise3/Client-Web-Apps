@@ -114,15 +114,15 @@ const ContactInformation = ({
         {/** Contact information section */}
         <Grid container spacing={3} mt={3}>
           <Grid item xs={12} md={3}>
-            <Typography variant='body1'>Contact Information</Typography>
+            <Typography variant='body1'>
+              {messages['job_posting.contract_info']}
+            </Typography>
           </Grid>
           <Grid item xs={12} md={9}>
             <Box sx={{color: 'warning.light'}} display={'flex'}>
               <InfoOutlined sx={{paddingRight: '5px'}} />
               <Typography variant='body1'>
-                If it's required to contact for any kind of query about this
-                particular circular, then Nise team will contact with the
-                following person.
+                {messages['job_posting.contact_info_suggestion']}
               </Typography>
             </Box>
           </Grid>

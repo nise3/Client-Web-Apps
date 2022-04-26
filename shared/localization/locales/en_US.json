@@ -1895,5 +1895,11 @@
   "filePond.total_max_file_size": "Total maximum file size is 50MB",
   "hr_demand_deadline_exceeded.label": "Deadline exceeded",
   "common.file_upload_successful": "Upload File Successful",
-  "common.value": "Value"
+  "common.value": "Value",
+  "AM": "AM",
+  "PM": "PM",
+  "job_posting.matching_criteria_suggestion": "Suggestion: To get the relevant candidates, matching strength will be increased if you add job requirements from the following items.",
+  "job_posting.contact_info_suggestion": "If it's required to contact for any kind of query about this particular circular, then Nise team will contact with the following person.",
+  "job_posting.end_process": "End Process",
+  "job.posted_successfully": "Job Posted Successfully"
 }
