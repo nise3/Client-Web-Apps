@@ -104,17 +104,13 @@ const ExamQuestionTypeSection = ({
               ques.push({questions: grouped[key]});
             });
             setLocalQuestions(ques);
-            useFrom.setValue(`${idPrefix}[${index}][question_sets]`, ques);
           } else {
             setLocalQuestions([{questions: obj.questions}]);
-            useFrom.setValue(`${idPrefix}[${index}][questions]`, obj.questions);
           }
         }
       }
     }
   }, [useFrom.getValues, examSets]);
-
-  console.log('useFrom', useFrom.getValues());
 
   const onChangeQuestionSelectionType = (type: any) => {
     setSelectedSelectionType(type ? String(type) : null);
@@ -238,7 +234,7 @@ const ExamQuestionTypeSection = ({
             examSets &&
             examSets.length > 0 ? (
               examSets.map((examSet: any, index: number) => (
-                <Grid key={examSet.index} item xs={1}>
+                <Grid key={examSet.index} item xs={1} textAlign={'center'}>
                   <S2 sx={{whiteSpace: 'nowrap'}}>
                     {messages['common.set']} {formatNumber(index + 1)}
                   </S2>
@@ -255,6 +251,18 @@ const ExamQuestionTypeSection = ({
                       />
                     }
                   />
+                  <Body2
+                    sx={{
+                      textAlign: 'center',
+                      display: 'inline-block',
+                      marginTop: '6px',
+                    }}>
+                    {localQuestions?.[index]?.questions
+                      ? formatNumber(
+                          localQuestions?.[index]?.questions.length,
+                        ) + messages['exam.question_selected']
+                      : messages['exam.no_question_selected']}
+                  </Body2>
                 </Grid>
               ))
             ) : selectedSelectionType &&
@@ -282,9 +290,9 @@ const ExamQuestionTypeSection = ({
                     whiteSpace: 'nowrap',
                   }}>
                   {localQuestions?.[0]?.questions
-                    ? localQuestions?.[0]?.questions.length +
-                      ' question selected'
-                    : 'No question selected'}
+                    ? formatNumber(localQuestions?.[0]?.questions.length) +
+                      messages['exam.question_selected']
+                    : messages['exam.no_question_selected']}
                 </Body2>
               </Grid>
             ) : (

@@ -1790,8 +1790,8 @@
   "calendar.Thu": "বৃহঃ",
   "calendar.Fri": "শুক্র",
   "calendar.Sat": "শনি",
-  "yup_validation_invalid_start_date" : "শুরুর তারিখ অবশ্যই আজকের থেকে কম বা সমান হতে হবে",
-  "yup_validation_invalid_end_date" : "শেষ তারিখ অবশ্যই শুরুর তারিখের চেয়ে বেশি বা সমান হতে হবে",
+  "yup_validation_invalid_start_date": "শুরুর তারিখ অবশ্যই আজকের থেকে কম বা সমান হতে হবে",
+  "yup_validation_invalid_end_date": "শেষ তারিখ অবশ্যই শুরুর তারিখের চেয়ে বেশি বা সমান হতে হবে",
   "update_password.label": "পাসওয়ার্ড আপডেট",
   "skill_development_report.approved_trade_number": "অনুমোদিত ট্রেড নম্বর",
   "skill_development_report.current_trade_number": "বর্তমান ট্রেড নম্বর",
@@ -1933,5 +1933,7 @@
   "common.mcq": "বহুনির্বাচনী",
   "common.fill_in_the_blank": "শূন্যস্থান পূরন",
   "common.yes_no": "হ্যা/না",
-  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না"
+  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না",
+  "exam.question_selected": " টি নির্বাচিত প্রশ্ন",
+  "exam.no_question_selected": "কোন প্রশ্ন নির্বাচন করা হয়নি"
 }

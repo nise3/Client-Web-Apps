@@ -1931,6 +1931,7 @@
   "common.mcq": "Multiple choice questions",
   "common.fill_in_the_blank": "Fill in the blanks",
   "common.yes_no": "Yes/No",
-  "common.total_mark_exceeded_warning": "Selected questions mark can't be more than total mark"
-
+  "common.total_mark_exceeded_warning": "Selected questions mark can't be more than total mark",
+  "exam.question_selected": " question selected",
+  "exam.no_question_selected": "No question selected"
 }

@@ -48,7 +48,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
       let array = sets.map((set: any, i: number) => {
         return {
           index: i,
-          id: `SET##${i}`,
+          id: `SET##${i + 1}`,
         };
       });
       setExamSets(array);
