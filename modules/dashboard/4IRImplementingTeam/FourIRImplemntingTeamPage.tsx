@@ -20,8 +20,15 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
 
-const FourIRImplemntingTeamPage = () => {
+interface IFourIRImplemntingTeamPageProps {
+  fourIRProjectId: number;
+}
+
+const FourIRImplemntingTeamPage = ({
+  fourIRProjectId = 9,
+}: IFourIRImplemntingTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -63,7 +70,9 @@ const FourIRImplemntingTeamPage = () => {
       refreshDataTable();
     }
   };
-  const refreshDataTable = useCallback(() => {}, []);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prev) => !prev);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -82,30 +91,35 @@ const FourIRImplemntingTeamPage = () => {
 
       {
         Header: messages['common.name'],
+        accessor: 'name',
       },
       {
         Header: messages['common.email'],
+        accessor: 'email',
       },
       {
         Header: messages['common.phone_number'],
+        accessor: 'phone_number',
       },
       {
         Header: messages['role.label'],
+        accessor: 'role',
         isVisible: false,
       },
       {
         Header: messages['common.designation'],
+        accessor: 'designation',
         isVisible: false,
       },
 
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          //   let data = props.row.original;
+          let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteImplementingTeamItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -121,7 +135,11 @@ const FourIRImplemntingTeamPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: './4ir_implementing_team',
+      urlPath: API_4IR_IMPLEMENTNG_TEAM,
+      paramsValueModifier: (params) => {
+        params['four_ir_project_id'] = fourIRProjectId;
+        return params;
+      },
     });
 
   return (
@@ -159,6 +177,7 @@ const FourIRImplemntingTeamPage = () => {
         {isOpenAddEditModal && (
           <FourIRImplemntingTeamAddEditPopup
             key={1}
+            fourIRProjectId={fourIRProjectId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
