@@ -174,6 +174,7 @@ const ExamQuestionPaper = () => {
 
       if (formData.questions) {
         formData.questions.map((question: any) => {
+          question.individual_marks = Number(question.individual_marks);
           if (question.answers) {
             question.answers.map((answer: any, index: number) => {
               if (answer === true) {
@@ -188,10 +189,11 @@ const ExamQuestionPaper = () => {
       await submitExamPaper(formData);
       submissionSuccessMessage('common.answer_sheet');
       setHasExamEnded(true);
-      localStorage.clear();
+      localStorage.removeItem('questionPaper');
+      localStorage.removeItem('questionAnswers');
       if (examQuestions?.course_id) {
         router
-          .push(LINK_FRONTEND_YOUTH_COURSE_DETAILS + examQuestions?.course_id)
+          .push(LINK_FRONTEND_YOUTH_COURSE_DETAILS + examQuestions.course_id)
           .then((r) => {});
       }
     } catch (error: any) {
@@ -227,11 +229,11 @@ const ExamQuestionPaper = () => {
               justifyContent={'center'}
               xs={12}>
               <H6>{examQuestionData?.title}</H6>
-              <Body2>
+              {/*<Body2> todo: this is not need now
                 {messages['subject.label']}
                 {': '}
                 {examQuestionData?.subject_title}
-              </Body2>
+              </Body2>*/}
               <Body2>
                 {messages['common.date']} {': '}
                 {getIntlDateFromString(formatDate, examQuestionData?.exam_date)}

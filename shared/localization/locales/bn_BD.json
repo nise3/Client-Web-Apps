@@ -1933,5 +1933,8 @@
   "common.mcq": "বহুনির্বাচনী",
   "common.fill_in_the_blank": "শূন্যস্থান পূরন",
   "common.yes_no": "হ্যা/না",
-  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না"
+  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না",
+  "common.examinees": "পরীক্ষার্থী",
+  "common.offline_question_sets": "অফলাইন প্রশ্ন সেট",
+  "common.random_question": "রেনডম প্রশ্ন"
 }
