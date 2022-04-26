@@ -1,30 +1,31 @@
-import Konva from "konva";
-import { atom } from "recoil";
-import { EditorPanel } from "../../interfaces/Editor";
-import { Template } from "../../interfaces/StageConfig";
-// import { untrackedHistoryEffect } from "../effects/history";
+// import Konva from 'konva';
+import {atom} from 'recoil';
+import {EditorPanel} from '../../interfaces/Editor';
+import {Template} from '../../interfaces/StageConfig';
 
 export const activePanelState = atom<EditorPanel>({
-  key: "activePanelState",
+  key: 'activePanelState',
   default: EditorPanel.Settings,
-  //   effects_UNSTABLE: [untrackedHistoryEffect],
 });
 
 export const selectedElementIdState = atom<string | undefined>({
-  key: "selectedElementIdState",
+  key: 'selectedElementIdState',
   default: undefined,
-  // effects_UNSTABLE: [untrackedHistoryEffect],
 });
 export const isLoadingState = atom({
-  key: "isLoadingState",
+  key: 'isLoadingState',
   default: false,
 });
 
 export const highlightedElementIdState = atom<string | undefined>({
-  key: "highlightedElementIdState",
+  key: 'highlightedElementIdState',
   default: undefined,
 });
 export const ratioState = atom({
-  key: "ratioState",
+  key: 'ratioState',
   default: 1,
+});
+export const savedTemplateState = atom<Template | undefined>({
+  key: 'savedTemplateState',
+  default: undefined,
 });
