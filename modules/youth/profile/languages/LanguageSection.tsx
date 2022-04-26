@@ -19,7 +19,7 @@ import {getYouthAuthUserObject} from '../../../../redux/actions';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useDispatch} from 'react-redux';
-import {H3} from '../../../../@softbd/elements/common';
+import {S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
@@ -137,16 +137,17 @@ const LanguageSection = () => {
                         <React.Fragment key={language.id}>
                           {index != 0 && <VerticalLine />}
                           {/*<TextPrimary text={language.language_title} />*/}
-                          <H3
+                          <S1
                             sx={{...result.body1}}
                             className={classes.textStyle}>
                             {language.language_title}
-                          </H3>
+                          </S1>
                         </React.Fragment>
                       ),
                     )}
                   </StyledBox>
                   <Typography
+                    tabIndex={0}
                     variant={'caption'}
                     onClick={() => {
                       openLanguageProficiencyView();

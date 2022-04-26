@@ -95,6 +95,7 @@ const RecentActivities = () => {
           <SeeMoreLinkButton
             href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}
             label={messages['common.see_more'] as string}
+            sx={{marginTop: '31px', marginBottom: '15px'}}
           />
         </Grid>
       )}

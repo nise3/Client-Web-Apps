@@ -342,6 +342,7 @@ const YouthRegistration = () => {
     <StyledContainer maxWidth={'md'}>
       <Paper className={classes.PaperBox}>
         <Typography
+          tabIndex={0}
           variant={'h6'}
           style={{marginBottom: '20px', fontSize: '25px', fontWeight: 'bold'}}>
           {messages['common.registration']}
