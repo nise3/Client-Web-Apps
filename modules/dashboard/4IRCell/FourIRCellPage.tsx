@@ -22,7 +22,15 @@ import {
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 
-const FourIRCellPage = () => {
+interface IFourIRCellPage {
+  fourIRProjectCellName: string;
+  fourIRProjectId: number;
+}
+
+const FourIRCellPage = ({
+  fourIRProjectCellName = 'name',
+  fourIRProjectId = 9,
+}: IFourIRCellPage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -125,7 +133,14 @@ const FourIRCellPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_4IR_CELL,
+      paramsValueModifier: (params) => {
+        // params['project_name'] = fourIRProjectCellName;
+        params['four_ir_project_id'] = fourIRProjectId;
+        return params;
+      },
     });
+
+  console.log(data);
 
   return (
     <>
@@ -164,6 +179,7 @@ const FourIRCellPage = () => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRProjectId={fourIRProjectId}
             refreshDataTable={refreshDataTable}
           />
         )}
