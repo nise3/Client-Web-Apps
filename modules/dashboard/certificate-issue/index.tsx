@@ -1,38 +1,38 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSES} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
+import React, { useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import { API_COURSE_ENROLL, API_COURSE_ENROLLMENTS, API_YOUTHS } from '../../../@softbd/common/apiRoutes';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteCourse} from '../../../services/instituteManagement/CourseService';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import IconCourse from '../../../@softbd/icons/IconCourse';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
-  isResponseSuccess,
+  isResponseSuccess
 } from '../../../@softbd/utilities/helpers';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {LEVEL} from './CourseEnums';
-import {useFetchCertificateIssue, useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import { useFetchBatch, useFetchBatches } from '../../../services/instituteManagement/hooks';
+import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
+import { getAllBatches } from '../../../services/instituteManagement/BatchService';
+import { deleteCourse } from '../../../services/instituteManagement/CourseService';
+import { useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
+import { useFetchCertificateIssue, useFetchYouths } from '../../../services/youthManagement/hooks';
+import { courseEnroll, getYouthList } from '../../../services/youthManagement/YouthService';
+import { ICertificateIssue } from '../../../shared/Interface/certificates';
+import ApproveButton from '../industry-associations/ApproveButton';
+
 
 const CertificateIssuePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
-  console.log('AUTH USER ', authUser);
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  // console.log('AUTH USER ', authUser);
+  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
 //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -40,18 +40,24 @@ const CertificateIssuePage = () => {
   const [certificateIssueFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: issuedList} = useFetchCertificateIssue(certificateIssueFilter);
+  console.log('before youthListByBatch')
+  // const youthListByBatch = null;
+  
+  // getYouthList(certificateIssueFilter).then(res => youthListByBatch = res)
+  const {data: youthListByBatch } = useFetchCourseEnrolment(certificateIssueFilter);
+  console.log('after youthListByBatch', youthListByBatch)
+  // const response = await courseEnroll(certificateIssueFilter);
   const [issueFilterItems, setIssueFilterItems] = useState([]);
 
   useEffect(() => {
-    if (issuedList) {
+    if (youthListByBatch) {
       setIssueFilterItems(
-        issuedList.map((skill: any) => {
+        youthListByBatch.map((skill: any) => {
           return {id: skill?.id, title: skill?.title};
         }),
       );
     }
-  }, [issuedList]);
+  }, [youthListByBatch]);
 //   const closeAddEditModal = useCallback(() => {
 //     setIsOpenAddEditModal(false);
 //     setSelectedItemId(null);
@@ -75,17 +81,18 @@ const CertificateIssuePage = () => {
 //     setIsOpenDetailsModal(false);
 //   }, []);
 
-  const deleteIssuedItem = async (courseId: number) => {
-    let response = await deleteCourse(courseId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='course.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
+  const issueCerrificate = async (data: ICertificateIssue) => {
+    console.log(data);
+    // let response = await createCertificateIssue(data);
+    // if (isResponseSuccess(response)) {
+    //   successStack(
+    //     <IntlMessages
+    //       id='common.subject_created_successfully'
+    //       values={{subject: <IntlMessages id='course.label' />}}
+    //     />,
+    //   );
+    //   refreshDataTable();
+    // }
   };
 
 //   const courseLevelFilterItems = [
@@ -113,17 +120,17 @@ const CertificateIssuePage = () => {
         },
       },
       {
-        Header: messages['certificate.label'],
-        accessor: 'certificate_id',
+      Header: messages['common.youths'],
+        accessor: 'youth_id',
       },
       {
         Header: messages['menu.batch'],
         accessor: 'batch_id'
       },
-      {
-        Header: messages['common.youth'],
-        accessor: 'youth_id',
-      },
+      // {
+      //   Header: messages['common.youthapplicationManagement.courseTitle'],
+      //   accessor: 'course_titles',
+      // },
 
     //   {
     //     Header: messages['common.skills'],
@@ -178,9 +185,9 @@ const CertificateIssuePage = () => {
             <DatatableButtonGroup>
               {/* <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
-              <DeleteButton
-                deleteAction={() => deleteIssuedItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
+              <ApproveButton
+                onClick={() => issueCerrificate(data)}
+                buttonText={messages['certificate.certificate_issue'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -193,7 +200,7 @@ const CertificateIssuePage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: 'http://192.168.13.215:8001/api/v1/certificates',
+      urlPath: API_COURSE_ENROLLMENTS,
     });
 
   return (

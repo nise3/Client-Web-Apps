@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import asyncComponent from '../../../@crema/utility/asyncComponent';
 import DefaultPage from '../../../@softbd/layouts/hoc/DefaultPage';
 
 const Editor = dynamic(

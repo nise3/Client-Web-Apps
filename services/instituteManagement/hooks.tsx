@@ -159,6 +159,11 @@ export function useFetchApplicationDetails(applicationId: number | null) {
   );
 }
 
+/** fetches course enrolment */
+export function useFetchCourseEnrolment(params: any) {
+  return useAxiosSWR(params ? [API_COURSE_ENROLLMENTS, params] : null);
+}
+
 /** fetches a single assessment's details */
 export function useFetchAssessmentDetails(assessmentId: number | null) {
   return useAxiosSWR(

@@ -36,6 +36,9 @@ export function useFetchSkills(params: any) {
 export function useFetchPublicSkills(params: any) {
   return useDataLocalizationAxiosSWR([API_SKILLS, params]);
 }
+export function useFetchCertificateIssue(params: any) {
+  return useDataLocalizationAxiosSWR(['http://192.168.13.215:8001/api/v1/certificates', params]);
+}
 
 export function useFetchYouthProfile() {
   return useAxiosSWR(API_YOUTH_PROFILE);

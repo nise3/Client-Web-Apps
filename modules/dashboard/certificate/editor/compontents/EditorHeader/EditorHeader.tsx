@@ -18,8 +18,8 @@ function EditorHeader() {
       title_en: 'Cerificate 1',
       title: 'Certificate',
       result_type: 'Number',
-      accessor_type: 'Trainer',
-      accessor_id: 123,
+      // accessor_type: 'Trainer',
+      // accessor_id: 123,
       purpose_name: 'Batch',
       purpose_id: 5,
     };
