@@ -28,6 +28,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_4IR_TNA_REPORT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -52,6 +53,12 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
+
+export function useFetchTNAReport(TNAReportId: number | null) {
+  return useAxiosSWR(
+    TNAReportId ? API_4IR_TNA_REPORT + '/' + TNAReportId : null,
+  );
 }
 
 export function useFetchBranch(branchId: number | null) {

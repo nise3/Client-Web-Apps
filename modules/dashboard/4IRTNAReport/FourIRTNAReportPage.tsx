@@ -8,7 +8,10 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
 import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
 import {API_4IR_TNA_REPORT} from '../../../@softbd/common/apiRoutes';
@@ -16,6 +19,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
 
 interface IFourIRImplemntingTeamPage {
   fourIRProjectId: number;
@@ -53,7 +57,24 @@ const FourIRImplemntingTeamPage = ({
     setIsOpenDetailsModal(false);
   }, []);
 
-  const refreshDataTable = useCallback(() => {}, []);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prev) => !prev);
+  }, []);
+
+  const deleteTNAReportItem = async (itemId: number) => {
+    let response = await deleteTNAReport(itemId);
+
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='4ir.label' />}}
+        />,
+      );
+
+      refreshDataTable();
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -72,19 +93,24 @@ const FourIRImplemntingTeamPage = ({
 
       {
         Header: messages['common.workshop_name'],
+        accessor: 'workshop_name',
       },
       {
         Header: messages['common.required_skill'],
+        accessor: 'skill_required',
       },
       {
         Header: messages['common.start_date'],
+        accessor: 'start_date',
       },
       {
         Header: messages['common.end_date'],
+        accessor: 'end_date',
         isVisible: false,
       },
       {
         Header: messages['common.venue'],
+        accessor: 'venue',
         isVisible: false,
       },
 
@@ -92,14 +118,13 @@ const FourIRImplemntingTeamPage = ({
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          //console.log(data);
 
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => {}}
+                deleteAction={() => deleteTNAReportItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -119,8 +144,6 @@ const FourIRImplemntingTeamPage = ({
         return params;
       },
     });
-
-  console.log({data, loading});
 
   return (
     <>
