@@ -10,6 +10,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 type Props = {
   itemId: number;
@@ -50,63 +51,64 @@ const FourIRProjectDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.name']}
               value={itemData?.project_name}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.name_en']}
               value={itemData?.project_name_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.organization_name']}
               value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.organization_name_en']}
               value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.details']}
-              value={itemData?.project_details}
+              value={itemData?.details}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/*
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.details_en']}
               value={itemData?.project_details_en}
               isLoading={isLoading}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid>*/}
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.start_date']}
-              value={itemData?.project_start_date}
+              value={getMomentDateFormat(itemData?.start_date, 'DD MMM YYYY')}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['menu.occupations']}
               value={itemData?.occupation_title}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.project_budget']}
               value={itemData?.project_budget}

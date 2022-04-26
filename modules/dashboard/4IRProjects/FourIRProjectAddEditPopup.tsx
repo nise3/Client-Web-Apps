@@ -46,6 +46,8 @@ const initialValues = {
   details: '',
   tasks: [],
   row_status: '1',
+  completion_step: '1',
+  form_step: '1',
 };
 
 const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
@@ -62,6 +64,8 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
+  const [completionStep, setCompletionStep] = useState<any>(1);
+  const [formStep, setFormStep] = useState<any>(1);
   const [tasks, setTasks] = useState<any>([]);
   const [occupation, setOccupation] = useState<Array<any>>([]);
   const [isLoadingOccupation, setIsLoadingOccupation] =
@@ -146,10 +150,8 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     if (checked) {
       tasks.push(value);
       setTasks((prevState: any) => prevState);
-      console.log('the tasks ', tasks);
     } else if (tasks.includes(value)) {
-      console.log('in else part');
-      const index = tasks.indexOf(value);
+      const index = tasks?.indexOf(value);
       if (index > -1) {
         tasks.splice(index, 1);
       }
@@ -171,12 +173,8 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
       });
 
       itemData?.tasks?.map((task: any) => {
-        if (tasks.indexOf(task) == -1) {
+        if (tasks?.indexOf(task) == -1) {
           tasks.push(task);
-          setTasks((pre: any) => {
-            console.log('pervioeis: ', pre);
-            pre?.push(task);
-          });
         }
         if (task == ProjectStatus.PROJECT_FINALIZED) {
           setIsProjectFinalized(true);
@@ -186,10 +184,11 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           setIsProjectApproved(true);
         }
       });
-      console.log('tasks on load: ', tasks);
-      console.log('tasks on PROJECT_FINALIZED: ', isProjectFinalized);
-      console.log('tasks on PROJECT_REVIEWED: ', isProjectReviewed);
-      console.log('tasks on PROJECT_APPROVED: ', isProjectApproved);
+
+      console.log('the tasks : ', tasks);
+      setTasks(tasks);
+      setFormStep(itemData?.form_step);
+      setCompletionStep(itemData?.completion_step);
     } else {
       reset(initialValues);
     }
@@ -198,13 +197,16 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IProject> = async (data: IProject) => {
     try {
       if (itemId) {
-        await updateProject(itemId, data);
+        console.log('the tasks: ', tasks);
+        data.completion_step = completionStep;
+        data.form_step = formStep;
         data.tasks = tasks;
+        await updateProject(itemId, data);
         updateSuccessMessage('4ir_project.label');
         mutateProject();
       } else {
-        data.completion_step = 1;
-        data.form_step = 1;
+        data.completion_step = completionStep;
+        data.form_step = formStep;
         data.tasks = tasks;
         await createProject(data);
         createSuccessMessage('4ir_project.label');
