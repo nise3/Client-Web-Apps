@@ -37,7 +37,7 @@ const initialValues = {
   designation: '',
 };
 
-const FourIRImplemntingTeamAddEditPopup: FC<
+const FourIRImplementingTeamAddEditPopup: FC<
   ImplementingTeamAddEditPopupProps
 > = ({itemId, fourIRProjectId, refreshDataTable, ...props}) => {
   const {messages} = useIntl();
@@ -114,7 +114,6 @@ const FourIRImplemntingTeamAddEditPopup: FC<
       };
 
       if (itemId != null) {
-        // update
         await updateImplementingTeam(itemId, payload);
         updateSuccessMessage('4ir.implementing_team');
         mutateImplementingTeam();
@@ -225,4 +224,4 @@ const FourIRImplemntingTeamAddEditPopup: FC<
     </HookFormMuiModal>
   );
 };
-export default FourIRImplemntingTeamAddEditPopup;
+export default FourIRImplementingTeamAddEditPopup;

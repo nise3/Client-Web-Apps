@@ -16,7 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRImplemntingTeamDetailsPopup = ({
+const FourIRImplementingTeamDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
@@ -97,4 +97,4 @@ const FourIRImplemntingTeamDetailsPopup = ({
   );
 };
 
-export default FourIRImplemntingTeamDetailsPopup;
+export default FourIRImplementingTeamDetailsPopup;
