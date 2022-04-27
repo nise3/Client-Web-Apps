@@ -1,51 +1,98 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useEventCallback } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { API_COURSE_ENROLL, API_COURSE_ENROLLMENTS, API_YOUTHS } from '../../../@softbd/common/apiRoutes';
+import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import IconCourse from '../../../@softbd/icons/IconCourse';
+import yup from '../../../@softbd/libs/yup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
-  getCalculatedSerialNo,
-  isResponseSuccess
+  getCalculatedSerialNo, isResponseSuccess
 } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import { getAllBatches } from '../../../services/instituteManagement/BatchService';
-import { deleteCourse } from '../../../services/instituteManagement/CourseService';
+import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
-import { useFetchCertificateIssue, useFetchYouths } from '../../../services/youthManagement/hooks';
-import { courseEnroll, getYouthList } from '../../../services/youthManagement/YouthService';
-import { ICertificateIssue } from '../../../shared/Interface/certificates';
+import { useFetchCertificate, useFetchCertificateTypes } from '../../../services/locationManagement/hooks';
+import { ICertificate, ICertificateIssue } from '../../../shared/Interface/certificates';
 import ApproveButton from '../industry-associations/ApproveButton';
 
-
 const CertificateIssuePage = () => {
-  const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const { messages, locale } = useIntl();
+  const { successStack } = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
+
   // console.log('AUTH USER ', authUser);
   // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-//   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-//   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+
+  const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchCertificateTypes();
+  // const { data: certificates, isLoading: isLoadingCertificates } = useFetchCertificate();
+
+  const [certificateTypeId, setCertificateTypeId] = useState<string>();
+  const [certificateId, setCertificateId] = useState<string>();
+  const [certificatesList, setCertificatesList] = useState<Array<ICertificate> | []>([]);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      certificate_type: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['certificate.certificate_type'] as string)
+      , certificate_Id: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.certificate'] as string)
+    });
+  }, []);
+
+  const {
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<any>({ resolver: yupResolver(validationSchema) });
+
+  const changeCertificateTypeAction = useCallback(
+    (typeid: string) => {
+      setCertificateTypeId(typeid);
+    },
+    []
+  );
+  const changeCertificatesAction = useCallback(
+    (certificateId: string) => {
+      setCertificateId(certificateId);
+    },
+    []
+  );
+
+  useEffect(async () => {
+    const { data: certificate } = await getCertificateByResultType({ result_type: certificateTypeId });
+    setCertificatesList(certificate);
+  }, [certificateTypeId]);
+
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const [certificateIssueFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  console.log('before youthListByBatch')
+  // console.log('before youthListByBatch')
   // const youthListByBatch = null;
-  
+
   // getYouthList(certificateIssueFilter).then(res => youthListByBatch = res)
-  const {data: youthListByBatch } = useFetchCourseEnrolment(certificateIssueFilter);
-  console.log('after youthListByBatch', youthListByBatch)
+  const { data: youthListByBatch } = useFetchCourseEnrolment(certificateIssueFilter);
+  // console.log('after youthListByBatch', youthListByBatch)
   // const response = await courseEnroll(certificateIssueFilter);
   const [issueFilterItems, setIssueFilterItems] = useState([]);
 
@@ -53,36 +100,62 @@ const CertificateIssuePage = () => {
     if (youthListByBatch) {
       setIssueFilterItems(
         youthListByBatch.map((skill: any) => {
-          return {id: skill?.id, title: skill?.title};
+          return { id: skill?.id, title: skill?.title };
         }),
       );
     }
   }, [youthListByBatch]);
-//   const closeAddEditModal = useCallback(() => {
-//     setIsOpenAddEditModal(false);
-//     setSelectedItemId(null);
-//   }, []);
 
-//   const openAddEditModal = useCallback((itemId: number | null = null) => {
-//     setIsOpenDetailsModal(false);
-//     setIsOpenAddEditModal(true);
-//     setSelectedItemId(itemId);
-//   }, []);
+  //   const closeAddEditModal = useCallback(() => {
+  //     setIsOpenAddEditModal(false);
+  //     setSelectedItemId(null);
+  //   }, []);
 
-//   const openDetailsModal = useCallback(
-//     (itemId: number) => {
-//       setIsOpenDetailsModal(true);
-//       setSelectedItemId(itemId);
-//     },
-//     [selectedItemId],
-//   );
+  //   const openAddEditModal = useCallback((itemId: number | null = null) => {
+  //     setIsOpenDetailsModal(false);
+  //     setIsOpenAddEditModal(true);
+  //     setSelectedItemId(itemId);
+  //   }, []);
 
-//   const closeDetailsModal = useCallback(() => {
-//     setIsOpenDetailsModal(false);
-//   }, []);
+  //   const openDetailsModal = useCallback(
+  //     (itemId: number) => {
+  //       setIsOpenDetailsModal(true);
+  //       setSelectedItemId(itemId);
+  //     },
+  //     [selectedItemId],
+  //   );
 
-  const issueCerrificate = async (data: ICertificateIssue) => {
-    console.log(data);
+  //   const closeDetailsModal = useCallback(() => {
+  //     setIsOpenDetailsModal(false);
+  //   }, []);
+
+  const issueCerrificate1 = useEventCallback((data: any) => {
+    const issueData: ICertificateIssue = {
+      batch_id: data.batch_id,
+      certificate_id: certificateId as string,
+      youth_id: data.youth_id
+    }
+    createCertificateIssue(issueData)
+      .then(res => {
+        if (isResponseSuccess(res)) {
+          successStack(
+            <IntlMessages
+              id='common.subject_created_successfully'
+              values={{ subject: <IntlMessages id='course.label' /> }}
+            />,
+          );
+          refreshDataTable();
+        }
+      })
+  })
+
+  const issueCerrificate = (data: any) => {
+    const issueData: ICertificateIssue = {
+      batch_id: data.batch_id,
+      certificate_id: certificateTypeId as number,
+      youth_id: data.youth_id
+    }
+    console.log(issueData);
     // let response = await createCertificateIssue(data);
     // if (isResponseSuccess(response)) {
     //   successStack(
@@ -95,15 +168,15 @@ const CertificateIssuePage = () => {
     // }
   };
 
-//   const courseLevelFilterItems = [
-//     {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
-//     {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
-//     {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
-//   ];
+  //   const courseLevelFilterItems = [
+  //     {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
+  //     {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
+  //     {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
+  //   ];
 
-//   const refreshDataTable = useCallback(() => {
-//     setIsToggleTable((prevToggle: any) => !prevToggle);
-//   }, [isToggleTable]);
+  //   const refreshDataTable = useCallback(() => {
+  //     setIsToggleTable((prevToggle: any) => !prevToggle);
+  //   }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -120,54 +193,13 @@ const CertificateIssuePage = () => {
         },
       },
       {
-      Header: messages['common.youths'],
+        Header: messages['common.youths'],
         accessor: 'youth_id',
       },
       {
         Header: messages['menu.batch'],
         accessor: 'batch_id'
       },
-      // {
-      //   Header: messages['common.youthapplicationManagement.courseTitle'],
-      //   accessor: 'course_titles',
-      // },
-
-    //   {
-    //     Header: messages['common.skills'],
-    //     accessor: 'skills',
-    //     filter: 'selectFilter',
-    //     selectFilterItems: skillFilterItems,
-    //     isVisible: false,
-    //   },
-    //   {
-    //     Header: messages['institute.label'],
-    //     accessor: 'institute_title',
-    //     isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
-    //     disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
-    //   },
-    //   {
-    //     Header: messages['institute.label'],
-    //     accessor: 'institute_title_en',
-    //     isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
-    //     disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
-    //   },
-      
-    //   {
-    //     Header: messages['course.course_level'],
-    //     accessor: 'level',
-    //     filter: 'selectFilter',
-    //     selectFilterItems: courseLevelFilterItems,
-    //     Cell: (props: any) => {
-    //       let data = props.row.original;
-    //       if (data?.level == LEVEL.BEGINNER) {
-    //         return <>{messages['level.beginner']}</>;
-    //       } else if (data?.level == LEVEL.INTERMEDIATE) {
-    //         return <>{messages['level.intermediate']}</>;
-    //       } else {
-    //         return <>{messages['level.expert']}</>;
-    //       }
-    //     },
-    //   },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
@@ -186,7 +218,7 @@ const CertificateIssuePage = () => {
               {/* <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
               <ApproveButton
-                onClick={() => issueCerrificate(data)}
+                onClick={() => issueCerrificate1(data)}
                 buttonText={messages['certificate.certificate_issue'] as string}
               />
             </DatatableButtonGroup>
@@ -198,7 +230,7 @@ const CertificateIssuePage = () => {
     [messages, locale, issueFilterItems],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
+  const { onFetchData, data, loading, pageCount, totalCount } =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
     });
@@ -211,23 +243,49 @@ const CertificateIssuePage = () => {
             <IconCourse /> <IntlMessages id='certificate.certificate_issue' />
           </>
         }
-        // extra={[
-        //   <AddButton
-        //     key={1}
-        //     // onClick={() => openAddEditModal(null)}
-        //     onClick={() => {}}
-        //     isLoading={loading}
-        //     tooltip={
-        //       <IntlMessages
-        //         id={'common.add_new'}
-        //         values={{
-        //           subject: messages['course.label'],
-        //         }}
-        //       />
-        //     }
-        //   />,
-        // ]}
-        >
+        extra={[
+          // <AddButton
+          //   key={1}
+          //   // onClick={() => openAddEditModal(null)}
+          //   onClick={() => {}}
+          //   isLoading={loading}
+          //   tooltip={
+          //     <IntlMessages
+          //       id={'common.add_new'}
+          //       values={{
+          //         subject: messages['course.label'],
+          //       }}
+          //     />
+          //   }
+          // />,
+          <CustomFilterableFormSelect
+            key={1}
+            required
+            id='certificate_type'
+            label={messages['certificate.certificate_type']}
+            isLoading={isLoadingTypes}
+            control={control}
+            options={certificateTypes}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={changeCertificateTypeAction}
+          />,
+          <CustomFilterableFormSelect
+            key={2}
+            required
+            id='certificate_Id'
+            label={messages['common.certificate']}
+            isLoading={isLoadingTypes}
+            control={control}
+            options={certificatesList}
+            optionValueProp={'id'}
+            optionTitleProp={['title_en', 'title']}
+            errorInstance={errors}
+            onChange={changeCertificatesAction}
+          />
+        ]}
+      >
         <ReactTable
           columns={columns}
           data={data}
@@ -261,6 +319,6 @@ const CertificateIssuePage = () => {
 
 export default CertificateIssuePage;
 function refreshDataTable() {
-    throw new Error('Function not implemented.');
+  throw new Error('Function not implemented.');
 }
 

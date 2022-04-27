@@ -144,12 +144,10 @@ export function useFetchPublicGalleryAlbumContent(
 }
 
 export function useFetchCalenderEvents(params: any) {
-  // console.log('axis: ', params);
   return useAxiosSWR([API_CALENDAR_EVENTS, params]);
 }
 
 export function useFetchPublicCalenderEvents(params: any) {
-  // console.log('axis: ', params);
   return useLocalizedAxiosSWR([API_PUBLIC_CALENDAR_EVENTS, params]);
 }
 

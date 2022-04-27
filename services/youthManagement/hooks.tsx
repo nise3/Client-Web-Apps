@@ -24,6 +24,7 @@ import {
   API_YOUTHS,
   API_YOUTH_FEED_DATA_LIST,
 } from '../../@softbd/common/apiRoutes';
+import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
 export function useFetchSkill(skillId: number | null) {
   return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
@@ -37,7 +38,7 @@ export function useFetchPublicSkills(params: any) {
   return useDataLocalizationAxiosSWR([API_SKILLS, params]);
 }
 export function useFetchCertificateIssue(params: any) {
-  return useDataLocalizationAxiosSWR(['http://192.168.13.215:8001/api/v1/certificates', params]);
+  return useDataLocalizationAxiosSWR([CERTIFICATE_TYPE_API_URL + 'certificates', params]);
 }
 
 export function useFetchYouthProfile() {

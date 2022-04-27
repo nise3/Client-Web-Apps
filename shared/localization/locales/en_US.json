@@ -446,6 +446,7 @@
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
   "certificate.certificate_issue": "Certificate Issue",
+  "certificate.certificate_type": "Certificate Type",
   "certificate_authority.batch": "RPL batch",
   "rto.label": "RTO",
   "rto.name": "RTO Name",
