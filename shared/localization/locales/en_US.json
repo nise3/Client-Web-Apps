@@ -1932,5 +1932,6 @@
   "4ir_showcasing.task": "Check at least one of the items",
   "4IR_steps.label": "4IR Steps",
   "4IR_steps.step": "Step",
-  "4IR_steps.completed": "Completed"
+  "4IR_steps.completed": "Completed",
+  "4IR_steps.team_and_cell": "Team & Cell"
 }

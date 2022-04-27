@@ -80,6 +80,7 @@ const FourIRProjectsPage = () => {
         query: {
           completionStep: completionStep,
           formStep: formStep,
+          presentStep: completionStep + 1,
         },
       });
     },

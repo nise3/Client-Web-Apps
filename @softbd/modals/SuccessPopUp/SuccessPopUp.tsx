@@ -33,6 +33,7 @@ const SuccessPopup: React.FC<SuccessPopupProps> = ({
       query: {
         completionStep: completionStep,
         formStep: formStep,
+        presentStep: 2,
       },
     });
     setSuccessPopUpOpen(false);

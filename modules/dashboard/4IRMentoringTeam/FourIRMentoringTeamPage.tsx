@@ -17,7 +17,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
-const FourIRImplemntingTeamPage = () => {
+const FourIRMentoringTeamPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -162,4 +162,4 @@ const FourIRImplemntingTeamPage = () => {
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRMentoringTeamPage;

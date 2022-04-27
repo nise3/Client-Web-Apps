@@ -25,9 +25,7 @@ interface IFourIRImplemntingTeamPage {
   fourIRProjectId: number;
 }
 
-const FourGuidelinePage = ({
-  fourIRProjectId = 9,
-}: IFourIRImplemntingTeamPage) => {
+const FourIRGuidelinePage = ({fourIRProjectId}: IFourIRImplemntingTeamPage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -203,4 +201,4 @@ const FourGuidelinePage = ({
   );
 };
 
-export default FourGuidelinePage;
+export default FourIRGuidelinePage;

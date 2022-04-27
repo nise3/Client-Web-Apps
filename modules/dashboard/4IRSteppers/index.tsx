@@ -3,16 +3,9 @@ import {useRouter} from 'next/router';
 import {useIntl} from 'react-intl';
 import {Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import PrimaryJobInformation from './steps/PrimaryJobInformation';
-import MoreJobInformation from './steps/MoreJobInformation';
-import CandidateRequirements from './steps/CandidateRequirements';
-import CompanyInfoVisibility from './steps/CompanyInfoVisibility';
-import MatchingCriteria from './steps/MatchingCriteria';
-import ContactInformation from './steps/ContactInformation';
-import PreviewJob from './steps/PreviewJob';
-import CompleteJobPost from './steps/CompleteJobPost';
-import {adminDomain} from '../../../../@softbd/common/constants';
-import {LINK_JOB_CREATE_OR_UPDATE} from '../../../../@softbd/common/appLinks';
+import {adminDomain} from '../../../@softbd/common/constants';
+import SecondStep from './SecondStep';
+import {FOUR_IR_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -38,11 +31,11 @@ interface StepObj {
 const steps: Array<StepObj> = [
   {
     id: 1,
-    langKey: 'job_posting.primary_job_info',
+    langKey: 'common.4IR_projects',
   },
   {
     id: 2,
-    langKey: 'job_posting.more_job_info',
+    langKey: '4IR_steps.team_and_cell',
   },
   {
     id: 3,
@@ -70,36 +63,32 @@ const steps: Array<StepObj> = [
   },
 ];
 
-const stepNames: Array<string> = [
-  'step1',
-  'step2',
-  'step3',
-  'step4',
-  'step5',
-  'step6',
-  'step7',
-  'step8',
-];
+const stepNames: Array<string> = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 const JobPostingView = () => {
   const {messages} = useIntl();
   const router = useRouter();
-  const {postStep, jobId} = router.query;
-  const [jobIdState] = useState<string | null>(jobId ? String(jobId) : null);
+  const {completionStep, formStep, presentStep, projectId} = router.query;
   const [activeStep, setActiveStep] = useState<number>(0);
   const [lastestStep, setLastestStep] = useState<any>(1);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    if (postStep && jobId && stepNames.includes(postStep.toString())) {
-      const step = postStep.toString();
-      const regex = new RegExp('step(.*)');
-      const match = step.match(regex);
-      if (match) setActiveStep(Number(match[1]));
-    } else if (postStep) {
+    console.log('type of present stePL: ', typeof presentStep);
+    console.log('type of present stePL:toString ', typeof presentStep.toString);
+    if (
+      completionStep &&
+      projectId &&
+      presentStep &&
+      stepNames.includes(presentStep.toString())
+    ) {
+      console.log('in active step');
+      setActiveStep(presentStep);
+    } else if (presentStep) {
+      console.log('in valid state');
       setIsValid(false);
     }
-  }, [postStep, jobId]);
+  }, [completionStep, projectId]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);
@@ -110,14 +99,24 @@ const JobPostingView = () => {
   };
 
   const gotoStep = (step: number) => {
-    router
-      .push({
-        pathname: LINK_JOB_CREATE_OR_UPDATE + 'step' + step,
-        query: {
-          jobId: jobId,
-        },
-      })
-      .then(() => {});
+    if (step == 1) {
+      router
+        .push({
+          pathname: FOUR_IR_SERVICE_PATH,
+        })
+        .then(() => {});
+    } else {
+      router
+        .push({
+          pathname: FOUR_IR_SERVICE_PATH + '/' + projectId,
+          query: {
+            completionStep: completionStep,
+            formStep: formStep,
+            presentStep: step,
+          },
+        })
+        .then(() => {});
+    }
   };
 
   const setLatestStep = (step: number) => {
@@ -130,74 +129,12 @@ const JobPostingView = () => {
   };
 
   const getCurrentStepForm = useCallback(() => {
-    if (jobIdState) {
+    if (projectId) {
       switch (activeStep) {
-        case 1:
-          return (
-            <PrimaryJobInformation
-              jobId={jobIdState}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
         case 2:
           return (
-            <MoreJobInformation
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 3:
-          return (
-            <CandidateRequirements
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 4:
-          return (
-            <CompanyInfoVisibility
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 5:
-          return (
-            <MatchingCriteria
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 6:
-          return (
-            <ContactInformation
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 7:
-          return (
-            <PreviewJob
-              jobId={jobIdState}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );
-        case 8:
-          return (
-            <CompleteJobPost
-              jobId={jobIdState}
+            <SecondStep
+              fourIRProjectId={projectId}
               onBack={handleBack}
               onContinue={handleNext}
               setLatestStep={setLatestStep}
@@ -224,6 +161,8 @@ const JobPostingView = () => {
       })
       .then(() => {});
   }
+
+  console.log('the validity: ', isValid);
 
   return isValid ? (
     <StyledPaper>
