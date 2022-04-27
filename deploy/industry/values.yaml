@@ -20,7 +20,7 @@ variables:
   imageAppVersion: "prod-1.9"
 
   # increase this when you need scale up
-  replicaCount: 1
+  replicaCount: 3
 
   imagePullPolicy: IfNotPresent
 
@@ -56,7 +56,7 @@ variables:
 #auto scaling config
 autoScaling:
   enabled: true
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80

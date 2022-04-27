@@ -60,7 +60,7 @@ variables:
 #auto scaling config
 autoScaling:
   enabled: true
-  minReplicas: 1
+  minReplicas: 6
   maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
