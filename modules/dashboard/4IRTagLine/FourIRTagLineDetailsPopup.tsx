@@ -6,9 +6,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconBranch from '../../../@softbd/icons/IconBranch';
+import IconSkill from '../../../@softbd/icons/IconSkill';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {useFetchFourIROccupation} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -16,13 +17,19 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRImplemntingTeamDetailsPopup = ({
+const FourIRTagLineDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchImplementingTeam(itemId);
+
+  // TODO -> fetching required
+  const {data: itemData, isLoading} = {
+    data: {name: 'imran sarkar bn', name_en: 'imran sarkar en', row_status: 1},
+    isLoading: false,
+  };
+  //useFetchFourIROccupation(itemId);
 
   return (
     <>
@@ -31,8 +38,8 @@ const FourIRImplemntingTeamDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconBranch />
-            <IntlMessages id='4ir.implementing_team' />
+            <IconSkill />
+            <IntlMessages id='menu.tagline' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -49,45 +56,24 @@ const FourIRImplemntingTeamDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.name']}
               value={itemData?.name}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.name_en']}
               value={itemData?.name_en}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.email}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.phone_number']}
-              value={itemData?.phone_number}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['role.label']}
-              value={itemData?.role}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.designation']}
-              value={itemData?.designation}
+          <Grid item xs={12}>
+            <CustomChipRowStatus
+              label={messages['common.active_status']}
+              value={itemData?.row_status}
               isLoading={isLoading}
             />
           </Grid>
@@ -97,4 +83,4 @@ const FourIRImplemntingTeamDetailsPopup = ({
   );
 };
 
-export default FourIRImplemntingTeamDetailsPopup;
+export default FourIRTagLineDetailsPopup;

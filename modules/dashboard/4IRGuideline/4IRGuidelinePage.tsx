@@ -12,27 +12,24 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import FourIRImplemntingTeamAddEditPopup from './FourIRImplemntingTeamAddEditPopup';
-import FourIRImplemntingTeamDetailsPopup from './FourIRImplemntingTeamDetailsPopup';
-
+import FourIRGuidelineAddEditPopup from './4IRGuidelineAddEditPopup';
+import FourIRTNAReportDetailsPopup from './4IRGuidelineDetailsPopup';
+import {API_4IR_GUIDLINE} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
+import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
 
-interface IFourIRImplemntingTeamPageProps {
-  fourIRProjectId: number;
+interface IFourIRGuidelinePage {
+    fourIRProjectId: number;
 }
 
-const FourIRImplemntingTeamPage = ({
-  fourIRProjectId = 9,
-}: IFourIRImplemntingTeamPageProps) => {
+const FourIRGuidelinePage = ({fourIRProjectId}: IFourIRGuidelinePage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
@@ -58,21 +55,25 @@ const FourIRImplemntingTeamPage = ({
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteImplementingTeamItem = async (projectId: number) => {
-    let response = await deleteImplementingTeam(projectId);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prev) => !prev);
+  }, []);
+
+  // TODO -> refectoring
+  const deleteTNAReportItem = async (itemId: number) => {
+    let response = await deleteTNAReport(itemId);
+
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='4ir.label' />}}
         />,
       );
+
       refreshDataTable();
     }
   };
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prev) => !prev);
-  }, []);
 
   const columns = useMemo(
     () => [
@@ -90,25 +91,25 @@ const FourIRImplemntingTeamPage = ({
       },
 
       {
-        Header: messages['common.name'],
-        accessor: 'name',
+        Header: messages['common.workshop_name'],
+        accessor: 'workshop_name',
       },
       {
-        Header: messages['common.email'],
-        accessor: 'email',
+        Header: messages['common.required_skill'],
+        accessor: 'skill_required',
       },
       {
-        Header: messages['common.phone_number'],
-        accessor: 'phone_number',
+        Header: messages['common.start_date'],
+        accessor: 'start_date',
       },
       {
-        Header: messages['role.label'],
-        accessor: 'role',
+        Header: messages['common.end_date'],
+        accessor: 'end_date',
         isVisible: false,
       },
       {
-        Header: messages['common.designation'],
-        accessor: 'designation',
+        Header: messages['common.venue'],
+        accessor: 'venue',
         isVisible: false,
       },
 
@@ -116,12 +117,13 @@ const FourIRImplemntingTeamPage = ({
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteImplementingTeamItem(data.id)}
+                deleteAction={() => deleteTNAReportItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -135,19 +137,21 @@ const FourIRImplemntingTeamPage = ({
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_IMPLEMENTNG_TEAM,
-      paramsValueModifier: (params) => {
-        params['four_ir_project_id'] = fourIRProjectId;
+      urlPath: API_4IR_GUIDLINE,
+      paramsValueModifier: (params: any) => {
+        params['fourIrGuidelinesId'] = fourIrGuidelinesId;
         return params;
       },
     });
+
+  console.log(data);
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.implementing_team' />
+            <IconBranch /> <IntlMessages id='4ir.guideline' />
           </>
         }
         extra={[
@@ -159,7 +163,7 @@ const FourIRImplemntingTeamPage = ({
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir.implementing_team'],
+                  subject: messages['4ir.TNA_report'],
                 }}
               />
             }
@@ -175,17 +179,17 @@ const FourIRImplemntingTeamPage = ({
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRImplemntingTeamAddEditPopup
+          <FourIRGuidelineAddEditPopup
             key={1}
-            fourIRProjectId={fourIRProjectId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRProjectId={fourIrGuidelinesId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRImplemntingTeamDetailsPopup
+          <FourIRTNAReportDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -197,4 +201,4 @@ const FourIRImplemntingTeamPage = ({
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRGuidelinePage;

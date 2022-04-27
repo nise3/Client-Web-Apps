@@ -28,6 +28,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface ProjectAddEditPopupProps {
   itemId: number | null;
@@ -64,6 +65,8 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
+  const [projectId, setProjectId] = useState<any>(null);
   const [completionStep, setCompletionStep] = useState<any>(1);
   const [formStep, setFormStep] = useState<any>(1);
   const [tasks, setTasks] = useState<any>([]);
@@ -185,7 +188,6 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         }
       });
 
-      console.log('the tasks : ', tasks);
       setTasks(tasks);
       setFormStep(itemData?.form_step);
       setCompletionStep(itemData?.completion_step);
@@ -194,10 +196,14 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     }
   }, [itemData]);
 
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
   const onSubmit: SubmitHandler<IProject> = async (data: IProject) => {
     try {
       if (itemId) {
-        console.log('the tasks: ', tasks);
         data.completion_step = completionStep;
         data.form_step = formStep;
         data.tasks = tasks;
@@ -208,12 +214,11 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         data.completion_step = completionStep;
         data.form_step = formStep;
         data.tasks = tasks;
-        await createProject(data);
+        const response = await createProject(data);
         createSuccessMessage('4ir_project.label');
-        /** add the success component as in the design*/
+        setShowSuccessPopUp(true);
+        setProjectId(response?.data?.id);
       }
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -382,6 +387,15 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           />
         </Grid>
       </Grid>
+      {showSuccessPopUp && projectId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={1}
+          projectId={projectId}
+          completionStep={1}
+          formStep={1}
+        />
+      )}
     </HookFormMuiModal>
   );
 };

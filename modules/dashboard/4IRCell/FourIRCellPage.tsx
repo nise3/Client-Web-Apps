@@ -23,14 +23,10 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 
 interface IFourIRCellPage {
-  fourIRProjectCellName: string;
   fourIRProjectId: number;
 }
 
-const FourIRCellPage = ({
-  fourIRProjectCellName = 'name',
-  fourIRProjectId = 9,
-}: IFourIRCellPage) => {
+const FourIRCellPage = ({fourIRProjectId}: IFourIRCellPage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);

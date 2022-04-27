@@ -24,7 +24,10 @@ import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
+import {
+  API_4IR_PROJECTS,
+  FOUR_IR_SERVICE_PATH,
+} from '../../../@softbd/common/apiRoutes';
 
 const FourIRProjectsPage = () => {
   const router = useRouter();
@@ -73,10 +76,11 @@ const FourIRProjectsPage = () => {
   const openIncompleteStep = useCallback(
     (projectId: any, completionStep: any, formStep: any) => {
       router.push({
-        pathname: '/4ir/' + projectId,
+        pathname: FOUR_IR_SERVICE_PATH + '/' + projectId,
         query: {
           completionStep: completionStep,
           formStep: formStep,
+          presentStep: completionStep + 1,
         },
       });
     },
@@ -153,7 +157,7 @@ const FourIRProjectsPage = () => {
                   );
                 }}
                 btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step}
+                extraText={data?.completion_step + 1}
                 startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
                 color='secondary'
               />

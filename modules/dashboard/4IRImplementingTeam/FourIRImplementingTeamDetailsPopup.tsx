@@ -16,7 +16,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRMentoringTeamDetailsPopup = ({
+const FourIRImplementingTeamDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
@@ -32,7 +32,7 @@ const FourIRMentoringTeamDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.mentoring_team' />
+            <IntlMessages id='4ir.implementing_team' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -97,4 +97,4 @@ const FourIRMentoringTeamDetailsPopup = ({
   );
 };
 
-export default FourIRMentoringTeamDetailsPopup;
+export default FourIRImplementingTeamDetailsPopup;

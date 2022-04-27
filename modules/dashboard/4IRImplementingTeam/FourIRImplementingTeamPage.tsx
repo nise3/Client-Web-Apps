@@ -12,21 +12,21 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import FourIRMentoringTeamAddEditPopup from './FourIRMentoringTeamAddEditPopup';
-import FourIRMentoringTeamDetailsPopup from './FourIRMentoringTeamDetailsPopup';
+import FourIRImplementingTeamAddEditPopup from './FourIRImplementingTeamAddEditPopup';
+import FourIRImplementingTeamDetailsPopup from './FourIRImplementingTeamDetailsPopup';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
-import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
 interface IFourIRImplementingTeamPageProps {
   fourIRProjectId: number;
 }
 
-const FourIRMentoringTeamPage = ({
+const FourIRImplementingTeamPage = ({
   fourIRProjectId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
@@ -54,7 +54,11 @@ const FourIRMentoringTeamPage = ({
     [selectedItemId],
   );
 
-  const deleteMonitoringTeamItem = async (projectId: number) => {
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenDetailsModal(false);
+  }, []);
+
+  const deleteImplementingTeamItem = async (projectId: number) => {
     let response = await deleteImplementingTeam(projectId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -66,11 +70,6 @@ const FourIRMentoringTeamPage = ({
       refreshDataTable();
     }
   };
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-  }, []);
-
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prev) => !prev);
   }, []);
@@ -122,7 +121,7 @@ const FourIRMentoringTeamPage = ({
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteMonitoringTeamItem(data.id)}
+                deleteAction={() => deleteImplementingTeamItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -148,7 +147,7 @@ const FourIRMentoringTeamPage = ({
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.mentoring_team' />
+            <IconBranch /> <IntlMessages id='4ir.implementing_team' />
           </>
         }
         extra={[
@@ -160,7 +159,7 @@ const FourIRMentoringTeamPage = ({
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir.mentoring_team'],
+                  subject: messages['4ir.implementing_team'],
                 }}
               />
             }
@@ -176,17 +175,17 @@ const FourIRMentoringTeamPage = ({
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRMentoringTeamAddEditPopup
+          <FourIRImplementingTeamAddEditPopup
             key={1}
+            fourIRProjectId={fourIRProjectId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIRProjectId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRMentoringTeamDetailsPopup
+          <FourIRImplementingTeamDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -198,4 +197,4 @@ const FourIRMentoringTeamPage = ({
   );
 };
 
-export default FourIRMentoringTeamPage;
+export default FourIRImplementingTeamPage;
