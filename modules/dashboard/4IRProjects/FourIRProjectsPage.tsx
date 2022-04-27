@@ -156,7 +156,7 @@ const FourIRProjectsPage = () => {
                   );
                 }}
                 btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step}
+                extraText={data?.completion_step + 1}
                 startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
                 color='secondary'
               />
