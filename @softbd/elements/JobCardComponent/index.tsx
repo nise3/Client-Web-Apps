@@ -14,7 +14,6 @@ import {
   CalendarToday,
   LocationOn,
   Room,
-  Share,
 } from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {Body1, Body2, H5, H6, Link} from '../common';
@@ -500,7 +499,7 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
                   icon={<span className={classes.salaryIcon}>৳</span>}
                 />
               )}
-              <Share className={classes.shareIcon} />
+              {/*<Share className={classes.shareIcon} />*/}
             </Box>
             {isShowingInMyJobs && job?.interview_scheduled_at ? (
               <Box className={classes.cardBottom}>
