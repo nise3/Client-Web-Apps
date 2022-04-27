@@ -30,6 +30,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_4IR_TNA_REPORT,
   API_4IR_IMPLEMENTNG_TEAM,
+  API_4IR_GUIDLINE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -54,6 +55,10 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
+
+export function useFetchGuideline(guidelineId: number | null) {
+  return useAxiosSWR(guidelineId ? API_4IR_GUIDLINE + '/' + guidelineId : null);
 }
 
 export function useFetchTNAReport(TNAReportId: number | null) {

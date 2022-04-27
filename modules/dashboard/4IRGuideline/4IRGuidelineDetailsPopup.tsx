@@ -4,11 +4,11 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {useIntl} from 'react-intl';
+// import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
+//import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -21,8 +21,17 @@ const FourIRGuidelineDetailsPopup = ({
   openEditModal,
   ...props
 }: Props) => {
-  const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchTNAReport(itemId);
+  // const {messages} = useIntl();
+  const {data: itemData, isLoading} = {
+    data: {
+      id: 1,
+      file_path: '',
+      guideline_details: 'Lorem this is just demo text.'.repeat(1000),
+    },
+    isLoading: false,
+  };
+
+  //useFetchTNAReport(itemId);
 
   return (
     <>
@@ -32,7 +41,7 @@ const FourIRGuidelineDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.TNA_report' />
+            <IntlMessages id='4ir.guideline' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -49,38 +58,10 @@ const FourIRGuidelineDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.workshop_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.required_skill']}
-              value={itemData?.skill_required}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.start_date']}
-              value={itemData?.start_date}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.end_date']}
-              value={itemData?.end_date}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.venue']}
-              value={itemData?.venue}
+              label={''}
+              value={itemData?.guideline_details}
               isLoading={isLoading}
             />
           </Grid>
