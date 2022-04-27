@@ -119,6 +119,7 @@ function RecentActivityMasonryGroupView({items}: any) {
                   masonryPositions[item.collage_position - 1]?.cols,
                 )}
                 alt={item.image_alt_title}
+                title={item.image_alt_title}
                 loading='lazy'
               />
               <Box className={classes.imageTexts}>

@@ -255,6 +255,9 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+                inputProps={{
+                  autofocus: true,
+                }}
               />
             </Grid>
             <Grid item xs={12} md={6}>

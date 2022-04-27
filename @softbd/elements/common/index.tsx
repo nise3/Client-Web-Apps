@@ -1,8 +1,9 @@
 import React from 'react';
 import NextLink from 'next/link';
-import {Typography} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
+import {ArrowRightAlt} from '@mui/icons-material';
 
 interface LinkProp {
   children?: any;
@@ -10,6 +11,7 @@ interface LinkProp {
   className?: string;
   decorated?: boolean;
   passHref?: boolean;
+  anchorProps?: any;
   target?: '_self' | '_blank' | '_parent' | '_top';
 
   [x: string]: any;
@@ -37,11 +39,17 @@ export const Link = ({
   className = '',
   passHref = true,
   target = '_self',
+  anchorProps = {},
   ...props
 }: LinkProp) => {
   return (
     <NextLink href={href} passHref={passHref} {...props}>
-      <a href={href} target={target} className={className} style={style}>
+      <a
+        href={href}
+        target={target}
+        className={className}
+        style={style}
+        {...anchorProps}>
         {children}
       </a>
     </NextLink>
@@ -180,4 +188,41 @@ export const Caption = ({
     {...props}>
     {children}
   </Typography>
+);
+
+export const Hx = ({
+  children,
+  centered = false,
+  level = 'h2',
+  ...props
+}: HeadingProp) => (
+  <Typography
+    variant={level}
+    tabIndex={0}
+    style={centered ? {textAlign: 'center'} : {}}
+    {...props}>
+    {children}
+  </Typography>
+);
+
+export const SeeMoreLinkButton = ({
+  href = '',
+  label = '',
+  color = 'primary',
+  variant = 'outlined',
+  ...props
+}: HeadingProp) => (
+  <Link href={href} style={{display: 'inline-block'}} passhref>
+    <Button
+      variant={variant}
+      color={color}
+      endIcon={<ArrowRightAlt />}
+      tabIndex={-1}
+      style={{
+        borderRadius: '10px',
+      }}
+      {...props}>
+      {label}
+    </Button>
+  </Link>
 );
