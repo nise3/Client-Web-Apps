@@ -8,10 +8,12 @@ interface YesNoTypeViewProps {
   question: any;
   index: number;
 }
+
 enum YesNoAnswer {
   YES = 1,
   NO = 2,
 }
+
 const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
   const {messages, formatNumber} = useIntl();
   return (
@@ -40,7 +42,7 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
         <Grid item xs={10} sx={{marginLeft: '20px'}}>
           <RadioGroup
             aria-labelledby='demo-radio-buttons-group-label'
-            defaultValue={question?.answer}
+            defaultValue={question?.answers?.[0]}
             name='radio-buttons-group'>
             <FormControlLabel
               value={YesNoAnswer.YES}
@@ -48,10 +50,10 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
               label={messages['common.yes'] as string}
               disabled={true}
               componentsProps={
-                question?.correct_answer == 1
+                Number(question?.correct_answers?.[0]) == 1
                   ? {
                       typography: {
-                        sx: {color: 'green !important'},
+                        sx: {color: 'green !important', fontWeight: 'bold'},
                       },
                     }
                   : {}

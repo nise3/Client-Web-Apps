@@ -1937,5 +1937,8 @@
   "common.random_question": "Random question",
   "common.answer_sheet": "Answer Sheet",
   "exam.question_selected": " question selected",
-  "exam.no_question_selected": "No question selected"
+  "exam.no_question_selected": "No question selected",
+  "exam.already_participated": "Already participated",
+  "exam.not_answered": "Not Answered",
+  "exam.no_file_provided": "No File Provided"
 }

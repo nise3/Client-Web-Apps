@@ -125,11 +125,11 @@ const ExamMarkingViewPage = () => {
               {messages['common.time']} {': '}
               {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
             </Body2>
-            <Body2>
+            {/* <Body2>
               {messages['common.total_obtained_marks'] +
                 ': ' +
                 getIntlNumber(formatNumber, examSheet?.total_marks)}
-            </Body2>
+            </Body2>*/}
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>

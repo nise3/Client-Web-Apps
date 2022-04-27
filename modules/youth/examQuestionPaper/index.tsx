@@ -17,7 +17,6 @@ import {
 import {useFetchExamQuestionPaper} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import {QuestionType} from '../../dashboard/questionsBank/QuestionBanksEnums';
-import {Skeleton} from '@mui/lab';
 import QuestionTitleHeader from './QuestionTitleHeader';
 import QuestionSkeleton from './QuestionSkeleton';
 import MCQTypeQuestion from './MCQTypeQuestion';
@@ -45,8 +44,7 @@ const ExamQuestionPaper = () => {
   const [examQuestionFilter, setExamQuestionFilter] = useState<any>(null);
   const {examId} = router.query;
   const {submissionSuccessMessage} = useSuccessMessage();
-  const {data: examQuestions, isLoading: isLoadingExamQuestions} =
-    useFetchExamQuestionPaper(examQuestionFilter);
+  const {data: examQuestions} = useFetchExamQuestionPaper(examQuestionFilter);
 
   const [examQuestionData, setExamQuestionData] = useState<any>(null);
   const [loadingQuestions, setLoadingQuestions] = useState<boolean>(true);
@@ -170,8 +168,13 @@ const ExamQuestionPaper = () => {
               );
             }
           }
+
+          if (question?.file_path) {
+            question.file_path = [question.file_path];
+          }
         });
       }
+
       await submitExamPaper(formData);
       submissionSuccessMessage('common.answer_sheet');
       setHasExamEnded(true);
@@ -245,11 +248,9 @@ const ExamQuestionPaper = () => {
             <Grid item xs={12}>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                 <Grid container spacing={2}>
-                  {isLoadingExamQuestions ? (
-                    <Skeleton variant='text' />
-                  ) : examQuestionData &&
-                    examQuestionData?.exam_sections &&
-                    examQuestionData?.exam_sections.length ? (
+                  {examQuestionData &&
+                  examQuestionData?.exam_sections &&
+                  examQuestionData?.exam_sections.length ? (
                     examQuestionData?.exam_sections.map((section: any) => {
                       return (
                         <React.Fragment key={section?.uuid}>
@@ -456,10 +457,7 @@ const ExamQuestionPaper = () => {
                       );
                     })
                   ) : (
-                    <NoDataFoundComponent
-                      messageType={messages['common.question']}
-                      messageTextType={'h6'}
-                    />
+                    <></>
                   )}
                 </Grid>
                 <Grid item display={'flex'} justifyContent={'center'}>

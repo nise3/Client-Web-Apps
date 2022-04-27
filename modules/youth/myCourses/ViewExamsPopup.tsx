@@ -15,7 +15,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import FrontendCustomModal from '../../../@softbd/modals/FrontendCustomModal/FrontendCustomModal';
 import {useIntl} from 'react-intl';
-import {Link} from '../../../@softbd/elements/common';
+import {Body1, Link} from '../../../@softbd/elements/common';
 import {
   getIntlDateFromString,
   getIntlNumber,
@@ -23,6 +23,8 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {LINK_FRONTEND_YOUTH_EXAMS} from '../../../@softbd/common/appLinks';
 import {ExamTypes} from '../../dashboard/exams/ExamEnums';
+
+//import moment from 'moment';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
@@ -112,6 +114,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
           <TableBody>
             {exams && exams.length ? (
               (exams || []).map((exam: any, index: number) => {
+                // let duration = moment.duration(
+                //   moment(new Date()).diff(moment(exam?.exam_date)),
+                // );
+                // let minutes = Number(duration.asMinutes());
+
                 return (
                   <TableRow key={index}>
                     <TableCell component='th' scope='language'>
@@ -132,14 +139,19 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                     </TableCell>
                     <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
                     <TableCell>
-                      {exam.type == ExamTypes.ONLINE && (
-                        <Link
-                          href={LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`}>
-                          <Button variant={'outlined'}>
-                            {messages['common.attend_exam']}
-                          </Button>
-                        </Link>
-                      )}
+                      {exam.type == ExamTypes.ONLINE &&
+                        (exam?.participated ? (
+                          <Body1>{messages['exam.already_participated']}</Body1>
+                        ) : (
+                          <Link
+                            href={
+                              LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`
+                            }>
+                            <Button variant={'outlined'}>
+                              {messages['common.attend_exam']}
+                            </Button>
+                          </Link>
+                        ))}
                     </TableCell>
                   </TableRow>
                 );

@@ -3,14 +3,22 @@ import {Button, Grid} from '@mui/material';
 import {Body2, Link} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../../../@softbd/common/apiRoutes';
 
 interface FileViewAnswerProps {
   question: any;
   index: number;
   inputField?: React.ReactNode;
 }
+
 const FileView: FC<FileViewAnswerProps> = ({question, index, inputField}) => {
   const {messages, formatNumber} = useIntl();
+
+  let path = question?.file_paths?.[0];
+  if (path) {
+    path = FILE_SERVER_FILE_VIEW_ENDPOINT + path;
+  }
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={10} display={'flex'}>
@@ -34,9 +42,13 @@ const FileView: FC<FileViewAnswerProps> = ({question, index, inputField}) => {
         </Body2>
       </Grid>
       <Grid item xs={10} sx={{marginLeft: '20px'}}>
-        <Link target={'_blank'}>
-          <Button variant={'outlined'}>{messages['common.show_file']}</Button>
-        </Link>
+        {path ? (
+          <Link target={'_blank'} href={path}>
+            <Button variant={'outlined'}>{messages['common.show_file']}</Button>
+          </Link>
+        ) : (
+          <Body2>{messages['exam.no_file_provided']}</Body2>
+        )}
       </Grid>
     </Grid>
   );

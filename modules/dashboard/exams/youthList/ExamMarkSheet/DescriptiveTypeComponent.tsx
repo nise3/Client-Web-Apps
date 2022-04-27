@@ -42,7 +42,11 @@ const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
       <Grid item xs={10} sx={{marginLeft: '20px'}}>
         <DetailsInputView
           label={messages['common.answer']}
-          value={question?.answer}
+          value={
+            question?.answers?.[0]
+              ? question?.answers?.[0]
+              : messages['exam.not_answered']
+          }
           isLoading={false}
         />
       </Grid>
