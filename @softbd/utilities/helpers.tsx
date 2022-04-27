@@ -6,7 +6,6 @@ import {getBrowserCookie} from '../libs/cookieInstance';
 import {COOKIE_KEY_INSTITUTE_ID} from '../../shared/constants/AppConst';
 import {getHostUrl} from '../common/SSOConfig';
 import {
-  EXAM_TIME_IN_MILLIS,
   industryDomain,
   instituteDomain,
   isLocalHost,
@@ -582,8 +581,7 @@ export const getMobilePhoneValidationSchema = (
   });
 };
 
-export const getTimer = (date: any) => {
-  const expireTime = date + EXAM_TIME_IN_MILLIS;
+export const getTimer = (expireTime: number) => {
   const time = new Date();
   let clearInterval = false;
   let remainingSec = Math.ceil((expireTime - time.getTime()) / 1000);

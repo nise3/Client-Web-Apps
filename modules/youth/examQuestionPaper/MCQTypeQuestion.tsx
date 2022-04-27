@@ -15,7 +15,7 @@ const McqTypeQuestion: FC<MCQTypeQuestionProps> = ({
 }) => {
   const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
   const onChangeCheckBox = (checkedValue: any) => {
-    if (answers.includes(checkedValue)) {
+    if ((answers || []).includes(checkedValue)) {
       setAnswers((prev: any) => {
         prev[checkedValue - 1] = 0;
         return prev;
@@ -34,7 +34,7 @@ const McqTypeQuestion: FC<MCQTypeQuestionProps> = ({
           id={'questions[' + index + '].answers[0]'}
           label={question?.option_1}
           register={register}
-          checked={answers.includes(1)}
+          checked={answers?.includes(1)}
           onChange={() => {
             onChangeCheckBox(1);
           }}
@@ -44,7 +44,7 @@ const McqTypeQuestion: FC<MCQTypeQuestionProps> = ({
           id={'questions[' + index + '].answers[1]'}
           label={question?.option_2}
           register={register}
-          checked={answers.includes(2)}
+          checked={answers?.includes(2)}
           onChange={() => {
             onChangeCheckBox(2);
           }}
@@ -54,7 +54,7 @@ const McqTypeQuestion: FC<MCQTypeQuestionProps> = ({
           id={'questions[' + index + '].answers[2]'}
           label={question?.option_3}
           register={register}
-          checked={answers.includes(3)}
+          checked={answers?.includes(3)}
           onChange={() => {
             onChangeCheckBox(3);
           }}
@@ -64,7 +64,7 @@ const McqTypeQuestion: FC<MCQTypeQuestionProps> = ({
           id={'questions[' + index + '].answers[3]'}
           label={question?.option_4}
           register={register}
-          checked={answers.includes(4)}
+          checked={answers?.includes(4)}
           onChange={() => {
             onChangeCheckBox(4);
           }}

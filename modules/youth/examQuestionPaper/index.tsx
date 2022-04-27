@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {Button, Grid, Paper} from '@mui/material';
-import {Body1, Body2, H4, H6} from '../../../@softbd/elements/common';
+import {Body1, Body2, H4, H5, S1, S2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -9,11 +9,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import cookieInstance from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_EXAM_TIME} from '../../../shared/constants/AppConst';
-import {EXAM_TIME_IN_MILLIS} from '../../../@softbd/common/constants';
 import {
-  getIntlDateFromString,
   getIntlNumber,
   getTimer,
   question_type,
@@ -59,72 +55,6 @@ const ExamQuestionPaper = () => {
     return yup.object().shape({});
   }, []);
 
-  useEffect(() => {
-    let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
-    if (examQuestionData) {
-      let examDate = examQuestionData?.exam_date;
-
-      let duration = moment.duration(
-        moment(currentDate).diff(moment(examDate)),
-      );
-      let minutes = Number(duration.asMinutes());
-      if (minutes > examQuestionData?.duration) {
-        setHasExamEnded(true);
-      } else if (minutes < 0) {
-        setHasExamStarted(false);
-      } else {
-        setHasExamEnded(false);
-        setHasExamStarted(true);
-        setLoadingQuestions(false);
-        initTimer(currentDate, examDate);
-      }
-    }
-  }, [examQuestionData]);
-
-  const initTimer = (currentDate: string, examDate: string) => {};
-
-  useEffect(() => {
-    if (!isLoadingExamQuestions) {
-      setTimer('1:20:00');
-    }
-  }, [isLoadingExamQuestions]);
-
-  useEffect(() => {
-    if (!isLoadingExamQuestions) {
-      const current = new Date();
-      let expireDate = new Date();
-      const expireTime = expireDate.getTime() + EXAM_TIME_IN_MILLIS;
-      expireDate.setTime(expireTime);
-
-      cookieInstance.set(COOKIE_KEY_EXAM_TIME, current.getTime(), {
-        expires: expireDate,
-      });
-      let date = cookieInstance.get(COOKIE_KEY_EXAM_TIME);
-      if (date) {
-        date = Number(date);
-        const currentDate = new Date();
-
-        if (date && currentDate.getTime() - date < EXAM_TIME_IN_MILLIS) {
-          const expireTime = date + EXAM_TIME_IN_MILLIS;
-          const timeout = expireTime - currentDate.getTime();
-
-          if (timeout > 0) {
-            const interval = setInterval(() => {
-              let remainingTime = getTimer(date);
-              setTimer(remainingTime.timer);
-              if (remainingTime.clearInterval) {
-                clearInterval(interval);
-                setSubmitDisable(true);
-              }
-            }, 1000);
-          }
-        } else {
-          setTimer(null);
-        }
-      }
-    }
-  }, [isLoadingExamQuestions]);
-
   const {
     register,
     control,
@@ -148,20 +78,71 @@ const ExamQuestionPaper = () => {
         }
       } else {
         setExamQuestionFilter(examId);
-        if (examQuestions) {
-          localStorage.setItem('questionPaper', JSON.stringify(examQuestions));
-          setExamQuestionData(examQuestions);
-        }
       }
     } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    if (examQuestions) {
+      localStorage.setItem('questionPaper', JSON.stringify(examQuestions));
+      setExamQuestionData(examQuestions);
+    }
   }, [examQuestions]);
+
+  useEffect(() => {
+    let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
+    if (examQuestionData) {
+      let examDate = examQuestionData?.exam_date;
+
+      let duration = moment.duration(
+        moment(currentDate).diff(moment(examDate)),
+      );
+      let minutes = Number(duration.asMinutes());
+
+      if (minutes > examQuestionData?.duration) {
+        setHasExamEnded(true);
+        clearLocalStorage();
+      } else if (minutes < 0) {
+        clearLocalStorage();
+      } else {
+        setHasExamStarted(true);
+        initTimer(currentDate, examDate, examQuestionData?.duration);
+      }
+      setLoadingQuestions(false);
+    }
+  }, [examQuestionData]);
+
+  const initTimer = (
+    currentDate: string,
+    examDate: string,
+    examDuration: number,
+  ) => {
+    let duration = moment.duration(moment(currentDate).diff(moment(examDate)));
+    let seconds = Number(duration.asSeconds());
+
+    let examDurationInSecond = Number(examDuration) * 60;
+    let remSecInMillis = (examDurationInSecond - seconds) * 1000;
+    let expireTime = new Date().getTime() + remSecInMillis;
+    const interval = setInterval(() => {
+      let remainingTime = getTimer(expireTime);
+      setTimer(remainingTime.timer);
+      if (remainingTime.clearInterval) {
+        clearInterval(interval);
+        setSubmitDisable(true);
+      }
+    }, 1000);
+  };
 
   useEffect(() => {
     window.onbeforeunload = function (event) {
       localStorage.setItem('questionAnswers', JSON.stringify(getValues()));
-      return confirm('Confirm refresh');
     };
   }, []);
+
+  const clearLocalStorage = () => {
+    localStorage.removeItem('questionPaper');
+    localStorage.removeItem('questionAnswers');
+  };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
@@ -194,8 +175,7 @@ const ExamQuestionPaper = () => {
       await submitExamPaper(formData);
       submissionSuccessMessage('common.answer_sheet');
       setHasExamEnded(true);
-      localStorage.removeItem('questionPaper');
-      localStorage.removeItem('questionAnswers');
+      clearLocalStorage();
       router.push(LINK_FRONTEND_YOUTH_MY_COURSES).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -229,11 +209,25 @@ const ExamQuestionPaper = () => {
               flexDirection={'column'}
               justifyContent={'center'}
               xs={12}>
-              <H6>{examQuestionData?.title}</H6>
-              <Body2>
+              <H5>{examQuestionData?.title}</H5>
+              <S1>{examQuestionData?.subject_title}</S1>
+              <S2>
+                {messages['common.time']}
+                {': '}
+                {formatNumber(examQuestionData?.duration)}{' '}
+                {messages['common.minute']}
+              </S2>
+              <S2>
                 {messages['common.date']} {': '}
-                {getIntlDateFromString(formatDate, examQuestionData?.exam_date)}
-              </Body2>
+                {formatDate(examQuestionData?.exam_date, {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                })}
+              </S2>
             </Grid>
 
             <Grid
@@ -258,7 +252,7 @@ const ExamQuestionPaper = () => {
                     examQuestionData?.exam_sections.length ? (
                     examQuestionData?.exam_sections.map((section: any) => {
                       return (
-                        <React.Fragment key={section?.id}>
+                        <React.Fragment key={section?.uuid}>
                           <Grid item xs={12} display={'flex'}>
                             <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
                               {messages[
@@ -441,6 +435,7 @@ const ExamQuestionPaper = () => {
                                           ansIndex +
                                           '].file_path'
                                         }
+                                        //defaultFileUrl={itemData?.collage_image_path}
                                         setValue={setValue}
                                         errorInstance={errors}
                                         register={register}
@@ -467,9 +462,9 @@ const ExamQuestionPaper = () => {
                     />
                   )}
                 </Grid>
-                <Grid item display={'flex'} justifyContent={'space-between'}>
+                <Grid item display={'flex'} justifyContent={'center'}>
                   <Button
-                    sx={{marginLeft: 'auto', marginTop: '10px'}}
+                    sx={{marginTop: '20px'}}
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
