@@ -42,6 +42,7 @@ const NoDataFoundComponent = ({
             }
       }>
       <Typography
+        tabIndex={0}
         variant={messageTextType ?? 'h4'}
         sx={{
           textTransform: 'lowercase',
