@@ -24,8 +24,6 @@ import {
 import {LINK_FRONTEND_YOUTH_EXAMS} from '../../../@softbd/common/appLinks';
 import {ExamTypes} from '../../dashboard/exams/ExamEnums';
 
-//import moment from 'moment';
-
 interface ViewExamsPopupProps {
   onClose: () => void;
   exams: any;
@@ -114,10 +112,10 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
           <TableBody>
             {exams && exams.length ? (
               (exams || []).map((exam: any, index: number) => {
-                // let duration = moment.duration(
-                //   moment(new Date()).diff(moment(exam?.exam_date)),
-                // );
-                // let minutes = Number(duration.asMinutes());
+                let isOver =
+                  new Date(exam?.exam_date).getTime() +
+                    Number(exam?.duration) * 60 * 1000 <
+                  new Date().getTime();
 
                 return (
                   <TableRow key={index}>
@@ -142,6 +140,8 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                       {exam.type == ExamTypes.ONLINE &&
                         (exam?.participated ? (
                           <Body1>{messages['exam.already_participated']}</Body1>
+                        ) : isOver ? (
+                          <Body1>{messages['exam.exam_over']}</Body1>
                         ) : (
                           <Link
                             href={

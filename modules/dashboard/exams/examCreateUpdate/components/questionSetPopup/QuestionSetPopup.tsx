@@ -222,10 +222,7 @@ const QuestionSetPopup = ({
             onEditPopupOpenClose={onEditPopupOpenClose}
             subjectId={subjectId}
             questionType={questionType}
-            eachQuestionMark={getIntlNumber(
-              formatNumber,
-              Number((totalMarks / totalQuestions).toFixed(2)),
-            )}
+            eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
             selectedQuestions={selectedQuestions || []}
             selectionType={selectionType}
           />

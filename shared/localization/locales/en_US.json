@@ -1947,5 +1947,6 @@
   "question_set.question_more": "questions",
   "common.must_have_sub_question": "Must have at least {subject} Question",
   "common.not_more_than_sub_question": "Not more than {subject} questions can be added",
-  "common.more_than_sub_question": "More than {subject} questions need to be added"
+  "common.more_than_sub_question": "More than {subject} questions need to be added",
+  "exam.exam_over": "Exam over"
 }
