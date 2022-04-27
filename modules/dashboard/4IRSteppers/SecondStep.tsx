@@ -39,17 +39,16 @@ const SecondStep = ({
     };
 
   useEffect(() => {
-    if (itemData && itemData?.latest_step) {
-      const latestStep = itemData.completion_step;
+    if (itemData && itemData?.completion_step) {
+      const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
-
-      if (latestStep >= 2) {
+      if (latestStep >= 1) {
         setIsReady(true);
       }
-      setLatestStep(latestStep);
+      setLatestStep(latestStep + 1);
     }
   }, [itemData]);
-  console.log('is ready then go: ', isReady);
+
   return isReady ? (
     <Box mt={2}>
       <Accordion
@@ -107,7 +106,7 @@ const SecondStep = ({
       </Accordion>
     </Box>
   ) : (
-    <>not allowed</>
+    <></>
   );
 };
 

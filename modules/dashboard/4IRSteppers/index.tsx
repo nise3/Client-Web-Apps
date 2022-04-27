@@ -63,7 +63,7 @@ const steps: Array<StepObj> = [
   },
 ];
 
-const stepNames: Array<string> = ['1', '2', '3', '4', '5', '6', '7', '8'];
+const stepNames: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const JobPostingView = () => {
   const {messages} = useIntl();
@@ -74,21 +74,17 @@ const JobPostingView = () => {
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    console.log('type of present stePL: ', typeof presentStep);
-    console.log('type of present stePL:toString ', typeof presentStep.toString);
     if (
       completionStep &&
       projectId &&
       presentStep &&
-      stepNames.includes(presentStep.toString())
+      stepNames.includes(Number(presentStep))
     ) {
-      console.log('in active step');
-      setActiveStep(presentStep);
+      setActiveStep(Number(presentStep));
     } else if (presentStep) {
-      console.log('in valid state');
       setIsValid(false);
     }
-  }, [completionStep, projectId]);
+  }, [completionStep, projectId, activeStep]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);
@@ -128,8 +124,14 @@ const JobPostingView = () => {
     }
   };
 
+  console.log('active step: ', activeStep);
   const getCurrentStepForm = useCallback(() => {
     if (projectId) {
+      console.log(
+        'inside the current step form: ',
+        typeof activeStep,
+        activeStep,
+      );
       switch (activeStep) {
         case 2:
           return (
@@ -146,7 +148,7 @@ const JobPostingView = () => {
     } else {
       return <></>;
     }
-  }, [activeStep]);
+  }, [projectId, activeStep]);
 
   const onStepIconClick = (step: number) => {
     if (step <= lastestStep) {
@@ -161,8 +163,6 @@ const JobPostingView = () => {
       })
       .then(() => {});
   }
-
-  console.log('the validity: ', isValid);
 
   return isValid ? (
     <StyledPaper>
