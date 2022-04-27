@@ -50,13 +50,13 @@ const VisitorDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/*<Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.address']}
               value={itemData?.address}
               isLoading={isLoading}
             />
-          </Grid>
+          </Grid>*/}
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.email']}
