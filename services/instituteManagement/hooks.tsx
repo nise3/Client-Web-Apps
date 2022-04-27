@@ -8,12 +8,16 @@ import {
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
+  API_EXAM_QUESTION_BANK,
+  API_EXAM_QUESTION_PAPER,
+  API_EXAM_SUBJECTS,
+  API_EXAMS,
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
-  API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
+  API_PREVIEW_YOUTH_EXAM,
   API_PROGRAMMES,
   API_PROGRAMS,
   API_PUBLIC_COURSE_DETAILS,
@@ -25,9 +29,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -184,15 +188,6 @@ export function useFetchInstituteTraineeYouths() {
   return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
-/**
- * Question Bank
- */
-export const useFetchQuestionBank = (questionId: number | null) => {
-  return useAxiosSWR(
-    questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
-  );
-};
-
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
   return useDataLocalizationAxiosSWR(
     courseId
@@ -229,3 +224,50 @@ export const useFetchTrainingCenterReportIncomeExpenditure = (
       : null,
   );
 };
+
+export function useFetchExamQuestionsBanks(params: any) {
+  return useAxiosSWR([API_EXAM_QUESTION_BANK, params]);
+}
+
+export function useFetchExamQuestionsBank(questionsBankId: number | null) {
+  return useAxiosSWR(
+    questionsBankId ? API_EXAM_QUESTION_BANK + '/' + questionsBankId : null,
+  );
+}
+
+export function useFetchSubject(subjectId: number | null) {
+  return useAxiosSWR(subjectId ? API_EXAM_SUBJECTS + '/' + subjectId : null);
+}
+
+export function useFetchSubjects(params: any) {
+  return useAxiosSWR([API_EXAM_SUBJECTS, params]);
+}
+
+export function useFetchExam(examId: any, params?: any) {
+  return useAxiosSWR(
+    examId
+      ? params
+        ? [API_EXAMS + '/' + examId, params]
+        : API_EXAMS + '/' + examId
+      : null,
+  );
+}
+
+export function useFetchExamQuestionPaper(examId: number | null) {
+  return useDataLocalizationAxiosSWR(
+    examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null,
+  );
+}
+
+export function useFetchExamYouthList(examId: number | null) {
+  return useAxiosSWR(examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null);
+}
+
+export function useFetchPreviewYouthExam(
+  examId: number | null,
+  youthId: number | null,
+) {
+  return useAxiosSWR(
+    examId ? API_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId : null,
+  );
+}

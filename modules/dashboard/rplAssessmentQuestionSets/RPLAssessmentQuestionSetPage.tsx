@@ -137,7 +137,7 @@ const RPLAssessmentQuestionSetPage = () => {
                 onClick={() =>
                   openAddQuestionModal(data.id, data?.assessment_id)
                 }
-                btnText='assessment.addQuestion'
+                btnText='common.addQuestion'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                 color='secondary'
               />

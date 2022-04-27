@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {Fade} from 'react-awesome-reveal';
+import {Zoom} from 'react-awesome-reveal';
 import {H4} from '../../@softbd/elements/common';
 import {createIntl, createIntlCache, useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
@@ -77,7 +77,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const NoticeAndEventSection = () => {
-  const {messages, formatDate, locale } = useIntl();
+  const {messages, formatDate, locale} = useIntl();
   const dateFormat = 'YYYY-MM-DD';
   const cache = createIntlCache();
   const intl = createIntl(
@@ -85,7 +85,7 @@ const NoticeAndEventSection = () => {
       locale: locale,
       messages: {},
     },
-    cache
+    cache,
   );
 
   const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
@@ -128,14 +128,19 @@ const NoticeAndEventSection = () => {
     setSelectedDateItems(e.start);
   };
 
-  const startDates = eventsList.map(e => moment(e.start).format(dateFormat)) as string[];
-  const hasEvent = (currentDate: string, allDates: string[]): boolean => allDates.find(e => e == currentDate) != undefined;
-  const parsDate = (datevalue: any): string => moment(datevalue).format(dateFormat);
-  const eventsByDate = (currentDate: string, allDates: string[]): string[] => allDates.filter(e => e == currentDate);
+  const startDates = eventsList.map((e) =>
+    moment(e.start).format(dateFormat),
+  ) as string[];
+  const hasEvent = (currentDate: string, allDates: string[]): boolean =>
+    allDates.find((e) => e == currentDate) != undefined;
+  const parsDate = (datevalue: any): string =>
+    moment(datevalue).format(dateFormat);
+  const eventsByDate = (currentDate: string, allDates: string[]): string[] =>
+    allDates.filter((e) => e == currentDate);
 
   // example implementation of a wrapper
   const ColoredDateCellWrapper = (evnt: any) => {
-    const { children, value } = evnt;
+    const {children, value} = evnt;
     const currentDate = parsDate(value);
     let _backgroundColor = '';
     if (hasEvent(currentDate, startDates)) {
@@ -145,44 +150,55 @@ const NoticeAndEventSection = () => {
       style: {
         ...children.style,
         ...{
-          backgroundColor: _backgroundColor
-        }
+          backgroundColor: _backgroundColor,
+        },
       },
-    })
-  }
-  
+    });
+  };
+
   const customDateCellWrap = (e: any) => {
     const dateNumber = intl.formatNumber(e.label);
-    const dateFontSize = { fontSize: '1.5rem' };
-    const dateSpan = <span style={dateFontSize}>{ dateNumber }</span>;
-    return <div>
-      {
-        hasEvent(parsDate(e.date), startDates) ?
-          <div style={{ color: '#fff', position: 'relative' }}>
+    const dateFontSize = {fontSize: '1.5rem'};
+    const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
+    return (
+      <div>
+        {hasEvent(parsDate(e.date), startDates) ? (
+          <div style={{color: '#fff', position: 'relative'}}>
             {dateSpan}
-            <div style={{ fontSize: '0.8rem', position: 'absolute', backgroundColor: '#fff', color: '#671688', padding: '3px', borderRadius: '5px' }}>
-              {intl.formatNumber(eventsByDate(parsDate(e.date), startDates).length)}
+            <div
+              style={{
+                fontSize: '0.8rem',
+                position: 'absolute',
+                backgroundColor: '#fff',
+                color: '#671688',
+                padding: '3px',
+                borderRadius: '5px',
+              }}>
+              {intl.formatNumber(
+                eventsByDate(parsDate(e.date), startDates).length,
+              )}
             </div>
-          </div> :
+          </div>
+        ) : (
           dateSpan
-      }
-
-    </div>
-  }
+        )}
+      </div>
+    );
+  };
   const componentObject = {
     dateCellWrapper: ColoredDateCellWrapper,
     month: {
       dateHeader: customDateCellWrap,
-      header: (e:any) => {
+      header: (e: any) => {
         const lbl = messages[`calendar.${e.label}`];
-        return <span>{lbl}</span>
-      }
-    }
-  }
+        return <span>{lbl}</span>;
+      },
+    },
+  };
 
   return (
     <StyledContainer maxWidth='lg'>
-      <Fade direction='up'>
+      <Zoom direction='up'>
         <UnderlinedHeading>
           {messages['industry.notice_and_events']}
         </UnderlinedHeading>
@@ -255,7 +271,7 @@ const NoticeAndEventSection = () => {
             </Grid>
           </Grid>
         </Card>
-      </Fade>
+      </Zoom>
     </StyledContainer>
   );
 };

@@ -65,6 +65,37 @@ export const religions = [
   },
 ];
 
+export const question_type = [
+  {
+    id: 1,
+    label: 'common.mcq',
+  },
+  {
+    id: 2,
+    label: 'common.fill_in_the_blank',
+  },
+  {
+    id: 3,
+    label: 'common.yes_no',
+  },
+  {
+    id: 4,
+    label: 'common.practical',
+  },
+  {
+    id: 5,
+    label: 'common.field_work',
+  },
+  {
+    id: 6,
+    label: 'common.presentation',
+  },
+  {
+    id: 7,
+    label: 'common.descriptive',
+  },
+];
+
 export const catchBlockHandler = (error: any, message = '') => {
   throw error;
 };
@@ -360,6 +391,16 @@ export const passingYears = () => {
     }
 };*/
 
+export const getIntlTimeFromString = (formatFn: any, dateStr: any) => {
+  const date = new Date(dateStr).toLocaleString();
+  let time = formatFn(date);
+  if (time !== 'Invalid Date') {
+    return time;
+  } else {
+    return '';
+  }
+};
+
 export const getIntlDateFromString = (
   formatFn: any,
   dateStr: any,
@@ -540,6 +581,29 @@ export const getMobilePhoneValidationSchema = (
   });
 };
 
+export const getTimer = (expireTime: number) => {
+  const time = new Date();
+  let clearInterval = false;
+  let remainingSec = Math.ceil((expireTime - time.getTime()) / 1000);
+  let remainingMin = Math.floor(remainingSec / 60);
+  remainingSec = remainingSec % 60;
+  let remainingHour = Math.floor(remainingMin / 60);
+  remainingMin = remainingMin % 60;
+  if (remainingHour < 1 && remainingMin < 1 && remainingSec < 1) {
+    clearInterval = true;
+  }
+
+  return {
+    timer:
+      (remainingHour < 10 ? '0' + remainingHour : remainingHour) +
+      ':' +
+      (remainingMin < 10 ? '0' + remainingMin : remainingMin) +
+      ':' +
+      (remainingSec < 10 ? '0' + remainingSec : remainingSec),
+    clearInterval: clearInterval,
+  };
+};
+
 export const isValidLatitude = (lat: any) => {
   return lat && isFinite(lat) && Math.abs(lat) <= 90;
 };
@@ -557,4 +621,12 @@ export const getCalculatedSerialNo = (
   size: number | null | undefined,
 ) => {
   return page && size ? page * size + (index + 1) : index + 1;
+};
+
+export const not = (a: any[], b: any[]) => {
+  return a.filter((value) => b?.indexOf(value) === -1);
+};
+
+export const intersection = (checked: any[], dataList: any[]) => {
+  return checked?.filter((value) => dataList?.indexOf(value) !== -1);
 };

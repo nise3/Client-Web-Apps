@@ -147,6 +147,24 @@ export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
 export const API_COURSE_ENROLLMENT_IMPORT =
   INSTITUTE_SERVICE_PATH + '/course-enrollment-bulk-import';
 
+/**exam management*/
+export const API_EXAM_QUESTION_BANK =
+  INSTITUTE_SERVICE_PATH + '/exam-question-banks';
+
+export const API_EXAM_SUBJECTS = INSTITUTE_SERVICE_PATH + '/exam-subjects';
+
+export const API_EXAMS = INSTITUTE_SERVICE_PATH + '/exams';
+export const API_EXAM_QUESTION_PAPER =
+  INSTITUTE_SERVICE_PATH + '/exam-question-paper';
+export const API_EXAM_YOUTH_LIST = INSTITUTE_SERVICE_PATH + '/exam-youth-list';
+export const API_SUBMIT_EXAM_PAPER =
+  INSTITUTE_SERVICE_PATH + '/submit-exam-paper';
+export const API_YOUTH_EXAM_MARK_UPDATE =
+  INSTITUTE_SERVICE_PATH + '/youth-exam-mark-update';
+
+export const API_PREVIEW_YOUTH_EXAM =
+  INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
+
 /**             eRPL            */
 
 export const API_REGISTERED_TRAINING_ORGANIZATIONS =

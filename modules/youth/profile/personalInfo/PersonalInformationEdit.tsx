@@ -235,8 +235,37 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         label: messages['physical_disability.intellectual'],
       },
       {
-        id: PhysicalDisabilities.SOCIAL,
-        label: messages['physical_disability.social'],
+        id: PhysicalDisabilities.PHYSICAL,
+        label: messages['physical_disability.physical_disability'],
+      },
+      {
+        id: PhysicalDisabilities.SPEECH,
+        label: messages['physical_disability.speech'],
+      },
+      {
+        id: PhysicalDisabilities.DEAF_BLINDNESS,
+        label: messages['physical_disability.deaf_blindness'],
+      },
+      {
+        id: PhysicalDisabilities.CEREBAL_PALSY,
+        label: messages['physical_disability.cerebral_palsy'],
+      },
+      {
+        id: PhysicalDisabilities.DOWN_SYNDROME,
+        label: messages['physical_disability.down_syndrome'],
+      },
+      {
+        id: PhysicalDisabilities.AUTISM_OR_AUTISM_SPECTRUM,
+        label:
+          messages['physical_disability.autism_or_autism_spectrum_disorder'],
+      },
+      {
+        id: PhysicalDisabilities.MULTIPLE,
+        label: messages['physical_disability.multiple'],
+      },
+      {
+        id: PhysicalDisabilities.OTHER,
+        label: messages['physical_disability.other'],
       },
     ],
     [messages],

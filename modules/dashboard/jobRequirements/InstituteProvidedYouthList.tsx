@@ -25,6 +25,7 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {ApprovalStatus} from './Constants/ApprovalStatusEnums';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const InstituteProvidedYouthList = () => {
   const {messages} = useIntl();
@@ -121,7 +122,10 @@ const InstituteProvidedYouthList = () => {
         accessor: 'cv_link',
         Cell: (props: any) => {
           let data = props.row.original;
-          const URL = data?.cv_link;
+          let URL = data?.cv_link;
+          if (URL) {
+            URL = FILE_SERVER_FILE_VIEW_ENDPOINT + URL;
+          }
 
           return data?.youth_id ? (
             <Link href={LINK_CV_BANK + '/' + data.youth_id} target={'_blank'}>

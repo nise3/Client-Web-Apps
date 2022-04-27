@@ -270,7 +270,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       },
       {
         id: AlbumTypes.MIXED,
-        label: messages['album_type.mixed'],
+        label: messages['common.mixed'],
       },
     ],
     [messages],

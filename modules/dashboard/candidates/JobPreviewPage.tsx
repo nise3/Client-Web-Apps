@@ -629,7 +629,7 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
           {job?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
               title={messages['job_posting.published_on']}>
-              {formatDate(job.primary_job_information.published_at, {
+              {formatDate(job?.primary_job_information?.published_at, {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -653,10 +653,10 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
               {messages['job_preview.job_summary']}
             </Box>
             <CardContent>
-              {job.primary_job_information.published_at && (
+              {job?.primary_job_information?.published_at && (
                 <Body2>
                   <b>{messages['job_posting.published_on']}</b>{' '}
-                  {formatDate(job.primary_job_information.published_at, {
+                  {formatDate(job?.primary_job_information?.published_at, {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric',
@@ -698,7 +698,7 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
                 <b>{messages['job_preview_summary.application_deadline']} </b>
                 {job?.primary_job_information?.application_deadline
                   ? formatDate(
-                      job.primary_job_information.application_deadline,
+                      job?.primary_job_information?.application_deadline,
                       {
                         day: '2-digit',
                         month: 'short',
@@ -820,7 +820,7 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
           <Body1 mt={2}>
             {messages['job_preview_summary.application_deadline']}{' '}
             {job?.primary_job_information?.application_deadline
-              ? formatDate(job.primary_job_information.application_deadline, {
+              ? formatDate(job?.primary_job_information?.application_deadline, {
                   day: '2-digit',
                   month: 'short',
                   year: 'numeric',
