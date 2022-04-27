@@ -9,6 +9,9 @@ export const API_PUBLIC_BACK_CHANNEL = process.env.NEXT_PUBLIC_BACK_CHANNEL_URL
 export const API_SSO_AUTHORIZE_CODE_GRANT =
   API_PUBLIC_BACK_CHANNEL + '/sso-authorize-code-grant';
 
+export const API_CDAP_AUTHORIZE_ID_TOKEN_GRANT =
+  API_PUBLIC_BACK_CHANNEL + '/cdap-authorize-id-token-grant';
+
 export const FILE_SERVER_UPLOAD_ENDPOINT = process.env
   .NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
   ? process.env.NEXT_PUBLIC_FILE_SERVER_UPLOAD_ENDPOINT
@@ -85,6 +88,7 @@ export const API_PERMISSION_SUB_GROUPS =
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
+export const API_YOUTH_EXIST_CHECK = YOUTH_SERVICE_PATH + '/youth-exist-check';
 export const PROFILE_UPDATE = '/profile-update';
 export const UPDATE_PASSWORD = '/password-update';
 
@@ -140,6 +144,8 @@ export const API_INSTITUTE_CERTIFICATION_AUTHORITY_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/certification-authority-dashboard-statistics';
 export const API_INSTITUTE_RTO_DASHBOARD_STATICS =
   INSTITUTE_SERVICE_PATH + '/rto-dashboard-statistics';
+export const API_COURSE_ENROLLMENT_IMPORT =
+  INSTITUTE_SERVICE_PATH + '/course-enrollment-bulk-import';
 
 /**exam management*/
 export const API_EXAM_QUESTION_BANK =
@@ -226,6 +232,8 @@ export const API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS =
 export const API_RPL_PUBLIC_LEVELS = TSP_PUBLIC_SERVICE_PATH + '/rpl-levels';
 export const API_PUBLIC_RPL_APPLICATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/rpl-applications';
+export const API_COURSE_ENROLLMENT_BULK_IMPORT_FORMAT =
+  TSP_PUBLIC_SERVICE_PATH + '/course-enrollment-bulk-import-file-format';
 
 /** All institute service public routes section end */
 
@@ -236,6 +244,8 @@ export const API_YOUTHS = YOUTH_SERVICE_PATH + '/youths';
 
 export const API_YOUTH_REGISTRATION =
   YOUTH_SERVICE_PATH + '/youth-registration';
+export const API_YOUTH_REGISTRATION_CDAP =
+  YOUTH_SERVICE_PATH + '/cdap-youth-create';
 export const API_YOUTH_REGISTRATION_VERIFICATION =
   YOUTH_SERVICE_PATH + '/youth-profile-verification';
 export const API_SEND_YOUTH_REGISTRATION_VERIFICATION_CODE =

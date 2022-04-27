@@ -163,7 +163,7 @@ const MatchingCriteria = ({
       };
       setCriteriaValue(criteria);
     }
-  }, [matchingCriteria]);
+  }, [matchingCriteria, messages]);
 
   useEffect(() => {
     setProgress(Math.floor((selectedCount * 100) / totalField.current));
@@ -327,14 +327,13 @@ const MatchingCriteria = ({
           borderRadius: '5px',
           border: '1px solid #d1d1d1',
         }}>
-        <S2 fontWeight={'bold'}>Matching Strength</S2>
+        <S2 fontWeight={'bold'}>{messages['job_posting.matching_criteria']}</S2>
         <Typography
           color={'grey.600'}
           sx={{
             fontSize: '14px !important',
           }}>
-          Suggestion: To get the relevant candidates, matching strength will be
-          increased if you add job requirements from the following items.
+          {messages['job_posting.matching_criteria_suggestion']}
         </Typography>
         <Box display={'flex'} alignItems={'center'}>
           <BorderLinearProgress variant='determinate' value={progress} />

@@ -137,7 +137,7 @@ export function useFetchYouthDetails(youthId: number | null | string) {
 }
 
 export function useFetchYouths(params: any) {
-  return useAxiosSWR([API_YOUTHS, params]);
+  return useDataLocalizationAxiosSWR([API_YOUTHS, params]);
 }
 
 export function useFetchLanguageProficiency(

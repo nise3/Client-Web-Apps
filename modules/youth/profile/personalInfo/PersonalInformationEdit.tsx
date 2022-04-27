@@ -121,7 +121,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     useState<boolean>(false);
   const [identityNumberType, setIdentityNumberType] = useState<
     string | undefined
-  >(IdentityNumberTypes.NID);
+  >();
 
   const getIdentityNumberFieldCaption = useCallback(() => {
     switch (String(identityNumberType)) {
@@ -205,13 +205,16 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      identity_number: yup
-        .string()
-        .trim()
-        .matches(NID_REGEX)
-        .label(messages['common.identity_number'] as string),
+      identity_number: Boolean(identityNumberType)
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .matches(NID_REGEX)
+            .label(messages['common.identity_number'] as string)
+        : yup.mixed(),
     });
-  }, [messages, userNameType, disabilityStatus]);
+  }, [messages, userNameType, disabilityStatus, identityNumberType]);
 
   const physicalDisabilities = useMemo(
     () => [
@@ -232,8 +235,37 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         label: messages['physical_disability.intellectual'],
       },
       {
-        id: PhysicalDisabilities.SOCIAL,
-        label: messages['physical_disability.social'],
+        id: PhysicalDisabilities.PHYSICAL,
+        label: messages['physical_disability.physical_disability'],
+      },
+      {
+        id: PhysicalDisabilities.SPEECH,
+        label: messages['physical_disability.speech'],
+      },
+      {
+        id: PhysicalDisabilities.DEAF_BLINDNESS,
+        label: messages['physical_disability.deaf_blindness'],
+      },
+      {
+        id: PhysicalDisabilities.CEREBAL_PALSY,
+        label: messages['physical_disability.cerebral_palsy'],
+      },
+      {
+        id: PhysicalDisabilities.DOWN_SYNDROME,
+        label: messages['physical_disability.down_syndrome'],
+      },
+      {
+        id: PhysicalDisabilities.AUTISM_OR_AUTISM_SPECTRUM,
+        label:
+          messages['physical_disability.autism_or_autism_spectrum_disorder'],
+      },
+      {
+        id: PhysicalDisabilities.MULTIPLE,
+        label: messages['physical_disability.multiple'],
+      },
+      {
+        id: PhysicalDisabilities.OTHER,
+        label: messages['physical_disability.other'],
       },
     ],
     [messages],
@@ -444,7 +476,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     data.does_belong_to_ethnic_group = isBelongToEthnicGroup
       ? EthnicGroupStatus.YES
       : EthnicGroupStatus.NO;
-
     try {
       await updateYouthPersonalInfo(data);
       updateSuccessMessage('personal_info.label');
@@ -453,7 +484,6 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
   return (
     <Zoom in={true}>
       <Box>
@@ -588,23 +618,24 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                   },
                 ]}
                 control={control}
-                defaultValue={IdentityNumberTypes.NID}
+                defaultValue={identityNumberType}
                 isLoading={false}
                 onChange={onIdentityTypeChange}
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='identity_number'
-                label={getIdentityNumberFieldCaption()}
-                isLoading={false}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-
+            {identityNumberType && (
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id='identity_number'
+                  label={getIdentityNumberFieldCaption()}
+                  isLoading={false}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} md={6}>
               <FormRadioButtons
                 id='gender'
@@ -802,6 +833,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 register={register}
                 label={messages['common.cv']}
                 required={false}
+                acceptedFileTypes={['image/*', 'application/pdf']}
               />
             </Grid>
             <Grid item xs={12} md={6}>

@@ -1,59 +1,45 @@
 import React, {useCallback, useState} from 'react';
 import {
   Button,
+  Card,
   Divider,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
-  MenuProps,
 } from '@mui/material';
-import {styled} from '@mui/material/styles';
 import {Link} from '../../common';
 import {KeyboardArrowDown, Logout} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLogoutUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
 import Box from '@mui/material/Box';
-
-const StyledMenu = styled((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-))(({theme}) => ({
-  '& .MuiPaper-root': {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === 'light'
-        ? 'rgb(55, 65, 81)'
-        : theme.palette.grey[300],
-    boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: '4px 0',
-    },
-  },
-}));
+import {removeBrowserCookie} from '../../../libs/cookieInstance';
+import {
+  COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
+  COOKIE_KEY_AUTH_ID_TOKEN,
+  COOKIE_KEY_CDAP_SESSION_STATE,
+} from '../../../../shared/constants/AppConst';
+import {signOut} from '../../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {useRouter} from 'next/router';
 
 interface Props extends ButtonProps {
   onClick: () => void;
   buttonText: string;
   icon: React.ReactNode;
+  cdapLogout?: boolean;
 }
 
-const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
+const GotoProfileMenu = ({
+  onClick,
+  buttonText,
+  icon,
+  cdapLogout,
+  ...extra
+}: Props) => {
   const {messages} = useIntl();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -65,43 +51,95 @@ const GotoProfileMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
     setAnchorEl(null);
   }, []);
 
+  const onCDAPLogout = useCallback(async () => {
+    try {
+      removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+      removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
+      removeBrowserCookie(COOKIE_KEY_CDAP_SESSION_STATE);
+      await dispatch(signOut());
+      router.reload();
+    } catch (error) {}
+  }, []);
+
   return (
     <Box sx={{whiteSpace: 'nowrap'}}>
       <Button
         sx={{height: '100%'}}
         id='my-profile-button'
-        aria-controls='my-profile-menu'
+        /*   aria-controls='my-profile-menu'
         aria-haspopup='true'
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? 'true' : undefined}*/
         variant='contained'
         size={'small'}
-        disableElevation
         onClick={handleClick}
         endIcon={<KeyboardArrowDown />}>
         {buttonText}
       </Button>
-      <StyledMenu
-        id='my-profile-menu'
-        MenuListProps={{
-          'aria-labelledby': 'my-profile-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}>
-        <MenuItem onClick={onClick}>
-          <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText>{buttonText}</ListItemText>
-        </MenuItem>
-        <Divider sx={{margin: '0 !important'}} />
-        <Link href={getSSOLogoutUrl()}>
-          <MenuItem>
-            <ListItemIcon>
-              <Logout />
-            </ListItemIcon>
-            <ListItemText>{messages['common.logout']}</ListItemText>
-          </MenuItem>
-        </Link>
-      </StyledMenu>
+      {open && (
+        <div
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
+      )}
+      {open && (
+        <Card
+          sx={{
+            position: 'absolute',
+            marginTop: '10px',
+            boxShadow:
+              '0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%)',
+            zIndex: 9999999,
+          }}>
+          {/** CAN NOT USE ANYTHING OTHER THAN button */}
+          <button
+            tabIndex={-1}
+            style={{
+              background: 'none',
+              padding: 0,
+              margin: 0,
+              border: 0,
+              outline: 0,
+              appearance: 'none',
+              textAlign: 'unset',
+            }}>
+            <Link>
+              <MenuItem onClick={onClick}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText>{buttonText}</ListItemText>
+              </MenuItem>
+              <Divider sx={{margin: '0 !important'}} />
+            </Link>
+
+            {cdapLogout ? (
+              <MenuItem onClick={onCDAPLogout}>
+                <ListItemIcon>
+                  <Logout />
+                </ListItemIcon>
+                <ListItemText>{messages['common.logout']}</ListItemText>
+              </MenuItem>
+            ) : (
+              <Link href={getSSOLogoutUrl()}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout />
+                  </ListItemIcon>
+                  <ListItemText>{messages['common.logout']}</ListItemText>
+                </MenuItem>
+              </Link>
+            )}
+          </button>
+        </Card>
+      )}
     </Box>
   );
 };

@@ -4,6 +4,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import {
   Box,
   FormControl,
@@ -23,6 +24,7 @@ registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginImagePreview,
   FilePondPluginFileValidateType,
+  FilePondPluginFileValidateSize,
 );
 
 interface FilepondComponentProps {
@@ -42,6 +44,14 @@ interface FilepondComponentProps {
   disabled?: any;
 }
 
+/** Accepted files type */
+/*acceptedFileTypes = [
+  'image/!*',
+  'application/pdf',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+]*/
+
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));
 
 const FileUploadComponent: FC<FilepondComponentProps> = ({
@@ -53,12 +63,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   label,
   defaultFileUrl,
   allowMultiple,
-  acceptedFileTypes = [
-    'image/*',
-    'application/pdf',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  ],
+  acceptedFileTypes = ['image/*'],
   sizeLimitText = '1MB',
   uploadedUrls,
   height,
@@ -128,6 +133,19 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
           allowMultiple={allowMultiple}
           onremovefile={handleRemoveFile}
           acceptedFileTypes={acceptedFileTypes}
+          labelFileTypeNotAllowed={messages['filePond.file_type'] as string}
+          allowFileSizeValidation={true}
+          labelMaxFileSize={
+            (messages['filePond.max_file_size'] as string) + sizeLimitText
+          }
+          labelMaxFileSizeExceeded={
+            (messages['filePond.max_file_size'] as string) + sizeLimitText
+          }
+          labelMaxTotalFileSizeExceeded={
+            messages['filePond.total_max_file_size'] as string
+          }
+          maxFileSize={sizeLimitText}
+          maxTotalFileSize={'50MB'}
           maxParallelUploads={1}
           maxFiles={50}
           // allowRemove={false} // prop does not exist

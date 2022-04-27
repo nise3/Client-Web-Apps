@@ -40,6 +40,7 @@ const CustomCheckbox = ({
         sx={{
           marginLeft: '0',
         }}
+        tabIndex={0}
         control={
           <Checkbox
             color='primary'

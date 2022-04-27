@@ -12,7 +12,7 @@ import {Guardian} from '../../../../services/youthManagement/typing';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
@@ -112,15 +112,16 @@ const GuardianSection = () => {
                     {guardians.map((guardian: Guardian, index: number) => (
                       <React.Fragment key={guardian.id}>
                         {index != 0 && <VerticalLine />}
-                        <H3
+                        <S1
                           sx={{...result.body1}}
                           className={classes.textStyle}>
                           {guardian.name}
-                        </H3>
+                        </S1>
                       </React.Fragment>
                     ))}
                   </StyledBox>
                   <Typography
+                    tabIndex={0}
                     variant={'caption'}
                     onClick={() => {
                       openGuardianView();

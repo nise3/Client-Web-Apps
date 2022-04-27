@@ -6,13 +6,8 @@ import {
   Container,
   Grid,
   Skeleton,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -81,7 +76,7 @@ const NoticeDetails = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} textAlign={'right'}>
+            {/*<Grid item xs={6} textAlign={'right'}>
               <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
@@ -106,7 +101,7 @@ const NoticeDetails = () => {
                   sx={{backgroundColor: '#2fc94d'}}
                 />
               </Tooltip>
-            </Grid>
+            </Grid>*/}
           </Grid>
         </Grid>
 

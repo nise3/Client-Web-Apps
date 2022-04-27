@@ -71,7 +71,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.organization_name'] as string),
       name_of_the_office_head: yup
         .string()

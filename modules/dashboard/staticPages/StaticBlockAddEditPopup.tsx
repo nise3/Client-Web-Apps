@@ -40,6 +40,7 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 const initialValues: Partial<IStaticPageContent> = {
   title: '',
+  title_en: '',
   content: '',
   is_attachment_available: '0',
   attachment_type: '',
@@ -126,13 +127,23 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
               .required()
               .label(messages['common.show_in'] as string)
           : yup.string(),
+
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       template_code: yup
         .string()
-        .title()
+        .required()
         .label(messages['static_page.template_code'] as string),
       is_button_available: yup
         .string()
@@ -197,8 +208,11 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -206,8 +220,11 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });

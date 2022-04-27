@@ -16,6 +16,9 @@ import {
 } from '../enums/JobPostEnums';
 import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hooks';
+import {LINK_JOB_LIST} from '../../../../../@softbd/common/appLinks';
+import {useRouter} from 'next/router';
+import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
 
 interface Props {
   jobId: string;
@@ -58,10 +61,12 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages, formatNumber, formatDate} = useIntl();
   const {data: jobData} = useFetchJobPreview(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const router = useRouter();
+  const {successStack} = useNotiStack();
 
   useEffect(() => {
     if (jobData && jobData?.latest_step) {
-      const latestStep = jobData.latest_step;
+      const latestStep = jobData?.latest_step;
       delete jobData?.latest_step;
 
       if (latestStep >= 7) {
@@ -70,12 +75,6 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
       setLatestStep(latestStep);
     }
   }, [jobData]);
-
-  const onReadyToProcess = () => {
-    try {
-      onContinue();
-    } catch (error: any) {}
-  };
 
   const getJobNature = () => {
     let jobNature: Array<string> = [];
@@ -147,8 +146,12 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           <IntlMessages
             id={'job_preview.experience_from_to'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
-              to: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
+              to: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -157,7 +160,9 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           <IntlMessages
             id={'job_preview.experience_at_least'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
             }}
           />
         );
@@ -166,7 +171,9 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           <IntlMessages
             id={'job_preview.experience_at_most'}
             values={{
-              from: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -178,23 +185,39 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   };
 
   const getAgeText = () => {
-    let ageText = '';
+    let ageText: any = '';
 
     if (
       jobData?.candidate_requirements?.age_minimum &&
       jobData?.candidate_requirements?.age_maximum
     ) {
-      ageText =
-        jobData?.candidate_requirements?.age_minimum +
-        ' to ' +
-        jobData?.candidate_requirements?.age_maximum +
-        ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_from_to'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+            to: formatNumber(jobData?.candidate_requirements?.age_maximum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_minimum) {
-      ageText =
-        'At least ' + jobData?.candidate_requirements?.age_minimum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_least'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_maximum) {
-      ageText =
-        'At most ' + jobData?.candidate_requirements?.age_maximum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_most'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     }
 
     return ageText;
@@ -280,6 +303,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         .map((skill: any) => skill.title)
         .join(', ');
     }
+
     if (
       additionalEducationRequirement.length > 0 ||
       jobData?.candidate_requirements?.degrees?.length > 0 ||
@@ -294,11 +318,15 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
-          (degree: any, index: number) => (
-            <li key={index}>
-              {degree?.exam_degree?.title} in {degree?.major_subject}
-            </li>
-          ),
+          (degree: any, index: number) =>
+            degree?.exam_degree ? (
+              <li key={index}>
+                {degree?.exam_degree?.title}
+                {degree?.major_subject ? ' in ' + degree?.major_subject : ''}
+              </li>
+            ) : (
+              <></>
+            ),
         )}
         {additionalEducationRequirement.map((req: string, index) => (
           <li key={index}>{req}</li>
@@ -349,24 +377,39 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             .join(', ');
       }
 
+      let isShowNotApplicable = true;
+      if (
+        experienceText ||
+        jobData?.candidate_requirements?.is_freshers_encouraged == 1 ||
+        experienceAreas ||
+        experienceBusinessAreas
+      ) {
+        isShowNotApplicable = false;
+      }
+
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
           {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
             <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
-          <li>
-            {messages['job_preview.experience_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceAreas}</li>
-            </ul>
-          </li>
-          <li>
-            {messages['job_preview.business_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceBusinessAreas}</li>
-            </ul>
-          </li>
+          {experienceAreas && (
+            <li>
+              {messages['job_preview.experience_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceAreas}</li>
+              </ul>
+            </li>
+          )}
+          {experienceBusinessAreas && (
+            <li>
+              {messages['job_preview.business_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceBusinessAreas}</li>
+              </ul>
+            </li>
+          )}
+          {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
         </ul>
       );
     } else {
@@ -392,18 +435,65 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
       }
     });
 
-    if (male && female) {
-      return 'Both male and female are allowed to apply';
+    if (male && female && other) {
+      return messages['job_posting.application_gender_req_all'];
+    } else if (male && female) {
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.female'],
+          }}
+        />
+      );
     } else if (male && other) {
-      return 'Both male and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.others'],
+          }}
+        />
+      );
     } else if (female && other) {
-      return 'Both females and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.female'],
+            gender2: messages['common.others'],
+          }}
+        />
+      );
     } else if (male) {
-      return 'Only males are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.male'],
+          }}
+        />
+      );
     } else if (female) {
-      return 'Only females are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.female'],
+          }}
+        />
+      );
     } else {
-      return 'Only third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.others'],
+          }}
+        />
+      );
     }
   };
 
@@ -426,9 +516,14 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
 
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {getAgeText() && <li>Age {getAgeText()}</li>}
+        {getAgeText() && (
+          <li>
+            {' '}
+            {messages['job_preview_summary.age']} {getAgeText()}
+          </li>
+        )}
         {jobData?.candidate_requirements?.genders.length > 0 &&
-          jobData?.candidate_requirements?.genders.length < 3 && (
+          jobData?.candidate_requirements?.genders.length <= 3 && (
             <li>{getGenderText()}</li>
           )}
         {strArr.map((item: string, index) => (
@@ -652,12 +747,12 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
           </JobPreviewSubComponent>
 
           <JobPreviewSubComponent title={messages['job_posting.job_source']}>
-            Nise Online Job Posting.
+            {messages['job.online_job_posting']}
           </JobPreviewSubComponent>
           {jobData?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
               title={messages['job_posting.published_on']}>
-              {formatDate(jobData.primary_job_information.published_at, {
+              {formatDate(jobData?.primary_job_information?.published_at, {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -681,10 +776,10 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
               {messages['job_preview.job_summary']}
             </Box>
             <CardContent>
-              {jobData.primary_job_information.published_at && (
+              {jobData?.primary_job_information?.published_at && (
                 <Body2>
                   <b>{messages['job_posting.published_on']}</b>{' '}
-                  {formatDate(jobData.primary_job_information.published_at, {
+                  {formatDate(jobData?.primary_job_information?.published_at, {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric',
@@ -728,7 +823,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
                 <b>{messages['job_preview_summary.application_deadline']} </b>
                 {jobData?.primary_job_information?.application_deadline
                   ? formatDate(
-                      jobData.primary_job_information.application_deadline,
+                      jobData?.primary_job_information?.application_deadline,
                       {
                         day: '2-digit',
                         month: 'short',
@@ -853,7 +948,7 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             {messages['job_preview_summary.application_deadline']}{' '}
             {jobData?.primary_job_information?.application_deadline
               ? formatDate(
-                  jobData.primary_job_information.application_deadline,
+                  jobData?.primary_job_information?.application_deadline,
                   {
                     day: '2-digit',
                     month: 'short',
@@ -886,11 +981,25 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
         </Button>
-        <Button
+        {/*<Button
           onClick={onReadyToProcess}
           variant={'contained'}
           color={'primary'}>
           {messages['common.ready_to_process']}
+        </Button>*/}
+        <Button
+          variant={'contained'}
+          color={'primary'}
+          size={'small'}
+          onClick={() => {
+            successStack(messages['job.posted_successfully']);
+            router
+              .push({
+                pathname: LINK_JOB_LIST,
+              })
+              .then(() => {});
+          }}>
+          {messages['job_posting.end_process']}
         </Button>
       </Box>
     </StyledBox>

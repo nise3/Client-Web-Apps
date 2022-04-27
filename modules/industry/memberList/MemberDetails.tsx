@@ -16,10 +16,6 @@ import {ArrowBack, Call, Email} from '@mui/icons-material';
 import {Body1, H4, H6, S2} from '../../../@softbd/elements/common';
 import Box from '@mui/material/Box';
 import TagChip from '../../../@softbd/elements/display/TagChip';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
@@ -114,7 +110,7 @@ const MemberDetails = () => {
           onClick={() => router.back()}>
           {messages['common.back']}
         </Button>
-        <Box>
+        {/*<Box>
           <Tooltip title={messages['common.like']}>
             <ThumbUpAltIcon
               className={classes.icon}
@@ -139,7 +135,7 @@ const MemberDetails = () => {
               sx={{backgroundColor: '#2fc94d'}}
             />
           </Tooltip>
-        </Box>
+        </Box>*/}
       </Box>
 
       <Box

@@ -8,11 +8,14 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
-import {useRouter} from 'next/router';
+import Router, {useRouter} from 'next/router';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {useFetchBatch} from '../../../services/instituteManagement/hooks';
+import {Button} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -20,7 +23,7 @@ const YouthPage = () => {
   const router = useRouter();
   const path = router.asPath;
   const {batchId} = router.query;
-
+  const {data: batch, isLoading} = useFetchBatch(Number(batchId));
   const columns = useMemo(
     () => [
       {
@@ -118,23 +121,36 @@ const YouthPage = () => {
     };
   });
 
+  console.log(filteredData);
   return (
     <>
-      <PageBlock
-        title={
-          <>
-            <IconUser /> <IntlMessages id='youth.label' />
-          </>
-        }>
-        <ReactTable
-          columns={columns}
-          data={filteredData}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-        />
-      </PageBlock>
+      {!isLoading && (
+        <PageBlock
+          title={
+            <>
+              <IconUser /> <IntlMessages id='youth.label' />{' '}
+              {`(${batch.title})`}
+            </>
+          }
+          extra={
+            <Button
+              startIcon={<ArrowBackIcon />}
+              variant='outlined'
+              onClick={() => Router.back()}
+              style={{float: 'right', right: '10px', top: '10px'}}>
+              {messages['common.back']}
+            </Button>
+          }>
+          <ReactTable
+            columns={columns}
+            data={filteredData}
+            fetchData={onFetchData}
+            loading={loading}
+            pageCount={pageCount}
+            totalCount={totalCount}
+          />
+        </PageBlock>
+      )}
     </>
   );
 };
