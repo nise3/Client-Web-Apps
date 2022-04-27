@@ -14,6 +14,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {QuestionSelectionType} from '../../../ExamEnums';
 import {S2} from '../../../../../../@softbd/elements/common';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
+import {getIntlNumber} from '../../../../../../@softbd/utilities/helpers';
 
 interface IProps {
   questionType: any;
@@ -36,7 +37,7 @@ const QuestionSetPopup = ({
   selectedQuestions,
   ...props
 }: IProps) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const {errorStack} = useNotiStack();
 
   const [isQuestionEditFormOpened, setIsQuestionEditFormOpened] =
@@ -49,11 +50,48 @@ const QuestionSetPopup = ({
         .of(yup.object({}))
         .min(
           totalQuestions,
-          messages['common.must_have_one_question'] as string,
+          (
+            <IntlMessages
+              id={
+                selectionType == QuestionSelectionType.FIXED
+                  ? 'common.must_have_sub_question'
+                  : 'common.more_than_sub_question'
+              }
+              values={{
+                subject: (
+                  <IntlMessages
+                    id={String(getIntlNumber(formatNumber, totalQuestions))}
+                  />
+                ),
+              }}
+            />
+          ) as unknown as string,
         )
         .test(
           'questions',
-          messages['common.must_have_one_question'] as string,
+          (
+            <IntlMessages
+              id={
+                selectionType == QuestionSelectionType.FIXED
+                  ? 'common.not_more_than_sub_question'
+                  : 'common.more_than_sub_question'
+              }
+              values={{
+                subject: (
+                  <IntlMessages
+                    id={String(
+                      getIntlNumber(
+                        formatNumber,
+                        selectionType == QuestionSelectionType.FIXED
+                          ? totalQuestions
+                          : totalQuestions,
+                      ),
+                    )}
+                  />
+                ),
+              }}
+            />
+          ) as unknown as string,
           (value: any) => {
             return selectionType == QuestionSelectionType.FIXED
               ? value && value?.length <= totalQuestions
@@ -162,13 +200,19 @@ const QuestionSetPopup = ({
         <Grid item xs={12}>
           <S2>
             {selectionType == QuestionSelectionType.FIXED
-              ? `Please Select only ${totalQuestions} questions`
-              : `Please Select more than ${totalQuestions} questions`}
+              ? `${messages['question_set.select_only']} ${getIntlNumber(
+                  formatNumber,
+                  totalQuestions,
+                )} ${messages['question_set.question_only']}`
+              : `${messages['question_set.select_more']} ${getIntlNumber(
+                  formatNumber,
+                  totalQuestions,
+                )} ${messages['question_set.question_more']}`}
           </S2>
           <S2 sx={{display: 'flex'}}>
-            Total Marks:{' '}
+            {messages['common.total_marks']}:{' '}
             <Typography sx={{color: 'green', marginLeft: '10px'}}>
-              {totalMarks}
+              {getIntlNumber(formatNumber, totalMarks)}
             </Typography>
           </S2>
         </Grid>
@@ -178,7 +222,10 @@ const QuestionSetPopup = ({
             onEditPopupOpenClose={onEditPopupOpenClose}
             subjectId={subjectId}
             questionType={questionType}
-            eachQuestionMark={Number((totalMarks / totalQuestions).toFixed(2))}
+            eachQuestionMark={getIntlNumber(
+              formatNumber,
+              Number((totalMarks / totalQuestions).toFixed(2)),
+            )}
             selectedQuestions={selectedQuestions || []}
             selectionType={selectionType}
           />

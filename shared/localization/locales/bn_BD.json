@@ -1936,5 +1936,12 @@
   "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না",
   "common.examinees": "পরীক্ষার্থী",
   "common.offline_question_sets": "অফলাইন প্রশ্ন সেট",
-  "common.random_question": "রেনডম প্রশ্ন"
+  "common.random_question": "রেনডম প্রশ্ন",
+  "question_set.select_only": "শুধুমাত্র",
+  "question_set.question_only": "টি প্রশ্ন নির্বাচন করুন",
+  "question_set.select_more": "অনুগ্রহ করে",
+  "question_set.question_more": "টির বেশি প্রশ্ন নির্বাচন করুন",
+  "common.must_have_sub_question": "অন্তত {subject} টি প্রশ্ন যোগ করতে হবে",
+  "common.not_more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করা যাবে না",
+  "common.more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করতে হবে"
 }
