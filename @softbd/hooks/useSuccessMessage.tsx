@@ -22,9 +22,18 @@ export default function useSuccessMessage() {
       />,
     );
   };
+  const submissionSuccessMessage = (messageId: string) => {
+    successStack(
+      <IntlMessages
+        id='common.subject_submitted_successfully'
+        values={{subject: <IntlMessages id={messageId} />}}
+      />,
+    );
+  };
 
   return {
     createSuccessMessage,
     updateSuccessMessage,
+    submissionSuccessMessage,
   };
 }

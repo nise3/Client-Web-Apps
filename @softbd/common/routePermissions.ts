@@ -295,4 +295,44 @@ export const routePermissions: any = {
     routePrefix: '/rpl-assessment-question-sets',
     permissionKeys: ['view_any_rpl_assessment_question_set'],
   },
+  '/subjects': {
+    routePrefix: '/subjects',
+    permissionKeys: ['view_any_subject'],
+  },
+  '/questions-bank': {
+    routePrefix: '/questions-bank',
+    permissionKeys: ['view_any_question_bank'],
+  },
+  '/exams': {
+    routePrefix: '/exams',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/question-paper': {
+    routePrefix: '/exams/question-paper',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/examinee-list': {
+    routePrefix: '/exams/examinee-list',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/examinee-list/marks-sheet': {
+    routePrefix: '/exams/examinee-list/marks-sheet',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/examinee-list/marking': {
+    routePrefix: '/exams/examinee-list/marking',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/create': {
+    routePrefix: '/create',
+    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+  },
+  'exams/update/': {
+    routePrefix: 'exams/update',
+    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+  },
+  'exams/details/': {
+    routePrefix: 'exams/details',
+    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+  },
 };

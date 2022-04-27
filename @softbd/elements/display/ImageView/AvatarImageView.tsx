@@ -30,7 +30,7 @@ const AvatarImageView = ({
       variant={variant}
       alt={alt ? alt : 'Image'}
       sx={sx}
-      title={title}
+      title={title ? title : 'Image'}
     />
   );
 };

@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@mui/material';
 import {Close as CloseIcon} from '@mui/icons-material';
+import {H5} from '../../../../@softbd/elements/common';
 
 interface CustomHookFormProps {
   title: React.ReactNode | string;
@@ -32,7 +33,7 @@ const CustomHookForm: FC<CustomHookFormProps> = ({
             </IconButton>
           )
         }
-        title={props.title}
+        title={<H5>{props.title}</H5>}
       />
       <CardContent sx={{position: 'relative'}}>
         <form onSubmit={handleSubmit} autoComplete='off'>

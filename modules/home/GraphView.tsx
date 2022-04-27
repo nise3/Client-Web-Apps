@@ -616,6 +616,7 @@ const GraphView = () => {
             messages['graph_view_title.projection_of_future_jobs'] as string
           }
           center={true}
+          level={'h1'}
         />
 
         <Box

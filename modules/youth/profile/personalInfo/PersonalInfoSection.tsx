@@ -140,7 +140,8 @@ const PersonalInfoSection = () => {
         <Grid item container spacing={2} className={classes.aboutYouth}>
           <Grid item xs={12} sm={2}>
             <AvatarImageView
-              alt='youth profile pic'
+              alt='youth profile picture'
+              title='youth profile picture'
               src={authUser?.photo}
               sx={{height: 100, width: 100, margin: 'auto'}}
             />

@@ -1,8 +1,8 @@
-import {Box, Button, Card, Container, Grid} from '@mui/material';
+import {Box, Card, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import React, {useState} from 'react';
-import {Body2, Link} from '../../@softbd/elements/common';
+import {Body2, Link, SeeMoreLinkButton} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {useFetchPublicPublications} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
@@ -11,7 +11,6 @@ import RowStatus from '../../@softbd/utilities/RowStatus';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 import {LINK_FRONTEND_NISE_PUBLICATIONS} from '../../@softbd/common/appLinks';
-import {ArrowRightAlt} from '@mui/icons-material';
 import PageSizes from '../../@softbd/utilities/PageSizes';
 
 const PREFIX = 'Publications';
@@ -122,20 +121,10 @@ const Publications = () => {
         </Box>
         {publications && publications?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
-            <Link
+            <SeeMoreLinkButton
               href={`${LINK_FRONTEND_NISE_PUBLICATIONS}`}
-              passHref
-              className={classes.seeMore}>
-              <Button
-                variant='outlined'
-                color='primary'
-                endIcon={<ArrowRightAlt />}
-                style={{
-                  borderRadius: '10px',
-                }}>
-                {messages['common.see_more']}
-              </Button>
-            </Link>
+              label={messages['common.see_more'] as string}
+            />
           </Grid>
         )}
       </Container>

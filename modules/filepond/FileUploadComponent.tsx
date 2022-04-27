@@ -41,6 +41,7 @@ interface FilepondComponentProps {
   sizeLimitText?: string;
   height?: any;
   width?: any;
+  disabled?: any;
 }
 
 /** Accepted files type */
@@ -67,6 +68,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
   uploadedUrls,
   height,
   width,
+  disabled = false,
 }) => {
   const {messages} = useIntl();
   let errorObj = errorInstance?.[id];
@@ -118,6 +120,7 @@ const FileUploadComponent: FC<FilepondComponentProps> = ({
       </InputLabel>
       <FormControl fullWidth>
         <FilePond
+          disabled={disabled}
           className={allowMultiple ? 'multi-upload' : ''}
           files={files}
           onupdatefiles={(newFiles) => {

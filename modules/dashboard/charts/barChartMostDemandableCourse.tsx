@@ -58,7 +58,9 @@ const MostDemandableCourseChart = () => {
         <Card>
           <CardContent>
             <Typography>{`${data.name}`}</Typography>
-            <Typography>Value: {`${data.value}`}</Typography>
+            <Typography>
+              {messages['common.value']}: {`${data.value}`}
+            </Typography>
           </CardContent>
         </Card>
       );

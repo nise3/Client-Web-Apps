@@ -113,6 +113,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           },
           'langBtn',
         )}
+        title={'Language switch'}
         aria-label='account of current user'
         aria-controls='language-switcher'
         aria-haspopup='true'

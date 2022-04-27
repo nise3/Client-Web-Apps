@@ -16,7 +16,6 @@ import {
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {
   gotoLoginSignUpPage,
@@ -51,7 +50,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const authUser = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser();
 
   return (
     <StyledContainer maxWidth={'lg'}>

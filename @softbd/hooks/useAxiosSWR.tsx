@@ -27,6 +27,9 @@ export function useAxiosSWR<T = any>(deps: any[] | string | null) {
   return common<T>(useSWR(deps, (url, params) => apiGet(url, {params})));
 }
 
+/**
+ This use for all data localization excepts cms data
+ */
 export function useDataLocalizationAxiosSWR<T = any>(
   deps: any[] | string | null,
 ) {
@@ -89,6 +92,9 @@ const swapLocalText = (dataObject: any) => {
   return dataObject;
 };
 
+/**
+ This use for data localization excepts
+ */
 export function useLocalizedAxiosSWR<T = any>(deps: any[] | string | null) {
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
   const [loc, setLoc] = useState<any>(language);

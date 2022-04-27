@@ -41,7 +41,7 @@ const AddQuestionIntoSetPopup: FC<AddQuestionPopupProps> = ({
         .array()
         .of(yup.object())
         .min(1, messages['common.must_have_one_question'] as string)
-        .label(messages['assessment.addQuestion'] as string),
+        .label(messages['common.addQuestion'] as string),
     });
   }, [messages]);
 
@@ -116,7 +116,7 @@ const AddQuestionIntoSetPopup: FC<AddQuestionPopupProps> = ({
           <IntlMessages
             id='common.add_new'
             values={{
-              subject: <IntlMessages id='assessment.addQuestion' />,
+              subject: <IntlMessages id='common.addQuestion' />,
             }}
           />{' '}
         </>
