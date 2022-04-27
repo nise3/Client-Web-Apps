@@ -199,11 +199,28 @@ const ExamMarkingViewPage = () => {
         <Grid container spacing={2}>
           <Grid
             item
+            xs={12}
+            display={'flex'}
+            sx={{float: 'right'}}
+            justifyContent={'space-between'}>
+            <Body1 sx={{marginLeft: 'auto'}}>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                size={'small'}
+                onClick={() => router.back()}>
+                <ArrowBack />
+                {messages['common.back']}
+              </Button>
+            </Body1>
+          </Grid>
+          <Grid
+            item
             display={'flex'}
             alignItems={'center'}
             flexDirection={'column'}
             justifyContent={'center'}
-            xs={9}>
+            xs={12}>
             <Body2>{examSheet?.youth_name}</Body2>
             <Body2>{examSheet?.title}</Body2>
             <Body2 sx={{whiteSpace: 'pre'}}>
@@ -224,23 +241,6 @@ const ExamMarkingViewPage = () => {
                 ': ' +
                 getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            display={'flex'}
-            sx={{float: 'right'}}
-            justifyContent={'space-between'}>
-            <Body1 sx={{marginLeft: 'auto'}}>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                size={'small'}
-                onClick={() => router.back()}>
-                <ArrowBack />
-                {messages['common.back']}
-              </Button>
-            </Body1>
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
