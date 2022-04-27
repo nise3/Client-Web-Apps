@@ -65,7 +65,7 @@ const SecondStep = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FourIRImplemntingTeamPage />
+          <FourIRImplemntingTeamPage fourIRProjectId={fourIRProjectId} />
         </AccordionDetails>
       </Accordion>
 
@@ -83,7 +83,7 @@ const SecondStep = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FourIRMentoringTeamPage />
+          <FourIRMentoringTeamPage fourIRProjectId={fourIRProjectId} />
         </AccordionDetails>
       </Accordion>
 

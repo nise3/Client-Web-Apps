@@ -27,7 +27,7 @@ interface IFourIRImplementingTeamPageProps {
 }
 
 const FourIRMentoringTeamPage = ({
-  fourIRProjectId = 9,
+  fourIRProjectId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
