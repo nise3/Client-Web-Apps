@@ -238,12 +238,14 @@ const ExamQuestionPaper = () => {
               xs={12}
               display={'flex'}
               justifyContent={'space-between'}>
-              <Body2>{messages['common.time_remaining'] + ': ' + timer}</Body2>
-              <Body2 sx={{marginLeft: 'auto'}}>
+              <S1 sx={{color: 'green'}}>
+                {messages['common.time_remaining'] + ': ' + timer}
+              </S1>
+              <S1 sx={{marginLeft: 'auto'}}>
                 {messages['common.total_marks']}
                 {': '}
                 {getIntlNumber(formatNumber, examQuestionData?.total_marks)}
-              </Body2>
+              </S1>
             </Grid>
             <Grid item xs={12}>
               <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>

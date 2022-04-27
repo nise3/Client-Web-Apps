@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Button, Grid, InputAdornment, Paper, TextField} from '@mui/material';
-import {Body1, Body2} from '../../../../../@softbd/elements/common';
+import {Body1, Body2, H6, S1} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
@@ -25,11 +25,6 @@ import {useRouter} from 'next/router';
 import {youthExamMarkUpdate} from '../../../../../services/instituteManagement/ExamService';
 import useSuccessMessage from '../../../../../@softbd/hooks/useSuccessMessage';
 import {ArrowBack} from '@mui/icons-material';
-
-/*const PREFIX = 'AnsweredQuestionPaper';
-const classes = {
-  textStyle: `${PREFIX}-textStyle`,
-};*/
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
@@ -197,69 +192,90 @@ const ExamMarkingViewPage = () => {
         <QuestionSkeleton />
       ) : (
         <Grid container spacing={2}>
-          <Grid
-            item
-            xs={12}
-            display={'flex'}
-            sx={{float: 'right'}}
-            justifyContent={'space-between'}>
-            <Body1 sx={{marginLeft: 'auto'}}>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                size={'small'}
-                onClick={() => router.back()}>
-                <ArrowBack />
-                {messages['common.back']}
-              </Button>
-            </Body1>
+          <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+            <Button
+              variant={'contained'}
+              color={'primary'}
+              size={'small'}
+              onClick={() => router.back()}>
+              <ArrowBack />
+              {messages['common.back']}
+            </Button>
           </Grid>
-          <Grid
-            item
-            display={'flex'}
-            alignItems={'center'}
-            flexDirection={'column'}
-            justifyContent={'center'}
-            xs={12}>
-            <Body2>{examSheet?.youth_name}</Body2>
-            <Body2>{examSheet?.title}</Body2>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid
+                item
+                display={'flex'}
+                alignItems={'center'}
+                whiteSpace={'pre'}>
+                <H6>{messages['common.name']}: </H6>
+                <Body1>
+                  {examSheet?.first_name} {examSheet?.last_name}
+                </Body1>
+              </Grid>
+              <Grid
+                item
+                ml={4}
+                display={'flex'}
+                alignItems={'center'}
+                whiteSpace={'pre'}>
+                <H6>{messages['common.mobile']}: </H6>
+                <Body1>{examSheet?.mobile}</Body1>
+              </Grid>
+              <Grid
+                item
+                ml={4}
+                display={'flex'}
+                alignItems={'center'}
+                whiteSpace={'pre'}>
+                <H6>
+                  {messages['common.email']}
+                  {': '}
+                </H6>
+                <Body1>{examSheet?.email}</Body1>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item display={'flex'} flexDirection={'column'} xs={12}>
+            <H6>{examSheet?.title}</H6>
+            <S1 sx={{whiteSpace: 'pre'}}>
               {messages['subject.label']}
               {': '}
               {examSheet?.subject_title}
-            </Body2>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+            </S1>
+            <S1 sx={{whiteSpace: 'pre'}}>
               {messages['common.date']} {': '}
               {getIntlDateFromString(formatDate, examSheet?.exam_date)}
-            </Body2>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+            </S1>
+            <S1 sx={{whiteSpace: 'pre'}}>
               {messages['common.time']} {': '}
               {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
-            </Body2>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+            </S1>
+            {/*<S1 sx={{whiteSpace: 'pre'}}>
               {messages['common.total_obtained_marks'] +
                 ': ' +
                 getIntlNumber(formatNumber, examSheet?.total_marks)}
-            </Body2>
+            </S1>*/}
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+            <S1 sx={{whiteSpace: 'pre'}}>
               {messages['common.duration'] + ': '}
               {examSheet?.duration
                 ? getExamTimeDuration(examSheet?.duration)
                 : ''}
-            </Body2>
-            <Body2 sx={{whiteSpace: 'pre'}}>
+            </S1>
+            <S1 sx={{whiteSpace: 'pre'}}>
               {messages['common.total_marks']}
               {': '}
               {getIntlNumber(formatNumber, examSheet?.total_marks)}
-            </Body2>
+            </S1>
           </Grid>
           <Grid item xs={12}>
             <Box sx={{borderBottom: 1}} />
           </Grid>
-          <Grid item xs={10}></Grid>
+          <Grid item xs={10} />
           <Grid item xs={2}>
             <Body2 sx={{textAlign: 'center'}}>
               {messages['common.obtained_mark']}
@@ -269,12 +285,12 @@ const ExamMarkingViewPage = () => {
           <Grid item xs={12}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
               <Grid container spacing={2}>
-                <Grid item xs={12}></Grid>
+                <Grid item xs={12} />
                 {examSheet && examSheet?.exam_sections.length ? (
                   examSheet?.exam_sections.map(
                     (section: any, index: number) => {
                       return (
-                        <React.Fragment key={section?.id}>
+                        <React.Fragment key={section?.uuid}>
                           <Grid item xs={12} display={'flex'}>
                             <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
                               {messages[
@@ -295,7 +311,7 @@ const ExamMarkingViewPage = () => {
                           {section?.questions && section?.questions.length ? (
                             section?.questions.map((question: any) => {
                               return (
-                                <Grid item xs={12} key={question?.id}>
+                                <Grid item xs={12} key={question?.question_id}>
                                   {getQuestionTypeComponent(
                                     section?.question_type,
                                     question,
@@ -319,7 +335,7 @@ const ExamMarkingViewPage = () => {
                     messageTextType={'h6'}
                   />
                 )}
-                <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                   <Button
                     variant={'contained'}
                     disabled={isSubmitting}

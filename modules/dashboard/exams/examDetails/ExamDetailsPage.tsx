@@ -113,7 +113,6 @@ const ExamDetailsPage = () => {
                     key={offlineExam?.id}
                     exam={offlineExam}
                     examData={examData}
-                    examType={examType}
                     examSetUuid={examSetUuid}
                     register={register}
                     control={control}

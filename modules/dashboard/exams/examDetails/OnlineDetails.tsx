@@ -3,7 +3,7 @@ import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputV
 import {useIntl} from 'react-intl';
 import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
-import {Body1, Body2, H6, Link} from '../../../../@softbd/elements/common';
+import {Body1, Body2, H6, Link, S1} from '../../../../@softbd/elements/common';
 import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
 import {
   getIntlDateFromString,
@@ -11,8 +11,6 @@ import {
   question_type,
 } from '../../../../@softbd/utilities/helpers';
 import React from 'react';
-import HiddenInput from '../../../youth/examQuestionPaper/HiddenInput';
-import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 import MCQTypeQuestion from '../../../youth/examQuestionPaper/MCQTypeQuestion';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -47,19 +45,12 @@ const OnlineDetails = ({
 
   return (
     <Grid container>
-      <Grid
-        item
-        xs={12}
-        display={'flex'}
-        sx={{float: 'right'}}
-        justifyContent={'space-between'}>
-        <Body1 sx={{marginLeft: 'auto'}}>
-          <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
-            <Button variant={'contained'} color={'primary'}>
-              {messages['common.examinees']}
-            </Button>{' '}
-          </Link>
-        </Body1>
+      <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} mb={3}>
+        <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
+          <Button variant={'contained'} color={'primary'}>
+            {messages['common.examinees']}
+          </Button>{' '}
+        </Link>
       </Grid>
       <Grid item>
         <Paper sx={{padding: '20px', marginBottom: '20px'}}>
@@ -72,39 +63,26 @@ const OnlineDetails = ({
               justifyContent={'center'}
               xs={10}>
               <H6>{examData?.title}</H6>
-              <Body1>
+              <S1>
                 {messages['subject.label']}
                 {': '}
                 {examData?.exam_subject_title}
-              </Body1>
-            </Grid>
-            <Grid
-              item
-              xs={10}
-              display={'flex'}
-              justifyContent={'space-between'}>
-              <Body1 sx={{margin: 'auto'}}>
+              </S1>
+              <S1 sx={{margin: 'auto'}}>
                 {messages['common.date']} {': '}
                 {getIntlDateFromString(formatTime, exam?.exam_date)}
-              </Body1>
-            </Grid>
-            <Grid
-              item
-              xs={10}
-              display={'flex'}
-              justifyContent={'space-between'}>
-              <Body1 sx={{margin: 'auto'}}>{examType(exam?.type)}</Body1>
+              </S1>
             </Grid>
             <Grid
               item
               xs={12}
               display={'flex'}
               justifyContent={'space-between'}>
-              <Body1 sx={{marginLeft: 'auto'}}>
+              <S1 sx={{marginLeft: 'auto'}}>
                 {messages['common.total_marks']}
                 {': '}
                 {getIntlNumber(formatNumber, exam?.total_marks)}
-              </Body1>
+              </S1>
             </Grid>
 
             <Grid item xs={12}>
@@ -113,7 +91,7 @@ const OnlineDetails = ({
                   {exam && exam?.exam_sections.length ? (
                     exam.exam_sections.map((section: any) => {
                       return (
-                        <React.Fragment key={section?.id}>
+                        <React.Fragment key={section?.uuid}>
                           <Grid item xs={12} display={'flex'}>
                             <Body1
                               sx={{
@@ -144,29 +122,12 @@ const OnlineDetails = ({
                               )
                               .map((question: any, i: number) => {
                                 let ansIndex = answerIndex++;
-                                let hiddenFields = (
-                                  <HiddenInput
-                                    register={register}
-                                    index={ansIndex}
-                                    section={section}
-                                    question={question}
-                                    key={i}
-                                  />
-                                );
-                                let questionHeader = (
-                                  <QuestionTitleHeader
-                                    index={questionIndex++}
-                                    question={question}
-                                    key={i}
-                                  />
-                                );
+
                                 if (
                                   section?.question_type == QuestionType?.MCQ
                                 ) {
                                   return (
-                                    <React.Fragment key={question?.id}>
-                                      {questionHeader}
-                                      {hiddenFields}
+                                    <React.Fragment key={question?.question_id}>
                                       <Grid item xs={11}>
                                         {' '}
                                         <MCQTypeQuestion
@@ -181,9 +142,7 @@ const OnlineDetails = ({
                                   section?.question_type == QuestionType.YES_NO
                                 ) {
                                   return (
-                                    <React.Fragment key={question?.id}>
-                                      {questionHeader}
-                                      {hiddenFields}
+                                    <React.Fragment key={question?.question_id}>
                                       <Grid item xs={11}>
                                         <FormRadioButtons
                                           id={
@@ -211,9 +170,7 @@ const OnlineDetails = ({
                                   QuestionType.DESCRIPTIVE
                                 ) {
                                   return (
-                                    <React.Fragment key={question?.id}>
-                                      {questionHeader}
-                                      {hiddenFields}
+                                    <React.Fragment key={question?.question_id}>
                                       <Grid item xs={11}>
                                         <DetailsInputView
                                           label={''}
@@ -233,7 +190,7 @@ const OnlineDetails = ({
                                     );
                                   let indexNo = 0;
                                   return (
-                                    <React.Fragment key={question?.id}>
+                                    <React.Fragment key={question?.question_id}>
                                       <Grid item xs={11} display={'flex'}>
                                         <Body2
                                           sx={{
@@ -276,7 +233,6 @@ const OnlineDetails = ({
                                             }
                                           },
                                         )}
-                                        {hiddenFields}
                                       </Grid>
                                       <Grid item xs={1}>
                                         <Body2
@@ -294,9 +250,7 @@ const OnlineDetails = ({
                                   );
                                 } else {
                                   return (
-                                    <React.Fragment>
-                                      {questionHeader}
-                                      {hiddenFields}
+                                    <React.Fragment key={question?.question_id}>
                                       <Grid item xs={11}>
                                         {' '}
                                         <FileUploadComponent
@@ -309,6 +263,7 @@ const OnlineDetails = ({
                                           errorInstance={errors}
                                           register={register}
                                           label={messages['common.file_path']}
+                                          disabled={true}
                                         />
                                       </Grid>
                                     </React.Fragment>

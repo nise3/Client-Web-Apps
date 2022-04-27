@@ -12,7 +12,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {Body1, Body2, H6, Link} from '../../../../@softbd/elements/common';
+import {Body1, Body2, H6, Link, S1} from '../../../../@softbd/elements/common';
 import Radio from '@mui/material/Radio';
 import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
 import {
@@ -20,8 +20,6 @@ import {
   getIntlNumber,
   question_type,
 } from '../../../../@softbd/utilities/helpers';
-import HiddenInput from '../../../youth/examQuestionPaper/HiddenInput';
-import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 import MCQTypeQuestion from '../../../youth/examQuestionPaper/MCQTypeQuestion';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -31,7 +29,6 @@ import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 interface IProps {
   exam: any;
   examData: any;
-  examType: any;
   examSetUuid: any;
   register: any;
   control: any;
@@ -43,7 +40,6 @@ interface IProps {
 const OfflineDetails = ({
   exam,
   examData,
-  examType,
   examSetUuid,
   register,
   control,
@@ -58,10 +54,7 @@ const OfflineDetails = ({
   let answerIndex = 0;
   let questionIndex = 1;
 
-  console.log('exam->', exam);
-  console.log('examSetUuid->', examSetUuid);
-
-  const printDiv = (sectionId: any) => {
+  /*const printDiv = (sectionId: any) => {
     if (sectionId) {
       // @ts-ignore
       let mainContent = document.getElementById(sectionId);
@@ -76,7 +69,7 @@ const OfflineDetails = ({
 
       document.body.innerHTML = originalContents;
     }
-  };
+  };*/
 
   useEffect(() => {
     if (examSetUuid) {
@@ -99,7 +92,6 @@ const OfflineDetails = ({
             <RadioGroup
               row
               aria-labelledby='question-sets'
-              // defaultValue="female"
               name='question-set-radio-button'>
               {(exam?.exam_sets || []).map((data: any, i: number) => (
                 <FormControlLabel
@@ -114,27 +106,20 @@ const OfflineDetails = ({
           </FormControl>
         </Grid>
       )}
-      <Grid
-        item
-        xs={6}
-        display={'flex'}
-        sx={{float: 'right'}}
-        justifyContent={'space-between'}>
-        <Body1 sx={{marginLeft: 'auto'}}>
-          <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
-            <Button variant={'contained'} color={'primary'}>
-              {messages['common.examinees']}
-            </Button>{' '}
-          </Link>
-          {examSetUuid && (
+      <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
+        <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
+          <Button variant={'contained'} color={'primary'}>
+            {messages['common.examinees']}
+          </Button>{' '}
+        </Link>
+        {/*{examSetUuid && (
             <Button
               variant={'contained'}
               color={'primary'}
               onClick={() => printDiv('offline')}>
               {messages['common.print']}
             </Button>
-          )}
-        </Body1>
+          )}*/}
       </Grid>
 
       {examSetUuid && (
@@ -149,41 +134,29 @@ const OfflineDetails = ({
                 justifyContent={'center'}
                 xs={10}>
                 <H6>{examData?.title}</H6>
-                <Body1>
+                <S1>
                   {messages['subject.label']}
                   {': '}
                   {examData?.exam_subject_title}
-                </Body1>
-              </Grid>
-              <Grid
-                item
-                xs={10}
-                display={'flex'}
-                justifyContent={'space-between'}>
-                <Body1 sx={{margin: 'auto'}}>
+                </S1>
+                <S1 sx={{margin: 'auto'}}>
                   {messages['common.date']} {': '}
                   {getIntlDateFromString(formatTime, exam?.exam_date)}
-                </Body1>
-              </Grid>
-              <Grid
-                item
-                xs={10}
-                display={'flex'}
-                justifyContent={'space-between'}>
-                <Body1 sx={{margin: 'auto'}}>
+                </S1>
+                <S1 sx={{margin: 'auto'}}>
                   {filteredSet ? filteredSet.title : ''}
-                </Body1>
+                </S1>
               </Grid>
               <Grid
                 item
                 xs={12}
                 display={'flex'}
                 justifyContent={'space-between'}>
-                <Body1 sx={{marginLeft: 'auto'}}>
+                <S1 sx={{marginLeft: 'auto'}}>
                   {messages['common.total_marks']}
                   {': '}
                   {getIntlNumber(formatNumber, exam?.total_marks)}
-                </Body1>
+                </S1>
               </Grid>
 
               <Grid item xs={12}>
@@ -192,7 +165,7 @@ const OfflineDetails = ({
                     {exam && exam?.exam_sections.length ? (
                       exam.exam_sections.map((section: any) => {
                         return (
-                          <React.Fragment key={section?.id}>
+                          <React.Fragment key={section?.uuid}>
                             <Grid item xs={12} display={'flex'}>
                               <Body1
                                 sx={{
@@ -224,29 +197,12 @@ const OfflineDetails = ({
                                 )
                                 .map((question: any, i: number) => {
                                   let ansIndex = answerIndex++;
-                                  let hiddenFields = (
-                                    <HiddenInput
-                                      register={register}
-                                      index={ansIndex}
-                                      section={section}
-                                      question={question}
-                                      key={i}
-                                    />
-                                  );
-                                  let questionHeader = (
-                                    <QuestionTitleHeader
-                                      index={questionIndex++}
-                                      question={question}
-                                      key={i}
-                                    />
-                                  );
                                   if (
                                     section?.question_type == QuestionType?.MCQ
                                   ) {
                                     return (
-                                      <React.Fragment key={question?.id}>
-                                        {questionHeader}
-                                        {hiddenFields}
+                                      <React.Fragment
+                                        key={question?.question_id}>
                                         <Grid item xs={11}>
                                           {' '}
                                           <MCQTypeQuestion
@@ -262,9 +218,8 @@ const OfflineDetails = ({
                                     QuestionType.YES_NO
                                   ) {
                                     return (
-                                      <React.Fragment key={question?.id}>
-                                        {questionHeader}
-                                        {hiddenFields}
+                                      <React.Fragment
+                                        key={question?.question_id}>
                                         <Grid item xs={11}>
                                           <FormRadioButtons
                                             id={
@@ -292,9 +247,8 @@ const OfflineDetails = ({
                                     QuestionType.DESCRIPTIVE
                                   ) {
                                     return (
-                                      <React.Fragment key={question?.id}>
-                                        {questionHeader}
-                                        {hiddenFields}
+                                      <React.Fragment
+                                        key={question?.question_id}>
                                         <Grid item xs={11}>
                                           <DetailsInputView
                                             label={''}
@@ -314,7 +268,8 @@ const OfflineDetails = ({
                                       );
                                     let indexNo = 0;
                                     return (
-                                      <React.Fragment key={question?.id}>
+                                      <React.Fragment
+                                        key={question?.question_id}>
                                         <Grid item xs={11} display={'flex'}>
                                           <Body2
                                             sx={{
@@ -357,7 +312,6 @@ const OfflineDetails = ({
                                               }
                                             },
                                           )}
-                                          {hiddenFields}
                                         </Grid>
                                         <Grid item xs={1}>
                                           <Body2
@@ -375,9 +329,8 @@ const OfflineDetails = ({
                                     );
                                   } else {
                                     return (
-                                      <React.Fragment>
-                                        {questionHeader}
-                                        {hiddenFields}
+                                      <React.Fragment
+                                        key={question?.question_id}>
                                         <Grid item xs={11}>
                                           {' '}
                                           <FileUploadComponent
@@ -390,6 +343,7 @@ const OfflineDetails = ({
                                             errorInstance={errors}
                                             register={register}
                                             label={messages['common.file_path']}
+                                            disabled={true}
                                           />
                                         </Grid>
                                       </React.Fragment>
