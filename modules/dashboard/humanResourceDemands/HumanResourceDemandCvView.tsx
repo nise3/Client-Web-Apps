@@ -14,6 +14,7 @@ import {Link} from '../../../@softbd/elements/common';
 import {ArrowBack} from '@mui/icons-material';
 import {LINK_CV_BANK} from '../../../@softbd/common/appLinks';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const HumanResourceDemandCvView = () => {
   const {messages} = useIntl();
@@ -50,8 +51,12 @@ const HumanResourceDemandCvView = () => {
               accessor: 'cv_link',
               Cell: (props: any) => {
                 let data = props.row.original;
+                let URL = data?.cv_link;
+                if (URL) {
+                  URL = FILE_SERVER_FILE_VIEW_ENDPOINT + URL;
+                }
                 return (
-                  <Link href={data?.cv_link} target={'_blank'}>
+                  <Link href={URL} target={'_blank'}>
                     <ReadButton>{messages['common.view_cv']}</ReadButton>
                   </Link>
                 );
