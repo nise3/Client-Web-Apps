@@ -1927,5 +1927,7 @@
   "4ir_cs.supported_by": "Supported by",
   "4ir_showcasing.complete_step": "Complete step",
   "4ir_showcasing.task": "Check at least one of the items",
-  "4IR_steps.label": "4IR Steps"
+  "4IR_steps.label": "4IR Steps",
+  "4IR_steps.step": "Step",
+  "4IR_steps.completed": "Completed"
 }

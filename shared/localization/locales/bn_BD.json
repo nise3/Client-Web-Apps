@@ -1928,5 +1928,7 @@
   "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান",
   "4ir_showcasing.complete_step": "কমপ্লিট স্টেপ",
   "4ir_showcasing.task": "কম্পএক্ষে একটিতে টিক দিতে হবে",
-  "4IR_steps.label": "4 আই আর স্টেপ্সমূহ"
+  "4IR_steps.label": "4 আই আর স্টেপ্সমূহ",
+  "4IR_steps.step": "স্টেপ",
+  "4IR_steps.completed": "সম্পন্ন"
 }
