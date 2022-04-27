@@ -287,6 +287,8 @@ const ExamQuestionTypeSection = ({
                     textAlign: 'center',
                     display: 'inline-block',
                     marginLeft: '10px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                   }}>
                   {localQuestions?.[0]?.questions

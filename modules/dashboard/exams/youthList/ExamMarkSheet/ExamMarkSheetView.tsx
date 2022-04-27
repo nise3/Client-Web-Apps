@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
-import {Grid, Paper} from '@mui/material';
-import {Body1, Body2} from '../../../../../@softbd/elements/common';
+import {Button, Grid, Paper} from '@mui/material';
+import {Body1, Body2, Link} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
@@ -20,6 +20,7 @@ import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
 import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkeleton';
+import {ArrowBack} from '@mui/icons-material';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
@@ -109,7 +110,7 @@ const ExamMarkingViewPage = () => {
             alignItems={'center'}
             flexDirection={'column'}
             justifyContent={'center'}
-            xs={12}>
+            xs={8}>
             <Body2>{examSheet?.youth_name}</Body2>
             <Body2>{examSheet?.title}</Body2>
             <Body2>
@@ -130,6 +131,32 @@ const ExamMarkingViewPage = () => {
                 ': ' +
                 getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>*/}
+          </Grid>
+
+          <Grid
+            item
+            xs={4}
+            display={'flex'}
+            sx={{float: 'right'}}
+            justifyContent={'space-between'}>
+            <Body1 sx={{marginLeft: 'auto'}}>
+              <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
+                <Button
+                  variant={'outlined'}
+                  color={'primary'}
+                  sx={{marginRight: '10px'}}>
+                  {messages['common.marks_distribution']}
+                </Button>
+              </Link>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                size={'small'}
+                onClick={() => router.back()}>
+                <ArrowBack />
+                {messages['common.back']}
+              </Button>
+            </Body1>
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>

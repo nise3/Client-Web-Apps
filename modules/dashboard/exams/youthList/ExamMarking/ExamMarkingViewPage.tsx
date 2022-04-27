@@ -24,6 +24,7 @@ import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkelet
 import {useRouter} from 'next/router';
 import {youthExamMarkUpdate} from '../../../../../services/instituteManagement/ExamService';
 import useSuccessMessage from '../../../../../@softbd/hooks/useSuccessMessage';
+import {ArrowBack} from '@mui/icons-material';
 
 /*const PREFIX = 'AnsweredQuestionPaper';
 const classes = {
@@ -202,7 +203,7 @@ const ExamMarkingViewPage = () => {
             alignItems={'center'}
             flexDirection={'column'}
             justifyContent={'center'}
-            xs={12}>
+            xs={9}>
             <Body2>{examSheet?.youth_name}</Body2>
             <Body2>{examSheet?.title}</Body2>
             <Body2 sx={{whiteSpace: 'pre'}}>
@@ -223,6 +224,23 @@ const ExamMarkingViewPage = () => {
                 ': ' +
                 getIntlNumber(formatNumber, examSheet?.total_marks)}
             </Body2>
+          </Grid>
+          <Grid
+            item
+            xs={3}
+            display={'flex'}
+            sx={{float: 'right'}}
+            justifyContent={'space-between'}>
+            <Body1 sx={{marginLeft: 'auto'}}>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                size={'small'}
+                onClick={() => router.back()}>
+                <ArrowBack />
+                {messages['common.back']}
+              </Button>
+            </Body1>
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>

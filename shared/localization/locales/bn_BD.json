@@ -1941,5 +1941,12 @@
   "exam.no_question_selected": "কোন প্রশ্ন নির্বাচন করা হয়নি",
   "exam.already_participated" : "ইতিমধ্যে অংশ গ্রহন করেছেন",
   "exam.not_answered" : "উত্তর দেয়া হয়নি",
-  "exam.no_file_provided": "কোনো ফাইল দেয়া হয়নি"
+  "exam.no_file_provided": "কোনো ফাইল দেয়া হয়নি",
+  "question_set.select_only": "শুধুমাত্র",
+  "question_set.question_only": "টি প্রশ্ন নির্বাচন করুন",
+  "question_set.select_more": "অনুগ্রহ করে",
+  "question_set.question_more": "টির বেশি প্রশ্ন নির্বাচন করুন",
+  "common.must_have_sub_question": "অন্তত {subject} টি প্রশ্ন যোগ করতে হবে",
+  "common.not_more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করা যাবে না",
+  "common.more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করতে হবে"
 }

@@ -1940,5 +1940,12 @@
   "exam.no_question_selected": "No question selected",
   "exam.already_participated": "Already participated",
   "exam.not_answered": "Not Answered",
-  "exam.no_file_provided": "No File Provided"
+  "exam.no_file_provided": "No File Provided",
+  "question_set.select_only": "Please Select only",
+  "question_set.question_only": "question",
+  "question_set.select_more": "Please Select more than",
+  "question_set.question_more": "questions",
+  "common.must_have_sub_question": "Must have at least {subject} Question",
+  "common.not_more_than_sub_question": "Not more than {subject} questions can be added",
+  "common.more_than_sub_question": "More than {subject} questions need to be added"
 }
