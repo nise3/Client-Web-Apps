@@ -142,3 +142,7 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
       : null,
   );
 }
+
+export function useFetchResultTypes() {
+  return useAxiosSWR('http://192.168.13.215:8001/api/v1/certificate-types');
+}
