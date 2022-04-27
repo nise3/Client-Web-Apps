@@ -64,3 +64,18 @@ variables:
   #control git realese branch
   GIT_DEVELOPMENT_BRANCH: "main"
   GIT_PRODUCTION_BRANCH: "master"
+
+#auto scaling config
+autoScaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+  # with this time if uses of resource up/down then do not autoscale down
+  stabilizationWindowSecondsForScaleDown: 1200
+
+resources:
+  requests:
+    memory: "500Mi"
+    cpu: "500m"
