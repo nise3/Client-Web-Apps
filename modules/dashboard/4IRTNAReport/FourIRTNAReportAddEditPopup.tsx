@@ -73,13 +73,11 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .label(messages['common.required_skill'] as string),
       start_date: yup
         .string()
-        .title()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.start_date'] as string),
       end_date: yup
         .string()
-        .title()
         .required()
         .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
         .label(messages['common.end_date'] as string),

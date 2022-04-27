@@ -12,9 +12,9 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
-import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
-import {API_4IR_TNA_REPORT} from '../../../@softbd/common/apiRoutes';
+import FourIRGuidelineAddEditPopup from './4IRGuidelineAddEditPopup';
+import FourIRTNAReportDetailsPopup from './4IRGuidelineDetailsPopup';
+import {API_4IR_GUIDLINE} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
@@ -30,9 +30,9 @@ const FourGuidelinePage = ({
 }: IFourIRImplemntingTeamPage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(1);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(true);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -61,6 +61,7 @@ const FourGuidelinePage = ({
     setIsToggleTable((prev) => !prev);
   }, []);
 
+  // TODO -> refectoring
   const deleteTNAReportItem = async (itemId: number) => {
     let response = await deleteTNAReport(itemId);
 
@@ -138,19 +139,21 @@ const FourGuidelinePage = ({
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_TNA_REPORT,
+      urlPath: API_4IR_GUIDLINE,
       paramsValueModifier: (params: any) => {
-        params['four_ir_project_id'] = fourIRProjectId;
+        params['fourIrGuidelinesId'] = 9;
         return params;
       },
     });
+
+  console.log(data);
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.TNA_report' />
+            <IconBranch /> <IntlMessages id='4ir.guideline' />
           </>
         }
         extra={[
@@ -178,7 +181,7 @@ const FourGuidelinePage = ({
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRTNAReportAddEditPopup
+          <FourIRGuidelineAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
