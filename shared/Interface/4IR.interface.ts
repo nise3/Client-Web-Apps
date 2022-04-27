@@ -37,6 +37,12 @@ export interface ICS extends IIdTitleCreateUpdateAt {
   row_status?: number | string;
 }
 
+export interface ITagLine extends IIdTitleCreateUpdateAt {
+  name: string;
+  name_en?: string;
+  row_status: number;
+}
+
 export interface IScaleUp extends IIdTitleCreateUpdateAt {
   project_advancement: string;
   project_budget: string | number;
