@@ -18,7 +18,7 @@ import {useFetchPublicJobSectors} from '../../../services/organaizationManagemen
 import {IOccupation} from '../../../shared/Interface/occupation.interface';
 import {getAllPublicOccupations} from '../../../services/organaizationManagement/OccupationService';
 import {useRouter} from 'next/router';
-import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+//import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {FilterItem} from '../../../shared/Interface/common.interface';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 
@@ -71,7 +71,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const [selectJobSectorsId, setSelectJobSectorsId] = useState<any>('');
   const [selectOccupationId, setSelectOccupationId] = useState<any>('');
   const [selectedJobLevel, setSelectedJobLevel] = useState<any>('');
-  const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
+  // const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
   const {search_text} = router.query;
 
   const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
@@ -80,8 +80,8 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   const {data: skills, isLoading: isLoadingSkills} =
     useFetchPublicSkills(skillFilter);
 
-  const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  /*const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+  const {data: upazilas} = useFetchUpazilas(upazilasFilter);*/
 
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isLoadingJobSector}: any =
@@ -176,7 +176,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
       setSelectedJobLevel(params.job_level);
     }
 
-    if (!Number(params.upazila)) {
+    /*if (!Number(params.upazila)) {
       delete params.upazila;
     } else {
       filters.push({
@@ -184,7 +184,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
         filterValue: params.upazila,
       });
       setSelectedLocUpazilaId(params.upazila);
-    }
+    }*/
 
     if (routeParamsFilters && filters.length > 0) {
       routeParamsFilters(filters);
@@ -247,14 +247,14 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
     [router.query],
   );
 
-  const handleUpazilaChange = useCallback(
+  /*const handleUpazilaChange = useCallback(
     (upazilaId: number | null) => {
       setSelectedLocUpazilaId(upazilaId);
       addFilterKey('loc_upazila_id', upazilaId);
       urlParamsUpdate({loc_upazila_id: upazilaId});
     },
     [selectedLocUpazilaId, router.query],
-  );
+  );*/
 
   const onSearch = useCallback(() => {
     addFilterKey('search_text', searchTextField.current.value);
@@ -269,7 +269,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
     addFilterKey('job_sector_ids', []);
     addFilterKey('occupation_ids', []);
     addFilterKey('job_level', 0);
-    setSelectedLocUpazilaId('');
+    //setSelectedLocUpazilaId('');
     addFilterKey('loc_upazila_id', 0);
     addFilterKey('page_size', 8);
     addFilterKey('page', 1);
@@ -398,7 +398,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   optionTitleProp={['title']}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={2}>
+              {/*<Grid item xs={6} sm={4} md={2}>
                 <CustomFilterableSelect
                   id={'loc_upazila_id'}
                   defaultValue={selectedLocUpazilaId}
@@ -409,7 +409,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   optionValueProp={'id'}
                   optionTitleProp={['title', 'title_en']}
                 />
-              </Grid>
+              </Grid>*/}
             </Grid>
           </Grid>
         </Grid>
