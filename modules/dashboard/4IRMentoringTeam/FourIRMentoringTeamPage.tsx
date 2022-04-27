@@ -8,7 +8,10 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import FourIRMentoringTeamAddEditPopup from './FourIRMentoringTeamAddEditPopup';
 import FourIRMentoringTeamDetailsPopup from './FourIRMentoringTeamDetailsPopup';
 
@@ -16,8 +19,16 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
+import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
 
-const FourIRImplemntingTeamPage = () => {
+interface IFourIRImplementingTeamPageProps {
+  fourIRProjectId: number;
+}
+
+const FourIRMentoringTeamPage = ({
+  fourIRProjectId = 9,
+}: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -43,11 +54,26 @@ const FourIRImplemntingTeamPage = () => {
     [selectedItemId],
   );
 
+  const deleteMonitoringTeamItem = async (projectId: number) => {
+    let response = await deleteImplementingTeam(projectId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='4ir_project.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const refreshDataTable = useCallback(() => {}, []);
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prev) => !prev);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -66,32 +92,37 @@ const FourIRImplemntingTeamPage = () => {
 
       {
         Header: messages['common.name'],
+        accessor: 'name',
       },
       {
         Header: messages['common.email'],
+        accessor: 'email',
       },
       {
         Header: messages['common.phone_number'],
+        accessor: 'phone_number',
       },
       {
         Header: messages['role.label'],
+        accessor: 'role',
         isVisible: false,
       },
       {
         Header: messages['common.designation'],
+        accessor: 'designation',
         isVisible: false,
       },
 
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          //   let data = props.row.original;
+          let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => {}}
+                deleteAction={() => deleteMonitoringTeamItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -105,7 +136,11 @@ const FourIRImplemntingTeamPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: './4ir_mentoring_team',
+      urlPath: API_4IR_IMPLEMENTNG_TEAM,
+      paramsValueModifier: (params) => {
+        params['four_ir_project_id'] = fourIRProjectId;
+        return params;
+      },
     });
 
   return (
@@ -145,6 +180,7 @@ const FourIRImplemntingTeamPage = () => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRProjectId={fourIRProjectId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -162,4 +198,4 @@ const FourIRImplemntingTeamPage = () => {
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRMentoringTeamPage;

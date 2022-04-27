@@ -12,8 +12,8 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import FourIRImplemntingTeamAddEditPopup from './FourIRImplemntingTeamAddEditPopup';
-import FourIRImplemntingTeamDetailsPopup from './FourIRImplemntingTeamDetailsPopup';
+import FourIRImplementingTeamAddEditPopup from './FourIRImplementingTeamAddEditPopup';
+import FourIRImplementingTeamDetailsPopup from './FourIRImplementingTeamDetailsPopup';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -22,13 +22,13 @@ import {deleteImplementingTeam} from '../../../services/4IRManagement/Implementi
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
 
-interface IFourIRImplemntingTeamPageProps {
+interface IFourIRImplementingTeamPageProps {
   fourIRProjectId: number;
 }
 
-const FourIRImplemntingTeamPage = ({
+const FourIRImplementingTeamPage = ({
   fourIRProjectId = 9,
-}: IFourIRImplemntingTeamPageProps) => {
+}: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -175,7 +175,7 @@ const FourIRImplemntingTeamPage = ({
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRImplemntingTeamAddEditPopup
+          <FourIRImplementingTeamAddEditPopup
             key={1}
             fourIRProjectId={fourIRProjectId}
             onClose={closeAddEditModal}
@@ -185,7 +185,7 @@ const FourIRImplemntingTeamPage = ({
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRImplemntingTeamDetailsPopup
+          <FourIRImplementingTeamDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -197,4 +197,4 @@ const FourIRImplemntingTeamPage = ({
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRImplementingTeamPage;

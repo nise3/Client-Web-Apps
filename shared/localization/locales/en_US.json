@@ -315,6 +315,7 @@
   "common.invalid_mobile": "Invalid mobile number",
   "common.invalid_phone": "Invalid phone number",
   "common.phone": "Phone no",
+  "common.role": "Role",
   "common.phone_number": "Phone Number",
   "common.email": "Email",
   "common.fax_no": "Fax no",

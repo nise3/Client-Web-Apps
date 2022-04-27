@@ -21,18 +21,18 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
 
-interface IFourIRImplemntingTeamPage {
-  fourIRProjectId: number;
+interface IFourIRGuidelinePage {
+  fourIrGuidelinesId: number;
 }
 
-const FourGuidelinePage = ({
-  fourIRProjectId = 9,
-}: IFourIRImplemntingTeamPage) => {
+const FourIRGuidelinePage = ({
+  fourIrGuidelinesId = 9,
+}: IFourIRGuidelinePage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(1);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(true);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -141,7 +141,7 @@ const FourGuidelinePage = ({
     useReactTableFetchData({
       urlPath: API_4IR_GUIDLINE,
       paramsValueModifier: (params: any) => {
-        params['fourIrGuidelinesId'] = 9;
+        params['fourIrGuidelinesId'] = fourIrGuidelinesId;
         return params;
       },
     });
@@ -185,7 +185,7 @@ const FourGuidelinePage = ({
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIRProjectId}
+            fourIRProjectId={fourIrGuidelinesId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -203,4 +203,4 @@ const FourGuidelinePage = ({
   );
 };
 
-export default FourGuidelinePage;
+export default FourIRGuidelinePage;

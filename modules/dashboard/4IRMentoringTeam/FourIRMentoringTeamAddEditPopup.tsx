@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useMemo} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -12,30 +12,39 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {
+  createImplementingTeam,
+  updateImplementingTeam,
+} from '../../../services/4IRManagement/ImplementingTeamService';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRProjectId: number;
   refreshDataTable: () => void;
 }
 
-// const initialValues = {
-//   name: '',
-//   name_en: '',
-//   email: '',
-//   phone_number: '',
-//   role: '',
-//   designation: '',
-// };
+const initialValues = {
+  name: '',
+  name_en: '',
+  email: '',
+  phone_number: '',
+  role: '',
+  designation: '',
+};
 
 const FourIRMentoringTeamAddEditPopup: FC<
   ImplementingTeamAddEditPopupProps
-> = ({itemId, refreshDataTable, ...props}) => {
+> = ({itemId, refreshDataTable, fourIRProjectId, ...props}) => {
   const {messages} = useIntl();
-  //   const {errorStack} = useNotiStack();
+  const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
-  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -44,16 +53,36 @@ const FourIRMentoringTeamAddEditPopup: FC<
         .title()
         .required()
         .label(messages['common.title'] as string),
+      name_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       email: yup
         .string()
         .email()
         .required()
         .label(messages['common.email'] as string),
+      phone_number: yup
+        .string()
+        .required()
+        .label(messages['common.phone_number'] as string),
+      role: yup
+        .string()
+        .required()
+        .label(messages['common.role'] as string),
+      designation: yup
+        .string()
+        .required()
+        .label(messages['common.designation'] as string),
     });
   }, [messages]);
 
   const {
-    control,
+    //  control,
     register,
     reset,
     setError,
@@ -63,8 +92,49 @@ const FourIRMentoringTeamAddEditPopup: FC<
     resolver: yupResolver(validationSchema),
   });
 
+  const {
+    data: itemData,
+    isLoading,
+    mutate: mutateMonitoringTeam,
+  } = useFetchImplementingTeam(itemId);
+
+  useEffect(() => {
+    if (itemData) {
+      reset({
+        name: itemData.name,
+        name_en: itemData?.name_en ?? '',
+        email: itemData.email ?? '',
+        phone_number: itemData.phone_number ?? '',
+        role: itemData.role ?? '',
+        designation: itemData.designation ?? '',
+      });
+    } else {
+      reset(initialValues);
+    }
+  }, [itemData]);
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
+    try {
+      let payload = {
+        four_ir_project_id: fourIRProjectId,
+        team_type: 2,
+        ...data,
+      };
+
+      if (itemId != null) {
+        await updateImplementingTeam(itemId, payload);
+        updateSuccessMessage('4ir.mentoring_team');
+        mutateMonitoringTeam();
+      } else {
+        await createImplementingTeam(payload);
+        createSuccessMessage('4ir.mentoring_team');
+      }
+
+      props.onClose();
+      refreshDataTable();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -93,8 +163,8 @@ const FourIRMentoringTeamAddEditPopup: FC<
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
       <Grid container spacing={5}>
