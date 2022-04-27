@@ -106,36 +106,7 @@ const ExamMarkingViewPage = () => {
         <Grid container spacing={2}>
           <Grid
             item
-            display={'flex'}
-            alignItems={'center'}
-            flexDirection={'column'}
-            justifyContent={'center'}
-            xs={8}>
-            <Body2>{examSheet?.youth_name}</Body2>
-            <Body2>{examSheet?.title}</Body2>
-            <Body2>
-              {messages['subject.label']}
-              {': '}
-              {examSheet?.subject_title}
-            </Body2>
-            <Body2>
-              {messages['common.date']} {': '}
-              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
-            </Body2>
-            <Body2>
-              {messages['common.time']} {': '}
-              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
-            </Body2>
-            {/* <Body2>
-              {messages['common.total_obtained_marks'] +
-                ': ' +
-                getIntlNumber(formatNumber, examSheet?.total_marks)}
-            </Body2>*/}
-          </Grid>
-
-          <Grid
-            item
-            xs={4}
+            xs={12}
             display={'flex'}
             sx={{float: 'right'}}
             justifyContent={'space-between'}>
@@ -157,6 +128,34 @@ const ExamMarkingViewPage = () => {
                 {messages['common.back']}
               </Button>
             </Body1>
+          </Grid>
+          <Grid
+            item
+            display={'flex'}
+            alignItems={'center'}
+            flexDirection={'column'}
+            justifyContent={'center'}
+            xs={12}>
+            <Body2>{examSheet?.youth_name}</Body2>
+            <Body2>{examSheet?.title}</Body2>
+            <Body2>
+              {messages['subject.label']}
+              {': '}
+              {examSheet?.subject_title}
+            </Body2>
+            <Body2>
+              {messages['common.date']} {': '}
+              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
+            </Body2>
+            <Body2>
+              {messages['common.time']} {': '}
+              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
+            </Body2>
+            {/* <Body2>
+              {messages['common.total_obtained_marks'] +
+                ': ' +
+                getIntlNumber(formatNumber, examSheet?.total_marks)}
+            </Body2>*/}
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
