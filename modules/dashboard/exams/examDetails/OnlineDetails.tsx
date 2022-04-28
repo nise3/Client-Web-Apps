@@ -16,6 +16,7 @@ import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButt
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FileUploadComponent from '../../../filepond/FileUploadComponent';
 import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
+import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 
 interface IProps {
   exam: any;
@@ -124,11 +125,18 @@ const OnlineDetails = ({
                               .map((question: any, i: number) => {
                                 let ansIndex = answerIndex++;
 
+                                let questionHeader = (
+                                  <QuestionTitleHeader
+                                    index={questionIndex++}
+                                    question={question}
+                                  />
+                                );
                                 if (
                                   section?.question_type == QuestionType?.MCQ
                                 ) {
                                   return (
                                     <React.Fragment key={question?.question_id}>
+                                      {questionHeader}
                                       <Grid item xs={11}>
                                         {' '}
                                         <MCQTypeQuestion
@@ -144,6 +152,7 @@ const OnlineDetails = ({
                                 ) {
                                   return (
                                     <React.Fragment key={question?.question_id}>
+                                      {questionHeader}
                                       <Grid item xs={11}>
                                         <FormRadioButtons
                                           id={
@@ -172,6 +181,7 @@ const OnlineDetails = ({
                                 ) {
                                   return (
                                     <React.Fragment key={question?.question_id}>
+                                      {questionHeader}
                                       <Grid item xs={11}>
                                         <DetailsInputView
                                           label={''}
@@ -192,6 +202,7 @@ const OnlineDetails = ({
                                   let indexNo = 0;
                                   return (
                                     <React.Fragment key={question?.question_id}>
+                                      {questionHeader}
                                       <Grid item xs={11} display={'flex'}>
                                         <Body2
                                           sx={{

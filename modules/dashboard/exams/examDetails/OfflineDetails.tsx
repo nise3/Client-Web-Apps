@@ -18,6 +18,7 @@ import FileUploadComponent from '../../../filepond/FileUploadComponent';
 import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 
 import {useReactToPrint} from 'react-to-print';
+import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
 
 interface IProps {
   exam: any;
@@ -183,12 +184,20 @@ const OfflineDetails = ({
                                 )
                                 .map((question: any, i: number) => {
                                   let ansIndex = answerIndex++;
+
+                                  let questionHeader = (
+                                    <QuestionTitleHeader
+                                      index={questionIndex++}
+                                      question={question}
+                                    />
+                                  );
                                   if (
                                     section?.question_type == QuestionType?.MCQ
                                   ) {
                                     return (
                                       <React.Fragment
                                         key={question?.question_id}>
+                                        {questionHeader}
                                         <Grid item xs={11}>
                                           {' '}
                                           <MCQTypeQuestion
@@ -206,6 +215,7 @@ const OfflineDetails = ({
                                     return (
                                       <React.Fragment
                                         key={question?.question_id}>
+                                        {questionHeader}
                                         <Grid item xs={11}>
                                           <FormRadioButtons
                                             id={
@@ -235,6 +245,7 @@ const OfflineDetails = ({
                                     return (
                                       <React.Fragment
                                         key={question?.question_id}>
+                                        {questionHeader}
                                         <Grid item xs={11}>
                                           <DetailsInputView
                                             label={''}
@@ -256,6 +267,7 @@ const OfflineDetails = ({
                                     return (
                                       <React.Fragment
                                         key={question?.question_id}>
+                                        {questionHeader}
                                         <Grid item xs={11} display={'flex'}>
                                           <Body2
                                             sx={{
@@ -318,7 +330,7 @@ const OfflineDetails = ({
                                       <React.Fragment
                                         key={question?.question_id}>
                                         <Grid item xs={11}>
-                                          {' '}
+                                          {questionHeader}{' '}
                                           <FileUploadComponent
                                             id={
                                               'questions[' +
