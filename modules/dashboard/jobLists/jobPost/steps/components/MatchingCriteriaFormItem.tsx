@@ -89,7 +89,9 @@ const MatchingCriteriaFormItem = ({
             fontWeight: 'bold',
           }}
           title={additionalValue ? additionalValue : ''}>
-          {additionalValue ? additionalValue : 'Value not provided'}{' '}
+          {additionalValue
+            ? additionalValue
+            : messages['matching_criteria.value_not_provided']}{' '}
         </span>
         <Link
           href={additionalValue ? linkEdit : linkAdd}
