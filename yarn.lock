@@ -10484,6 +10484,13 @@ react-textarea-autosize@^8.3.0:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
+react-to-print@^2.14.6:
+  version "2.14.6"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-2.14.6.tgz#a6fddfaee207e1093e87b5eceb5dfca46b5922cf"
+  integrity sha512-LlhbfNAzPm6AOGmCcsVzgyDIBFs5lTXOMpRL+IUmZRZU04i79rujEj5nXKmbRTPTZV8ezLIHSY6ecj4y0lD5iA==
+  dependencies:
+    prop-types "^15.8.1"
+
 react-transition-group@2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
