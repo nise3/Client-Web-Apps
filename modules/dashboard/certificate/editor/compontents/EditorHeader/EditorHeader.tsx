@@ -29,31 +29,22 @@ function EditorHeader() {
   };
   const handleClick = async () => {
     console.log('save click');
-    if (selectedResultType) {
-      const template = await setCurrentTemplateToSave();
-      const templateJson = toTemplateJSON(template);
-      let stageJson;
-      if (stageAreaRef.current) {
-        stageJson = stageAreaRef.current.toJSON();
-      }
-      const dataJson = {
-        template: templateJson,
-        stage: stageJson,
-      };
-      const data = {
-        template: JSON.stringify(dataJson),
-        title_en: 'Cerificate 1',
-        title: 'Certificate',
-        result_type: 'Number',
-        purpose_name: 'Batch',
-        purpose_id: 5,
-      };
-      try {
-        await createCertificate(data);
-      } catch {
-        errorStack('Please choose a result type');
-      }
-    } else {
+    const template = await setCurrentTemplateToSave();
+    const templateJson = toTemplateJSON(template);
+    const data = {
+      template: templateJson,
+      title_en: 'Cerificate 1',
+      title: 'Certificate',
+      result_type: 'Number',
+      // accessor_type: 'Trainer',
+      // accessor_id: 123,
+      purpose_name: 'Batch',
+      purpose_id: 5,
+    };
+    try {
+      await createCertificate(data);
+    } catch {
+      console.log('try again');
     }
   };
   return (
