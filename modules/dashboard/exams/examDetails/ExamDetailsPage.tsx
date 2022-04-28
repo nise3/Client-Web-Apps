@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import IconExam from '../../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../ExamEnums';
-import {useFetchExam} from '../../../../services/instituteManagement/hooks';
+import {useFetchExamDetails} from '../../../../services/instituteManagement/hooks';
 import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {ArrowBack} from '@mui/icons-material';
@@ -27,7 +27,7 @@ const ExamDetailsPage = () => {
   const [examParams] = useState<any>({
     purpose_name: ExamPurposeNames.BATCH,
   });
-  const {data: examData, isLoading: isLoadingExam} = useFetchExam(
+  const {data: examData, isLoading: isLoadingExam} = useFetchExamDetails(
     itemId,
     examParams,
   );
@@ -60,6 +60,14 @@ const ExamDetailsPage = () => {
   const onChangeOfflineSet = useCallback((value: any) => {
     setExamSetUuid(value.target.value);
   }, []);
+
+  /*const onChangeOfflineSet = useCallback((value: any) => {
+    if (value.target) {
+      setExamSetUuid(value.target.value);
+    } else {
+      setExamSetUuid(value);
+    }
+  }, []);*/
 
   const {
     register,
