@@ -26,6 +26,7 @@ import {FiUserCheck} from 'react-icons/fi';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -37,6 +38,8 @@ const BatchesPage = () => {
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenAddEditTemplateModal, setIsOpenAddEditTemplateModal] = useState(false);
+
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
@@ -57,6 +60,15 @@ const BatchesPage = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+  }, []);
+
+  const openDetailsTemplateModal = useCallback((itemId: number) => {
+    setIsOpenAddEditTemplateModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeDetailsTemplateModal = useCallback(() => {
+    setIsOpenAddEditTemplateModal(false);
   }, []);
 
   const deleteBatchItem = async (itemId: number) => {
@@ -179,9 +191,16 @@ const BatchesPage = () => {
                 deleteAction={() => deleteBatchItem(data.id)}
                 deleteTitle='Are you sure?'
               />
-              <Link href={`${path}/${data?.id}/youths`} passHref={true}>
+              <CommonButton
+                btnText='common.certificate_template'
+                style={{marginLeft: '10px'}}
+                variant='outlined'
+                onClick={()=> openDetailsTemplateModal(data.id)}
+                color='primary'
+              />
+              <Link href={`${path}/${data?.id}/certificate-issue`} passHref={true}>
                 <CommonButton
-                  btnText='youth.label'
+                  btnText='certificate.certificate_issue'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                   style={{marginLeft: '10px'}}
                   variant='outlined'
@@ -240,6 +259,14 @@ const BatchesPage = () => {
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
+          />
+        )}
+        {isOpenAddEditTemplateModal && (
+          <CerrtificateTemplatePopup
+            key={1}
+            onClose={closeDetailsTemplateModal}
+            refreshDataTable={refreshDataTable}
+            itemId={selectedItemId}
           />
         )}
 
