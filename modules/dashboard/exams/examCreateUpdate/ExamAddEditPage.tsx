@@ -544,6 +544,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                InputLabelProps={{
+                  shrink: isEdit,
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -553,6 +556,9 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                InputLabelProps={{
+                  shrink: isEdit,
+                }}
               />
             </Grid>
             <Grid item xs={6}>

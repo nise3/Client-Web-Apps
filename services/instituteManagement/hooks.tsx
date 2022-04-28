@@ -253,6 +253,16 @@ export function useFetchExam(examId: any, params?: any) {
   );
 }
 
+export function useFetchExamDetails(examId: any, params?: any) {
+  return useAxiosSWR(
+    examId
+      ? params
+        ? [API_EXAMS + '/' + examId, params]
+        : API_EXAMS + '/' + examId
+      : null,
+  );
+}
+
 export function useFetchExamQuestionPaper(examId: number | null) {
   return useDataLocalizationAxiosSWR(
     examId ? API_EXAM_QUESTION_PAPER + '/' + examId : null,

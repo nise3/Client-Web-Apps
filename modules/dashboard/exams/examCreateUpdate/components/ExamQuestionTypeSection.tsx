@@ -234,7 +234,12 @@ const ExamQuestionTypeSection = ({
             examSets &&
             examSets.length > 0 ? (
               examSets.map((examSet: any, index: number) => (
-                <Grid key={examSet.index} item xs={1} textAlign={'center'}>
+                <Grid
+                  key={examSet.index}
+                  item
+                  xs={1}
+                  textAlign={'center'}
+                  sx={{overflowWrap: 'break-word', wordBreak: 'break-word'}}>
                   <S2 sx={{whiteSpace: 'nowrap'}}>
                     {messages['common.set']} {formatNumber(index + 1)}
                   </S2>
@@ -256,6 +261,10 @@ const ExamQuestionTypeSection = ({
                       textAlign: 'center',
                       display: 'inline-block',
                       marginTop: '6px',
+                      overflowWrap: 'break-word',
+                      wordWrap: 'break-word',
+                      wordBreak: 'normal',
+                      lineBreak: 'strict',
                     }}>
                     {localQuestions?.[index]?.questions
                       ? formatNumber(
@@ -287,9 +296,10 @@ const ExamQuestionTypeSection = ({
                     textAlign: 'center',
                     display: 'inline-block',
                     marginLeft: '10px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
+                    overflowWrap: 'break-word',
+                    wordWrap: 'break-word',
+                    wordBreak: 'normal',
+                    lineBreak: 'strict',
                   }}>
                   {localQuestions?.[0]?.questions
                     ? formatNumber(localQuestions?.[0]?.questions.length) +

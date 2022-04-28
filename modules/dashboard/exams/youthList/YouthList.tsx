@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {Button} from '@mui/material';
 import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -10,12 +10,10 @@ import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetch
 import {API_EXAM_YOUTH_LIST} from '../../../../@softbd/common/apiRoutes';
 import {Link} from '../../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
+import {ArrowBack} from '@mui/icons-material';
 
 const ExamineeListPage = () => {
   const {messages} = useIntl();
-  const [selectedItemId] = useState<number | null>(null);
-  const [isOpenDetailsModal] = useState(false);
-  const [isToggleTable] = useState<boolean>(false);
   const router = useRouter();
   const {examId} = router.query;
 
@@ -23,7 +21,7 @@ const ExamineeListPage = () => {
     useReactTableFetchData({
       urlPath: API_EXAM_YOUTH_LIST + '/' + examId,
     });
-  console.log(data);
+
   const columns = useMemo(
     () => [
       {
@@ -101,7 +99,18 @@ const ExamineeListPage = () => {
           <>
             <IconExaminee /> <IntlMessages id='examinee.label' />
           </>
-        }>
+        }
+        extra={[
+          <Button
+            key={1}
+            variant={'contained'}
+            color={'primary'}
+            size={'small'}
+            onClick={() => router.back()}>
+            <ArrowBack />
+            {messages['common.back']}
+          </Button>,
+        ]}>
         <ReactTable
           columns={columns}
           data={data}
@@ -109,18 +118,7 @@ const ExamineeListPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
-
-        {isOpenDetailsModal && selectedItemId && (
-          <></>
-          /* <ExamDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />*/
-        )}
       </PageBlock>
     </>
   );
