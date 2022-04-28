@@ -12,7 +12,7 @@ const CertificateEditor = dynamic(
 const CertificateEditorPage = AuthenticatedBlankPage(() => {
   return (
     <>
-      <PageMeta title='Certificate' />
+      <PageMeta title='"common.certificate"' />
       <CertificateEditor />
     </>
   );

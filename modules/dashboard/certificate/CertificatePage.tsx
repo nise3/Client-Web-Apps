@@ -52,8 +52,8 @@ const CertificateTemplatePage = () => {
 
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
     const params = certificateId
-      ? {pathname: 'certificates/editor', certificateId}
-      : {pathname: 'certificates/editor'};
+      ? {pathname: 'certificate/editor', certificateId}
+      : {pathname: 'certificate/editor'};
     router.push(params).then(() => {});
   }, []);
 
@@ -145,7 +145,7 @@ const CertificateTemplatePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={[]}
+          data={certificates}
           loading={isLoading}
           skipDefaultFilter={true}
         />

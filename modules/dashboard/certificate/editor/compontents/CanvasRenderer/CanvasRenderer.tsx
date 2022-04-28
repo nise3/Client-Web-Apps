@@ -114,6 +114,7 @@ function CanvasRenderer() {
           offsetY={area.offset.y}
           width={area.stageDimensions.width}
           height={area.stageDimensions.height}
+          ref={stageAreaRef}
           onClick={clearSelection}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
