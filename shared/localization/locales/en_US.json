@@ -1118,7 +1118,7 @@
   "common.static_page": "Static Page",
   "album_type.image": "Image",
   "album_type.video": "Video",
-  "common.mixed": "Mixed",
+  "album_type.mixed": "Mixed",
   "common.facebook": "Facebook",
   "common.youtube": "Youtube",
   "notice_type.notice": "Notice",
