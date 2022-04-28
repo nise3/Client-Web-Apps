@@ -10,7 +10,6 @@ import TextInputSkeleton from '../../../../../../@softbd/elements/display/skelet
 import {useFetchResultTypes} from '../../../../../../services/CertificateAuthorityManagement/hooks';
 
 import useNotiStack from './../../../../../../@softbd/hooks/useNotifyStack';
-import {processServerSideErrors} from '../../../../../../@softbd/utilities/validationErrorHandler';
 function EditorHeader() {
   const {setCurrentTemplateToSave} = useTemplateDispatcher();
   const {stageAreaRef} = StageRefContainer.useContainer();
@@ -25,10 +24,9 @@ function EditorHeader() {
     event.preventDefault();
     setSelectedResultType(newValue);
   };
-
   const handleClick = async () => {
     console.log('save click');
-    if (selectedResultType) {
+    if (selectedResultType && stageAreaRef.current) {
       const template = await setCurrentTemplateToSave();
       const templateJson = toTemplateJSON(template);
       let stageJson;
@@ -43,13 +41,19 @@ function EditorHeader() {
         template: JSON.stringify(dataJson),
         title_en: 'Cerificate 1',
         title: 'Certificate',
-        result_type: 5,
+        result_type: String(
+          resultTypes.filter((type: any) => type.title == selectedResultType)[0]
+            .id,
+        ),
         purpose_name: 'Batch',
         purpose_id: 5,
       };
+      console.log(data);
       try {
         await createCertificate(data);
-      } catch {}
+      } catch {
+        errorStack('Something went wrong');
+      }
     } else {
       errorStack('Please choose a result type');
     }
