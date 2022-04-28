@@ -118,7 +118,7 @@ function RecentActivityMasonryGroupView({items}: any) {
                   masonryPositions[item.collage_position - 1]?.rows,
                   masonryPositions[item.collage_position - 1]?.cols,
                 )}
-                alt={item.image_alt_title}
+                alt={item.image_alt_title ? item.image_alt_title : 'image'}
                 title={item.image_alt_title}
                 loading='lazy'
               />

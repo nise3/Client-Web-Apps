@@ -130,8 +130,15 @@ const CoursePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
-
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
+        disableFilters: true,
+        disableSortBy: true,
+      },
       {
         Header: messages['common.skills'],
         accessor: 'skills',
