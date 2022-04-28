@@ -1,20 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Layer, Rect, Stage } from "react-konva";
-import {
-  useRecoilBridgeAcrossReactRoots_UNSTABLE,
-  useRecoilValue,
-} from "recoil";
-import { CircularProgress } from "@mui/material";
-import { CANVAS_STROKE, EDITOR_MARGIN } from "../../constants";
-import { EditorAreaContainer } from "../../state/containers/EditorAreaContainer";
-import { ElementRefsContainer } from "../../state/containers//ElementRefsContainer";
-import useRatioControls from "../../hooks/useRatioControl";
-import { Dimensions } from "../../interfaces/StageConfig";
-import { isLoadingState, ratioState } from "../../state/atoms/editor";
-import { backgroundState, dimensionsState } from "../../state/atoms/template";
-import useElementsDispatcher from "../../state/dispatchers/elements";
-import Elements from "./Elements";
-import Transformers from "./Transformers";
+import React, {useEffect, useMemo, useState} from 'react';
+import {Layer, Rect, Stage} from 'react-konva';
+import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
+import {CircularProgress} from '@mui/material';
+import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
+import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
+import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
+import useRatioControls from '../../hooks/useRatioControl';
+import {Dimensions} from '../../interfaces/StageConfig';
+import {isLoadingState, ratioState} from '../../state/atoms/editor';
+import {backgroundState, dimensionsState} from '../../state/atoms/template';
+import useElementsDispatcher from '../../state/dispatchers/elements';
+import Elements from './Elements';
+import Transformers from './Transformers';
+import {StageRefContainer} from './../../state/containers/StageRefContainer';
 
 function CanvasRenderer() {
   const ratio = useRecoilValue(ratioState);
@@ -22,11 +20,11 @@ function CanvasRenderer() {
   const background = useRecoilValue(backgroundState);
   const isLoading = useRecoilValue(isLoadingState);
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
-  const { fitToScreen } = useRatioControls();
-  const { clearSelection } = useElementsDispatcher();
-  const { editorAreaRef, setScreenDimensions } =
+  const {fitToScreen} = useRatioControls();
+  const {clearSelection} = useElementsDispatcher();
+  const {editorAreaRef, setScreenDimensions} =
     EditorAreaContainer.useContainer();
-
+  const {stageAreaRef} = StageRefContainer.useContainer();
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
@@ -101,10 +99,9 @@ function CanvasRenderer() {
   return (
     <div
       className={`canvas-area-container ${
-        isLoading ? "canvas-area-container-loading" : ""
+        isLoading ? 'canvas-area-container-loading' : ''
       }`}
-      ref={editorAreaRef}
-    >
+      ref={editorAreaRef}>
       {/* {isLoading && (
         <>
           <CircularProgress />
@@ -119,8 +116,7 @@ function CanvasRenderer() {
           offsetY={area.offset.y}
           width={area.stageDimensions.width}
           height={area.stageDimensions.height}
-          onClick={clearSelection}
-        >
+          onClick={clearSelection}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
               <Layer bac>
@@ -129,16 +125,16 @@ function CanvasRenderer() {
                   y={-CANVAS_STROKE / ratio}
                   width={dimensions.width + (2 * CANVAS_STROKE) / ratio}
                   height={dimensions.height + (2 * CANVAS_STROKE) / ratio}
-                  shadowColor="black"
+                  shadowColor='black'
                   shadowOpacity={0.1}
                   shadowBlur={4}
                   shadowEnabled
-                  fill="rgb(229, 231, 235)"
+                  fill='rgb(229, 231, 235)'
                 />
                 <Rect
                   width={dimensions.width}
                   height={dimensions.height}
-                  shadowColor="black"
+                  shadowColor='black'
                   shadowOpacity={0.06}
                   shadowBlur={2}
                   shadowEnabled
@@ -149,8 +145,7 @@ function CanvasRenderer() {
                 clipX={0}
                 clipY={0}
                 clipWidth={dimensions.width}
-                clipHeight={dimensions.height}
-              >
+                clipHeight={dimensions.height}>
                 <Elements />
               </Layer>
               <Layer>

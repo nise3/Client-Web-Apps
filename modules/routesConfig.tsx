@@ -409,6 +409,24 @@ const routesConfig: NavItemProps[] = [
         ],
       },
       {
+        id: 'certificates_management',
+        title: 'Certificate',
+        messageId: 'menu.certificate',
+        type: 'collapse',
+        icon: 'WorkspacePremiumIcon ',
+        children: [
+          {
+            id: 'certificate',
+            title: 'Certificate Template',
+            messageId: 'menu.certificate_template',
+            permissionKey: 'view_any_industry_association',
+            type: 'item',
+            icon: 'list',
+            url: '/certifcate',
+          },
+        ],
+      },
+      {
         id: 'industry_association_management',
         title: 'Industry Association Management',
         messageId: 'menu.industry_association_management',

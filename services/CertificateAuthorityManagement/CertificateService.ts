@@ -6,8 +6,6 @@ interface ICertificate {
   title_en: string;
   title: string;
   result_type: string;
-  accessor_type: string;
-  accessor_id: number;
   purpose_name: string;
   purpose_id: number;
 }
