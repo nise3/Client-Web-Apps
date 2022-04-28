@@ -32,7 +32,6 @@ function CanvasRenderer() {
   useEffect(() => {
     if (editorAreaRef.current) {
       const containerDimensions = editorAreaRef.current.getBoundingClientRect();
-      console.log(containerDimensions);
       setScreenDimensions({
         width: containerDimensions.width - 2 * EDITOR_MARGIN,
         height: containerDimensions.height - 2 * EDITOR_MARGIN,
@@ -67,7 +66,6 @@ function CanvasRenderer() {
       width: dimensions.width * ratio + 2 * EDITOR_MARGIN,
       height: dimensions.height * ratio + 2 * EDITOR_MARGIN,
     };
-    console.log(canvasArea, ratio);
     const stageDimensions = {
       width: Math.max(1, containerDimensions.width, canvasArea.width),
       height: Math.max(1, containerDimensions.height, canvasArea.height),

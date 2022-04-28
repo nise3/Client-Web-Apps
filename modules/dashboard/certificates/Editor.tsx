@@ -10,7 +10,6 @@ function Editor() {
   const changeMenuOtion = (id: any) => {
     return (e: MouseEvent) => {
       e.preventDefault();
-      console.log(id);
       setSelectedMenuOption(id);
     };
   };

@@ -19,7 +19,7 @@ function useElementsDispatcher() {
     ({ snapshot, set }) =>
       <T extends ShapeConfig>(id: string, properties: Partial<T>) => {
         const element = snapshot.getLoadable(elementSelector(id)).getValue();
-        console.log(element);
+     
         if (element) {
           set(
             elementSelector(id),
@@ -52,7 +52,6 @@ function useElementsDispatcher() {
         const selectedElementId = snapshot
           .getLoadable(selectedElementIdState)
           .getValue();
-        console.log("selected element id");
         const canvasElement =
           typeof element === "string"
             ? snapshot.getLoadable(elementSelector(element)).getValue()
@@ -122,7 +121,6 @@ function useElementsDispatcher() {
     ({ snapshot, set }) =>
       <Config extends Konva.NodeConfig>(type: ShapeType, props: Config) => {
         const { x, y, scaleX = 1, scaleY = 1 } = props;
-        console.log("snapshot");
 
         const BoundsShape: typeof Konva.Shape =
           (
@@ -150,7 +148,6 @@ function useElementsDispatcher() {
           },
           type,
         };
-        console.log(element);
         set(elementSelector(element.id), element);
         selectElement(element);
       },

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -13,16 +13,15 @@ import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {useRouter} from 'next/router';
 import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchCertificates} from '../../../services/locationManagement/hooks';
-import {Grid} from '@mui/material';
+import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
 import dynamic from 'next/dynamic';
 
-const CertificateDetailPopup = dynamic(
-  () => import('./CertificatePreviewPopup'),
-  {
-    ssr: false,
-  },
-);
+// const CertificateDetailPopup = dynamic(
+//   () => import('./CertificatePreviewPopup'),
+//   {
+//     ssr: false,
+//   },
+// );
 const CertificateTemplatePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
@@ -31,14 +30,17 @@ const CertificateTemplatePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenCertificateViewModal, setIsopenCertificateViewModal] =
     useState(false);
-  const [cerificateFilter] = useState<any>({});
+  // const [cerificateFilter] = useState<any>({});
 
   const {
     data: certificates,
     mutate: mutateCertificates,
     isLoading,
-  } = useFetchCertificates(cerificateFilter);
+  } = useFetchCertificates();
 
+  useEffect(() => {
+    console.log(certificates);
+  }, [certificates]);
   const openCertificateDetailsModal = useCallback((itemId: number) => {
     setIsopenCertificateViewModal(true);
     setSelectedItemId(itemId);
@@ -144,18 +146,9 @@ const CertificateTemplatePage = () => {
         <ReactTable
           columns={columns}
           data={[]}
-          loading={false}
+          loading={isLoading}
           skipDefaultFilter={true}
         />
-
-        {isOpenCertificateViewModal && (
-          <CertificateDetailPopup
-            key={1}
-            itemId={1}
-            onClose={closeCertificateDetailsModal}
-            onEdit={openCertificateAddUpdateView}
-          />
-        )}
       </PageBlock>
     </>
   );

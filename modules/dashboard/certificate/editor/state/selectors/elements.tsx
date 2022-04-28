@@ -36,17 +36,14 @@ export const elementSelector = selectorFamily<
   set:
     (id) =>
     ({ set, get, reset }, element) => {
-      console.log("set");
-      console.log(element);
+   
       if (element instanceof DefaultValue) {
         reset(elementState(id));
         set(elementIdsState, (elementIds) => without([id], elementIds));
       } else {
-        console.log("setelse");
         set(elementState(id), element);
         const elementIds = get(elementIdsState);
         if (!elementIds.includes(id)) {
-          console.log("setelseis");
           set(elementIdsState, [...elementIds, id]);
         }
       }

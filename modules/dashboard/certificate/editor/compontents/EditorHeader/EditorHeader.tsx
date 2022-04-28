@@ -10,23 +10,22 @@ import TextInputSkeleton from '../../../../../../@softbd/elements/display/skelet
 import {useFetchResultTypes} from '../../../../../../services/CertificateAuthorityManagement/hooks';
 
 import useNotiStack from './../../../../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../../../../@softbd/utilities/validationErrorHandler';
 function EditorHeader() {
   const {setCurrentTemplateToSave} = useTemplateDispatcher();
   const {stageAreaRef} = StageRefContainer.useContainer();
   const [selectedResultType, setSelectedResultType] = useState<string | null>(
     null,
   );
+  console.log(selectedResultType);
   const {data: resultTypes, isLoading: isLoading} = useFetchResultTypes();
   const {errorStack} = useNotiStack();
-
-  useEffect(() => {
-    console.log(resultTypes);
-  }, [resultTypes]);
 
   const onChangeAutocomplete = (event: any, newValue: string | null) => {
     event.preventDefault();
     setSelectedResultType(newValue);
   };
+
   const handleClick = async () => {
     console.log('save click');
     if (selectedResultType) {
@@ -44,16 +43,15 @@ function EditorHeader() {
         template: JSON.stringify(dataJson),
         title_en: 'Cerificate 1',
         title: 'Certificate',
-        result_type: 'Number',
+        result_type: 5,
         purpose_name: 'Batch',
         purpose_id: 5,
       };
       try {
         await createCertificate(data);
-      } catch {
-        errorStack('Please choose a result type');
-      }
+      } catch {}
     } else {
+      errorStack('Please choose a result type');
     }
   };
   return (
@@ -77,7 +75,7 @@ function EditorHeader() {
               })}
               sx={{width: 300}}
               renderInput={(params) => (
-                <TextField {...params} label='Controllable' />
+                <TextField {...params} label='Result Type' />
               )}
             />
           )}
