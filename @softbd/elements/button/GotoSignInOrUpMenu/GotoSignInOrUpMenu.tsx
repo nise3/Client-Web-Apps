@@ -13,7 +13,8 @@ import {KeyboardArrowDown, Login} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
-import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
+
+//import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
 
 interface Props extends ButtonProps {
   onClick: () => void;
@@ -39,9 +40,6 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
       <Button
         sx={{height: '100%'}}
         id='my-profile-button'
-        /*  aria-controls='my-profile-menu'
-        aria-haspopup='true'
-        aria-expanded={open ? 'true' : undefined}*/
         variant='contained'
         disableElevation
         onClick={handleClick}
@@ -101,7 +99,7 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
                 <ListItemText>{messages['common.login']}</ListItemText>
               </MenuItem>
             </Link>
-            <Divider sx={{margin: '0 !important'}} />
+            {/*<Divider sx={{margin: '0 !important'}} />
             <Link href={getCDAPLoginUrl()}>
               <MenuItem>
                 <ListItemIcon>
@@ -109,7 +107,7 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
                 </ListItemIcon>
                 <ListItemText>{messages['common.cdap_login']}</ListItemText>
               </MenuItem>
-            </Link>
+            </Link>*/}
           </button>
         </Card>
       )}

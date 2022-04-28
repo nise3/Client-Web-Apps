@@ -11,7 +11,6 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 import {Card} from '@mui/material';
-import {Link} from '../../../@softbd/elements/common';
 
 const PREFIX = 'LanguageSwitcher';
 
@@ -189,20 +188,18 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               textAlign: 'unset',
             }}>
             {languageData.map((language: LanguageProps, index) => (
-              <Link>
-                <MenuItem key={index} onClick={() => changeLanguage(language)}>
-                  <Box display='flex' flexDirection='row' alignItems='center'>
-                    <i className={`flag flag-24 flag-${language.icon}`} />
-                    <Box
-                      component='span'
-                      ml={1}
-                      fontSize={{xs: 14, xl: 16}}
-                      fontWeight={Fonts.MEDIUM}>
-                      {language.name}
-                    </Box>
+              <MenuItem key={index} onClick={() => changeLanguage(language)}>
+                <Box display='flex' flexDirection='row' alignItems='center'>
+                  <i className={`flag flag-24 flag-${language.icon}`} />
+                  <Box
+                    component='span'
+                    ml={1}
+                    fontSize={{xs: 14, xl: 16}}
+                    fontWeight={Fonts.MEDIUM}>
+                    {language.name}
                   </Box>
-                </MenuItem>
-              </Link>
+                </Box>
+              </MenuItem>
             ))}
           </div>
         </Card>
