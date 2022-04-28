@@ -74,11 +74,13 @@ const CVBankPage = () => {
       {
         Header: messages['common.first_name'],
         accessor: 'first_name',
+        disableFilters: true,
       },
 
       {
         Header: messages['common.last_name'],
         accessor: 'last_name',
+        disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
@@ -91,6 +93,12 @@ const CVBankPage = () => {
         accessor: 'mobile',
         disableFilters: true,
         isVisible: false,
+      },
+      {
+        Header: messages['common.search_3'],
+        accessor: 'search_text',
+        isVisible: false,
+        permanentVisible: true,
       },
       {
         Header: messages['skill.label'],

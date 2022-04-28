@@ -1975,5 +1975,6 @@
   "common.more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করতে হবে",
   "exam.exam_over": "পরীক্ষা শেষ",
   "matching_criteria.value_not_provided": "ভ্যালু দেয়া হয়নি",
-  "matching_criteria.set_mandatory": "বাধ্যতামূলক করুন"
+  "matching_criteria.set_mandatory": "বাধ্যতামূলক করুন",
+  "common.search_3": "সার্চ করুন"
 }
