@@ -106,29 +106,6 @@ const CertificateIssuePage = () => {
     }
   }, [youthListByBatch]);
 
-  //   const closeAddEditModal = useCallback(() => {
-  //     setIsOpenAddEditModal(false);
-  //     setSelectedItemId(null);
-  //   }, []);
-
-  //   const openAddEditModal = useCallback((itemId: number | null = null) => {
-  //     setIsOpenDetailsModal(false);
-  //     setIsOpenAddEditModal(true);
-  //     setSelectedItemId(itemId);
-  //   }, []);
-
-  //   const openDetailsModal = useCallback(
-  //     (itemId: number) => {
-  //       setIsOpenDetailsModal(true);
-  //       setSelectedItemId(itemId);
-  //     },
-  //     [selectedItemId],
-  //   );
-
-  //   const closeDetailsModal = useCallback(() => {
-  //     setIsOpenDetailsModal(false);
-  //   }, []);
-
   const issueCerrificate1 = useEventCallback((data: any) => {
     const issueData: ICertificateIssue = {
       batch_id: data.batch_id,
@@ -149,24 +126,7 @@ const CertificateIssuePage = () => {
       })
   })
 
-  const issueCerrificate = (data: any) => {
-    const issueData: ICertificateIssue = {
-      batch_id: data.batch_id,
-      certificate_id: certificateTypeId as number,
-      youth_id: data.youth_id
-    }
-    console.log(issueData);
-    // let response = await createCertificateIssue(data);
-    // if (isResponseSuccess(response)) {
-    //   successStack(
-    //     <IntlMessages
-    //       id='common.subject_created_successfully'
-    //       values={{subject: <IntlMessages id='course.label' />}}
-    //     />,
-    //   );
-    //   refreshDataTable();
-    // }
-  };
+  
 
   //   const courseLevelFilterItems = [
   //     {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
@@ -198,7 +158,11 @@ const CertificateIssuePage = () => {
       },
       {
         Header: messages['menu.batch'],
-        accessor: 'batch_id'
+        accessor: 'batch_title'
+      },
+      {
+        Header: messages['course.label'],
+        accessor: 'course_title'
       },
       {
         Header: messages['common.status'],
