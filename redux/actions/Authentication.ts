@@ -190,6 +190,7 @@ export const getCommonAuthUserObject = (
     authType: AuthType.AUTH2,
     displayName: authUser?.displayName,
     email: authUser?.email,
+    mobile: authUser?.mobile,
     role: authUser?.role,
     uid: authUser.sub,
     username: authUser.username,
