@@ -1973,5 +1973,7 @@
   "common.must_have_sub_question": "অন্তত {subject} টি প্রশ্ন যোগ করতে হবে",
   "common.not_more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করা যাবে না",
   "common.more_than_sub_question": "{subject} টির বেশি প্রশ্ন যোগ করতে হবে",
-  "exam.exam_over": "পরীক্ষা শেষ"
+  "exam.exam_over": "পরীক্ষা শেষ",
+  "matching_criteria.value_not_provided": "ভ্যালু দেয়া হয়নি",
+  "matching_criteria.set_mandatory": "বাধ্যতামূলক করুন"
 }
