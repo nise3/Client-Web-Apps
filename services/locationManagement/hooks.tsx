@@ -10,6 +10,7 @@ import {
   useLocalizedAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import certificates from '../../dashboard/pages/certificates';
+import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
 export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);

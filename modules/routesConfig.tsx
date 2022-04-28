@@ -424,6 +424,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'list',
             url: '/certifcate',
           },
+          {
+            id: 'certificate-issue',
+            title: 'Certificate Issue',
+            messageId: 'certificate.certificate_issue',
+            // permissionKey: 'view_any_industry_association',
+            type: 'item',
+            icon: 'list',
+            url: '/certificates/certificate-issue',
+          }
         ],
       },
       {
