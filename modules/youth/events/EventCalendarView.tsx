@@ -20,11 +20,12 @@ import {
   ICalendarQuery,
 } from '../../../shared/Interface/common.interface';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import { calendarService } from '../../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
 const YouthEventCalendarView = () => {
-  const {messages} = useIntl();
+  const intlOpt = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const result = useCustomStyle();
 
@@ -69,12 +70,12 @@ const YouthEventCalendarView = () => {
       return getCalenderViewFilter(view, prev);
     });
   };
-
+  const calendarServiceOpt = calendarService(eventsList, intlOpt)
   return (
     <Card>
       {/*<CardHeader title={<H3>Calendar</H3>} />*/}
       <CardHeader
-        title={<H1 sx={{...result.h3}}>{messages['menu.calendar']}</H1>}
+        title={<H1 sx={{...result.h3}}>{intlOpt.messages['menu.calendar']}</H1>}
       />
       <CardContent>
         <Grid item xs={12} md={12} style={{paddingTop: 20}}>
@@ -98,6 +99,8 @@ const YouthEventCalendarView = () => {
               defaultDate={moment().toDate()}
               onView={onViewEvent}
               onSelectEvent={onSelectEvent}
+              components={calendarServiceOpt.componentObject}
+              formats={calendarServiceOpt.calendarFormatOption}
             />
           )}
         </Grid>
