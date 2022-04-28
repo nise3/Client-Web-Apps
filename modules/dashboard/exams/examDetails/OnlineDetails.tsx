@@ -53,7 +53,8 @@ const OnlineDetails = ({
         </Link>
       </Grid>
       <Grid item>
-        <Paper sx={{padding: '20px', marginBottom: '20px'}}>
+        <Paper
+          sx={{padding: '20px', marginBottom: '50px', border: '1px solid'}}>
           <Grid container spacing={2}>
             <Grid
               item
@@ -61,7 +62,7 @@ const OnlineDetails = ({
               alignItems={'center'}
               flexDirection={'column'}
               justifyContent={'center'}
-              xs={10}>
+              xs={12}>
               <H6>{examData?.title}</H6>
               <S1>
                 {messages['subject.label']}
