@@ -144,5 +144,15 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
 }
 
 export function useFetchResultTypes() {
-  return useAxiosSWR('http://192.168.13.215:8001/api/v1/certificate-types');
+  return useAxiosSWR('http://192.168.13.159:8001/api/v1/certificate-types');
+}
+
+export function useFetchCertificates() {
+  return useAxiosSWR('http://192.168.13.159:8001/api/v1/certificates');
+}
+
+export function useFetchCertificate(certifcateId: number) {
+  return useAxiosSWR(
+    `http://192.168.13.159:8001/api/v1/certificates/${certifcateId}`,
+  );
 }

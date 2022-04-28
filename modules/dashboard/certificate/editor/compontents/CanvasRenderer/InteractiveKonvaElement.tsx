@@ -62,7 +62,6 @@ const InteractiveKonvaElement = ({
 
   const handleSelect = useCallback(
     (evt: KonvaEventObject<MouseEvent>) => {
-      console.log("handel Select");
       evt.cancelBubble = true;
       selectElement(id);
     },
@@ -97,7 +96,6 @@ const InteractiveKonvaElement = ({
       if (!shape) {
         return;
       }
-      console.log(shape);
       if (transformerRef.current && transform) {
         shape.setAttrs(transform(evt, transformerRef.current));
       }

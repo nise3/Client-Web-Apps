@@ -300,4 +300,8 @@ export const routePermissions: any = {
     routePrefix: '/certificate',
     permissionKeys: ['view_any_certificate_authority'],
   },
+  '/certificate': {
+    routePrefix: '/certificate',
+    permissionKeys: ['view_any_certificate_authority'],
+  },
 };
