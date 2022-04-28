@@ -37,6 +37,7 @@ const CertificateTemplatePage = () => {
     mutate: mutateCertificates,
     isLoading,
   } = useFetchCertificates();
+  console.log('useFetchCertificates()', useFetchCertificates())
 
   useEffect(() => {
     console.log(certificates);
@@ -51,9 +52,10 @@ const CertificateTemplatePage = () => {
   }, []);
 
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
+    const path = 'certificate/editor';
     const params = certificateId
-      ? {pathname: 'certificate/editor', certificateId}
-      : {pathname: 'certificate/editor'};
+      ? {pathname: path, certificateId}
+      : {pathname: path};
     router.push(params).then(() => {});
   }, []);
 

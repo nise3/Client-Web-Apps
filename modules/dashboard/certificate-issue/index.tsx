@@ -20,18 +20,12 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {createCertificateIssue} from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import {getCertificateByResultType} from '../../../services/CertificateAuthorityManagement/CertificateService';
-import {useFetchCourseEnrolment} from '../../../services/instituteManagement/hooks';
-import {
-  useFetchCertificate,
-  useFetchResultTypes,
-} from '../../../services/CertificateAuthorityManagement/hooks';
-import {
-  ICertificate,
-  ICertificateIssue,
-} from '../../../shared/Interface/certificates';
+import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
+import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
+import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
+import { useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
+import { ICertificate, ICertificateIssue } from '../../../shared/Interface/certificates';
 import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
@@ -44,8 +38,7 @@ const CertificateIssuePage = () => {
   //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
-  const {data: certificateTypes, isLoading: isLoadingTypes} =
-    useFetchResultTypes();
+  const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   // const { data: certificates, isLoading: isLoadingCertificates } = useFetchCertificate();
 
   const [certificateTypeId, setCertificateTypeId] = useState<string>();
@@ -213,20 +206,6 @@ const CertificateIssuePage = () => {
           </>
         }
         extra={[
-          // <AddButton
-          //   key={1}
-          //   // onClick={() => openAddEditModal(null)}
-          //   onClick={() => {}}
-          //   isLoading={loading}
-          //   tooltip={
-          //     <IntlMessages
-          //       id={'common.add_new'}
-          //       values={{
-          //         subject: messages['course.label'],
-          //       }}
-          //     />
-          //   }
-          // />,
           <CustomFilterableFormSelect
             key={1}
             required
@@ -263,23 +242,6 @@ const CertificateIssuePage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {/* {isOpenAddEditModal && (
-          <CourseAddEditPopup
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )} */}
-
-        {/* {isOpenDetailsModal && selectedItemId && (
-          <CourseDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />
-        )} */}
       </PageBlock>
     </>
   );
