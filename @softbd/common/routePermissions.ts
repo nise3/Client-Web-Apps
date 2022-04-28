@@ -297,11 +297,11 @@ export const routePermissions: any = {
   },
   '/subjects': {
     routePrefix: '/subjects',
-    permissionKeys: ['view_any_subject'],
+    permissionKeys: ['view_any_exam_subject'],
   },
   '/questions-bank': {
     routePrefix: '/questions-bank',
-    permissionKeys: ['view_any_question_bank'],
+    permissionKeys: ['view_any_exam_question_bank'],
   },
   '/exams': {
     routePrefix: '/exams',
@@ -311,28 +311,20 @@ export const routePermissions: any = {
     routePrefix: '/exams/question-paper',
     permissionKeys: ['view_any_exam'],
   },
-  '/exams/examinee-list': {
-    routePrefix: '/exams/examinee-list',
-    permissionKeys: ['view_any_exam'],
-  },
-  '/exams/examinee-list/marks-sheet': {
-    routePrefix: '/exams/examinee-list/marks-sheet',
-    permissionKeys: ['view_any_exam'],
-  },
-  '/exams/examinee-list/marking': {
-    routePrefix: '/exams/examinee-list/marking',
+  '/exams/youth-list/': {
+    routePrefix: '/exams/youth-list/',
     permissionKeys: ['view_any_exam'],
   },
   '/create': {
     routePrefix: '/create',
-    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+    permissionKeys: ['view_any_exam'],
   },
   'exams/update/': {
     routePrefix: 'exams/update',
-    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+    permissionKeys: ['view_any_exam'],
   },
   'exams/details/': {
     routePrefix: 'exams/details',
-    permissionKeys: ['view_any_exam'], //TODO: this will be change letter
+    permissionKeys: ['view_any_exam'],
   },
 };
