@@ -188,24 +188,7 @@ const BatchesPage = () => {
         },
       },
       //download upload
-      {
-        Header: messages['batches.total_and_available_seat'],
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <CommonButton
-              key={2}
-              onClick={() => openImportModal(data?.course_id, data?.id)}
-              btnText={messages['common.import'] as string}
-              variant={'outlined'}
-              color={'primary'}
-              style={{marginLeft: '5px'}}
-              startIcon={<DownloadIcon />}
-            />
-          );
-        },
-      },
+
       {
         Header: messages['common.status'],
         accessor: 'row_status',
@@ -226,6 +209,15 @@ const BatchesPage = () => {
               <DeleteButton
                 deleteAction={() => deleteBatchItem(data.id)}
                 deleteTitle='Are you sure?'
+              />
+              <CommonButton
+                key={2}
+                onClick={() => openImportModal(data?.course_id, data?.id)}
+                btnText={messages['common.import'] as string}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '5px'}}
+                startIcon={<DownloadIcon />}
               />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton

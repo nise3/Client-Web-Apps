@@ -321,12 +321,12 @@ const QuestionsBankAddEditPopup = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='question-bank.label' />}}
+              values={{subject: <IntlMessages id='common.question' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='question-bank.label' />}}
+              values={{subject: <IntlMessages id='common.question' />}}
             />
           )}
         </>
