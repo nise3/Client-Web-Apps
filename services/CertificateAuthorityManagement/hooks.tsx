@@ -18,6 +18,7 @@ import {
   API_RPL_ASSESSMENT_QUESTIONS,
   API_RPL_ASSESSMENT_QUESTION_SETS,
 } from '../../@softbd/common/apiRoutes';
+import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
 export function useFetchRTO(rtoId: number | null) {
   return useAxiosSWR(
@@ -144,15 +145,15 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
 }
 
 export function useFetchResultTypes() {
-  return useAxiosSWR('http://192.168.13.159:8001/api/v1/certificate-types');
+  return useAxiosSWR( CERTIFICATE_TYPE_API_URL + 'certificate-types');
 }
 
 export function useFetchCertificates() {
-  return useAxiosSWR('http://192.168.13.159:8001/api/v1/certificates');
+  return useAxiosSWR( CERTIFICATE_TYPE_API_URL + 'certificates');
 }
 
 export function useFetchCertificate(certifcateId: number) {
   return useAxiosSWR(
-    `http://192.168.13.159:8001/api/v1/certificates/${certifcateId}`,
+    `${CERTIFICATE_TYPE_API_URL}certificates/${certifcateId}`,
   );
 }
