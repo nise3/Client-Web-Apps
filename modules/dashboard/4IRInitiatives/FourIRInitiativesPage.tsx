@@ -7,8 +7,8 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRProjectAddEditPopup from './FourIRProjectAddEditPopup';
-import FourIRProjectDetailsPopup from './FourIRProjectDetailsPopup';
+import FourIRInitiativeAddEditPopup from './FourIRInitiativeAddEditPopup';
+import FourIRInitiativeDetailsPopup from './FourIRInitiativeDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -29,7 +29,7 @@ import {
   FOUR_IR_SERVICE_PATH,
 } from '../../../@softbd/common/apiRoutes';
 
-const FourIRProjectsPage = () => {
+const FourIRInitiativesPage = () => {
   const router = useRouter();
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
@@ -107,7 +107,7 @@ const FourIRProjectsPage = () => {
       },
 
       {
-        Header: messages['common.project'],
+        Header: messages['common.initiative'],
         accessor: 'project_name',
       },
       {
@@ -115,7 +115,7 @@ const FourIRProjectsPage = () => {
         accessor: 'organization_name',
       },
       {
-        Header: messages['project.project_budget'],
+        Header: messages['initiative.initiative_budget'],
         accessor: 'budget',
         disableFilters: true,
       },
@@ -184,7 +184,7 @@ const FourIRProjectsPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_project.label' />
+            <IconBranch /> <IntlMessages id='4ir_initiative.label' />
           </>
         }
         extra={[
@@ -212,7 +212,7 @@ const FourIRProjectsPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRProjectAddEditPopup
+          <FourIRInitiativeAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -221,7 +221,7 @@ const FourIRProjectsPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRProjectDetailsPopup
+          <FourIRInitiativeDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -233,4 +233,4 @@ const FourIRProjectsPage = () => {
   );
 };
 
-export default FourIRProjectsPage;
+export default FourIRInitiativesPage;

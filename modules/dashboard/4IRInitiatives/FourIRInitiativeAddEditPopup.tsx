@@ -51,7 +51,7 @@ const initialValues = {
   form_step: '1',
 };
 
-const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
+const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -85,7 +85,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
       project_name: yup
         .string()
         .title()
-        .label(messages['project.name'] as string),
+        .label(messages['initiative.name'] as string),
       organization_name: yup
         .string()
         .required()
@@ -93,7 +93,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
       start_date: yup
         .string()
         .required()
-        .label(messages['project.start_date'] as string),
+        .label(messages['initiative.start_date'] as string),
       four_ir_occupation_id: yup
         .string()
         .trim()
@@ -208,14 +208,14 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         data.form_step = formStep;
         data.tasks = tasks;
         await updateProject(itemId, data);
-        updateSuccessMessage('4ir_project.label');
+        updateSuccessMessage('4ir_initiative.label');
         mutateProject();
       } else {
         data.completion_step = completionStep;
         data.form_step = formStep;
         data.tasks = tasks;
         const response = await createProject(data);
-        createSuccessMessage('4ir_project.label');
+        createSuccessMessage('4ir_initiative.label');
         setShowSuccessPopUp(true);
         setProjectId(response?.data?.id);
       }
@@ -234,12 +234,12 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir_project.label' />}}
+              values={{subject: <IntlMessages id='4ir_initiative.label' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='4ir_project.label' />}}
+              values={{subject: <IntlMessages id='4ir_initiative.label' />}}
             />
           )}
         </>
@@ -257,7 +257,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           <CustomTextInput
             required
             id='project_name'
-            label={messages['project.name']}
+            label={messages['initiative.name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -265,8 +265,8 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='project_name_en'
-            label={messages['project.name_en']}
+            id='initiative_name_en'
+            label={messages['initiative.name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -307,7 +307,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='details'
-            label={messages['project.details']}
+            label={messages['initiative.details']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -319,7 +319,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           <CustomDateTimeField
             required
             id='start_date'
-            label={messages['project.start_date']}
+            label={messages['initiative.start_date']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -328,7 +328,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='budget'
-            label={messages['project.project_budget']}
+            label={messages['initiative.initiative_budget']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -337,7 +337,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomCheckbox
             id='tasks[0]'
-            label={messages['project.roadmap_finalized']}
+            label={messages['initiative.roadmap_finalized']}
             register={register}
             errorInstance={errors}
             checked={isProjectFinalized}
@@ -349,7 +349,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           />
           <CustomCheckbox
             id='tasks[1]'
-            label={messages['project.projects_reviewed']}
+            label={messages['initiative.initiatives_reviewed']}
             register={register}
             errorInstance={errors}
             checked={isProjectReviewed}
@@ -361,7 +361,7 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           />
           <CustomCheckbox
             id='tasks[2]'
-            label={messages['project.projects_approved']}
+            label={messages['initiative.initiatives_approved']}
             register={register}
             errorInstance={errors}
             checked={isProjectApproved}
@@ -399,4 +399,4 @@ const FourIRProjectAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     </HookFormMuiModal>
   );
 };
-export default FourIRProjectAddEditPopup;
+export default FourIRInitiativeAddEditPopup;
