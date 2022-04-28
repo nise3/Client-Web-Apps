@@ -117,9 +117,7 @@ const YouthProfileMenu = () => {
               '0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%)',
             zIndex: 9999999,
           }}>
-          {/** CAN NOT USE ANYTHING OTHER THAN button */}
           <div
-            // tabIndex={-1}o
             style={{
               background: 'none',
               padding: 0,
@@ -144,12 +142,14 @@ const YouthProfileMenu = () => {
               authUser?.admin_access_type.length > 0 && <Divider />}
             {authUser?.admin_access_type &&
               authUser?.admin_access_type.length > 0 && (
-                <MenuItem onClick={onGotoAdminClick}>
-                  <ListItemIcon>
-                    <AdminPanelSettings />
-                  </ListItemIcon>
-                  <ListItemText>{messages['common.goto_admin']}</ListItemText>
-                </MenuItem>
+                <Link>
+                  <MenuItem onClick={onGotoAdminClick}>
+                    <ListItemIcon>
+                      <AdminPanelSettings />
+                    </ListItemIcon>
+                    <ListItemText>{messages['common.goto_admin']}</ListItemText>
+                  </MenuItem>
+                </Link>
               )}
 
             <Divider sx={{margin: '0 !important'}} />
