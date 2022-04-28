@@ -43,13 +43,3 @@ export function useFetchUpazila(upazilaId: number | null) {
 export function useFetchCountries(params: any) {
   return useLocalizedAxiosSWR([API_COUNTRIES, params]);
 }
-
-export function useFetchCertificates(params: any) {
-  return useAxiosSWR(['/certificate/', params]);
-}
-export function useFetchCertificateTypes(params?: any) {
-  return useAxiosSWR([ CERTIFICATE_TYPE_API_URL + 'certificate-types/', params]);
-}
-export function useFetchCertificate(certificateId: number | null) {
-  return useAxiosSWR(certificateId ? '/certificate/' + certificateId : null);
-}

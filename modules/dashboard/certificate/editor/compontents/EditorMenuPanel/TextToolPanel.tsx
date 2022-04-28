@@ -58,7 +58,6 @@ function TextToolPanel() {
   const { createElement } = useElementsDispatcher();
 
   const handleClickAddText = (font: DefaultFonts) => () => {
-    console.log("text created");
     createElement<TextConfig>(ShapeType.Text, TEXT_PROPERTIES[font]);
   };
 

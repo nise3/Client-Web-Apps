@@ -11,7 +11,6 @@ interface Props {
 }
 
 function GenericRenderer({ id, component: Component, props }: Props) {
-  console.log("generic render:", id);
   return (
     <InteractiveKonvaElement id={id}>
       {(additionalProps) => <Component {...props} {...additionalProps} />}

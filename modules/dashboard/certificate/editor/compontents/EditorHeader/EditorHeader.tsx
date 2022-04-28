@@ -10,41 +10,48 @@ import TextInputSkeleton from '../../../../../../@softbd/elements/display/skelet
 import {useFetchResultTypes} from '../../../../../../services/CertificateAuthorityManagement/hooks';
 
 import useNotiStack from './../../../../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../../../../@softbd/utilities/validationErrorHandler';
 function EditorHeader() {
   const {setCurrentTemplateToSave} = useTemplateDispatcher();
   const {stageAreaRef} = StageRefContainer.useContainer();
   const [selectedResultType, setSelectedResultType] = useState<string | null>(
     null,
   );
+  console.log(selectedResultType);
   const {data: resultTypes, isLoading: isLoading} = useFetchResultTypes();
   const {errorStack} = useNotiStack();
-
-  useEffect(() => {
-    console.log(resultTypes);
-  }, [resultTypes]);
 
   const onChangeAutocomplete = (event: any, newValue: string | null) => {
     event.preventDefault();
     setSelectedResultType(newValue);
   };
+
   const handleClick = async () => {
     console.log('save click');
-    const template = await setCurrentTemplateToSave();
-    const templateJson = toTemplateJSON(template);
-    const data = {
-      template: templateJson,
-      title_en: 'Cerificate 1',
-      title: 'Certificate',
-      result_type: 'Number',
-      // accessor_type: 'Trainer',
-      // accessor_id: 123,
-      purpose_name: 'Batch',
-      purpose_id: 5,
-    };
-    try {
-      await createCertificate(data);
-    } catch {
-      console.log('try again');
+    if (selectedResultType) {
+      const template = await setCurrentTemplateToSave();
+      const templateJson = toTemplateJSON(template);
+      let stageJson;
+      if (stageAreaRef.current) {
+        stageJson = stageAreaRef.current.toJSON();
+      }
+      const dataJson = {
+        template: templateJson,
+        stage: stageJson,
+      };
+      const data = {
+        template: JSON.stringify(dataJson),
+        title_en: 'Cerificate 1',
+        title: 'Certificate',
+        result_type: 5,
+        purpose_name: 'Batch',
+        purpose_id: 5,
+      };
+      try {
+        await createCertificate(data);
+      } catch {}
+    } else {
+      errorStack('Please choose a result type');
     }
   };
   return (
@@ -68,7 +75,7 @@ function EditorHeader() {
               })}
               sx={{width: 300}}
               renderInput={(params) => (
-                <TextField {...params} label='Controllable' />
+                <TextField {...params} label='Result Type' />
               )}
             />
           )}

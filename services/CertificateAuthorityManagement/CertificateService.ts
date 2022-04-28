@@ -7,7 +7,7 @@ interface ICertificate {
   template: string;
   title_en: string;
   title: string;
-  result_type: string;
+  result_type: number;
   purpose_name: string;
   purpose_id: number;
 }

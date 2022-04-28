@@ -1,22 +1,21 @@
-import React from "react";
-import { Line, Rect, RegularPolygon } from "react-konva";
-import { useRecoilValue } from "recoil";
-import { ShapeType, TextConfig } from "../../interfaces/Shape";
-import { elementSelector } from "../../state/selectors/elements";
-import GenericRenderer from "./GenericRenderer";
-import TextRenderer from "./TextRenderer";
+import React from 'react';
+import {Line, Rect, RegularPolygon} from 'react-konva';
+import {useRecoilValue} from 'recoil';
+import {ShapeType, TextConfig} from '../../interfaces/Shape';
+import {elementSelector} from '../../state/selectors/elements';
+import GenericRenderer from './GenericRenderer';
+import TextRenderer from './TextRenderer';
 
 interface Props {
   id: string;
 }
 
-function ElementRenderer({ id }: Props) {
+function ElementRenderer({id}: Props) {
   const element = useRecoilValue(elementSelector(id));
   if (!element) {
     return null;
   }
-  console.log(element);
-  const { props, type } = element;
+  const {props, type} = element;
 
   switch (type) {
     case ShapeType.Text:
