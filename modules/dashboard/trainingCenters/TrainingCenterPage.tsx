@@ -93,7 +93,7 @@ const TrainingCenterPage = () => {
         accessor: 'title',
       },
       {
-        Header: messages['institute.label'],
+        Header: messages['institute.label_en'],
         accessor: 'institute_title_en',
         isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
         disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,

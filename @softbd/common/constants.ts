@@ -78,7 +78,7 @@ export const cookieDomain = () => {
 export const gotoLoginSignUpPage = (path: string) => {
   const params =
     typeof window !== 'undefined'
-      ? 'redirected_from=' + window.location.href
+      ? 'redirected_from=' + window?.location?.href
       : '';
 
   const niseUrl = new URL(niseDomain());
@@ -118,3 +118,4 @@ export const FORM_PLACEHOLDER = {
   LONGITUDE: '90.000000...',
   MAP_SOURCE: 'https://www.google.com/maps/place/...',
 };
+

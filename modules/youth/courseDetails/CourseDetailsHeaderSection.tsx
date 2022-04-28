@@ -16,7 +16,6 @@ import {
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {
   gotoLoginSignUpPage,
@@ -51,7 +50,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const authUser = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -100,66 +99,68 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             />
           )}
 
-          <Box mt={4} mb={3}>
-            {!course?.enrolled ? (
-              course?.enrollable ? (
-                <Link
-                  href={
-                    authUser
-                      ? youthDomain() +
-                        LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
-                        course?.id
-                      : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
-                  }>
-                  <Button variant={'contained'} color={'primary'}>
-                    {messages['common.enroll_now']}
-                  </Button>
-                </Link>
-              ) : (
-                <CustomChip
-                  label={messages['common.not_enrollable']}
-                  color={'primary'}
-                />
-              )
-            ) : (
-              <Box mt={4}>
-                {!course?.verified ? (
+          {(!authUser || authUser?.isYouthUser) && (
+            <Box mt={4} mb={3}>
+              {!course?.enrolled ? (
+                course?.enrollable ? (
                   <Link
                     href={
                       authUser
                         ? youthDomain() +
-                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION +
-                          course?.id +
-                          `?enrollment_id=${course?.enrollment_id}`
+                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
+                          course?.id
                         : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                     }>
                     <Button variant={'contained'} color={'primary'}>
-                      {messages['common.verify_enrollment']}
-                    </Button>
-                  </Link>
-                ) : !course?.payment_status ? (
-                  <Link
-                    href={
-                      authUser
-                        ? youthDomain() +
-                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
-                          course?.id +
-                          `?enrollment_id=${course?.enrollment_id}`
-                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
-                    }>
-                    <Button variant={'contained'} color={'primary'}>
-                      {messages['common.pay_now']}
+                      {messages['common.enroll_now']}
                     </Button>
                   </Link>
                 ) : (
                   <CustomChip
-                    label={messages['common.already_enrolled']}
+                    label={messages['common.not_enrollable']}
                     color={'primary'}
                   />
-                )}
-              </Box>
-            )}
-          </Box>
+                )
+              ) : (
+                <Box mt={4}>
+                  {!course?.verified ? (
+                    <Link
+                      href={
+                        authUser
+                          ? youthDomain() +
+                            LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION +
+                            course?.id +
+                            `?enrollment_id=${course?.enrollment_id}`
+                          : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                      }>
+                      <Button variant={'contained'} color={'primary'}>
+                        {messages['common.verify_enrollment']}
+                      </Button>
+                    </Link>
+                  ) : !course?.payment_status ? (
+                    <Link
+                      href={
+                        authUser
+                          ? youthDomain() +
+                            LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+                            course?.id +
+                            `?enrollment_id=${course?.enrollment_id}`
+                          : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                      }>
+                      <Button variant={'contained'} color={'primary'}>
+                        {messages['common.pay_now']}
+                      </Button>
+                    </Link>
+                  ) : (
+                    <CustomChip
+                      label={messages['common.already_enrolled']}
+                      color={'primary'}
+                    />
+                  )}
+                </Box>
+              )}
+            </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CardMediaImageView

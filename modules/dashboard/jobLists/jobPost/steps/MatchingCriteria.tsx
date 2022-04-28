@@ -21,6 +21,7 @@ import {Gender, JobLevel} from '../enums/JobPostEnums';
 import {useFetchJobMatchingCriteria} from '../../../../../services/IndustryManagement/hooks';
 import {saveMatchingCriteria} from '../../../../../services/IndustryManagement/JobService';
 import {LINK_JOB_CREATE_OR_UPDATE} from '../../../../../@softbd/common/appLinks';
+import IntlMessages from '../../../../../@crema/utility/IntlMessages';
 
 interface Props {
   jobId: string;
@@ -62,7 +63,7 @@ const MatchingCriteria = ({
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const {errorStack, successStack} = useNotiStack();
 
   const [fieldsMandatoryValue, setFieldsMandatoryValue] = useState<any>({
@@ -163,7 +164,7 @@ const MatchingCriteria = ({
       };
       setCriteriaValue(criteria);
     }
-  }, [matchingCriteria]);
+  }, [matchingCriteria, messages]);
 
   useEffect(() => {
     setProgress(Math.floor((selectedCount * 100) / totalField.current));
@@ -188,37 +189,68 @@ const MatchingCriteria = ({
 
   const getAge = () => {
     let ageText: any = '';
-    if (
-      matchingCriteria?.candidate_requirement?.age_maximum ||
-      matchingCriteria?.candidate_requirement?.age_minimum
-    ) {
-      if (matchingCriteria?.candidate_requirement?.age_maximum)
-        ageText = matchingCriteria?.candidate_requirement?.age_maximum;
 
-      if (matchingCriteria?.candidate_requirement?.age_minimum) {
-        ageText += ageText ? ' - ' : '';
-        ageText += matchingCriteria?.candidate_requirement?.age_minimum;
-      }
-      ageText += ' years';
+    if (
+      matchingCriteria?.candidate_requirement?.age_minimum &&
+      matchingCriteria?.candidate_requirement?.age_maximum
+    ) {
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_from_to'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement?.age_minimum,
+            ),
+            to: formatNumber(
+              matchingCriteria?.candidate_requirement?.age_maximum,
+            ),
+          }}
+        />
+      );
+    } else if (matchingCriteria?.candidate_requirement?.age_minimum) {
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_least'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement?.age_minimum,
+            ),
+          }}
+        />
+      );
+    } else if (matchingCriteria?.candidate_requirement?.age_maximum) {
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_most'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement?.age_minimum,
+            ),
+          }}
+        />
+      );
     }
+
     return ageText;
   };
 
   const getSalary = () => {
     let salaryText: any = '';
-    if (
-      matchingCriteria?.additional_job_information?.salary_min ||
-      matchingCriteria?.additional_job_information?.salary_max
-    ) {
-      if (matchingCriteria?.additional_job_information?.salary_min)
-        salaryText = matchingCriteria?.additional_job_information?.salary_min;
 
-      if (matchingCriteria?.additional_job_information?.salary_max) {
-        salaryText += salaryText ? ' - ' : '';
-        salaryText += matchingCriteria?.additional_job_information?.salary_max;
-      }
-      salaryText = '৳ ' + salaryText + ' (monthly)';
+    if (
+      matchingCriteria?.additional_job_information?.salary_min != null &&
+      matchingCriteria?.additional_job_information?.salary_max != null
+    ) {
+      salaryText =
+        '৳ ' +
+        formatNumber(matchingCriteria?.additional_job_information?.salary_min) +
+        ' - ' +
+        formatNumber(matchingCriteria?.additional_job_information?.salary_max) +
+        ` (${messages['common.monthly']})`;
+    } else {
+      salaryText = messages['common.negotiable'];
     }
+
     return salaryText;
   };
 
@@ -253,19 +285,54 @@ const MatchingCriteria = ({
   const getExperienceText = () => {
     let experienceText: any = '';
     if (
-      matchingCriteria?.candidate_requirement?.maximum_year_of_experience ||
+      matchingCriteria?.candidate_requirement?.minimum_year_of_experience &&
+      matchingCriteria?.candidate_requirement?.maximum_year_of_experience
+    ) {
+      experienceText = (
+        <IntlMessages
+          id={'job_preview.experience_from_to'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement
+                ?.minimum_year_of_experience,
+            ),
+            to: formatNumber(
+              matchingCriteria?.candidate_requirement
+                ?.maximum_year_of_experience,
+            ),
+          }}
+        />
+      );
+    } else if (
       matchingCriteria?.candidate_requirement?.minimum_year_of_experience
     ) {
-      if (matchingCriteria?.candidate_requirement?.maximum_year_of_experience)
-        experienceText =
-          matchingCriteria?.candidate_requirement?.maximum_year_of_experience;
-
-      if (matchingCriteria?.candidate_requirement?.minimum_year_of_experience) {
-        experienceText += experienceText ? ' - ' : '';
-        experienceText +=
-          matchingCriteria?.candidate_requirement?.minimum_year_of_experience;
-      }
-      experienceText += ' years';
+      experienceText = (
+        <IntlMessages
+          id={'job_preview.experience_at_least'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement
+                ?.minimum_year_of_experience,
+            ),
+          }}
+        />
+      );
+    } else if (
+      matchingCriteria?.candidate_requirement?.maximum_year_of_experience
+    ) {
+      experienceText = (
+        <IntlMessages
+          id={'job_preview.experience_at_most'}
+          values={{
+            from: formatNumber(
+              matchingCriteria?.candidate_requirement
+                ?.maximum_year_of_experience,
+            ),
+          }}
+        />
+      );
+    } else {
+      return messages['common.n_a'];
     }
     return experienceText;
   };
@@ -327,14 +394,13 @@ const MatchingCriteria = ({
           borderRadius: '5px',
           border: '1px solid #d1d1d1',
         }}>
-        <S2 fontWeight={'bold'}>Matching Strength</S2>
+        <S2 fontWeight={'bold'}>{messages['job_posting.matching_criteria']}</S2>
         <Typography
           color={'grey.600'}
           sx={{
             fontSize: '14px !important',
           }}>
-          Suggestion: To get the relevant candidates, matching strength will be
-          increased if you add job requirements from the following items.
+          {messages['job_posting.matching_criteria_suggestion']}
         </Typography>
         <Box display={'flex'} alignItems={'center'}>
           <BorderLinearProgress variant='determinate' value={progress} />
@@ -360,7 +426,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_age_enabled'}
-              label={'Age'}
+              label={messages['job_preview_summary.age'] as string}
               tooltipText={
                 'Select "Age" as matching criteria for more authentic/accurate matching.'
               }
@@ -378,7 +444,7 @@ const MatchingCriteria = ({
               checkBoxComponent={
                 <CustomCheckbox
                   id='is_age_mandatory'
-                  label={'Set mandatory'}
+                  label={messages['matching_criteria.set_mandatory'] as string}
                   register={register}
                   errorInstance={errors}
                   checked={fieldsMandatoryValue.age}
@@ -395,7 +461,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_job_location_enabled'}
-              label={'Job location (Current)'}
+              label={messages['common.job_location'] as string}
               tooltipText={
                 'Select "Job Location(Current/ Permanent)" for more authentic/accurate matching.'
               }
@@ -413,7 +479,7 @@ const MatchingCriteria = ({
               checkBoxComponent={
                 <CustomCheckbox
                   id='is_job_location_mandatory'
-                  label={'Set mandatory'}
+                  label={messages['matching_criteria.set_mandatory'] as string}
                   register={register}
                   errorInstance={errors}
                   checked={fieldsMandatoryValue.job_location}
@@ -430,7 +496,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_total_year_of_experience_enabled'}
-              label={'Total year of experience'}
+              label={messages['common.year_of_experience'] as string}
               tooltipText={
                 'If you select "Total year of experience", it will match with applicant'
               }
@@ -450,7 +516,7 @@ const MatchingCriteria = ({
               checkBoxComponent={
                 <CustomCheckbox
                   id='is_total_year_of_experience_mandatory'
-                  label={'Set mandatory'}
+                  label={messages['matching_criteria.set_mandatory'] as string}
                   register={register}
                   errorInstance={errors}
                   checked={fieldsMandatoryValue.total_experience}
@@ -470,7 +536,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_salary_enabled'}
-              label={'Salary'}
+              label={messages['industry.salary'] as string}
               tooltipText={
                 'Select "Salary" as matching criteria for more authentic/accurate matching.'
               }
@@ -490,7 +556,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_gender_enabled'}
-              label={'Gender'}
+              label={messages['industry.gender'] as string}
               tooltipText={
                 'Select "Gender" for more authentic/accurate matching.'
               }
@@ -508,7 +574,7 @@ const MatchingCriteria = ({
               checkBoxComponent={
                 <CustomCheckbox
                   id='is_gender_mandatory'
-                  label={'Set mandatory'}
+                  label={messages['matching_criteria.set_mandatory'] as string}
                   register={register}
                   errorInstance={errors}
                   checked={fieldsMandatoryValue.gender}
@@ -525,7 +591,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_area_of_business_enabled'}
-              label={'Area of Business'}
+              label={messages['common.area_of_business'] as string}
               tooltipText={
                 'Your selected business area will match with candidate`s current working "business area" or their preferable business area.'
               }
@@ -545,7 +611,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_area_of_experience_enabled'}
-              label={'Area of Experience'}
+              label={messages['common.area_of_experience'] as string}
               tooltipText={
                 'Select "Work area" for more authentic/accurate matching.'
               }
@@ -565,7 +631,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_job_level_enabled'}
-              label={'Job Level'}
+              label={messages['label.job_level'] as string}
               tooltipText={
                 'Select "Job level" as matching criteria for more authentic/accurate matching.'
               }
@@ -585,7 +651,7 @@ const MatchingCriteria = ({
           <Grid item xs={12} md={6}>
             <MatchingCriteriaFormItem
               id={'is_skills_enabled'}
-              label={'Skills'}
+              label={messages['common.skills'] as string}
               tooltipText={
                 'Select "Skills" for more authentic/accurate matching.'
               }

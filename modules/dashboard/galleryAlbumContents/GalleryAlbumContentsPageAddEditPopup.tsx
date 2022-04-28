@@ -48,6 +48,7 @@ const initialValues = {
   content_type: '',
   video_type: '',
   title: '',
+  title_en: '',
   description: '',
   image_alt_title: '',
   featured: '',
@@ -114,8 +115,17 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
           : yup.string(),
       title: yup
         .string()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       image_path: yup
         .mixed()
         .label(messages['common.image_path'] as string)
@@ -158,8 +168,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -167,8 +180,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -176,8 +192,11 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });
@@ -186,7 +205,7 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
   const features = useMemo(
     () => [
       {
-        id: 0,
+        id: 2,
         label: messages['common.no'],
       },
       {
@@ -364,7 +383,9 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      console.log('formData: ', formData);
+      if (formData?.featured == 2) {
+        formData.featured = 0;
+      }
       if (galleryAlbum.album_type == AlbumTypes.IMAGE) {
         formData.content_type = GalleryAlbumContentTypes.IMAGE;
       } else if (galleryAlbum.album_type == AlbumTypes.VIDEO) {

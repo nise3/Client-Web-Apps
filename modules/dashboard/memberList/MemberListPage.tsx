@@ -148,10 +148,12 @@ const MemberListPage = () => {
       {
         Header: messages['common.mobile'],
         accessor: 'mobile',
+        disableFilters: true,
       },
       {
         Header: messages['common.email'],
         accessor: 'email',
+        disableFilters: true,
       },
       {
         Header: messages['applicationManagement.status'],

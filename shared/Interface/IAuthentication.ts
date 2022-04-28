@@ -35,6 +35,7 @@ export interface TAuthUserSSOResponse {
   role?: IRole;
   displayName?: string;
   email?: string;
+  mobile?: string;
   username: string;
   permissions: string[];
   profile_pic?: string;
@@ -70,6 +71,7 @@ export interface TYouthAuthUserSSOResponse {
   mobile: string;
   user_name_type: number;
   admin_access_type?: any;
+  youth_auth_source?: number;
   freedom_fighter_status: FreedomFighterStatusType;
   identity_number_type: IdentityNumberType;
   identity_number?: string;

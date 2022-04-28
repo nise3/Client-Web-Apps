@@ -7,7 +7,6 @@ import {
   CardContent,
   Container,
   Grid,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import {Body1, Body2, H3, S1, S2} from '../../../@softbd/elements/common';
@@ -26,10 +25,6 @@ import {
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useRouter} from 'next/router';
 import {useFetchPublicJob} from '../../../services/IndustryAssociationManagement/hooks';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {gotoLoginSignUpPage} from '../../../@softbd/common/constants';
 import {LINK_YOUTH_SIGNUP} from '../../../@softbd/common/appLinks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -37,6 +32,7 @@ import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 import {ArrowBack} from '@mui/icons-material';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'JobPreview';
 
@@ -89,7 +85,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const JobCircularDetails = () => {
-  const {messages, formatNumber, formatDate} = useIntl();
+  const {messages, formatNumber, formatDate, locale} = useIntl();
   const authUser = useAuthUser<YouthAuthUser>();
   const router = useRouter();
   const {jobCircularId} = router.query;
@@ -724,7 +720,7 @@ const JobCircularDetails = () => {
             {messages['common.back']}
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        {/*<Grid item xs={6}>
           <Tooltip title={messages['common.download_label']}>
             <SystemUpdateAltOutlinedIcon
               className={classes.icons}
@@ -757,7 +753,7 @@ const JobCircularDetails = () => {
               }}
             />
           </Tooltip>
-        </Grid>
+        </Grid>*/}
       </Grid>
       <Box mt={3} className={classes.jobDetailsBox}>
         <Grid container spacing={1}>
@@ -860,8 +856,13 @@ const JobCircularDetails = () => {
           <Grid item xs={1} md={4}>
             <Typography>
               <b>{messages['job_preview.job_sector_occupation']}</b>{' '}
-              {jobData?.primary_job_information?.job_sector_title}/
-              {jobData?.primary_job_information?.occupation_title}
+              {locale == LocaleLanguage.BN
+                ? jobData?.primary_job_information?.job_sector_title
+                : jobData?.primary_job_information?.job_sector_title_en}
+              /
+              {locale == LocaleLanguage.BN
+                ? jobData?.primary_job_information?.occupation_title
+                : jobData?.primary_job_information?.occupation_title_en}
             </Typography>
             <Card
               sx={{

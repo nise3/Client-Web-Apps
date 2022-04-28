@@ -104,6 +104,7 @@ const BatchesPage = () => {
       {
         Header: messages['common.courses'],
         accessor: 'course_title',
+        disableFilters: true,
       },
       {
         Header: messages['batches.total_and_available_seat'],
@@ -119,22 +120,34 @@ const BatchesPage = () => {
       {
         Header: messages['batches.registration_start_date'],
         accessor: 'registration_start_date',
+        disableFilters: true,
         filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <span>{getMomentDateFormat(data?.registration_start_date)}</span>
+            <span>
+              {getMomentDateFormat(
+                data?.registration_start_date,
+                'DD MMMM, YYYY',
+              )}
+            </span>
           );
         },
       },
       {
         Header: messages['batches.registration_end_date'],
         accessor: 'registration_end_date',
+        disableFilters: true,
         filter: 'dateTimeFilter',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <span>{getMomentDateFormat(data?.registration_end_date)}</span>
+            <span>
+              {getMomentDateFormat(
+                data?.registration_end_date,
+                'DD MMMM, YYYY',
+              )}
+            </span>
           );
         },
       },
@@ -143,6 +156,7 @@ const BatchesPage = () => {
         accessor: 'batch_start_date',
         filter: 'dateTimeFilter',
         isVisible: false,
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
@@ -153,6 +167,7 @@ const BatchesPage = () => {
         accessor: 'batch_end_date',
         filter: 'dateTimeFilter',
         isVisible: false,
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
