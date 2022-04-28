@@ -1,5 +1,5 @@
 import {Box, Button, Grid} from '@mui/material';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import IconExam from '../../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../ExamEnums';
@@ -16,7 +16,6 @@ import OfflineDetails from './OfflineDetails';
 const ExamDetailsPage = () => {
   const {messages} = useIntl();
 
-  const [examSetUuid, setExamSetUuid] = useState<any>(null);
   const [onlineExam, setOnlineExam] = useState<any>(null);
   const [offlineExam, setOfflineExam] = useState<any>(null);
 
@@ -57,18 +56,6 @@ const ExamDetailsPage = () => {
       });
   }, [examData]);
 
-  const onChangeOfflineSet = useCallback((value: any) => {
-    setExamSetUuid(value.target.value);
-  }, []);
-
-  /*const onChangeOfflineSet = useCallback((value: any) => {
-    if (value.target) {
-      setExamSetUuid(value.target.value);
-    } else {
-      setExamSetUuid(value);
-    }
-  }, []);*/
-
   const {
     register,
     control,
@@ -108,7 +95,6 @@ const ExamDetailsPage = () => {
                     exam={onlineExam}
                     examData={examData}
                     examType={examType}
-                    examSetUuid={examSetUuid}
                     register={register}
                     control={control}
                     errors={errors}
@@ -121,12 +107,10 @@ const ExamDetailsPage = () => {
                     key={offlineExam?.id}
                     exam={offlineExam}
                     examData={examData}
-                    examSetUuid={examSetUuid}
                     register={register}
                     control={control}
                     errors={errors}
                     setValue={setValue}
-                    onChangeOfflineSet={onChangeOfflineSet}
                   />
                 )}
               </>

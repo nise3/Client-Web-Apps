@@ -2,7 +2,7 @@ import {useIntl} from 'react-intl';
 import React, {useEffect, useRef, useState} from 'react';
 import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
-import {Button, Grid, Paper} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {Body1, Body2, H6, Link, S1} from '../../../../@softbd/elements/common';
 import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
@@ -22,26 +22,23 @@ import {useReactToPrint} from 'react-to-print';
 interface IProps {
   exam: any;
   examData: any;
-  examSetUuid: any;
   register: any;
   control: any;
   errors: any;
   setValue: any;
-  onChangeOfflineSet: (setUuid: any) => void;
 }
 
 const OfflineDetails = ({
   exam,
   examData,
-  examSetUuid,
   register,
   control,
   errors,
   setValue,
-  onChangeOfflineSet,
 }: IProps) => {
   const {messages, formatNumber, formatTime} = useIntl();
 
+  const [examSetUuid, setExamSetUuid] = useState<any>(null);
   const [filteredSet, setFilteredSet] = useState<any>(null);
   const [uuId, setUuid] = useState<any>([]);
 
@@ -50,6 +47,8 @@ const OfflineDetails = ({
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  let url = LINK_EXAM_YOUTH_LIST + exam?.id;
 
   let answerIndex = 0;
   let questionIndex = 1;
@@ -62,7 +61,7 @@ const OfflineDetails = ({
 
       setFilteredSet(filterSet[0]);
     }
-  }, [exam.exam_sets, examSetUuid]);
+  }, [exam, examSetUuid]);
 
   useEffect(() => {
     let uuId = (exam?.exam_sets || []).map((data: any) => {
@@ -74,10 +73,14 @@ const OfflineDetails = ({
 
     setUuid(uuId);
     console.log('er->', uuId);
-  }, [exam?.exam_sets]);
+  }, [exam]);
 
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={
+        examData?.exams && examData?.exams.length > 1 ? {marginTop: '40px'} : {}
+      }>
       {ExamTypes.OFFLINE === Number(exam?.type) && (
         <Grid item xs={6}>
           <FormRadioButtons
@@ -87,11 +90,14 @@ const OfflineDetails = ({
             control={control}
             defaultValue={uuId[0] ? uuId[0]?.key : ''}
             isLoading={false}
+            onChange={(value) => {
+              setExamSetUuid(value);
+            }}
           />
         </Grid>
       )}
       <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
-        <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
+        <Link href={url}>
           <Button variant={'contained'} color={'primary'}>
             {messages['common.examinees']}
           </Button>{' '}
@@ -110,8 +116,11 @@ const OfflineDetails = ({
 
       {examSetUuid && (
         <Grid item xs={12}>
-          <Paper ref={componentRef} sx={{padding: '20px', border: '1px solid'}}>
-            <Grid container spacing={2}>
+          <fieldset style={{borderRadius: '5px', border: '1px solid #b8b8b8'}}>
+            <legend style={{color: '#0a8fdc', fontSize: '1.5rem'}}>
+              {messages['common.offline']}
+            </legend>
+            <Grid container spacing={2} ref={componentRef} padding={'30px'}>
               <Grid
                 item
                 display={'flex'}
@@ -373,7 +382,7 @@ const OfflineDetails = ({
                 </form>
               </Grid>
             </Grid>
-          </Paper>
+          </fieldset>
         </Grid>
       )}
     </Grid>

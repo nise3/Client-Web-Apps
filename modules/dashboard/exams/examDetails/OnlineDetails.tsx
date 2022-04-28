@@ -1,7 +1,7 @@
-import {Button, Grid, Paper} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
+import {QuestionSelectionType} from '../ExamEnums';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import {Body1, Body2, H6, Link, S1} from '../../../../@softbd/elements/common';
 import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
@@ -21,7 +21,6 @@ interface IProps {
   exam: any;
   examData: any;
   examType: any;
-  examSetUuid: any;
   register: any;
   control: any;
   errors: any;
@@ -32,7 +31,6 @@ const OnlineDetails = ({
   exam,
   examData,
   examType,
-  examSetUuid,
   register,
   control,
   errors,
@@ -42,20 +40,23 @@ const OnlineDetails = ({
 
   let answerIndex = 0;
   let questionIndex = 1;
+  let url = LINK_EXAM_YOUTH_LIST + exam?.id;
 
   return (
     <Grid container>
       <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} mb={3}>
-        <Link href={LINK_EXAM_YOUTH_LIST + `${exam?.id}`}>
+        <Link href={url}>
           <Button variant={'contained'} color={'primary'}>
             {messages['common.examinees']}
           </Button>{' '}
         </Link>
       </Grid>
-      <Grid item>
-        <Paper
-          sx={{padding: '20px', marginBottom: '50px', border: '1px solid'}}>
-          <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <fieldset style={{borderRadius: '5px', border: '1px solid #b8b8b8'}}>
+          <legend style={{color: '#0a8fdc', fontSize: '1.5rem'}}>
+            {messages['common.online']}
+          </legend>
+          <Grid container spacing={2} padding={'30px'}>
             <Grid
               item
               display={'flex'}
@@ -115,13 +116,8 @@ const OnlineDetails = ({
                           </Grid>
 
                           {section?.questions && section?.questions.length ? (
-                            (section?.questions)
-                              .filter(
-                                (que: any) =>
-                                  Number(exam.type) === ExamTypes.ONLINE ||
-                                  que.exam_set_uuid == examSetUuid,
-                              )
-                              .map((question: any, i: number) => {
+                            section.questions.map(
+                              (question: any, i: number) => {
                                 let ansIndex = answerIndex++;
 
                                 if (
@@ -270,7 +266,8 @@ const OnlineDetails = ({
                                     </React.Fragment>
                                   );
                                 }
-                              })
+                              },
+                            )
                           ) : section?.questions &&
                             String(section.question_selection_type) ===
                               QuestionSelectionType.RANDOM ? (
@@ -308,7 +305,7 @@ const OnlineDetails = ({
               </form>
             </Grid>
           </Grid>
-        </Paper>
+        </fieldset>
       </Grid>
     </Grid>
   );

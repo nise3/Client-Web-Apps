@@ -252,8 +252,9 @@ export function useFetchExam(examId: any, params?: any) {
       : null,
   );
 }
+
 export function useFetchExamDetails(examId: any, params?: any) {
-  return useDataLocalizationAxiosSWR(
+  return useAxiosSWR(
     examId
       ? params
         ? [API_EXAMS + '/' + examId, params]
