@@ -198,7 +198,7 @@ const BatchesPage = () => {
                 onClick={()=> openDetailsTemplateModal(data.id)}
                 color='primary'
               />
-              <Link href={`${path}/${data?.id}/certificate-issue`} passHref={true}>
+              <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
                 <CommonButton
                   btnText='certificate.certificate_issue'
                   startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}

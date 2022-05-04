@@ -1,1 +1,1 @@
-export const CERTIFICATE_TYPE_API_URL =  'http://192.168.13.159:8001/api/v1/';
+export const CERTIFICATE_TYPE_API_URL =  'http://192.168.1.101:8001/api/v1/';

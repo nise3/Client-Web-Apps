@@ -39,6 +39,7 @@ const CertificateIssuePage = () => {
   //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
+  // console.log('TYPES ', certificateTypes);
   // const { data: certificates, isLoading: isLoadingCertificates } = useFetchCertificate();
 
   const [certificateTypeId, setCertificateTypeId] = useState<string>();
