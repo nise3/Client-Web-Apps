@@ -119,6 +119,9 @@ export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
+// TODO Remove this
+  // export const API_COURSE_ENROLLMENTS =
+  // CERTIFICATE_API_URL + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';

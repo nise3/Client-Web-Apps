@@ -1,5 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useEventCallback} from '@mui/material';
+import { useRouter } from 'next/router';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
@@ -32,55 +33,56 @@ const CertificateIssuePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
-
-  // console.log('AUTH USER ', authUser);
+  // const route = useRouter();
+  // const {batchId} = route.query;
+  // console.log('useRouter', batchId);
   // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
-  const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
+  // const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   // console.log('TYPES ', certificateTypes);
   // const { data: certificates, isLoading: isLoadingCertificates } = useFetchCertificate();
 
-  const [certificateTypeId, setCertificateTypeId] = useState<string>();
-  const [certificateId, setCertificateId] = useState<string>();
+  // const [certificateTypeId, setCertificateTypeId] = useState<string>();
+  // const [certificateId, setCertificateId] = useState<string>();
   const [certificatesList, setCertificatesList] = useState<
     Array<ICertificate> | []
   >([]);
 
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      certificate_type: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['certificate.certificate_type'] as string),
-      certificate_Id: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.certificate'] as string),
-    });
-  }, []);
+  // const validationSchema = useMemo(() => {
+  //   return yup.object().shape({
+  //     certificate_type: yup
+  //       .string()
+  //       .trim()
+  //       .required()
+  //       .label(messages['certificate.certificate_type'] as string),
+  //     certificate_Id: yup
+  //       .string()
+  //       .trim()
+  //       .required()
+  //       .label(messages['common.certificate'] as string),
+  //   });
+  // }, []);
 
-  const {
-    control,
-    formState: {errors, isSubmitting},
-  } = useForm<any>({resolver: yupResolver(validationSchema)});
+  // const {
+  //   control,
+  //   formState: {errors, isSubmitting},
+  // } = useForm<any>({resolver: yupResolver(validationSchema)});
 
-  const changeCertificateTypeAction = useCallback((typeid: string) => {
-    setCertificateTypeId(typeid);
-  }, []);
-  const changeCertificatesAction = useCallback((certificateId: string) => {
-    setCertificateId(certificateId);
-  }, []);
+  // const changeCertificateTypeAction = useCallback((typeid: string) => {
+  //   setCertificateTypeId(typeid);
+  // }, []);
+  // const changeCertificatesAction = useCallback((certificateId: string) => {
+  //   setCertificateId(certificateId);
+  // }, []);
 
-  useEffect(async () => {
-    const {data: certificate} = await getCertificateByResultType({
-      result_type: certificateTypeId,
-    });
-    setCertificatesList(certificate);
-  }, [certificateTypeId]);
+  // useEffect(async () => {
+  //   const {data: certificate} = await getCertificateByResultType({
+  //     result_type: certificateTypeId,
+  //   });
+  //   setCertificatesList(certificate);
+  // }, [certificateTypeId]);
 
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
@@ -109,22 +111,23 @@ const CertificateIssuePage = () => {
   }, [youthListByBatch]);
 
   const issueCerrificate1 = useEventCallback((data: any) => {
-    const issueData: ICertificateIssue = {
-      batch_id: data.batch_id,
-      certificate_id: certificateId as string,
-      youth_id: data.youth_id,
-    };
-    createCertificateIssue(issueData).then((res) => {
-      if (isResponseSuccess(res)) {
-        successStack(
-          <IntlMessages
-            id='common.subject_created_successfully'
-            values={{subject: <IntlMessages id='course.label' />}}
-          />,
-        );
-        refreshDataTable();
-      }
-    });
+    console.log(data)
+    // const issueData: ICertificateIssue = {
+    //   batch_id: data.batch_id,
+    //   certificate_id: certificateId as string,
+    //   youth_id: data.youth_id,
+    // };
+    // createCertificateIssue(issueData).then((res) => {
+    //   if (isResponseSuccess(res)) {
+    //     successStack(
+    //       <IntlMessages
+    //         id='common.subject_created_successfully'
+    //         values={{subject: <IntlMessages id='course.label' />}}
+    //       />,
+    //     );
+    //     refreshDataTable();
+    //   }
+    // });
   });
 
   //   const courseLevelFilterItems = [
@@ -182,7 +185,7 @@ const CertificateIssuePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
               <ApproveButton
                 onClick={() => issueCerrificate1(data)}
-                buttonText={messages['certificate.certificate_issue'] as string}
+                buttonText={messages['certificate.certificate_issue'] as string} 
               />
             </DatatableButtonGroup>
           );
@@ -196,8 +199,12 @@ const CertificateIssuePage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
+      // paramsValueModifier: (params: any) => {
+      //   if (batchId) params['batch_id'] = batchId;
+      //   return params;
+      // }
     });
-
+  console.log('geting data', data);
   return (
     <>
       <PageBlock
@@ -205,35 +212,7 @@ const CertificateIssuePage = () => {
           <>
             <IconCourse /> <IntlMessages id='certificate.certificate_issue' />
           </>
-        }
-        extra={[
-          <CustomFilterableFormSelect
-            key={1}
-            required
-            id='certificate_type'
-            label={messages['certificate.certificate_type']}
-            isLoading={isLoadingTypes}
-            control={control}
-            options={certificateTypes}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-            onChange={changeCertificateTypeAction}
-          />,
-          <CustomFilterableFormSelect
-            key={2}
-            required
-            id='certificate_Id'
-            label={messages['common.certificate']}
-            isLoading={isLoadingTypes}
-            control={control}
-            options={certificatesList}
-            optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-            onChange={changeCertificatesAction}
-          />,
-        ]}>
+        }>
         <ReactTable
           columns={columns}
           data={data}
