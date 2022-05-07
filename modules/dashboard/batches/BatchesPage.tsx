@@ -1,5 +1,5 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -16,21 +16,21 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
-import {deleteBatch} from '../../../services/instituteManagement/BatchService';
+import { API_BATCHES } from '../../../@softbd/common/apiRoutes';
+import { deleteBatch } from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {FiUserCheck} from 'react-icons/fi';
+import { FiUserCheck } from 'react-icons/fi';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 
 const BatchesPage = () => {
-  const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const { messages, locale } = useIntl();
+  const { successStack } = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
 
@@ -77,7 +77,7 @@ const BatchesPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='batches.label' />}}
+          values={{ subject: <IntlMessages id='batches.label' /> }}
         />,
       );
 
@@ -193,20 +193,23 @@ const BatchesPage = () => {
               />
               <CommonButton
                 btnText='common.certificate_template'
-                style={{marginLeft: '10px'}}
+                style={{ marginLeft: '10px' }}
                 variant='outlined'
-                onClick={()=> openDetailsTemplateModal(data.id)}
+                onClick={() => openDetailsTemplateModal(data.id)}
                 color='primary'
               />
-              <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
-                <CommonButton
-                  btnText='certificate.certificate_issue'
-                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                  style={{marginLeft: '10px'}}
-                  variant='outlined'
-                  color='primary'
-                />
-              </Link>
+              {data.certificate_id &&
+                <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+                  <CommonButton
+                    btnText='certificate.certificate_issue'
+                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    style={{ marginLeft: '10px' }}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Link>
+              }
+
             </DatatableButtonGroup>
           );
         },
@@ -216,10 +219,21 @@ const BatchesPage = () => {
     [messages, locale],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
+  const { onFetchData, data, loading, pageCount, totalCount } =
     useReactTableFetchData({
       urlPath: API_BATCHES,
     });
+
+
+  // if (data && haspro data[0].certificate_id) {
+  //   data[0]['certificate_id'] = 1;
+  // }
+  if (data && data.length > 0) {
+    if (!data[0].hasOwnProperty('certificate_id')) {
+      data[0]['certificate_id'] = 1;
+    }
+  }
+
 
   return (
     <>

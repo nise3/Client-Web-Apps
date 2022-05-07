@@ -39,9 +39,10 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import { ICertificate } from '../../../shared/Interface/certificates';
+import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
 
 interface CertificateTemplatePopupProps {
-  itemId: string,
+  itemId: number,
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -106,15 +107,17 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     setCertificateId(certificateId);
   }, []);
 
-  // useEffect(async () => {
-  //   const {data: certificate} = await getCertificateByResultType({
-  //     result_type: certificateTypeId,
-  //   });
-  //   setCertificatesList(certificate);
-  // }, [certificateTypeId]);
+  useEffect(() => {
+    getCertificateByResultType({
+      result_type: certificateTypeId,
+    }).then((res: any)=>{
+      setCertificatesList(res.data);
+    });
+
+  }, [certificateTypeId]);
 
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
-    console.log(data);
+    // console.log(data);
     data.certificate_Id = '2';
     try {
       if (itemId) {

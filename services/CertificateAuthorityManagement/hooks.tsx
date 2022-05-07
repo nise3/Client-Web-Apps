@@ -145,37 +145,37 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
 }
 
 export function useFetchResultTypes() {
-  return useAxiosSWR( CERTIFICATE_TYPE_API_URL + 'certificate-types');
-  // return {
-  //   "order": "ASC",
-  //   "data": [
-  //     {
-  //       "id": 1,
-  //       "title": "Competent"
-  //     },
-  //     {
-  //       "id": 2,
-  //       "title": "Not Competent"
-  //     },
-  //     {
-  //       "id": 3,
-  //       "title": "Grading"
-  //     },
-  //     {
-  //       "id": 4,
-  //       "title": "Marks"
-  //     },
-  //     {
-  //       "id": 5,
-  //       "title": "Participation"
-  //     }
-  //   ],
-  //   "_response_status": {
-  //     "success": true,
-  //     "code": 200,
-  //     "query_time": 0
-  //   }
-  // }
+  // return useAxiosSWR( CERTIFICATE_TYPE_API_URL + 'certificate-types');
+  return {
+    "order": "ASC",
+    "data": [
+      {
+        "id": 1,
+        "title": "Competent"
+      },
+      {
+        "id": 2,
+        "title": "Not Competent"
+      },
+      {
+        "id": 3,
+        "title": "Grading"
+      },
+      {
+        "id": 4,
+        "title": "Marks"
+      },
+      {
+        "id": 5,
+        "title": "Participation"
+      }
+    ],
+    "_response_status": {
+      "success": true,
+      "code": 200,
+      "query_time": 0
+    }
+  }
 }
 
 export function useFetchCertificates() {

@@ -1,3 +1,5 @@
+import { CERTIFICATE_API_URL, CERTIFICATE_TYPE_API_URL } from "../../modules/dashboard/certificate-issue/certificate-issue-constant";
+
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
@@ -37,6 +39,8 @@ export const ORGANIZATION_SERVICE_PATH = process.env
 export const INSTITUTE_SERVICE_PATH = process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   : '/institute';
+// TODO Remove this
+// export const INSTITUTE_SERVICE_PATH = CERTIFICATE_API_URL;
 export const YOUTH_SERVICE_PATH = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   : '/youth';
