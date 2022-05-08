@@ -11,7 +11,7 @@ import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 import {setBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 import {Card} from '@mui/material';
-import {Link} from '../../../@softbd/elements/common';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'LanguageSwitcher';
 
@@ -85,6 +85,7 @@ interface LanguageSwitcherProps {
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   iconOnly = false,
 }) => {
+  const {messages} = useIntl();
   const {changeLocale, rtlLocale, locale, setRTL} =
     useContext<AppContextPropsType>(AppContext);
   const [anchorElLng, setAnchorElLng] =
@@ -119,8 +120,8 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           },
           'langBtn',
         )}
-        title={'Language switch'}
-        aria-label='account of current user'
+        /*     title={messages['common.language_switcher'] as string}*/
+        aria-label={messages['common.language_switcher'] as string}
         aria-controls='language-switcher'
         aria-haspopup='true'
         onClick={onClickMenu}
@@ -152,22 +153,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           </Box>
         )}
       </StyledIconButton>
-      {open && (
-        <div
-          style={{
-            background: '#8880',
-            position: 'fixed',
-            zIndex: 999999,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          onClick={() => handleClose()}
-          onWheel={() => handleClose()}>
-          {''}
-        </div>
-      )}
+
       {open && (
         <Card
           id='my-profile-menu'
@@ -189,23 +175,38 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               textAlign: 'unset',
             }}>
             {languageData.map((language: LanguageProps, index) => (
-              <Link>
-                <MenuItem key={index} onClick={() => changeLanguage(language)}>
-                  <Box display='flex' flexDirection='row' alignItems='center'>
-                    <i className={`flag flag-24 flag-${language.icon}`} />
-                    <Box
-                      component='span'
-                      ml={1}
-                      fontSize={{xs: 14, xl: 16}}
-                      fontWeight={Fonts.MEDIUM}>
-                      {language.name}
-                    </Box>
+              <MenuItem key={index} onClick={() => changeLanguage(language)}>
+                <Box display='flex' flexDirection='row' alignItems='center'>
+                  <i className={`flag flag-24 flag-${language.icon}`} />
+                  <Box
+                    component='span'
+                    ml={1}
+                    fontSize={{xs: 14, xl: 16}}
+                    fontWeight={Fonts.MEDIUM}>
+                    {language.name}
                   </Box>
-                </MenuItem>
-              </Link>
+                </Box>
+              </MenuItem>
             ))}
           </div>
         </Card>
+      )}
+      {open && (
+        <div
+          title={'click to close menu'}
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
       )}
     </Box>
   );

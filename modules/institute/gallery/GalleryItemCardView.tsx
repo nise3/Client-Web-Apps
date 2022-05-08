@@ -30,7 +30,7 @@ function GalleryItemCardView({item}: any) {
               height='150'
               image={image}
               sx={{objectFit: 'unset'}}
-              alt={item?.image_alt_title}
+              alt={item?.image_alt_title ? item?.image_alt_title : item?.title}
               title={item?.title}
             />
 

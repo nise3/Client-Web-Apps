@@ -72,7 +72,11 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
               {/*Todo: logo have to implement after real api ready*/}
               <AvatarImageView
                 src={notice?.grid_image_path}
-                alt={notice?.image_alt_title}
+                alt={
+                  notice?.image_alt_title
+                    ? notice?.image_alt_title
+                    : notice?.title
+                }
                 className={classes.avatarImage}
                 variant='square'
               />

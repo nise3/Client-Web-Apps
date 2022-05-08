@@ -119,7 +119,11 @@ const NoticeDetails = () => {
             <CardMediaImageView
               height='300'
               image={notice?.main_image_path}
-              alt={notice?.image_alt_title}
+              alt={
+                notice?.image_alt_title
+                  ? notice?.image_alt_title
+                  : notice?.title
+              }
               defaultImage={'/images/notice_details.jpg'}
               title={notice?.title}
             />

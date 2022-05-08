@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {
   Button,
   Card,
-  Divider,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -43,7 +42,9 @@ const GotoProfileMenu = ({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const Divider = ({sx}: any) => (
+    <div style={{...sx, borderTop: '1px solid #e9e9e9'}} />
+  );
   const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   }, []);
@@ -75,22 +76,6 @@ const GotoProfileMenu = ({
         endIcon={<KeyboardArrowDown />}>
         {buttonText}
       </Button>
-      {open && (
-        <div
-          style={{
-            background: '#8880',
-            position: 'fixed',
-            zIndex: 999999,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          onClick={() => handleClose()}
-          onWheel={() => handleClose()}>
-          {''}
-        </div>
-      )}
       {open && (
         <Card
           sx={{
@@ -139,6 +124,23 @@ const GotoProfileMenu = ({
             )}
           </button>
         </Card>
+      )}
+      {open && (
+        <div
+          title={'click to close menu'}
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
       )}
     </Box>
   );

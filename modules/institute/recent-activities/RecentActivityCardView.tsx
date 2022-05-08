@@ -66,7 +66,11 @@ function RecentActivityCardView({activity}: any) {
                     ? activity.image_path
                     : activity.grid_image_path
                 }
-                alt={activity?.image_alt_title}
+                alt={
+                  activity?.image_alt_title
+                    ? activity?.image_alt_title
+                    : activity?.title
+                }
                 title={activity?.title}
               />
             )}
@@ -77,7 +81,11 @@ function RecentActivityCardView({activity}: any) {
                   height='140'
                   image={activity.thumb_image_path}
                   defaultImage={'/images/blank_gray_image.png'}
-                  alt={activity?.image_alt_title}
+                  alt={
+                    activity?.image_alt_title
+                      ? activity?.image_alt_title
+                      : activity?.title
+                  }
                   title={activity?.title}
                 />
                 <PlayCircleIcon
