@@ -1,0 +1,7 @@
+export enum RESULT_TYPE {
+  COMPETENT = 1,
+  NOT_COMPETENT = 2,
+  GRADING = 3,
+  MARKS = 4,
+  PARTICIPATION = 5,
+}

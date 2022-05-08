@@ -11,15 +11,18 @@ const CanvasRenderer = dynamic(
   () => import('./compontents/CanvasRenderer/CanvasRenderer'),
   {ssr: false},
 );
+interface Props {
+  onClick: (selectedItemId?: number | null) => void;
+}
 
-function Editor() {
+function Editor({onClick}: Props) {
   return (
     <EditorAreaContainer.Provider>
       <StageRefContainer.Provider>
         <div className='editor-container'>
           <EditorMenu />
           <div className='editor-container-header'>
-            <EditorHeader />
+            <EditorHeader onClick={onClick} />
             <div className='editor-container-panel '>
               <div className='editor-container-panel-inner'>
                 <EditorMenuPanel />
