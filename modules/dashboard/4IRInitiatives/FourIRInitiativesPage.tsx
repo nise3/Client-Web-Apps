@@ -24,7 +24,7 @@ import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
@@ -39,6 +39,8 @@ const FourIRInitiativesPage = () => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const taglineId = Number(router.query.taglineId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -106,14 +108,28 @@ const FourIRInitiativesPage = () => {
 
       {
         Header: messages['common.initiative'],
-        accessor: 'project_name',
+        accessor: 'name',
+      },
+      {
+        Header: messages['initiative.name_en'],
+        accessor: 'name_en',
+        isVisible: false,
       },
       {
         Header: messages['common.organization'],
         accessor: 'organization_name',
       },
       {
-        Header: messages['initiative.initiative_budget'],
+        Header: messages['common.organization_en'],
+        accessor: 'initiative.name_en',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.designation'],
+        accessor: 'designation',
+      },
+      {
+        Header: messages['initiative.budget'],
         accessor: 'budget',
         disableFilters: true,
       },
@@ -121,6 +137,20 @@ const FourIRInitiativesPage = () => {
         Header: messages['common.start_date'],
         accessor: 'start_date',
         filter: 'dateTimeFilter',
+        isVisible: false,
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
+          );
+        },
+      },
+      {
+        Header: messages['common.end_date'],
+        accessor: 'end_date',
+        filter: 'dateTimeFilter',
+        isVisible: false,
         disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
@@ -174,7 +204,11 @@ const FourIRInitiativesPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_PROJECTS,
+      urlPath: API_4IR_INITIATIVE,
+      paramsValueModifier: (params) => {
+        params['four_ir_tagline_id'] = taglineId;
+        return params;
+      },
     });
 
   return (
@@ -212,6 +246,7 @@ const FourIRInitiativesPage = () => {
         {isOpenAddEditModal && (
           <FourIRInitiativeAddEditPopup
             key={1}
+            fourIRTaglineId={taglineId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

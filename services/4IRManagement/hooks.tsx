@@ -3,6 +3,7 @@ import {
   API_4IR_CELL,
   API_4IR_CS,
   API_4IR_Curriculum,
+  API_4IR_INITIATIVE,
   API_4IR_OCCUPATIONS,
   API_4IR_PROJECTS,
   API_4IR_SCALE_UP,
@@ -11,6 +12,12 @@ import {
 
 export function useFetch4IRProject(projectId: number | null) {
   return useAxiosSWR(projectId ? API_4IR_PROJECTS + '/' + projectId : null);
+}
+
+export function useFetch4IInitiative(initiativeId: number | null) {
+  return useAxiosSWR(
+    initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null,
+  );
 }
 
 export function useFetch4IRCell(cellId: number | null) {

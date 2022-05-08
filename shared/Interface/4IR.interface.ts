@@ -15,6 +15,26 @@ export interface IProject extends IIdTitleCreateUpdateAt {
   row_status?: number | string;
 }
 
+export interface IInitiative extends IIdTitleCreateUpdateAt {
+  name: string;
+  name_en?: string;
+  organization_name: number | string;
+  organization_name_en?: number | string;
+  four_ir_occupation_id: number | string;
+  start_date: number | string;
+  completion_step: number | string;
+  form_step: number | string;
+  details?: string;
+  budget?: number;
+  tasks: any[];
+  row_status?: number | string;
+  designation: string;
+  is_skill_provide: number;
+  end_date: string;
+  file_path: string;
+  four_ir_tagline_id?: number;
+}
+
 export interface ICell extends IIdTitleCreateUpdateAt {
   name: string;
   name_en?: string;

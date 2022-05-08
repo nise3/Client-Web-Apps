@@ -9,10 +9,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
+import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import List from '@mui/material/List';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   itemId: number;
@@ -26,7 +27,9 @@ const FourIRInitiativeDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRProject(itemId);
+  const {data: itemData, isLoading} = useFetch4IInitiative(itemId);
+
+  console.log(itemData);
 
   return (
     <>
@@ -56,31 +59,48 @@ const FourIRInitiativeDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.name']}
-              value={itemData?.project_name}
+              value={itemData?.name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.name_en']}
-              value={itemData?.project_name_en}
+              value={itemData?.name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.organization_name']}
+              label={messages['common.organization_name']}
               value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.organization_name_en']}
+              label={messages['common.organization_name_en']}
               value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['menu.occupations']}
+              value={itemData?.occupation_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation']}
+              value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.details']}
@@ -105,18 +125,28 @@ const FourIRInitiativeDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['menu.occupations']}
-              value={itemData?.occupation_title}
+              label={messages['initiative.end_date']}
+              value={getMomentDateFormat(itemData?.end_date, 'DD MMM YYYY')}
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.project_budget']}
-              value={itemData?.project_budget}
+              label={messages['initiative.initiative_budget']}
+              value={itemData?.budget}
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <ImageView
+              label={messages['common.main_image_path']}
+              imageUrl={itemData?.file_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           {itemData?.tasks?.length > 0 &&
             itemData?.tasks?.map((task: any) => {
               return (
