@@ -2,14 +2,14 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField/';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+//import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -18,9 +18,9 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {IEmployment} from '../../../shared/Interface/4IR.interface';
-import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
+//import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
+//import FileUploadComponent from '../../filepond/FileUploadComponent';
+//import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
 
 interface CSAddEditPopupProps {
   itemId: number | null;
@@ -123,8 +123,11 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IEmployment> = async (data: IEmployment) => {
     try {
       if (itemId) {
+        // todo -> api call here
+        updateSuccessMessage('4ir.employment');
         mutateProject();
       } else {
+        // todo -> api call here
         createSuccessMessage('4ir.employment');
       }
       //props.onClose();

@@ -12,7 +12,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
+import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
@@ -21,7 +21,7 @@ import {
 } from '../../../services/4IRManagement/ImplementingTeamService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
-interface ImplementingTeamAddEditPopupProps {
+interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   fourIRProjectId: number;
@@ -37,9 +37,12 @@ const initialValues = {
   designation: '',
 };
 
-const FourIRMentoringTeamAddEditPopup: FC<
-  ImplementingTeamAddEditPopupProps
-> = ({itemId, refreshDataTable, fourIRProjectId, ...props}) => {
+const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
+  itemId,
+  refreshDataTable,
+  fourIRProjectId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -96,7 +99,7 @@ const FourIRMentoringTeamAddEditPopup: FC<
     data: itemData,
     isLoading,
     mutate: mutateMonitoringTeam,
-  } = useFetchImplementingTeam(itemId);
+  } = useFetch4IRTeam(itemId);
 
   useEffect(() => {
     if (itemData) {
@@ -123,11 +126,11 @@ const FourIRMentoringTeamAddEditPopup: FC<
 
       if (itemId != null) {
         await updateImplementingTeam(itemId, payload);
-        updateSuccessMessage('4ir.mentoring_team');
+        updateSuccessMessage('4ir.expert_team');
         mutateMonitoringTeam();
       } else {
         await createImplementingTeam(payload);
-        createSuccessMessage('4ir.mentoring_team');
+        createSuccessMessage('4ir.expert_team');
       }
 
       props.onClose();
@@ -147,13 +150,13 @@ const FourIRMentoringTeamAddEditPopup: FC<
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir.mentoring_team' />}}
+              values={{subject: <IntlMessages id='4ir.expert_team' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
               values={{
-                subject: <IntlMessages id='4ir.mentoring_team' />,
+                subject: <IntlMessages id='4ir.expert_team' />,
               }}
             />
           )}
@@ -232,4 +235,4 @@ const FourIRMentoringTeamAddEditPopup: FC<
     </HookFormMuiModal>
   );
 };
-export default FourIRMentoringTeamAddEditPopup;
+export default FourIRExpertTeamAddEditPopup;

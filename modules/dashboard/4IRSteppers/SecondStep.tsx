@@ -7,8 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
-import FourIRImplemntingTeamPage from '../4IRMentoringTeam/FourIRMentoringTeamPage';
-import FourIRMentoringTeamPage from '../4IRMentoringTeam/FourIRMentoringTeamPage';
+import FourIRImplemntingTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
+import FourIRMentoringTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import FourIRCellPage from '../4IRCell/FourIRCellPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';

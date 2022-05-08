@@ -12,8 +12,8 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import FourIRMentoringTeamAddEditPopup from './FourIRMentoringTeamAddEditPopup';
-import FourIRMentoringTeamDetailsPopup from './FourIRMentoringTeamDetailsPopup';
+import FourIRExpertTeamAddEditPopup from './FourIRExpertTeamAddEditPopup';
+import FourIRExpertTeamDetailsPopup from './FourIRExpertTeamDetailsPopup';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -26,7 +26,7 @@ interface IFourIRImplementingTeamPageProps {
   fourIRProjectId: number;
 }
 
-const FourIRMentoringTeamPage = ({
+const FourIRExpertTeamPage = ({
   fourIRProjectId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
@@ -143,12 +143,14 @@ const FourIRMentoringTeamPage = ({
       },
     });
 
+  console.log(data);
+
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.mentoring_team' />
+            <IconBranch /> <IntlMessages id='4ir.expert_team' />
           </>
         }
         extra={[
@@ -160,7 +162,7 @@ const FourIRMentoringTeamPage = ({
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir.mentoring_team'],
+                  subject: messages['4ir.expert_team'],
                 }}
               />
             }
@@ -176,7 +178,7 @@ const FourIRMentoringTeamPage = ({
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRMentoringTeamAddEditPopup
+          <FourIRExpertTeamAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -186,7 +188,7 @@ const FourIRMentoringTeamPage = ({
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRMentoringTeamDetailsPopup
+          <FourIRExpertTeamDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -198,4 +200,4 @@ const FourIRMentoringTeamPage = ({
   );
 };
 
-export default FourIRMentoringTeamPage;
+export default FourIRExpertTeamPage;
