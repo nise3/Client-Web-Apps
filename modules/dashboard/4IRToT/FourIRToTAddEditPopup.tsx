@@ -18,9 +18,10 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+// import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 //import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
 
-interface CSAddEditPopupProps {
+interface ToTAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -42,12 +43,13 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
+const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
 }) => {
   const {messages} = useIntl();
+  //const linkRef = useRef<any>();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
@@ -129,6 +131,24 @@ const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
     }
   };
 
+  /*const urlToFile = (url: any, filename: any, mimeType: any) => {
+    return fetch(url)
+      .then(function (res) {
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        return new File([buf], filename, {type: mimeType});
+      });
+  };*/
+
+  /*  const fileDownloadHandler = async () => {
+    try {
+      console.log('downloaded');
+    } catch (e) {
+      console.log(e);
+    }
+  };*/
+
   return (
     <HookFormMuiModal
       open={true}
@@ -158,11 +178,8 @@ const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={3}>
-        {/*<Grid item xs={12}>
-          <H6>{messages['4ir_tot.master_trainer']}</H6>
-        </Grid>*/}
         <Grid item xs={12}>
-          <h3 style={{marginTop: '2px', marginBottom: '0'}}>
+          <h3 style={{marginTop: '2px', marginBottom: '0', color: 'gray'}}>
             {messages['4ir_tot.master_trainer']}
           </h3>
         </Grid>
@@ -204,13 +221,8 @@ const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {/*<Grid item xs={12}>
-          <Typography variant={'h6'}>
-            {messages['4ir_tot.organiser']}
-          </Typography>
-        </Grid>*/}
         <Grid item xs={12}>
-          <h3 style={{marginTop: '2px', marginBottom: '0'}}>
+          <h3 style={{marginTop: '2px', marginBottom: '0', color: 'gray'}}>
             {messages['4ir_tot.organiser']}
           </h3>
         </Grid>
@@ -257,7 +269,7 @@ const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
           </Typography>
         </Grid>*/}
         <Grid item xs={12}>
-          <h3 style={{marginTop: '2px', marginBottom: '0'}}>
+          <h3 style={{marginTop: '2px', marginBottom: '0', color: 'gray'}}>
             {messages['4ir_tot.co_organiser']}
           </h3>
         </Grid>
@@ -310,6 +322,16 @@ const FourIRToTAddEditPopup: FC<CSAddEditPopupProps> = ({
             // uploadedUrls={watch('projects')}
           />
         </Grid>
+        {/*<Grid item xs={12} md={6} mt={4}>
+          <CommonButton
+            key={1}
+            onClick={() => fileDownloadHandler()}
+            btnText={messages['common.download'] as string}
+            variant={'outlined'}
+            color={'primary'}
+            sx={{width: '300px', height: '60px'}}
+          />
+        </Grid>*/}
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'

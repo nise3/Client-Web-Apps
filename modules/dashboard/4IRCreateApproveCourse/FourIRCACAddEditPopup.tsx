@@ -25,7 +25,7 @@ import {LANGUAGE_MEDIUM, LEVEL} from '../courses/CourseEnums';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 
-interface CSAddEditPopupProps {
+interface CACAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
@@ -50,7 +50,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRCACAddEditPopup: FC<CSAddEditPopupProps> = ({
+const FourIRCACAddEditPopup: FC<CACAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
