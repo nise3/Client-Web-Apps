@@ -1950,5 +1950,13 @@
   "4IR_steps.label": "4 আই আর স্টেপ্সমূহ",
   "4IR_steps.step": "স্টেপ",
   "4IR_steps.completed": "সম্পন্ন",
-  "4IR_steps.team_and_cell": "টিম এবং সেল"
+  "4IR_steps.team_and_cell": "টিম এবং সেল",
+  "4ir_tot.label": "4 আই আর ToT",
+  "4ir_tot.master_trainer": "মাস্টার ট্রেইনার",
+  "4ir_tot.organiser": "অর্গানাইজার",
+  "4ir_tot.co_organiser": "কো-অর্গানাইজার",
+  "4ir_tot.participants": "অংশগ্রহণকারী",
+  "common.attachment": "অ্যাটাচমেন্ট",
+  "4ir_cac.label": "4 আই আর কোর্স তৈরি এবং অনুমোদন",
+  "4ir_cac.add_edit": "4 আই আর কোর্স"
 }

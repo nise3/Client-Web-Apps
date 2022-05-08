@@ -1953,5 +1953,13 @@
   "4IR_steps.label": "4IR Steps",
   "4IR_steps.step": "Step",
   "4IR_steps.completed": "Completed",
-  "4IR_steps.team_and_cell": "Team & Cell"
+  "4IR_steps.team_and_cell": "Team & Cell",
+  "4ir_tot.label": "4IR ToT",
+  "4ir_tot.master_trainer": "Master Trainer",
+  "4ir_tot.organiser": "Organiser",
+  "4ir_tot.co_organiser": "Co-Organiser",
+  "4ir_tot.participants": "Participants",
+  "common.attachment": "Attachment",
+  "4ir_cac.label": "4IR Create & Approve Course",
+  "4ir_cac.add_edit": "4IR Course"
 }
