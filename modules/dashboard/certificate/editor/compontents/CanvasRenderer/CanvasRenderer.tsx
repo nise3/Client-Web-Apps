@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Layer, Rect, Stage} from 'react-konva';
 import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-import {CircularProgress} from '@mui/material';
+// import {CircularProgress} from '@mui/material';
 import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
 import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
 import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
@@ -114,11 +114,11 @@ function CanvasRenderer() {
           offsetY={area.offset.y}
           width={area.stageDimensions.width}
           height={area.stageDimensions.height}
-          ref={stageAreaRef}
-          onClick={clearSelection}>
+          onClick={clearSelection}
+          ref={stageAreaRef}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
-              <Layer bac>
+              <Layer>
                 <Rect
                   x={-CANVAS_STROKE / ratio}
                   y={-CANVAS_STROKE / ratio}

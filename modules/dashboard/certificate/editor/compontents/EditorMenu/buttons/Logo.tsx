@@ -6,7 +6,7 @@ interface Props {
 
 function Logo({className}: Props) {
   return (
-    <ExternalLink className='logo' to='nise.gov.bd' newTab>
+    <ExternalLink className='logo' to='/' newTab>
       <img src='/logo-medium.png' alt='' />
     </ExternalLink>
   );
