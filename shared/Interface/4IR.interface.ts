@@ -37,6 +37,17 @@ export interface ICS extends IIdTitleCreateUpdateAt {
   row_status?: number | string;
 }
 
+export interface IEmployment {
+  name: string;
+  contact_number: string;
+  email: string;
+  designation: string;
+  industry_name: string;
+  starting_salary: number;
+  job_starting_data: string;
+  medium_of_job: string;
+}
+
 export interface ITagLine extends IIdTitleCreateUpdateAt {
   name: string;
   name_en?: string;
