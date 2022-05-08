@@ -295,10 +295,6 @@ export const routePermissions: any = {
     routePrefix: '/rpl-assessment-question-sets',
     permissionKeys: ['view_any_rpl_assessment_question_set'],
   },
-  '/4ir': {
-    routePrefix: '/4ir',
-    permissionKeys: ['view_any_4ir_project'],
-  },
   '/4ir-occupations': {
     routePrefix: '/4ir-occupations',
     permissionKeys: ['view_any_4ir_occupation'],

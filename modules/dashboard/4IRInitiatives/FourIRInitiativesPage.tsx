@@ -24,13 +24,11 @@ import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {
-  API_4IR_PROJECTS,
-  FOUR_IR_SERVICE_PATH,
-} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_PROJECTS} from '../../../@softbd/common/apiRoutes';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
+  const presentPath = router.asPath;
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -74,9 +72,9 @@ const FourIRInitiativesPage = () => {
   };
 
   const openIncompleteStep = useCallback(
-    (projectId: any, completionStep: any, formStep: any) => {
+    (initiativeId: any, completionStep: any, formStep: any) => {
       router.push({
-        pathname: FOUR_IR_SERVICE_PATH + '/' + projectId,
+        pathname: presentPath + '/' + initiativeId,
         query: {
           completionStep: completionStep,
           formStep: formStep,

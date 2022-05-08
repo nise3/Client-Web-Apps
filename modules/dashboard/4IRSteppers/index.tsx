@@ -5,7 +5,6 @@ import {Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {adminDomain} from '../../../@softbd/common/constants';
 import SecondStep from './SecondStep';
-import {FOUR_IR_SERVICE_PATH} from '../../../@softbd/common/apiRoutes';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -68,7 +67,8 @@ const stepNames: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8];
 const JobPostingView = () => {
   const {messages} = useIntl();
   const router = useRouter();
-  const {completionStep, formStep, presentStep, projectId} = router.query;
+  const {completionStep, formStep, presentStep, initiativeId, taglineId} =
+    router.query;
   const [activeStep, setActiveStep] = useState<number>(0);
   const [lastestStep, setLastestStep] = useState<any>(1);
   const [isValid, setIsValid] = useState(true);
@@ -76,7 +76,7 @@ const JobPostingView = () => {
   useEffect(() => {
     if (
       completionStep &&
-      projectId &&
+      initiativeId &&
       presentStep &&
       stepNames.includes(Number(presentStep))
     ) {
@@ -84,7 +84,7 @@ const JobPostingView = () => {
     } else if (presentStep) {
       setIsValid(false);
     }
-  }, [completionStep, projectId, activeStep]);
+  }, [completionStep, initiativeId, activeStep]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);
@@ -98,13 +98,13 @@ const JobPostingView = () => {
     if (step == 1) {
       router
         .push({
-          pathname: FOUR_IR_SERVICE_PATH,
+          pathname: `/4ir-tagline/${taglineId}/initiatives`,
         })
         .then(() => {});
     } else {
       router
         .push({
-          pathname: FOUR_IR_SERVICE_PATH + '/' + projectId,
+          pathname: `/4ir-tagline/${taglineId}/initiatives/` + initiativeId,
           query: {
             completionStep: completionStep,
             formStep: formStep,
@@ -126,7 +126,7 @@ const JobPostingView = () => {
 
   console.log('active step: ', activeStep);
   const getCurrentStepForm = useCallback(() => {
-    if (projectId) {
+    if (initiativeId) {
       console.log(
         'inside the current step form: ',
         typeof activeStep,
@@ -136,7 +136,7 @@ const JobPostingView = () => {
         case 2:
           return (
             <SecondStep
-              fourIRProjectId={projectId}
+              fourIRProjectId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
               setLatestStep={setLatestStep}
@@ -148,7 +148,7 @@ const JobPostingView = () => {
     } else {
       return <></>;
     }
-  }, [projectId, activeStep]);
+  }, [initiativeId, activeStep]);
 
   const onStepIconClick = (step: number) => {
     if (step <= lastestStep) {
