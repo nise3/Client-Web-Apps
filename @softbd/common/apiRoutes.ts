@@ -195,6 +195,7 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/projects';
 export const API_4IR_GUIDLINE = FOUR_IR_SERVICE_PATH + '/guidelines';
 export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/4ir-cs';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';

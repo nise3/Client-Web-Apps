@@ -51,6 +51,7 @@ export interface IEmployment {
 export interface ITagLine extends IIdTitleCreateUpdateAt {
   name: string;
   name_en?: string;
+  start_date: string;
   row_status: number;
 }
 
