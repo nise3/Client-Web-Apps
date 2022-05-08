@@ -42,6 +42,7 @@ import {
 import {signOut} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
+import Divider from '../../../components/Divider/Divider';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -66,9 +67,7 @@ const YouthProfileMenu = () => {
   const handleClose = useCallback(() => {
     setAnchorEl(null);
   }, []);
-  const Divider = ({sx}: any) => (
-    <div style={{...sx, borderTop: '1px solid #e9e9e9'}} />
-  );
+
   const onCDAPLogout = useCallback(async () => {
     try {
       removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
