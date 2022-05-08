@@ -67,7 +67,7 @@ export function useFetchTNAReport(TNAReportId: number | null) {
   );
 }
 
-export function useFetchImplementingTeam(itemId: number | null) {
+export function useFetch4IRTeam(itemId: number | null) {
   return useAxiosSWR(itemId ? API_4IR_IMPLEMENTNG_TEAM + '/' + itemId : null);
 }
 

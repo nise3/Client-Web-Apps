@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
+import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -16,13 +16,13 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRMentoringTeamDetailsPopup = ({
+const FourIRExpertTeamDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchImplementingTeam(itemId);
+  const {data: itemData, isLoading} = useFetch4IRTeam(itemId);
 
   return (
     <>
@@ -32,7 +32,7 @@ const FourIRMentoringTeamDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.mentoring_team' />
+            <IntlMessages id='4ir.expert_team' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -97,4 +97,4 @@ const FourIRMentoringTeamDetailsPopup = ({
   );
 };
 
-export default FourIRMentoringTeamDetailsPopup;
+export default FourIRExpertTeamDetailsPopup;

@@ -19,7 +19,7 @@ import {
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetchImplementingTeam} from '../../../services/instituteManagement/hooks';
+import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -50,7 +50,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
     data: itemData,
     isLoading,
     mutate: mutateImplementingTeam,
-  } = useFetchImplementingTeam(itemId);
+  } = useFetch4IRTeam(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

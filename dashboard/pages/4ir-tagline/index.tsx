@@ -5,7 +5,7 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 
 const FourIRTaglinePage = asyncComponent(
-  () => import('../../../modules/dashboard/4IRTagLine/FourIRTagLinePage'),
+  () => import('../../../modules/dashboard/4IRExpertTeam/FourIRExpertTeamPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
