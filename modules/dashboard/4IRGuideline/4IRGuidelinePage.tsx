@@ -22,10 +22,10 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
 
 interface IFourIRGuidelinePage {
-    fourIRProjectId: number;
+  fourIrGuidelinesId: number;
 }
 
-const FourIRGuidelinePage = ({fourIRProjectId}: IFourIRGuidelinePage) => {
+const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);

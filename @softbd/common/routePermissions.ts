@@ -305,6 +305,10 @@ export const routePermissions: any = {
   },
   '/4ir-tagline': {
     routePrefix: '/4ir-tagline',
-    permissionKeys: ['view_any_4ir_occupation'],
+    permissionKeys: ['view_any_4ir_tagline'],
+  },
+  '/4ir-guideline': {
+    routePrefix: '/4ir-guideline',
+    permissionKeys: ['view_any_4ir_guideline'],
   },
 };
