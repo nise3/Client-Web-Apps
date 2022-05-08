@@ -278,7 +278,7 @@ const ExamQuestionTypeSection = ({
               selectedSelectionType != QuestionSelectionType.RANDOM &&
               numberOfQuestion &&
               marks ? (
-              <Grid item xs={3}>
+              <Grid item xs={3} textAlign={'center'}>
                 <AddButton
                   onClick={() => openAddQuestionModal()}
                   isLoading={false}
@@ -296,6 +296,7 @@ const ExamQuestionTypeSection = ({
                     textAlign: 'center',
                     display: 'inline-block',
                     marginLeft: '10px',
+                    marginTop: '6px',
                     overflowWrap: 'break-word',
                     wordWrap: 'break-word',
                     wordBreak: 'normal',

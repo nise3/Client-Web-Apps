@@ -1,6 +1,7 @@
 import {apiDelete, apiPost, apiPut} from '../../@softbd/common/api';
 import {
   API_EXAMS,
+  API_EXAMS_PUBLISH,
   API_SUBMIT_EXAM_PAPER,
   API_YOUTH_EXAM_MARK_UPDATE,
 } from '../../@softbd/common/apiRoutes';
@@ -19,6 +20,15 @@ export const createExam = async (data: any) => {
 export const updateExam = async (examId: number, data: any) => {
   try {
     let response: any = await apiPut(API_EXAMS + '/' + examId, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const publishExam = async (examId: number, data: any) => {
+  try {
+    let response: any = await apiPut(API_EXAMS_PUBLISH + '/' + examId, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

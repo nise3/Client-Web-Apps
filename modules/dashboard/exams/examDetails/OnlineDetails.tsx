@@ -13,7 +13,6 @@ import {
 import React from 'react';
 import MCQTypeQuestion from '../../../youth/examQuestionPaper/MCQTypeQuestion';
 import FormRadioButtons from '../../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import FileUploadComponent from '../../../filepond/FileUploadComponent';
 import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 import QuestionTitleHeader from '../../../youth/examQuestionPaper/QuestionTitleHeader';
@@ -31,7 +30,6 @@ interface IProps {
 const OnlineDetails = ({
   exam,
   examData,
-  examType,
   register,
   control,
   errors,
@@ -117,168 +115,104 @@ const OnlineDetails = ({
                           </Grid>
 
                           {section?.questions && section?.questions.length ? (
-                            section.questions.map(
-                              (question: any, i: number) => {
-                                let ansIndex = answerIndex++;
+                            section.questions.map((question: any) => {
+                              let ansIndex = answerIndex++;
 
-                                let questionHeader = (
-                                  <QuestionTitleHeader
-                                    index={questionIndex++}
-                                    question={question}
-                                  />
+                              let questionHeader = (
+                                <QuestionTitleHeader
+                                  index={questionIndex++}
+                                  question={question}
+                                />
+                              );
+                              if (section?.question_type == QuestionType?.MCQ) {
+                                return (
+                                  <React.Fragment key={question?.question_id}>
+                                    {questionHeader}
+                                    <Grid item xs={11}>
+                                      {' '}
+                                      <MCQTypeQuestion
+                                        index={ansIndex}
+                                        question={question}
+                                        register={register}
+                                      />
+                                    </Grid>
+                                  </React.Fragment>
                                 );
-                                if (
-                                  section?.question_type == QuestionType?.MCQ
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.question_id}>
-                                      {questionHeader}
-                                      <Grid item xs={11}>
-                                        {' '}
-                                        <MCQTypeQuestion
-                                          index={ansIndex}
-                                          question={question}
-                                          register={register}
-                                        />
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type == QuestionType.YES_NO
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.question_id}>
-                                      {questionHeader}
-                                      <Grid item xs={11}>
-                                        <FormRadioButtons
-                                          id={
-                                            'questions[' +
-                                            ansIndex +
-                                            '].answers[0]'
-                                          }
-                                          control={control}
-                                          radios={[
-                                            {
-                                              label: messages['common.yes'],
-                                              key: 1,
-                                            },
-                                            {
-                                              label: messages['common.no'],
-                                              key: 2,
-                                            },
-                                          ]}
-                                        />
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type ==
-                                  QuestionType.DESCRIPTIVE
-                                ) {
-                                  return (
-                                    <React.Fragment key={question?.question_id}>
-                                      {questionHeader}
-                                      <Grid item xs={11}>
-                                        <DetailsInputView
-                                          label={''}
-                                          isLoading={false}
-                                          value={''}
-                                        />
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else if (
-                                  section?.question_type ==
-                                  QuestionType.FILL_IN_THE_BLANK
-                                ) {
-                                  let fillInTheBlankItems =
-                                    question?.title.split(
-                                      /(?=\[\[\]\])|(?<=\[\[\]\])/g,
-                                    );
-                                  let indexNo = 0;
-                                  return (
-                                    <React.Fragment key={question?.question_id}>
-                                      {questionHeader}
-                                      <Grid item xs={11} display={'flex'}>
-                                        <Body2
-                                          sx={{
-                                            fontWeight: 'bold',
-                                          }}>
-                                          {getIntlNumber(
-                                            formatNumber,
-                                            --questionIndex,
-                                          )}
-                                          {'.'}
-                                        </Body2>
-                                        {fillInTheBlankItems.map(
-                                          (item: any, i: number) => {
-                                            if (item == '[[]]') {
-                                              return (
-                                                <CustomTextInput
-                                                  key={i}
-                                                  id={`questions[${ansIndex}].answers[${indexNo++}]`}
-                                                  label={''}
-                                                  register={register}
-                                                  errorInstance={errors}
-                                                  isLoading={false}
-                                                  style={{
-                                                    display: 'inline-block',
-                                                    width: '150px',
-                                                    marginTop: '-8px',
-                                                  }}
-                                                />
-                                              );
-                                            } else {
-                                              return (
-                                                <Body2
-                                                  key={i}
-                                                  sx={{
-                                                    whiteSpace: 'pre',
-                                                  }}>
-                                                  {item}
-                                                </Body2>
-                                              );
-                                            }
+                              } else if (
+                                section?.question_type == QuestionType.YES_NO
+                              ) {
+                                return (
+                                  <React.Fragment key={question?.question_id}>
+                                    {questionHeader}
+                                    <Grid item xs={11}>
+                                      <FormRadioButtons
+                                        id={
+                                          'questions[' +
+                                          ansIndex +
+                                          '].answers[0]'
+                                        }
+                                        control={control}
+                                        radios={[
+                                          {
+                                            label: messages['common.yes'],
+                                            key: 1,
                                           },
-                                        )}
-                                      </Grid>
-                                      <Grid item xs={1}>
-                                        <Body2
-                                          sx={{
-                                            fontWeight: 'bold',
-                                            textAlign: 'center',
-                                          }}>
-                                          {getIntlNumber(
-                                            formatNumber,
-                                            question?.individual_marks,
-                                          )}
-                                        </Body2>
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                } else {
-                                  return (
-                                    <React.Fragment key={question?.question_id}>
-                                      <Grid item xs={11}>
-                                        {' '}
-                                        <FileUploadComponent
-                                          id={
-                                            'questions[' +
-                                            ansIndex +
-                                            '].file_path'
-                                          }
-                                          setValue={setValue}
-                                          errorInstance={errors}
-                                          register={register}
-                                          label={messages['common.file_path']}
-                                          disabled={true}
-                                        />
-                                      </Grid>
-                                    </React.Fragment>
-                                  );
-                                }
-                              },
-                            )
+                                          {
+                                            label: messages['common.no'],
+                                            key: 2,
+                                          },
+                                        ]}
+                                      />
+                                    </Grid>
+                                  </React.Fragment>
+                                );
+                              } else if (
+                                section?.question_type ==
+                                QuestionType.DESCRIPTIVE
+                              ) {
+                                return (
+                                  <React.Fragment key={question?.question_id}>
+                                    {questionHeader}
+                                    <Grid item xs={11}>
+                                      <DetailsInputView
+                                        label={''}
+                                        isLoading={false}
+                                        value={''}
+                                      />
+                                    </Grid>
+                                  </React.Fragment>
+                                );
+                              } else if (
+                                section?.question_type ==
+                                QuestionType.FILL_IN_THE_BLANK
+                              ) {
+                                return (
+                                  <React.Fragment key={question?.question_id}>
+                                    {questionHeader}
+                                  </React.Fragment>
+                                );
+                              } else {
+                                return (
+                                  <React.Fragment key={question?.question_id}>
+                                    {questionHeader}
+                                    <Grid item xs={11}>
+                                      <FileUploadComponent
+                                        id={
+                                          'questions[' +
+                                          ansIndex +
+                                          '].file_path'
+                                        }
+                                        setValue={setValue}
+                                        errorInstance={errors}
+                                        register={register}
+                                        label={messages['common.file_path']}
+                                        disabled={true}
+                                      />
+                                    </Grid>
+                                  </React.Fragment>
+                                );
+                              }
+                            })
                           ) : section?.questions &&
                             String(section.question_selection_type) ===
                               QuestionSelectionType.RANDOM ? (

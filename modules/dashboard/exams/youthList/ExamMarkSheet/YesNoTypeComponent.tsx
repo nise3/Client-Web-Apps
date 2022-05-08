@@ -21,7 +21,7 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
       <>
         <Grid item xs={10} display={'flex'}>
           <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-            {index + '. ' + ' '}
+            {getIntlNumber(formatNumber, index) + '. ' + ' '}
           </Body2>
           <Body2>{question?.title}</Body2>
           <Body2 sx={{fontWeight: 'bold'}}>

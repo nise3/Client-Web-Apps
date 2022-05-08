@@ -128,6 +128,28 @@ const ExamMarkingViewPage = () => {
               {messages['common.back']}
             </Button>
           </Grid>
+          <Grid
+            item
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            xs={12}>
+            <H6>{examSheet?.title}</H6>
+            <S1>
+              {messages['subject.label']}
+              {': '}
+              {examSheet?.subject_title}
+            </S1>
+            <S1>
+              {messages['common.date']} {': '}
+              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
+            </S1>
+            <S1>
+              {messages['common.time']} {': '}
+              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
+            </S1>
+          </Grid>
+
           <Grid item xs={12}>
             <Grid container>
               <Grid
@@ -162,27 +184,6 @@ const ExamMarkingViewPage = () => {
                 <Body1>{examSheet?.email}</Body1>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item display={'flex'} flexDirection={'column'} xs={12}>
-            <H6>{examSheet?.title}</H6>
-            <S1>
-              {messages['subject.label']}
-              {': '}
-              {examSheet?.subject_title}
-            </S1>
-            <S1>
-              {messages['common.date']} {': '}
-              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
-            </S1>
-            <S1>
-              {messages['common.time']} {': '}
-              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
-            </S1>
-            {/* <Body2>
-              {messages['common.total_obtained_marks'] +
-                ': ' +
-                getIntlNumber(formatNumber, examSheet?.total_marks)}
-            </Body2>*/}
           </Grid>
 
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
