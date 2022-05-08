@@ -155,7 +155,11 @@ const GalleryAlbumDetails = () => {
                 <CardMediaImageView
                   image={currentGalleryAlbum?.main_image_path}
                   className={classes.coverImage}
-                  alt={currentGalleryAlbum?.image_alt_title}
+                  alt={
+                    currentGalleryAlbum?.image_alt_title
+                      ? currentGalleryAlbum?.image_alt_title
+                      : currentGalleryAlbum?.title
+                  }
                   title={currentGalleryAlbum?.title}
                 />
 
