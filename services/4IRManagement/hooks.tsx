@@ -6,6 +6,7 @@ import {
   API_4IR_OCCUPATIONS,
   API_4IR_PROJECTS,
   API_4IR_SCALE_UP,
+  API_4IR_TAGLINES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRProject(projectId: number | null) {
@@ -40,4 +41,12 @@ export function useFetchFourIROccupation(occupationId: number | null) {
 
 export function useFetchFourIROccupations(params: any) {
   return useAxiosSWR([API_4IR_OCCUPATIONS, params]);
+}
+
+export function useFetchFourIRTaglines(params: any) {
+  return useAxiosSWR([API_4IR_TAGLINES, params]);
+}
+
+export function useFetchFourIRTagline(taglineId: number | null) {
+  return useAxiosSWR(taglineId ? API_4IR_TAGLINES + '/' + taglineId : null);
 }
