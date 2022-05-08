@@ -1,9 +1,10 @@
 import React from 'react';
-import {Line, Rect, RegularPolygon} from 'react-konva';
+import {Line, Rect} from 'react-konva';
 import {useRecoilValue} from 'recoil';
-import {ShapeType, TextConfig} from '../../interfaces/Shape';
+import {ImageConfig, ShapeType, TextConfig} from '../../interfaces/Shape';
 import {elementSelector} from '../../state/selectors/elements';
 import GenericRenderer from './GenericRenderer';
+import ImageRenderer from './ImageRenederer';
 import TextRenderer from './TextRenderer';
 
 interface Props {
@@ -20,7 +21,10 @@ function ElementRenderer({id}: Props) {
   switch (type) {
     case ShapeType.Text:
       return <TextRenderer id={id} key={id} props={props as TextConfig} />;
-
+    case ShapeType.Input:
+      return <TextRenderer id={id} key={id} props={props as TextConfig} />;
+    case ShapeType.Image:
+      return <ImageRenderer key={id} id={id} props={props as ImageConfig} />;
     case ShapeType.Rectangle:
       return (
         <GenericRenderer id={id} key={id} props={props} component={Rect} />
@@ -29,15 +33,6 @@ function ElementRenderer({id}: Props) {
       return (
         <GenericRenderer id={id} key={id} props={props} component={Line} />
       );
-    // case ShapeType.RegulaPolygon:
-    //   return (
-    //     <GenericRenderer
-    //       id={id}
-    //       key={id}
-    //       props={props}
-    //       component={RegularPolygon}
-    //     />
-    // );
 
     default:
       throw new Error(`Unsupported element ${type}`);

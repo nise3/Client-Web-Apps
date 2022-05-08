@@ -3,11 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "es2017",
-      "ESNext.String"
-    ],
+    "lib": ["dom", "es2017", "ESNext.String"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -24,12 +20,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "modules/dashboard/certificate/editor/compontents/EditorMenuPanel/ImageProperties"
   ]
 }

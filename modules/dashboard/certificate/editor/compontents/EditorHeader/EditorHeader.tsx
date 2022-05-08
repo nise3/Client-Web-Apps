@@ -8,18 +8,25 @@ import {createCertificate} from './../../../../../../services/CertificateAuthori
 import {StageRefContainer} from '../../state/containers/StageRefContainer';
 import TextInputSkeleton from '../../../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {useFetchResultTypes} from '../../../../../../services/CertificateAuthorityManagement/hooks';
-
 import useNotiStack from './../../../../../../@softbd/hooks/useNotifyStack';
+
 function EditorHeader() {
   const {setCurrentTemplateToSave} = useTemplateDispatcher();
   const {stageAreaRef} = StageRefContainer.useContainer();
   const [selectedResultType, setSelectedResultType] = useState<string | null>(
     null,
   );
-  console.log(selectedResultType);
+  let options: [] = [];
   const {data: resultTypes, isLoading: isLoading} = useFetchResultTypes();
   const {errorStack} = useNotiStack();
 
+  useEffect(() => {
+    if (resultTypes) {
+      options = resultTypes.map((type: any) => {
+        return type.title;
+      });
+    }
+  }, [resultTypes]);
   const onChangeAutocomplete = (event: any, newValue: string | null) => {
     event.preventDefault();
     setSelectedResultType(newValue);
@@ -61,35 +68,33 @@ function EditorHeader() {
   return (
     <div className='editor-header'>
       <div className='editor-header-inner'>
-        <div className='editor-header-inner-left'>
-          <Button variant='outlined' startIcon={<ArrowBackIcon />}>
-            Go Back
-          </Button>
-        </div>
-        <div className='editor-header-inner-right'>
-          {isLoading ? (
-            <TextInputSkeleton />
+        <Button variant='outlined' startIcon={<ArrowBackIcon />}>
+          Go Back
+        </Button>
+
+        {/* {isLoading ? (
+            <div style={{width: '200px'}}>
+              <TextInputSkeleton />
+            </div>
           ) : (
             <Autocomplete
               value={selectedResultType}
               onChange={onChangeAutocomplete}
               id='result-type-select'
-              options={resultTypes.map((type: any) => {
-                return type.title;
-              })}
-              sx={{width: 300}}
+              options={options}
+              sx={{width: 200, marginRight: '4px'}}
               renderInput={(params) => (
                 <TextField {...params} label='Result Type' />
               )}
             />
-          )}
-          <Button
-            variant='outlined'
-            startIcon={<SaveIcon />}
-            onClick={handleClick}>
-            Save
-          </Button>
-        </div>
+          )} */}
+
+        <Button
+          variant='outlined'
+          startIcon={<SaveIcon />}
+          onClick={handleClick}>
+          Save
+        </Button>
       </div>
     </div>
   );

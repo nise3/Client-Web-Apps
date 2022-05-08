@@ -21,38 +21,23 @@ function ElementToolPanel() {
           stroke: 'black',
           strokeWidth: 1,
           fill: 'transparent',
-          strokeEnabled: true,
           listening: true,
+          strokeScaleEnabled: false,
         });
       },
     [createElement],
   );
-  const addLineButtonClick = (value: string) => {
-    return () => {
-      let lineProperty: Partial<LineConfig> = {
-        stroke: 'black',
-        strokeWidth: 5,
-      };
-      if (value == 'dotted') {
-        lineProperty.dash = [2, 3];
-      } else if (value == 'dashed') {
-        lineProperty.dash = [5, 3];
-      }
-      handleClickAddLine(lineProperty);
-    };
-  };
+
   const handleClickAddLine = useRecoilCallback(
     ({snapshot}) =>
-      async (lineProperty: Partial<LineConfig>) => {
-        const dimensions = await snapshot.getPromise(dimensionsState);
+      async () => {
         createElement<LineConfig>(ShapeType.Line, {
-          points: [
-            dimensions.width / 4,
-            dimensions.height / 2,
-            dimensions.width / 2,
-            dimensions.height / 2,
-          ],
-          ...lineProperty,
+          points: [5, 70, 300, 70],
+          stroke: 'rgba(2,2,55,.5)',
+          strokeWidth: 2,
+          dash: [],
+          strokeScaleEnabled: false,
+          scaleY: 3,
         });
       },
     [createElement],
@@ -60,28 +45,21 @@ function ElementToolPanel() {
 
   return (
     <SideMenuPanel title='Elements'>
-      <Button type='gray' onClick={handleClickAddRectangle} className='mb-2'>
-        Rectangle
-      </Button>
-      <Button
-        type='gray'
-        className='text-property-right-button'
-        onClick={addLineButtonClick('solid')}
-        title='Align right'>
-        Solid Line
-      </Button>
-      <Button
-        type='gray'
-        onClick={addLineButtonClick('dotted')}
-        className='mb-2'>
-        Dotted Line
-      </Button>
-      <Button
-        type='gray'
-        onClick={addLineButtonClick('dashed')}
-        className='mb-2'>
-        Dashed Line
-      </Button>
+      <div className='text-picker-button-container'>
+        <Button
+          type='gray'
+          onClick={handleClickAddRectangle}
+          className='text-picker-button'>
+          Rectangle
+        </Button>
+        <Button
+          type='gray'
+          className='text-picker-button'
+          onClick={handleClickAddLine}
+          title='Align right'>
+          Line
+        </Button>
+      </div>
     </SideMenuPanel>
   );
 }
