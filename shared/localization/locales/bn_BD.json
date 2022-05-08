@@ -208,6 +208,7 @@
   "common.logo": "লোগো",
   "common.company_type": "কোম্পানির ধরন",
   "common.file_upload": "ফাইল আপলোড",
+  "common.file": "ফাইল",
   "common.file_upload_first": "প্রথমে ফাইল আপলোড করুন",
   "common.only_xlsx_file": "শুধুমাত্র .xlsx ফাইল দিতে পারবেন",
   "signup.label": "রেজিস্ট্রেশন",

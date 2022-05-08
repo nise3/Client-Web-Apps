@@ -9,7 +9,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIROccupation} from '../../../services/4IRManagement/hooks';
+import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 
 type Props = {
   itemId: number;
@@ -24,12 +25,7 @@ const FourIRTagLineDetailsPopup = ({
 }: Props) => {
   const {messages} = useIntl();
 
-  // TODO -> fetching required
-  const {data: itemData, isLoading} = {
-    data: {name: 'imran sarkar bn', name_en: 'imran sarkar en', row_status: 1},
-    isLoading: false,
-  };
-  //useFetchFourIROccupation(itemId);
+  const {data: itemData, isLoading} = useFetchFourIRTagline(itemId);
 
   return (
     <>
@@ -70,7 +66,18 @@ const FourIRTagLineDetailsPopup = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.start_date']}
+              value={
+                itemData?.start_date
+                  ? getMomentDateFormat(itemData?.start_date, 'DD MMM, YYYY')
+                  : ''
+              }
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}
