@@ -55,6 +55,13 @@ export interface ITagLine extends IIdTitleCreateUpdateAt {
   row_status: number;
 }
 
+export interface IGuideline extends IIdTitleCreateUpdateAt {
+  four_ir_initiative_id: number | string;
+  file_path?: string;
+  guideline_details?: string;
+  row_status?: number;
+}
+
 export interface IScaleUp extends IIdTitleCreateUpdateAt {
   project_advancement: string;
   project_budget: string | number;

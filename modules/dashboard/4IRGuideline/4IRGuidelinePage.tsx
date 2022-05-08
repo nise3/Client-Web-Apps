@@ -14,18 +14,15 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import FourIRGuidelineAddEditPopup from './4IRGuidelineAddEditPopup';
 import FourIRTNAReportDetailsPopup from './4IRGuidelineDetailsPopup';
-import {API_4IR_GUIDLINE} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_GUIDELINE} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
+import {deleteGuideline} from '../../../services/4IRManagement/GuidelineService';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
-interface IFourIRGuidelinePage {
-  fourIrGuidelinesId: number;
-}
-
-const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
+const FourIRGuidelinePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -59,15 +56,14 @@ const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
     setIsToggleTable((prev) => !prev);
   }, []);
 
-  // TODO -> refectoring
-  const deleteTNAReportItem = async (itemId: number) => {
-    let response = await deleteTNAReport(itemId);
+  const deleteGuideLinetItem = async (itemId: number) => {
+    let response = await deleteGuideline(itemId);
 
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.label' />}}
+          values={{subject: <IntlMessages id='footer.guideline' />}}
         />,
       );
 
@@ -89,30 +85,25 @@ const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
           );
         },
       },
-
       {
-        Header: messages['common.workshop_name'],
-        accessor: 'workshop_name',
+        Header: messages['common.initiative'],
+        accessor: 'four_ir_initiative_id',
+        disableFilters: true,
       },
       {
-        Header: messages['common.required_skill'],
-        accessor: 'skill_required',
+        Header: messages['common.file'],
+        accessor: 'file_path',
+        disableFilters: true,
       },
       {
-        Header: messages['common.start_date'],
-        accessor: 'start_date',
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
       },
-      {
-        Header: messages['common.end_date'],
-        accessor: 'end_date',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.venue'],
-        accessor: 'venue',
-        isVisible: false,
-      },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -123,7 +114,7 @@ const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteTNAReportItem(data.id)}
+                deleteAction={() => deleteGuideLinetItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -137,14 +128,8 @@ const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_GUIDLINE,
-      paramsValueModifier: (params: any) => {
-        params['fourIrGuidelinesId'] = fourIrGuidelinesId;
-        return params;
-      },
+      urlPath: API_4IR_GUIDELINE,
     });
-
-  console.log(data);
 
   return (
     <>
@@ -183,7 +168,6 @@ const FourIRGuidelinePage = ({fourIrGuidelinesId}: IFourIRGuidelinePage) => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIrGuidelinesId}
             refreshDataTable={refreshDataTable}
           />
         )}

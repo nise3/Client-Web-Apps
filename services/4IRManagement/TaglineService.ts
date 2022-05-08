@@ -1,14 +1,11 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {
-  API_4IR_PROJECTS,
-  API_4IR_TAGLINES,
-} from '../../@softbd/common/apiRoutes';
+import {API_4IR_TAGLINES} from '../../@softbd/common/apiRoutes';
 import {ITagLine} from '../../shared/Interface/4IR.interface';
 
 export const getAllProjects = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_4IR_PROJECTS, {params});
+    let response: any = await apiGet(API_4IR_TAGLINES, {params});
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -18,9 +15,9 @@ export const getAllProjects = async (params = {}) => {
 /**
  * @deprecated
  */
-export const getProject = async (projectId: number) => {
+export const getProject = async (taglineId: number) => {
   try {
-    let response: any = await apiGet(API_4IR_PROJECTS + '/' + projectId);
+    let response: any = await apiGet(API_4IR_TAGLINES + '/' + taglineId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
