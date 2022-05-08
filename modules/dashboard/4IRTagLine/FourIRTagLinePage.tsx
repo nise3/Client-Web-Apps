@@ -16,6 +16,9 @@ import IconSkill from '../../../@softbd/icons/IconSkill';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchFourIROccupations} from '../../../services/4IRManagement/hooks';
 import {deleteFourIROccupation} from '../../../services/4IRManagement/OccupationService';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
+import {Link} from '../../../@softbd/elements/common';
 
 const FourIRTagLinePage = () => {
   const {messages} = useIntl();
@@ -113,6 +116,13 @@ const FourIRTagLinePage = () => {
                 deleteAction={() => deleteOccupationItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
+              <Link href={`4ir-tagline/${data.id}/initiatives`}>
+                <CommonButton
+                  btnText='common.view_initiatives'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  variant={'text'}
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },

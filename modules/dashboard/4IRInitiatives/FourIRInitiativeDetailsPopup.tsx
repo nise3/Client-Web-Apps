@@ -20,7 +20,7 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRProjectDetailsPopup = ({
+const FourIRInitiativeDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
@@ -36,7 +36,7 @@ const FourIRProjectDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir_project.label' />
+            <IntlMessages id='4ir_initiative.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -55,35 +55,35 @@ const FourIRProjectDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['project.name']}
+              label={messages['initiative.name']}
               value={itemData?.project_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['project.name_en']}
+              label={messages['initiative.name_en']}
               value={itemData?.project_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.organization_name']}
+              label={messages['initiative.organization_name']}
               value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.organization_name_en']}
+              label={messages['initiative.organization_name_en']}
               value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['project.details']}
+              label={messages['initiative.details']}
               value={itemData?.details}
               isLoading={isLoading}
             />
@@ -98,7 +98,7 @@ const FourIRProjectDetailsPopup = ({
           </Grid>*/}
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['project.start_date']}
+              label={messages['initiative.start_date']}
               value={getMomentDateFormat(itemData?.start_date, 'DD MMM YYYY')}
               isLoading={isLoading}
             />
@@ -112,7 +112,7 @@ const FourIRProjectDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['project.project_budget']}
+              label={messages['initiative.project_budget']}
               value={itemData?.project_budget}
               isLoading={isLoading}
             />
@@ -127,7 +127,7 @@ const FourIRProjectDetailsPopup = ({
                         key={ProjectStatus.PROJECT_FINALIZED}
                         disableGutters>
                         <ListItemText
-                          primary={messages['project.roadmap_finalized']}
+                          primary={messages['initiative.roadmap_finalized']}
                         />
                       </ListItem>
                     )}
@@ -136,7 +136,7 @@ const FourIRProjectDetailsPopup = ({
                         key={ProjectStatus.PROJECT_REVIEWED}
                         disableGutters>
                         <ListItemText
-                          primary={messages['project.projects_reviewed']}
+                          primary={messages['initiative.projects_reviewed']}
                         />
                       </ListItem>
                     )}
@@ -145,7 +145,7 @@ const FourIRProjectDetailsPopup = ({
                         key={ProjectStatus.PROJECT_APPROVED}
                         disableGutters>
                         <ListItemText
-                          primary={messages['project.projects_approved']}
+                          primary={messages['initiative.projects_approved']}
                         />
                       </ListItem>
                     )}
@@ -167,4 +167,4 @@ const FourIRProjectDetailsPopup = ({
   );
 };
 
-export default FourIRProjectDetailsPopup;
+export default FourIRInitiativeDetailsPopup;
