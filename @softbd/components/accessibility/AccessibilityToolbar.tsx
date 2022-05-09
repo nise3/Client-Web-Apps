@@ -240,7 +240,7 @@ const AccessibilityToolbar = () => {
         onFocus={(e) => {
           setTimeout(() => {
             setIsProxyHidden(true);
-          }, 100);
+          }, 1000);
         }}
         id='skip-button'
         href='#maincontent'>
