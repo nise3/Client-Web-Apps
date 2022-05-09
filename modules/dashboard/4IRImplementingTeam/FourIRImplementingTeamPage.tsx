@@ -65,7 +65,7 @@ const FourIRImplementingTeamPage = ({
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_initiative.label' />}}
+          values={{subject: <IntlMessages id='4ir.team_member' />}}
         />,
       );
       refreshDataTable();
@@ -180,7 +180,7 @@ const FourIRImplementingTeamPage = ({
         {isOpenAddEditModal && (
           <FourIRImplementingTeamAddEditPopup
             key={1}
-            fourIRProjectId={fourIRInitiativeId}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

@@ -13,18 +13,21 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  createImplementingTeam,
-  updateImplementingTeam,
+  createTeamMember,
+  updateTeamMember,
 } from '../../../services/4IRManagement/ImplementingTeamService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
+import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
-  fourIRProjectId: number;
+  fourIRInitiativeId: number;
   refreshDataTable: () => void;
 }
 
@@ -35,11 +38,14 @@ const initialValues = {
   phone_number: '',
   role: '',
   designation: '',
+  contribution: '',
+  responsibility: '',
+  row_status: 1,
 };
 
 const FourIRImplementingTeamAddEditPopup: FC<
   ImplementingTeamAddEditPopupProps
-> = ({itemId, fourIRProjectId, refreshDataTable, ...props}) => {
+> = ({itemId, fourIRInitiativeId, refreshDataTable, ...props}) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -73,14 +79,26 @@ const FourIRImplementingTeamAddEditPopup: FC<
         .required()
         .label(messages['common.email'] as string),
 
-      phone_number: yup.string(),
-      role: yup.string(),
-      designation: yup.string(),
+      phone_number: yup
+        .string()
+        .trim()
+        .required()
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
+      role: yup
+        .string()
+        .required()
+        .label(messages['common.role'] as string),
+      designation: yup
+        .string()
+        .required()
+        .label(messages['common.designation'] as string),
     });
   }, [messages]);
 
   const {
     register,
+    control,
     reset,
     setError,
     handleSubmit,
@@ -91,14 +109,16 @@ const FourIRImplementingTeamAddEditPopup: FC<
 
   useEffect(() => {
     if (itemData != null) {
-      let name_en = itemData.name_en || '';
       reset({
-        name: itemData.name,
-        name_en: name_en,
-        email: itemData.email,
+        name: itemData?.name,
+        name_en: itemData?.name_en,
+        email: itemData?.email,
         phone_number: itemData?.phone_number,
         role: itemData?.role,
         designation: itemData?.designation,
+        contribution: itemData?.contribution,
+        responsibility: itemData?.responsibility,
+        row_status: itemData?.row_status,
       });
     } else {
       reset(initialValues);
@@ -108,17 +128,17 @@ const FourIRImplementingTeamAddEditPopup: FC<
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
-        four_ir_project_id: fourIRProjectId,
-        team_type: 1,
+        four_ir_initiative_id: fourIRInitiativeId,
+        team_type: FourIRTeamType.IMPLEMENTING_TEAM,
         ...data,
       };
 
       if (itemId != null) {
-        await updateImplementingTeam(itemId, payload);
+        await updateTeamMember(itemId, payload);
         updateSuccessMessage('4ir.implementing_team');
         mutateImplementingTeam();
       } else {
-        await createImplementingTeam(payload);
+        await createTeamMember(payload);
         createSuccessMessage('4ir.implementing_team');
       }
 
@@ -192,7 +212,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
           <CustomTextInput
             required
             id='phone_number'
-            label={messages['common.phone_number']}
+            label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -218,6 +238,36 @@ const FourIRImplementingTeamAddEditPopup: FC<
             errorInstance={errors}
             isLoading={false}
             rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='contribution'
+            label={messages['4IR.contribution']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+            rows={5}
+            multiline={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='responsibility'
+            label={messages['4ir.responsibility']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+            rows={5}
+            multiline={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

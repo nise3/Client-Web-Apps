@@ -1254,6 +1254,7 @@
   "common.publication_deadline": "শেষ তারিখ",
   "industry.gender": "লিঙ্গ",
   "industry.job_responsibility": "চাকুরির দায়িত্বসমূহ",
+  "4ir.responsibility": "দায়িত্বসমূহ",
   "industry.educational_requirement": "শিক্ষাগত যোগ্যতা",
   "industry.job_requirements": "চাকুরির প্রয়োজনীয়তা",
   "industry.working_place": "কর্মস্থল",
@@ -1934,6 +1935,7 @@
   "project.projects_approved": "প্রকল্প অনুমোদিত",
 
   "initiative.label": "4 আই আর উদ্যোগ",
+  "4ir.project_initiative": "প্রজেক্ট উদ্যোগ",
   "initiative.name": "উদ্যোগ এর নাম",
   "initiative.name_en": "উদ্যোগ এর নাম (ইংরেজী)",
   "initiative.details": "উদ্যোগ এর বিস্তারিত",
@@ -1959,7 +1961,6 @@
   "4ir_curriculum.label": "4 আই আর কারিকুলাম",
   "common.event_description": "ঘটনার বিবরণ",
   "common.close" : "বন্ধ",
-  "common.next": "পরবর্তী",
   "4ir_showcasing.label": "4 আই আর শোকেসিং",
   "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান",
   "4ir_showcasing.complete_step": "কমপ্লিট স্টেপ",
@@ -1967,5 +1968,6 @@
   "4IR_steps.label": "4 আই আর স্টেপ্সমূহ",
   "4IR_steps.step": "স্টেপ",
   "4IR_steps.completed": "সম্পন্ন",
-  "4IR_steps.team_and_cell": "টিম এবং সেল"
+  "4IR_steps.team_and_cell": "টিম এবং সেল",
+  "4IR.contribution": "অবদান"
 }

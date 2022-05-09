@@ -1256,6 +1256,7 @@
   "industry.application_deadline": "Application Deadline",
   "industry.gender": "Gender",
   "industry.job_responsibility": "Job Responsibility",
+  "4ir.responsibility": "Responsibility",
   "industry.educational_requirement": "Educational Requirements",
   "industry.job_requirements": "Job Requirements",
   "industry.working_place": "Working Place",
@@ -1921,6 +1922,7 @@
   "4ir.project_advancement": "Project Advancement",
   "4ir.previous_budget": "Previous budget",
   "4ir.project_budget": "Project Budget",
+  "4ir.project_initiative": "Project Initiative",
   "4ir.project_details": "প্Project Details",
   "project.name": "Project Name",
   "project.name_en": "Project Name (En)",
@@ -1957,7 +1959,6 @@
   "4ir_curriculum.label": "4IR Curriculum",
   "common.event_description": "Event description",
   "common.close" : "Close",
-  "common.next": "Next",
   "4ir_showcasing.label": "4IR Showcasing",
   "4ir_showcasing.invite_others": "Invite others",
   "4ir_cs.supported_by": "Supported by",
@@ -1966,5 +1967,6 @@
   "4IR_steps.label": "4IR Steps",
   "4IR_steps.step": "Step",
   "4IR_steps.completed": "Completed",
-  "4IR_steps.team_and_cell": "Team & Cell"
+  "4IR_steps.team_and_cell": "Team & Cell",
+  "4IR.contribution": "Contribution"
 }
