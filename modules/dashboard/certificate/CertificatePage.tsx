@@ -33,7 +33,7 @@ const CertificateTemplatePage = () => {
   console.log('useFetchCertificates()', useFetchCertificates());
 
   useEffect(() => {
-    console.log(certificates);
+    // console.log(certificates);
   }, [certificates]);
   const openCertificateDetailsModal = useCallback((itemId: number) => {
     setIsopenCertificateViewModal(true);
@@ -140,7 +140,7 @@ const CertificateTemplatePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={[]}
+          data={certificates}
           loading={isLoading}
           skipDefaultFilter={true}
         />
