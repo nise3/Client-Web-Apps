@@ -154,15 +154,19 @@ const ExamPage = () => {
                   router.push(LINK_EXAM_DETAILS + `${data.id}`);
                 }}
               />
-              <EditButton
-                onClick={() => {
-                  router.push(LINK_EXAM_UPDATE + `${data.id}`);
-                }}
-              />
-              <DeleteButton
-                deleteAction={() => deleteExamItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              {!data?.published_at && (
+                <EditButton
+                  onClick={() => {
+                    router.push(LINK_EXAM_UPDATE + `${data.id}`);
+                  }}
+                />
+              )}
+              {!data?.published_at && (
+                <DeleteButton
+                  deleteAction={() => deleteExamItem(data.id)}
+                  deleteTitle={messages['common.delete_confirm'] as string}
+                />
+              )}
               <ApproveButton
                 approveAction={() => publishAction(data.id, data.published_at)}
                 approveTitle={

@@ -181,8 +181,8 @@ const ExamQuestionTypeSection = ({
       </Grid>
       {isChecked && (
         <Grid item xs={9}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={2}>
               <CustomTextInput
                 required
                 id={`${idPrefix}[${index}][number_of_questions]`}
@@ -196,7 +196,7 @@ const ExamQuestionTypeSection = ({
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <CustomTextInput
                 required
                 id={`${idPrefix}[${index}][total_marks]`}
@@ -233,47 +233,54 @@ const ExamQuestionTypeSection = ({
             marks &&
             examSets &&
             examSets.length > 0 ? (
-              examSets.map((examSet: any, index: number) => (
-                <Grid
-                  key={examSet.index}
-                  item
-                  xs={1}
-                  textAlign={'center'}
-                  sx={{overflowWrap: 'break-word', wordBreak: 'break-word'}}>
-                  <S2 sx={{whiteSpace: 'nowrap'}}>
-                    {messages['common.set']} {formatNumber(index + 1)}
-                  </S2>
-                  <AddButton
-                    key={1}
-                    onClick={() => openAddQuestionModal(index)}
-                    isLoading={false}
-                    tooltip={
-                      <IntlMessages
-                        id={'common.add_new'}
-                        values={{
-                          subject: messages['question_set.label'],
-                        }}
+              <Grid item xs={examSets.length < 3 ? 4 : 12}>
+                <Grid container>
+                  {examSets.map((examSet: any, index: number) => (
+                    <Grid
+                      key={examSet.index}
+                      item
+                      xs={Math.floor(12 / examSets.length)}
+                      textAlign={'center'}
+                      sx={{
+                        overflowWrap: 'break-word',
+                        wordBreak: 'break-word',
+                      }}>
+                      <S2 sx={{whiteSpace: 'nowrap'}}>
+                        {messages['common.set']} {formatNumber(index + 1)}
+                      </S2>
+                      <AddButton
+                        key={1}
+                        onClick={() => openAddQuestionModal(index)}
+                        isLoading={false}
+                        tooltip={
+                          <IntlMessages
+                            id={'common.add_new'}
+                            values={{
+                              subject: messages['question_set.label'],
+                            }}
+                          />
+                        }
                       />
-                    }
-                  />
-                  <Body2
-                    sx={{
-                      textAlign: 'center',
-                      display: 'inline-block',
-                      marginTop: '6px',
-                      overflowWrap: 'break-word',
-                      wordWrap: 'break-word',
-                      wordBreak: 'normal',
-                      lineBreak: 'strict',
-                    }}>
-                    {localQuestions?.[index]?.questions
-                      ? formatNumber(
-                          localQuestions?.[index]?.questions.length,
-                        ) + messages['exam.question_selected']
-                      : messages['exam.no_question_selected']}
-                  </Body2>
+                      <Body2
+                        sx={{
+                          textAlign: 'center',
+                          display: 'block',
+                          marginTop: '6px',
+                          overflowWrap: 'break-word',
+                          wordWrap: 'break-word',
+                          wordBreak: 'normal',
+                          lineBreak: 'strict',
+                        }}>
+                        {localQuestions?.[index]?.questions
+                          ? formatNumber(
+                              localQuestions?.[index]?.questions.length,
+                            ) + messages['exam.question_selected']
+                          : messages['exam.no_question_selected']}
+                      </Body2>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))
+              </Grid>
             ) : selectedSelectionType &&
               selectedSelectionType != QuestionSelectionType.RANDOM &&
               numberOfQuestion &&

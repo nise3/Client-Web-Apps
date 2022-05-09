@@ -1979,5 +1979,6 @@
   "matching_criteria.value_not_provided": "ভ্যালু দেয়া হয়নি",
   "matching_criteria.set_mandatory": "বাধ্যতামূলক করুন",
   "common.search_3": "সার্চ",
-  "common.in_progress": "ইন প্রগ্রেস"
+  "common.in_progress": "ইন প্রগ্রেস",
+  "common.not_participated": "অংশ গ্রহন করা হয়নি"
 }

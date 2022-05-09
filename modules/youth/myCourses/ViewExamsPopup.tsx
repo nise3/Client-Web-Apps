@@ -141,11 +141,13 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                     </TableCell>
                     <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
                     <TableCell>
-                      {exam?.marks_obtained
+                      {isOver && exam?.participated && exam?.marks_obtained
                         ? formatNumber(exam?.marks_obtained) +
                           '/' +
                           formatNumber(exam?.total_marks)
-                        : messages['common.in_progress']}
+                        : isOver && exam?.participated
+                        ? messages['common.in_progress']
+                        : messages['common.not_participated']}
                     </TableCell>
                     <TableCell>
                       {exam.type == ExamTypes.ONLINE &&

@@ -550,9 +550,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
-                InputLabelProps={{
-                  shrink: !isNaN(examId),
-                }}
+                InputLabelProps={
+                  !isNaN(examId)
+                    ? {
+                        shrink: true,
+                      }
+                    : {}
+                }
               />
             </Grid>
             <Grid item xs={6}>
@@ -562,9 +566,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
-                InputLabelProps={{
-                  shrink: !isNaN(examId),
-                }}
+                InputLabelProps={
+                  !isNaN(examId)
+                    ? {
+                        shrink: true,
+                      }
+                    : {}
+                }
               />
             </Grid>
             <Grid item xs={6}>
