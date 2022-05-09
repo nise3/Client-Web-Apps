@@ -173,9 +173,7 @@ const TeamAndCellView = () => {
       <Stepper activeStep={activeStep - 1} alternativeLabel>
         {steps.map((step: StepObj) => {
           const stepProps: {completed?: boolean} = {
-            // todo
-            // completed: step.id < lastestStep,
-            completed: true,
+            completed: step.id < lastestStep,
           };
 
           const labelProps: {

@@ -30,7 +30,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
-  fourIRProjectId: number;
+  fourIRInitiativeId: number;
   onClose: () => void;
   refreshDataTable: () => void;
 }
@@ -54,7 +54,7 @@ const initialValues = {
 
 const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   itemId,
-  fourIRProjectId,
+  fourIRInitiativeId,
   refreshDataTable,
 
   ...props
@@ -124,7 +124,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         .string()
         .label(messages['4ir.tna_report.others_workshop'] as string),
       file_path: yup.string().label(messages['common.file_path'] as string),
-      row_status: yup.number().label(),
+      row_status: yup.number(),
     });
   }, [messages]);
 
@@ -168,24 +168,36 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
-        four_ir_project_id: fourIRProjectId,
-        ...data,
+        four_ir_initiative_id: fourIRInitiativeId,
+        workshop_method_workshop_numbers:
+          data?.workshop_method_workshop_numbers,
+        workshop_method_file: data?.workshop_method_file,
+        fgd_workshop_numbers: data?.fgd_workshop_numbers,
+        fgd_workshop_file: data?.fgd_workshop_file,
+        industry_visit_workshop_numbers: data?.industry_visit_workshop_numbers,
+        industry_visit_file: data?.industry_visit_file,
+        desktop_research_workshop_numbers:
+          data?.desktop_research_workshop_numbers,
+        desktop_research_file: data?.desktop_research_file,
+        existing_report_review_workshop_numbers:
+          data?.existing_report_review_workshop_numbers,
+        existing_report_review_file: data?.existing_report_review_file,
+        others_workshop_numbers: data?.others_workshop_numbers,
+        others_file: data?.others_file,
+        file_path: data?.file_path,
+        row_status: data?.row_status,
       };
 
-      // file should be upload by this function
-      // await createExcelImport(data.file[0]);
-      console.log(data);
-
-      // if (itemId !== null) {
-      //   await updateTNAReport(payload, itemId);
-      //   updateSuccessMessage('4ir.TNA_report');
-      //   mutateTNAReport();
-      // } else {
-      //   await createTNAReport(payload);
-      //   createSuccessMessage('4ir.TNA_report');
-      // }
-      // props.onClose();
-      // refreshDataTable();
+      if (itemId !== null) {
+        await updateTNAReport(payload, itemId);
+        updateSuccessMessage('4ir.TNA_report');
+        mutateTNAReport();
+      } else {
+        await createTNAReport(payload);
+        createSuccessMessage('4ir.TNA_report');
+      }
+      props.onClose();
+      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
