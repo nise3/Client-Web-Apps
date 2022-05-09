@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -23,6 +23,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
@@ -52,6 +53,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
@@ -127,6 +129,11 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
     }
   }, [itemData]);
 
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
@@ -139,13 +146,12 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         await updateTeamMember(itemId, payload);
         updateSuccessMessage('4ir.expert_team');
         mutateExpertTeam();
+        await closeAction();
       } else {
         await createTeamMember(payload);
         createSuccessMessage('4ir.expert_team');
+        setShowSuccessPopUp(true);
       }
-
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -274,6 +280,15 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
           />
         </Grid>
       </Grid>
+      {showSuccessPopUp && fourIRInitiativeId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={2}
+          initiativeId={fourIRInitiativeId}
+          completionStep={2}
+          formStep={3}
+        />
+      )}
     </HookFormMuiModal>
   );
 };

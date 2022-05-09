@@ -24,18 +24,19 @@ const SuccessPopup: React.FC<SuccessPopupProps> = ({
 }) => {
   const [isSuccessPopUpOpen, setSuccessPopUpOpen] = useState(true);
   const router = useRouter();
-  const presentPath = router.asPath;
   const {messages} = useIntl();
+  const {taglineId} = router?.query;
 
   const onConfirm = useCallback(() => {
     router.push({
-      pathname: presentPath + '/' + initiativeId,
+      pathname: `/4ir-tagline/${taglineId}/initiatives/${initiativeId}/`,
       query: {
         completionStep: completionStep,
         formStep: formStep,
         presentStep: completionStep + 1,
       },
     });
+
     setSuccessPopUpOpen(false);
   }, [setSuccessPopUpOpen]);
 
