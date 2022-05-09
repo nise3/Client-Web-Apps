@@ -46,10 +46,10 @@ export const updateTeamMember = async (teamMemberId: number, data: any) => {
   }
 };
 
-export const deleteTeamMember = async (implementingTeamId: number) => {
+export const deleteTeamMember = async (TeamMemberId: number) => {
   try {
     let response: any = await apiDelete(
-      API_4IR_TEAM_MEMBERS + '/' + implementingTeamId,
+      API_4IR_TEAM_MEMBERS + '/' + TeamMemberId,
     );
     return response.data;
   } catch (error) {

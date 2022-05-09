@@ -189,6 +189,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.name']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -197,7 +198,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.name_en']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -207,7 +208,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.email']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -217,7 +218,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -227,7 +228,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['role.label']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={3}
           />
         </Grid>
@@ -238,7 +239,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.designation']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={3}
           />
         </Grid>
@@ -248,7 +249,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['4IR.contribution']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={5}
             multiline={true}
           />
@@ -259,7 +260,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['4ir.responsibility']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={5}
             multiline={true}
           />

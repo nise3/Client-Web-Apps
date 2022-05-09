@@ -475,7 +475,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <SuccessPopup
           closeAction={closeAction}
           stepNo={1}
-          projectId={initiativeId}
+          initiativeId={initiativeId}
           completionStep={1}
           formStep={1}
         />

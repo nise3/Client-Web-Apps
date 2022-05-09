@@ -120,10 +120,10 @@ const FourIRImplementingTeamPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ReadButton onClick={() => openDetailsModal(data?.id)} />
+              <EditButton onClick={() => openAddEditModal(data?.id)} />
               <DeleteButton
-                deleteAction={() => deleteImplementingTeamMember(data.id)}
+                deleteAction={() => deleteImplementingTeamMember(data?.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
