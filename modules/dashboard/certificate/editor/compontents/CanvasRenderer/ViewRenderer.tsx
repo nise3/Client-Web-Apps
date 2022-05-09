@@ -1,16 +1,34 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Layer, Rect, Stage} from 'react-konva';
-import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
-import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
-import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Layer, Rect, Stage } from 'react-konva';
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
+import { CANVAS_STROKE, EDITOR_MARGIN } from '../../constants';
+import { EditorAreaContainer } from '../../state/containers/EditorAreaContainer';
+import { ElementRefsContainer } from '../../state/containers//ElementRefsContainer';
 import useRatioControls from '../../hooks/useRatioControl';
-import {Dimensions} from '../../interfaces/StageConfig';
-import {isLoadingState, ratioState} from '../../state/atoms/editor';
-import {backgroundState, dimensionsState} from '../../state/atoms/template';
+import { Dimensions } from '../../interfaces/StageConfig';
+import { isLoadingState, ratioState } from '../../state/atoms/editor';
+import { backgroundState, dimensionsState } from '../../state/atoms/template';
 import Elements from './Elements';
 import Template from '../../template';
 import useTemplateDispatcher from '../../state/dispatchers/template';
+import { useRouter } from 'next/router';
+import { getCertificateIssueByIssueId } from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
+import { getYouthProfile, getYouthProfileById } from '../../../../../../services/youthManagement/YouthService';
+import { getBatch } from '../../../../../../services/instituteManagement/BatchService';
+
+interface IYouthCertificateDetails {
+  candidate_name: string;
+  father_name: string;
+  mother_name: string;
+  candidate_nid: string;
+  candidate_birth_cid: string;
+  batch_name: string;
+  batch_start_date: string;
+  batch_end_date: string;
+  course_name: string;
+  training_center: string;
+  grade: number;
+}
 
 function ViewRenderer() {
   const ratio = useRecoilValue(ratioState);
@@ -18,14 +36,17 @@ function ViewRenderer() {
   const background = useRecoilValue(backgroundState);
   const isLoading = useRecoilValue(isLoadingState);
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
-  const {fitToScreen} = useRatioControls();
-  const {getScreenDimensions} = EditorAreaContainer.useContainer();
-  const {setLoadedTemplate} = useTemplateDispatcher();
-  const {editorAreaRef, setScreenDimensions} =
+  const { fitToScreen } = useRatioControls();
+  const { getScreenDimensions } = EditorAreaContainer.useContainer();
+  const { setLoadedTemplate } = useTemplateDispatcher();
+  const { editorAreaRef, setScreenDimensions } =
     EditorAreaContainer.useContainer();
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
+  const [youthInfoData, setYouthInfoData] = useState<Partial<IYouthCertificateDetails> | undefined>({
+    grade: 5
+  });
 
   useEffect(() => {
     if (editorAreaRef.current) {
@@ -54,9 +75,58 @@ function ViewRenderer() {
       };
     }
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
-  const userInfo = {
+
+  const router = useRouter();
+  const { query } = router; //certificateIssueId
+  // console.log(`const {query} = router;`, query)
+
+  useEffect(() => {
+    getCertificateIssueByIssueId(query.certificateIssueId)
+      .then(res => {
+        const issueInfo = res.data;
+        getYouthProfileById(issueInfo.youth_id)
+          .then(response => {
+            const { data: youth } = response;
+            // console.log('youth ', response);
+            setYouthInfoData({
+              candidate_name: `${youth.first_name_en} ${youth.last_name_en}`,
+              candidate_nid: youth.identity_number_type === 1 ? youth.identity_number : null,
+              candidate_birth_cid: youth.identity_number_type === 2 ? youth.identity_number : null
+            })
+          })
+
+        getBatch(issueInfo.batch_id)
+          .then(response => {
+            const { data: batch } = response;
+            console.log('const { data: batch } = response ', batch);
+            setYouthInfoData((prev)=>{
+              return {...prev, ...{
+                batch_name: batch.title,
+                batch_start_date: batch.batch_start_date,
+                batch_end_date: batch.batch_end_date,
+                course_name: batch.course_title,
+                training_center: batch.training_center_title_en,
+              }}
+            })
+          })
+      })
+
+  }, [query])
+
+
+  useEffect(() => {
+    console.log('log youth data', youthInfoData);
+
+  }, [youthInfoData])
+  
+
+
+
+
+  const youthInfo = {
     'candidate-name': 'Talukdar Mohammad Sirajul Islam',
   };
+
   const loadTemplate = async () => {
     const templateJson = Template;
     const template = JSON.parse(templateJson);
@@ -65,9 +135,9 @@ function ViewRenderer() {
       if (t.type === 'input') {
         console.log(t.props.class);
         //@ts-ignore
-        console.log('name: ', userInfo[t.props.class]);
+        console.log('name: ', youthInfo[t.props.class]);
         //@ts-ignore
-        t.props.text = userInfo[t.props.class];
+        t.props.text = youthInfo[t.props.class];
         t.props.align = 'center';
         console.log(t);
       }
@@ -130,9 +200,8 @@ function ViewRenderer() {
 
   return (
     <div
-      className={`canvas-area-container ${
-        isLoading ? 'canvas-area-container-loading' : ''
-      }`}
+      className={`canvas-area-container ${isLoading ? 'canvas-area-container-loading' : ''
+        }`}
       ref={editorAreaRef}>
       {/* {isLoading && (
         <>

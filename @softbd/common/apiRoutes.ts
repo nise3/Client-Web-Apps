@@ -243,6 +243,7 @@ export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
+export const API_YOUTH_PROFILES = YOUTH_SERVICE_PATH + '/youth-profiles';
 export const API_YOUTH_FEED_DATA_LIST = YOUTH_SERVICE_PATH + '/youth-feed';
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
