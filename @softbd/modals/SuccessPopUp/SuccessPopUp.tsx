@@ -57,6 +57,7 @@ const SuccessPopup: React.FC<SuccessPopupProps> = ({
         ' ' +
         messages['4IR_steps.completed']
       }
+      yesNo={false}
     />
   );
 };

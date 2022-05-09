@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, ListItem, ListItemText} from '@mui/material';
+import {Grid, ListItem, Typography} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -28,8 +28,6 @@ const FourIRInitiativeDetailsPopup = ({
 }: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetch4IInitiative(itemId);
-
-  console.log(itemData);
 
   return (
     <>
@@ -147,42 +145,89 @@ const FourIRInitiativeDetailsPopup = ({
             />
           </Grid>
 
-          {itemData?.tasks?.length > 0 &&
-            itemData?.tasks?.map((task: any) => {
-              return (
-                <Grid item xs={12} key={task}>
-                  <List>
-                    {task == ProjectStatus.PROJECT_FINALIZED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_FINALIZED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.roadmap_finalized']}
-                        />
-                      </ListItem>
-                    )}
-                    {task == ProjectStatus.PROJECT_REVIEWED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_REVIEWED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.projects_reviewed']}
-                        />
-                      </ListItem>
-                    )}
-                    {task == ProjectStatus.PROJECT_APPROVED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_APPROVED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.projects_approved']}
-                        />
-                      </ListItem>
-                    )}
-                  </List>
+          <Grid item xs={12}>
+            <List>
+              <ListItem key={'skill'} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.is_skill_provided']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData && itemData?.is_skill_provide > 0
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-              );
-            })}
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_FINALIZED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.roadmap_finalized']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_FINALIZED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_REVIEWED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.initiatives_reviewed']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_REVIEWED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_APPROVED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.initiatives_approved']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_APPROVED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+            </List>
+          </Grid>
 
           <Grid item xs={12}>
             <CustomChipRowStatus

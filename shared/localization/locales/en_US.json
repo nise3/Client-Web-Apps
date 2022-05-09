@@ -1931,6 +1931,8 @@
   "project.roadmap_finalized": "Roadmap Finalized",
   "project.projects_reviewed": "Projects reviewed by Secretary of relevant Ministries",
   "project.projects_approved": "Projects Approved",
+
+  "initiative.label": "4IR Initiative",
   "initiative.name": "Initiative Name",
   "initiative.name_en": "Initiative Name (En)",
   "initiative.details": "Initiative Details",
@@ -1954,6 +1956,8 @@
   "4ir.CBLM": "CBLM",
   "4ir_curriculum.label": "4IR Curriculum",
   "common.event_description": "Event description",
+  "common.close" : "Close",
+  "common.next": "Next",
   "4ir_showcasing.label": "4IR Showcasing",
   "4ir_showcasing.invite_others": "Invite others",
   "4ir_cs.supported_by": "Supported by",

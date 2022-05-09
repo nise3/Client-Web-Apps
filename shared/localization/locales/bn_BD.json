@@ -1932,6 +1932,8 @@
   "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
   "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
   "project.projects_approved": "প্রকল্প অনুমোদিত",
+
+  "initiative.label": "4 আই আর উদ্যোগ",
   "initiative.name": "উদ্যোগ এর নাম",
   "initiative.name_en": "উদ্যোগ এর নাম (ইংরেজী)",
   "initiative.details": "উদ্যোগ এর বিস্তারিত",
@@ -1956,6 +1958,8 @@
   "4ir.CBLM": "সিবিএলএম",
   "4ir_curriculum.label": "4 আই আর কারিকুলাম",
   "common.event_description": "ঘটনার বিবরণ",
+  "common.close" : "বন্ধ",
+  "common.next": "পরবর্তী",
   "4ir_showcasing.label": "4 আই আর শোকেসিং",
   "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান",
   "4ir_showcasing.complete_step": "কমপ্লিট স্টেপ",
