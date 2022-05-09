@@ -101,8 +101,10 @@ export interface ITNAReport {
   desktop_research_file?: string;
   existing_report_review_workshop_numbers?: number;
   existing_report_review_file?: string;
+
   others_workshop_numbers?: number;
   others_file?: string;
+
   file_path?: string;
   row_status?: number;
 }

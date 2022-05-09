@@ -24,6 +24,9 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {createExcelImport} from '../../../services/IndustryManagement/FileExportImportService';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -46,7 +49,7 @@ const initialValues = {
   others_workshop_numbers: 0,
   others_file: '',
   file_path: '',
-  row_status: 0,
+  row_status: 1,
 };
 
 const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
@@ -68,7 +71,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   const [isIndustryVisit, setIsIndustryVisit] = useState<boolean>(false);
   const [isDesktopResearchFile, setIsDesktopResearchFile] =
     useState<boolean>(false);
-  const [isExistingReportReviewFile, setiIsExistingReportReviewFile] =
+  const [isExistingReportReviewFile, setIsExistingReportReviewFile] =
     useState<boolean>(false);
   const [isOthersFile, setIsOthersFile] = useState<boolean>(false);
 
@@ -82,46 +85,51 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     return yup.object().shape({
       workshop_method_workshop_numbers: yup
         .number()
-        .label(messages['4ir.tna_report.workshop_method_workshop'] as string),
+        .label(messages['4ir.tna_report_workshop_method_workshop'] as string),
       workshop_method_file: yup
         .string()
-        .label(messages['4ir.tna_report.workshop_method_workshop'] as string),
+        .label(messages['4ir.tna_report_workshop_method_workshop'] as string),
       fgd_workshop_numbers: yup
         .number()
         .label(messages['4ir.tna_report.fgd_workshop'] as string),
       fgd_workshop_file: yup
         .string()
-        .label(messages['4ir.tna_report.fgd_workshop'] as string),
+        .label(messages['4ir.tna_report_fgd_workshop'] as string),
       industry_visit_workshop_numbers: yup
         .number()
-        .label(messages['4ir.tna_report.industry_visit_workshop'] as string),
+        .label(messages['4ir.tna_report_industry_visit_workshop'] as string),
       industry_visit_file: yup
         .string()
-        .label(messages['4ir.tna_report.industry_visit_workshop'] as string),
+        .label(messages['4ir.tna_report_industry_visit_workshop'] as string),
       desktop_research_workshop_numbers: yup
         .number()
-        .label(messages['4ir.tna_report.desktop_research_workshop'] as string),
+        .label(messages['4ir.tna_report_desktop_research_workshop'] as string),
       desktop_research_file: yup
         .string()
-        .label(messages['desktop_research_file'] as string),
+        .label(messages['4ir.tna_report_desktop_research_workshop'] as string),
       existing_report_review_workshop_numbers: yup
         .number()
-        .label(messages['existing_report_review_workshop'] as string),
+        .label(
+          messages['4ir.tna_report_existing_report_review_workshop'] as string,
+        ),
       existing_report_review_file: yup
         .string()
-        .label(messages['existing_report_review_workshop'] as string),
+        .label(
+          messages['4ir.tna_report_existing_report_review_workshop'] as string,
+        ),
       others_workshop_numbers: yup
         .number()
-        .label(messages['4ir.tna_report.others_workshop'] as string),
+        .label(messages['4ir.tna_report_others_workshop'] as string),
       others_file: yup
         .string()
         .label(messages['4ir.tna_report.others_workshop'] as string),
       file_path: yup.string().label(messages['common.file_path'] as string),
+      row_status: yup.number().label(),
     });
   }, [messages]);
 
   const {
-    //    control,
+    control,
     register,
     reset,
     setError,
@@ -164,29 +172,33 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
         ...data,
       };
 
-      if (itemId !== null) {
-        await updateTNAReport(payload, itemId);
-        updateSuccessMessage('4ir.TNA_report');
-        mutateTNAReport();
-      } else {
-        await createTNAReport(payload);
-        createSuccessMessage('4ir.TNA_report');
-      }
-      props.onClose();
-      refreshDataTable();
+      // file should be upload by this function
+      // await createExcelImport(data.file[0]);
+      console.log(data);
+
+      // if (itemId !== null) {
+      //   await updateTNAReport(payload, itemId);
+      //   updateSuccessMessage('4ir.TNA_report');
+      //   mutateTNAReport();
+      // } else {
+      //   await createTNAReport(payload);
+      //   createSuccessMessage('4ir.TNA_report');
+      // }
+      // props.onClose();
+      // refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 
-  const fileUploadHandler = (files: any) => {
+  const fileUploadHandler = (files: any, fileId: any) => {
     if (
       files == null ||
       files[0].type !==
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) {
       errorStack(messages['common.only_xlsx_file']);
-      setValue('workshop_method_file', '');
+      setValue(fileId, '');
     }
   };
 
@@ -223,10 +235,10 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item sm={2} xs={4}>
+            <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='workshop_method_workshop_numbers'
-                label={messages['4ir.tna_report.workshop_method_workshop']}
+                id='workshop_method_workshop'
+                label={messages['4ir.tna_report_workshop_method_workshop']}
                 register={register}
                 errorInstance={errors}
                 checked={isWorkshopMethodWorkshop}
@@ -264,7 +276,9 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'workshop_method_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -273,8 +287,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => consoel.log('file downloading')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -284,7 +298,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -297,8 +311,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
           <Grid container spacing={1}>
             <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='fgd_workshop_numbers'
-                label={messages['4ir.tna_report.fgd_workshop']}
+                id='fgd_workshop'
+                label={messages['4ir.tna_report_fgd_workshop']}
                 register={register}
                 errorInstance={errors}
                 checked={isFGDWorkshop}
@@ -311,7 +325,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             {isFGDWorkshop && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
+                  required={isFGDWorkshop}
                   disabled={!isFGDWorkshop}
                   id='fgd_workshop_numbers'
                   label={''}
@@ -336,7 +350,9 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'fgd_workshop_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -345,8 +361,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => console.log('downloading file')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -356,7 +372,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -367,25 +383,25 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
 
         <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item sm={2} xs={4}>
+            <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='workshop_method_workshop_numbers'
-                label={messages['4ir.tna_report.workshop_method_workshop']}
+                id='industry_visit_workshop'
+                label={messages['4ir.tna_report_industry_visit_workshop']}
                 register={register}
                 errorInstance={errors}
-                checked={isWorkshopMethodWorkshop}
+                checked={isIndustryVisit}
                 onChange={(event: any) => {
-                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                  setIsIndustryVisit((prev) => !prev);
                 }}
                 isLoading={false}
               />
             </Grid>
-            {isWorkshopMethodWorkshop && (
+            {isIndustryVisit && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
-                  disabled={!isWorkshopMethodWorkshop}
-                  id='workshop_method_workshop_numbers'
+                  required={isIndustryVisit}
+                  disabled={!isIndustryVisit}
+                  id='industry_visit_workshop_numbers'
                   label={''}
                   register={register}
                   errorInstance={errors}
@@ -394,21 +410,23 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             )}
           </Grid>
         </Grid>
-        {isWorkshopMethodWorkshop && (
+        {isIndustryVisit && (
           <Grid item xs={12}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required
-                  id='workshop_method_file'
-                  name='workshop_method_file'
+                  required={isIndustryVisit}
+                  id='industry_visit_file'
+                  name='industry_visit_file'
                   label={''}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'industry_visit_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -417,8 +435,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => console.log('downloading file')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -428,7 +446,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -436,27 +454,28 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             </Grid>
           </Grid>
         )}
+
         <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item sm={2} xs={4}>
+            <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='workshop_method_workshop_numbers'
-                label={messages['4ir.tna_report.workshop_method_workshop']}
+                id='desktop_research_workshop'
+                label={messages['4ir.tna_report_desktop_research_workshop']}
                 register={register}
                 errorInstance={errors}
-                checked={isWorkshopMethodWorkshop}
+                checked={isDesktopResearchFile}
                 onChange={(event: any) => {
-                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                  setIsDesktopResearchFile((prev) => !prev);
                 }}
                 isLoading={false}
               />
             </Grid>
-            {isWorkshopMethodWorkshop && (
+            {isDesktopResearchFile && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
-                  disabled={!isWorkshopMethodWorkshop}
-                  id='workshop_method_workshop_numbers'
+                  required={isDesktopResearchFile}
+                  disabled={!isDesktopResearchFile}
+                  id='desktop_research_workshop_numbers'
                   label={''}
                   register={register}
                   errorInstance={errors}
@@ -465,21 +484,23 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             )}
           </Grid>
         </Grid>
-        {isWorkshopMethodWorkshop && (
+        {isDesktopResearchFile && (
           <Grid item xs={12}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required
-                  id='workshop_method_file'
-                  name='workshop_method_file'
+                  required={isDesktopResearchFile}
+                  id='desktop_research_file'
+                  name='desktop_research_file'
                   label={''}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'desktop_research_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -488,8 +509,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => console.log('downloading file')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -499,7 +520,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -507,27 +528,30 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             </Grid>
           </Grid>
         )}
+
         <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item sm={2} xs={4}>
+            <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='workshop_method_workshop_numbers'
-                label={messages['4ir.tna_report.workshop_method_workshop']}
+                id='existing_report_review_workshop'
+                label={
+                  messages['4ir.tna_report_existing_report_review_workshop']
+                }
                 register={register}
                 errorInstance={errors}
-                checked={isWorkshopMethodWorkshop}
+                checked={isExistingReportReviewFile}
                 onChange={(event: any) => {
-                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                  setIsExistingReportReviewFile((prev) => !prev);
                 }}
                 isLoading={false}
               />
             </Grid>
-            {isWorkshopMethodWorkshop && (
+            {isExistingReportReviewFile && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
-                  disabled={!isWorkshopMethodWorkshop}
-                  id='workshop_method_workshop_numbers'
+                  required={isExistingReportReviewFile}
+                  disabled={!isExistingReportReviewFile}
+                  id='existing_report_review_workshop_numbers'
                   label={''}
                   register={register}
                   errorInstance={errors}
@@ -536,21 +560,23 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             )}
           </Grid>
         </Grid>
-        {isWorkshopMethodWorkshop && (
+        {isExistingReportReviewFile && (
           <Grid item xs={12}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required
-                  id='workshop_method_file'
-                  name='workshop_method_file'
+                  required={isExistingReportReviewFile}
+                  id='existing_report_review_file'
+                  name='existing_report_review_file'
                   label={''}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'existing_report_review_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -559,8 +585,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => console.log('downloading file')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -570,7 +596,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -578,27 +604,28 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             </Grid>
           </Grid>
         )}
+
         <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item sm={2} xs={4}>
+            <Grid item sm={3} xs={4}>
               <CustomCheckbox
-                id='workshop_method_workshop_numbers'
-                label={messages['4ir.tna_report.workshop_method_workshop']}
+                id='others_workshop'
+                label={messages['4ir.tna_report_others_workshop']}
                 register={register}
                 errorInstance={errors}
-                checked={isWorkshopMethodWorkshop}
+                checked={isOthersFile}
                 onChange={(event: any) => {
-                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                  setIsOthersFile((prev) => !prev);
                 }}
                 isLoading={false}
               />
             </Grid>
-            {isWorkshopMethodWorkshop && (
+            {isOthersFile && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
-                  disabled={!isWorkshopMethodWorkshop}
-                  id='workshop_method_workshop_numbers'
+                  required={isOthersFile}
+                  disabled={!isOthersFile}
+                  id='others_workshop_numbers'
                   label={''}
                   register={register}
                   errorInstance={errors}
@@ -607,21 +634,23 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             )}
           </Grid>
         </Grid>
-        {isWorkshopMethodWorkshop && (
+        {isOthersFile && (
           <Grid item xs={12}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required
-                  id='workshop_method_file'
-                  name='workshop_method_file'
+                  required={isOthersFile}
+                  id='others_file'
+                  name='others_file'
                   label={''}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onInput={fileUploadHandler}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'others_file')
+                  }
                   errorInstance={errors}
                 />
               </Grid>
@@ -630,8 +659,8 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <Link href='/template/organization-list.xlsx' download>
                   <CommonButton
                     key={1}
-                    onClick={() => console.log('downloading file')}
-                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    onClick={() => console.log('file downloading')}
+                    btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
                   />
@@ -641,7 +670,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 <CommonButton
                   key={1}
                   onClick={() => console.log('delete file')}
-                  btnText={messages['common.remove'] as string}
+                  btnText={'common.remove'}
                   variant={'outlined'}
                   color={'secondary'}
                 />
@@ -659,6 +688,27 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             sizeLimitText={'3MB'}
             label={messages['common.project_upload']}
             required={false}
+          />
+        </Grid>
+
+        <Grid item md={2} xs={4} sx={{display: 'flex', alignItems: 'center'}}>
+          <Link href='/template/organization-list.xlsx' download>
+            <CommonButton
+              key={1}
+              onClick={() => console.log('file downloading')}
+              btnText={'4ir.tna_report_demo_file'}
+              variant={'outlined'}
+              color={'primary'}
+            />
+          </Link>
+        </Grid>
+
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

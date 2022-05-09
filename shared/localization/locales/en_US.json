@@ -1969,12 +1969,12 @@
   "4IR_steps.completed": "Completed",
   "4IR_steps.team_and_cell": "Team & Cell",
 
-  "4ir.tna_report.workshop_method_workshop" : "Workshop",
-  "4ir.tna_report.fgd_workshop": "FGD Workshop",
-  "4ir.tna_report.industry_visit_workshop": "Industry Visit Workshop",
-  "4ir.tna_report.desktop_research_workshop": "Desktop Research Workshop",
-  "4ir.tna_report.existing_report_review_workshop": "Existing Report Review Workshop",
-  "4ir.tna_report.others_workshop": "Others Workshop",
-  "4ir.tna_report.demo_file": "Demo File"
+  "4ir.tna_report_workshop_method_workshop" : "Workshop",
+  "4ir.tna_report_fgd_workshop": "FGD Workshop",
+  "4ir.tna_report_industry_visit_workshop": "Industry Visit",
+  "4ir.tna_report_desktop_research_workshop": "Desktop Research",
+  "4ir.tna_report_existing_report_review_workshop": "Existing Report Review",
+  "4ir.tna_report_others_workshop": "Others",
+  "4ir.tna_report_demo_file": "Demo File"
 
 }
