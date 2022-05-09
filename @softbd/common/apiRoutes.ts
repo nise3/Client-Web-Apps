@@ -115,10 +115,15 @@ export const API_TRAINING_CENTERS =
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
+export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
+export const API_CERTIFICATES_ISSUE = INSTITUTE_SERVICE_PATH + '/certificate-issued';
 
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
+// TODO Remove this
+  // export const API_COURSE_ENROLLMENTS =
+  // CERTIFICATE_API_URL + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';

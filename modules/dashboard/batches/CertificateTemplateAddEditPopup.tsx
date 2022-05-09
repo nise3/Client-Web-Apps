@@ -71,7 +71,9 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateBatch,
-  } = useFetchBatches(itemId);
+  } = useFetchBatch(itemId);
+
+  console.log('batch data ', itemData)
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -80,7 +82,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
         .trim()
         // .required()
         .label(messages['certificate.certificate_type'] as string),
-      certificate_Id: yup
+      certificate_id: yup
         .string()
         .trim()
         // .required()
@@ -101,6 +103,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   });
 
   const changeCertificateTypeAction = useCallback((typeid: string) => {
+    // console.log('setCertificateTypeId', typeid);
     setCertificateTypeId(typeid);
   }, []);
   const changeCertificatesAction = useCallback((certificateId: string) => {
@@ -118,10 +121,12 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
 
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     // console.log(data);
-    data.certificate_Id = '2';
+    data.certificate_id = parseInt(data.certificate_id);
+    const datawithcetificateid = {...itemData, ...data};
+    // console.log(datawithcetificateid)
     try {
       if (itemId) {
-        await updateBatch(itemId, data);
+        await updateBatch(itemId, datawithcetificateid);
         mutateBatch();
       }
       props.onClose();
@@ -172,7 +177,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
         <CustomFilterableFormSelect
             key={2}
             required
-            id='certificate_Id'
+            id='certificate_id'
             label={messages['common.certificate']}
             isLoading={isLoadingTypes}
             control={control}

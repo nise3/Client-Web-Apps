@@ -17,6 +17,9 @@ import {
   API_RPL_SUBJECTS,
   API_RPL_ASSESSMENT_QUESTIONS,
   API_RPL_ASSESSMENT_QUESTION_SETS,
+  API_BASE_URL,
+  INSTITUTE_SERVICE_PATH,
+  API_CERTIFICATES,
 } from '../../@softbd/common/apiRoutes';
 import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
@@ -145,7 +148,6 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
 }
 
 export function useFetchResultTypes() {
-  // return useAxiosSWR( CERTIFICATE_TYPE_API_URL + 'certificate-types');
   return {
     "order": "ASC",
     "data": [
@@ -179,11 +181,11 @@ export function useFetchResultTypes() {
 }
 
 export function useFetchCertificates() {
-  return useAxiosSWR(CERTIFICATE_TYPE_API_URL + 'certificates');
+  return useAxiosSWR(API_CERTIFICATES);
 }
 
 export function useFetchCertificate(certifcateId: number) {
   return useAxiosSWR(
-    `${CERTIFICATE_TYPE_API_URL}certificates/${certifcateId}`,
+    `${API_CERTIFICATES}/${certifcateId}`,
   );
 }

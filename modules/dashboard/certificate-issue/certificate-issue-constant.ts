@@ -1,2 +1,3 @@
-export const CERTIFICATE_API_URL =  'http://192.168.1.106:8001/api/v1';
-export const CERTIFICATE_TYPE_API_URL =  'http://192.168.1.106:8001/api/v1/';
+const host = '192.168.13.206';
+export const CERTIFICATE_API_URL =  `http://${host}:8282/api/v1`;
+export const CERTIFICATE_TYPE_API_URL =  `${CERTIFICATE_API_URL}/`;
