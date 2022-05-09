@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import PageMeta from '../../../../@crema/core/PageMeta';
-// import DefaultPage from '../../../../@softbd/layouts/hoc/DefaultPage';
+import DefaultPage from '../../../../@softbd/layouts/hoc/DefaultPage';
 import AuthenticatedBlankPage from './../../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
 import {useIntl} from 'react-intl';
 const CertificateEditor = dynamic(

@@ -32,15 +32,15 @@ export default function Home() {
       }}>
       <RecoilRoot>
         <Editor onClick={openAddEditModal} />
-      </RecoilRoot>
 
-      {isAddEditPopupOpen && (
-        <CertificateAddEditPopup
-          key={1}
-          onClose={closeAddEditModal}
-          itemId={selectedItemId}
-        />
-      )}
+        {isAddEditPopupOpen && (
+          <CertificateAddEditPopup
+            key={1}
+            onClose={closeAddEditModal}
+            itemId={selectedItemId}
+          />
+        )}
+      </RecoilRoot>
     </div>
   );
 }

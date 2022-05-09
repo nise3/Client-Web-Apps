@@ -8,10 +8,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-// import {
-//   createDivision,
-//   updateDivision,
-// } from '../../../services/locationManagement/DivisionService';
+import {createCertificate} from '../../../services/CertificateAuthorityManagement/CertificateService';
 import {useIntl} from 'react-intl';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
@@ -21,16 +18,12 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {RESULT_TYPE} from './Constants';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-
+import {ICertificate} from './../../../shared/Interface/certificates';
+import useTemplateDispatcher from './editor/state/dispatchers/template';
+import {toTemplateJSON} from './editor/utils/template';
 interface CertificateAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
-}
-interface Certificate {
-  title: string;
-  title_en: string;
-  resultType: number;
-  template: string;
 }
 
 const initialValues = {
@@ -38,6 +31,11 @@ const initialValues = {
   title: '',
   resultType: '',
 };
+interface Certificate {
+  title: string;
+  title_en: string;
+  resultType: number;
+}
 
 const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   itemId,
@@ -45,8 +43,10 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  //   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+  const {setCurrentTemplateToSave} = useTemplateDispatcher();
+
   const {
     data: itemData,
     isLoading,
@@ -118,24 +118,26 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Partial<Certificate>> = async (
-    data: Partial<Certificate>,
-  ) => {
-    // try {
-    //   if (itemId) {
-    //     await updateDivision(itemId, data);
-    //     updateSuccessMessage('common.certificate');
-    //     mutateDivision();
-    //   } else {
-    //     await createDivision(data);
-    //     createSuccessMessage('common.certificate');
-    //   }
-    //   props.onClose();
-    // } catch (error: any) {
-    //   processServerSideErrors({error, setError, validationSchema, errorStack});
-    // }
+  const onSubmit: SubmitHandler<any> = async (data: Certificate) => {
+    const template = await setCurrentTemplateToSave();
+    const templateJson = await toTemplateJSON(template);
+    const dataToSave: ICertificate = {
+      title: data.title!,
+      title_en: data.title_en!,
+      result_type: Number(data.resultType!),
+      template: templateJson,
+    };
+    try {
+      {
+        console.log('data:', dataToSave);
+        await createCertificate(dataToSave);
 
-    console.log(data);
+        createSuccessMessage('common.certificate');
+      }
+      props.onClose();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
