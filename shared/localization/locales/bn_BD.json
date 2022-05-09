@@ -73,6 +73,7 @@
   "common.type": "ধরন",
   "common.created": "তৈরি করা হয়েছে",
   "common.next": "পরবর্তী",
+  "common.close" : "বন্ধ",
   "common.back": "ফিরে যান",
   "common.previous": "পূর্ববর্তী",
   "common.print": "প্রিন্ট",
@@ -1958,8 +1959,6 @@
   "4ir.CBLM": "সিবিএলএম",
   "4ir_curriculum.label": "4 আই আর কারিকুলাম",
   "common.event_description": "ঘটনার বিবরণ",
-  "common.close" : "বন্ধ",
-  "common.next": "পরবর্তী",
   "4ir_showcasing.label": "4 আই আর শোকেসিং",
   "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান",
   "4ir_showcasing.complete_step": "কমপ্লিট স্টেপ",
@@ -1974,5 +1973,6 @@
   "4ir.tna_report.industry_visit_workshop": "ইন্ডাস্ট্রি ভিসিট ওয়ার্কশপ",
   "4ir.tna_report.desktop_research_workshop": "ডেস্কটপ রিসার্চ ওয়ার্কশপ নাম্বারস",
   "4ir.tna_report.existing_report_review_workshop": "এক্সিস্টিং রিপোর্ট রিভিউ ওয়ার্কশপ",
-  "4ir.tna_report.others_workshop" : "অন্যান্য ওয়ার্কশপ"
+  "4ir.tna_report.others_workshop" : "অন্যান্য ওয়ার্কশপ",
+  "4ir.tna_report.demo_file": "ডেমো ফাইল"
 }

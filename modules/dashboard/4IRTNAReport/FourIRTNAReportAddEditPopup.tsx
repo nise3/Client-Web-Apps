@@ -1,9 +1,8 @@
-import {useEffect} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Grid, Link} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -13,7 +12,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {
   createTNAReport,
@@ -23,6 +22,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
+import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -60,6 +61,16 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   const isEdit = itemId != null;
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const [isWorkshopMethodWorkshop, setIsWorkshopMethodWorkshop] =
+    useState<boolean>(false);
+  const [isFGDWorkshop, setIsFGDWorkshop] = useState<boolean>(false);
+  const [isIndustryVisit, setIsIndustryVisit] = useState<boolean>(false);
+  const [isDesktopResearchFile, setIsDesktopResearchFile] =
+    useState<boolean>(false);
+  const [isExistingReportReviewFile, setiIsExistingReportReviewFile] =
+    useState<boolean>(false);
+  const [isOthersFile, setIsOthersFile] = useState<boolean>(false);
 
   const {
     data: itemData,
@@ -168,6 +179,17 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     }
   };
 
+  const fileUploadHandler = (files: any) => {
+    if (
+      files == null ||
+      files[0].type !==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      errorStack(messages['common.only_xlsx_file']);
+      setValue('workshop_method_file', '');
+    }
+  };
+
   return (
     <HookFormMuiModal
       open={true}
@@ -198,54 +220,436 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5}>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='workshop_name'
-            label={messages['common.workshop_name']}
-            register={register}
-            errorInstance={errors}
-          />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} xs={4}>
+              <CustomCheckbox
+                id='workshop_method_workshop_numbers'
+                label={messages['4ir.tna_report.workshop_method_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkshopMethodWorkshop}
+                onChange={(event: any) => {
+                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isWorkshopMethodWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isWorkshopMethodWorkshop}
+                  id='workshop_method_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='skill_required'
-            label={messages['common.required_skill']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
+        {isWorkshopMethodWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='workshop_method_file'
+                  name='workshop_method_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => consoel.log('file downloading')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={3} xs={4}>
+              <CustomCheckbox
+                id='fgd_workshop_numbers'
+                label={messages['4ir.tna_report.fgd_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isFGDWorkshop}
+                onChange={(event: any) => {
+                  setIsFGDWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isFGDWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isFGDWorkshop}
+                  id='fgd_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomDateTimeField
-            id='start_date'
-            label={messages['common.start_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
+        {isFGDWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='fgd_workshop_file'
+                  name='fgd_workshop_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => console.log('downloading file')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} xs={4}>
+              <CustomCheckbox
+                id='workshop_method_workshop_numbers'
+                label={messages['4ir.tna_report.workshop_method_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkshopMethodWorkshop}
+                onChange={(event: any) => {
+                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isWorkshopMethodWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isWorkshopMethodWorkshop}
+                  id='workshop_method_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomDateTimeField
-            id='end_date'
-            label={messages['common.end_date']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-          />
+        {isWorkshopMethodWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='workshop_method_file'
+                  name='workshop_method_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => console.log('downloading file')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} xs={4}>
+              <CustomCheckbox
+                id='workshop_method_workshop_numbers'
+                label={messages['4ir.tna_report.workshop_method_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkshopMethodWorkshop}
+                onChange={(event: any) => {
+                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isWorkshopMethodWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isWorkshopMethodWorkshop}
+                  id='workshop_method_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} alignSelf='center'>
-          <CustomTextInput
-            required
-            id='venue'
-            label={messages['common.venue']}
-            register={register}
-            errorInstance={errors}
-            isLoading={false}
-            rows={3}
-          />
+        {isWorkshopMethodWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='workshop_method_file'
+                  name='workshop_method_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => console.log('downloading file')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} xs={4}>
+              <CustomCheckbox
+                id='workshop_method_workshop_numbers'
+                label={messages['4ir.tna_report.workshop_method_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkshopMethodWorkshop}
+                onChange={(event: any) => {
+                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isWorkshopMethodWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isWorkshopMethodWorkshop}
+                  id='workshop_method_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
+        {isWorkshopMethodWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='workshop_method_file'
+                  name='workshop_method_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => console.log('downloading file')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} xs={4}>
+              <CustomCheckbox
+                id='workshop_method_workshop_numbers'
+                label={messages['4ir.tna_report.workshop_method_workshop']}
+                register={register}
+                errorInstance={errors}
+                checked={isWorkshopMethodWorkshop}
+                onChange={(event: any) => {
+                  setIsWorkshopMethodWorkshop((prev) => !prev);
+                }}
+                isLoading={false}
+              />
+            </Grid>
+            {isWorkshopMethodWorkshop && (
+              <Grid item sm={2} xs={4}>
+                <CustomTextInput
+                  required
+                  disabled={!isWorkshopMethodWorkshop}
+                  id='workshop_method_workshop_numbers'
+                  label={''}
+                  register={register}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+        {isWorkshopMethodWorkshop && (
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <CustomTextInput
+                  required
+                  id='workshop_method_file'
+                  name='workshop_method_file'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={fileUploadHandler}
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item md={2} xs={4}>
+                <Link href='/template/organization-list.xlsx' download>
+                  <CommonButton
+                    key={1}
+                    onClick={() => console.log('downloading file')}
+                    btnText={messages['4ir.tna_report.demo_file'] as string}
+                    variant={'outlined'}
+                    color={'primary'}
+                  />
+                </Link>
+              </Grid>
+              <Grid item md={2} xs={4}>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('delete file')}
+                  btnText={messages['common.remove'] as string}
+                  variant={'outlined'}
+                  color={'secondary'}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='file_path'

@@ -244,6 +244,7 @@
   "common.enter_pin": "Enter your 4 digit secure pin of your bkash number",
   "common.submit": "Submit",
   "common.next": "Next",
+  "common.close" : "Close",
   "common.id": "Id",
   "common.send": "Send",
   "common.receive": "Receive",
@@ -1956,8 +1957,8 @@
   "4ir.CBLM": "CBLM",
   "4ir_curriculum.label": "4IR Curriculum",
   "common.event_description": "Event description",
-  "common.close" : "Close",
-  "common.next": "Next",
+
+
   "4ir_showcasing.label": "4IR Showcasing",
   "4ir_showcasing.invite_others": "Invite others",
   "4ir_cs.supported_by": "Supported by",
@@ -1973,6 +1974,7 @@
   "4ir.tna_report.industry_visit_workshop": "Industry Visit Workshop",
   "4ir.tna_report.desktop_research_workshop": "Desktop Research Workshop",
   "4ir.tna_report.existing_report_review_workshop": "Existing Report Review Workshop",
-  "4ir.tna_report.others_workshop": "Others Workshop"
+  "4ir.tna_report.others_workshop": "Others Workshop",
+  "4ir.tna_report.demo_file": "Demo File"
 
 }
