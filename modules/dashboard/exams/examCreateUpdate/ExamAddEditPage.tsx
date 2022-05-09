@@ -53,8 +53,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const router = useRouter();
   const examId = Number(router.query.id);
 
-  const isEdit = examId != null;
-
   const [examParams] = useState<any>({
     purpose_name: ExamPurposeNames.BATCH,
   });
@@ -121,6 +119,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['subject.label'] as string),
+      course_id: yup
+        .string()
+        .required()
+        .label(messages['course.label'] as string),
+      training_center_id: yup
+        .string()
+        .required()
+        .label(messages['training_center.label'] as string),
       purpose_id: yup
         .string()
         .required()
@@ -510,7 +516,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         title={
           <>
             <IconExam />
-            {isEdit ? (
+            {examId ? (
               <IntlMessages
                 id='common.edit'
                 values={{subject: <IntlMessages id='exam.label' />}}
@@ -545,7 +551,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 errorInstance={errors}
                 isLoading={false}
                 InputLabelProps={{
-                  shrink: isEdit,
+                  shrink: !isNaN(examId),
                 }}
               />
             </Grid>
@@ -557,7 +563,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 errorInstance={errors}
                 isLoading={false}
                 InputLabelProps={{
-                  shrink: isEdit,
+                  shrink: !isNaN(examId),
                 }}
               />
             </Grid>
@@ -577,6 +583,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
+                required
                 id='course_id'
                 label={messages['course.label']}
                 isLoading={isLoadingCourse}
@@ -590,6 +597,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
+                required
                 id='training_center_id'
                 label={messages['training_center.label']}
                 isLoading={isTrainingCentersLoading}
