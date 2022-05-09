@@ -33,8 +33,8 @@ const CertificateIssuePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
-  // const route = useRouter();
-  // const {batchId} = route.query;
+  const route = useRouter();
+  const {batchId} = route.query;
   // console.log('useRouter', batchId);
   // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -100,6 +100,10 @@ const CertificateIssuePage = () => {
   // const response = await courseEnroll(certificateIssueFilter);
   const [issueFilterItems, setIssueFilterItems] = useState([]);
 
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
+
   useEffect(() => {
     if (youthListByBatch) {
       setIssueFilterItems(
@@ -111,23 +115,23 @@ const CertificateIssuePage = () => {
   }, [youthListByBatch]);
 
   const issueCerrificate1 = useEventCallback((data: any) => {
-    console.log(data)
-    // const issueData: ICertificateIssue = {
-    //   batch_id: data.batch_id,
-    //   certificate_id: certificateId as string,
-    //   youth_id: data.youth_id,
-    // };
-    // createCertificateIssue(issueData).then((res) => {
-    //   if (isResponseSuccess(res)) {
-    //     successStack(
-    //       <IntlMessages
-    //         id='common.subject_created_successfully'
-    //         values={{subject: <IntlMessages id='course.label' />}}
-    //       />,
-    //     );
-    //     refreshDataTable();
-    //   }
-    // });
+    const issueData: ICertificateIssue = {
+      batch_id: data.batch_id,
+      certificate_id: data.certificate_id,
+      youth_id: data.youth_id,
+    };
+    // console.log(issueData)
+    createCertificateIssue(issueData).then((res) => {
+      if (isResponseSuccess(res)) {
+        successStack(
+          <IntlMessages
+            id='common.certificatet_issued_successfully'
+            values={{subject: <IntlMessages id='certificate.certificate_issue' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    });
   });
 
   //   const courseLevelFilterItems = [
@@ -199,12 +203,11 @@ const CertificateIssuePage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
-      // paramsValueModifier: (params: any) => {
-      //   if (batchId) params['batch_id'] = batchId;
-      //   return params;
-      // }
+      paramsValueModifier: (params: any) => {
+        if (batchId) params['batch_id'] = batchId;
+        return params;
+      }
     });
-  console.log('geting data', data);
   return (
     <>
       <PageBlock
@@ -228,6 +231,6 @@ const CertificateIssuePage = () => {
 };
 
 export default CertificateIssuePage;
-function refreshDataTable() {
-  throw new Error('Function not implemented.');
-}
+// function refreshDataTable() {
+//   throw new Error('Function not implemented.');
+// }

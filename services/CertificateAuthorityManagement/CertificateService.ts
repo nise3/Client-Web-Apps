@@ -1,4 +1,5 @@
 import { apiGet, apiPost } from '../../@softbd/common/api';
+import { API_CERTIFICATES } from '../../@softbd/common/apiRoutes';
 import { catchBlockHandler } from '../../@softbd/utilities/helpers';
 import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 import { ICertificate } from '../../shared/Interface/certificates';
@@ -80,20 +81,20 @@ export const createCertificate = async (data: ICertificate) => {
 
 export const getCertificateByResultType = async (params: any) => {
   try {
-    // let response: any = await apiGet(
-    //   CERTIFICATE_TYPE_API_URL + 'certificates',
-    //   {params},
-    // );
-    // return response.data;
-    return {
-      "order": "ASC",
-      "data": CERTIFICATES.filter(item => item.result_type == params.result_type),
-      "_response_status": {
-        "success": true,
-        "code": 200,
-        "query_time": 0
-      }
-    }
+    let response: any = await apiGet(
+      API_CERTIFICATES,
+      {params},
+    );
+    return response.data;
+    // return {
+    //   "order": "ASC",
+    //   "data": CERTIFICATES.filter(item => item.result_type == params.result_type),
+    //   "_response_status": {
+    //     "success": true,
+    //     "code": 200,
+    //     "query_time": 0
+    //   }
+    // }
   } catch (error) {
     catchBlockHandler(error);
   }

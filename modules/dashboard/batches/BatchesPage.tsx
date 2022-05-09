@@ -224,17 +224,6 @@ const BatchesPage = () => {
       urlPath: API_BATCHES,
     });
 
-
-  // if (data && haspro data[0].certificate_id) {
-  //   data[0]['certificate_id'] = 1;
-  // }
-  if (data && data.length > 0) {
-    if (!data[0].hasOwnProperty('certificate_id')) {
-      data[0]['certificate_id'] = 1;
-    }
-  }
-
-
   return (
     <>
       <PageBlock

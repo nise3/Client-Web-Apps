@@ -429,6 +429,7 @@
   "skill.label": "Skill",
   "service.label": "Service",
   "portfolio.label": "Portfolio",
+  "common.certificatet_issued_successfully": "{subject} created successfully",
   "common.subject_created_successfully": "{subject} created successfully",
   "common.subject_updated_successfully": "{subject} updated successfully",
   "common.subject_deleted_successfully": "{subject} successfully deleted",
