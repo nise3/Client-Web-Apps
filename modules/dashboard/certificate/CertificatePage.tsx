@@ -14,6 +14,8 @@ import {useRouter} from 'next/router';
 import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import { API_CERTIFICATES } from '../../../@softbd/common/apiRoutes';
 
 const CertificateTemplatePage = () => {
   const {messages} = useIntl();
@@ -25,16 +27,21 @@ const CertificateTemplatePage = () => {
     useState(false);
   // const [cerificateFilter] = useState<any>({});
 
-  const {
-    data: certificates,
-    mutate: mutateCertificates,
-    isLoading,
-  } = useFetchCertificates();
-  console.log('useFetchCertificates()', useFetchCertificates());
+  // const {
+  //   data: certificates,
+  //   mutate: mutateCertificates,
+  //   isLoading,
+  // } = useFetchCertificates();
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_CERTIFICATES,
+    });
+  // console.log('useFetchCertificates()', useFetchCertificates());
 
-  useEffect(() => {
-    console.log(certificates);
-  }, [certificates]);
+  // useEffect(() => {
+  //   // console.log(certificates);
+  // }, [certificates]);
+
   const openCertificateDetailsModal = useCallback((itemId: number) => {
     setIsopenCertificateViewModal(true);
     setSelectedItemId(itemId);
@@ -66,7 +73,7 @@ const CertificateTemplatePage = () => {
     }
   };
 
-  const refreshDataTable = useCallback(() => mutateCertificates(), []);
+  // const refreshDataTable = useCallback(() => mutateCertificates(), []);
 
   const columns = useMemo(
     () => [
@@ -140,8 +147,8 @@ const CertificateTemplatePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={[]}
-          loading={isLoading}
+          data={data}
+          loading={loading}
           skipDefaultFilter={true}
         />
       </PageBlock>
