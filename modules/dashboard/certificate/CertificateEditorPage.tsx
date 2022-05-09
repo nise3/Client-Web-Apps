@@ -5,6 +5,7 @@ import {useCallback, useState} from 'react';
 
 import CertificateAddEditPopup from './CertificateAddEditPopup';
 const Editor = dynamic(() => import('./editor/Editor'), {ssr: false});
+
 export default function Home() {
   const [isAddEditPopupOpen, setisAddEditPopupOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);

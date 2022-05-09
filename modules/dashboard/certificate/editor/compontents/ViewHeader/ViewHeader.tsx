@@ -13,7 +13,9 @@ function ViewHeader() {
   return (
     <div className='editor-header'>
       <div className='editor-header-inner'>
-        <div className='editor-header-inner-left'>
+        <div
+          className='editor-header-inner-left'
+          style={{justifyContent: 'flex-start'}}>
           <Button
             variant='outlined'
             startIcon={<ArrowBackIcon />}
