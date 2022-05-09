@@ -145,7 +145,7 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                         ? formatNumber(exam?.marks_obtained) +
                           '/' +
                           formatNumber(exam?.total_marks)
-                        : isOver && exam?.participated
+                        : exam?.participated
                         ? messages['common.in_progress']
                         : messages['common.not_participated']}
                     </TableCell>
