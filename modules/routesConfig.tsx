@@ -419,10 +419,10 @@ const routesConfig: NavItemProps[] = [
             id: 'certificate',
             title: 'Certificate Template',
             messageId: 'common.certificate_template',
-            permissionKey: 'view_any_industry_association',
+            // permissionKey: 'view_any_industry_association',
             type: 'item',
             icon: 'list',
-            url: '/certificate'
+            url: '/certificate',
           },
           {
             id: 'certificate-issue',
@@ -432,7 +432,7 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'list',
             url: '/certificates/certificate-issue',
-          }
+          },
         ],
       },
       {
