@@ -118,22 +118,22 @@ const ExamPage = () => {
       },
       {
         Header: messages['common.status'],
-        accessor: 'is_published',
+        accessor: 'published_at',
         disableFilters: true,
         Cell: (props: any) => {
-          let value = props.row.original?.is_published;
+          let published_at = props.row.original?.published_at;
           return (
             <CustomChip
               icon={
-                value == 1 ? (
+                published_at ? (
                   <CheckCircleOutline fontSize={'small'} />
                 ) : (
                   <CancelIcon fontSize={'small'} />
                 )
               }
-              color={value == 1 ? 'primary' : 'secondary'}
+              color={published_at ? 'primary' : 'secondary'}
               label={
-                value == 1 ? (
+                published_at ? (
                   <IntlMessages id='common.publishing' />
                 ) : (
                   <IntlMessages id='common.un_publish' />

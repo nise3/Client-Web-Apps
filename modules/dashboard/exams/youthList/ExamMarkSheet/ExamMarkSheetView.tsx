@@ -111,14 +111,16 @@ const ExamMarkingViewPage = () => {
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
-            <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
-              <Button
-                variant={'outlined'}
-                color={'primary'}
-                sx={{marginRight: '10px'}}>
-                {messages['common.marks_distribution']}
-              </Button>
-            </Link>
+            {!examSheet?.auto_marking && (
+              <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
+                <Button
+                  variant={'outlined'}
+                  color={'primary'}
+                  sx={{marginRight: '10px'}}>
+                  {messages['common.marks_distribution']}
+                </Button>
+              </Link>
+            )}
             <Button
               variant={'contained'}
               color={'primary'}

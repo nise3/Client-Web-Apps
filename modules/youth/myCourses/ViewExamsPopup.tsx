@@ -106,7 +106,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
               <TableCell>{messages['common.type']}</TableCell>
               <TableCell>{messages['common.start_time']}</TableCell>
               <TableCell>{messages['common.duration']}</TableCell>
-              <TableCell>{''}</TableCell>
+              <TableCell>
+                {messages['common.obtained_mark']}/
+                {messages['common.total_marks']}
+              </TableCell>
+              <TableCell>{messages['common.status']}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -136,6 +140,13 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                         : ''}
                     </TableCell>
                     <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
+                    <TableCell>
+                      {exam?.marks_obtained
+                        ? formatNumber(exam?.marks_obtained) +
+                          '/' +
+                          formatNumber(exam?.total_marks)
+                        : messages['common.in_progress']}
+                    </TableCell>
                     <TableCell>
                       {exam.type == ExamTypes.ONLINE &&
                         (exam?.participated ? (

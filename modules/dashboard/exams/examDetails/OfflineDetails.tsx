@@ -72,8 +72,9 @@ const OfflineDetails = ({
       };
     });
 
+    setExamSetUuid(uuId[0].key);
+    setValue('set', uuId[0].key);
     setUuid(uuId);
-    console.log('er->', uuId);
   }, [exam]);
 
   return (
@@ -89,7 +90,7 @@ const OfflineDetails = ({
             label={'common.offline_question_sets'}
             radios={uuId}
             control={control}
-            defaultValue={uuId[0] ? uuId[0]?.key : ''}
+            defaultValue={examSetUuid ? examSetUuid : ''}
             isLoading={false}
             onChange={(value) => {
               setExamSetUuid(value);
@@ -191,7 +192,7 @@ const OfflineDetails = ({
                                     Number(exam.type) === ExamTypes.ONLINE ||
                                     que.exam_set_uuid == examSetUuid,
                                 )
-                                .map((question: any, i: number) => {
+                                .map((question: any) => {
                                   let ansIndex = answerIndex++;
 
                                   let questionHeader = (
