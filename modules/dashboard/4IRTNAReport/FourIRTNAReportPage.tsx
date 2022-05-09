@@ -21,13 +21,11 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
 
-interface IFourIRImplemntingTeamPage {
-  fourIRProjectId: number;
+interface Props {
+  fourIRInitiativeId: number;
 }
 
-const FourIRImplemntingTeamPage = ({
-  fourIRProjectId = 9,
-}: IFourIRImplemntingTeamPage) => {
+const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -68,7 +66,7 @@ const FourIRImplemntingTeamPage = ({
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.label' />}}
+          values={{subject: <IntlMessages id='4ir.TNA_report' />}}
         />,
       );
 
@@ -140,7 +138,7 @@ const FourIRImplemntingTeamPage = ({
     useReactTableFetchData({
       urlPath: API_4IR_TNA_REPORT,
       paramsValueModifier: (params: any) => {
-        params['four_ir_project_id'] = fourIRProjectId;
+        params['four_ir_project_id'] = fourIRInitiativeId;
         return params;
       },
     });
@@ -182,7 +180,7 @@ const FourIRImplemntingTeamPage = ({
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIRProjectId}
+            fourIRProjectId={fourIRInitiativeId}
             refreshDataTable={refreshDataTable}
           />
         )}
@@ -200,4 +198,4 @@ const FourIRImplemntingTeamPage = ({
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRTNAReportPage;

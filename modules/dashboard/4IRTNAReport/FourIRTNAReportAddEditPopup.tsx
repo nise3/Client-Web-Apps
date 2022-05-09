@@ -8,7 +8,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
-
+import {ITNAReport} from '../../../shared/Interface/4IR.interface';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -32,12 +32,20 @@ interface ImplementingTeamAddEditPopupProps {
 }
 
 const initialValues = {
-  workshop_name: '',
-  skill_required: '',
-  start_date: '',
-  end_date: '',
-  venue: '',
+  workshop_method_workshop_numbers: 0,
+  workshop_method_file: '',
+  fgd_workshop_numbers: 0,
+  fgd_workshop_file: '',
+  industry_visit_workshop_numbers: 0,
+  industry_visit_file: '',
+  desktop_research_workshop_numbers: 0,
+  desktop_research_file: '',
+  existing_report_review_workshop_numbers: 0,
+  existing_report_review_file: '',
+  others_workshop_numbers: 0,
+  others_file: '',
   file_path: '',
+  row_status: 0,
 };
 
 const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
@@ -61,31 +69,43 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      workshop_name: yup
+      workshop_method_workshop_numbers: yup
+        .number()
+        .label(messages['4ir.tna_report.workshop_method_workshop'] as string),
+      workshop_method_file: yup
         .string()
-        .title()
-        .required()
-        .label(messages['common.workshop_name'] as string),
-      skill_required: yup
+        .label(messages['4ir.tna_report.workshop_method_workshop'] as string),
+      fgd_workshop_numbers: yup
+        .number()
+        .label(messages['4ir.tna_report.fgd_workshop'] as string),
+      fgd_workshop_file: yup
         .string()
-        .title()
-        .required()
-        .label(messages['common.required_skill'] as string),
-      start_date: yup
+        .label(messages['4ir.tna_report.fgd_workshop'] as string),
+      industry_visit_workshop_numbers: yup
+        .number()
+        .label(messages['4ir.tna_report.industry_visit_workshop'] as string),
+      industry_visit_file: yup
         .string()
-        .required()
-        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.start_date'] as string),
-      end_date: yup
+        .label(messages['4ir.tna_report.industry_visit_workshop'] as string),
+      desktop_research_workshop_numbers: yup
+        .number()
+        .label(messages['4ir.tna_report.desktop_research_workshop'] as string),
+      desktop_research_file: yup
         .string()
-        .required()
-        .matches(/(19|20)\d\d-[01]\d-[0123]\d/)
-        .label(messages['common.end_date'] as string),
-      venue: yup.string().label(messages['common.venue'] as string),
-      file_path: yup
+        .label(messages['desktop_research_file'] as string),
+      existing_report_review_workshop_numbers: yup
+        .number()
+        .label(messages['existing_report_review_workshop'] as string),
+      existing_report_review_file: yup
         .string()
-        .required()
-        .label(messages['common.file_path'] as string),
+        .label(messages['existing_report_review_workshop'] as string),
+      others_workshop_numbers: yup
+        .number()
+        .label(messages['4ir.tna_report.others_workshop'] as string),
+      others_file: yup
+        .string()
+        .label(messages['4ir.tna_report.others_workshop'] as string),
+      file_path: yup.string().label(messages['common.file_path'] as string),
     });
   }, [messages]);
 
@@ -97,19 +117,31 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<ITNAReport>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
     if (itemData) {
       reset({
-        workshop_name: itemData.workshop_name,
-        skill_required: itemData.skill_required,
-        start_date: itemData.start_date,
-        end_date: itemData.end_date,
-        venue: itemData.venue,
-        file_path: itemData.file_path,
+        workshop_method_workshop_numbers:
+          itemData?.workshop_method_workshop_numbers,
+        workshop_method_file: itemData?.workshop_method_file,
+        fgd_workshop_numbers: itemData?.fgd_workshop_numbers,
+        fgd_workshop_file: itemData?.fgd_workshop_file,
+        industry_visit_workshop_numbers:
+          itemData?.industry_visit_workshop_numbers,
+        industry_visit_file: itemData?.industry_visit_file,
+        desktop_research_workshop_numbers:
+          itemData?.desktop_research_workshop_numbers,
+        desktop_research_file: itemData?.desktop_research_file,
+        existing_report_review_workshop_numbers:
+          itemData?.existing_report_review_workshop_numbers,
+        existing_report_review_file: itemData?.existing_report_review_file,
+        others_workshop_numbers: itemData?.others_workshop_numbers,
+        others_file: itemData?.others_file,
+        file_path: itemData?.file_path,
+        row_status: itemData?.row_status,
       });
     } else reset(initialValues);
   }, [itemData]);

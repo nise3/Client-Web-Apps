@@ -5,6 +5,7 @@ import {Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {adminDomain} from '../../../@softbd/common/constants';
 import SecondStep from './SecondStep';
+import TNAReportStep from './TNAReportStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -136,6 +137,15 @@ const TeamAndCellView = () => {
               setLatestStep={setLatestStep}
             />
           );
+        case 3:
+          return (
+            <TNAReportStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
         default:
           return <></>;
       }
@@ -163,7 +173,8 @@ const TeamAndCellView = () => {
       <Stepper activeStep={activeStep - 1} alternativeLabel>
         {steps.map((step: StepObj) => {
           const stepProps: {completed?: boolean} = {
-            completed: step.id < lastestStep,
+            // completed: step.id < lastestStep,
+            completed: true,
           };
 
           const labelProps: {

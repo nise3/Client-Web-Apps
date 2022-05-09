@@ -1967,5 +1967,12 @@
   "4IR_steps.label": "4 আই আর স্টেপ্সমূহ",
   "4IR_steps.step": "স্টেপ",
   "4IR_steps.completed": "সম্পন্ন",
-  "4IR_steps.team_and_cell": "টিম এবং সেল"
+  "4IR_steps.team_and_cell": "টিম এবং সেল",
+
+  "4ir.tna_report.workshop_method_workshop" : "ওয়ার্কশপ",
+  "4ir.tna_report.fgd_workshop": "এফ জি দি ওয়ার্কশপ",
+  "4ir.tna_report.industry_visit_workshop": "ইন্ডাস্ট্রি ভিসিট ওয়ার্কশপ",
+  "4ir.tna_report.desktop_research_workshop": "ডেস্কটপ রিসার্চ ওয়ার্কশপ নাম্বারস",
+  "4ir.tna_report.existing_report_review_workshop": "এক্সিস্টিং রিপোর্ট রিভিউ ওয়ার্কশপ",
+  "4ir.tna_report.others_workshop" : "অন্যান্য ওয়ার্কশপ"
 }

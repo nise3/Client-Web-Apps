@@ -91,12 +91,20 @@ export interface IScaleUp extends IIdTitleCreateUpdateAt {
 }
 
 export interface ITNAReport {
-  workshop_name: string;
-  skill_required: string;
-  start_date: string;
-  end_date: string;
-  file_path: string;
-  venue?: string;
+  workshop_method_workshop_numbers?: number;
+  workshop_method_file?: string;
+  fgd_workshop_numbers?: number;
+  fgd_workshop_file?: string;
+  industry_visit_workshop_numbers?: number;
+  industry_visit_file?: string;
+  desktop_research_workshop_numbers?: number;
+  desktop_research_file?: string;
+  existing_report_review_workshop_numbers?: number;
+  existing_report_review_file?: string;
+  others_workshop_numbers?: number;
+  others_file?: string;
+  file_path?: string;
+  row_status?: number;
 }
 
 export interface IOccupation extends IIdTitleCreateUpdateAt {
