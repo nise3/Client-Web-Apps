@@ -84,7 +84,7 @@ const FourIRInitiativesPage = () => {
         },
       });
     },
-    [],
+    [presentPath],
   );
 
   const refreshDataTable = useCallback(() => {

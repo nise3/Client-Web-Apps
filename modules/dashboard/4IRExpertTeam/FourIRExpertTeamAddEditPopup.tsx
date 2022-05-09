@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -16,15 +16,19 @@ import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  createImplementingTeam,
-  updateImplementingTeam,
+  createTeamMember,
+  updateTeamMember,
 } from '../../../services/4IRManagement/ImplementingTeamService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
-  fourIRProjectId: number | string;
+  fourIRInitiativeId: number | string;
   refreshDataTable: () => void;
 }
 
@@ -35,17 +39,21 @@ const initialValues = {
   phone_number: '',
   role: '',
   designation: '',
+  contribution: '',
+  responsibility: '',
+  row_status: 1,
 };
 
 const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
-  fourIRProjectId,
+  fourIRInitiativeId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
@@ -71,8 +79,10 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         .label(messages['common.email'] as string),
       phone_number: yup
         .string()
+        .trim()
         .required()
-        .label(messages['common.phone_number'] as string),
+        .matches(MOBILE_NUMBER_REGEX)
+        .label(messages['common.mobile'] as string),
       role: yup
         .string()
         .required()
@@ -85,7 +95,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
   }, [messages]);
 
   const {
-    //  control,
+    control,
     register,
     reset,
     setError,
@@ -98,43 +108,50 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
   const {
     data: itemData,
     isLoading,
-    mutate: mutateMonitoringTeam,
+    mutate: mutateExpertTeam,
   } = useFetch4IRTeam(itemId);
 
   useEffect(() => {
     if (itemData) {
       reset({
-        name: itemData.name,
-        name_en: itemData?.name_en ?? '',
-        email: itemData.email ?? '',
-        phone_number: itemData.phone_number ?? '',
-        role: itemData.role ?? '',
-        designation: itemData.designation ?? '',
+        name: itemData?.name,
+        name_en: itemData?.name_en,
+        email: itemData?.email,
+        phone_number: itemData?.phone_number,
+        role: itemData?.role,
+        designation: itemData?.designation,
+        contribution: itemData?.contribution,
+        responsibility: itemData?.responsibility,
+        row_status: itemData?.row_status,
       });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
-        four_ir_project_id: fourIRProjectId,
-        team_type: 2,
+        four_ir_initiative_id: fourIRInitiativeId,
+        team_type: FourIRTeamType.EXPERT_TEAM,
         ...data,
       };
 
       if (itemId != null) {
-        await updateImplementingTeam(itemId, payload);
+        await updateTeamMember(itemId, payload);
         updateSuccessMessage('4ir.expert_team');
-        mutateMonitoringTeam();
+        mutateExpertTeam();
+        await closeAction();
       } else {
-        await createImplementingTeam(payload);
+        await createTeamMember(payload);
         createSuccessMessage('4ir.expert_team');
+        setShowSuccessPopUp(true);
       }
-
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -178,6 +195,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.name']}
             register={register}
             errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -186,7 +204,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.name_en']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -196,17 +214,17 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.email']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='phone_number'
-            label={messages['common.phone_number']}
+            label={messages['common.mobile']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -216,7 +234,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['role.label']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={3}
           />
         </Grid>
@@ -227,11 +245,50 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             label={messages['common.designation']}
             register={register}
             errorInstance={errors}
-            isLoading={false}
+            isLoading={isLoading}
             rows={3}
           />
         </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='contribution'
+            label={messages['4IR.contribution']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            rows={5}
+            multiline={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='responsibility'
+            label={messages['4ir.responsibility']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            rows={5}
+            multiline={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
       </Grid>
+      {showSuccessPopUp && fourIRInitiativeId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={2}
+          initiativeId={fourIRInitiativeId}
+          completionStep={2}
+          formStep={3}
+        />
+      )}
     </HookFormMuiModal>
   );
 };

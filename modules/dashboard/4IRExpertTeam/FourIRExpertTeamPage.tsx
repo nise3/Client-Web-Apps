@@ -145,8 +145,6 @@ const FourIRExpertTeamPage = ({
       },
     });
 
-  console.log(data);
-
   return (
     <>
       <PageBlock
@@ -184,7 +182,7 @@ const FourIRExpertTeamPage = ({
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIRInitiativeId}
+            fourIRInitiativeId={fourIRInitiativeId}
             refreshDataTable={refreshDataTable}
           />
         )}

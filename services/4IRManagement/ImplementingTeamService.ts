@@ -1,7 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_4IR_TEAM_MEMBERS} from '../../@softbd/common/apiRoutes';
-import {IProject} from '../../shared/Interface/4IR.interface';
 
 export const getAllImplementingTeams = async (params = {}) => {
   try {
@@ -26,7 +25,7 @@ export const getImplementingTeam = async (impelementingTeamId: number) => {
   }
 };
 
-export const createImplementingTeam = async (data: IProject) => {
+export const createTeamMember = async (data: any) => {
   try {
     let response: any = await apiPost(API_4IR_TEAM_MEMBERS, data);
     return response.data;
@@ -35,13 +34,10 @@ export const createImplementingTeam = async (data: IProject) => {
   }
 };
 
-export const updateImplementingTeam = async (
-  impelementingTeamId: number,
-  data: IProject,
-) => {
+export const updateTeamMember = async (teamMemberId: number, data: any) => {
   try {
     let response: any = await apiPut(
-      API_4IR_TEAM_MEMBERS + '/' + impelementingTeamId,
+      API_4IR_TEAM_MEMBERS + '/' + teamMemberId,
       data,
     );
     return response.data;
@@ -50,10 +46,10 @@ export const updateImplementingTeam = async (
   }
 };
 
-export const deleteTeamMember = async (implementingTeamId: number) => {
+export const deleteTeamMember = async (TeamMemberId: number) => {
   try {
     let response: any = await apiDelete(
-      API_4IR_TEAM_MEMBERS + '/' + implementingTeamId,
+      API_4IR_TEAM_MEMBERS + '/' + TeamMemberId,
     );
     return response.data;
   } catch (error) {

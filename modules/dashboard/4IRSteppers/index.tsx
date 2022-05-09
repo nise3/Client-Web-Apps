@@ -31,7 +31,7 @@ interface StepObj {
 const steps: Array<StepObj> = [
   {
     id: 1,
-    langKey: 'common.4IR_projects',
+    langKey: '4ir.project_initiative',
   },
   {
     id: 2,

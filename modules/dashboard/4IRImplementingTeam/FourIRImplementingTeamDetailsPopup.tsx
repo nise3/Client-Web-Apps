@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 type Props = {
   itemId: number;
@@ -72,7 +73,7 @@ const FourIRImplementingTeamDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.phone_number']}
+              label={messages['common.mobile']}
               value={itemData?.phone_number}
               isLoading={isLoading}
             />
@@ -88,6 +89,27 @@ const FourIRImplementingTeamDetailsPopup = ({
             <DetailsInputView
               label={messages['common.designation']}
               value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['4IR.contribution']}
+              value={itemData?.contribution}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['4ir.responsibility']}
+              value={itemData?.responsibility}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomChipRowStatus
+              label={messages['common.status']}
+              value={itemData?.row_status}
               isLoading={isLoading}
             />
           </Grid>

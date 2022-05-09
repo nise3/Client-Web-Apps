@@ -65,7 +65,7 @@ const FourIRImplementingTeamPage = ({
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_initiative.label' />}}
+          values={{subject: <IntlMessages id='4ir.team_member' />}}
         />,
       );
       refreshDataTable();
@@ -120,10 +120,10 @@ const FourIRImplementingTeamPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ReadButton onClick={() => openDetailsModal(data?.id)} />
+              <EditButton onClick={() => openAddEditModal(data?.id)} />
               <DeleteButton
-                deleteAction={() => deleteImplementingTeamMember(data.id)}
+                deleteAction={() => deleteImplementingTeamMember(data?.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -180,7 +180,7 @@ const FourIRImplementingTeamPage = ({
         {isOpenAddEditModal && (
           <FourIRImplementingTeamAddEditPopup
             key={1}
-            fourIRProjectId={fourIRInitiativeId}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

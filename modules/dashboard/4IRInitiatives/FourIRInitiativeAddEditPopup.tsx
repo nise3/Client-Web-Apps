@@ -75,7 +75,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
-  const [initiativeId, setProjectId] = useState<any>(null);
+  const [initiativeId, setInitiativeId] = useState<any>(null);
   const [completionStep, setCompletionStep] = useState<any>(1);
   const [formStep, setFormStep] = useState<any>(1);
   const [tasks, setTasks] = useState<any>([]);
@@ -234,12 +234,12 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<IInitiative> = async (data: IInitiative) => {
     try {
-      if (itemId) {
-        data.completion_step = completionStep;
-        data.form_step = formStep;
-        data.tasks = tasks;
-        data.is_skill_provide = Number(isSillProvide);
+      data.completion_step = completionStep;
+      data.form_step = formStep;
+      data.tasks = tasks;
+      data.is_skill_provide = Number(isSillProvide);
 
+      if (itemId) {
         await updateInitiative(itemId, {
           four_ir_tagline_id: fourIRTaglineId,
           ...data,
@@ -248,18 +248,13 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         mutateInitiative();
         await closeAction();
       } else {
-        data.completion_step = completionStep;
-        data.form_step = formStep;
-        data.tasks = tasks;
-        data.is_skill_provide = Number(isSillProvide);
-
         const response = await createInitiative({
           four_ir_tagline_id: fourIRTaglineId,
           ...data,
         });
         createSuccessMessage('4ir_initiative.label');
         setShowSuccessPopUp(true);
-        setProjectId(response?.data?.id);
+        setInitiativeId(response?.data?.id);
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -475,7 +470,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <SuccessPopup
           closeAction={closeAction}
           stepNo={1}
-          projectId={initiativeId}
+          initiativeId={initiativeId}
           completionStep={1}
           formStep={1}
         />

@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Typography,
 } from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
@@ -49,45 +50,48 @@ const SecondStep = ({
   }, [itemData]);
 
   return isReady ? (
-    <Box mt={2}>
-      <Accordion
-        sx={{width: '100%'}}
-        expanded={accordionExpandedState === '1'}
-        onChange={handleAccordionExpandedChange('1')}
-        key={'1'}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel2a-content'
-          sx={{justifyContent: 'space-between'}}>
-          <Typography sx={{width: '90%'}}>
-            {messages['4ir.implementing_team']}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <FourIRImplemntingTeamPage fourIRInitiativeId={fourIRInitiativeId} />
-        </AccordionDetails>
-      </Accordion>
+    <>
+      <Box mt={2}>
+        <Accordion
+          sx={{width: '100%'}}
+          expanded={accordionExpandedState === '1'}
+          onChange={handleAccordionExpandedChange('1')}
+          key={'1'}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel2a-content'
+            sx={{justifyContent: 'space-between'}}>
+            <Typography sx={{width: '90%'}}>
+              {messages['4ir.implementing_team']}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FourIRImplemntingTeamPage
+              fourIRInitiativeId={fourIRInitiativeId}
+            />
+          </AccordionDetails>
+        </Accordion>
 
-      <Accordion
-        sx={{width: '100%'}}
-        expanded={accordionExpandedState === '2'}
-        onChange={handleAccordionExpandedChange('2')}
-        key={'2'}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel2a-content'
-          sx={{justifyContent: 'space-between'}}>
-          <Typography sx={{width: '90%'}}>
-            {messages['4ir.expert_team']}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <FourIRExpertTeamPage fourIRInitiativeId={fourIRInitiativeId} />
-        </AccordionDetails>
-      </Accordion>
+        <Accordion
+          sx={{width: '100%'}}
+          expanded={accordionExpandedState === '2'}
+          onChange={handleAccordionExpandedChange('2')}
+          key={'2'}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel2a-content'
+            sx={{justifyContent: 'space-between'}}>
+            <Typography sx={{width: '90%'}}>
+              {messages['4ir.expert_team']}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FourIRExpertTeamPage fourIRInitiativeId={fourIRInitiativeId} />
+          </AccordionDetails>
+        </Accordion>
 
-      {/** 4IR CELL new requirements may come */}
-      {/*<Accordion
+        {/** 4IR CELL new requirements may come */}
+        {/*<Accordion
         sx={{width: '100%'}}
         expanded={accordionExpandedState === '3'}
         onChange={handleAccordionExpandedChange('3')}
@@ -104,7 +108,16 @@ const SecondStep = ({
           <FourIRCellPage fourIRProjectId={fourIRInitiativeId} />
         </AccordionDetails>
       </Accordion>*/}
-    </Box>
+      </Box>
+      <Box display={'flex'} justifyContent={'space-between'} mt={3}>
+        <Button onClick={onBack} variant={'outlined'} color={'primary'}>
+          {messages['common.previous']}
+        </Button>
+        <Button onClick={onContinue} variant={'contained'} color={'primary'}>
+          {messages['common.next']}
+        </Button>
+      </Box>
+    </>
   ) : (
     <></>
   );

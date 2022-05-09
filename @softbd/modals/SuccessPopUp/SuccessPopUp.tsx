@@ -2,14 +2,13 @@ import React, {useCallback, useState} from 'react';
 import {ButtonProps} from '@mui/material/Button/Button';
 import ConfirmationDialog from '../../../@crema/core/ConfirmationDialog';
 import {useRouter} from 'next/router';
-import {FOUR_IR_SERVICE_PATH} from '../../common/apiRoutes';
 import {useIntl} from 'react-intl';
 
 interface SuccessPopupProps extends ButtonProps {
   closeAction: () => void;
   stepNo: string | number;
-  projectId: string | number;
-  completionStep: string | number;
+  initiativeId: string | number;
+  completionStep: number;
   formStep?: string | number;
   className?: string;
 }
@@ -17,7 +16,7 @@ interface SuccessPopupProps extends ButtonProps {
 const SuccessPopup: React.FC<SuccessPopupProps> = ({
   closeAction,
   stepNo,
-  projectId,
+  initiativeId,
   completionStep,
   formStep,
   className,
@@ -26,16 +25,18 @@ const SuccessPopup: React.FC<SuccessPopupProps> = ({
   const [isSuccessPopUpOpen, setSuccessPopUpOpen] = useState(true);
   const router = useRouter();
   const {messages} = useIntl();
+  const {taglineId} = router?.query;
 
   const onConfirm = useCallback(() => {
     router.push({
-      pathname: FOUR_IR_SERVICE_PATH + '/' + projectId,
+      pathname: `/4ir-tagline/${taglineId}/initiatives/${initiativeId}/`,
       query: {
         completionStep: completionStep,
         formStep: formStep,
-        presentStep: 2,
+        presentStep: completionStep + 1,
       },
     });
+
     setSuccessPopUpOpen(false);
   }, [setSuccessPopUpOpen]);
 
