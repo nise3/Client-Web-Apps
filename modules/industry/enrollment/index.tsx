@@ -821,6 +821,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       data.import_type.indirect = data.import_type.indirect
         ? ImportExportType.INDIRECT
         : delete data.import_type.indirect;
+    } else {
+      delete data.import_type;
     }
 
     if (isIndustryDoExport) {
@@ -830,6 +832,8 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
       data.export_type.indirect = data.export_type.indirect
         ? ImportExportType.INDIRECT
         : delete data.export_type.indirect;
+    } else {
+      delete data.export_type;
     }
 
     if (hasAuthorizedAuthority) {
