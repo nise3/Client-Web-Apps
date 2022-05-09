@@ -156,7 +156,7 @@ const QuestionSetPopup = ({
 
         if (
           String(selectionType) == QuestionSelectionType.FIXED &&
-          totMark > totalMarks
+          totMark != totalMarks
         ) {
           errorStack(messages['common.total_mark_exceeded_warning']);
         } else {

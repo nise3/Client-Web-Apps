@@ -1092,6 +1092,8 @@
   "common.image_alt_title": "ছবির অল্টারনেটিভ টাইটেল",
   "common.published_by": "প্রকাশিত",
   "common.publish": "প্রকাশনা",
+  "common.publishing": "পাবলিশ",
+  "common.un_publish": "আন পাবলিশ",
   "common.main_image_path": "প্রধান ছবি",
   "common.file_path": "ফাইল",
   "common.file_alt_title": "ফাইলের অল্টারনেটিভ টাইটেল",
@@ -1957,7 +1959,7 @@
   "common.mcq": "বহুনির্বাচনী",
   "common.fill_in_the_blank": "শূন্যস্থান পূরন",
   "common.yes_no": "হ্যা/না",
-  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের বেশি হতে পারবে না",
+  "common.total_mark_exceeded_warning": "নির্বাচিত প্রশ্নের নম্বর মোট নম্বরের কম বা বেশি হতে পারবে না",
   "common.examinees": "পরীক্ষার্থী",
   "common.offline_question_sets": "অফলাইন প্রশ্ন সেট",
   "common.random_question": "রেনডম প্রশ্ন",
@@ -1976,5 +1978,7 @@
   "exam.exam_over": "পরীক্ষা শেষ",
   "matching_criteria.value_not_provided": "ভ্যালু দেয়া হয়নি",
   "matching_criteria.set_mandatory": "বাধ্যতামূলক করুন",
-  "common.search_3": "সার্চ"
+  "common.search_3": "সার্চ",
+  "common.in_progress": "ইন প্রগ্রেস",
+  "common.not_participated": "অংশ গ্রহন করা হয়নি"
 }

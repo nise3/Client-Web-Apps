@@ -164,6 +164,7 @@ export const API_YOUTH_EXAM_MARK_UPDATE =
 
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
+export const API_EXAMS_PUBLISH = INSTITUTE_SERVICE_PATH + '/exam-publish';
 
 /**             eRPL            */
 
