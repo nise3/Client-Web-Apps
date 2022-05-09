@@ -1,8 +1,8 @@
-import Konva from "konva";
-import React, { useEffect, useRef } from "react";
-import { Transformer } from "react-konva";
-import { ElementRefsContainer } from "../../state/containers/ElementRefsContainer";
-import { MIN_HEIGHT, MIN_WIDTH } from "./InteractiveKonvaElement";
+import Konva from 'konva';
+import React, {useEffect, useRef} from 'react';
+import {Transformer} from 'react-konva';
+import {ElementRefsContainer} from '../../state/containers/ElementRefsContainer';
+import {MIN_HEIGHT, MIN_WIDTH} from './InteractiveKonvaElement';
 
 interface Props {
   elementId: string;
@@ -13,11 +13,11 @@ interface Props {
 const highlightProps = {
   rotateEnabled: false,
   enabledAnchors: [],
-  borderStroke: "rgba(0, 161, 255, 0.4)",
+  borderStroke: 'rgba(0, 161, 255, 0.4)',
 };
 
-function TransformerRenderer({ elementId, isSelected, isHighlighted }: Props) {
-  const { transformerRef, elementRefs } = ElementRefsContainer.useContainer();
+function TransformerRenderer({elementId, isSelected, isHighlighted}: Props) {
+  const {transformerRef, elementRefs} = ElementRefsContainer.useContainer();
   const localTransformerRef = useRef<Konva.Transformer | null>(null);
 
   const element = elementId ? elementRefs[elementId] : undefined;
@@ -51,6 +51,7 @@ function TransformerRenderer({ elementId, isSelected, isHighlighted }: Props) {
       ref={localTransformerRef}
       ignoreStroke
       rotationSnaps={[0, 90, 180, 270]}
+      paddinng={10}
       keepRatio={element?.transformerProps?.keepRatio ?? false}
       boundBoxFunc={(oldBox, newBox) =>
         newBox.width < MIN_WIDTH || newBox.height < MIN_HEIGHT ? oldBox : newBox

@@ -42,6 +42,7 @@ function SideMenuPanel({children, title, className, actions, previous}: Props) {
           </div>
         )}
         <h2 className='side-menu-panel-text-icon'>{title}</h2>
+        {actions && <div className='shape-action-container'>{actions}</div>}
       </div>
       <div className='side-menu-panel-content'>{children}</div>
     </div>

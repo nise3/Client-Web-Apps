@@ -1,9 +1,9 @@
-import Konva from "konva";
-import { useCallback, useMemo, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { createContainer } from "unstated-next";
-import { isTruthy } from "./../../utils/isTruthy";
-import { elementIdsState } from "./../atoms/template";
+import Konva from 'konva';
+import {useCallback, useMemo, useRef, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {createContainer} from 'unstated-next';
+import {isTruthy} from './../../utils/isTruthy';
+import {elementIdsState} from './../atoms/template';
 
 export type ElementRefs = Record<
   string,
@@ -23,14 +23,14 @@ function useElementRefsState() {
     (
       id: string,
       ref?: Konva.Shape,
-      transformerProps?: Partial<Konva.TransformerConfig>
+      transformerProps?: Partial<Konva.TransformerConfig>,
     ) => {
       setElementRefs((elementRefs) => ({
         ...elementRefs,
-        [id]: ref && { ref, transformerProps },
+        [id]: ref && {ref, transformerProps},
       }));
     },
-    []
+    [],
   );
 
   // const elementNodes = useMemo(
@@ -42,8 +42,8 @@ function useElementRefsState() {
   // );
 
   return useMemo(
-    () => ({ transformerRef, elementRefs, setElementRef }),
-    [elementRefs, setElementRef]
+    () => ({transformerRef, elementRefs, setElementRef}),
+    [elementRefs, setElementRef],
   );
 }
 

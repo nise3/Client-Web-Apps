@@ -1,11 +1,10 @@
 import dynamic from 'next/dynamic';
 import PageMeta from '../../../../@crema/core/PageMeta';
 // import DefaultPage from '../../../../@softbd/layouts/hoc/DefaultPage';
-import AuthenticatedBlankPage from './../../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
+import AuthenticatedBlankPage from '../../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
 import {useIntl} from 'react-intl';
-const CertificateEditor = dynamic(
-  () =>
-    import('./../../../../modules/dashboard/certificate/CertificateEditorPage'),
+const CertificateView = dynamic(
+  () => import('../../../../modules/dashboard/certificate/Certificate'),
   {
     ssr: false,
   },
@@ -17,7 +16,7 @@ const CertificateEditorPage = AuthenticatedBlankPage(() => {
   return (
     <>
       <PageMeta title={messages['common.certificate']} />
-      <CertificateEditor />
+      <CertificateView />
     </>
   );
 });

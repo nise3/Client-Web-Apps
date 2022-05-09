@@ -1,13 +1,13 @@
-import Konva from "konva";
-import { KonvaEventObject } from "konva/lib/Node";
-import { omit } from "ramda";
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { KonvaNodeEvents } from "react-konva";
-import { useRecoilCallback } from "recoil";
-import { ElementRefsContainer } from "../../state/containers/ElementRefsContainer";
-import { dimensionsState } from "../../state/atoms/template";
-import useElementsDispatcher from "../../state/dispatchers/elements";
-import { highlightedElementIdState } from "../../state/atoms/editor";
+import Konva from 'konva';
+import {KonvaEventObject} from 'konva/lib/Node';
+import {omit} from 'ramda';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {KonvaNodeEvents} from 'react-konva';
+import {useRecoilCallback} from 'recoil';
+import {ElementRefsContainer} from '../../state/containers/ElementRefsContainer';
+import {dimensionsState} from '../../state/atoms/template';
+import useElementsDispatcher from '../../state/dispatchers/elements';
+import {highlightedElementIdState} from '../../state/atoms/editor';
 export const MIN_WIDTH = 5;
 export const MIN_HEIGHT = 5;
 
@@ -16,13 +16,14 @@ interface Props {
   children: (props: Konva.ShapeConfig & KonvaNodeEvents) => React.ReactElement;
   transform?: (
     evt: KonvaEventObject<Event>,
-    transformer: Konva.Transformer
+    transformer: Konva.Transformer,
   ) => Konva.ShapeConfig;
   transformEnd?: (
     evt: KonvaEventObject<Event>,
-    transformer: Konva.Transformer
+    transformer: Konva.Transformer,
   ) => Konva.ShapeConfig;
   enabledAnchors?: string[];
+  rotateEnabled?: boolean;
   keepRatio?: boolean;
   centeredScaling?: boolean;
 }
@@ -32,20 +33,22 @@ const InteractiveKonvaElement = ({
   children,
   transform,
   transformEnd,
-  enabledAnchors,
-  keepRatio,
-  centeredScaling,
+  enabledAnchors = [],
+  rotateEnabled = true,
+  keepRatio = true,
+  centeredScaling = false,
 }: Props) => {
-  const { updateElementProps, selectElement, deleteElement } =
+  const {updateElementProps, selectElement, deleteElement} =
     useElementsDispatcher();
-  const { transformerRef, setElementRef } = ElementRefsContainer.useContainer();
+  const {elementRefs, transformerRef, setElementRef} =
+    ElementRefsContainer.useContainer();
   const shapeRef = useRef<Konva.Shape>(null);
-
   useEffect(() => {
     if (shapeRef.current) {
       setElementRef(id, shapeRef.current, {
         keepRatio,
-        enabledAnchors: ["middle-left", "middle-right"],
+        enabledAnchors,
+        rotateEnabled,
         centeredScaling,
       });
 
@@ -58,25 +61,25 @@ const InteractiveKonvaElement = ({
         setElementRef(id, undefined);
       };
     }
-  }, [centeredScaling, enabledAnchors, id, keepRatio, setElementRef]);
-
+  }, [centeredScaling, id, keepRatio, setElementRef]);
+  console.log(elementRefs);
   const handleSelect = useCallback(
     (evt: KonvaEventObject<MouseEvent>) => {
       evt.cancelBubble = true;
       selectElement(id);
     },
-    [id, selectElement]
+    [id, selectElement],
   );
 
   const handleChange = useCallback(
     (props: Konva.ShapeConfig) => {
       updateElementProps(id, props);
     },
-    [id, updateElementProps]
+    [id, updateElementProps],
   );
 
   const isOutOfBounds = useRecoilCallback(
-    ({ snapshot }) =>
+    ({snapshot}) =>
       (node: Konva.Shape) => {
         const dimensions = snapshot.getLoadable(dimensionsState).getValue();
         return (
@@ -86,16 +89,17 @@ const InteractiveKonvaElement = ({
           node.y() >= dimensions.height
         );
       },
-    []
+    [],
   );
 
   const handleTransform = useCallback(
     (evt: KonvaEventObject<Event>) => {
       const shape = shapeRef.current;
-
+      console.log(evt);
       if (!shape) {
         return;
       }
+
       if (transformerRef.current && transform) {
         shape.setAttrs(transform(evt, transformerRef.current));
       }
@@ -105,10 +109,10 @@ const InteractiveKonvaElement = ({
         shape.offsetY(shape.height() / 2);
       }
     },
-    [centeredScaling, transform, transformerRef]
+    [centeredScaling, transform, transformerRef],
   );
   const handleDragEnd = useRecoilCallback(
-    ({ reset }) =>
+    ({reset}) =>
       () => {
         if (!shapeRef.current) {
           return;
@@ -123,14 +127,13 @@ const InteractiveKonvaElement = ({
           });
         }
       },
-    [deleteElement, handleChange, id, isOutOfBounds]
+    [deleteElement, handleChange, id, isOutOfBounds],
   );
 
   const handleTransformEnd = useRecoilCallback(
-    ({ reset }) =>
+    ({reset}) =>
       (evt: KonvaEventObject<Event>) => {
         const shape = shapeRef.current;
-
         if (!shape) {
           return;
         }
@@ -143,14 +146,13 @@ const InteractiveKonvaElement = ({
           shape.offsetX(shape.width() / 2);
           shape.offsetY(shape.height() / 2);
         }
-
         if (isOutOfBounds(shape)) {
           deleteElement(id);
         } else {
           handleChange({
             ...omit(
-              centeredScaling ? ["offsetX", "offsetY"] : [],
-              shape.getAttrs()
+              centeredScaling ? ['offsetX', 'offsetY'] : [],
+              shape.getAttrs(),
             ),
           });
         }
@@ -163,11 +165,11 @@ const InteractiveKonvaElement = ({
       isOutOfBounds,
       transformEnd,
       transformerRef,
-    ]
+    ],
   );
 
   const handleMouseEnter = useRecoilCallback(
-    ({ set, snapshot }) =>
+    ({set, snapshot}) =>
       () => {
         const highlightedElementId = snapshot
           .getLoadable(highlightedElementIdState)
@@ -176,15 +178,15 @@ const InteractiveKonvaElement = ({
           set(highlightedElementIdState, id);
         }
       },
-    [id]
+    [id],
   );
 
   const handleMouseLeave = useRecoilCallback(
-    ({ reset }) =>
+    ({reset}) =>
       () => {
         reset(highlightedElementIdState);
       },
-    []
+    [],
   );
 
   return useMemo(() => {

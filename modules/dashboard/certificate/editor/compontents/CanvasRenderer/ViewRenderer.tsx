@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Layer, Rect, Stage} from 'react-konva';
 import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-// import {CircularProgress} from '@mui/material';
 import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
 import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
 import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
@@ -9,22 +8,21 @@ import useRatioControls from '../../hooks/useRatioControl';
 import {Dimensions} from '../../interfaces/StageConfig';
 import {isLoadingState, ratioState} from '../../state/atoms/editor';
 import {backgroundState, dimensionsState} from '../../state/atoms/template';
-import useElementsDispatcher from '../../state/dispatchers/elements';
 import Elements from './Elements';
-import Transformers from './Transformers';
-import {StageRefContainer} from './../../state/containers/StageRefContainer';
+import Template from '../../template';
+import useTemplateDispatcher from '../../state/dispatchers/template';
 
-function CanvasRenderer() {
+function ViewRenderer() {
   const ratio = useRecoilValue(ratioState);
   const dimensions = useRecoilValue(dimensionsState);
   const background = useRecoilValue(backgroundState);
   const isLoading = useRecoilValue(isLoadingState);
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
   const {fitToScreen} = useRatioControls();
-  const {clearSelection} = useElementsDispatcher();
+  const {getScreenDimensions} = EditorAreaContainer.useContainer();
+  const {setLoadedTemplate} = useTemplateDispatcher();
   const {editorAreaRef, setScreenDimensions} =
     EditorAreaContainer.useContainer();
-  const {stageAreaRef} = StageRefContainer.useContainer();
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
@@ -56,6 +54,42 @@ function CanvasRenderer() {
       };
     }
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
+  const userInfo = {
+    'candidate-name': 'Talukdar Mohammad Sirajul Islam',
+  };
+  const loadTemplate = async () => {
+    const templateJson = Template;
+    const template = JSON.parse(templateJson);
+    console.log(template);
+    template.elements.map((t: any) => {
+      if (t.type === 'input') {
+        console.log(t.props.class);
+        //@ts-ignore
+        console.log('name: ', userInfo[t.props.class]);
+        //@ts-ignore
+        t.props.text = userInfo[t.props.class];
+        t.props.align = 'center';
+        console.log(t);
+      }
+      return 1;
+    });
+
+    // await Promise.all([
+    //   loadTemplateImages(template),
+    //   loadTemplateFonts(template),
+    // ]);
+    // autoCorrectTemplateIssues(template);
+
+    // // Do not show loader if all fonts loaded from cache
+    // clearTimeout(loadingTimeout);
+
+    setLoadedTemplate(template, getScreenDimensions());
+    // console.log('inside load template');
+  };
+  useEffect(() => {
+    loadTemplate();
+    // console.log('loaded');
+  }, []);
 
   const area = useMemo(() => {
     if (!containerDimensions) {
@@ -113,9 +147,7 @@ function CanvasRenderer() {
           offsetX={area.offset.x}
           offsetY={area.offset.y}
           width={area.stageDimensions.width}
-          height={area.stageDimensions.height}
-          onClick={clearSelection}
-          ref={stageAreaRef}>
+          height={area.stageDimensions.height}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
               <Layer>
@@ -147,9 +179,6 @@ function CanvasRenderer() {
                 clipHeight={dimensions.height}>
                 <Elements />
               </Layer>
-              <Layer>
-                <Transformers />
-              </Layer>
             </ElementRefsContainer.Provider>
           </RecoilBridge>
         </Stage>
@@ -158,4 +187,4 @@ function CanvasRenderer() {
   );
 }
 
-export default CanvasRenderer;
+export default ViewRenderer;

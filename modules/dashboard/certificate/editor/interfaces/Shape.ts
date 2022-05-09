@@ -1,14 +1,15 @@
-import Konva from "konva";
+import Konva from 'konva';
 
 export enum ShapeType {
-  Rectangle = "rectangle",
-  Text = "text",
-  Image = "image",
-  Line = "line",
-  RegulaPolygon = "regularPolygon",
+  Rectangle = 'rectangle',
+  Text = 'text',
+  Image = 'image',
+  Line = 'line',
+  Input = 'input',
+  RegulaPolygon = 'regularPolygon',
 }
 
-export type ImageFit = "fill" | "scale";
+export type ImageFit = 'fill' | 'scale';
 
 export interface ImageConfig extends Konva.ImageConfig {
   imageFit: ImageFit;
