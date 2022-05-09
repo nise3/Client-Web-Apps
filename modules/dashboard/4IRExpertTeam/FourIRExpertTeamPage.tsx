@@ -19,16 +19,17 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
-import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
+import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
+import {deleteTeamMember} from '../../../services/4IRManagement/ImplementingTeamService';
+import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 
-interface IFourIRImplementingTeamPageProps {
-  fourIRProjectId: number;
+interface IFourIRExpertTeamPageProps {
+  fourIRInitiativeId: number;
 }
 
 const FourIRExpertTeamPage = ({
-  fourIRProjectId,
-}: IFourIRImplementingTeamPageProps) => {
+  fourIRInitiativeId,
+}: IFourIRExpertTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -54,13 +55,13 @@ const FourIRExpertTeamPage = ({
     [selectedItemId],
   );
 
-  const deleteMonitoringTeamItem = async (projectId: number) => {
-    let response = await deleteImplementingTeam(projectId);
+  const deleteExpertTeamMember = async (memberId: number) => {
+    let response = await deleteTeamMember(memberId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='4ir.team_member' />}}
         />,
       );
       refreshDataTable();
@@ -122,7 +123,7 @@ const FourIRExpertTeamPage = ({
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteMonitoringTeamItem(data.id)}
+                deleteAction={() => deleteExpertTeamMember(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -136,9 +137,10 @@ const FourIRExpertTeamPage = ({
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_IMPLEMENTNG_TEAM,
+      urlPath: API_4IR_TEAM_MEMBERS,
       paramsValueModifier: (params) => {
-        params['four_ir_project_id'] = fourIRProjectId;
+        params['team_type'] = FourIRTeamType.EXPERT_TEAM;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
       },
     });
@@ -182,7 +184,7 @@ const FourIRExpertTeamPage = ({
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            fourIRProjectId={fourIRProjectId}
+            fourIRProjectId={fourIRInitiativeId}
             refreshDataTable={refreshDataTable}
           />
         )}

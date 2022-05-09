@@ -404,7 +404,6 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             label={messages['initiative.file_path']}
-            //uploadedUrls={watch('project')}
           />
         </Grid>
 

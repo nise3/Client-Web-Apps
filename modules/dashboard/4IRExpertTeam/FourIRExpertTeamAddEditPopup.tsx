@@ -24,7 +24,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
-  fourIRProjectId: number;
+  fourIRProjectId: number | string;
   refreshDataTable: () => void;
 }
 

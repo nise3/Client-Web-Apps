@@ -6,27 +6,26 @@ import {
   Box,
   Typography,
 } from '@mui/material';
-import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
-import FourIRImplemntingTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
-import FourIRMentoringTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
-import FourIRCellPage from '../4IRCell/FourIRCellPage';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
+import FourIRImplemntingTeamPage from '../4IRImplementingTeam/FourIRImplementingTeamPage';
+import FourIRExpertTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';
 
 interface Props {
-  fourIRProjectId: any;
+  fourIRInitiativeId: any;
   onBack: () => void;
   onContinue: () => void;
   setLatestStep: (step: number) => void;
 }
 
 const SecondStep = ({
-  fourIRProjectId,
+  fourIRInitiativeId,
   onBack,
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {data: itemData} = useFetch4IRProject(fourIRProjectId);
+  const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
@@ -65,7 +64,7 @@ const SecondStep = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FourIRImplemntingTeamPage fourIRProjectId={fourIRProjectId} />
+          <FourIRImplemntingTeamPage fourIRInitiativeId={fourIRInitiativeId} />
         </AccordionDetails>
       </Accordion>
 
@@ -79,15 +78,16 @@ const SecondStep = ({
           aria-controls='panel2a-content'
           sx={{justifyContent: 'space-between'}}>
           <Typography sx={{width: '90%'}}>
-            {messages['4ir.mentoring_team']}
+            {messages['4ir.expert_team']}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FourIRMentoringTeamPage fourIRProjectId={fourIRProjectId} />
+          <FourIRExpertTeamPage fourIRInitiativeId={fourIRInitiativeId} />
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
+      {/** 4IR CELL new requirements may come */}
+      {/*<Accordion
         sx={{width: '100%'}}
         expanded={accordionExpandedState === '3'}
         onChange={handleAccordionExpandedChange('3')}
@@ -101,9 +101,9 @@ const SecondStep = ({
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FourIRCellPage fourIRProjectId={fourIRProjectId} />
+          <FourIRCellPage fourIRProjectId={fourIRInitiativeId} />
         </AccordionDetails>
-      </Accordion>
+      </Accordion>*/}
     </Box>
   ) : (
     <></>

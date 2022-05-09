@@ -17,17 +17,18 @@ import FourIRImplementingTeamDetailsPopup from './FourIRImplementingTeamDetailsP
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteImplementingTeam} from '../../../services/4IRManagement/ImplementingTeamService';
+import {deleteTeamMember} from '../../../services/4IRManagement/ImplementingTeamService';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_IMPLEMENTNG_TEAM} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
+import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 
 interface IFourIRImplementingTeamPageProps {
-  fourIRProjectId: number;
+  fourIRInitiativeId: number;
 }
 
 const FourIRImplementingTeamPage = ({
-  fourIRProjectId,
+  fourIRInitiativeId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
@@ -58,18 +59,19 @@ const FourIRImplementingTeamPage = ({
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteImplementingTeamItem = async (projectId: number) => {
-    let response = await deleteImplementingTeam(projectId);
+  const deleteImplementingTeamMember = async (memberId: number) => {
+    let response = await deleteTeamMember(memberId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='4ir_initiative.label' />}}
         />,
       );
       refreshDataTable();
     }
   };
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prev) => !prev);
   }, []);
@@ -121,7 +123,7 @@ const FourIRImplementingTeamPage = ({
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteImplementingTeamItem(data.id)}
+                deleteAction={() => deleteImplementingTeamMember(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -135,9 +137,10 @@ const FourIRImplementingTeamPage = ({
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_IMPLEMENTNG_TEAM,
+      urlPath: API_4IR_TEAM_MEMBERS,
       paramsValueModifier: (params) => {
-        params['four_ir_project_id'] = fourIRProjectId;
+        params['team_type'] = FourIRTeamType.IMPLEMENTING_TEAM;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
       },
     });
@@ -177,7 +180,7 @@ const FourIRImplementingTeamPage = ({
         {isOpenAddEditModal && (
           <FourIRImplementingTeamAddEditPopup
             key={1}
-            fourIRProjectId={fourIRProjectId}
+            fourIRProjectId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

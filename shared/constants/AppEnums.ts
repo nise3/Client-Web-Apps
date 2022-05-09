@@ -14,6 +14,10 @@ export enum ProjectStatus {
   PROJECT_APPROVED = 3,
 }
 
+export enum FourIRTeamType {
+  IMPLEMENTING_TEAM = 1,
+  EXPERT_TEAM = 2,
+}
 export enum ThemeMode {
   LIGHT = 'light',
   SEMI_DARK = 'semi-dark',

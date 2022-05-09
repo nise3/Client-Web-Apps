@@ -29,7 +29,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_4IR_TNA_REPORT,
-  API_4IR_IMPLEMENTNG_TEAM,
+  API_4IR_TEAM_MEMBERS,
   API_4IR_GUIDELINE,
 } from '../../@softbd/common/apiRoutes';
 
@@ -70,7 +70,7 @@ export function useFetchTNAReport(TNAReportId: number | null) {
 }
 
 export function useFetch4IRTeam(itemId: number | null) {
-  return useAxiosSWR(itemId ? API_4IR_IMPLEMENTNG_TEAM + '/' + itemId : null);
+  return useAxiosSWR(itemId ? API_4IR_TEAM_MEMBERS + '/' + itemId : null);
 }
 
 export function useFetchBranch(branchId: number | null) {

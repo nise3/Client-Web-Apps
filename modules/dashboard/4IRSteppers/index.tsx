@@ -64,7 +64,7 @@ const steps: Array<StepObj> = [
 
 const stepNames: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const JobPostingView = () => {
+const TeamAndCellView = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const {completionStep, formStep, presentStep, initiativeId, taglineId} =
@@ -124,19 +124,13 @@ const JobPostingView = () => {
     }
   };
 
-  console.log('active step: ', activeStep);
   const getCurrentStepForm = useCallback(() => {
     if (initiativeId) {
-      console.log(
-        'inside the current step form: ',
-        typeof activeStep,
-        activeStep,
-      );
       switch (activeStep) {
         case 2:
           return (
             <SecondStep
-              fourIRProjectId={initiativeId}
+              fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
               setLatestStep={setLatestStep}
@@ -200,4 +194,4 @@ const JobPostingView = () => {
   );
 };
 
-export default JobPostingView;
+export default TeamAndCellView;
