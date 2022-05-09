@@ -8,17 +8,15 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {
-  createDivision,
-  updateDivision,
-} from '../../../services/locationManagement/DivisionService';
+// import {
+//   createDivision,
+//   updateDivision,
+// } from '../../../services/locationManagement/DivisionService';
 import {useIntl} from 'react-intl';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import {Division} from '../../../shared/Interface/location.interface';
-
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {RESULT_TYPE} from './Constants';
@@ -27,6 +25,12 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 interface CertificateAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+}
+interface Certificate {
+  title: string;
+  title_en: string;
+  resultType: number;
+  template: string;
 }
 
 const initialValues = {
@@ -114,15 +118,17 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<Division> = async (data: Division) => {
+  const onSubmit: SubmitHandler<Partial<Certificate>> = async (
+    data: Partial<Certificate>,
+  ) => {
     // try {
     //   if (itemId) {
     //     await updateDivision(itemId, data);
-    //     updateSuccessMessage('divisions.label');
+    //     updateSuccessMessage('common.certificate');
     //     mutateDivision();
     //   } else {
     //     await createDivision(data);
-    //     createSuccessMessage('divisions.label');
+    //     createSuccessMessage('common.certificate');
     //   }
     //   props.onClose();
     // } catch (error: any) {

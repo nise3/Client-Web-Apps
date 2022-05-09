@@ -14,16 +14,9 @@ import {useRouter} from 'next/router';
 import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
-import dynamic from 'next/dynamic';
 
-// const CertificateDetailPopup = dynamic(
-//   () => import('./CertificatePreviewPopup'),
-//   {
-//     ssr: false,
-//   },
-// );
 const CertificateTemplatePage = () => {
-  const {messages, locale} = useIntl();
+  const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
 
@@ -37,7 +30,7 @@ const CertificateTemplatePage = () => {
     mutate: mutateCertificates,
     isLoading,
   } = useFetchCertificates();
-  console.log('useFetchCertificates()', useFetchCertificates())
+  console.log('useFetchCertificates()', useFetchCertificates());
 
   useEffect(() => {
     console.log(certificates);
@@ -147,7 +140,7 @@ const CertificateTemplatePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={certificates}
+          data={[]}
           loading={isLoading}
           skipDefaultFilter={true}
         />
