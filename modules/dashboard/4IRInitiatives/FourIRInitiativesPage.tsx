@@ -20,11 +20,11 @@ import {
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
+import {deleteInitiative} from '../../../services/4IRManagement/InitiativeService';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
@@ -60,13 +60,13 @@ const FourIRInitiativesPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
+  const deleteInitiativeItem = async (initiativeId: number) => {
+    let response = await deleteInitiative(initiativeId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
+          values={{subject: <IntlMessages id='initiative.label' />}}
         />,
       );
       refreshDataTable();
@@ -190,7 +190,7 @@ const FourIRInitiativesPage = () => {
                 color='secondary'
               />
               <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
+                deleteAction={() => deleteInitiativeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -228,7 +228,7 @@ const FourIRInitiativesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir_project.label'],
+                  subject: messages['initiative.label'],
                 }}
               />
             }

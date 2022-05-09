@@ -113,10 +113,8 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['initiative.end_date'] as string),
-      file_path: yup.string().label(messages['initiative.file_path'] as string),
       budget: yup
         .number()
-        .integer()
         .positive()
         .label(messages['initiative.budget'] as string),
       four_ir_occupation_id: yup
@@ -248,6 +246,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         });
         updateSuccessMessage('4ir_initiative.label');
         mutateInitiative();
+        await closeAction();
       } else {
         data.completion_step = completionStep;
         data.form_step = formStep;
@@ -398,13 +397,13 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <FileUploadComponent
+            required={false}
             id='file_path'
             defaultFileUrl={fileLinks}
             errorInstance={errors}
             setValue={setValue}
             register={register}
             label={messages['initiative.file_path']}
-            //uploadedUrls={watch('project')}
           />
         </Grid>
 

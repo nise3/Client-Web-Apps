@@ -31,6 +31,7 @@ interface ConfirmationDialogProps {
   onConfirm: () => void;
   title: any;
   dialogTitle: any;
+  yesNo?: boolean;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
@@ -39,6 +40,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   onConfirm,
   title,
   dialogTitle,
+  yesNo = true,
 }) => {
   return (
     <StyledDialog open={open} onClose={onDeny}>
@@ -60,14 +62,14 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
         </Box>
         <Box pt={2}>
           <Button className={classes.btn} onClick={onDeny} color='primary'>
-            <IntlMessages id='common.no' />
+            <IntlMessages id={yesNo ? 'common.no' : 'common.close'} />
           </Button>
           <Button
             className={classes.btn}
             onClick={onConfirm}
             color='primary'
             autoFocus>
-            <IntlMessages id='common.yes' />
+            <IntlMessages id={yesNo ? 'common.yes' : 'common.next'} />
           </Button>
         </Box>
       </Box>
