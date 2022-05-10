@@ -644,7 +644,7 @@ const GraphMapView = () => {
               isDemand ? DemandColor : SupplyColor
             };`,
           });
-          // data.element._node.onclick = (e: any) => {
+          // data.element._node.onpointerdown = (e: any) => {
           //   showLevelTwo(isDemand);
           // };
           const cir = new Chartist.Svg(
@@ -659,7 +659,7 @@ const GraphMapView = () => {
             '',
           );
           data.group.append(cir);
-          cir._node.onclick = () => {
+          cir._node.onpointerdown = () => {
             showLevelTwo(isDemand);
           };
           const txt = new Chartist.Svg(
@@ -752,7 +752,7 @@ const GraphMapView = () => {
               isDemand ? DemandColor : SupplyColor
             };`,
           });
-          data.element._node.onclick = () => {
+          data.element._node.onpointerdown = () => {
             showLevelThree(isDemand, data.axisX.ticks[data.seriesIndex]);
           };
           const txt = new Chartist.Svg(
@@ -769,7 +769,7 @@ const GraphMapView = () => {
             '',
           );
           txt._node.innerHTML = isEN ? data.value.y : numberBN(data.value.y);
-          txt._node.onclick = () => {
+          txt._node.onpointerdown = () => {
             showLevelThree(isDemand, data.axisX.ticks[data.seriesIndex]);
           };
           data.group.append(txt);
@@ -935,8 +935,8 @@ const GraphMapView = () => {
         g1.innerHTML += poly;
         g2.innerHTML += poly;
       });
-      g1.onclick = focusDistrict;
-      g2.onclick = focusDistrict;
+      g1.onpointerdown = focusDistrict;
+      g2.onpointerdown = focusDistrict;
       // g1.innerHTML = g1.innerHTML.replace(/#FILL#/g, DemandColor);
       // g2.innerHTML = g2.innerHTML.replace(/#FILL#/g, SupplyColor);
       // @ts-ignore
@@ -968,6 +968,9 @@ const GraphMapView = () => {
         // @ts-ignore
         isEN ? v.properties.ADM2_EN : Districts[v.properties.ADM2_EN]
       }</text>`;
+
+      // remove supply map
+      svg2.remove();
     });
 
     //////////////////
@@ -985,7 +988,7 @@ const GraphMapView = () => {
           messages['common.skills'] as string
         }</label>
       `;
-    toggleDS.onclick = () => {
+    toggleDS.onpointerdown = () => {
       // @ts-ignore
       if (toggleDS?.children?.[0]?.checked) {
         svg1.classList.remove('hidden');
@@ -1006,7 +1009,7 @@ const GraphMapView = () => {
     L1DivTitle.innerHTML = `<h3>${''}</h3>`;
     const L1DivBtn = DIV('back-btn');
     L1Div.appendChild(L1DivBtn);
-    L1DivBtn.onclick = defocusDistrict;
+    L1DivBtn.onpointerdown = defocusDistrict;
     const L1DivChart = DIV('level-chart');
     L1Div.appendChild(L1DivChart);
 
@@ -1017,7 +1020,7 @@ const GraphMapView = () => {
     L2DivTitle.innerHTML = `<h3>${''}</h3>`;
     const L2DivBtn = DIV('back-btn');
     L2Div.appendChild(L2DivBtn);
-    L2DivBtn.onclick = () => L2Div.remove();
+    L2DivBtn.onpointerdown = () => L2Div.remove();
     const L2DivChart = DIV('level-chart');
     L2Div.appendChild(L2DivChart);
 
@@ -1028,7 +1031,7 @@ const GraphMapView = () => {
     L3DivTitle.innerHTML = `<h3>${''}</h3>`;
     const L3DivBtn = DIV('back-btn');
     L3Div.appendChild(L3DivBtn);
-    L3DivBtn.onclick = () => L3Div.remove();
+    L3DivBtn.onpointerdown = () => L3Div.remove();
     const L3DivChart = DIV('level-chart');
     L3Div.appendChild(L3DivChart);
 

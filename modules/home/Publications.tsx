@@ -78,7 +78,11 @@ const Publications = () => {
               <CardMediaImageView
                 className={classes.image}
                 image={publication?.image_path}
-                alt={publication?.image_alt_title}
+                alt={
+                  publication?.image_alt_title
+                    ? publication?.image_alt_title
+                    : publication?.title
+                }
                 title={publication?.title}
               />
             </Box>

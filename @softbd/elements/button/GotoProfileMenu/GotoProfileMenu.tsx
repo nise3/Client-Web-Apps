@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {
   Button,
   Card,
-  Divider,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -22,6 +21,7 @@ import {
 import {signOut} from '../../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import {useRouter} from 'next/router';
+import Divider from '../../../components/Divider/Divider';
 
 interface Props extends ButtonProps {
   onClick: () => void;
@@ -76,22 +76,6 @@ const GotoProfileMenu = ({
         {buttonText}
       </Button>
       {open && (
-        <div
-          style={{
-            background: '#8880',
-            position: 'fixed',
-            zIndex: 999999,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          onClick={() => handleClose()}
-          onWheel={() => handleClose()}>
-          {''}
-        </div>
-      )}
-      {open && (
         <Card
           sx={{
             position: 'absolute',
@@ -139,6 +123,23 @@ const GotoProfileMenu = ({
             )}
           </button>
         </Card>
+      )}
+      {open && (
+        <div
+          title={'click to close menu'}
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
       )}
     </Box>
   );
