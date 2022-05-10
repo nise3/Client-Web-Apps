@@ -1561,7 +1561,7 @@
   "institute.last_renewal_year": "Last Renewal Year",
   "institute.is_tin": "Is TIN?",
   "common.tin": "TIN",
-  "common.website": "Website",
+  "common.website": "Website/ Facebook Page",
   "invested_amount_in_institute.label": "Invested Amount in Institute",
   "institute.total_asset_amount": "Present Total Asset Amount",
   "institute.is_registered_under_authority": "Is Registered Under Any Authority?",
@@ -1639,7 +1639,7 @@
   "bank_account_type.label": "Bank Account Type",
   "bank_account_type.personal": "Personal",
   "bank_account_type.of_the_organization": "Organization",
-  "industry.sme_header_main": "Small and Medium Industries Foundation",
+  "industry.sme_header_main": "National Small and Cottage Industries Association, Bangladesh (Nascib)",
   "industry.sme_header_second": "SME Entrepreneur E-Database",
   "industry.sme_header_body_text": "Creating a CMSME e-database for various policy benefits. The Government of the People's Republic of Bangladesh is requested to enlist your organization to assist in the creation of this database.",
   "file_size.maximum_size_warning_text": "Maximum allowed file size 1MB",
@@ -1675,7 +1675,7 @@
   "common.sme_cluster": "SME Cluster",
   "nascib_member.label": "NASCIB Member",
   "smef_member.label": "SMEF Member",
-  "membership.partnership": "Partnership",
+  "membership.partnership": "Associate Member",
   "membership.general": "General",
   "membership.id": "Membership ID",
   "membership.type": "Membership Type",
@@ -1979,5 +1979,10 @@
   "matching_criteria.set_mandatory": "Set mandatory",
   "common.search_3": "Search",
   "common.in_progress": "In progress",
-  "common.not_participated": "Not participated"
+  "common.not_participated": "Not participated",
+  "application.type" : "Application Type",
+  "institute.corresponding_industry": "What industry does your institute belong to?",
+  "membership.id_number": "Membership ID/ Number",
+  "membership.last_renew_year": "Last Renew Year",
+  "business_type.services": "Services"
 }
