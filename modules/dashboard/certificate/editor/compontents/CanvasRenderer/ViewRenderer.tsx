@@ -18,6 +18,9 @@ import {
   getYouthProfileById,
 } from '../../../../../../services/youthManagement/YouthService';
 import {getBatch} from '../../../../../../services/instituteManagement/BatchService';
+import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
+import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
+import {GiConsoleController} from 'react-icons/gi';
 
 interface IYouthCertificateDetails {
   certificate_id: number;
@@ -35,6 +38,7 @@ interface IYouthCertificateDetails {
 }
 
 function ViewRenderer() {
+  const {errorStack} = useNotiStack();
   const ratio = useRecoilValue(ratioState);
   const dimensions = useRecoilValue(dimensionsState);
   const background = useRecoilValue(backgroundState);
@@ -53,6 +57,8 @@ function ViewRenderer() {
   >({
     grade: 5,
   });
+  const [certificateId, setCertificateId] = useState<any>(null);
+  const [template, setTemplate] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (editorAreaRef.current) {
@@ -83,18 +89,14 @@ function ViewRenderer() {
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
 
   const router = useRouter();
-  const {query} = router; //certificateIssueId
-  // console.log(`const {query} = router;`, query)
+  const {query} = router;
 
   useEffect(() => {
     getCertificateIssueByIssueId(query.certificateIssueId).then((res) => {
       const issueInfo = res.data;
-      setYouthInfoData({
-        certificate_id: issueInfo.setYouthInfoData,
-      });
+      setCertificateId(issueInfo.certificate_id);
       getYouthProfileById(issueInfo.youth_id).then((response) => {
         const {data: youth} = response;
-        // console.log('youth ', response);
         setYouthInfoData((prev) => {
           return {
             ...prev,
@@ -127,36 +129,36 @@ function ViewRenderer() {
     });
   }, [query]);
 
-  useEffect(() => {
-    console.log('log youth data', youthInfoData);
-  }, [youthInfoData]);
-
-  const youthInfo = {
-    'candidate-name': 'Talukdar Mohammad Sirajul Islam',
+  const loadTemplate = async (templateJson: any, youthInfo: any) => {
+    // const template = JSON.parse(t);
+    // template.elements.map((t: any) => {
+    //   if (t.type === 'input') {
+    //     console.log(t.props.class);
+    //     //@ts-ignore
+    //     console.log('name: ', youthInfo[t.props.class]);
+    //     //@ts-ignore
+    //     t.props.text = youthInfo[t.props.class];
+    //     t.props.align = 'center';
+    //     console.log(t);
+    //   }
+    //   return 1;
+    // });
+    setLoadedTemplate(templateJson, getScreenDimensions());
   };
 
-  const loadTemplate = async () => {
-    const templateJson = Template;
-    const template = JSON.parse(templateJson);
-    console.log(template);
-    template.elements.map((t: any) => {
-      if (t.type === 'input') {
-        console.log(t.props.class);
-        //@ts-ignore
-        console.log('name: ', youthInfo[t.props.class]);
-        //@ts-ignore
-        t.props.text = youthInfo[t.props.class];
-        t.props.align = 'center';
-        console.log(t);
-      }
-      return 1;
-    });
-
-    setLoadedTemplate(template, getScreenDimensions());
-  };
   useEffect(() => {
-    loadTemplate();
-  }, []);
+    if (youthInfoData?.batch_name && certificateId) {
+      getCertificateById(1)
+        .then((res) => {
+          const {template} = res.data;
+          const templateObj = JSON.parse(template);
+          loadTemplate(templateObj, youthInfoData);
+        })
+        .catch((err) => {
+          errorStack('Something Went Wrong');
+        });
+    }
+  }, [youthInfoData, certificateId]);
 
   const area = useMemo(() => {
     if (!containerDimensions) {

@@ -15,7 +15,7 @@ import {deleteCertificate} from '../../../services/youthManagement/CertificateSe
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import { API_CERTIFICATES } from '../../../@softbd/common/apiRoutes';
+import {API_CERTIFICATES} from '../../../@softbd/common/apiRoutes';
 
 const CertificateTemplatePage = () => {
   const {messages} = useIntl();
@@ -69,7 +69,7 @@ const CertificateTemplatePage = () => {
         />,
       );
 
-      refreshDataTable();
+      // refreshDataTable();
     }
   };
 

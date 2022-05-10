@@ -121,6 +121,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: Certificate) => {
     const template = await setCurrentTemplateToSave();
     const templateJson = await toTemplateJSON(template);
+    console.log(templateJson);
     const dataToSave: ICertificate = {
       title: data.title!,
       title_en: data.title_en!,
