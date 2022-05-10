@@ -23,6 +23,7 @@ import {useDispatch} from 'react-redux';
 import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_YOUTH_USER_AS_TRAINER} from '../../constants/AppConst';
 import {Divider} from '@mui/material';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'UserInfo';
 
@@ -91,7 +92,7 @@ const UserInfo: React.FC = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const user: CommonAuthUser | null = useAuthUser();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const dispatch = useDispatch();
   const [isYouthAsTrainerUser] = useState<any>(
     getBrowserCookie(COOKIE_KEY_YOUTH_USER_AS_TRAINER),
@@ -171,7 +172,10 @@ const UserInfo: React.FC = () => {
             alignItems='center'
             justifyContent='space-between'>
             <Box mb={0} className={classes.userName}>
-              {user && (user.displayName ? user.displayName : 'Admin User ')}
+              {user &&
+                (locale == LocaleLanguage.EN
+                  ? user.displayName ?? ''
+                  : user.name ?? '')}
             </Box>
             <Box
               className={classes.pointer}

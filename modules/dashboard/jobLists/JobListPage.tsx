@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -19,7 +19,7 @@ import {
 } from '../../../services/IndustryManagement/JobService';
 import {
   getCalculatedSerialNo,
-  getMomentDateFormat,
+  //getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconJobSector from '../../../@softbd/icons/IconJobSector';
@@ -34,14 +34,79 @@ import {FiUser} from 'react-icons/fi';
 import {Link} from '../../../@softbd/elements/common';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {JobLevel} from './jobPost/enums/JobPostEnums';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
+//import {useFetchJobSectors} from '../../../services/organaizationManagement/hooks';
 
 const JobListPage = () => {
   const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
 
   //const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  //const [jobSectorFilters] = useState({});
+  //const {data: jobSectors}: any = useFetchJobSectors(jobSectorFilters);
+
+  const [skillFilters] = useState<any>({});
+  const {data: skills} = useFetchPublicSkills(skillFilters);
+  const [skillFilterItems, setSkillFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+  /*  const [jobSectorFilterItems, setJobSectorFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);*/
+
+  useEffect(() => {
+    if (skills) {
+      setSkillFilterItems(
+        skills.map((skill: any) => {
+          if (language === 'bn') {
+            return {
+              id: skill?.id,
+              title: skill?.title,
+            };
+          } else {
+            return {
+              id: skill?.id,
+              title: skill?.title_en,
+            };
+          }
+        }),
+      );
+    }
+  }, [skills]);
+
+  /*useEffect(() => {
+    if (jobSectors) {
+      setJobSectorFilterItems(
+        jobSectors.map((jobSector: any) => {
+          if (language === 'bn') {
+            return {
+              id: jobSector?.id,
+              title: jobSector?.title,
+            };
+          } else {
+            return {
+              id: jobSector?.id,
+              title: jobSector?.title_en,
+            };
+          }
+        }),
+      );
+    }
+  }, [jobSectors]);*/
+
+  const courseLevelFilterItems = [
+    {id: JobLevel.ENTRY, title: messages['label.job_level_entry'] as string},
+    {id: JobLevel.MID, title: messages['label.job_level_mid'] as string},
+    {id: JobLevel.TOP, title: messages['label.job_level_top'] as string},
+  ];
 
   const openJobCreateView = useCallback(() => {
     (async () => {
@@ -149,7 +214,65 @@ const JobListPage = () => {
         accessor: 'job_title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
+      /*{
+        Header: messages['job_sectors.label'],
+        accessor: 'job_sector_ids',
+        selectFilterItems: jobSectorFilterItems,
+        Cell: (props: any) => {
+          const data = props?.row?.original;
+          return <>{data?.job_sector_id}</>;
+        },
+      },*/
+
+      /*{
+        Header: messages['label.job_sector'],
+        //filter: 'selectFilter',
+        accessor: 'job_sector_id',
+        /!*selectFilterItems: jobSectors,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          if (data?.job_sector_id) {
+            return <>{data?.job_sector_id}</>;
+          }
+        },*!/
+      },*/
+
       {
+        Header: messages['label.job_level'],
+        filter: 'selectFilter',
+        accessor: 'job_level',
+        selectFilterItems: courseLevelFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <>
+              {data?.additional_job_information?.job_levels?.map(
+                (job_level: any) =>
+                  (job_level?.job_level_id == JobLevel.ENTRY
+                    ? messages['label.job_level_entry']
+                    : job_level.job_level_id == JobLevel.MID
+                    ? messages['label.job_level_mid']
+                    : messages['label.job_level_top']) + `,`,
+              )}
+            </>
+          );
+        },
+      },
+      {
+        Header: messages['skill.label'],
+        accessor: 'skill_ids',
+        filter: 'selectFilter',
+        isVisible: false,
+        selectFilterItems: skillFilterItems,
+        Cell: (props: any) => {
+          const data = props?.row?.original;
+          return data?.candidate_requirement?.skills?.map((skill: any) => (
+            <>{skill?.title_en + `, `}</>
+          ));
+        },
+      },
+
+      /*{
         Header: messages['common.member'],
         accessor: 'organization_title',
         Cell: (props: any) => {
@@ -190,7 +313,7 @@ const JobListPage = () => {
             </>
           );
         },
-      },
+      },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -239,7 +362,13 @@ const JobListPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [
+      messages,
+      locale,
+      courseLevelFilterItems,
+      skillFilterItems,
+      //jobSectorFilterItems,
+    ],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

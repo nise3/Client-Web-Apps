@@ -19,9 +19,10 @@ import IconRole from '../../../@softbd/icons/IconRole';
 import {AccountTreeOutlined} from '@mui/icons-material';
 import Link from 'next/link';
 import {LINK_ROLE} from '../../../@softbd/common/appLinks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const RolePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -89,11 +90,12 @@ const RolePage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['role.unique_value'],

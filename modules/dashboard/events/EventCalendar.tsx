@@ -16,12 +16,14 @@ import {
   getCalenderViewFilter,
   getNavigationFilter,
 } from '../../../services/global/globalService';
-import { Event } from "@mui/icons-material";
+import {Event} from '@mui/icons-material';
+import {calendarService} from '../../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
 const EventCalendar = () => {
-  const {messages} = useIntl();
+  const {messages, formatDate} = useIntl();
+  const intlOpt = useIntl();
 
   let requestQuery: ICalendarQuery = {
     type: 'month',
@@ -94,14 +96,15 @@ const EventCalendar = () => {
     if (events) {
       addStartEndPropsToList(events);
     }
-    
   }, [events]);
 
   useEffect(() => {
     if (events) {
       // events = eventsDateTimeMap(events);
       events.map((e: ICalendar) => {
-        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}T00:00:00`;
+        let start = e.start_time
+          ? `${e.start}T${e.start_time}`
+          : `${e.start}T00:00:00`;
         let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}T00:00:00`;
         e.start = new Date(start);
         e.end = new Date(end);
@@ -115,7 +118,7 @@ const EventCalendar = () => {
     setSelectedStartDate(slotInfo.start as string);
     setSelectedEndDate(slotInfo.end as string);
     openAddEditModal(slotInfo.id);
-    console.log(slotInfo)
+    console.log(slotInfo);
   };
   const onSelectEvent = (e: any) => {
     openDetailsModal(e.id as number);
@@ -131,10 +134,17 @@ const EventCalendar = () => {
     });
   };
 
+  const calendarServiceOpt = calendarService(eventsList, intlOpt);
+
   return (
     <>
-
-      <PageBlock title={<><Event/>{messages['menu.calendar']}</>}>
+      <PageBlock
+        title={
+          <>
+            <Event />
+            {messages['menu.calendar']}
+          </>
+        }>
         <Calendar
           events={eventsList}
           // events={events1}
@@ -148,6 +158,15 @@ const EventCalendar = () => {
           onNavigate={onNavigateEvent}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
+          components={calendarServiceOpt.componentObject}
+          formats={{
+            monthHeaderFormat: (date, culture, localizer) => {
+              return formatDate(date, {
+                month: 'long',
+                year: 'numeric',
+              });
+            },
+          }}
         />
 
         {isOpenAddEditModal && (

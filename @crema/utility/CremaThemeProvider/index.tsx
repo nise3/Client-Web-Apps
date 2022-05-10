@@ -17,6 +17,8 @@ import {
 } from 'use-url-search-params';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
 
+//import {InitialType, TypesType} from 'use-url-search-params/dist/typedefs';
+
 declare module '@mui/material/styles' {
   interface DefaultTheme extends Theme {}
 }

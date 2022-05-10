@@ -146,9 +146,17 @@ const RPLQuestionBankAddEditPopup: FC<RTOQuestionAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
-        .label(messages['common.question'] as string),
+        .title('bn', true, messages['common.special_character_error'] as string)
+        .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       answer: yup
         .string()
         .trim()

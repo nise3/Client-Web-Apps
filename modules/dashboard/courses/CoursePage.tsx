@@ -27,6 +27,8 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {LEVEL} from './CourseEnums';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 
 const CoursePage = () => {
   const {messages, locale} = useIntl();
@@ -36,6 +38,7 @@ const CoursePage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -48,11 +51,22 @@ const CoursePage = () => {
     if (skills) {
       setSkillFilterItems(
         skills.map((skill: any) => {
-          return {id: skill?.id, title: skill?.title};
+          if (language === 'bn') {
+            return {
+              id: skill?.id,
+              title: skill?.title,
+            };
+          } else {
+            return {
+              id: skill?.id,
+              title: skill?.title_en,
+            };
+          }
         }),
       );
     }
-  }, [skills]);
+  }, [skills, language]);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import {Card, Container, Grid} from '@mui/material';
-import {Fade} from 'react-awesome-reveal';
+import {Zoom} from 'react-awesome-reveal';
 import {Assignment, HomeWork, People, PeopleAlt} from '@mui/icons-material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4, H5} from '../../@softbd/elements/common';
@@ -59,15 +59,15 @@ const InfoCardSection = () => {
   return (
     <StyledGrid container xl={12} className={classes.root}>
       <Container maxWidth='lg'>
-        <Fade direction='up'>
-          <UnderlinedHeading>
-            {messages['institute_home.at_a_glance']}
-          </UnderlinedHeading>
-          <H5 gutterBottom={true} className={classes.subheading}>
-            {messages['institute_home.course_management_stat']}
-          </H5>
-          <Grid container spacing={6}>
-            <Grid item xs={12} sm={6} md={3}>
+        <UnderlinedHeading>
+          {messages['institute_home.at_a_glance']}
+        </UnderlinedHeading>
+        <H5 gutterBottom={true} className={classes.subheading}>
+          {messages['institute_home.course_management_stat']}
+        </H5>
+        <Grid container spacing={6}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Zoom>
               <Card className={classes.boxItem}>
                 <Assignment className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
@@ -78,8 +78,10 @@ const InfoCardSection = () => {
                   {messages['institute_home.total_course_subject']}
                 </H5>
               </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            </Zoom>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Zoom>
               <Card className={classes.boxItem}>
                 <PeopleAlt className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
@@ -90,8 +92,10 @@ const InfoCardSection = () => {
                   {messages['institute_home.total_youth_trained']}
                 </H5>
               </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            </Zoom>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Zoom>
               <Card className={classes.boxItem}>
                 <HomeWork className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
@@ -104,8 +108,10 @@ const InfoCardSection = () => {
                   {messages['institute_home.total_training_center']}
                 </H5>
               </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            </Zoom>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Zoom>
               <Card className={classes.boxItem}>
                 <People className={classes.icon} />
                 <H4 gutterBottom={true} fontWeight='fontWeightBold'>
@@ -116,9 +122,9 @@ const InfoCardSection = () => {
                   {messages['institute_home.total_skilled_trainer']}
                 </H5>
               </Card>
-            </Grid>
+            </Zoom>
           </Grid>
-        </Fade>
+        </Grid>
       </Container>
     </StyledGrid>
   );

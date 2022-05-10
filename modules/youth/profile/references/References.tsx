@@ -11,7 +11,7 @@ import TextPrimary from '../component/TextPrimary';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'References';
@@ -54,19 +54,19 @@ const References = ({
               <Grid container>
                 <Grid item xs={4} md={2}>
                   <Avatar
-                    alt='Reference logo'
+                    alt={'Reference logo'}
                     src={'/images/placeholder.jpg'}
                     sx={{height: 80, width: 80}}
                   />
                 </Grid>
                 <StyledGrid item xs={8} md={10}>
                   <Box>
-                    <H3
+                    <S1
                       sx={{...result.subtitle2}}
                       className={classes.textStyle}>
                       {reference?.referrer_first_name}{' '}
                       {reference?.referrer_last_name}
-                    </H3>
+                    </S1>
                     <Typography variant={'caption'}>
                       {reference?.referrer_designation},
                     </Typography>

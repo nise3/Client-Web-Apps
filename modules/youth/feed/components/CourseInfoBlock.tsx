@@ -126,6 +126,7 @@ const CourseInfoBlock: FC<CourseInfoBlockProps> = ({course}) => {
                         alt={course?.title}
                         image={course?.logo}
                         className={classes.jobProviderImage}
+                        title={course?.title}
                       />
                     </Grid>
 

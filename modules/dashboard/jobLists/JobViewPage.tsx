@@ -52,8 +52,6 @@ const JobViewPage = () => {
   const {jobId} = router.query;
   const {data: jobData} = useFetchJobPreview(String(jobId));
 
-  console.log(': ', jobId);
-
   const getJobNature = () => {
     let jobNature: Array<string> = [];
     if (jobData?.primary_job_information?.employment_types) {
@@ -118,8 +116,12 @@ const JobViewPage = () => {
           <IntlMessages
             id={'job_preview.experience_from_to'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
-              to: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
+              to: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -128,7 +130,9 @@ const JobViewPage = () => {
           <IntlMessages
             id={'job_preview.experience_at_least'}
             values={{
-              from: jobData?.candidate_requirements?.minimum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.minimum_year_of_experience,
+              ),
             }}
           />
         );
@@ -137,7 +141,9 @@ const JobViewPage = () => {
           <IntlMessages
             id={'job_preview.experience_at_most'}
             values={{
-              from: jobData?.candidate_requirements?.maximum_year_of_experience,
+              from: formatNumber(
+                jobData?.candidate_requirements?.maximum_year_of_experience,
+              ),
             }}
           />
         );
@@ -149,23 +155,39 @@ const JobViewPage = () => {
   };
 
   const getAgeText = () => {
-    let ageText = '';
+    let ageText: any = '';
 
     if (
       jobData?.candidate_requirements?.age_minimum &&
       jobData?.candidate_requirements?.age_maximum
     ) {
-      ageText =
-        jobData?.candidate_requirements?.age_minimum +
-        ' to ' +
-        jobData?.candidate_requirements?.age_maximum +
-        ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_from_to'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+            to: formatNumber(jobData?.candidate_requirements?.age_maximum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_minimum) {
-      ageText =
-        'At least ' + jobData?.candidate_requirements?.age_minimum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_least'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     } else if (jobData?.candidate_requirements?.age_maximum) {
-      ageText =
-        'At most ' + jobData?.candidate_requirements?.age_maximum + ' years';
+      ageText = (
+        <IntlMessages
+          id={'job_preview.age_at_most'}
+          values={{
+            from: formatNumber(jobData?.candidate_requirements?.age_minimum),
+          }}
+        />
+      );
     }
 
     return ageText;
@@ -251,6 +273,7 @@ const JobViewPage = () => {
         .map((skill: any) => skill.title)
         .join(', ');
     }
+
     if (
       additionalEducationRequirement.length > 0 ||
       jobData?.candidate_requirements?.degrees?.length > 0 ||
@@ -265,11 +288,15 @@ const JobViewPage = () => {
     return (
       <ul style={{paddingLeft: '20px'}}>
         {jobData?.candidate_requirements?.degrees?.map(
-          (degree: any, index: number) => (
-            <li key={index}>
-              {degree?.exam_degree?.title} in {degree?.major_subject}
-            </li>
-          ),
+          (degree: any, index: number) =>
+            degree?.exam_degree ? (
+              <li key={index}>
+                {degree?.exam_degree?.title}
+                {degree?.major_subject ? ' in ' + degree?.major_subject : ''}
+              </li>
+            ) : (
+              <></>
+            ),
         )}
         {additionalEducationRequirement.map((req: string, index) => (
           <li key={index}>{req}</li>
@@ -320,24 +347,39 @@ const JobViewPage = () => {
             .join(', ');
       }
 
+      let isShowNotApplicable = true;
+      if (
+        experienceText ||
+        jobData?.candidate_requirements?.is_freshers_encouraged == 1 ||
+        experienceAreas ||
+        experienceBusinessAreas
+      ) {
+        isShowNotApplicable = false;
+      }
+
       return (
         <ul style={{paddingLeft: '20px'}}>
           <li>{experienceText}</li>
           {jobData?.candidate_requirements?.is_freshers_encouraged == 1 && (
             <li>{messages['job_post.is_fresher_applicable']}</li>
           )}
-          <li>
-            {messages['job_preview.experience_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceAreas}</li>
-            </ul>
-          </li>
-          <li>
-            {messages['job_preview.business_area_label']}
-            <ul style={{listStyleType: 'square'}}>
-              <li>{experienceBusinessAreas}</li>
-            </ul>
-          </li>
+          {experienceAreas && (
+            <li>
+              {messages['job_preview.experience_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceAreas}</li>
+              </ul>
+            </li>
+          )}
+          {experienceBusinessAreas && (
+            <li>
+              {messages['job_preview.business_area_label']}
+              <ul style={{listStyleType: 'square'}}>
+                <li>{experienceBusinessAreas}</li>
+              </ul>
+            </li>
+          )}
+          {isShowNotApplicable && <li>{messages['common.n_a']}</li>}
         </ul>
       );
     } else {
@@ -363,18 +405,65 @@ const JobViewPage = () => {
       }
     });
 
-    if (male && female) {
-      return 'Both male and female are allowed to apply';
+    if (male && female && other) {
+      return messages['job_posting.application_gender_req_all'];
+    } else if (male && female) {
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.female'],
+          }}
+        />
+      );
     } else if (male && other) {
-      return 'Both male and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.male'],
+            gender2: messages['common.others'],
+          }}
+        />
+      );
     } else if (female && other) {
-      return 'Both females and third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_two'}
+          values={{
+            gender1: messages['common.female'],
+            gender2: messages['common.others'],
+          }}
+        />
+      );
     } else if (male) {
-      return 'Only males are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.male'],
+          }}
+        />
+      );
     } else if (female) {
-      return 'Only females are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.female'],
+          }}
+        />
+      );
     } else {
-      return 'Only third genders are allowed to apply';
+      return (
+        <IntlMessages
+          id={'job_posting.application_gender_req_one'}
+          values={{
+            gender: messages['common.others'],
+          }}
+        />
+      );
     }
   };
 
@@ -397,9 +486,14 @@ const JobViewPage = () => {
 
     return (
       <ul style={{paddingLeft: '20px'}}>
-        {getAgeText() && <li>Age {getAgeText()}</li>}
+        {getAgeText() && (
+          <li>
+            {' '}
+            {messages['job_preview_summary.age']} {getAgeText()}
+          </li>
+        )}
         {jobData?.candidate_requirements?.genders.length > 0 &&
-          jobData?.candidate_requirements?.genders.length < 3 && (
+          jobData?.candidate_requirements?.genders.length <= 3 && (
             <li>{getGenderText()}</li>
           )}
         {strArr.map((item: string, index) => (
@@ -605,7 +699,7 @@ const JobViewPage = () => {
           </JobPreviewSubComponent>
 
           <JobPreviewSubComponent title={messages['job_posting.job_source']}>
-            Nise Online Job Posting.
+            {messages['job.online_job_posting']}
           </JobPreviewSubComponent>
           {jobData?.primary_job_information?.published_at && (
             <JobPreviewSubComponent
