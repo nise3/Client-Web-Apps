@@ -27,7 +27,20 @@ function ElementRenderer({id}: Props) {
       return <ImageRenderer key={id} id={id} props={props as ImageConfig} />;
     case ShapeType.Rectangle:
       return (
-        <GenericRenderer id={id} key={id} props={props} component={Rect} />
+        <GenericRenderer
+          id={id}
+          key={id}
+          props={props}
+          enabledAnchors={[
+            'middle-left',
+            'middle-right',
+            'top-left',
+            'top-right',
+            'bottom-left',
+            'bottom-right',
+          ]}
+          component={Rect}
+        />
       );
     case ShapeType.Line:
       return (

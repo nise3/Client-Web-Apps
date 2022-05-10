@@ -10,6 +10,7 @@ interface Props {
   component: React.ComponentType<(ShapeConfig | LineConfig) & KonvaNodeEvents>;
   props: Konva.ShapeConfig;
   rotateEnabled?: boolean;
+  enabledAnchors?: string[];
 }
 
 function GenericRenderer({
@@ -17,9 +18,13 @@ function GenericRenderer({
   component: Component,
   props,
   rotateEnabled = true,
+  enabledAnchors = [],
 }: Props) {
   return (
-    <InteractiveKonvaElement id={id} rotateEnabled={rotateEnabled}>
+    <InteractiveKonvaElement
+      id={id}
+      rotateEnabled={rotateEnabled}
+      enabledAnchors={enabledAnchors}>
       {(additionalProps) => <Component {...props} {...additionalProps} />}
     </InteractiveKonvaElement>
   );
