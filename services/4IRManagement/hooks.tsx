@@ -5,12 +5,15 @@ import {
   API_4IR_Curriculum,
   API_4IR_INITIATIVE,
   API_4IR_OCCUPATIONS,
+  API_4IR_Resource_Management,
   API_4IR_SCALE_UP,
   API_4IR_TAGLINES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRInitiative(initiativeId: number | null) {
-  return useAxiosSWR(initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null);
+  return useAxiosSWR(
+    initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null,
+  );
 }
 
 export function useFetch4IInitiative(initiativeId: number | null) {
@@ -55,4 +58,14 @@ export function useFetchFourIRTaglines(params: any) {
 
 export function useFetchFourIRTagline(taglineId: number | null) {
   return useAxiosSWR(taglineId ? API_4IR_TAGLINES + '/' + taglineId : null);
+}
+
+export function useFetchFourIRResource(resourceId: number | null) {
+  return useAxiosSWR(
+    resourceId ? API_4IR_Resource_Management + '/' + resourceId : null,
+  );
+}
+
+export function useFetchFourIRResources(params: any) {
+  return useAxiosSWR([API_4IR_Resource_Management, params]);
 }

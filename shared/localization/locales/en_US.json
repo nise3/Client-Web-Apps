@@ -1977,6 +1977,11 @@
   "4ir.tna_report_others_workshop": "Others",
   "4ir.tna_report_demo_file": "Demo File",
   "common.level_from": "Level from",
-  "common.level_to": "Level to"
-
+  "common.level_to": "Level to",
+  "4ir_rm.approval_status": "Approval Status",
+  "4ir_rm.budget_approval_status": "Budget Approval Status ",
+  "4ir_rm.given_budget": "Given Budget",
+  "common.attachment" : "Attachment",
+  "4ir_rm.label" : "4IR Resource Management",
+  "4ir_rm.resource" : "4IR Resource"
 }

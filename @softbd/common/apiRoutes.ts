@@ -204,7 +204,8 @@ export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/4ir-cblm';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/4ir-curriculum';
-
+export const API_4IR_Resource_Management =
+  FOUR_IR_SERVICE_PATH + '/resource-managements';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */

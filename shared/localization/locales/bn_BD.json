@@ -1979,5 +1979,11 @@
   "4ir.tna_report_others_workshop" : "অন্যান্য",
   "4ir.tna_report_demo_file": "ডেমো ফাইল",
   "common.level_from": "লেভেল হইতে",
-  "common.level_to": "লেভেল পর্যন্ত"
+  "common.level_to": "লেভেল পর্যন্ত",
+  "4ir_rm.approval_status": "অনুমোদনের অবস্থা",
+  "4ir_rm.budget_approval_status": "বাজেট অনুমোদনের অবস্থা",
+  "4ir_rm.given_budget": "প্রদানকৃত বাজেট",
+  "common.attachment" : "এটাচমেন্ট",
+  "4ir_rm.label" : "4 আই আর রিসোর্স ম্যানেজমেন্ট",
+  "4ir_rm.resource" : "4 আই আর রিসোর্স"
 }

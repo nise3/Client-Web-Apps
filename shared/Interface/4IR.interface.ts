@@ -112,3 +112,10 @@ export interface IOccupation extends IIdTitleCreateUpdateAt {
   title_en?: string;
   row_status?: number | string;
 }
+
+export interface IResource extends IIdTitleCreateUpdateAt {
+  approval_status: number | string;
+  budget_approval_status: number | string;
+  given_budget: number | string;
+  row_status: number | string;
+}
