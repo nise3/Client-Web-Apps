@@ -16,6 +16,7 @@ import {getCertificateById} from '../../../../../../services/CertificateAuthorit
 import useTemplateDispatcher from '../../state/dispatchers/template';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 import {useRouter} from 'next/router';
+import {loadTemplateImages} from '../../utils/template';
 
 function CanvasRenderer() {
   const {errorStack} = useNotiStack();
@@ -63,13 +64,17 @@ function CanvasRenderer() {
     }
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
 
+  const loadTemplate = async (template: any) => {
+    await loadTemplateImages(template),
+      setLoadedTemplate(template, getScreenDimensions());
+  };
   useEffect(() => {
     if (query?.certificateId) {
       getCertificateById(query.certificateId)
         .then((res) => {
           const {template} = res.data;
           const templateObj = JSON.parse(template);
-          setLoadedTemplate(templateObj, getScreenDimensions());
+          loadTemplate(templateObj);
         })
         .catch((err) => {
           errorStack('Something Went Wrong');
