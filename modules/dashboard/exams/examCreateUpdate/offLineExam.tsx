@@ -212,7 +212,7 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                 <Grid item xs={6}>
                   <CustomTextInput
                     id={`${idPrefix}[${i}][title_en]`}
-                    label={messages['common.set_name']}
+                    label={messages['common.set_name_en']}
                     register={useFrom.register}
                     errorInstance={useFrom.errors}
                     isLoading={false}

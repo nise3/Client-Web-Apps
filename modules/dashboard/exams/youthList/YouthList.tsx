@@ -52,8 +52,8 @@ const ExamineeListPage = () => {
         Header: messages['common.email'],
         Cell: (props: any) => {
           let data = props.row.original;
-          let youthProfle = data?.youth_profile;
-          return youthProfle?.email;
+          let youthProfile = data?.youth_profile;
+          return youthProfile?.email;
         },
       },
       {
@@ -70,14 +70,16 @@ const ExamineeListPage = () => {
 
           return (
             <DatatableButtonGroup>
-              <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
-                <Button
-                  variant={'outlined'}
-                  color={'primary'}
-                  sx={{marginRight: '10px'}}>
-                  {messages['common.marks_distribution']}
-                </Button>
-              </Link>
+              {!data.auto_marking && (
+                <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
+                  <Button
+                    variant={'outlined'}
+                    color={'primary'}
+                    sx={{marginRight: '10px'}}>
+                    {messages['common.marks_distribution']}
+                  </Button>
+                </Link>
+              )}
               <Link href={`/exams/youth-list/${examId}/sheet/${youthId}`}>
                 <Button variant={'outlined'} color={'primary'}>
                   {messages['common.answer_sheet']}
