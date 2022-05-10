@@ -85,7 +85,7 @@ const TeamAndCellView = () => {
     } else if (presentStep) {
       setIsValid(false);
     }
-  }, [completionStep, initiativeId, activeStep]);
+  }, [router?.query]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);

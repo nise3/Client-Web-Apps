@@ -138,10 +138,14 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     useReactTableFetchData({
       urlPath: API_4IR_TNA_REPORT,
       paramsValueModifier: (params: any) => {
-        params['four_ir_initiative_id '] = fourIRInitiativeId;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
       },
     });
+
+  console.log('tna loading', loading);
+
+  console.log('tna report data :', data);
 
   return (
     <>

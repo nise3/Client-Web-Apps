@@ -81,50 +81,106 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      workshop_method_workshop_numbers: yup
-        .number()
-        .label(messages['4ir.tna_report_workshop_method_workshop'] as string),
-      workshop_method_file: yup
-        .string()
-        .label(messages['4ir.tna_report_workshop_method_workshop'] as string),
-      fgd_workshop_numbers: yup
-        .number()
-        .label(messages['4ir.tna_report.fgd_workshop'] as string),
-      fgd_workshop_file: yup
-        .string()
-        .label(messages['4ir.tna_report_fgd_workshop'] as string),
-      industry_visit_workshop_numbers: yup
-        .number()
-        .label(messages['4ir.tna_report_industry_visit_workshop'] as string),
-      industry_visit_file: yup
-        .string()
-        .label(messages['4ir.tna_report_industry_visit_workshop'] as string),
-      desktop_research_workshop_numbers: yup
-        .number()
-        .label(messages['4ir.tna_report_desktop_research_workshop'] as string),
-      desktop_research_file: yup
-        .string()
-        .label(messages['4ir.tna_report_desktop_research_workshop'] as string),
-      existing_report_review_workshop_numbers: yup
-        .number()
-        .label(
-          messages['4ir.tna_report_existing_report_review_workshop'] as string,
-        ),
-      existing_report_review_file: yup
-        .string()
-        .label(
-          messages['4ir.tna_report_existing_report_review_workshop'] as string,
-        ),
-      others_workshop_numbers: yup
-        .number()
-        .label(messages['4ir.tna_report_others_workshop'] as string),
-      others_file: yup
-        .string()
-        .label(messages['4ir.tna_report.others_workshop'] as string),
+      workshop_method_workshop_numbers: isWorkshopMethodWorkshop
+        ? yup
+            .number()
+            .required()
+            .label(
+              messages['4ir.tna_report_workshop_method_workshop'] as string,
+            )
+        : yup.string().nullable(),
+      workshop_method_file: isWorkshopMethodWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(
+              messages['4ir.tna_report_workshop_method_workshop'] as string,
+            )
+        : yup.string().nullable(),
+      fgd_workshop_numbers: isFGDWorkshop
+        ? yup
+            .number()
+            .required()
+            .label(messages['4ir.tna_report.fgd_workshop'] as string)
+        : yup.string().nullable(),
+      fgd_workshop_file: isFGDWorkshop
+        ? yup
+            .string()
+            .required()
+            .label(messages['4ir.tna_report.fgd_workshop'] as string)
+        : yup.string().nullable(),
+      industry_visit_workshop_numbers: isIndustryVisit
+        ? yup
+            .number()
+            .required()
+            .label(messages['4ir.tna_report_industry_visit_workshop'] as string)
+        : yup.string().nullable(),
+      industry_visit_file: isIndustryVisit
+        ? yup
+            .string()
+            .required()
+            .label(messages['4ir.tna_report_industry_visit_workshop'] as string)
+        : yup.string().nullable(),
+      desktop_research_workshop_numbers: isDesktopResearchFile
+        ? yup
+            .number()
+            .required()
+            .label(
+              messages['4ir.tna_report_desktop_research_workshop'] as string,
+            )
+        : yup.string().nullable(),
+      desktop_research_file: isDesktopResearchFile
+        ? yup
+            .string()
+            .required()
+            .label(
+              messages['4ir.tna_report_desktop_research_workshop'] as string,
+            )
+        : yup.string().nullable(),
+      existing_report_review_workshop_numbers: isExistingReportReviewFile
+        ? yup
+            .number()
+            .required()
+            .label(
+              messages[
+                '4ir.tna_report_existing_report_review_workshop'
+              ] as string,
+            )
+        : yup.string().nullable(),
+      existing_report_review_file: isExistingReportReviewFile
+        ? yup
+            .string()
+            .required()
+            .label(
+              messages[
+                '4ir.tna_report_existing_report_review_workshop'
+              ] as string,
+            )
+        : yup.string().nullable(),
+      others_workshop_numbers: isOthersFile
+        ? yup
+            .number()
+            .required()
+            .label(messages['4ir.tna_report_others_workshop'] as string)
+        : yup.string().nullable(),
+      others_file: isOthersFile
+        ? yup
+            .string()
+            .required()
+            .label(messages['4ir.tna_report.others_workshop'] as string)
+        : yup.string().nullable(),
       file_path: yup.string().label(messages['common.file_path'] as string),
       row_status: yup.number(),
     });
-  }, [messages]);
+  }, [
+    messages,
+    isWorkshopMethodWorkshop,
+    isFGDWorkshop,
+    isIndustryVisit,
+    isDesktopResearchFile,
+    isExistingReportReviewFile,
+    isOthersFile,
+  ]);
 
   const {
     control,
@@ -164,26 +220,29 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   }, [itemData]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log(data);
+
     try {
       let payload = {
         four_ir_initiative_id: fourIRInitiativeId,
-        workshop_method_workshop_numbers:
-          data?.workshop_method_workshop_numbers,
-        workshop_method_file: data?.workshop_method_file,
-        fgd_workshop_numbers: data?.fgd_workshop_numbers,
-        fgd_workshop_file: data?.fgd_workshop_file,
-        industry_visit_workshop_numbers: data?.industry_visit_workshop_numbers,
-        industry_visit_file: data?.industry_visit_file,
-        desktop_research_workshop_numbers:
-          data?.desktop_research_workshop_numbers,
-        desktop_research_file: data?.desktop_research_file,
-        existing_report_review_workshop_numbers:
-          data?.existing_report_review_workshop_numbers,
-        existing_report_review_file: data?.existing_report_review_file,
-        others_workshop_numbers: data?.others_workshop_numbers,
-        others_file: data?.others_file,
-        file_path: data?.file_path,
-        row_status: data?.row_status,
+        ...data,
+        // workshop_method_workshop_numbers:
+        //   data?.workshop_method_workshop_numbers,
+        // workshop_method_file: data?.workshop_method_file,
+        // fgd_workshop_numbers: data?.fgd_workshop_numbers,
+        // fgd_workshop_file: data?.fgd_workshop_file,
+        // industry_visit_workshop_numbers: data?.industry_visit_workshop_numbers,
+        // industry_visit_file: data?.industry_visit_file,
+        // desktop_research_workshop_numbers:
+        //   data?.desktop_research_workshop_numbers,
+        // desktop_research_file: data?.desktop_research_file,
+        // existing_report_review_workshop_numbers:
+        //   data?.existing_report_review_workshop_numbers,
+        // existing_report_review_file: data?.existing_report_review_file,
+        // others_workshop_numbers: data?.others_workshop_numbers,
+        // others_file: data?.others_file,
+        // file_path: data?.file_path,
+        // row_status: data?.row_status,
       };
 
       if (itemId !== null) {
@@ -201,15 +260,23 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     }
   };
 
+  const emptyFile = (fileId: any) => {
+    errorStack(messages['common.only_xlsx_file']);
+    setValue(fileId, '');
+  };
+
   const fileUploadHandler = (files: any, fileId: any) => {
-    files = files ?? [];
+    if (files.length < 1) {
+      emptyFile(fileId);
+      return;
+    }
+
     if (
-      files == [] ||
       files[0].type !==
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) {
-      errorStack(messages['common.only_xlsx_file']);
-      setValue(fileId, '');
+      emptyFile(fileId);
+      return;
     }
   };
 
@@ -262,7 +329,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             {isWorkshopMethodWorkshop && (
               <Grid item sm={2} xs={4}>
                 <CustomTextInput
-                  required
+                  required={isWorkshopMethodWorkshop}
                   disabled={!isWorkshopMethodWorkshop}
                   id='workshop_method_workshop_numbers'
                   label={''}
@@ -278,7 +345,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required
+                  required={isWorkshopMethodWorkshop}
                   id='workshop_method_file'
                   name='workshop_method_file'
                   label={''}
