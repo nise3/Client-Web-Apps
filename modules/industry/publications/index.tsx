@@ -234,7 +234,7 @@ const Publications = () => {
                               <CardMediaImageView
                                 height='227'
                                 image={publication?.image_path}
-                                alt='publication'
+                                alt={publication?.title}
                               />
                             </Box>
                             <Box sx={{width: '150px'}} mt={1}>

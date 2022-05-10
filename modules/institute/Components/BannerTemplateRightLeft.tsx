@@ -49,7 +49,9 @@ const BannerTemplateRightLeft = ({banner}: BannerProps) => {
         <CardMediaImageView
           image={banner?.banner_image_path}
           className={classes.image}
-          alt={banner?.image_alt_title}
+          alt={
+            banner?.image_alt_title ? banner?.image_alt_title : banner?.title
+          }
           title={banner?.title}
         />
       </Grid>
