@@ -38,54 +38,57 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import { ICertificate } from '../../../shared/Interface/certificates';
+import { ICertificate, ICertificateBatchSetting } from '../../../shared/Interface/certificates';
 import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
 
+
+
 interface CertificateTemplatePopupProps {
-  itemId: number,
+  // itemId: number,
+  batch: ICertificateBatchSetting,
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
-const initialValues = {
-  // certificate_type: '',
-  certificate_id: ''
-};
+// const initialValues = {
+//   // certificate_type: '',
+//   certificate_id: ''
+// };
 
 const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
-  itemId,
+  batch,
   refreshDataTable,
   ...props
 }) => {
-  console.log('item id', itemId)
+  // console.log('item id', itemId)
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
-  const [certificateTypeId, setCertificateTypeId] = useState<string>();
-  const [certificateId, setCertificateId] = useState<string>();
+  const [certificateTypeId, setCertificateTypeId] = useState<number>();
+  const [certificateId, setCertificateId] = useState<number>();
   const [certificatesList, setCertificatesList] = useState<
     Array<ICertificate> | []
   >([]);
 
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateBatch,
-  } = useFetchBatch(itemId);
+  // const {
+  //   data: itemData,
+  //   isLoading,
+  //   mutate: mutateBatch,
+  // } = useFetchBatch(itemId);
 
-  console.log('batch data ', itemData)
+  console.log('batch data ', batch)
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       certificate_type: yup
         .string()
         .trim()
-        // .required()
+        .required()
         .label(messages['certificate.certificate_type'] as string),
       certificate_id: yup
         .string()
         .trim()
-        // .required()
+        .required()
         .label(messages['common.certificate'] as string),
     });
   // }, [messages, authUser]);
@@ -98,15 +101,27 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IBatch>({
+  } = useForm<ICertificateBatchSetting>({
     resolver: yupResolver(validationSchema),
   });
 
-  const changeCertificateTypeAction = useCallback((typeid: string) => {
-    // console.log('setCertificateTypeId', typeid);
+        
+  
+  useEffect(() => {
+    if(batch){
+      reset({
+        certificate_type: batch.certificate_type,
+        certificate_id: batch.certificate_id
+      })
+    }
+  }, [batch])
+  
+  
+
+  const changeCertificateTypeAction = useCallback((typeid: number) => {
     setCertificateTypeId(typeid);
   }, []);
-  const changeCertificatesAction = useCallback((certificateId: string) => {
+  const changeCertificatesAction = useCallback((certificateId: number) => {
     setCertificateId(certificateId);
   }, []);
 
@@ -121,13 +136,13 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
 
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     // console.log(data);
-    data.certificate_id = parseInt(data.certificate_id);
-    const datawithcetificateid = {...itemData, ...data};
+    data.certificate_id = data.certificate_id;
+    const datawithcetificateid = {...batch, ...data};
     // console.log(datawithcetificateid)
     try {
-      if (itemId) {
-        await updateBatch(itemId, datawithcetificateid);
-        mutateBatch();
+      if (batch.id) {
+        await updateBatch(batch.id, datawithcetificateid);
+        // mutateBatch();
       }
       props.onClose();
       refreshDataTable();
@@ -145,7 +160,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
           <IconBatch />
           <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='batches.label' />}}
+              values={{subject: <IntlMessages id='common.certificate_template' />}}
             />
         </>
       }
@@ -189,13 +204,13 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
             />
         </Grid>
     
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'
             control={control}
             isLoading={isLoadingTypes}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </HookFormMuiModal>
   );

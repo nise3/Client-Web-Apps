@@ -167,7 +167,7 @@ export interface IBatch extends IIdTitleCreateUpdateAt {
   batch_start_date: string;
   batch_end_date: string;
   row_status?: string;
-  certificate_id?: string;
+  certificate_id?: number;
   trainers?: Array<number>;
   crated_by?: string;
   updated_by?: string;

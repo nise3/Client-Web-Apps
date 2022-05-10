@@ -1,4 +1,7 @@
+import { IBatch } from "./institute.interface";
+
 export interface ICertificate {
+  id: number;
   template: string;
   title_en: string;
   title: string;
@@ -8,5 +11,9 @@ export interface ICertificate {
 export interface ICertificateIssue {
   youth_id: string;
   batch_id: string;
-  certificate_id: string;
+  certificate_id: number;
+}
+
+export interface ICertificateBatchSetting extends IBatch{
+  certificate_type?: number
 }

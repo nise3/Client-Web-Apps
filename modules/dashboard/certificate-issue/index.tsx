@@ -120,7 +120,7 @@ const CertificateIssuePage = () => {
       certificate_id: data.certificate_id,
       youth_id: data.youth_id,
     };
-    // console.log(issueData)
+    
     createCertificateIssue(issueData).then((res) => {
       if (isResponseSuccess(res)) {
         successStack(
