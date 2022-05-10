@@ -1886,5 +1886,11 @@
   "filePond.file_type": "Invalid file type",
   "filePond.max_file_size": "Maximum file size is ",
   "filePond.total_max_file_size": "Total maximum file size is 50MB",
-  "hr_demand_deadline_exceeded.label": "Deadline exceeded"
+  "hr_demand_deadline_exceeded.label": "Deadline exceeded",
+  "common.forget_password": "Forgetten password?",
+  "common.verify_otp": "Verify OTP",
+  "common.reset_password": "Reset password",
+  "common.new_password": "New password",
+  "common.find_your_account": "Find your account",
+  "common.enter_username": "Please enter your username"
 }

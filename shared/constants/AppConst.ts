@@ -26,3 +26,6 @@ export const COOKIE_KEY_YOUTH_USER_AS_TRAINER = 'youth_user_as_trainer';
 export const IS_LOCAL_IDP = true;
 export const IS_LOCAL_APM = true;
 export const NOT_LOGOUT_ERROR_CODE = 'access_denied';
+export const COOKIE_KEY_FORGET_PASSWORD_USERNAME = 'forget_password_user_name';
+export const COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP =
+  'forget_password_verify_otp';
