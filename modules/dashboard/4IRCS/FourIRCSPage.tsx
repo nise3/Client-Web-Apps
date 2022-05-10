@@ -87,7 +87,6 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
           );
         },
       },
-
       {
         Header: messages['common.level_from'],
         accessor: 'level_from',
@@ -96,11 +95,6 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       {
         Header: messages['common.level_to'],
         accessor: 'level_to',
-        disableFilters: true,
-      },
-      {
-        Header: messages['common.organization_name'],
-        accessor: 'organization_name',
         disableFilters: true,
       },
       {
@@ -188,6 +182,7 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
           <FourIRCSAddEditPopup
             key={1}
             onClose={closeAddEditModal}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
