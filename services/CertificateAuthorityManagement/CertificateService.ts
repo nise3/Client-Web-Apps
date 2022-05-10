@@ -80,6 +80,14 @@ export const createCertificate = async (data: ICertificate) => {
     catchBlockHandler(error);
   }
 };
+export const getCertificateById = async (certificateId: any) => {
+  try {
+    let response: any = await apiGet(`${API_CERTIFICATES}/${certificateId}`);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
 
 export const getCertificateByResultType = async (params: any) => {
   try {
