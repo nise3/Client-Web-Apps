@@ -366,107 +366,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
     );
   };
 
-  // TODO: Remove this function if not used in the future
-  /*const getButton = () => {
-    switch (candidate?.apply_status) {
-      case ApplyStatuses.APPLIED:
-        return (
-          <Box m={'auto'}>
-            <CheckButton
-              title={`Shortlist for ${
-                nextStep ? nextStep?.title : 'final hiring'
-              }`}
-              onClick={() => shortlistCandidate(candidate.id)}
-            />
-
-            <CustomRemoveButton
-              title={messages['applicationManagement.reject'] as string}
-              onClick={() => rejectCandidate(candidate.id)}
-              icon={<Close />}
-            />
-          </Box>
-        );
-      case ApplyStatuses.REJECTED:
-        return (
-          <Box m={'auto'}>
-            <CustomRemoveButton
-              title={'Restore'}
-              onClick={() => restoreCandidate(candidate.id)}
-              icon={<Refresh />}
-            />
-          </Box>
-        );
-      case ApplyStatuses.SHORTLISTED:
-        return (
-          <Box m={'auto'}>
-            {currentStep?.step_type != RecruitmentSteps.STEP_TYPE_SHORTLIST ? (
-              nextStep ? (
-                <CheckButton
-                  title={`Schedule for ${nextStep?.title}`}
-                  onClick={() => {
-                    onClickCandidateScheduleAssignButton(candidate?.id);
-                  }}
-                />
-              ) : (
-                <CheckButton
-                  title={`Shortlist for final hiring`}
-                  onClick={() => shortlistCandidate(candidate.id)}
-                />
-              )
-            ) : (
-              <CheckButton
-                title={`Shortlist for ${
-                  nextStep ? nextStep?.title : 'final hiring'
-                }`}
-                onClick={() => shortlistCandidate(candidate.id)}
-              />
-            )}
-
-            <CustomRemoveButton
-              title={messages['common.remove'] as string}
-              onClick={() => removeCandidate(candidate.id)}
-              icon={<PersonRemove />}
-            />
-          </Box>
-        );
-      case ApplyStatuses.HIRING_LISTED:
-        if (candidate.hire_invited_at)
-          return (
-            <Box m={'auto'}>
-              <CheckButton
-                title={'Hire'}
-                onClick={() => hiredCandidate(candidate.id)}
-              />
-            </Box>
-          );
-        return (
-          <Box m={'auto'}>
-            <CheckButton
-              title={`Send hire invitation`}
-              onClick={() =>
-                hireInviteCandidate(candidate.id, {
-                  hire_invite_type: candidate.hire_invite_type
-                    ? candidate.hire_invite_type
-                    : 2,
-                })
-              }
-            />
-          </Box>
-        );
-      case ApplyStatuses.HIRE_INVITED:
-        return (
-          <Box m={'auto'}>
-            <CheckButton
-              title={'Hire'}
-              onClick={() => hiredCandidate(candidate.id)}
-            />
-          </Box>
-        );
-      default:
-        return <></>;
-    }
-  };*/
-
   const getButtons = () => {
     let pos_title: any,
       pos_onClick: any,
@@ -526,12 +425,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
         break;
       case ApplyStatuses.HIRING_LISTED:
         pos_title = `Send hire invitation`;
-        // pos_onClick = () =>
-        //   hireInviteCandidate(candidate.id, {
-        //     hire_invite_type: candidate.hire_invite_type
-        //       ? candidate.hire_invite_type
-        //       : 2,
-        //   });
         pos_onClick = () => onClickCandidateScheduleInviteButton(candidate.id);
         break;
       case ApplyStatuses.HIRE_INVITED:
@@ -618,12 +511,6 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                   }}>
                   {candidate?.youth_profile?.first_name}{' '}
                   {candidate?.youth_profile?.last_name}
-                  {/*  <Caption className={classes.age}>
-                    {moment().diff(
-                      candidate?.youth_profile?.date_of_birth.slice(0, 10),
-                      'years',
-                    )}
-                  </Caption>*/}
                 </H5>
                 <Body2 sx={{display: 'flex', justifyContent: 'flex-start'}}>
                   <FmdGoodIcon
@@ -657,7 +544,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                 </Body2>
                 <Body2>
                   {
-                    candidate?.youth_profile?.youth_educations[
+                    candidate?.youth_profile?.youth_educations?.[
                       Math.max(
                         ...candidate?.youth_profile?.youth_educations.map(
                           (o: any, index: number) => {
@@ -666,12 +553,12 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                           },
                         ),
                       )
-                    ].institute_name
+                    ]?.institute_name
                   }
                 </Body2>
                 <Body2>
                   {
-                    candidate?.youth_profile?.youth_educations[
+                    candidate?.youth_profile?.youth_educations?.[
                       Math.max(
                         ...candidate?.youth_profile?.youth_educations.map(
                           (o: any, index: number) => {
@@ -680,7 +567,7 @@ const CandidateComponent: FC<CandidateComponentProps> = ({
                           },
                         ),
                       )
-                    ].exam_degree_title
+                    ]?.exam_degree_title
                   }
                 </Body2>
                 <Box display={'flex'} alignItems={'center'}>
