@@ -6,6 +6,7 @@ import {styled} from '@mui/material/styles';
 import {adminDomain} from '../../../@softbd/common/constants';
 import SecondStep from './SecondStep';
 import TNAReportStep from './TNAReportStep';
+import SkillDevelopmentStep from './SkillDevelopmentStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -140,6 +141,16 @@ const TeamAndCellView = () => {
         case 3:
           return (
             <TNAReportStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+
+        case 11:
+          return (
+            <SkillDevelopmentStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}

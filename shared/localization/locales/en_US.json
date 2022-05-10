@@ -1932,7 +1932,6 @@
   "project.roadmap_finalized": "Roadmap Finalized",
   "project.projects_reviewed": "Projects reviewed by Secretary of relevant Ministries",
   "project.projects_approved": "Projects Approved",
-
   "initiative.label": "4IR Initiative",
   "initiative.name": "Initiative Name",
   "initiative.name_en": "Initiative Name (En)",
@@ -1974,6 +1973,10 @@
   "4ir.tna_report_desktop_research_workshop": "Desktop Research",
   "4ir.tna_report_existing_report_review_workshop": "Existing Report Review",
   "4ir.tna_report_others_workshop": "Others",
-  "4ir.tna_report_demo_file": "Demo File"
-
+  "4ir.tna_report_demo_file": "Demo File",
+  "4ir.skill_development" : "Skill Development",
+  "4ir.skill_development_traning_center" : "Traning Center",
+  "4ir.skill_development_batch_start_date" : "Batch Start Date",
+  "4ir.skill_development_batch_end_date" : "Batch End Date",
+  "4ir.skill_development_batch_number" : "Batch Number"
 }

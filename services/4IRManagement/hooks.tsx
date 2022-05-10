@@ -10,7 +10,9 @@ import {
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRInitiative(initiativeId: number | null) {
-  return useAxiosSWR(initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null);
+  return useAxiosSWR(
+    initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null,
+  );
 }
 
 export function useFetch4IInitiative(initiativeId: number | null) {

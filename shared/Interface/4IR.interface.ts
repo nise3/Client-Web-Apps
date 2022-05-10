@@ -112,3 +112,10 @@ export interface IOccupation extends IIdTitleCreateUpdateAt {
   title_en?: string;
   row_status?: number | string;
 }
+
+export interface ISkillDevelopment extends IIdTitleCreateUpdateAt {
+  traning_center: string;
+  batch_start_date: string;
+  batch_end_date: string;
+  batch_number: number;
+}

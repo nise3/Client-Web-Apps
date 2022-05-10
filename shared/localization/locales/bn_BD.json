@@ -1933,7 +1933,6 @@
   "project.roadmap_finalized": "রোডম্যাপ চূড়ান্ত",
   "project.projects_reviewed": "প্রকল্পগুলো সংশ্লিষ্ট মন্ত্রণালয়ের সচিব কর্তৃক পর্যালোচনা করা হয়েছে",
   "project.projects_approved": "প্রকল্প অনুমোদিত",
-
   "initiative.label": "4 আই আর উদ্যোগ",
   "4ir.project_initiative": "প্রজেক্ট উদ্যোগ",
   "initiative.name": "উদ্যোগ এর নাম",
@@ -1976,5 +1975,10 @@
   "4ir.tna_report_desktop_research_workshop": "ডেস্কটপ রিসার্চ",
   "4ir.tna_report_existing_report_review_workshop": "এক্সিস্টিং রিপোর্ট রিভিউ",
   "4ir.tna_report_others_workshop" : "অন্যান্য",
-  "4ir.tna_report_demo_file": "ডেমো ফাইল"
+  "4ir.tna_report_demo_file": "ডেমো ফাইল",
+  "4ir.skill_development" : "স্কিল ডেভেলপমেন্ট",
+  "4ir.skill_development_traning_center" : "ট্রেনিং সেন্টার",
+  "4ir.skill_development_batch_start_date" : "ব্যাচ স্টার্ট ডেট",
+  "4ir.skill_development_batch_end_date" : "ব্যাচ এন্ড ডেট",
+  "4ir.skill_development_batch_number" : "ব্যাচ নম্বর"
 }
