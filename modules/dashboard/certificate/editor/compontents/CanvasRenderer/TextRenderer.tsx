@@ -11,10 +11,10 @@ const MIN_FONT_SIZE = 8;
 const enabledAnchors = [
   'middle-left',
   'middle-right',
-  // "top-left",
-  // "top-right",
-  // "bottom-left",
-  // "bottom-right",
+  'top-left',
+  'top-right',
+  'bottom-left',
+  'bottom-right',
 ];
 interface Props {
   id: string;

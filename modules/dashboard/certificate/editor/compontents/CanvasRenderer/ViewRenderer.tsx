@@ -9,7 +9,6 @@ import {Dimensions} from '../../interfaces/StageConfig';
 import {isLoadingState, ratioState} from '../../state/atoms/editor';
 import {backgroundState, dimensionsState} from '../../state/atoms/template';
 import Elements from './Elements';
-import Template from '../../template';
 import useTemplateDispatcher from '../../state/dispatchers/template';
 import {useRouter} from 'next/router';
 import {getCertificateIssueByIssueId} from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
@@ -20,7 +19,7 @@ import {
 import {getBatch} from '../../../../../../services/instituteManagement/BatchService';
 import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
-import {GiConsoleController} from 'react-icons/gi';
+import {loadTemplateImages} from '../../utils/template';
 
 interface IYouthCertificateDetails {
   'candidate-name': string;
@@ -57,7 +56,6 @@ function ViewRenderer() {
     grade: 5,
   });
   const [certificateId, setCertificateId] = useState<any>(null);
-  const [template, setTemplate] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (editorAreaRef.current) {
@@ -131,15 +129,13 @@ function ViewRenderer() {
   const loadTemplate = async (template: any, youthInfo: any) => {
     template.elements.map((t: any) => {
       if (t.type === 'input') {
-        console.log(t.props.class);
-        //@ts-ignore
-        console.log('name: ', youthInfo[t.props.class]);
         //@ts-ignore
         t.props.text = youthInfo[t.props.class];
         console.log(t);
       }
     });
-    setLoadedTemplate(template, getScreenDimensions());
+    await loadTemplateImages(template),
+      setLoadedTemplate(template, getScreenDimensions());
   };
 
   useEffect(() => {
@@ -212,7 +208,8 @@ function ViewRenderer() {
           offsetX={area.offset.x}
           offsetY={area.offset.y}
           width={area.stageDimensions.width}
-          height={area.stageDimensions.height}>
+          height={area.stageDimensions.height}
+          listening={false}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
               <Layer>

@@ -1,6 +1,7 @@
-import {apiGet, apiPost} from '../../@softbd/common/api';
+import {apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_CERTIFICATES} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
+import certificate from '../../dashboard/pages/certificate';
 // import {CERTIFICATE_TYPE_API_URL} from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 import {ICertificate} from '../../shared/Interface/certificates';
 
@@ -72,7 +73,7 @@ const CERTIFICATES = [
   },
 ];
 
-export const createCertificate = async (data: ICertificate) => {
+export const createCertificate = async (data: Partial<ICertificate>) => {
   try {
     let response: any = await apiPost(API_CERTIFICATES, data);
     return response.data;
@@ -80,6 +81,22 @@ export const createCertificate = async (data: ICertificate) => {
     catchBlockHandler(error);
   }
 };
+
+export const updateCertificate = async (
+  certificateId: number,
+  data: Partial<ICertificate>,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_CERTIFICATES + '/' + certificateId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
 export const getCertificateById = async (certificateId: any) => {
   try {
     let response: any = await apiGet(`${API_CERTIFICATES}/${certificateId}`);
