@@ -16,17 +16,7 @@ variables:
     # is lts acme, value is boolean
   ltsAcme: false
 
-  # if values is false, then creating ingress will be escape
-  enableEngress: true
-
-  # ingress cluster-issuer class
-  ingressClusterIssuer: "k-issuer"
-
-    # is lts acme, value is boolean
-  ltsAcme: false
-  # app version, changing version will auto deploy the app to current version
-
-  imageAppVersion: "prod-1.9"
+  imageAppVersion: "staging-2.0.0"
 
   # increase this when you need scale up
   replicaCount: 1
