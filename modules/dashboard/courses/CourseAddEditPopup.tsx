@@ -35,6 +35,7 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import _ from 'lodash';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -123,11 +124,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             .required()
             .label(messages['institute.label'] as string)
         : yup.string().nullable(),
-      // code: yup
-      //   .string()
-      //   .trim()
-      //   .required()
-      //   .label(messages['common.code'] as string),
       course_fee: yup
         .number()
         .required()
@@ -144,7 +140,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .label(messages['course.language_medium'] as string),
       skills: yup
         .array()
-        .of(yup.number())
+        .of(yup.object())
         .min(1)
         .label(messages['common.skills'] as string),
     });
@@ -361,21 +357,24 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
-    data.application_form_settings = getConfigInfoData(
+    let formData = _.cloneDeep(data);
+    formData.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
 
     if (!authUser?.isSystemUser) {
-      delete data?.institute_id;
+      delete formData?.institute_id;
     }
+
+    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
 
     try {
       if (itemId) {
-        await updateCourse(itemId, data);
+        await updateCourse(itemId, formData);
         updateSuccessMessage('course.label');
         mutateCourse();
       } else {
-        await createCourse(data);
+        await createCourse(formData);
         createSuccessMessage('course.label');
       }
       props.onClose();
