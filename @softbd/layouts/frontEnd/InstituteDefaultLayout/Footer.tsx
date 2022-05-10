@@ -202,8 +202,8 @@ const Footer = () => {
                     style={{marginLeft: '6px'}}
                     className={classes.textColor}>
                     {language === 'bn'
-                      ? convertEnglishDigitsToBengali(institute?.primary_phone)
-                      : institute?.primary_phone}
+                      ? convertEnglishDigitsToBengali(institute?.primary_mobile)
+                      : institute?.primary_mobile}
                   </Text>
                 </Box>
               ) : (
