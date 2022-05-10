@@ -25,6 +25,14 @@ export const getYouthProfile = async () => {
     catchBlockHandler(error);
   }
 };
+export const getYouthProfiles = async (params) => {
+  try {
+    let response: any = await apiPost(API_YOUTH_PROFILES, params);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
 export const getYouthProfileById = async (id:any) => {
   try {
     let response: any = await apiGet(API_YOUTHS + '/' + id);

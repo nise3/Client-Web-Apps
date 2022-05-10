@@ -16,6 +16,9 @@ import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_CERTIFICATES} from '../../../@softbd/common/apiRoutes';
+import Link from 'next/link';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import { FiUserCheck } from 'react-icons/fi';
 
 const CertificateTemplatePage = () => {
   const {messages} = useIntl();
@@ -101,9 +104,18 @@ const CertificateTemplatePage = () => {
               <ReadButton
                 onClick={() => openCertificateDetailsModal(data.id)}
               />
-              <EditButton
+              {/* <EditButton
                 onClick={() => openCertificateAddUpdateView(data.id)}
-              />
+              /> */}
+              <Link href={`/certificate/editor?certificateId=${data.id}`} passHref={true}>
+                  <CommonButton
+                    btnText='common.edit_btn'
+                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    style={{ marginLeft: '10px' }}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Link>
               <DeleteButton
                 deleteAction={() => deleteCertificateTemplate(data.id)}
                 deleteTitle='Are you sure?'

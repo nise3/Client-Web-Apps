@@ -117,7 +117,7 @@ function ViewRenderer() {
               'batch-name': batch.title,
               'batch-start-date': batch.batch_start_date,
               'batch-end-date': batch.batch_end_date,
-              'course-name': batch.course_title,
+              'course-name': batch.course_title_en || batch.course_title,
               'training-center': batch.training_center_title_en,
             },
           };
@@ -207,6 +207,7 @@ function ViewRenderer() {
           scaleY={area.scale.y}
           offsetX={area.offset.x}
           offsetY={area.offset.y}
+          listening={false}
           width={area.stageDimensions.width}
           height={area.stageDimensions.height}
           listening={false}>
