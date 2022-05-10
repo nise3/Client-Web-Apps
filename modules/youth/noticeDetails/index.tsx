@@ -133,7 +133,11 @@ const NoticeDetails = () => {
                     },
                   }}
                   image={notice?.main_image_path}
-                  alt={notice?.image_alt_title}
+                  alt={
+                    notice?.image_alt_title
+                      ? notice?.image_alt_title
+                      : notice?.title
+                  }
                   title={notice?.title}
                 />
               </Grid>

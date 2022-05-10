@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import {
   Button,
   Card,
-  Divider,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -14,6 +13,7 @@ import {useIntl} from 'react-intl';
 import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
 import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
+import Divider from '../../../components/Divider/Divider';
 
 interface Props extends ButtonProps {
   onClick: () => void;
@@ -48,22 +48,6 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
         endIcon={<KeyboardArrowDown />}>
         {messages['common.registration_login'] as string}
       </Button>
-      {open && (
-        <div
-          style={{
-            background: '#8880',
-            position: 'fixed',
-            zIndex: 999999,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          onClick={() => handleClose()}
-          onWheel={() => handleClose()}>
-          {''}
-        </div>
-      )}
       {open && (
         <Card
           sx={{
@@ -112,6 +96,23 @@ const GotoSignInOrUpMenu = ({onClick, buttonText, icon, ...extra}: Props) => {
             </Link>
           </button>
         </Card>
+      )}
+      {open && (
+        <div
+          title={'click to close menu'}
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
       )}
     </Box>
   );

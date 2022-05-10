@@ -190,7 +190,11 @@ const AboutSection = () => {
                       <CardMediaImageView
                         className={classes.imageView}
                         image={blockData?.image_path}
-                        alt={blockData?.image_alt_title}
+                        alt={
+                          blockData?.image_alt_title
+                            ? blockData?.image_alt_title
+                            : blockData?.title
+                        }
                       />
                     </Zoom>
                   )}
