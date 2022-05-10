@@ -27,6 +27,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
+import { IBatch } from '../../../shared/Interface/institute.interface';
+import { ICertificate, ICertificateBatchSetting } from '../../../shared/Interface/certificates';
+import { createCertificateById } from '../../../services/CertificateAuthorityManagement/CertificateService';
 
 const BatchesPage = () => {
   const { messages, locale } = useIntl();
@@ -35,7 +38,7 @@ const BatchesPage = () => {
   const path = router.pathname;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-
+  const [selectedBatchItem, setSelectedBatchItem] = useState<ICertificateBatchSetting | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenAddEditTemplateModal, setIsOpenAddEditTemplateModal] = useState(false);
@@ -62,9 +65,19 @@ const BatchesPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const openDetailsTemplateModal = useCallback((itemId: number) => {
-    setIsOpenAddEditTemplateModal(true);
-    setSelectedItemId(itemId);
+  const openDetailsTemplateModal = useCallback((item: ICertificateBatchSetting) => {
+    const certificateId = item.certificate_id as number;
+    createCertificateById(certificateId)
+      .then((res: ICertificate)=> {
+        setIsOpenAddEditTemplateModal(true);
+        item.certificate_type = res?.data?.result_type;
+                                            
+        setSelectedBatchItem(item)
+      })
+    // const certificate = certificatesList.find(item=> item.id === certificateId);
+
+
+    
   }, []);
 
   const closeDetailsTemplateModal = useCallback(() => {
@@ -195,11 +208,11 @@ const BatchesPage = () => {
                 btnText='common.certificate_template'
                 style={{ marginLeft: '10px' }}
                 variant='outlined'
-                onClick={() => openDetailsTemplateModal(data.id)}
+                onClick={() => openDetailsTemplateModal(data)}
                 color='primary'
               />
               {data.certificate_id &&
-                <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+                <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
                   <CommonButton
                     btnText='certificate.certificate_issue'
                     startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
@@ -269,7 +282,7 @@ const BatchesPage = () => {
             key={1}
             onClose={closeDetailsTemplateModal}
             refreshDataTable={refreshDataTable}
-            itemId={selectedItemId}
+            batch={selectedBatchItem}
           />
         )}
 

@@ -89,6 +89,15 @@ export const getCertificateById = async (certificateId: any) => {
   }
 };
 
+export const createCertificateById = async (id: number) => {
+  try {
+    let response: any = await apiGet(API_CERTIFICATES + '/' + id);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
 export const getCertificateByResultType = async (params: any) => {
   try {
     let response: any = await apiGet(API_CERTIFICATES, {params});
