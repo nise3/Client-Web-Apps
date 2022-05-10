@@ -46,7 +46,7 @@ export async function loadTemplateImages(template: Template) {
           const image = new Image();
 
           image.src = element.props.image;
-
+          console.log(image);
           const onLoad = () => {
             image.removeEventListener('load', onLoad);
             image.removeEventListener('error', reject);

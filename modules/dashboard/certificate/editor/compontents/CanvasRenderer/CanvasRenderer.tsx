@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Layer, Rect, Stage} from 'react-konva';
 import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-// import {CircularProgress} from '@mui/material';
 import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
 import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
 import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
@@ -13,8 +12,13 @@ import useElementsDispatcher from '../../state/dispatchers/elements';
 import Elements from './Elements';
 import Transformers from './Transformers';
 import {StageRefContainer} from './../../state/containers/StageRefContainer';
+import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
+import useTemplateDispatcher from '../../state/dispatchers/template';
+import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
+import {useRouter} from 'next/router';
 
 function CanvasRenderer() {
+  const {errorStack} = useNotiStack();
   const ratio = useRecoilValue(ratioState);
   const dimensions = useRecoilValue(dimensionsState);
   const background = useRecoilValue(backgroundState);
@@ -22,13 +26,15 @@ function CanvasRenderer() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
   const {fitToScreen} = useRatioControls();
   const {clearSelection} = useElementsDispatcher();
-  const {editorAreaRef, setScreenDimensions} =
+  const {editorAreaRef, setScreenDimensions, getScreenDimensions} =
     EditorAreaContainer.useContainer();
   const {stageAreaRef} = StageRefContainer.useContainer();
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
+  const {query} = useRouter();
 
+  const {setLoadedTemplate} = useTemplateDispatcher();
   useEffect(() => {
     if (editorAreaRef.current) {
       const containerDimensions = editorAreaRef.current.getBoundingClientRect();
@@ -56,6 +62,21 @@ function CanvasRenderer() {
       };
     }
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
+
+  useEffect(() => {
+    if (query?.certificateId) {
+      getCertificateById(query.certificateId)
+        .then((res) => {
+          const {template} = res.data;
+          const templateObj = JSON.parse(template);
+          setLoadedTemplate(templateObj, getScreenDimensions());
+        })
+        .catch((err) => {
+          errorStack('Something Went Wrong');
+          // Implement go back to certificate page
+        });
+    }
+  }, [query]);
 
   const area = useMemo(() => {
     if (!containerDimensions) {

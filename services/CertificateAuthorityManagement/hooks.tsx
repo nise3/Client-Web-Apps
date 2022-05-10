@@ -1,4 +1,4 @@
-import { useAxiosSWR } from '../../@softbd/hooks/useAxiosSWR';
+import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_RPL_QUESTION_BANK,
   API_RPL_ASSESSMENTS,
@@ -21,7 +21,7 @@ import {
   INSTITUTE_SERVICE_PATH,
   API_CERTIFICATES,
 } from '../../@softbd/common/apiRoutes';
-import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
+import {CERTIFICATE_TYPE_API_URL} from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
 export function useFetchRTO(rtoId: number | null) {
   return useAxiosSWR(
@@ -146,46 +146,43 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
       : null,
   );
 }
-
-export function useFetchResultTypes() {
-  return {
-    "order": "ASC",
-    "data": [
-      {
-        "id": 1,
-        "title": "Competent"
-      },
-      {
-        "id": 2,
-        "title": "Not Competent"
-      },
-      {
-        "id": 3,
-        "title": "Grading"
-      },
-      {
-        "id": 4,
-        "title": "Marks"
-      },
-      {
-        "id": 5,
-        "title": "Participation"
-      }
-    ],
-    "_response_status": {
-      "success": true,
-      "code": 200,
-      "query_time": 0
-    }
-  }
-}
-
 export function useFetchCertificates() {
   return useAxiosSWR(API_CERTIFICATES);
 }
 
-export function useFetchCertificate(certifcateId: number) {
-  return useAxiosSWR(
-    `${API_CERTIFICATES}/${certifcateId}`,
-  );
+export function useFetchCertificate(certifcateId: number | null) {
+  return useAxiosSWR(`${API_CERTIFICATES}/${certifcateId}`);
+}
+
+export function useFetchResultTypes() {
+  return {
+    order: 'ASC',
+    data: [
+      {
+        id: 1,
+        title: 'Competent',
+      },
+      {
+        id: 2,
+        title: 'Not Competent',
+      },
+      {
+        id: 3,
+        title: 'Grading',
+      },
+      {
+        id: 4,
+        title: 'Marks',
+      },
+      {
+        id: 5,
+        title: 'Participation',
+      },
+    ],
+    _response_status: {
+      success: true,
+      code: 200,
+      query_time: 0,
+    },
+  };
 }

@@ -8,7 +8,10 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {createCertificate} from '../../../services/CertificateAuthorityManagement/CertificateService';
+import {
+  createCertificate,
+  updateCertificate,
+} from '../../../services/CertificateAuthorityManagement/CertificateService';
 import {useIntl} from 'react-intl';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {useFetchDivision} from '../../../services/locationManagement/hooks';
@@ -21,8 +24,9 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {ICertificate} from './../../../shared/Interface/certificates';
 import useTemplateDispatcher from './editor/state/dispatchers/template';
 import {toTemplateJSON} from './editor/utils/template';
+import {useRouter} from 'next/router';
+import {useFetchCertificate} from '../../../services/CertificateAuthorityManagement/hooks';
 interface CertificateAddEditPopupProps {
-  itemId: number | null;
   onClose: () => void;
 }
 
@@ -38,20 +42,22 @@ interface Certificate {
 }
 
 const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
-  itemId,
   ...props
 }) => {
+  const {query} = useRouter();
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const isEdit = itemId != null;
   const {setCurrentTemplateToSave} = useTemplateDispatcher();
+  const isEdit = query.certificateId ? true : null;
+  const itemId = query.certificateId ? query.certificateId : null;
 
   const {
     data: itemData,
     isLoading,
     mutate: mutateCertificates,
-  } = useFetchDivision(itemId);
+  } = useFetchCertificate(query.certificateId ? Number(itemId) : null);
+
   const resultType = useMemo(
     () => [
       {
@@ -111,7 +117,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        resultType: itemData?.bbs_code,
+        resultType: itemData?.result_type,
       });
     } else {
       reset(initialValues);
@@ -122,17 +128,22 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     const template = await setCurrentTemplateToSave();
     const templateJson = await toTemplateJSON(template);
     console.log(templateJson);
-    const dataToSave: ICertificate = {
+    const dataToSave: Partial<ICertificate> = {
       title: data.title!,
       title_en: data.title_en!,
       result_type: Number(data.resultType!),
       template: templateJson,
     };
     try {
-      {
-        console.log('data:', dataToSave);
-        await createCertificate(dataToSave);
+      if (query.certificateId) {
+        console.log('update dsfa');
 
+        await updateCertificate(Number(query.certificateId), dataToSave);
+        updateSuccessMessage('common.certificate');
+        mutateCertificates();
+      } else {
+        console.log('heeeeeererr');
+        await createCertificate(dataToSave);
         createSuccessMessage('common.certificate');
       }
       props.onClose();
@@ -165,8 +176,8 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={isLoading} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <CancelButton onClick={props.onClose} isLoading={false} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
         </>
       }>
       <Grid container spacing={5}>
@@ -195,7 +206,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
             required
             id='resultType'
             label={messages['course.course_level']}
-            isLoading={false}
+            isLoading={isLoading}
             control={control}
             options={resultType}
             multiple={false}
