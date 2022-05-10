@@ -23,17 +23,16 @@ import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 import {GiConsoleController} from 'react-icons/gi';
 
 interface IYouthCertificateDetails {
-  certificate_id: number;
-  candidate_name: string;
-  father_name: string;
-  mother_name: string;
-  candidate_nid: string;
-  candidate_birth_cid: string;
-  batch_name: string;
-  batch_start_date: string;
-  batch_end_date: string;
-  course_name: string;
-  training_center: string;
+  'candidate-name': string;
+  'father-name': string;
+  'mother-name': string;
+  'candidate-nid': string;
+  'candidate-birth-cid': string;
+  'batch-name': string;
+  'batch-start-date': string;
+  'batch-end-date': string;
+  'course-name': string;
+  'training-center': string;
   grade: number;
 }
 
@@ -101,10 +100,10 @@ function ViewRenderer() {
           return {
             ...prev,
             ...{
-              candidate_name: `${youth.first_name_en} ${youth.last_name_en}`,
-              candidate_nid:
+              'candidate-name': `${youth.first_name_en} ${youth.last_name_en}`,
+              'candidate-nid':
                 youth.identity_number_type === 1 ? youth.identity_number : null,
-              candidate_birth_cid:
+              'candidate-birth-cid':
                 youth.identity_number_type === 2 ? youth.identity_number : null,
             },
           };
@@ -117,11 +116,11 @@ function ViewRenderer() {
           return {
             ...prev,
             ...{
-              batch_name: batch.title,
-              batch_start_date: batch.batch_start_date,
-              batch_end_date: batch.batch_end_date,
-              course_name: batch.course_title,
-              training_center: batch.training_center_title_en,
+              'batch-name': batch.title,
+              'batch-start-date': batch.batch_start_date,
+              'batch-end-date': batch.batch_end_date,
+              'course-name': batch.course_title,
+              'training-center': batch.training_center_title_en,
             },
           };
         });
@@ -129,26 +128,23 @@ function ViewRenderer() {
     });
   }, [query]);
 
-  const loadTemplate = async (templateJson: any, youthInfo: any) => {
-    // const template = JSON.parse(t);
-    // template.elements.map((t: any) => {
-    //   if (t.type === 'input') {
-    //     console.log(t.props.class);
-    //     //@ts-ignore
-    //     console.log('name: ', youthInfo[t.props.class]);
-    //     //@ts-ignore
-    //     t.props.text = youthInfo[t.props.class];
-    //     t.props.align = 'center';
-    //     console.log(t);
-    //   }
-    //   return 1;
-    // });
-    setLoadedTemplate(templateJson, getScreenDimensions());
+  const loadTemplate = async (template: any, youthInfo: any) => {
+    template.elements.map((t: any) => {
+      if (t.type === 'input') {
+        console.log(t.props.class);
+        //@ts-ignore
+        console.log('name: ', youthInfo[t.props.class]);
+        //@ts-ignore
+        t.props.text = youthInfo[t.props.class];
+        console.log(t);
+      }
+    });
+    setLoadedTemplate(template, getScreenDimensions());
   };
 
   useEffect(() => {
-    if (youthInfoData?.batch_name && certificateId) {
-      getCertificateById(1)
+    if (youthInfoData?.['batch-name'] && certificateId) {
+      getCertificateById(certificateId)
         .then((res) => {
           const {template} = res.data;
           const templateObj = JSON.parse(template);

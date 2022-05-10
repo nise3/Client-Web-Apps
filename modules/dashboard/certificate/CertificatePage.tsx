@@ -36,11 +36,6 @@ const CertificateTemplatePage = () => {
     useReactTableFetchData({
       urlPath: API_CERTIFICATES,
     });
-  // console.log('useFetchCertificates()', useFetchCertificates());
-
-  // useEffect(() => {
-  //   // console.log(certificates);
-  // }, [certificates]);
 
   const openCertificateDetailsModal = useCallback((itemId: number) => {
     setIsopenCertificateViewModal(true);
@@ -148,8 +143,10 @@ const CertificateTemplatePage = () => {
         <ReactTable
           columns={columns}
           data={data}
+          fetchData={onFetchData}
           loading={loading}
-          skipDefaultFilter={true}
+          pageCount={pageCount}
+          totalCount={totalCount}
         />
       </PageBlock>
     </>
