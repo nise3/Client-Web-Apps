@@ -202,8 +202,9 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   };
 
   const fileUploadHandler = (files: any, fileId: any) => {
+    files = files ?? [];
     if (
-      files == null ||
+      files == [] ||
       files[0].type !==
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) {
