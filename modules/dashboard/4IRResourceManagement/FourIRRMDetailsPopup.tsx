@@ -9,8 +9,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import {useFetchFourIRResource} from '../../../services/4IRManagement/hooks';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 type Props = {
   itemId: number;
@@ -18,14 +18,9 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRTagLineDetailsPopup = ({
-  itemId,
-  openEditModal,
-  ...props
-}: Props) => {
+const FourIRRMDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-
-  const {data: itemData, isLoading} = useFetchFourIRTagline(itemId);
+  const {data: itemData, isLoading} = useFetchFourIRResource(itemId);
 
   return (
     <>
@@ -35,7 +30,7 @@ const FourIRTagLineDetailsPopup = ({
         title={
           <>
             <IconSkill />
-            <IntlMessages id='menu.tagline' />
+            <IntlMessages id='4ir_rm.resource' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -54,27 +49,31 @@ const FourIRTagLineDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.name}
+              label={messages['4ir_rm.approval_status']}
+              value={itemData?.approval_status ? 'Yes' : 'No'}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.name_en']}
-              value={itemData?.name_en}
+              label={messages['4ir_rm.budget_approval_status']}
+              value={itemData?.budget_approval_status ? 'Yes' : 'No'}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['common.start_date']}
-              value={
-                itemData?.start_date
-                  ? getMomentDateFormat(itemData?.start_date, 'DD MMM, YYYY')
-                  : ''
-              }
+              label={messages['4ir_rm.given_budget']}
+              value={itemData?.given_budget}
               isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CardMediaImageView
+              image={itemData?.cover_image}
+              //className={classes.trainingCardImage}
+              title={'common.attachment'}
+              alt={'common.attachment'}
             />
           </Grid>
           <Grid item xs={6}>
@@ -90,4 +89,4 @@ const FourIRTagLineDetailsPopup = ({
   );
 };
 
-export default FourIRTagLineDetailsPopup;
+export default FourIRRMDetailsPopup;

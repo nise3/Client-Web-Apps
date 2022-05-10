@@ -5,47 +5,45 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField/';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-
+//import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  createTeamMember,
-  updateTeamMember,
-} from '../../../services/4IRManagement/ImplementingTeamService';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
-import {FourIRTeamType} from '../../../shared/constants/AppEnums';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 
-interface ImplementingTeamAddEditPopupProps {
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {IEmployment} from '../../../shared/Interface/4IR.interface';
+//import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
+//import FileUploadComponent from '../../filepond/FileUploadComponent';
+//import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
+
+interface CSAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
-  fourIRInitiativeId: number;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
   name: '',
-  name_en: '',
+  contact_number: '',
   email: '',
-  phone_number: '',
-  role: '',
   designation: '',
-  contribution: '',
-  responsibility: '',
-  row_status: 1,
+  industry_name: '',
+  starting_salary: 0,
+  job_starting_data: '',
+  medium_of_job: '',
 };
 
-const FourIRImplementingTeamAddEditPopup: FC<
-  ImplementingTeamAddEditPopupProps
-> = ({itemId, fourIRInitiativeId, refreshDataTable, ...props}) => {
+const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
+  itemId,
+  refreshDataTable,
+  ...props
+}) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
@@ -55,95 +53,85 @@ const FourIRImplementingTeamAddEditPopup: FC<
   const {
     data: itemData,
     isLoading,
-    mutate: mutateImplementingTeam,
-  } = useFetch4IRTeam(itemId);
+    mutate: mutateProject,
+  } = {
+    data: initialValues,
+    isLoading: false,
+    mutate: () => null,
+  };
+
+  //useFetch4IRCS(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       name: yup
         .string()
         .title()
-        .required()
-        .label(messages['common.title'] as string),
-      name_en: yup
-        .string()
-        .title(
-          'en',
-          false,
-          messages['common.special_character_error'] as string,
-        )
-        .label(messages['common.title_en'] as string),
+        .label(messages['common.name_bn'] as string),
+      contact_number: yup.string().label(messages['common.contact'] as string),
       email: yup
         .string()
         .email()
-        .required()
         .label(messages['common.email'] as string),
-
-      phone_number: yup
+      designation: yup.string().label(messages['common.designation'] as string),
+      industry_name: yup
         .string()
-        .trim()
-        .required()
-        .matches(MOBILE_NUMBER_REGEX)
-        .label(messages['common.mobile'] as string),
-      role: yup
+        .label(messages['common.industry_name'] as string),
+      starting_salary: yup
+        .number()
+        .integer()
+        .positive()
+        .label(messages['common.starting_salary'] as string),
+      job_starting_data: yup
         .string()
-        .required()
-        .label(messages['common.role'] as string),
-      designation: yup
+        .label(messages['common.job_starting_date'] as string),
+      medium_of_job: yup
         .string()
-        .required()
-        .label(messages['common.designation'] as string),
+        .label(messages['common.job_medium'] as string),
     });
   }, [messages]);
 
   const {
+    //control,
     register,
-    control,
     reset,
     setError,
+    // setValue,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
+  } = useForm<IEmployment>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    if (itemData != null) {
+    if (itemData) {
       reset({
-        name: itemData?.name,
-        name_en: itemData?.name_en,
-        email: itemData?.email,
-        phone_number: itemData?.phone_number,
-        role: itemData?.role,
-        designation: itemData?.designation,
-        contribution: itemData?.contribution,
-        responsibility: itemData?.responsibility,
-        row_status: itemData?.row_status,
+        contact_number: itemData.contact_number,
+        name: itemData.name,
+        email: itemData.email,
+        designation: itemData.designation,
+        industry_name: itemData.industry_name,
+        starting_salary: itemData.starting_salary,
+        job_starting_data: itemData.job_starting_data,
+        medium_of_job: itemData.medium_of_job,
       });
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+  const onSubmit: SubmitHandler<IEmployment> = async (data: IEmployment) => {
     try {
-      let payload = {
-        four_ir_initiative_id: fourIRInitiativeId,
-        team_type: FourIRTeamType.IMPLEMENTING_TEAM,
-        ...data,
-      };
-
-      if (itemId != null) {
-        await updateTeamMember(itemId, payload);
-        updateSuccessMessage('4ir.implementing_team');
-        mutateImplementingTeam();
+      if (itemId) {
+        // todo -> api call here
+        updateSuccessMessage('4ir.employment');
+        mutateProject();
       } else {
-        await createTeamMember(payload);
-        createSuccessMessage('4ir.implementing_team');
+        // todo -> api call here
+        createSuccessMessage('4ir.employment');
       }
-
-      props.onClose();
-      refreshDataTable();
+      //props.onClose();
+      //refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -159,14 +147,12 @@ const FourIRImplementingTeamAddEditPopup: FC<
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='4ir.implementing_team' />}}
+              values={{subject: <IntlMessages id='4ir.employment' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{
-                subject: <IntlMessages id='4ir.implementing_team' />,
-              }}
+              values={{subject: <IntlMessages id='4ir.employment' />}}
             />
           )}
         </>
@@ -190,15 +176,18 @@ const FourIRImplementingTeamAddEditPopup: FC<
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='name_en'
-            label={messages['common.name_en']}
+            required
+            id='contact_number'
+            label={messages['common.contact_number']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
@@ -209,28 +198,8 @@ const FourIRImplementingTeamAddEditPopup: FC<
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <CustomTextInput
-            required
-            id='phone_number'
-            label={messages['common.mobile']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomTextInput
-            required
-            id='role'
-            label={messages['role.label']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             required
             id='designation'
@@ -238,36 +207,49 @@ const FourIRImplementingTeamAddEditPopup: FC<
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            rows={3}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+
+        <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='contribution'
-            label={messages['4IR.contribution']}
+            required
+            id='industry_name'
+            label={messages['common.industry_name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            rows={5}
-            multiline={true}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+
+        <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='responsibility'
-            label={messages['4ir.responsibility']}
+            required
+            id='starting_salary'
+            label={messages['common.starting_salary']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            rows={5}
-            multiline={true}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
+
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id='job_starting_data'
+            label={messages['common.job_starting_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='medium_of_job'
+            label={messages['common.job_medium']}
+            register={register}
+            errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
@@ -275,4 +257,4 @@ const FourIRImplementingTeamAddEditPopup: FC<
     </HookFormMuiModal>
   );
 };
-export default FourIRImplementingTeamAddEditPopup;
+export default FourIREmploymentAddEditPopup;

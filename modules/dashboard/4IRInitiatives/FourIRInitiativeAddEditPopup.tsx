@@ -18,32 +18,39 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {getAll4IROccupations} from '../../../services/4IRManagement/OccupationService';
-import {IProject} from '../../../shared/Interface/4IR.interface';
-import {
-  createProject,
-  updateProject,
-} from '../../../services/4IRManagement/ProjectService';
-import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
+import {IInitiative} from '../../../shared/Interface/4IR.interface';
+
+import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import {
+  createInitiative,
+  updateInitiative,
+} from '../../../services/4IRManagement/InitiativeService';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface ProjectAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRTaglineId: number;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  project_name: '',
-  project_name_en: '',
+  name: '',
+  name_en: '',
   organization_name: '',
   organization_name_en: '',
   four_ir_occupation_id: '',
   start_date: '',
-  budget: '0',
+  budget: 0,
+  designation: '',
+  is_skill_provide: 0,
+  end_date: '',
+  file_path: '',
   details: '',
   tasks: [],
   row_status: '1',
@@ -53,6 +60,7 @@ const initialValues = {
 
 const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   itemId,
+  fourIRTaglineId,
   refreshDataTable,
   ...props
 }) => {
@@ -62,11 +70,12 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
+  const [isSillProvide, setIsSillProvide] = useState<boolean>(false);
   const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
-  const [projectId, setProjectId] = useState<any>(null);
+  const [initiativeId, setInitiativeId] = useState<any>(null);
   const [completionStep, setCompletionStep] = useState<any>(1);
   const [formStep, setFormStep] = useState<any>(1);
   const [tasks, setTasks] = useState<any>([]);
@@ -74,15 +83,17 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
   const [isLoadingOccupation, setIsLoadingOccupation] =
     useState<boolean>(false);
 
+  const [fileLinks, setFileLinks] = useState<any>([]);
+
   const {
     data: itemData,
     isLoading,
-    mutate: mutateProject,
-  } = useFetch4IRProject(itemId);
+    mutate: mutateInitiative,
+  } = useFetch4IInitiative(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      project_name: yup
+      name: yup
         .string()
         .title()
         .label(messages['initiative.name'] as string),
@@ -94,6 +105,18 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['initiative.start_date'] as string),
+      designation: yup
+        .string()
+        .required()
+        .label(messages['common.designation'] as string),
+      end_date: yup
+        .string()
+        .required()
+        .label(messages['initiative.end_date'] as string),
+      budget: yup
+        .number()
+        .positive()
+        .label(messages['initiative.budget'] as string),
       four_ir_occupation_id: yup
         .string()
         .trim()
@@ -125,10 +148,11 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     control,
     register,
     reset,
+    setValue,
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<IProject>({
+  } = useForm<IInitiative>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -163,9 +187,12 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
+      /**To fetch active file path**/
+      setFileLinks(itemData?.file_path ?? '');
+
       reset({
-        project_name: itemData?.project_name,
-        project_name_en: itemData?.project_name_en,
+        name: itemData?.name,
+        name_en: itemData?.name_en,
         organization_name: itemData?.organization_name,
         organization_name_en: itemData?.organization_name_en,
         four_ir_occupation_id: itemData?.four_ir_occupation_id,
@@ -173,6 +200,10 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         budget: itemData?.budget,
         details: itemData?.details,
         row_status: itemData?.row_status,
+        designation: itemData?.designation,
+        is_skill_provide: itemData?.is_skill_provide,
+        end_date: itemData?.end_date,
+        file_path: itemData?.file_path,
       });
 
       itemData?.tasks?.map((task: any) => {
@@ -201,23 +232,29 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     refreshDataTable();
   };
 
-  const onSubmit: SubmitHandler<IProject> = async (data: IProject) => {
+  const onSubmit: SubmitHandler<IInitiative> = async (data: IInitiative) => {
     try {
+      data.completion_step = completionStep;
+      data.form_step = formStep;
+      data.tasks = tasks;
+      data.is_skill_provide = Number(isSillProvide);
+
       if (itemId) {
-        data.completion_step = completionStep;
-        data.form_step = formStep;
-        data.tasks = tasks;
-        await updateProject(itemId, data);
+        await updateInitiative(itemId, {
+          four_ir_tagline_id: fourIRTaglineId,
+          ...data,
+        });
         updateSuccessMessage('4ir_initiative.label');
-        mutateProject();
+        mutateInitiative();
+        await closeAction();
       } else {
-        data.completion_step = completionStep;
-        data.form_step = formStep;
-        data.tasks = tasks;
-        const response = await createProject(data);
+        const response = await createInitiative({
+          four_ir_tagline_id: fourIRTaglineId,
+          ...data,
+        });
         createSuccessMessage('4ir_initiative.label');
         setShowSuccessPopUp(true);
-        setProjectId(response?.data?.id);
+        setInitiativeId(response?.data?.id);
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -256,7 +293,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='project_name'
+            id='name'
             label={messages['initiative.name']}
             register={register}
             errorInstance={errors}
@@ -265,7 +302,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='initiative_name_en'
+            id='name_en'
             label={messages['initiative.name_en']}
             register={register}
             errorInstance={errors}
@@ -293,7 +330,6 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
-            required
             id='four_ir_occupation_id'
             label={messages['menu.occupations']}
             isLoading={isLoadingOccupation}
@@ -302,6 +338,15 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             optionTitleProp={['title', 'title_en']}
             control={control}
             errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <CustomTextInput
+            id='designation'
+            label={messages['common.designation']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -326,6 +371,16 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id='end_date'
+            label={messages['initiative.end_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             id='budget'
             label={messages['initiative.initiative_budget']}
@@ -334,7 +389,31 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12} md={6}>
+          <FileUploadComponent
+            required={false}
+            id='file_path'
+            defaultFileUrl={fileLinks}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['initiative.file_path']}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomCheckbox
+            id='is_skill_provide'
+            label={messages['initiative.is_skill_provided']}
+            register={register}
+            errorInstance={errors}
+            checked={isSillProvide}
+            onChange={(event: any) => {
+              setIsSillProvide((prev) => !prev);
+            }}
+            isLoading={false}
+          />
           <CustomCheckbox
             id='tasks[0]'
             label={messages['initiative.roadmap_finalized']}
@@ -387,11 +466,11 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
           />
         </Grid>
       </Grid>
-      {showSuccessPopUp && projectId && (
+      {showSuccessPopUp && initiativeId && (
         <SuccessPopup
           closeAction={closeAction}
           stepNo={1}
-          projectId={projectId}
+          initiativeId={initiativeId}
           completionStep={1}
           formStep={1}
         />

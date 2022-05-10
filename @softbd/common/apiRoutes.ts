@@ -193,16 +193,19 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 
 /** 4IR service routes section start*/
 export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/projects';
-export const API_4IR_GUIDLINE = FOUR_IR_SERVICE_PATH + '/guidelines';
+export const API_4IR_GUIDELINE = FOUR_IR_SERVICE_PATH + '/guidelines';
+export const API_4IR_INITIATIVE = FOUR_IR_SERVICE_PATH + '/initiatives';
 export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
-export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/4ir-cs';
+export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
-export const API_4IR_IMPLEMENTNG_TEAM = FOUR_IR_SERVICE_PATH + '/team-members';
+export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/4ir-cblm';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/4ir-curriculum';
-
+export const API_4IR_Resource_Management =
+  FOUR_IR_SERVICE_PATH + '/resource-managements';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */
