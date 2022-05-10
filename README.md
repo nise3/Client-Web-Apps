@@ -63,3 +63,4 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 #####5. This will build pipeline in gitlab.
 #####6. After build success. Open deploy/module(admin, nise, ....) folder and open values.yaml and change `imageAppVersion` with current version and push to git
 
+
