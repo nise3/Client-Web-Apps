@@ -1949,7 +1949,8 @@
   "initiative.initiatives_approved": "Initiatives Approved",
   "4ir.employment" : "Job Placement",
   "4ir_cell.label": "4IR Cell",
-  "4ir_cs.label": "4IR Completancy Standard",
+  "4ir_cs.label": "4IR Competency Standard",
+  "4ir.CS": "Competency Standard",
   "4ir_cs.experts_list": "Experts List",
   "4ir_cs.approved_by": "Approved by",
   "4ir_cs.organization_name": "Developer Organization Name",
@@ -1974,6 +1975,8 @@
   "4ir.tna_report_desktop_research_workshop": "Desktop Research",
   "4ir.tna_report_existing_report_review_workshop": "Existing Report Review",
   "4ir.tna_report_others_workshop": "Others",
-  "4ir.tna_report_demo_file": "Demo File"
+  "4ir.tna_report_demo_file": "Demo File",
+  "common.level_from": "Level from",
+  "common.level_to": "Level to"
 
 }

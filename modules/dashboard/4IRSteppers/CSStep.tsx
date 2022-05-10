@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
-import FourIRTNAReportPage from '../4IRTNAReport/FourIRTNAReportPage';
 import {Box, Button} from '@mui/material';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
+import FourIRCSPage from '../4IRCS/FourIRCSPage';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -11,7 +11,7 @@ interface Props {
   setLatestStep: (step: number) => void;
 }
 
-const TNAReportStep = ({
+const CSStep = ({
   fourIRInitiativeId,
   onBack,
   onContinue,
@@ -25,7 +25,7 @@ const TNAReportStep = ({
     if (itemData && itemData?.completion_step) {
       const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
-      if (latestStep >= 2) {
+      if (latestStep >= 3) {
         setIsReady(true);
       }
       setLatestStep(latestStep + 1);
@@ -34,7 +34,7 @@ const TNAReportStep = ({
 
   return isReady ? (
     <>
-      <FourIRTNAReportPage fourIRInitiativeId={fourIRInitiativeId} />
+      <FourIRCSPage fourIRInitiativeId={fourIRInitiativeId} />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
@@ -49,4 +49,4 @@ const TNAReportStep = ({
   );
 };
 
-export default TNAReportStep;
+export default CSStep;

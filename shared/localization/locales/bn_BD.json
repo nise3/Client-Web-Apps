@@ -1951,7 +1951,8 @@
   "initiative.initiatives_approved": "উদ্যোগ অনুমোদিত",
   "4ir_cell.label": "4 আই আর সেল",
   "4ir.employment" : "জব প্লেসমেন্ট",
-  "4ir_cs.label": "4 আই আর কমপ্লিটেন্সি স্ট্যান্ডার্ড",
+  "4ir_cs.label": "4 আই আর কম্পিটেন্সি স্ট্যান্ডার্ড",
+  "4ir.CS": "কম্পিটেন্সি স্ট্যান্ডার্ড",
   "4ir_cs.experts_list": "এক্সপার্টস লিস্ট",
   "4ir_cs.approved_by": "অনুমোদনকারী",
   "4ir_cs.organization_name": "ডেভেলপার প্রতিষ্ঠানের নাম",
@@ -1976,5 +1977,7 @@
   "4ir.tna_report_desktop_research_workshop": "ডেস্কটপ রিসার্চ",
   "4ir.tna_report_existing_report_review_workshop": "এক্সিস্টিং রিপোর্ট রিভিউ",
   "4ir.tna_report_others_workshop" : "অন্যান্য",
-  "4ir.tna_report_demo_file": "ডেমো ফাইল"
+  "4ir.tna_report_demo_file": "ডেমো ফাইল",
+  "common.level_from": "লেভেল হইতে",
+  "common.level_to": "লেভেল পর্যন্ত"
 }

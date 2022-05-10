@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
-import FourIRImplemntingTeamPage from '../4IRImplementingTeam/FourIRImplementingTeamPage';
+import FourIRImplementingTeamPage from '../4IRImplementingTeam/FourIRImplementingTeamPage';
 import FourIRExpertTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';
@@ -20,7 +20,7 @@ interface Props {
   setLatestStep: (step: number) => void;
 }
 
-const SecondStep = ({
+const TeamStep = ({
   fourIRInitiativeId,
   onBack,
   onContinue,
@@ -66,7 +66,7 @@ const SecondStep = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FourIRImplemntingTeamPage
+            <FourIRImplementingTeamPage
               fourIRInitiativeId={fourIRInitiativeId}
             />
           </AccordionDetails>
@@ -123,4 +123,4 @@ const SecondStep = ({
   );
 };
 
-export default SecondStep;
+export default TeamStep;

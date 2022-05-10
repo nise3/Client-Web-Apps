@@ -4,8 +4,9 @@ import {useIntl} from 'react-intl';
 import {Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {adminDomain} from '../../../@softbd/common/constants';
-import SecondStep from './SecondStep';
+import TeamStep from './TeamStep';
 import TNAReportStep from './TNAReportStep';
+import CSStep from './CSStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -39,11 +40,11 @@ const steps: Array<StepObj> = [
   },
   {
     id: 3,
-    langKey: 'job_posting.candidate_requirement',
+    langKey: '4ir.TNA_report',
   },
   {
     id: 4,
-    langKey: 'job_posting.company_info_visibility',
+    langKey: '4ir.CS',
   },
   {
     id: 5,
@@ -85,7 +86,7 @@ const TeamAndCellView = () => {
     } else if (presentStep) {
       setIsValid(false);
     }
-  }, [completionStep, initiativeId, activeStep]);
+  }, [router?.query]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);
@@ -130,7 +131,7 @@ const TeamAndCellView = () => {
       switch (activeStep) {
         case 2:
           return (
-            <SecondStep
+            <TeamStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
@@ -140,6 +141,15 @@ const TeamAndCellView = () => {
         case 3:
           return (
             <TNAReportStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 4:
+          return (
+            <CSStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
