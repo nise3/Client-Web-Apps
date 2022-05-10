@@ -89,8 +89,7 @@ const CertificateIssuePage = () => {
   const [certificateIssueFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  // console.log('before youthListByBatch')
-  // const youthListByBatch = null;
+  
 
   // getYouthList(certificateIssueFilter).then(res => youthListByBatch = res)
   const {data: youthListByBatch} = useFetchCourseEnrolment(
@@ -208,6 +207,8 @@ const CertificateIssuePage = () => {
         return params;
       }
     });
+  
+  
   return (
     <>
       <PageBlock

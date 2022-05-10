@@ -82,13 +82,19 @@ const CertificateIssuedPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale]
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_CERTIFICATES_ISSUE,
     });
+
+    useEffect(() => {
+      console.log('inside effect', data);
+      const youthid = data.map((item:any)=>item.youth_id)
+      console.log('youth id', youthid);
+    }, [data])
 
   return (
     <>
