@@ -1,95 +1,92 @@
-import React from "react";
-import Button from "../ui/Button";
-import { DefaultFonts } from "../../constants";
-import { ShapeType, TextConfig } from "../../interfaces/Shape";
-import useElementsDispatcher from "../../state/dispatchers/elements";
-import SideMenuPanel from "../ui/SideMenuPanel";
+import React from 'react';
+import Button from '../ui/Button';
+import {DefaultFonts} from '../../constants';
+import {ShapeType, TextConfig} from '../../interfaces/Shape';
+import useElementsDispatcher from '../../state/dispatchers/elements';
+import SideMenuPanel from '../ui/SideMenuPanel';
 
-const TEXT_PROPERTIES: { [key in DefaultFonts]: TextConfig } = {
+const TEXT_PROPERTIES: {[key in DefaultFonts]: TextConfig} = {
   [DefaultFonts.Headline]: {
-    text: "Headline Text",
+    text: 'Headline Text',
     fontSize: 48,
-    fontStyle: "bold",
+    fontStyle: 'bold',
     fontFamily: DefaultFonts.Headline,
-    align: "center",
+    align: 'center',
     fillEnabled: true,
-    fill: "rgba(0, 0, 0, 1)",
+    fill: 'rgba(0, 0, 0, 1)',
     lineHeight: 1,
     shadowEnabled: false,
-    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowBlur: 5,
     strokeEnabled: false,
-    stroke: "rgba(0, 0, 0, 1)",
+    stroke: 'rgba(0, 0, 0, 1)',
     strokeWidth: 1,
   },
   [DefaultFonts.Regular]: {
-    text: "প্রত্যয়ন করা যাচ্ছে যে",
+    text: 'Normal Text',
     fontSize: 24,
     fontFamily: DefaultFonts.Regular,
-    align: "center",
+    align: 'center',
     fillEnabled: true,
-    fill: "rgba(0, 0, 0, 1)",
+    fill: 'rgba(0, 0, 0, 1)',
     lineHeight: 1,
     shadowEnabled: false,
-    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowBlur: 5,
     strokeEnabled: false,
-    stroke: "rgba(0, 0, 0, 1)",
+    stroke: 'rgba(0, 0, 0, 1)',
     strokeWidth: 1,
   },
   [DefaultFonts.Cursive]: {
-    text: "Cursive text",
+    text: 'Cursive text',
     fontSize: 36,
     fontFamily: DefaultFonts.Cursive,
-    align: "center",
+    align: 'center',
     fillEnabled: true,
-    fill: "rgba(0, 0, 0, 1)",
+    fill: 'rgba(0, 0, 0, 1)',
     lineHeight: 1,
     shadowEnabled: false,
-    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowBlur: 5,
     strokeEnabled: false,
-    stroke: "rgba(0, 0, 0, 1)",
+    stroke: 'rgba(0, 0, 0, 1)',
     strokeWidth: 1,
   },
 };
 
 function TextToolPanel() {
-  const { createElement } = useElementsDispatcher();
+  const {createElement} = useElementsDispatcher();
 
   const handleClickAddText = (font: DefaultFonts) => () => {
     createElement<TextConfig>(ShapeType.Text, TEXT_PROPERTIES[font]);
   };
 
   return (
-    <SideMenuPanel title="Text">
-      <div className="text-picker-button-container">
+    <SideMenuPanel title='Text'>
+      <div className='text-picker-button-container'>
         <Button
-          type="gray"
-          className="text-picker-button"
+          type='gray'
+          className='text-picker-button'
           style={{
             fontFamily: DefaultFonts.Headline,
-            fontWeight: "bold",
+            fontWeight: 'bold',
           }}
-          onClick={handleClickAddText(DefaultFonts.Headline)}
-        >
+          onClick={handleClickAddText(DefaultFonts.Headline)}>
           Headline Text
         </Button>
 
         <Button
-          type="gray"
-          className="text-picker-button"
-          style={{ fontFamily: DefaultFonts.Regular, fontWeight: "normal" }}
-          onClick={handleClickAddText(DefaultFonts.Regular)}
-        >
-          প্রত্যয়ন করা যাচ্ছে যে{" "}
+          type='gray'
+          className='text-picker-button'
+          style={{fontFamily: DefaultFonts.Regular, fontWeight: 'normal'}}
+          onClick={handleClickAddText(DefaultFonts.Regular)}>
+          প্রত্যয়ন করা যাচ্ছে যে{' '}
         </Button>
         <Button
-          type="gray"
-          className="text-picker-button"
-          style={{ fontFamily: DefaultFonts.Cursive, fontWeight: "normal" }}
-          onClick={handleClickAddText(DefaultFonts.Cursive)}
-        >
+          type='gray'
+          className='text-picker-button'
+          style={{fontFamily: DefaultFonts.Cursive, fontWeight: 'normal'}}
+          onClick={handleClickAddText(DefaultFonts.Cursive)}>
           Cursive Text
         </Button>
       </div>

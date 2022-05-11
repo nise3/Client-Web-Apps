@@ -1,5 +1,5 @@
 // import Editor from './editor/Editor';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import {RecoilRoot} from 'recoil';
 import {useCallback, useState} from 'react';
 import CertificateAddEditPopup from './CertificateAddEditPopup';

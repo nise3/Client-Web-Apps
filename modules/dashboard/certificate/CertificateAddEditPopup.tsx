@@ -113,7 +113,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (itemId && itemData) {
+    if (itemId && itemData && !query.new && query.new !== 'true') {
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
@@ -122,7 +122,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, query]);
 
   const onSubmit: SubmitHandler<any> = async (data: Certificate) => {
     const template = await setCurrentTemplateToSave();
@@ -136,14 +136,11 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     };
     console.log(dataToSave);
     try {
-      if (query.certificateId) {
-        console.log('update dsfa');
-
+      if (query.certificateId && !query.new) {
         await updateCertificate(Number(query.certificateId), dataToSave);
         updateSuccessMessage('common.certificate');
         mutateCertificates();
       } else {
-        console.log('heeeeeererr');
         await createCertificate(dataToSave);
         createSuccessMessage('common.certificate');
       }
@@ -206,7 +203,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
           <CustomFormSelect
             required
             id='resultType'
-            label={messages['course.course_level']}
+            label={messages['common.result_type']}
             isLoading={isLoading}
             control={control}
             options={resultType}

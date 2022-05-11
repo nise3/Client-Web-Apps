@@ -1,4 +1,4 @@
-import {apiGet, apiPost, apiPut} from '../../@softbd/common/api';
+import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {API_CERTIFICATES} from '../../@softbd/common/apiRoutes';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import certificate from '../../dashboard/pages/certificate';
@@ -91,6 +91,15 @@ export const updateCertificate = async (
       API_CERTIFICATES + '/' + certificateId,
       data,
     );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const deleteCertificate = async (certificateId: number) => {
+  try {
+    let response: any = await apiDelete(API_CERTIFICATES + '/' + certificateId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

@@ -1,34 +1,34 @@
-import Konva from "konva";
-import { atom, atomFamily } from "recoil";
-import { DefaultFonts } from "../../constants";
-import { Dimensions, CanvasElement } from "../../interfaces/StageConfig";
+import Konva from 'konva';
+import {atom, atomFamily} from 'recoil';
+import {DefaultFonts} from '../../constants';
+import {Dimensions, CanvasElement} from '../../interfaces/StageConfig';
 // import { historyEffect } from '../effects/history';
 
 export const dimensionsState = atom<Dimensions>({
-  key: "templateDimensionsState",
+  key: 'templateDimensionsState',
   default: {
-    width: 1080,
+    width: 1920,
     height: 1080,
   },
   //   effects_UNSTABLE: [historyEffect],
 });
 
 export const backgroundState = atom<Konva.ShapeConfig>({
-  key: "backgroundState",
+  key: 'backgroundState',
   default: {
-    fill: "rgba(255, 255, 255, 1)",
+    fill: 'rgba(255, 255, 255, 1)',
   },
   //   effects_UNSTABLE: [historyEffect],
 });
 
 export const elementIdsState = atom<string[]>({
-  key: "elementIdsState",
+  key: 'elementIdsState',
   default: [],
   //   effects_UNSTABLE: [historyEffect],
 });
 
 export const elementState = atomFamily<CanvasElement | undefined, string>({
-  key: "elementState",
+  key: 'elementState',
   default: undefined,
   //   effects_UNSTABLE: () => [historyEffect],
 });
