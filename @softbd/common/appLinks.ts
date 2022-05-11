@@ -132,6 +132,7 @@ export const LINK_FRONTEND_COURSE_SKILL_MATCHING_JOBS =
   '/course-skill-matching-jobs/';
 export const LINK_FORGOT_PASSWORD = '/forgot-password/';
 export const LINK_VERIFY_OTP_FORGOT_PASSWORD = '/verify-forget-password-otp';
+export const LINK_RESET_PASSWORD = '/reset-password';
 
 /** static content links */
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';

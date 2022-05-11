@@ -59,7 +59,12 @@ const ForgotPasswordPage = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              justifyContent={'center'}
+              mt={2}>
               <SubmitButton
                 startIcon={false}
                 isSubmitting={isSubmitting}

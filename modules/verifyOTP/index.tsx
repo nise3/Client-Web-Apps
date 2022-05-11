@@ -19,6 +19,8 @@ import {
   COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP,
 } from '../../shared/constants/AppConst';
 import {verifyForgetPasswordOtp} from '../../services/userManagement/UserService';
+import {LINK_RESET_PASSWORD} from '../../@softbd/common/appLinks';
+import {useRouter} from 'next/router';
 // import {useRouter} from 'next/router';
 
 const inputProps = {
@@ -30,7 +32,7 @@ const inputProps = {
 const ForgotPasswordPage = () => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  // const router = useRouter();
+  const router = useRouter();
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       codes: yup
@@ -91,6 +93,7 @@ const ForgotPasswordPage = () => {
       formData.username = username;
 
       await verifyForgetPasswordOtp(formData);
+
       let expireDate = new Date();
       expireDate.setTime(expireDate.getTime() + 30 * 60 * 1000);
       await setBrowserCookie(
@@ -100,6 +103,8 @@ const ForgotPasswordPage = () => {
           expires: expireDate,
         },
       );
+
+      router.push(LINK_RESET_PASSWORD).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -109,7 +114,7 @@ const ForgotPasswordPage = () => {
       <Typography
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
-        {'Enter verification code'}
+        {messages['common.enter_verification_code']}
       </Typography>
       <Typography style={{marginBottom: '10px'}}>
         <IntlMessages id='common.validation_code_mobile' />
@@ -198,7 +203,7 @@ const ForgotPasswordPage = () => {
           )}
         </Box>*/}
 
-        <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+        <Grid item xs={12} display={'flex'} justifyContent={'center'} mt={2}>
           <SubmitButton
             isSubmitting={isSubmitting}
             isLoading={false}

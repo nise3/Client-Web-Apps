@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo} from 'react';
 import {classes, StyledContainer} from './index.style';
 import {Grid, Paper} from '@mui/material';
-import {Body2, H6} from '../../@softbd/elements/common';
+import {H6} from '../../@softbd/elements/common';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
@@ -22,6 +22,7 @@ import {TEXT_REGEX_PASSWORD} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
 import yup from '../../@softbd/libs/yup';
+
 const ResetPasswordPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
@@ -79,7 +80,6 @@ const ResetPasswordPage = () => {
         <H6 align={'center'} mb={4} sx={{borderBottom: '1px solid #8888'}}>
           {messages['common.reset_password']}
         </H6>
-        <Body2 mb={2}>{'Please reset your password.'}</Body2>{' '}
         <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -103,7 +103,12 @@ const ResetPasswordPage = () => {
                 errorInstance={errors}
               />
             </Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              justifyContent={'center'}
+              mt={2}>
               <SubmitButton
                 startIcon={false}
                 isSubmitting={isSubmitting}
