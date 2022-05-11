@@ -1978,5 +1978,6 @@
   "membership.id_number": "Membership ID/ Number",
   "membership.last_renew_year": "Last Renew Year",
   "business_type.services": "Services",
-  "common.subject": "Subject"
+  "common.subject": "Subject",
+  "common.subject_en": "Subject(En)"
 }

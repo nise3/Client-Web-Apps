@@ -1979,5 +1979,6 @@
   "membership.id_number": "সদস্যতা আইডি/ নম্বর",
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
   "business_type.services": "সেবা সমূহ",
-  "common.subject": "সাবজেক্ট"
+  "common.subject": "সাবজেক্ট",
+  "common.subject_en": "সাবজেক্ট(ইংরেজি)"
 }

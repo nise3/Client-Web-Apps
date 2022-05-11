@@ -78,6 +78,7 @@ const initialValues = {
   trainer_registration_number: '',
   email: '',
   subject: '',
+  subject_en: '',
   mobile: '',
   about_me: '',
   about_me_en: '',
@@ -370,6 +371,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         about_me_en: itemData?.about_me_en,
         gender: itemData?.gender,
         subject: itemData?.subject,
+        subject_en: itemData?.subject_en,
         marital_status: itemData?.marital_status,
         religion: itemData?.religion,
         date_of_birth: itemData?.date_of_birth
@@ -639,6 +641,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             required
             id='subject'
             label={messages['common.subject']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='subject_en'
+            label={messages['common.subject_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
