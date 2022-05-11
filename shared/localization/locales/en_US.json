@@ -1972,11 +1972,16 @@
   "4ir.tna_report_industry_visit_workshop": "Industry Visit",
   "4ir.tna_report_desktop_research_workshop": "Desktop Research",
   "4ir.tna_report_existing_report_review_workshop": "Existing Report Review",
+  "4ir.tna_report_method_name": "Method Name",
+  "4ir.tna_report_number_of_workshop": "Number of Workshop",
   "4ir.tna_report_others_workshop": "Others",
   "4ir.tna_report_demo_file": "Demo File",
+  "4ir.tna_report_workshop_method_workshop_file_error": "Workshop",
+  "4ir.tna_report_attachment": "Attachment",
   "4ir.skill_development" : "Skill Development",
   "4ir.skill_development_traning_center" : "Traning Center",
   "4ir.skill_development_batch_start_date" : "Batch Start Date",
   "4ir.skill_development_batch_end_date" : "Batch End Date",
-  "4ir.skill_development_batch_number" : "Batch Number"
+  "4ir.skill_development_batch_number" : "Batch Number",
+  "common.positive": "The number should be positive"
 }
