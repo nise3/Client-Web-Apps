@@ -234,10 +234,9 @@
   background-color: white;
   border-bottom: 2px solid rgb(241, 240, 240);
   width: 100%;
-  padding: 2px 6px;
+  padding: 4px 6px;
   align-items: center;
-  height: 4rem;
-  background-color: #07112d;
+  background-color: #d7dbde;
 }
 .editor-header-inner {
   display: flex;
@@ -653,4 +652,33 @@
   border-bottom-left-radius: 0px;
   width: 2.5rem;
   height: 2rem;
+}
+
+.view-area-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+}
+.loader:empty {
+  position: absolute;
+  top: calc(50% - 4em);
+  left: calc(50% - 4em);
+  width: 6em;
+  height: 6em;
+  border: 4px solid rgba(231, 226, 226, 0.2);
+  border-left: 4px solid #3744cf;
+  border-radius: 50%;
+  animation: loading 1.1s infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
