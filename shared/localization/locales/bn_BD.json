@@ -1978,5 +1978,6 @@
   "institute.corresponding_industry": "আপনার প্রতিষ্ঠানটি কোন শিল্পের অর্ন্তভূক্ত?",
   "membership.id_number": "সদস্যতা আইডি/ নম্বর",
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
-  "business_type.services": "সেবা সমূহ"
+  "business_type.services": "সেবা সমূহ",
+  "common.subject": "সাবজেক্ট"
 }
