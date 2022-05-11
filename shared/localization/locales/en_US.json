@@ -2002,6 +2002,10 @@
   "level.9": "Level 9",
   "level.10": "Level 10",
   "level.11": "Level 11",
-  "level.12": "Level 12"
-
+  "level.12": "Level 12",
+  "4ir_tot.master_trainer" : "Master Trainer",
+  "4ir_tot.organiser": "Organiser",
+  "4ir_tot.co_organiser": "Co-Organiser",
+  "4ir_tot.participants": "Participants",
+  "4ir_tot.label": "4IR ToT"
 }

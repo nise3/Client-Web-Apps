@@ -63,10 +63,6 @@ const steps: Array<StepObj> = [
     langKey: '4ir_rm.level',
   },
   {
-    id: 7,
-    langKey: '4ir_rm.level',
-  },
-  {
     id: 8,
     langKey: '4ir_tot.label',
   },

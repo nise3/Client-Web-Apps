@@ -2003,5 +2003,10 @@
   "level.9": "লেভেল ৯",
   "level.10": "লেভেল ১০",
   "level.11": "লেভেল ১১",
-  "level.12": "লেভেল ১২"
+  "level.12": "লেভেল ১২",
+  "4ir_tot.master_trainer" : "মাস্টার ট্রেইনার",
+  "4ir_tot.organiser": "অর্গানাইজার",
+  "4ir_tot.co_organiser": "কো-অর্গানাইজার",
+  "4ir_tot.participants": "অংশগ্রহণকারী",
+  "4ir_tot.label": "4 আই আর টিওটি"
 }
