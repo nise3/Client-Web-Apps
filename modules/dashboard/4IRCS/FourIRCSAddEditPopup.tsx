@@ -232,7 +232,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   }, [itemData]);
 
   const getExperts = (experts: any) => {
-    if (!experts || experts?.lenght < 1) return [];
+    if (!experts || experts?.length < 1) return [];
 
     return (experts || []).map((item: any) => {
       return {

@@ -208,6 +208,7 @@ export const API_4IR_CURRICULUM =
   FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
 export const API_4IR_Resource_Management =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
+export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */

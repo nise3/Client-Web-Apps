@@ -34,7 +34,7 @@ export function useFetchSkills(params: any) {
 }
 
 export function useFetchPublicSkills(params: any) {
-  return useAxiosSWR([API_SKILLS, params]);
+  return useDataLocalizationAxiosSWR([API_SKILLS, params]);
 }
 
 export function useFetchYouthProfile() {

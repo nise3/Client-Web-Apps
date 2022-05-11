@@ -5,34 +5,28 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRRMAddEditPopup from './FourIRRMAddEditPopup';
-import FourIRRMDetailsPopup from './FourIRRMDetailsPopup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-//import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-//import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import IconSkill from '../../../@softbd/icons/IconSkill';
+import FourIRToTAddEditPopup from './FourIRToTAddEditPopup';
+import FourIRToTDetailsPopup from './FourIRToTDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIRResources} from '../../../services/4IRManagement/hooks';
 
-interface IFourIRRMPageProps {
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_TOT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+interface IFourIRToTPageProps {
   fourIRInitiativeId: number;
 }
-
-const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
-  const {messages} = useIntl();
+const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
+  const {messages, locale} = useIntl();
   //const {successStack} = useNotiStack();
-
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [resourcesFilters] = useState({});
-  const {
-    data: resources,
-    isLoading: isLoadingResources,
-    mutate: mutateResources,
-  } = useFetchFourIRResources(resourcesFilters);
-
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -56,22 +50,9 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  /*const deleteOccupationItem = async (occupationId: number) => {
-    let response = await deleteFourIROccupation(occupationId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='menu.occupations' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };*/
-
   const refreshDataTable = useCallback(() => {
-    mutateResources();
-  }, [mutateResources]);
+    setIsToggleTable((prevToggle: any) => !prevToggle);
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -80,31 +61,36 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
 
       {
-        Header: messages['4ir_rm.approval_status'],
-        accessor: 'approval_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.approval_status} />;
-        },
+        Header: messages['4ir_tot.master_trainer'],
+        accessor: 'master_trainer_name',
       },
       {
-        Header: messages['4ir_rm.budget_approval_status'],
-        accessor: 'budget_approval_status',
-        filter: 'rowStatusFilter',
+        Header: messages['common.attachment'],
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.budget_approval_status} />;
+          return (
+            <CommonButton
+              key={2}
+              //onClick={() => openImportModal(data?.course_id, data?.id)}
+              onClick={() => console.log(data)}
+              btnText={messages['common.import'] as string}
+              variant={'outlined'}
+              color={'primary'}
+              style={{marginLeft: '5px'}}
+              startIcon={<DownloadIcon />}
+            />
+          );
         },
-      },
-      {
-        Header: messages['4ir_rm.given_budget'],
-        accessor: 'given_budget',
       },
       {
         Header: messages['common.status'],
@@ -124,7 +110,7 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               {/*<DeleteButton
-                deleteAction={() => deleteOccupationItem(data.id)}
+                deleteAction={() => deleteProjectItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />*/}
             </DatatableButtonGroup>
@@ -133,27 +119,36 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_4IR_TOT,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
+    });
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='4ir_rm.label' />
+            <IconBranch /> <IntlMessages id='4ir_tot.label' />
           </>
         }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoadingResources}
+            isLoading={loading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir_rm.resource'],
+                  subject: messages['4ir_tot.label'],
                 }}
               />
             }
@@ -161,22 +156,25 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         ]}>
         <ReactTable
           columns={columns}
-          data={resources || []}
-          loading={isLoadingResources}
-          skipDefaultFilter={true}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRRMAddEditPopup
+          <FourIRToTAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
             fourIRInitiativeId={fourIRInitiativeId}
+            refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRRMDetailsPopup
+          <FourIRToTDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -188,4 +186,4 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   );
 };
 
-export default FourIRRMPage;
+export default FourIRToTPage;

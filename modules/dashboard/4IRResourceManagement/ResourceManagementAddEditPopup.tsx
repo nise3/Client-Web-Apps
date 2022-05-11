@@ -25,8 +25,6 @@ import {
 } from '../../../services/4IRManagement/ResourceManagementService';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
-//import RowStatus from '../users/RowStatus';
-
 interface FourIRRMAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -41,7 +39,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
+const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   fourIRInitiativeId,
@@ -52,7 +50,6 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
-  //const [isButtonAvailable, setIsButtonAvailable] = useState<boolean>(true);
   const {
     data: itemData,
     isLoading,
@@ -117,13 +114,13 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         await updateFourIRResource(itemId, payload);
         updateSuccessMessage('4ir_rm.resource');
         mutateResource();
+        await closeAction();
       } else {
         await createFourIRResource(payload);
         createSuccessMessage('4ir_rm.resource');
         setShowSuccessPopUp(true);
+        await closeAction();
       }
-      console.log(payload);
-      closeAction();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -235,10 +232,10 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
           stepNo={7}
           initiativeId={fourIRInitiativeId}
           completionStep={7}
-          formStep={8}
+          formStep={9}
         />
       )}
     </HookFormMuiModal>
   );
 };
-export default FourIRRMAddEditPopup;
+export default ResourceManagementAddEditPopup;

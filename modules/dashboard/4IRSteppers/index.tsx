@@ -7,9 +7,10 @@ import {adminDomain} from '../../../@softbd/common/constants';
 import TeamStep from './TeamStep';
 import TNAReportStep from './TNAReportStep';
 import CSStep from './CSStep';
-import RMStep from './RMStep';
 import CurriculumStep from './CurriculumStep';
 import CBLMStep from './CBLMStep';
+import ResourceManagementStep from './ResourceManagementStep';
+import ToTStep from './ToTStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -60,6 +61,10 @@ const steps: Array<StepObj> = [
   {
     id: 7,
     langKey: '4ir_rm.level',
+  },
+  {
+    id: 8,
+    langKey: '4ir_tot.label',
   },
 ];
 
@@ -175,7 +180,16 @@ const TeamAndCellView = () => {
           );
         case 7:
           return (
-            <RMStep
+            <ResourceManagementStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 8:
+          return (
+            <ToTStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}

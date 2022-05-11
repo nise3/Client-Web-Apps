@@ -75,3 +75,11 @@ export function useFetchFourIRResource(resourceId: number | null) {
 export function useFetchFourIRResources(params: any) {
   return useAxiosSWR([API_4IR_Resource_Management, params]);
 }
+
+export function useFetchFourIRToT(totId: number | null) {
+  return useAxiosSWR(totId ? API_4IR_Resource_Management + '/' + totId : null);
+}
+
+export function useFetchFourIRToTs(params: any) {
+  return useAxiosSWR([API_4IR_Resource_Management, params]);
+}

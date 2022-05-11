@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
-import FourIRRMPage from '../4IRResourceManagement/FourIRRMPage';
+import FourIRToTPage from '../4IRToT/FourIRToTPage';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -11,7 +11,7 @@ interface Props {
   setLatestStep: (step: number) => void;
 }
 
-const RMStep = ({
+const ToTStep = ({
   fourIRInitiativeId,
   onBack,
   onContinue,
@@ -34,7 +34,7 @@ const RMStep = ({
 
   return isReady ? (
     <>
-      <FourIRRMPage fourIRInitiativeId={fourIRInitiativeId} />
+      <FourIRToTPage fourIRInitiativeId={fourIRInitiativeId} />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
@@ -49,4 +49,4 @@ const RMStep = ({
   );
 };
 
-export default RMStep;
+export default ToTStep;
