@@ -8,8 +8,8 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRCurriculumAddEditPopup from './FourIRCurriculumAddEditPopup';
-import FourIRCurriculumDetailsPopup from './FourIRCurriculumDetailsPopup';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
@@ -17,10 +17,16 @@ import {
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
-import {API_4IR_Curriculum} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_CURRICULUM} from '../../../@softbd/common/apiRoutes';
+import FourIRCurriculumAddEditPopup from './FourIRCurriculumAddEditPopup';
+import FourIRCurriculumDetailsPopup from './FourIRCurriculumDetailsPopup';
+import {deleteCurriculum} from '../../../services/4IRManagement/CurriculumService';
 
-const FourIRCurriculumPage = () => {
+interface IFourIRCSPageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -50,8 +56,8 @@ const FourIRCurriculumPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
+  const deleteCurriculumItem = async (curriculumId: number) => {
+    let response = await deleteCurriculum(curriculumId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
@@ -81,7 +87,25 @@ const FourIRCurriculumPage = () => {
           );
         },
       },
-
+      {
+        Header: messages['4ir_cs.approved_by'],
+        accessor: 'approved_by',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.developed_organization_name'],
+        accessor: 'developed_organization_name',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.status'],
+        accessor: 'row_status',
+        filter: 'rowStatusFilter',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <CustomChipRowStatus value={data?.row_status} />;
+        },
+      },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -91,7 +115,7 @@ const FourIRCurriculumPage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
+                deleteAction={() => deleteCurriculumItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -105,10 +129,12 @@ const FourIRCurriculumPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_Curriculum,
+      urlPath: API_4IR_CURRICULUM,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
     });
-
-  console.log(data);
 
   return (
     <>
@@ -146,6 +172,7 @@ const FourIRCurriculumPage = () => {
           <FourIRCurriculumAddEditPopup
             key={1}
             onClose={closeAddEditModal}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />

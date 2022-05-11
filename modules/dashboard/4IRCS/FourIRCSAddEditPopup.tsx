@@ -333,8 +333,6 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         createSuccessMessage('4ir_cs.label');
         setShowSuccessPopUp(true);
       }
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

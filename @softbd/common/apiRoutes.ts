@@ -201,9 +201,10 @@ export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
-export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/4ir-cblm';
+export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
-export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/4ir-curriculum';
+export const API_4IR_CURRICULUM =
+  FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
 export const API_4IR_Resource_Management =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
 /** 4IR service routes section end*/

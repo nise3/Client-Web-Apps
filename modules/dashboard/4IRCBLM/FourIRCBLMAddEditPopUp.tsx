@@ -1,54 +1,205 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useMemo, useEffect} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
+import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {useFetch4IRCBLM} from '../../../services/4IRManagement/hooks';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetch4IRCBLM} from '../../../services/4IRManagement/hooks';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import CustomExpertFieldArray from '../4IRCS/CustomExpertFieldArray';
 import {
   createCBLM,
   updateCBLM,
 } from '../../../services/4IRManagement/CBLMServices';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface CBLMAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRInitiativeId: number | string;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
+  experts: [{}],
+  approved_by: '',
+  developed_organization_name: '',
+  developed_organization_name_en: '',
+  sector_name: '',
+  supported_organization_name: '',
+  supported_organization_name_en: '',
+  comments: '',
   file_path: '',
+  row_status: 1,
 };
 
-const FourIRTNAReportAddEditPopup: FC<CBLMAddEditPopupProps> = ({
+const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
+  fourIRInitiativeId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
+
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
-    // isLoading,
+    isLoading,
     mutate: mutateCBLM,
   } = useFetch4IRCBLM(itemId);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      file_path: yup.string().label(messages['common.file_path'] as string),
+      experts: yup.array().of(
+        yup.object().shape({
+          name: yup
+            .string()
+            .required()
+            .label(messages['common.name'] as string),
+          designation: yup
+            .string()
+            .required()
+            .label(messages['common.designation'] as string),
+          organization: yup
+            .string()
+            .required()
+            .label(messages['common.organization'] as string),
+          mobile: yup
+            .string()
+            .trim()
+            .matches(MOBILE_NUMBER_REGEX)
+            .required()
+            .label(messages['common.mobile'] as string),
+          email: yup
+            .string()
+            .email()
+            .required()
+            .label(messages['common.email'] as string),
+        }),
+      ),
+      approved_by: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['4ir_cs.approved_by'] as string),
+      developed_organization_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.developed_organization_name'] as string),
+      supported_organization_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.supported_organization_name'] as string),
+      sector_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.sector'] as string),
     });
   }, [messages]);
+
+  const sectors = useMemo(
+    () => [
+      {
+        id: 1,
+        label: messages['sector.1'],
+      },
+      {
+        id: 2,
+        label: messages['sector.2'],
+      },
+      {
+        id: 3,
+        label: messages['sector.3'],
+      },
+      {
+        id: 4,
+        label: messages['sector.4'],
+      },
+      {
+        id: 5,
+        label: messages['sector.5'],
+      },
+      {
+        id: 6,
+        label: messages['sector.6'],
+      },
+      {
+        id: 7,
+        label: messages['sector.7'],
+      },
+      {
+        id: 8,
+        label: messages['sector.8'],
+      },
+      {
+        id: 9,
+        label: messages['sector.9'],
+      },
+      {
+        id: 10,
+        label: messages['sector.10'],
+      },
+      {
+        id: 11,
+        label: messages['sector.11'],
+      },
+      {
+        id: 12,
+        label: messages['sector.12'],
+      },
+      {
+        id: 13,
+        label: messages['sector.13'],
+      },
+      {
+        id: 14,
+        label: messages['sector.14'],
+      },
+      {
+        id: 15,
+        label: messages['sector.15'],
+      },
+      {
+        id: 16,
+        label: messages['sector.16'],
+      },
+    ],
+    [messages],
+  );
+
+  const approvedBy = useMemo(
+    () => [
+      {
+        id: 1,
+        label: 'NSDA',
+      },
+      {
+        id: 2,
+        label: 'BTEB',
+      },
+    ],
+    [],
+  );
 
   const {
     control,
@@ -61,32 +212,70 @@ const FourIRTNAReportAddEditPopup: FC<CBLMAddEditPopupProps> = ({
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
+
   useEffect(() => {
     if (itemData) {
-      reset({
+      let data: any = {
+        experts: getExperts(itemData?.experts),
+        approved_by: itemData?.approved_by,
+        developed_organization_name: itemData?.developed_organization_name,
+        developed_organization_name_en:
+          itemData?.developed_organization_name_en,
+        sector_name: itemData?.sector_name,
+        supported_organization_name: itemData?.supported_organization_name,
+        supported_organization_name_en:
+          itemData?.supported_organization_name_en,
+        comments: itemData?.comments,
         file_path: itemData?.file_path,
-      });
+        row_status: itemData?.row_status,
+      };
+      reset(data);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
+  const getExperts = (experts: any) => {
+    if (!experts || experts?.lenght < 1) return [];
+
+    return (experts || []).map((item: any) => {
+      return {
+        name: item?.name,
+        designation: item?.designation,
+        organization: item?.organization,
+        mobile: item?.mobile,
+        email: item?.email,
+      };
+    });
+  };
+
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      let payload = {
+        four_ir_initiative_id: fourIRInitiativeId,
+        ...data,
+      };
+
       if (itemId) {
-        await updateCBLM(itemId, data);
-        updateSuccessMessage('4ir_CBLM.label');
+        await updateCBLM(itemId, payload);
+        updateSuccessMessage('4ir.CBLM');
         mutateCBLM();
+        await closeAction();
       } else {
-        await createCBLM(data);
-        createSuccessMessage('4ir_CBLM.label');
+        await createCBLM(payload);
+        createSuccessMessage('4ir.CBLM');
+        setShowSuccessPopUp(true);
       }
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
   return (
     <HookFormMuiModal
       open={true}
@@ -102,9 +291,7 @@ const FourIRTNAReportAddEditPopup: FC<CBLMAddEditPopupProps> = ({
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{
-                subject: <IntlMessages id='4ir.CBLM' />,
-              }}
+              values={{subject: <IntlMessages id='4ir.CBLM' />}}
             />
           )}
         </>
@@ -113,15 +300,105 @@ const FourIRTNAReportAddEditPopup: FC<CBLMAddEditPopupProps> = ({
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} />
-          <SubmitButton isSubmitting={isSubmitting} />
+          <CancelButton onClick={props.onClose} isLoading={isLoading} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5} sx={{height: '350px'}}>
-        <Grid item xs={12} sx={{height: '50%'}} alignSelf='center'>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <Typography variant={'body2'}>
+            {messages['level.experts_list']}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <CustomExpertFieldArray
+            id='experts'
+            isLoading={false}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            required
+            id='approved_by'
+            label={messages['4ir_cs.approved_by']}
+            isLoading={false}
+            control={control}
+            options={approvedBy}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='developed_organization_name'
+            label={messages['common.developed_organization_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='developed_organization_name_en'
+            label={messages['common.developed_organization_name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='supported_organization_name'
+            label={messages['common.supported_organization_name']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='supported_organization_name_en'
+            label={messages['common.supported_organization_name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            required
+            id='sector_name'
+            label={messages['common.sector']}
+            isLoading={false}
+            control={control}
+            options={sectors}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='comments'
+            label={messages['common.comment']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+            multiline={true}
+            rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='file_path'
-            defaultFileUrl={itemData?.file_name}
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}
@@ -130,8 +407,25 @@ const FourIRTNAReportAddEditPopup: FC<CBLMAddEditPopupProps> = ({
             required={false}
           />
         </Grid>
+        <Grid item xs={12}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues?.row_status}
+            isLoading={isLoading}
+          />
+        </Grid>
       </Grid>
+      {showSuccessPopUp && fourIRInitiativeId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={6}
+          initiativeId={fourIRInitiativeId}
+          completionStep={6}
+          formStep={8}
+        />
+      )}
     </HookFormMuiModal>
   );
 };
-export default FourIRTNAReportAddEditPopup;
+export default FourIRCBLMAddEditPopUp;

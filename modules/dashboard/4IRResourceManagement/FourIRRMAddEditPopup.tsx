@@ -232,10 +232,10 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
       {showSuccessPopUp && fourIRInitiativeId && (
         <SuccessPopup
           closeAction={closeAction}
-          stepNo={1}
+          stepNo={7}
           initiativeId={fourIRInitiativeId}
-          completionStep={1}
-          formStep={1}
+          completionStep={7}
+          formStep={8}
         />
       )}
     </HookFormMuiModal>

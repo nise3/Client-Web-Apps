@@ -1,8 +1,9 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_4IR_CBLM,
   API_4IR_CELL,
   API_4IR_CS,
-  API_4IR_Curriculum,
+  API_4IR_CURRICULUM,
   API_4IR_INITIATIVE,
   API_4IR_OCCUPATIONS,
   API_4IR_Resource_Management,
@@ -31,11 +32,11 @@ export function useFetch4IRCS(CSId: number | null) {
 }
 
 export function useFetch4IRCBLM(CBLMId: number | null) {
-  return useAxiosSWR(CBLMId ? API_4IR_CS + '/' + CBLMId : null);
+  return useAxiosSWR(CBLMId ? API_4IR_CBLM + '/' + CBLMId : null);
 }
 
 export function useFetch4IRCurriculum(CurrId: number | null) {
-  return useAxiosSWR(CurrId ? API_4IR_Curriculum + '/' + CurrId : null);
+  return useAxiosSWR(CurrId ? API_4IR_CURRICULUM + '/' + CurrId : null);
 }
 
 export function useFetch4IRScaleUp(scaleUpId: number | null) {
