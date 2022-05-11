@@ -63,7 +63,11 @@ const Partners = () => {
                     ? partner?.main_image_path
                     : '/images/blank_image.png'
                 }
-                alt={partner?.image_alt_title}
+                alt={
+                  partner?.image_alt_title
+                    ? partner?.image_alt_title
+                    : partner?.title
+                }
                 title={partner?.title}
               />
             </Box>
@@ -81,7 +85,11 @@ const Partners = () => {
                   ? partner?.main_image_path
                   : '/images/blank_image.png'
               }
-              alt={partner?.image_alt_title}
+              alt={
+                partner?.image_alt_title
+                  ? partner?.image_alt_title
+                  : partner?.title
+              }
               title={partner?.title}
             />
           </Box>

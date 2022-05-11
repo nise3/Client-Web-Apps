@@ -292,7 +292,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               <CardMediaImageView
                 height='194'
                 image={itemData?.cover_image}
-                alt='Course cover image'
+                alt={itemData?.title}
               />
             </Card>
 

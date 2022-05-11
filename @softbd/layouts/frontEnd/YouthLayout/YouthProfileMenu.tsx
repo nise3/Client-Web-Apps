@@ -3,7 +3,6 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import {
   Button,
   Card,
-  Divider,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -43,6 +42,7 @@ import {
 import {signOut} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
+import Divider from '../../../components/Divider/Divider';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -91,22 +91,7 @@ const YouthProfileMenu = () => {
         endIcon={<KeyboardArrowDown />}>
         {messages['youth_feed_menu.my_profile']}
       </Button>
-      {open && (
-        <div
-          style={{
-            background: '#8880',
-            position: 'fixed',
-            zIndex: 999999,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          onClick={() => handleClose()}
-          onWheel={() => handleClose()}>
-          {''}
-        </div>
-      )}
+
       {open && (
         <Card
           id='my-profile-menu'
@@ -241,6 +226,23 @@ const YouthProfileMenu = () => {
             )}
           </div>
         </Card>
+      )}
+      {open && (
+        <div
+          title={'click to close menu'}
+          style={{
+            background: '#8880',
+            position: 'fixed',
+            zIndex: 999999,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          onClick={() => handleClose()}
+          onWheel={() => handleClose()}>
+          {''}
+        </div>
       )}
     </div>
   );
