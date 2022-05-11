@@ -124,7 +124,6 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         setShowSuccessPopUp(true);
         await closeAction();
       }
-      console.log(payload);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

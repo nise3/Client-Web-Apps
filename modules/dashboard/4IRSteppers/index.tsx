@@ -7,6 +7,8 @@ import {adminDomain} from '../../../@softbd/common/constants';
 import TeamStep from './TeamStep';
 import TNAReportStep from './TNAReportStep';
 import CSStep from './CSStep';
+import CurriculumStep from './CurriculumStep';
+import CBLMStep from './CBLMStep';
 import ResourceManagementStep from './ResourceManagementStep';
 import ToTStep from './ToTStep';
 
@@ -50,19 +52,15 @@ const steps: Array<StepObj> = [
   },
   {
     id: 5,
-    langKey: 'job_posting.matching_criteria',
+    langKey: 'curriculum.label',
   },
   {
     id: 6,
-    langKey: 'job_posting.contract_info',
+    langKey: '4ir.CBLM',
   },
   {
     id: 7,
-    langKey: 'job_posting.preview',
-  },
-  {
-    id: 8,
-    langKey: 'job_posting.complete',
+    langKey: '4ir_rm.level',
   },
 ];
 
@@ -152,6 +150,24 @@ const TeamAndCellView = () => {
         case 4:
           return (
             <CSStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 5:
+          return (
+            <CurriculumStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 6:
+          return (
+            <CBLMStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
