@@ -9,7 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
+import {useFetchFourIRToT} from '../../../services/4IRManagement/hooks';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
 
 const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRCS(itemId);
+  const {data: itemData, isLoading} = useFetchFourIRToT(itemId);
 
   return (
     <>

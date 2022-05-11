@@ -206,6 +206,7 @@ export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_Curriculum = FOUR_IR_SERVICE_PATH + '/4ir-curriculum';
 export const API_4IR_Resource_Management =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
+export const API_4IR_ToT = FOUR_IR_SERVICE_PATH + '/tots';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */

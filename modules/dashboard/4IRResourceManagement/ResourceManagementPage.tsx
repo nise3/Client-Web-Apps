@@ -6,8 +6,8 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRRMAddEditPopup from './FourIRRMAddEditPopup';
-import FourIRRMDetailsPopup from './FourIRRMDetailsPopup';
+import ResourceManagementAddEditPopup from './ResourceManagementAddEditPopup';
+import ResourceManagementDetailsPopup from './ResourceManagementDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 //import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 //import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
@@ -19,7 +19,7 @@ interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
 }
 
-const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
+const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   const {messages} = useIntl();
   //const {successStack} = useNotiStack();
 
@@ -166,7 +166,7 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
           skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (
-          <FourIRRMAddEditPopup
+          <ResourceManagementAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
@@ -176,7 +176,7 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRRMDetailsPopup
+          <ResourceManagementDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -188,4 +188,4 @@ const FourIRRMPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   );
 };
 
-export default FourIRRMPage;
+export default ResourceManagementPage;

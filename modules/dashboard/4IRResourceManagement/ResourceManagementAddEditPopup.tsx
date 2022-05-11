@@ -41,7 +41,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
+const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   fourIRInitiativeId,
@@ -117,13 +117,14 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         await updateFourIRResource(itemId, payload);
         updateSuccessMessage('4ir_rm.resource');
         mutateResource();
+        await closeAction();
       } else {
         await createFourIRResource(payload);
         createSuccessMessage('4ir_rm.resource');
         setShowSuccessPopUp(true);
+        await closeAction();
       }
       console.log(payload);
-      closeAction();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -232,13 +233,13 @@ const FourIRRMAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
       {showSuccessPopUp && fourIRInitiativeId && (
         <SuccessPopup
           closeAction={closeAction}
-          stepNo={1}
+          stepNo={7}
           initiativeId={fourIRInitiativeId}
-          completionStep={1}
-          formStep={1}
+          completionStep={7}
+          formStep={9}
         />
       )}
     </HookFormMuiModal>
   );
 };
-export default FourIRRMAddEditPopup;
+export default ResourceManagementAddEditPopup;

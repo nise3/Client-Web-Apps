@@ -18,7 +18,11 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRRMDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
+const ResourceManagementDetailsPopup = ({
+  itemId,
+  openEditModal,
+  ...props
+}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchFourIRResource(itemId);
 
@@ -89,4 +93,4 @@ const FourIRRMDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   );
 };
 
-export default FourIRRMDetailsPopup;
+export default ResourceManagementDetailsPopup;

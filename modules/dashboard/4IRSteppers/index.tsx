@@ -7,7 +7,8 @@ import {adminDomain} from '../../../@softbd/common/constants';
 import TeamStep from './TeamStep';
 import TNAReportStep from './TNAReportStep';
 import CSStep from './CSStep';
-import RMStep from './RMStep';
+import ResourceManagementStep from './ResourceManagementStep';
+import ToTStep from './ToTStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -157,9 +158,18 @@ const TeamAndCellView = () => {
               setLatestStep={setLatestStep}
             />
           );
+        case 7:
+          return (
+            <ResourceManagementStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
         case 8:
           return (
-            <RMStep
+            <ToTStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}

@@ -14,11 +14,13 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_ToT} from '../../../@softbd/common/apiRoutes';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
-
-const FourIRToTPage = () => {
+interface IFourIRToTPageProps {
+  fourIRInitiativeId: number;
+}
+const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
   const {messages, locale} = useIntl();
   //const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -47,19 +49,6 @@ const FourIRToTPage = () => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  /*  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_cs.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };*/
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -135,7 +124,7 @@ const FourIRToTPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_CS,
+      urlPath: API_4IR_ToT,
     });
 
   return (
@@ -175,6 +164,7 @@ const FourIRToTPage = () => {
             key={1}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRInitiativeId={fourIRInitiativeId}
             refreshDataTable={refreshDataTable}
           />
         )}
