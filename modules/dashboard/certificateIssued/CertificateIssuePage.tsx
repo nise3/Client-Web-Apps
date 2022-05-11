@@ -28,6 +28,7 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
 import { FiUserCheck } from 'react-icons/fi';
 import Link from 'next/link';
+import { getYouthProfiles } from '../../../services/youthManagement/YouthService';
 
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
@@ -49,18 +50,22 @@ const CertificateIssuedPage = () => {
         },
       },
 
-      {
-        Header: messages['common.certificate'],
-        accessor: 'certificate_id',
-      },
+      // {
+      //   Header: messages['common.certificate'],
+      //   accessor: 'certificate_id',
+      // },
       {
         Header: messages['common.youth_2'],
-        accessor: 'youth_id',
+        accessor: 'youth_profile.first_name',
       },
       {
-        Header: messages['batches.label'],
-        accessor: 'batch_id'
+        Header: messages['common.identity_number'],
+        accessor: 'youth_profile.identity_number',
       },
+      // {
+      //   Header: messages['batches.label'],
+      //   accessor: 'batch_id'
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -90,11 +95,14 @@ const CertificateIssuedPage = () => {
       urlPath: API_CERTIFICATES_ISSUE,
     });
 
-    useEffect(() => {
-      console.log('inside effect', data);
-      const youthid = data.map((item:any)=>item.youth_id)
-      console.log('youth id', youthid);
-    }, [data])
+    // useEffect(() => {
+    //   console.log('inside effect', data);
+    //   const youthid = data.map((item:any)=>item.youth_id)
+    //   // getYouthProfiles(youthid).then(res=>{
+    //   //   console.log('youth id', youthid, res);
+    //   // })
+      
+    // }, [data])
 
   return (
     <>

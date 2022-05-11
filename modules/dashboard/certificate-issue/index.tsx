@@ -6,7 +6,7 @@ import {useForm} from 'react-hook-form';
 import {useIntl} from 'react-intl';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
+import {API_CERTIFICATES_ISSUE, API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -25,8 +25,8 @@ import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
-import { useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
-import { ICertificate, ICertificateIssue } from '../../../shared/Interface/certificates';
+import { useFetchCertificateIssued, useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
+import { ICertificate, ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
 import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
@@ -46,8 +46,8 @@ const CertificateIssuePage = () => {
 
   // const [certificateTypeId, setCertificateTypeId] = useState<string>();
   // const [certificateId, setCertificateId] = useState<string>();
-  const [certificatesList, setCertificatesList] = useState<
-    Array<ICertificate> | []
+  const [certificatesIssueList, setCertificatesIssueList] = useState<
+    Array<ICertificateIssueView> | []
   >([]);
 
   // const validationSchema = useMemo(() => {
@@ -90,11 +90,19 @@ const CertificateIssuePage = () => {
     row_status: RowStatus.ACTIVE,
   });
   
+  // const {data: youthListByBatch} = useFetchCourseEnrolment(
+  //   certificateIssueFilter,
+  // );
+  
 
-  // getYouthList(certificateIssueFilter).then(res => youthListByBatch = res)
-  const {data: youthListByBatch} = useFetchCourseEnrolment(
-    certificateIssueFilter,
-  );
+  // const {onFetchData, issuedData, loading, pageCount, totalCount} =
+  //   useReactTableFetchData({
+  //     urlPath: API_CERTIFICATES_ISSUE,
+  //   });
+
+  
+  
+
   // console.log('after youthListByBatch', youthListByBatch)
   // const response = await courseEnroll(certificateIssueFilter);
   const [issueFilterItems, setIssueFilterItems] = useState([]);
@@ -103,15 +111,15 @@ const CertificateIssuePage = () => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
-  useEffect(() => {
-    if (youthListByBatch) {
-      setIssueFilterItems(
-        youthListByBatch.map((skill: any) => {
-          return {id: skill?.id, title: skill?.title};
-        }),
-      );
-    }
-  }, [youthListByBatch]);
+  // useEffect(() => {
+  //   if (youthListByBatch) {
+  //     setIssueFilterItems(
+  //       youthListByBatch.map((skill: any) => {
+  //         return {id: skill?.id, title: skill?.title};
+  //       }),
+  //     );
+  //   }
+  // }, [youthListByBatch]);
 
   const issueCerrificate1 = useEventCallback((data: any) => {
     const issueData: ICertificateIssue = {
@@ -208,7 +216,21 @@ const CertificateIssuePage = () => {
       }
     });
   
+    const {data: issuedData} = useFetchCertificateIssued();
   
+    useEffect(() => {
+        if(data){
+          const filteredData = data.map((item:any)=>{
+            const isIssued = issuedData.find((issue:ICertificateIssueView) => issue.certificate_id == item.certificate_id) !== undefined;
+            return {...item, ...{isIssued: isIssued}}
+          })
+          .filter((e:any) => !e.isIssued)
+          
+          if(filteredData && filteredData.length > 0){
+            setCertificatesIssueList(filteredData);
+          }
+        }
+    }, [data, issuedData])
   return (
     <>
       <PageBlock
@@ -219,7 +241,7 @@ const CertificateIssuePage = () => {
         }>
         <ReactTable
           columns={columns}
-          data={data}
+          data={certificatesIssueList}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

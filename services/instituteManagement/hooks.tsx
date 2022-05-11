@@ -28,6 +28,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_CERTIFICATES_ISSUE,
 } from '../../@softbd/common/apiRoutes';
 import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
@@ -163,6 +164,11 @@ export function useFetchApplicationDetails(applicationId: number | null) {
 /** fetches course enrolment */
 export function useFetchCourseEnrolment(params: any) {
   return useAxiosSWR(params ? [API_COURSE_ENROLLMENTS, params] : null);
+}
+
+/** fetches course enrolment */
+export function useFetchCertificateIssued(params?: any) {
+  return useAxiosSWR(API_CERTIFICATES_ISSUE);
 }
 
 /** fetches a single assessment's details */

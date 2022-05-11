@@ -1,9 +1,9 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { getMomentDateFormat } from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
@@ -30,12 +30,12 @@ import {
   useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {IBatch, ITrainer} from '../../../shared/Interface/institute.interface';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
+import { IBatch, ITrainer } from '../../../shared/Interface/institute.interface';
+import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
+import { isBreakPointUp } from '../../../@crema/utility/Utils';
 import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import { ICertificate, ICertificateBatchSetting } from '../../../shared/Interface/certificates';
@@ -61,8 +61,8 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   ...props
 }) => {
   // console.log('item id', itemId)
-  const {messages} = useIntl();
-  const {errorStack, successStack} = useNotiStack();
+  const { messages } = useIntl();
+  const { errorStack, successStack } = useNotiStack();
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   const [certificateTypeId, setCertificateTypeId] = useState<number>();
   const [certificateId, setCertificateId] = useState<number>();
@@ -76,7 +76,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   //   mutate: mutateBatch,
   // } = useFetchBatch(itemId);
 
-  console.log('batch data ', batch)
+  // console.log('batch data ', batch)
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -91,7 +91,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
         .required()
         .label(messages['common.certificate'] as string),
     });
-  // }, [messages, authUser]);
+    // }, [messages, authUser]);
   }, [messages]);
 
   const {
@@ -100,23 +100,33 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     reset,
     setError,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting },
   } = useForm<ICertificateBatchSetting>({
     resolver: yupResolver(validationSchema),
   });
 
-        
-  
+
+
   useEffect(() => {
-    if(batch){
+    if (batch) {
+      setCertificateId(batch.certificate_id);
       reset({
         certificate_type: batch.certificate_type,
         certificate_id: batch.certificate_id
       })
     }
   }, [batch])
-  
-  
+
+  useEffect(() => {
+    if (certificateId) {
+      const certificateOne: ICertificate | undefined = certificatesList.find(e => e.id === certificateId);
+      const isExist = certificateOne?.issued_at !== null;
+      console.log('existance ', isExist)
+    }
+    console.log('check certificateId, certificatesList')
+  }, [certificateId, certificatesList])
+
+
 
   const changeCertificateTypeAction = useCallback((typeid: number) => {
     setCertificateTypeId(typeid);
@@ -128,17 +138,14 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   useEffect(() => {
     getCertificateByResultType({
       result_type: certificateTypeId,
-    }).then((res: any)=>{
+    }).then((res: any) => {
       setCertificatesList(res.data);
     });
-
   }, [certificateTypeId]);
 
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
-    // console.log(data);
     data.certificate_id = data.certificate_id;
-    const datawithcetificateid = {...batch, ...data};
-    // console.log(datawithcetificateid)
+    const datawithcetificateid = { ...batch, ...data };
     try {
       if (batch.id) {
         await updateBatch(batch.id, datawithcetificateid);
@@ -147,7 +154,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
+      processServerSideErrors({ error, setError, validationSchema, errorStack });
     }
   };
 
@@ -159,9 +166,9 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
         <>
           <IconBatch />
           <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id='common.certificate_template' />}}
-            />
+            id='common.add_new'
+            values={{ subject: <IntlMessages id='common.certificate_template' /> }}
+          />
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
@@ -174,7 +181,8 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
-        <CustomFilterableFormSelect
+          <div>{certificateId}</div>
+          <CustomFilterableFormSelect
             key={1}
             required
             id='certificate_type'
@@ -189,7 +197,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-        <CustomFilterableFormSelect
+          <CustomFilterableFormSelect
             key={2}
             required
             id='certificate_id'
@@ -200,10 +208,11 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
+            // isDisabled={certificatesList.find(e=>e.id === certificateId)?.issued_at !== null}
             onChange={changeCertificatesAction}
-            />
+          />
         </Grid>
-    
+
         {/* <Grid item xs={12} md={6}>
           <FormRowStatus
             id='row_status'

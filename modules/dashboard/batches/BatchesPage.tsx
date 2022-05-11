@@ -67,13 +67,18 @@ const BatchesPage = () => {
 
   const openDetailsTemplateModal = useCallback((item: ICertificateBatchSetting) => {
     const certificateId = item.certificate_id as number;
-    createCertificateById(certificateId)
+    if(certificateId){
+      createCertificateById(certificateId)
       .then((res: ICertificate)=> {
         setIsOpenAddEditTemplateModal(true);
         item.certificate_type = res?.data?.result_type;
                                             
         setSelectedBatchItem(item)
       })
+    } else {
+      setIsOpenAddEditTemplateModal(true);
+    }
+    
     // const certificate = certificatesList.find(item=> item.id === certificateId);
 
 
@@ -81,6 +86,7 @@ const BatchesPage = () => {
   }, []);
 
   const closeDetailsTemplateModal = useCallback(() => {
+    setSelectedBatchItem(null)
     setIsOpenAddEditTemplateModal(false);
   }, []);
 

@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 // import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 // import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -10,19 +10,20 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
-import {useRouter} from 'next/router';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import { useRouter } from 'next/router';
+import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_CERTIFICATES} from '../../../@softbd/common/apiRoutes';
+import { API_CERTIFICATES } from '../../../@softbd/common/apiRoutes';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {FiUserCheck} from 'react-icons/fi';
-import {deleteCertificate} from '../../../services/CertificateAuthorityManagement/CertificateService';
+import { FiUserCheck } from 'react-icons/fi';
+import { deleteCertificate } from '../../../services/CertificateAuthorityManagement/CertificateService';
+import { getAllBatches } from '../../../services/instituteManagement/BatchService';
 
 const CertificateTemplatePage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-  const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const { messages } = useIntl();
+  const { successStack, errorStack } = useNotiStack();
   const router = useRouter();
 
   // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -35,7 +36,7 @@ const CertificateTemplatePage = () => {
   //   mutate: mutateCertificates,
   //   isLoading,
   // } = useFetchCertificates();
-  const {onFetchData, data, loading, pageCount, totalCount} =
+  const { onFetchData, data, loading, pageCount, totalCount } =
     useReactTableFetchData({
       urlPath: API_CERTIFICATES,
     });
@@ -52,23 +53,36 @@ const CertificateTemplatePage = () => {
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
     const path = 'certificate/editor';
     const params = certificateId
-      ? {pathname: path, certificateId}
-      : {pathname: path};
-    router.push(params).then(() => {});
+      ? { pathname: path, certificateId }
+      : { pathname: path };
+    router.push(params).then(() => { });
   }, []);
 
   const deleteCertificateTemplate = async (certificateId: number) => {
-    let response = await deleteCertificate(certificateId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='certificate.label' />}}
-        />,
-      );
 
-      refreshDataTable();
-    }
+    // 
+    const { data: batch } = await getAllBatches({ certificate_id: certificateId })
+        // const { data: batch } = res;
+        if (batch.length == 0) {
+          let response = await deleteCertificate(certificateId);
+          if (isResponseSuccess(response)) {
+            successStack(
+              <IntlMessages
+                id='common.subject_deleted_successfully'
+                values={{ subject: <IntlMessages id='certificate.label' /> }}
+              />,
+            );
+            refreshDataTable();
+          }
+        } else {
+          errorStack("Already added to batch!")
+        }
+    
+    // console.log(batch)
+    
+   
+
+
   };
 
   const refreshDataTable = useCallback(() => {
@@ -115,8 +129,8 @@ const CertificateTemplatePage = () => {
                   passHref={true}>
                   <CommonButton
                     btnText='common.edit_btn'
-                    startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                    style={{marginLeft: '10px'}}
+                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    style={{ marginLeft: '10px' }}
                     variant='outlined'
                     color='primary'
                   />
@@ -133,8 +147,8 @@ const CertificateTemplatePage = () => {
                 passHref={true}>
                 <CommonButton
                   btnText='common.duplicate'
-                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                  style={{marginLeft: '10px'}}
+                  startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                  style={{ marginLeft: '10px' }}
                   variant='outlined'
                   color='primary'
                 />
