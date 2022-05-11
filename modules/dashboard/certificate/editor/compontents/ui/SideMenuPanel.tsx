@@ -1,4 +1,3 @@
-import {ArrowLeftIcon} from '@heroicons/react/outline';
 import React from 'react';
 import {useSetRecoilState} from 'recoil';
 import {EditorPanel} from '../../interfaces/Editor';

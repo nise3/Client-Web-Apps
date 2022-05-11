@@ -137,7 +137,6 @@ function ViewRenderer() {
       if (t.type === 'input') {
         //@ts-ignore
         t.props.text = youthInfo[t.props.class];
-        console.log(t);
       }
     });
     await loadTemplateImages(template),
@@ -194,6 +193,7 @@ function ViewRenderer() {
       },
     };
   }, [containerDimensions, dimensions.height, dimensions.width, ratio]);
+  console.log(area);
 
   return (
     <div

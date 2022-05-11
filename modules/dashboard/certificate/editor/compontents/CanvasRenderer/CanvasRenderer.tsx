@@ -69,6 +69,7 @@ function CanvasRenderer() {
       setLoadedTemplate(template, getScreenDimensions());
   };
   useEffect(() => {
+    console.log(query);
     if (query?.certificateId) {
       getCertificateById(query.certificateId)
         .then((res) => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {EditorPanel} from '../../interfaces/Editor';
 import SideMenuPanel from '../ui/SideMenuPanel';
-
 import FontStyleSetting from './TextProperties/FontStyleSetting';
 import TextAlignmentSetting from './TextProperties/TextAlignmentSetting';
 import TextContentsSetting from './TextProperties/TextContentSetting';
@@ -11,18 +10,29 @@ import TextShadowSetting from './TextProperties/TextShadowSetting';
 import LineHeightSetting from './TextProperties/LineHeightSetting';
 import TextSizeSetting from './TextProperties/TextSizeSetting';
 import ShapeActions from '../ui/ShapeActions';
+import {activePanelState} from '../../state/atoms/editor';
+import {useRecoilValue} from 'recoil';
 
 interface Props {
   elementId: string;
 }
 
 function TextPropertiesPanel({elementId}: Props) {
+  const activePanel = useRecoilValue(activePanelState);
+  console.log(activePanel);
+
   return (
     <SideMenuPanel
-      title='Text'
-      previous={EditorPanel.Text}
+      title={activePanel === EditorPanel.InputProperties ? 'Input' : 'Text'}
+      previous={
+        activePanel === EditorPanel.InputProperties
+          ? EditorPanel.Input
+          : EditorPanel.Text
+      }
       actions={<ShapeActions elementId={elementId} />}>
-      <TextContentsSetting elementId={elementId} />
+      {activePanel === EditorPanel.TextProperties && (
+        <TextContentsSetting elementId={elementId} />
+      )}
       <div className='text-property-panel-inner'>
         <FontStyleSetting elementId={elementId} />
         <TextSizeSetting elementId={elementId} />

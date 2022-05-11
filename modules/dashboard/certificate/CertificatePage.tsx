@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+// import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+// import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
@@ -11,23 +11,23 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {useRouter} from 'next/router';
-import {deleteCertificate} from '../../../services/youthManagement/CertificateService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchCertificates} from '../../../services/CertificateAuthorityManagement/hooks';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_CERTIFICATES} from '../../../@softbd/common/apiRoutes';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import { FiUserCheck } from 'react-icons/fi';
+import {FiUserCheck} from 'react-icons/fi';
+import {deleteCertificate} from '../../../services/CertificateAuthorityManagement/CertificateService';
 
 const CertificateTemplatePage = () => {
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenCertificateViewModal, setIsopenCertificateViewModal] =
-    useState(false);
+  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  // const [isOpenCertificateViewModal, setIsopenCertificateViewModal] =
+  //   useState(false);
   // const [cerificateFilter] = useState<any>({});
 
   // const {
@@ -40,14 +40,14 @@ const CertificateTemplatePage = () => {
       urlPath: API_CERTIFICATES,
     });
 
-  const openCertificateDetailsModal = useCallback((itemId: number) => {
-    setIsopenCertificateViewModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  // const openCertificateDetailsModal = useCallback((itemId: number) => {
+  //   setIsopenCertificateViewModal(true);
+  //   setSelectedItemId(itemId);
+  // }, []);
 
-  const closeCertificateDetailsModal = useCallback(() => {
-    setIsopenCertificateViewModal(false);
-  }, []);
+  // const closeCertificateDetailsModal = useCallback(() => {
+  //   setIsopenCertificateViewModal(false);
+  // }, []);
 
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
     const path = 'certificate/editor';
@@ -67,12 +67,13 @@ const CertificateTemplatePage = () => {
         />,
       );
 
-      // refreshDataTable();
+      refreshDataTable();
     }
   };
 
-  // const refreshDataTable = useCallback(() => mutateCertificates(), []);
-
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((previousToggle) => !previousToggle);
+  }, []);
   const columns = useMemo(
     () => [
       {
@@ -99,27 +100,45 @@ const CertificateTemplatePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          console.log(data);
           return (
             <DatatableButtonGroup>
-              <ReadButton
+              {/* <ReadButton
                 onClick={() => openCertificateDetailsModal(data.id)}
-              />
+              /> */}
               {/* <EditButton
                 onClick={() => openCertificateAddUpdateView(data.id)}
               /> */}
-              <Link href={`/certificate/editor?certificateId=${data.id}`} passHref={true}>
+              {!data.issued_at && (
+                <Link
+                  href={`/certificate/editor?certificateId=${data.id}`}
+                  passHref={true}>
                   <CommonButton
                     btnText='common.edit_btn'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
-                    style={{ marginLeft: '10px' }}
+                    startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                    style={{marginLeft: '10px'}}
                     variant='outlined'
                     color='primary'
                   />
                 </Link>
-              <DeleteButton
-                deleteAction={() => deleteCertificateTemplate(data.id)}
-                deleteTitle='Are you sure?'
-              />
+              )}
+              {!data.issued_at && (
+                <DeleteButton
+                  deleteAction={() => deleteCertificateTemplate(data.id)}
+                  deleteTitle='Are you sure?'
+                />
+              )}
+              <Link
+                href={`/certificate/editor?certificateId=${data.id}&new=true`}
+                passHref={true}>
+                <CommonButton
+                  btnText='common.duplicate'
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  style={{marginLeft: '10px'}}
+                  variant='outlined'
+                  color='primary'
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },
@@ -159,6 +178,7 @@ const CertificateTemplatePage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
       </PageBlock>
     </>
