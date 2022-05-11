@@ -80,7 +80,7 @@ function TextToolPanel() {
           className='text-picker-button'
           style={{fontFamily: DefaultFonts.Regular, fontWeight: 'normal'}}
           onClick={handleClickAddText(DefaultFonts.Regular)}>
-          প্রত্যয়ন করা যাচ্ছে যে{' '}
+          Body Sample Text{' '}
         </Button>
         <Button
           type='gray'
