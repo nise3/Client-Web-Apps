@@ -25,8 +25,6 @@ import {
 } from '../../../services/4IRManagement/ResourceManagementService';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
-//import RowStatus from '../users/RowStatus';
-
 interface FourIRRMAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -52,7 +50,6 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
-  //const [isButtonAvailable, setIsButtonAvailable] = useState<boolean>(true);
   const {
     data: itemData,
     isLoading,

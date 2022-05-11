@@ -62,6 +62,14 @@ const steps: Array<StepObj> = [
     id: 7,
     langKey: '4ir_rm.level',
   },
+  {
+    id: 7,
+    langKey: '4ir_rm.level',
+  },
+  {
+    id: 8,
+    langKey: '4ir_tot.label',
+  },
 ];
 
 const stepNames: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8];
