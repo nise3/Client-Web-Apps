@@ -1,10 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_4IR_ToT} from '../../@softbd/common/apiRoutes';
+import {API_4IR_TOT} from '../../@softbd/common/apiRoutes';
 
 export const getAllToT = async (params = {}) => {
   try {
-    let response: any = await apiGet(API_4IR_ToT, {params});
+    let response: any = await apiGet(API_4IR_TOT, {params});
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -16,7 +16,7 @@ export const getAllToT = async (params = {}) => {
  */
 export const getToT = async (totId: number) => {
   try {
-    let response: any = await apiGet(API_4IR_ToT + '/' + totId);
+    let response: any = await apiGet(API_4IR_TOT + '/' + totId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -25,7 +25,7 @@ export const getToT = async (totId: number) => {
 
 export const createToT = async (data: any) => {
   try {
-    let response: any = await apiPost(API_4IR_ToT, data);
+    let response: any = await apiPost(API_4IR_TOT, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -34,7 +34,7 @@ export const createToT = async (data: any) => {
 
 export const updateToT = async (totId: number, data: any) => {
   try {
-    let response: any = await apiPut(API_4IR_ToT + '/' + totId, data);
+    let response: any = await apiPut(API_4IR_TOT + '/' + totId, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);
@@ -43,7 +43,7 @@ export const updateToT = async (totId: number, data: any) => {
 
 export const deleteToT = async (totId: number) => {
   try {
-    let response: any = await apiDelete(API_4IR_ToT + '/' + totId);
+    let response: any = await apiDelete(API_4IR_TOT + '/' + totId);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

@@ -13,7 +13,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 //import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIRResources} from '../../../services/4IRManagement/hooks';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_4IR_Resource_Management} from '../../../@softbd/common/apiRoutes';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
@@ -26,12 +27,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [resourcesFilters] = useState({});
-  const {
-    data: resources,
-    isLoading: isLoadingResources,
-    mutate: mutateResources,
-  } = useFetchFourIRResources(resourcesFilters);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -70,8 +66,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   };*/
 
   const refreshDataTable = useCallback(() => {
-    mutateResources();
-  }, [mutateResources]);
+    setIsToggleTable((prevToggle: any) => !prevToggle);
+  }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -136,6 +132,14 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
     [messages],
   );
 
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_4IR_Resource_Management,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
+    });
   return (
     <>
       <PageBlock
@@ -148,7 +152,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoadingResources}
+            isLoading={loading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -161,9 +165,12 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         ]}>
         <ReactTable
           columns={columns}
-          data={resources || []}
-          loading={isLoadingResources}
-          skipDefaultFilter={true}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <ResourceManagementAddEditPopup

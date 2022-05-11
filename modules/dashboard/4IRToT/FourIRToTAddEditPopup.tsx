@@ -172,7 +172,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
-        four_ir_initiative_id: 12,
+        four_ir_initiative_id: fourIRInitiativeId,
         ...data,
       };
       if (itemId) {
@@ -186,9 +186,6 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
         setShowSuccessPopUp(true);
         await closeAction();
       }
-      console.log(payload);
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }

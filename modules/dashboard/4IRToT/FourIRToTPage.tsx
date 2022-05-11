@@ -14,7 +14,7 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_ToT} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_TOT} from '../../../@softbd/common/apiRoutes';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
 interface IFourIRToTPageProps {
@@ -124,7 +124,11 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_ToT,
+      urlPath: API_4IR_TOT,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
     });
 
   return (
