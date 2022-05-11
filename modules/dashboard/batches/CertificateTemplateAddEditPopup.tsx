@@ -66,6 +66,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   const [certificateTypeId, setCertificateTypeId] = useState<number>();
   const [certificateId, setCertificateId] = useState<number>();
+  const [isTemplateEditable, setIsTemplateEditable] = useState<boolean>();
   const [certificatesList, setCertificatesList] = useState<
     Array<ICertificate> | []
   >([]);
@@ -122,8 +123,8 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       const certificateOne: ICertificate | undefined = certificatesList.find(e => e.id === certificateId);
       const isExist = certificateOne?.issued_at !== null;
       console.log('existance ', isExist)
+      setIsTemplateEditable(isExist)
     }
-    console.log('check certificateId, certificatesList')
   }, [certificateId, certificatesList])
 
 
@@ -176,12 +177,16 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoadingTypes} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoadingTypes} />
+          {
+            !isTemplateEditable && 
+            <SubmitButton isSubmitting={isSubmitting} isLoading={isLoadingTypes} />
+          }
+          
         </>
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
-          <div>{certificateId}</div>
+          
           <CustomFilterableFormSelect
             key={1}
             required
