@@ -52,34 +52,42 @@ const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               {messages['4ir_tot.master_trainer']}
             </h3>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.master_trainer_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.master_trainer_mobile}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.address']}
-              value={itemData?.master_trainer_address}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.master_trainer_email}
-              isLoading={isLoading}
-            />
-          </Grid>
+
+          {itemData?.master_trainers?.length > 0 &&
+            itemData?.master_trainers?.map((master_trainer: any) => {
+              return (
+                <Grid container spacing={5} key={master_trainer?.id} mb={5}>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.name']}
+                      value={master_trainer?.name}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.mobile']}
+                      value={master_trainer?.mobile}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.address']}
+                      value={master_trainer?.address}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <DetailsInputView
+                      label={messages['common.email']}
+                      value={master_trainer?.email}
+                      isLoading={isLoading}
+                    />
+                  </Grid>
+                </Grid>
+              );
+            })}
           <Grid item xs={12}>
             <h3 style={{marginTop: '2px', marginBottom: '0'}}>
               {messages['4ir_tot.organiser']}
