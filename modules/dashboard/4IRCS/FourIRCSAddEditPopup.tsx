@@ -17,7 +17,10 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {ICS} from '../../../shared/Interface/4IR.interface';
-import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
+import {
+  useFetch4IRCS,
+  useFetch4IRSectors,
+} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
@@ -60,6 +63,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: itemData, isLoading, mutate: mutateCS} = useFetch4IRCS(itemId);
+  const {data: sectors, isLoading: isLoadingSectors} = useFetch4IRSectors();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -176,75 +180,6 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
     ],
     [messages],
   );
-  const sectors = useMemo(
-    () => [
-      {
-        id: 1,
-        label: messages['sector.1'],
-      },
-      {
-        id: 2,
-        label: messages['sector.2'],
-      },
-      {
-        id: 3,
-        label: messages['sector.3'],
-      },
-      {
-        id: 4,
-        label: messages['sector.4'],
-      },
-      {
-        id: 5,
-        label: messages['sector.5'],
-      },
-      {
-        id: 6,
-        label: messages['sector.6'],
-      },
-      {
-        id: 7,
-        label: messages['sector.7'],
-      },
-      {
-        id: 8,
-        label: messages['sector.8'],
-      },
-      {
-        id: 9,
-        label: messages['sector.9'],
-      },
-      {
-        id: 10,
-        label: messages['sector.10'],
-      },
-      {
-        id: 11,
-        label: messages['sector.11'],
-      },
-      {
-        id: 12,
-        label: messages['sector.12'],
-      },
-      {
-        id: 13,
-        label: messages['sector.13'],
-      },
-      {
-        id: 14,
-        label: messages['sector.14'],
-      },
-      {
-        id: 15,
-        label: messages['sector.15'],
-      },
-      {
-        id: 16,
-        label: messages['sector.16'],
-      },
-    ],
-    [messages],
-  );
 
   const approvedBy = useMemo(
     () => [
@@ -333,8 +268,6 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         createSuccessMessage('4ir_cs.label');
         setShowSuccessPopUp(true);
       }
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -465,11 +398,11 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
             required
             id='sector_name'
             label={messages['common.sector']}
-            isLoading={false}
+            isLoading={isLoadingSectors}
             control={control}
             options={sectors}
             optionValueProp='id'
-            optionTitleProp={['label']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

@@ -8,6 +8,8 @@ import TeamStep from './TeamStep';
 import TNAReportStep from './TNAReportStep';
 import CSStep from './CSStep';
 import RMStep from './RMStep';
+import CurriculumStep from './CurriculumStep';
+import CBLMStep from './CBLMStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -49,19 +51,15 @@ const steps: Array<StepObj> = [
   },
   {
     id: 5,
-    langKey: 'job_posting.matching_criteria',
+    langKey: 'curriculum.label',
   },
   {
     id: 6,
-    langKey: 'job_posting.contract_info',
+    langKey: '4ir.CBLM',
   },
   {
     id: 7,
-    langKey: 'job_posting.preview',
-  },
-  {
-    id: 8,
-    langKey: 'job_posting.complete',
+    langKey: '4ir_rm.level',
   },
 ];
 
@@ -157,7 +155,25 @@ const TeamAndCellView = () => {
               setLatestStep={setLatestStep}
             />
           );
-        case 8:
+        case 5:
+          return (
+            <CurriculumStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 6:
+          return (
+            <CBLMStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 7:
           return (
             <RMStep
               fourIRInitiativeId={initiativeId}

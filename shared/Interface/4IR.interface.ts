@@ -51,7 +51,7 @@ export interface ICS extends IIdTitleCreateUpdateAt {
   level?: string;
   approved_by?: string;
   organization_name?: string;
-  sector_name?: string;
+  sector_name?: string | number;
   supported_by?: string;
   comment?: string;
   row_status?: number | string;
