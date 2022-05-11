@@ -8,6 +8,7 @@ import {
   API_4IR_OCCUPATIONS,
   API_4IR_Resource_Management,
   API_4IR_SCALE_UP,
+  API_4IR_SECTORS,
   API_4IR_TAGLINES,
 } from '../../@softbd/common/apiRoutes';
 
@@ -29,6 +30,10 @@ export function useFetch4IRCell(cellId: number | null) {
 
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
+}
+
+export function useFetch4IRSectors() {
+  return useAxiosSWR(API_4IR_SECTORS);
 }
 
 export function useFetch4IRCBLM(CBLMId: number | null) {

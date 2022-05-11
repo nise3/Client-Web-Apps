@@ -199,6 +199,7 @@ export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
 export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
+export const API_4IR_SECTORS = FOUR_IR_SERVICE_PATH + '/sectors';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
