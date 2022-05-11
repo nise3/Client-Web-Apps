@@ -16,7 +16,7 @@ variables:
   # is lts acme, value is boolean
   ltsAcme: false
 
-  imageAppVersion: "prod-1.10"
+  imageAppVersion: "prod-1.11"
 
   # increase this when you need scale up
   replicaCount: 6
