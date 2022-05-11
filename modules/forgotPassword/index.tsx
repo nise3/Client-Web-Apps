@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {classes, StyledContainer} from '../signup/index.style';
 import {Grid, Paper} from '@mui/material';
 import {Body2, H6} from '../../@softbd/elements/common';
@@ -13,11 +13,14 @@ import {COOKIE_KEY_FORGET_PASSWORD_USERNAME} from '../../shared/constants/AppCon
 import {useRouter} from 'next/router';
 import {LINK_VERIFY_OTP_FORGOT_PASSWORD} from '../../@softbd/common/appLinks';
 import {useIntl} from 'react-intl';
+import IntlMessages from '../../@crema/utility/IntlMessages';
 
 const ForgotPasswordPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
-  const {errorStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
@@ -28,6 +31,7 @@ const ForgotPasswordPage = () => {
     try {
       console.log(data);
       await sendForgetPasswordOTP(data);
+      successStack(<IntlMessages id='forgot_password.find_account' />);
       let expireDate = new Date();
       expireDate.setTime(expireDate.getTime() + 30 * 60 * 1000);
       await setBrowserCookie(
@@ -37,11 +41,14 @@ const ForgotPasswordPage = () => {
           expires: expireDate,
         },
       );
+
+      setIsSubmitted(true);
       router.push(LINK_VERIFY_OTP_FORGOT_PASSWORD).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
   };
+
   return (
     <StyledContainer sx={{display: 'flex'}}>
       <Paper className={classes.paperBox}>
@@ -70,7 +77,7 @@ const ForgotPasswordPage = () => {
                 isSubmitting={isSubmitting}
                 label={messages['common.submit'] as string}
                 size='large'
-                isDisable={isSubmitting}
+                isDisable={isSubmitting || isSubmitted}
               />
             </Grid>
           </Grid>

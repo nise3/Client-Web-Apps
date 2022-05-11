@@ -1893,5 +1893,8 @@
   "common.reset_password": "পাসওয়ার্ড পুনরায় সেট",
   "common.new_password": "নতুন পাসওয়ার্ড",
   "common.find_your_account": "আপনার অ্যাকাউন্ট খুঁজুন",
-  "common.enter_username": "আপনার একাউন্টের ইউজারনেমটি লিখুন"
+  "common.enter_username": "আপনার একাউন্টের ইউজারনেমটি লিখুন",
+  "forgot_password.find_account": "একাউন্ট খুজে পাওয়া গিয়েছে",
+  "forgot_password.otp_verification": "ওটিপি সফলভাবে জমা দেওয়া হয়েছে ",
+  "forgot_password.reset_password": "পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে"
 }

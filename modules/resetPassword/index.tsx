@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {classes, StyledContainer} from './index.style';
 import {Grid, Paper} from '@mui/material';
 import {H6} from '../../@softbd/elements/common';
@@ -22,11 +22,14 @@ import {TEXT_REGEX_PASSWORD} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
 import yup from '../../@softbd/libs/yup';
+import IntlMessages from '../../@crema/utility/IntlMessages';
+import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 
 const ResetPasswordPage = () => {
   const {messages} = useIntl();
   const router = useRouter();
-  const {errorStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     const username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
@@ -68,8 +71,11 @@ const ResetPasswordPage = () => {
       console.log(data);
       data.username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
       await resetPassword(data);
+      setIsSubmitted(true);
+      successStack(<IntlMessages id='forgot_password.reset_password' />);
       removeBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
       removeBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP);
+      router.push(getSSOLoginUrl()).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, errorStack});
     }
@@ -112,9 +118,9 @@ const ResetPasswordPage = () => {
               <SubmitButton
                 startIcon={false}
                 isSubmitting={isSubmitting}
-                label={'Submit'}
+                label={messages['common.submit'] as string}
                 size='medium'
-                isDisable={isSubmitting}
+                isDisable={isSubmitting || isSubmitted}
               />
             </Grid>
           </Grid>

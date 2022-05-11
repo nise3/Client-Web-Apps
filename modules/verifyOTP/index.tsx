@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {classes, StyledPaper} from './index.style';
 import {Box, Grid, Input, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
@@ -21,6 +21,7 @@ import {
 import {verifyForgetPasswordOtp} from '../../services/userManagement/UserService';
 import {LINK_RESET_PASSWORD} from '../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
+import {niseDomain} from '../../@softbd/common/constants';
 // import {useRouter} from 'next/router';
 
 const inputProps = {
@@ -31,7 +32,8 @@ const inputProps = {
 };
 const ForgotPasswordPage = () => {
   const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const router = useRouter();
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -61,13 +63,12 @@ const ForgotPasswordPage = () => {
     'code5',
     'code6',
   ]);
-
-  /*  useEffect(() => {
+  useEffect(() => {
     const username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
     if (!username) {
       router.push(niseDomain()).then((r) => {});
     }
-  }, []);*/
+  }, []);
   useEffect(() => {
     focusFiled();
     setValue('codes', watchAllFields.join(''));
@@ -93,7 +94,8 @@ const ForgotPasswordPage = () => {
       formData.username = username;
 
       await verifyForgetPasswordOtp(formData);
-
+      setIsSubmitted(true);
+      successStack(<IntlMessages id='forgot_password.otp_verification' />);
       let expireDate = new Date();
       expireDate.setTime(expireDate.getTime() + 30 * 60 * 1000);
       await setBrowserCookie(
@@ -209,6 +211,7 @@ const ForgotPasswordPage = () => {
             isLoading={false}
             label={messages['common.verify'] as string}
             sx={{marginTop: '10px'}}
+            isDisable={isSubmitting || isSubmitted}
           />
         </Grid>
       </form>
