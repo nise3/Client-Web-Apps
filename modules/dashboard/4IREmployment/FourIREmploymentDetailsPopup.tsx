@@ -6,11 +6,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconSkill from '../../../@softbd/icons/IconSkill';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
-import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -18,14 +17,13 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRTagLineDetailsPopup = ({
+const FourIREmploymentDetailsPopup = ({
   itemId,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-
-  const {data: itemData, isLoading} = useFetchFourIRTagline(itemId);
+  const {data: itemData, isLoading} = useFetch4IRCS(itemId);
 
   return (
     <>
@@ -34,8 +32,8 @@ const FourIRTagLineDetailsPopup = ({
         {...props}
         title={
           <>
-            <IconSkill />
-            <IntlMessages id='menu.tagline' />
+            <IconBranch />
+            <IntlMessages id='4ir_cs.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -52,32 +50,58 @@ const FourIRTagLineDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.name}
+              label={messages['4ir_cs.experts_list']}
+              value={itemData?.experts_list}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.name_en']}
-              value={itemData?.name_en}
+              label={messages['common.level']}
+              value={itemData?.level}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.start_date']}
-              value={
-                itemData?.start_date
-                  ? getMomentDateFormat(itemData?.start_date, 'DD MMM, YYYY')
-                  : ''
-              }
+              label={messages['4ir_cs.approved_by']}
+              value={itemData?.approved_by}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['4ir_cs.organization_name']}
+              value={itemData?.organization_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['rpl_sector.name']}
+              value={itemData?.sector_name}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['4ir_cs.supported_by']}
+              value={itemData?.supported_by}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.comment']}
+              value={itemData?.comment}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
             <CustomChipRowStatus
               label={messages['common.active_status']}
               value={itemData?.row_status}
@@ -90,4 +114,4 @@ const FourIRTagLineDetailsPopup = ({
   );
 };
 
-export default FourIRTagLineDetailsPopup;
+export default FourIREmploymentDetailsPopup;

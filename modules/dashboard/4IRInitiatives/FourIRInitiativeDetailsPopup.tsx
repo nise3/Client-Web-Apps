@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, ListItem, ListItemText} from '@mui/material';
+import {Grid, ListItem, Typography} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -9,10 +9,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRProject} from '../../../services/4IRManagement/hooks';
+import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import List from '@mui/material/List';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 
 type Props = {
   itemId: number;
@@ -26,7 +27,7 @@ const FourIRInitiativeDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRProject(itemId);
+  const {data: itemData, isLoading} = useFetch4IInitiative(itemId);
 
   return (
     <>
@@ -56,31 +57,48 @@ const FourIRInitiativeDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.name']}
-              value={itemData?.project_name}
+              value={itemData?.name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.name_en']}
-              value={itemData?.project_name_en}
+              value={itemData?.name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.organization_name']}
+              label={messages['common.organization_name']}
               value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.organization_name_en']}
+              label={messages['common.organization_name_en']}
               value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['menu.occupations']}
+              value={itemData?.occupation_title}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.designation']}
+              value={itemData?.designation}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['initiative.details']}
@@ -105,54 +123,111 @@ const FourIRInitiativeDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['menu.occupations']}
-              value={itemData?.occupation_title}
+              label={messages['initiative.end_date']}
+              value={getMomentDateFormat(itemData?.end_date, 'DD MMM YYYY')}
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['initiative.project_budget']}
-              value={itemData?.project_budget}
+              label={messages['initiative.initiative_budget']}
+              value={itemData?.budget}
               isLoading={isLoading}
             />
           </Grid>
-          {itemData?.tasks?.length > 0 &&
-            itemData?.tasks?.map((task: any) => {
-              return (
-                <Grid item xs={12} key={task}>
-                  <List>
-                    {task == ProjectStatus.PROJECT_FINALIZED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_FINALIZED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.roadmap_finalized']}
-                        />
-                      </ListItem>
-                    )}
-                    {task == ProjectStatus.PROJECT_REVIEWED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_REVIEWED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.projects_reviewed']}
-                        />
-                      </ListItem>
-                    )}
-                    {task == ProjectStatus.PROJECT_APPROVED && (
-                      <ListItem
-                        key={ProjectStatus.PROJECT_APPROVED}
-                        disableGutters>
-                        <ListItemText
-                          primary={messages['initiative.projects_approved']}
-                        />
-                      </ListItem>
-                    )}
-                  </List>
+
+          <Grid item xs={12} md={6}>
+            <ImageView
+              label={messages['common.main_image_path']}
+              imageUrl={itemData?.file_path}
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <List>
+              <ListItem key={'skill'} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.is_skill_provided']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData && itemData?.is_skill_provide > 0
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
                 </Grid>
-              );
-            })}
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_FINALIZED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.roadmap_finalized']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_FINALIZED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_REVIEWED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.initiatives_reviewed']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_REVIEWED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+
+              <ListItem key={ProjectStatus.PROJECT_APPROVED} disableGutters>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {messages['initiative.initiatives_approved']}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {itemData &&
+                      itemData?.tasks &&
+                      itemData.tasks.find(
+                        (n: number) => n === ProjectStatus.PROJECT_APPROVED,
+                      )
+                        ? 'YES'
+                        : 'NO'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </ListItem>
+            </List>
+          </Grid>
 
           <Grid item xs={12}>
             <CustomChipRowStatus

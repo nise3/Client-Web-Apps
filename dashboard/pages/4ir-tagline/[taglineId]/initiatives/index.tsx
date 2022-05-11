@@ -12,9 +12,10 @@ const FourIRInitiativesPage = asyncComponent(
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
+
   return (
     <>
-      <PageMeta title={messages['menu.tagline']} />
+      <PageMeta title={messages['menu.initiative']} />
       <FourIRInitiativesPage />
     </>
   );

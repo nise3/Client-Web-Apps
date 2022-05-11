@@ -11,14 +11,17 @@ import FourIRTagLineAddEditPopup from './FourIRTagLineAddEditPopup';
 import FourIRTagLineDetailsPopup from './FourIRTagLineDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getMomentDateFormat,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchFourIROccupations} from '../../../services/4IRManagement/hooks';
-import {deleteFourIROccupation} from '../../../services/4IRManagement/OccupationService';
+import {useFetchFourIRTaglines} from '../../../services/4IRManagement/hooks';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {Link} from '../../../@softbd/elements/common';
+import {deleteTagline} from '../../../services/4IRManagement/TaglineService';
 
 const FourIRTagLinePage = () => {
   const {messages} = useIntl();
@@ -27,14 +30,13 @@ const FourIRTagLinePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [occupationsFilters] = useState({});
+  const [taglinesFilters] = useState({});
 
-  // todo -> fetching required
   const {
-    data: occupations,
-    isLoading: isLoadingOccupations,
-    mutate: mutateOccupations,
-  } = useFetchFourIROccupations(occupationsFilters);
+    data: taglines,
+    isLoading: isLoadingTaglines,
+    mutate: mutateTaglines,
+  } = useFetchFourIRTaglines(taglinesFilters);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -59,13 +61,13 @@ const FourIRTagLinePage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteOccupationItem = async (occupationId: number) => {
-    let response = await deleteFourIROccupation(occupationId);
+  const deleteTaglineItem = async (taglineId: number) => {
+    let response = await deleteTagline(taglineId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='menu.occupations' />}}
+          values={{subject: <IntlMessages id='menu.tagline' />}}
         />,
       );
       refreshDataTable();
@@ -73,8 +75,8 @@ const FourIRTagLinePage = () => {
   };
 
   const refreshDataTable = useCallback(() => {
-    mutateOccupations();
-  }, [mutateOccupations]);
+    mutateTaglines();
+  }, [mutateTaglines]);
 
   const columns = useMemo(
     () => [
@@ -92,8 +94,20 @@ const FourIRTagLinePage = () => {
       },
       {
         Header: messages['common.name_en'],
-        accessor: 'common.name_en',
+        accessor: 'name_en',
         inVisible: false,
+      },
+      {
+        Header: messages['common.start_date'],
+        accessor: 'start_date',
+        filter: 'dateTimeFilter',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.status'],
@@ -113,7 +127,7 @@ const FourIRTagLinePage = () => {
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => deleteOccupationItem(data.id)}
+                deleteAction={() => deleteTaglineItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
               <Link href={`4ir-tagline/${data.id}/initiatives`}>
@@ -144,7 +158,7 @@ const FourIRTagLinePage = () => {
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={isLoadingOccupations}
+            isLoading={isLoadingTaglines}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
@@ -157,8 +171,8 @@ const FourIRTagLinePage = () => {
         ]}>
         <ReactTable
           columns={columns}
-          data={occupations || []}
-          loading={isLoadingOccupations}
+          data={taglines || []}
+          loading={isLoadingTaglines}
           skipDefaultFilter={true}
         />
         {isOpenAddEditModal && (

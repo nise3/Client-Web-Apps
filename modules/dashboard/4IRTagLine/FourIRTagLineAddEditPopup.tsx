@@ -11,30 +11,32 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import {useFetchFourIROccupation} from '../../../services/4IRManagement/hooks';
-import {IOccupation, ITagLine} from '../../../shared/Interface/4IR.interface';
+import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
+import {ITagLine} from '../../../shared/Interface/4IR.interface';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {
-  createFourIROccupation,
-  updateFourIROccupation,
-} from '../../../services/4IRManagement/OccupationService';
+  createTagline,
+  updateTagline,
+} from '../../../services/4IRManagement/TaglineService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
-interface FourIROccupationAddEditPopupProps {
+interface FourIRTaglineAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  name_en: '',
   name: '',
+  name_en: '',
+  start_date: '',
   row_status: 1,
 };
 
-const FourIRTagLineAddEditPopup: FC<FourIROccupationAddEditPopupProps> = ({
+const FourIRTagLineAddEditPopup: FC<FourIRTaglineAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
   ...props
@@ -44,24 +46,28 @@ const FourIRTagLineAddEditPopup: FC<FourIROccupationAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
-  // todo -> fetching required
   const {
     data: itemData,
     isLoading,
-    mutate: mutateOccupation,
-  } = useFetchFourIROccupation(itemId);
+    mutate: mutateTagline,
+  } = useFetchFourIRTagline(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      name_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.name_en'] as string),
       name: yup
         .string()
         .required()
         .title()
         .label(messages['common.name'] as string),
+      name_en: yup
+        .string()
+        .title('en', false)
+        .label(messages['common.name_en'] as string),
+      start_date: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.start_date'] as string),
       row_status: yup
         .number()
         .label(messages['common.active_status'] as string),
@@ -84,6 +90,7 @@ const FourIRTagLineAddEditPopup: FC<FourIROccupationAddEditPopupProps> = ({
       reset({
         name: itemData?.name ?? '',
         name_en: itemData?.name_en ?? '',
+        start_date: itemData?.start_date ?? '',
         row_status: itemData?.row_status ?? 0,
       });
     } else {
@@ -91,24 +98,21 @@ const FourIRTagLineAddEditPopup: FC<FourIROccupationAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<IOccupation> = async (data: IOccupation) => {
-    console.log(data);
-
-    // TODO -> will be refectored
-    // try {
-    //   if (itemId) {
-    //     await updateFourIROccupation(itemId, data);
-    //     updateSuccessMessage('menu.occupations');
-    //     mutateOccupation();
-    //   } else {
-    //     await createFourIROccupation(data);
-    //     createSuccessMessage('menu.occupations');
-    //   }
-    //   props.onClose();
-    //   refreshDataTable();
-    // } catch (error: any) {
-    //   processServerSideErrors({error, setError, validationSchema, errorStack});
-    // }
+  const onSubmit: SubmitHandler<ITagLine> = async (data: ITagLine) => {
+    try {
+      if (itemId) {
+        await updateTagline(itemId, data);
+        updateSuccessMessage('menu.tagline');
+        mutateTagline();
+      } else {
+        await createTagline(data);
+        createSuccessMessage('menu.tagline');
+      }
+      props.onClose();
+      refreshDataTable();
+    } catch (error: any) {
+      processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
   };
 
   return (
@@ -154,6 +158,16 @@ const FourIRTagLineAddEditPopup: FC<FourIROccupationAddEditPopupProps> = ({
           <CustomTextInput
             id='name_en'
             label={messages['common.name_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomDateTimeField
+            required
+            id='start_date'
+            label={messages['common.start_date']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}

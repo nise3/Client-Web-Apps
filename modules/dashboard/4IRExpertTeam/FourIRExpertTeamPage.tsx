@@ -6,29 +6,30 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRInitiativeAddEditPopup from './FourIRInitiativeAddEditPopup';
-import FourIRInitiativeDetailsPopup from './FourIRInitiativeDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import FourIRExpertTeamAddEditPopup from './FourIRExpertTeamAddEditPopup';
+import FourIRExpertTeamDetailsPopup from './FourIRExpertTeamDetailsPopup';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import TaskIcon from '@mui/icons-material/Task';
-import {
-  getCalculatedSerialNo,
-  getMomentDateFormat,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {useRouter} from 'next/router';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
-import {deleteInitiative} from '../../../services/4IRManagement/InitiativeService';
 
-const FourIRInitiativesPage = () => {
-  const router = useRouter();
-  const presentPath = router.asPath;
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
+import {deleteTeamMember} from '../../../services/4IRManagement/ImplementingTeamService';
+import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+
+interface IFourIRExpertTeamPageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIRExpertTeamPage = ({
+  fourIRInitiativeId,
+}: IFourIRExpertTeamPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -39,8 +40,6 @@ const FourIRInitiativesPage = () => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const taglineId = Number(router.query.taglineId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -56,40 +55,26 @@ const FourIRInitiativesPage = () => {
     [selectedItemId],
   );
 
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-  }, []);
-
-  const deleteInitiativeItem = async (initiativeId: number) => {
-    let response = await deleteInitiative(initiativeId);
+  const deleteExpertTeamMember = async (memberId: number) => {
+    let response = await deleteTeamMember(memberId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='initiative.label' />}}
+          values={{subject: <IntlMessages id='4ir.team_member' />}}
         />,
       );
       refreshDataTable();
     }
   };
 
-  const openIncompleteStep = useCallback(
-    (initiativeId: any, completionStep: any, formStep: any) => {
-      router.push({
-        pathname: presentPath + '/' + initiativeId,
-        query: {
-          completionStep: completionStep,
-          formStep: formStep,
-          presentStep: completionStep + 1,
-        },
-      });
-    },
-    [presentPath],
-  );
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenDetailsModal(false);
+  }, []);
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevToggle: any) => !prevToggle);
-  }, [isToggleTable]);
+    setIsToggleTable((prev) => !prev);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -107,67 +92,28 @@ const FourIRInitiativesPage = () => {
       },
 
       {
-        Header: messages['common.initiative'],
+        Header: messages['common.name'],
         accessor: 'name',
       },
       {
-        Header: messages['initiative.name_en'],
-        accessor: 'name_en',
-        isVisible: false,
+        Header: messages['common.email'],
+        accessor: 'email',
       },
       {
-        Header: messages['common.organization'],
-        accessor: 'organization_name',
+        Header: messages['common.phone_number'],
+        accessor: 'phone_number',
       },
       {
-        Header: messages['common.organization_en'],
-        accessor: 'initiative.name_en',
+        Header: messages['role.label'],
+        accessor: 'role',
         isVisible: false,
       },
       {
         Header: messages['common.designation'],
         accessor: 'designation',
-      },
-      {
-        Header: messages['initiative.budget'],
-        accessor: 'budget',
-        disableFilters: true,
-      },
-      {
-        Header: messages['common.start_date'],
-        accessor: 'start_date',
-        filter: 'dateTimeFilter',
         isVisible: false,
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
-          );
-        },
       },
-      {
-        Header: messages['common.end_date'],
-        accessor: 'end_date',
-        filter: 'dateTimeFilter',
-        isVisible: false,
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
-          );
-        },
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -176,21 +122,8 @@ const FourIRInitiativesPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(
-                    data?.id,
-                    data?.completion_step,
-                    data?.form_step,
-                  );
-                }}
-                btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step + 1}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
               <DeleteButton
-                deleteAction={() => deleteInitiativeItem(data.id)}
+                deleteAction={() => deleteExpertTeamMember(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -204,9 +137,10 @@ const FourIRInitiativesPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_INITIATIVE,
+      urlPath: API_4IR_TEAM_MEMBERS,
       paramsValueModifier: (params) => {
-        params['four_ir_tagline_id'] = taglineId;
+        params['team_type'] = FourIRTeamType.EXPERT_TEAM;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
       },
     });
@@ -216,19 +150,19 @@ const FourIRInitiativesPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_initiative.label' />
+            <IconBranch /> <IntlMessages id='4ir.expert_team' />
           </>
         }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={loading}
+            isLoading={false}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['initiative.label'],
+                  subject: messages['4ir.expert_team'],
                 }}
               />
             }
@@ -244,17 +178,17 @@ const FourIRInitiativesPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRInitiativeAddEditPopup
+          <FourIRExpertTeamAddEditPopup
             key={1}
-            fourIRTaglineId={taglineId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            fourIRInitiativeId={fourIRInitiativeId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRInitiativeDetailsPopup
+          <FourIRExpertTeamDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -266,4 +200,4 @@ const FourIRInitiativesPage = () => {
   );
 };
 
-export default FourIRInitiativesPage;
+export default FourIRExpertTeamPage;

@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -20,49 +20,245 @@ import {ICS} from '../../../shared/Interface/4IR.interface';
 import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
+import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import CustomExpertFieldArray from './CustomExpertFieldArray';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface CSAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRInitiativeId: number | string;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  experts_list: '',
-  level: '',
+  experts: [{}],
+  level_from: '',
+  level_to: '',
   approved_by: '',
-  organization_name: '',
+  developed_organization_name: '',
+  developed_organization_name_en: '',
   sector_name: '',
-  supported_by: '',
-  comment: '',
-  row_status: '1',
+  supported_organization_name: '',
+  supported_organization_name_en: '',
+  comments: '',
+  file_path: '',
+  row_status: 1,
 };
 
 const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
+  fourIRInitiativeId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
 
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const [fileLinks, setFileLinks] = useState<any>([]);
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateProject,
-  } = useFetch4IRCS(itemId);
+  const {data: itemData, isLoading, mutate: mutateCS} = useFetch4IRCS(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      experts_list: yup
+      experts: yup.array().of(
+        yup.object().shape({
+          name: yup
+            .string()
+            .required()
+            .label(messages['common.name'] as string),
+          designation: yup
+            .string()
+            .required()
+            .label(messages['common.designation'] as string),
+          organization: yup
+            .string()
+            .required()
+            .label(messages['common.organization'] as string),
+          mobile: yup
+            .string()
+            .trim()
+            .matches(MOBILE_NUMBER_REGEX)
+            .required()
+            .label(messages['common.mobile'] as string),
+          email: yup
+            .string()
+            .email()
+            .required()
+            .label(messages['common.email'] as string),
+        }),
+      ),
+      level_from: yup
         .string()
-        .title()
-        .label(messages['4ir_cs.experts_list'] as string),
+        .trim()
+        .required()
+        .label(messages['common.level_from'] as string),
+      level_to: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.level_to'] as string),
+      approved_by: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['4ir_cs.approved_by'] as string),
+      developed_organization_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.developed_organization_name'] as string),
+      supported_organization_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.supported_organization_name'] as string),
+      sector_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.sector'] as string),
     });
   }, [messages]);
+
+  const levels = useMemo(
+    () => [
+      {
+        id: 1,
+        label: messages['level.1'],
+      },
+      {
+        id: 2,
+        label: messages['level.2'],
+      },
+      {
+        id: 3,
+        label: messages['level.3'],
+      },
+      {
+        id: 4,
+        label: messages['level.4'],
+      },
+      {
+        id: 5,
+        label: messages['level.5'],
+      },
+      {
+        id: 6,
+        label: messages['level.6'],
+      },
+      {
+        id: 7,
+        label: messages['level.7'],
+      },
+      {
+        id: 8,
+        label: messages['level.8'],
+      },
+      {
+        id: 9,
+        label: messages['level.9'],
+      },
+      {
+        id: 10,
+        label: messages['level.10'],
+      },
+      {
+        id: 11,
+        label: messages['level.11'],
+      },
+      {
+        id: 12,
+        label: messages['level.12'],
+      },
+    ],
+    [messages],
+  );
+  const sectors = useMemo(
+    () => [
+      {
+        id: 1,
+        label: messages['sector.1'],
+      },
+      {
+        id: 2,
+        label: messages['sector.2'],
+      },
+      {
+        id: 3,
+        label: messages['sector.3'],
+      },
+      {
+        id: 4,
+        label: messages['sector.4'],
+      },
+      {
+        id: 5,
+        label: messages['sector.5'],
+      },
+      {
+        id: 6,
+        label: messages['sector.6'],
+      },
+      {
+        id: 7,
+        label: messages['sector.7'],
+      },
+      {
+        id: 8,
+        label: messages['sector.8'],
+      },
+      {
+        id: 9,
+        label: messages['sector.9'],
+      },
+      {
+        id: 10,
+        label: messages['sector.10'],
+      },
+      {
+        id: 11,
+        label: messages['sector.11'],
+      },
+      {
+        id: 12,
+        label: messages['sector.12'],
+      },
+      {
+        id: 13,
+        label: messages['sector.13'],
+      },
+      {
+        id: 14,
+        label: messages['sector.14'],
+      },
+      {
+        id: 15,
+        label: messages['sector.15'],
+      },
+      {
+        id: 16,
+        label: messages['sector.16'],
+      },
+    ],
+    [messages],
+  );
+
+  const approvedBy = useMemo(
+    () => [
+      {
+        id: 1,
+        label: 'NSDA',
+      },
+      {
+        id: 2,
+        label: 'BTEB',
+      },
+    ],
+    [],
+  );
 
   const {
     control,
@@ -78,39 +274,64 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
 
   useEffect(() => {
     if (itemData) {
-      let urlPaths: any = [];
-      let files = itemData?.projects;
-      /**To fetch active cv paths**/
-      files.map((file: any) => {
-        urlPaths.push(file.file_link);
-      });
-      setFileLinks(urlPaths);
-
-      reset({
-        experts_list: itemData?.experts_list,
-        level: itemData?.level,
+      let data: any = {
+        experts: getExperts(itemData?.experts),
+        level_from: itemData?.level_from,
+        level_to: itemData?.level_to,
         approved_by: itemData?.approved_by,
-        organization_name: itemData?.organization_name,
+        developed_organization_name: itemData?.developed_organization_name,
+        developed_organization_name_en:
+          itemData?.developed_organization_name_en,
         sector_name: itemData?.sector_name,
-        supported_by: itemData?.supported_by,
-        comment: itemData?.comment,
+        supported_organization_name: itemData?.supported_organization_name,
+        supported_organization_name_en:
+          itemData?.supported_organization_name_en,
+        comments: itemData?.comments,
+        file_path: itemData?.file_path,
         row_status: itemData?.row_status,
-        //projects: urlPaths,
-      });
+      };
+      reset(data);
     } else {
       reset(initialValues);
     }
   }, [itemData]);
 
-  const onSubmit: SubmitHandler<ICS> = async (data: ICS) => {
+  const getExperts = (experts: any) => {
+    if (!experts || experts?.lenght < 1) return [];
+
+    return (experts || []).map((item: any) => {
+      return {
+        name: item?.name,
+        designation: item?.designation,
+        organization: item?.organization,
+        mobile: item?.mobile,
+        email: item?.email,
+      };
+    });
+  };
+
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log('the cs submitted data: ', data);
     try {
+      let payload = {
+        four_ir_initiative_id: fourIRInitiativeId,
+        ...data,
+      };
+
       if (itemId) {
-        await updateCS(itemId, data);
+        await updateCS(itemId, payload);
         updateSuccessMessage('4ir_cs.label');
-        mutateProject();
+        mutateCS();
+        await closeAction();
       } else {
-        await createCS(data);
+        await createCS(payload);
         createSuccessMessage('4ir_cs.label');
+        setShowSuccessPopUp(true);
       }
       props.onClose();
       refreshDataTable();
@@ -148,11 +369,64 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <Typography variant={'body2'}>
+            {messages['level.experts_list']}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <CustomExpertFieldArray
+            id='experts'
+            isLoading={false}
+            control={control}
+            register={register}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            required
+            id='level_from'
+            label={messages['common.level_from']}
+            isLoading={false}
+            control={control}
+            options={levels}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            required
+            id='level_to'
+            label={messages['common.level_to']}
+            isLoading={false}
+            control={control}
+            options={levels}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFormSelect
+            required
+            id='approved_by'
+            label={messages['4ir_cs.approved_by']}
+            isLoading={false}
+            control={control}
+            options={approvedBy}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='experts_list'
-            label={messages['4ir_cs.experts_list']}
+            id='developed_organization_name'
+            label={messages['common.developed_organization_name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -160,8 +434,8 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='level'
-            label={messages['common.level']}
+            id='developed_organization_name_en'
+            label={messages['common.developed_organization_name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -169,8 +443,9 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='approved_by'
-            label={messages['4ir_cs.approved_by']}
+            required
+            id='supported_organization_name'
+            label={messages['common.supported_organization_name']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -178,35 +453,30 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='organization_name'
-            label={messages['4ir_cs.organization_name']}
+            id='supported_organization_name_en'
+            label={messages['common.supported_organization_name_en']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomTextInput
+          <CustomFormSelect
+            required
             id='sector_name'
-            label={messages['rpl_sector.name']}
-            register={register}
+            label={messages['common.sector']}
+            isLoading={false}
+            control={control}
+            options={sectors}
+            optionValueProp='id'
+            optionTitleProp={['label']}
             errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomTextInput
-            id='supported_by'
-            label={messages['4ir_cs.supported_by']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
           />
         </Grid>
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='comment'
+            id='comments'
             label={messages['common.comment']}
             register={register}
             errorInstance={errors}
@@ -217,25 +487,34 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
-            id='projects'
-            defaultFileUrl={fileLinks}
+            id='file_path'
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}
-            label={messages['common.project']}
+            sizeLimitText={'3MB'}
+            label={messages['common.file_upload']}
             required={false}
-            // uploadedUrls={watch('projects')}
           />
         </Grid>
         <Grid item xs={12}>
           <FormRowStatus
             id='row_status'
             control={control}
-            defaultValue={initialValues.row_status}
+            defaultValue={initialValues?.row_status}
             isLoading={isLoading}
           />
         </Grid>
       </Grid>
+      {showSuccessPopUp && fourIRInitiativeId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={4}
+          initiativeId={fourIRInitiativeId}
+          completionStep={4}
+          formStep={5}
+        />
+      )}
     </HookFormMuiModal>
   );
 };

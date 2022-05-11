@@ -1,7 +1,6 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_4IR_CS} from '../../@softbd/common/apiRoutes';
-import {ICS} from '../../shared/Interface/4IR.interface';
 
 export const getAllCS = async (params = {}) => {
   try {
@@ -24,7 +23,7 @@ export const getCS = async (csId: number) => {
   }
 };
 
-export const createCS = async (data: ICS) => {
+export const createCS = async (data: any) => {
   try {
     let response: any = await apiPost(API_4IR_CS, data);
     return response.data;
@@ -33,7 +32,7 @@ export const createCS = async (data: ICS) => {
   }
 };
 
-export const updateCS = async (csId: number, data: ICS) => {
+export const updateCS = async (csId: number, data: any) => {
   try {
     let response: any = await apiPut(API_4IR_CS + '/' + csId, data);
     return response.data;
