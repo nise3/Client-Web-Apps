@@ -3,7 +3,8 @@ import dynamic from 'next/dynamic';
 import {RecoilRoot} from 'recoil';
 import {useCallback, useState} from 'react';
 import CertificateAddEditPopup from './CertificateAddEditPopup';
-const Editor = dynamic(() => import('./editor/Editor'), {ssr: false});
+import Editor from './editor/Editor';
+// const Editor = dynamic(() => import('./editor/Editor'), {ssr: false});
 
 export default function Home() {
   const [isAddEditPopupOpen, setisAddEditPopupOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Home() {
     <div
       style={{
         height: '100vh',
-        width: '100%',
+        width: '100vw',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',

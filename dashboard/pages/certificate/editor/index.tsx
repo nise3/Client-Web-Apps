@@ -17,7 +17,18 @@ const CertificateEditorPage = AuthenticatedBlankPage(() => {
   return (
     <>
       <PageMeta title={messages['common.certificate']} />
-      <CertificateEditor />
+      <div
+        style={{
+          height: '100vh',
+          width: '100vw',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}>
+        <div className='loader'>
+          <CertificateEditor />
+        </div>
+      </div>
     </>
   );
 });

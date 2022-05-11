@@ -134,6 +134,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       result_type: Number(data.resultType!),
       template: templateJson,
     };
+    console.log(dataToSave);
     try {
       if (query.certificateId) {
         console.log('update dsfa');

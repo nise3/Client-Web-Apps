@@ -20,6 +20,7 @@ import {getBatch} from '../../../../../../services/instituteManagement/BatchServ
 import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 import {loadTemplateImages} from '../../utils/template';
+import {StageRefContainer} from '../../state/containers/StageRefContainer';
 
 interface IYouthCertificateDetails {
   'candidate-name': string;
@@ -33,6 +34,7 @@ interface IYouthCertificateDetails {
   'course-name': string;
   'training-center': string;
   grade: number;
+  marks: number;
 }
 
 function ViewRenderer() {
@@ -47,6 +49,8 @@ function ViewRenderer() {
   const {setLoadedTemplate} = useTemplateDispatcher();
   const {editorAreaRef, setScreenDimensions} =
     EditorAreaContainer.useContainer();
+  const {stageAreaRef} = StageRefContainer.useContainer();
+
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
@@ -60,9 +64,11 @@ function ViewRenderer() {
   useEffect(() => {
     if (editorAreaRef.current) {
       const containerDimensions = editorAreaRef.current.getBoundingClientRect();
+      setContainerDimensions(containerDimensions);
+
       setScreenDimensions({
         width: containerDimensions.width - 2 * EDITOR_MARGIN,
-        height: containerDimensions.height - 2 * EDITOR_MARGIN,
+        height: 500 - 2 * EDITOR_MARGIN,
       });
 
       fitToScreen();
@@ -191,8 +197,8 @@ function ViewRenderer() {
 
   return (
     <div
-      className={`canvas-area-container ${
-        isLoading ? 'canvas-area-container-loading' : ''
+      className={`view-area-container ${
+        isLoading ? 'view-area-container-loading' : ''
       }`}
       ref={editorAreaRef}>
       {/* {isLoading && (
@@ -205,11 +211,11 @@ function ViewRenderer() {
         <Stage
           scaleX={area.scale.x}
           scaleY={area.scale.y}
-          offsetX={area.offset.x}
-          offsetY={area.offset.y}
-          listening={false}
-          width={area.stageDimensions.width}
-          height={area.stageDimensions.height}
+          // offsetX={area.offset.x}
+          // offsetY={area.offset.y}
+          width={area.stageDimensions.width + area.offset.x}
+          height={area.stageDimensions.height + area.offset.y}
+          ref={stageAreaRef}
           listening={false}>
           <RecoilBridge>
             <ElementRefsContainer.Provider>
