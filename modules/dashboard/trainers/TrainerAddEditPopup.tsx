@@ -77,6 +77,7 @@ const initialValues = {
   training_center_id: '',
   trainer_registration_number: '',
   email: '',
+  subject: '',
   mobile: '',
   about_me: '',
   about_me_en: '',
@@ -234,7 +235,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .test(
           'special character validation',
           messages['common.special_character_error'] as string,
-          (value) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
+          (value) => !Boolean(value?.match(SPECIAL_CHARACTER_VALIDATION)),
         ),
       mobile: yup
         .string()
