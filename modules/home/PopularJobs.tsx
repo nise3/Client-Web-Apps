@@ -1,7 +1,6 @@
-import {Box, Button, Container, Grid} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useFetchPublicJobs} from '../../services/IndustryManagement/hooks';
@@ -9,10 +8,10 @@ import JobCardComponent from '../../@softbd/elements/JobCardComponent';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import JobCategory from '../../@softbd/utilities/JobCategorie';
 import PageSizes from '../../@softbd/utilities/PageSizes';
-import Link from 'next/link';
 import {LINK_FRONTEND_JOBS} from '../../@softbd/common/appLinks';
 import SectionTitle from './SectionTitle';
 import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
+import {SeeMoreLinkButton} from '../../@softbd/elements/common';
 
 const PREFIX = 'NisePopularJobs';
 
@@ -78,17 +77,10 @@ const PopularJobs = () => {
         </Box>
         {jobs && jobs?.length > 0 && (
           <Grid item container justifyContent='center'>
-            <Link
+            <SeeMoreLinkButton
               href={`${LINK_FRONTEND_JOBS}/${JobCategory.POPULAR}`}
-              passHref>
-              <Button
-                sx={{borderRadius: '10px'}}
-                variant='outlined'
-                color='primary'
-                endIcon={<ArrowRightAlt />}>
-                {messages['common.see_more']}
-              </Button>
-            </Link>
+              label={messages['common.see_more'] as string}
+            />
           </Grid>
         )}
       </Container>

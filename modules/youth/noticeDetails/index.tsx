@@ -9,9 +9,6 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {useIntl} from 'react-intl';
@@ -72,7 +69,7 @@ const NoticeDetails = () => {
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>
-              <Tooltip title={messages['common.like']}>
+              {/*<Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
                   sx={{backgroundColor: '#008fff'}}
@@ -89,7 +86,7 @@ const NoticeDetails = () => {
                   className={classes.icon}
                   sx={{backgroundColor: '#ffb700b8'}}
                 />
-              </Tooltip>
+              </Tooltip>*/}
               <Tooltip title={messages['common.download_label']}>
                 {notice?.file_path ? (
                   <Link
@@ -136,7 +133,11 @@ const NoticeDetails = () => {
                     },
                   }}
                   image={notice?.main_image_path}
-                  alt={notice?.image_alt_title}
+                  alt={
+                    notice?.image_alt_title
+                      ? notice?.image_alt_title
+                      : notice?.title
+                  }
                   title={notice?.title}
                 />
               </Grid>

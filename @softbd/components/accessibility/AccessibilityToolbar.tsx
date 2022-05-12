@@ -108,12 +108,21 @@ const StyledLink = styled('a')(({theme}) => ({
 
 const AccessibilityToolbar = () => {
   // console.log('AccessibilityToolbar');
+  const [isProxyHidden, setIsProxyHidden] = useState(false);
+  const [isClosed, setIsClosed] = useState(true);
   const [isOpened, setIsOpened] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const toggleFn = useCallback(
     (e) => {
       e.preventDefault();
       e.stopPropagation();
+      if (isOpened)
+        setTimeout(() => {
+          setIsClosed(true);
+        }, 210);
+      else {
+        setIsClosed(false);
+      }
       setIsOpened(!isOpened);
     },
     [isOpened, setIsOpened],
@@ -213,7 +222,28 @@ const AccessibilityToolbar = () => {
   }, []);
   return (
     <>
-      <StyledLink onClick={skipFn} onKeyPress={skipFn} href='#maincontent'>
+      {!isProxyHidden && (
+        <StyledLink
+          sx={{}}
+          href='#maincontent'
+          onFocus={(e) => {
+            const skipBtn: any = document.querySelector('#skip-button');
+            skipBtn?.focus();
+            setIsProxyHidden(true);
+          }}>
+          {document.title}
+        </StyledLink>
+      )}
+      <StyledLink
+        onClick={skipFn}
+        onKeyPress={skipFn}
+        onFocus={(e) => {
+          setTimeout(() => {
+            setIsProxyHidden(true);
+          }, 1000);
+        }}
+        id='skip-button'
+        href='#maincontent'>
         Skip to content
       </StyledLink>
       <StyledBox className={isOpened ? 'opened' : ''}>
@@ -227,131 +257,137 @@ const AccessibilityToolbar = () => {
           {isOpened ? <ArrowBackIcon /> : <SettingsAccessibilityIcon />}
         </Card>
         <Card className={classes.card} elevation={8}>
-          <H4 style={{fontSize: '1.5rem'}}>Accessibility</H4>
-          {isReady && (
-            <FormGroup>
-              <Button
-                variant='outlined'
-                name='fontInc'
-                size='small'
-                className={classes.action}
-                disabled={!isOpened}
-                onClick={formToggle}>
-                Increase Font Size
-              </Button>
-              <Button
-                variant='outlined'
-                name='fontDec'
-                size='small'
-                className={classes.action}
-                disabled={!isOpened}
-                onClick={formToggle}>
-                Decrease Font Size
-              </Button>
-              <div style={{borderBottom: '1px solid #bbb', marginTop: 12}} />
-              <FormControlLabel
-                control={
-                  <Checkbox
+          {!isClosed && (
+            <>
+              <H4 style={{fontSize: '1.5rem'}}>Accessibility</H4>
+              {isReady && (
+                <FormGroup>
+                  <Button
+                    variant='outlined'
+                    name='fontInc'
+                    size='small'
+                    className={classes.action}
                     disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'monochrome',
-                    )}
-                  />
-                }
-                onClick={formToggle}
-                label='Monochrome'
-                name='monochrome'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
+                    onClick={formToggle}>
+                    Increase Font Size
+                  </Button>
+                  <Button
+                    variant='outlined'
+                    name='fontDec'
+                    size='small'
+                    className={classes.action}
                     disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'inverted',
-                    )}
+                    onClick={formToggle}>
+                    Decrease Font Size
+                  </Button>
+                  <div
+                    style={{borderBottom: '1px solid #bbb', marginTop: 12}}
                   />
-                }
-                onClick={formToggle}
-                label='Inverted Colors'
-                name='inverted'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'bigCursor',
-                    )}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'monochrome',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Monochrome'
+                    name='monochrome'
                   />
-                }
-                onClick={formToggle}
-                label='Big Cursor'
-                name='bigCursor'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'highlightLinks',
-                    )}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'inverted',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Inverted Colors'
+                    name='inverted'
                   />
-                }
-                onClick={formToggle}
-                label='Highlight Links'
-                name='highlightLinks'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'highlightHeadings',
-                    )}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'bigCursor',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Big Cursor'
+                    name='bigCursor'
                   />
-                }
-                onClick={formToggle}
-                label='Highlight Headings'
-                name='highlightHeadings'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={!isOpened}
-                    defaultChecked={document.documentElement.classList.contains(
-                      'guide',
-                    )}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'highlightLinks',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Highlight Links'
+                    name='highlightLinks'
                   />
-                }
-                onClick={formToggle}
-                label='Reading Guide'
-                name='guide'
-              />
-              {/*<FormControlLabel
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'highlightHeadings',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Highlight Headings'
+                    name='highlightHeadings'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        disabled={!isOpened}
+                        defaultChecked={document.documentElement.classList.contains(
+                          'guide',
+                        )}
+                      />
+                    }
+                    onClick={formToggle}
+                    label='Reading Guide'
+                    name='guide'
+                  />
+                  {/*<FormControlLabel
               control={<Button />}
               onClick={formToggle}
               label='Reset'
               name='Reset'
             />*/}
-              <div style={{borderBottom: '1px solid #bbb'}} />
-              <Button
-                variant='contained'
-                className={classes.action}
-                disabled={!isOpened}
-                onClick={formToggle}
-                name='reset'>
-                RESET
-              </Button>
-              <p className={classes.downloadLink}>
-                <a
-                  tabIndex={isOpened ? 0 : -1}
-                  target='_blank'
-                  rel='noreferrer'
-                  href='https://www.nvaccess.org/files/nvda/releases/2020.4/nvda_2020.4.exe'>
-                  Download Screen Reader
-                </a>
-              </p>
-            </FormGroup>
+                  <div style={{borderBottom: '1px solid #bbb'}} />
+                  <Button
+                    variant='contained'
+                    className={classes.action}
+                    disabled={!isOpened}
+                    onClick={formToggle}
+                    name='reset'>
+                    RESET
+                  </Button>
+                  <p className={classes.downloadLink}>
+                    <a
+                      tabIndex={isOpened ? 0 : -1}
+                      target='_blank'
+                      rel='noreferrer'
+                      href='https://www.nvaccess.org/files/nvda/releases/2020.4/nvda_2020.4.exe'>
+                      Download Screen Reader
+                    </a>
+                  </p>
+                </FormGroup>
+              )}
+            </>
           )}
         </Card>
       </StyledBox>

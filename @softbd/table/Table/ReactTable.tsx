@@ -247,7 +247,7 @@ export default function ReactTable<T extends object>({
     ...props,
     columns,
     data,
-    autoResetHiddenColumns: false,
+    //autoResetHiddenColumns: false, TODO this line commented because its effecting in hiddenColumns visibilities
     manualPagination: true,
     manualFilters: skipDefaultFilter,
     autoResetPage: !skipPageResetRef.current,

@@ -16,10 +16,13 @@ import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 import {Link} from '../../../@softbd/elements/common';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 
 const CVBankPage = () => {
   const {messages} = useIntl();
 
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
   const router = useRouter();
   const path = router.pathname;
   const [skillFilters] = useState<any>({});
@@ -32,14 +35,21 @@ const CVBankPage = () => {
     if (skills) {
       setSkillFilterItems(
         skills.map((skill: any) => {
-          return {
-            id: skill.id,
-            title: skill.title,
-          };
+          if (language === 'bn') {
+            return {
+              id: skill?.id,
+              title: skill?.title,
+            };
+          } else {
+            return {
+              id: skill?.id,
+              title: skill?.title_en,
+            };
+          }
         }),
       );
     }
-  }, [skills]);
+  }, [skills, language]);
 
   const columns = useMemo(
     () => [
@@ -64,11 +74,13 @@ const CVBankPage = () => {
       {
         Header: messages['common.first_name'],
         accessor: 'first_name',
+        disableFilters: true,
       },
 
       {
         Header: messages['common.last_name'],
         accessor: 'last_name',
+        disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
@@ -81,6 +93,12 @@ const CVBankPage = () => {
         accessor: 'mobile',
         disableFilters: true,
         isVisible: false,
+      },
+      {
+        Header: messages['common.search_3'],
+        accessor: 'search_text',
+        isVisible: false,
+        permanentVisible: true,
       },
       {
         Header: messages['skill.label'],

@@ -312,4 +312,36 @@ export const routePermissions: any = {
     routePrefix: '/certificates',
     permissionKeys: ['view_any_user'],
   },
+  '/subjects': {
+    routePrefix: '/subjects',
+    permissionKeys: ['view_any_exam_subject'],
+  },
+  '/questions-bank': {
+    routePrefix: '/questions-bank',
+    permissionKeys: ['view_any_exam_question_bank'],
+  },
+  '/exams': {
+    routePrefix: '/exams',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/question-paper': {
+    routePrefix: '/exams/question-paper',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/exams/youth-list/': {
+    routePrefix: '/exams/youth-list/',
+    permissionKeys: ['view_any_exam'],
+  },
+  '/create': {
+    routePrefix: '/create',
+    permissionKeys: ['view_any_exam'],
+  },
+  'exams/update/': {
+    routePrefix: 'exams/update',
+    permissionKeys: ['view_any_exam'],
+  },
+  'exams/details/': {
+    routePrefix: 'exams/details',
+    permissionKeys: ['view_any_exam'],
+  },
 };

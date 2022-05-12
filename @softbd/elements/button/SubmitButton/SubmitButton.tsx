@@ -11,6 +11,7 @@ interface Props {
   isSubmitting?: boolean;
   isLoading?: boolean;
   startIcon?: React.ReactNode | false;
+  type?: 'submit' | 'button';
 
   [x: string]: any;
 }
@@ -23,6 +24,7 @@ const SubmitButton = ({
   isLoading,
   isDisable,
   startIcon,
+  type = 'submit',
   ...rest
 }: Props) => {
   const {messages} = useIntl();
@@ -37,7 +39,7 @@ const SubmitButton = ({
       color='primary'
       onClick={onClick}
       className={className}
-      type='submit'
+      type={type}
       disabled={isSubmitting}
       {...rest}>
       {btnText}

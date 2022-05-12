@@ -1,11 +1,11 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid } from '@mui/material';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Grid} from '@mui/material';
 import moment from 'moment';
-import React, { FC, useEffect, useMemo } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useIntl } from 'react-intl';
+import React, {FC, useEffect, useMemo} from 'react';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { isBreakPointUp } from '../../../@crema/utility/Utils';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
@@ -16,16 +16,13 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import yup from '../../../@softbd/libs/yup';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   createCalendar,
-  updateCalendar
+  updateCalendar,
 } from '../../../services/cmsManagement/EventService';
-import { useFetchCalendarEvent } from '../../../services/cmsManagement/hooks';
-import {
-  ICalendarDto
-} from '../../../shared/Interface/common.interface';
-
+import {useFetchCalendarEvent} from '../../../services/cmsManagement/hooks';
+import {ICalendarDto} from '../../../shared/Interface/common.interface';
 
 interface CalendarAddEditPopupProps {
   itemId: number | null | undefined;
@@ -37,6 +34,7 @@ interface CalendarAddEditPopupProps {
 
 let initialValues = {
   title: '',
+  title_en: '',
   batch_id: '',
   start_date: '',
   end_date: '',
@@ -68,9 +66,17 @@ const CalendarAddEditPopup: FC<CalendarAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       start_date: yup.string().trim().required(),
       end_date: yup.string().trim().required(),
     });

@@ -140,29 +140,39 @@ export function useFetchPublicJobs(params: any) {
 }
 
 export function useFetchJobPrimaryInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_PRIMARY_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobAdditionalInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_ADDITIONAL_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobCandidateRequirements(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_CANDIDATE_REQUIREMENTS + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_CANDIDATE_REQUIREMENTS + jobId : null,
+  );
 }
 
 export function useFetchJobCompanyInfoVisibility(jobId: string | null) {
-  return useAxiosSWR(
+  return useDataLocalizationAxiosSWR(
     jobId ? API_GET_JOB_COMPANY_INFO_VISIBILITY + jobId : null,
   );
 }
 
 export function useFetchJobMatchingCriteria(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_MATCHING_CRITERIA + jobId : null,
+  );
 }
 
 export function useFetchJobContactInformation(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_CONTACT_INFORMATION + jobId : null,
+  );
 }
 
 export function useFetchJobPreview(jobId: string | null) {
@@ -172,31 +182,33 @@ export function useFetchJobPreview(jobId: string | null) {
 }
 
 export function useFetchJob(jobId: string | null) {
-  return useAxiosSWR(jobId ? API_GET_JOB_PREVIEW + jobId : null);
+  return useDataLocalizationAxiosSWR(
+    jobId ? API_GET_JOB_PREVIEW + jobId : null,
+  );
 }
 
 export function useFetchJobLocations() {
-  return useAxiosSWR(API_GET_JOB_LOCATIONS);
+  return useDataLocalizationAxiosSWR(API_GET_JOB_LOCATIONS);
 }
 
 export function useFetchEducationalInstitutes() {
-  return useAxiosSWR(API_GET_EDUCATIONAL_INSTITUTES);
+  return useDataLocalizationAxiosSWR(API_GET_EDUCATIONAL_INSTITUTES);
 }
 
 export function useFetchBusinessAreas() {
-  return useAxiosSWR(API_GET_BUSINESS_AREAS);
+  return useDataLocalizationAxiosSWR(API_GET_BUSINESS_AREAS);
 }
 
 export function useFetchExperienceAreas() {
-  return useAxiosSWR(API_GET_EXPERIENCE_AREAS);
+  return useDataLocalizationAxiosSWR(API_GET_EXPERIENCE_AREAS);
 }
 
 export function useFetchEducationLevels() {
-  return useAxiosSWR(API_GET_EDUCATION_LEVELS);
+  return useDataLocalizationAxiosSWR(API_GET_EDUCATION_LEVELS);
 }
 
 export function useFetchExamDegrees() {
-  return useAxiosSWR(API_GET_EXAM_DEGREES);
+  return useDataLocalizationAxiosSWR(API_GET_EXAM_DEGREES);
 }
 
 export function useFetchPublicIndustryMembers(params: any) {

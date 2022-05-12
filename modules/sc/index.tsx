@@ -1,11 +1,6 @@
-import {Container, Grid, Skeleton, Tooltip} from '@mui/material';
+import {Container, Grid, Skeleton} from '@mui/material';
 import {styled} from '@mui/material/styles';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import {H3, H5} from '../../@softbd/elements/common';
-import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
 import React, {useState} from 'react';
@@ -75,7 +70,7 @@ const StyledContainer = styled(Container)(({theme}) => {
 });
 
 const StaticContent = () => {
-  const {messages} = useIntl();
+  //const {messages} = useIntl();
 
   const [params] = useState({});
 
@@ -101,7 +96,7 @@ const StaticContent = () => {
                     <H3>{data?.title}</H3>
                   </Grid>
                   {}
-                  <Grid item>
+                  {/*<Grid item>
                     <Tooltip title={messages['common.like']}>
                       <ThumbUpAltIcon
                         className={classes.icon}
@@ -126,7 +121,7 @@ const StaticContent = () => {
                         sx={{backgroundColor: '#2fc94d'}}
                       />
                     </Tooltip>
-                  </Grid>
+                  </Grid>*/}
                 </Grid>
               </Grid>
               {data?.sub_title && (

@@ -34,6 +34,8 @@ import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import _ from 'lodash';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -43,6 +45,7 @@ interface CourseAddEditPopupProps {
 
 const initialValues = {
   title: '',
+  title_en: '',
   institute_id: '',
   industry_association_id: '',
   branch_id: '',
@@ -93,8 +96,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchPrograms(programmeFilters);
 
-  const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(youthSkillsFilter);
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
@@ -104,8 +106,17 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       institute_id: authUser?.isSystemUser
         ? yup
             .string()
@@ -113,11 +124,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             .required()
             .label(messages['institute.label'] as string)
         : yup.string().nullable(),
-      // code: yup
-      //   .string()
-      //   .trim()
-      //   .required()
-      //   .label(messages['common.code'] as string),
       course_fee: yup
         .number()
         .required()
@@ -134,7 +140,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .label(messages['course.language_medium'] as string),
       skills: yup
         .array()
-        .of(yup.number())
+        .of(yup.object())
         .min(1)
         .label(messages['common.skills'] as string),
     });
@@ -351,21 +357,24 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
-    data.application_form_settings = getConfigInfoData(
+    let formData = _.cloneDeep(data);
+    formData.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
 
     if (!authUser?.isSystemUser) {
-      delete data?.institute_id;
+      delete formData?.institute_id;
     }
+
+    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
 
     try {
       if (itemId) {
-        await updateCourse(itemId, data);
+        await updateCourse(itemId, formData);
         updateSuccessMessage('course.label');
         mutateCourse();
       } else {
-        await createCourse(data);
+        await createCourse(formData);
         createSuccessMessage('course.label');
       }
       props.onClose();
@@ -482,18 +491,15 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
+          <CustomSelectAutoComplete
             required
             id='skills'
             label={messages['common.skills']}
-            isLoading={isLoadingSkills}
             control={control}
             options={skills}
-            multiple={true}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            defaultValue={[]}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -687,6 +693,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             required={false}
             height={'400'}
             width={'600'}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12}>

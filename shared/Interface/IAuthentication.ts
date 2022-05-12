@@ -35,6 +35,7 @@ export interface TAuthUserSSOResponse {
   role?: IRole;
   displayName?: string;
   email?: string;
+  mobile?: string;
   username: string;
   permissions: string[];
   profile_pic?: string;

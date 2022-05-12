@@ -84,7 +84,7 @@ const TrainersPage = () => {
       },
 
       {
-        Header: messages['common.title'],
+        Header: messages['trainer.title'],
         accessor: 'trainer_name',
       },
 

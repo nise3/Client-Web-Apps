@@ -45,6 +45,7 @@ export interface CommonAuthUser extends AuthUser {
   registered_training_organization_id?: string | number | undefined;
   registered_training_organization?: any;
   domain?: string;
+  youthId?: number | string;
 }
 
 export interface YouthAuthUser extends AuthUser {

@@ -54,6 +54,7 @@ interface GalleryAddEditPopupProps {
 const initialValues = {
   id: '',
   title: '',
+  title_en: '',
   institute_id: '',
   parent_gallery_album_id: '',
   organization_id: '',
@@ -149,8 +150,16 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       featured: yup
         .string()
         .required()
@@ -200,8 +209,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -209,8 +221,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -218,8 +233,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       main_image_path: yup
@@ -252,7 +270,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       },
       {
         id: AlbumTypes.MIXED,
-        label: messages['album_type.mixed'],
+        label: messages['common.mixed'],
       },
     ],
     [messages],

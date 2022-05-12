@@ -151,6 +151,8 @@ export interface ITrainer extends IIdHolder, ICreateUpdateAt {
   photo?: string;
   signature?: string;
   skills?: Array<any>;
+  subject: string;
+  subject_en?: string;
   row_status?: string;
 }
 
@@ -197,4 +199,11 @@ export interface IApplication extends IIdHolder, ICreateUpdateAt {
 
 export interface IPermissionSubGroupAssignInstitute {
   permission_sub_group_id: number | string | null;
+}
+
+export interface IExamSubject extends IIdTitleCreateUpdateAt {
+  title: string;
+  accessor_type: string;
+  accessor_id: number | string;
+  row_status?: number | string;
 }

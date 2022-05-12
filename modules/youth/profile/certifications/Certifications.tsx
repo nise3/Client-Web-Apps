@@ -12,7 +12,7 @@ import HorizontalLine from '../component/HorizontalLine';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3, Link} from '../../../../@softbd/elements/common';
+import {Link, S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -65,11 +65,11 @@ const Certifications: FC<CertificationsProps> = ({
                   </Avatar>
 
                   <Box sx={{marginLeft: '15px'}}>
-                    <H3
+                    <S1
                       sx={{...result.subtitle2}}
                       className={classes.textStyle}>
                       {certificate.certification_name}
-                    </H3>
+                    </S1>
                     <Typography variant={'caption'}>
                       {certificate.institute_name}
                     </Typography>

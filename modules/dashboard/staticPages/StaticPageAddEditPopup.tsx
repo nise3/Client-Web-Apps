@@ -87,15 +87,18 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
           : yup.string(),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -103,8 +106,11 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -112,8 +118,11 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });

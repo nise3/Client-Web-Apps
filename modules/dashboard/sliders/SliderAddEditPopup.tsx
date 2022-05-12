@@ -77,9 +77,17 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       show_in:
         authUser && authUser.isSystemUser
           ? yup

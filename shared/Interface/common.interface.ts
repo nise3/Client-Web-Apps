@@ -56,6 +56,7 @@ export interface IRPLOccupation {
   row_status: number;
   translations?: object;
 }
+
 export interface IRPLLevel {
   rpl_sector_id: number | string;
   title: string;
@@ -187,6 +188,7 @@ export interface IColumnInstance<T extends object> extends ColumnInstance<any> {
   preFilteredRows: Array<any>;
   align: string;
   selectFilterItems?: Array<ISelectFilterItem>;
+  permanentVisible?: boolean;
 }
 
 export interface IFilters<T extends object> extends Filters<any> {

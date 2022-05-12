@@ -176,6 +176,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   return (
     <StyledPaper>
       <Typography
+        tabIndex={0}
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
         {messages['common.enter_verification_code']}
@@ -249,6 +250,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
             </Typography>
           ) : (
             <Link
+              tabIndex={0}
               sx={{
                 '&:hover': {
                   cursor: 'pointer',

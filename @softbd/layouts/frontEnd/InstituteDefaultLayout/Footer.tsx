@@ -29,6 +29,9 @@ import {
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
+import {getBrowserCookie} from '../../../libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
+import {convertEnglishDigitsToBengali} from '../../../utilities/helpers';
 
 const PREFIX = 'Footer';
 
@@ -107,6 +110,8 @@ const Footer = () => {
   const [staticPageParams] = useState<any>({
     selected_language: locale,
   });
+
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
   const {data: institute} =
     useFetchPublicInstituteDetailsWithParams(instituteFilter);
 
@@ -196,7 +201,9 @@ const Footer = () => {
                   <Text
                     style={{marginLeft: '6px'}}
                     className={classes.textColor}>
-                    {institute?.primary_mobile}
+                    {language === 'bn'
+                      ? convertEnglishDigitsToBengali(institute?.primary_mobile)
+                      : institute?.primary_mobile}
                   </Text>
                 </Box>
               ) : (
@@ -208,7 +215,9 @@ const Footer = () => {
                   <Text
                     style={{marginLeft: '6px'}}
                     className={classes.textColor}>
-                    {institute?.primary_phone}
+                    {language === 'bn'
+                      ? convertEnglishDigitsToBengali(institute?.primary_phone)
+                      : institute?.primary_phone}
                   </Text>
                 </Box>
               ) : (
@@ -362,7 +371,10 @@ const Footer = () => {
             <Grid item md={6} />
             <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
+                <Box
+                  component={'span'}
+                  fontWeight='fontWeightBold'
+                  sx={{whiteSpace: 'nowrap'}}>
                   {messages['footer.technical_assistance']}
                 </Box>
               </Typography>

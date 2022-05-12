@@ -64,10 +64,10 @@ const steps: Array<StepObj> = [
     id: 7,
     langKey: 'job_posting.preview',
   },
-  {
+  /*{
     id: 8,
     langKey: 'job_posting.complete',
-  },
+  },*/
 ];
 
 const stepNames: Array<string> = [
