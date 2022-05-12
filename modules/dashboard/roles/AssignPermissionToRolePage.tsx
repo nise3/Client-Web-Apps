@@ -20,6 +20,9 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import Card from '@mui/material/Card';
+import BackButton from '../../../@softbd/elements/button/BackButton';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const AssignPermissionToRolePage = () => {
   const router = useRouter();
@@ -36,22 +39,42 @@ const AssignPermissionToRolePage = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [allPermissions, setAllPermissions] = useState<any>(null);
 
+  const authUser = useAuthUser();
+
   const {data: itemData, mutate: mutateRole} = useFetchRole(Number(roleId));
-  const {data: permissionGroup, isLoading} = useFetchPermissionSubGroup(
+  const {data: permissionSubGroup, isLoading} = useFetchPermissionSubGroup(
     itemData?.permission_sub_group_id,
   );
 
   useEffect(() => {
-    if (permissionGroup) {
-      setAllPermissions(permissionGroup.permissions);
+    if (permissionSubGroup) {
+      const filteredPermission = permissionSubGroup?.permissions.filter(
+        (item: any) => authUser?.permissions.includes(item.key),
+      );
+
+      if (authUser && authUser?.isSystemUser) {
+        setAllPermissions(permissionSubGroup?.permissions);
+      } else {
+        setAllPermissions(filteredPermission);
+      }
     }
-  }, [permissionGroup]);
+  }, [permissionSubGroup]);
 
   useEffect(() => {
     if (itemData && allPermissions) {
-      let selectedPermissions = new Set(
-        lodashMap(itemData.permissions || [], 'id'),
+      const subGroupPermissionsIds = (allPermissions || []).map(
+        (permission: any) => permission.id,
       );
+
+      const itemDataPermissionsIds = itemData.permissions.map(
+        (permission: any) => permission.id,
+      );
+
+      const filteredSelectedPermissions = subGroupPermissionsIds.filter(
+        (id: any) => itemDataPermissionsIds.includes(id),
+      );
+
+      let selectedPermissions = new Set(filteredSelectedPermissions);
       setCheckedPermissions(selectedPermissions);
 
       let hashPermissions = lodashGroupBy(allPermissions, 'module');
@@ -145,15 +168,23 @@ const AssignPermissionToRolePage = () => {
 
   return (
     <PageBlock
-      title={messages['common.assign_permission']}
+      title={
+        <IntlMessages
+          id='common.assign_permission'
+          values={{subject: itemData?.title}}
+        />
+      }
       extra={[
-        <SubmitButton
-          key={1}
-          onClick={syncPermissionAction}
-          isLoading={isLoading}
-          isSubmitting={isSubmitting}
-          label={messages['permissions.sync_permission'] as string}
-        />,
+        <React.Fragment key={1}>
+          <BackButton key={1} url={'/roles'} />
+          <SubmitButton
+            key={2}
+            onClick={syncPermissionAction}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            label={messages['permissions.sync_permission'] as string}
+          />
+        </React.Fragment>,
       ]}>
       <Grid container spacing={1}>
         {Object.keys(permissions || {}).map((module) => (

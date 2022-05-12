@@ -1,11 +1,16 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_ORGANIZATIONS} from '../../@softbd/common/apiRoutes';
+import {
+  API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP,
+  API_ORGANIZATION_PROFILE_UPDATE,
+  API_ORGANIZATION_USER_APPROVAL,
+  API_ORGANIZATION_USER_REJECTION,
+  API_ORGANIZATIONS,
+  API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP,
+} from '../../@softbd/common/apiRoutes';
 import {IOrganization} from '../../shared/Interface/organization.interface';
+import {IPermissionSubGroupAssignInstitute} from '../../shared/Interface/institute.interface';
 
-/**
- * @deprecated
- */
 export const getAllOrganizations = async (params = {}) => {
   try {
     let response: any = await apiGet(API_ORGANIZATIONS, {params});
@@ -54,6 +59,74 @@ export const deleteOrganization = async (OrganizationId: number) => {
     let response: any = await apiDelete(
       API_ORGANIZATIONS + '/' + OrganizationId,
     );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const rejectOrgMemberShip = async (memberId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_REJECT_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const approveOrgMemberShip = async (
+  memberId: number,
+  data: IPermissionSubGroupAssignInstitute,
+) => {
+  try {
+    let response: any = await apiPut(
+      API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const reApproveOrgMemberShip = async (memberId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_APPROVE_INDUSTRY_ASSOC_MEMBERSHIP + '/' + memberId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const rejectOrganization = async (organizationId: any) => {
+  try {
+    let response: any = await apiPut(
+      API_ORGANIZATION_USER_REJECTION + '/' + organizationId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const ApproveOrganization = async (organizationId: any) => {
+  try {
+    let response: any = await apiPut(
+      API_ORGANIZATION_USER_APPROVAL + '/' + organizationId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const updateOrganizationProfile = async (data: any) => {
+  try {
+    let response: any = await apiPut(API_ORGANIZATION_PROFILE_UPDATE, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

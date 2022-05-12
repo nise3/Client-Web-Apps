@@ -37,6 +37,8 @@ export interface IOrganization extends IIdTitleCreateUpdateAt {
   contact_person_name_en?: string;
   name_of_the_office_head?: string;
   name_of_the_office_head_en?: string;
+  membership_id: string;
+  sub_trades?: Array<any>;
   name_of_the_office_head_designation?: string;
   name_of_the_office_head_designation_en?: string;
   description?: string;
@@ -58,6 +60,10 @@ export interface IOrganization extends IIdTitleCreateUpdateAt {
   organization_types_title?: string;
   organization_type_id: number | string;
   row_status?: number | string;
+  industry_association_trade_id?: number | string;
+  additional_information?: any;
+  phone_numbers: Array<object>;
+  mobile_numbers: Array<object>;
 }
 
 // export interface IService extends IidTitleCreateUpdateAt{

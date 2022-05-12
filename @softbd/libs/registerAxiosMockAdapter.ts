@@ -1,37 +1,11 @@
 import MockAdapter from 'axios-mock-adapter';
 import {AxiosInstance} from 'axios';
-import {
-  API_APPLICATIONS_LISTS,
-  API_FONT_END_CONTACT_MAP,
-  API_FRONT_END_ALL_ACTIVITY_LIST,
-  API_FRONT_END_GALLERY,
-  API_FRONT_END_GALLERY_CATEGORY_LIST,
-  API_FRONT_END_RECENT_ACTIVITY_DETAIL,
-  API_FRONT_END_VIDEO,
-  API_FRONT_END_VIDEOS_CATEGORY_LIST,
-  API_FRONT_SC,
-  API_HUMAN_RESOURCE_DEMAND_LIST,
-  API_INDUSTRY_MEMBERS,
-  API_JOB_LISTS,
-  API_JOB_REQUIREMENT,
-  API_NOTICE_BOARD,
-} from '../common/apiRoutes';
-import videos, {videosCategories} from '../mock-db/videos';
-import galleries, {galleryCategories} from '../mock-db/gallery';
-import contactMapData from '../mock-db/contactMap';
-import allActivityItems from '../mock-db/recentActivity';
-import recentActivityDetails from '../mock-db/recentActivityDetails';
-import staticContent from '../mock-db/staticContent';
-import noticeList from '../mock-db/noticeBoard';
-import {members} from '../mock-db/Industry/members';
-import applicationsList from '../mock-db/applicationsList/applicationsList';
-import jobLists from '../mock-db/jobLists/jobLists';
-import {hrDemand} from '../mock-db/Industry/hr-demand';
-import jobRequirements from '../mock-db/Industry/job-requirements/jobRequirements';
+import {API_INSTITUTE_QUESTION_BANK} from '../common/apiRoutes';
+import questionBank from '../mock-db/question-bank';
 
 export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   // This sets the mock adapter on the default instance
-  const mock = new MockAdapter(axiosInstance);
+  const mock = new MockAdapter(axiosInstance, {onNoMatch: 'throwException'});
   // mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: gallery-albums-album-contents});
 
   /*  mock
@@ -39,16 +13,8 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
     .reply(200, {data: applicationManagement});*/
 
   /*mock.onGet(API_FRONT_END_VIDEOS_LIST).reply(200, {data: videos});*/
-  mock
-    .onGet(API_FRONT_END_VIDEOS_CATEGORY_LIST)
-    .reply(200, {data: videosCategories});
 
   /*  mock.onGet(API_FRONT_END_GALLERY_LIST).reply(200, {data: galleries});*/
-  mock
-    .onGet(API_FRONT_END_GALLERY_CATEGORY_LIST)
-    .reply(200, {data: galleryCategories});
-
-  mock.onGet(API_FONT_END_CONTACT_MAP).reply(200, {data: contactMapData});
 
   // mock.onGet(API_COURSES + '/skill').reply(200, {data: courses});
   // mock.onGet(API_COURSES + '/recent').reply(200, {data: courses});
@@ -62,50 +28,42 @@ export default function registerAxiosMockAdapter(axiosInstance: AxiosInstance) {
   //   .onGet(API_FRONT_END_RECENT_ACTIVITY_LIST)
   //   .reply(200, {data: recentActivityItems});
 
-  mock
-    .onGet(API_FRONT_END_ALL_ACTIVITY_LIST)
-    .reply(200, {data: allActivityItems});
-
-  mock
-    .onGet(API_FRONT_END_RECENT_ACTIVITY_DETAIL)
-    .reply(200, {data: recentActivityDetails[0]});
-
-  mock.onGet(API_FRONT_SC).reply(200, {data: staticContent[0]});
-
-  mock.onGet(API_NOTICE_BOARD).reply(200, {data: noticeList});
-
-  mock.onGet(API_FRONT_END_VIDEO).reply(200, {data: videos[0]});
-
-  mock.onGet(API_FRONT_END_GALLERY).reply(200, {data: galleries[0]});
-
   /**Industry**/
   // mock.onGet(API_INDUSTRY_PUBLICATIONS).reply(200, {data: publications});
-  mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
-  mock
-    .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
-    .reply(200, {data: members[0]});
+  // mock.onGet(API_INDUSTRY_MEMBERS).reply(200, {data: members});
+  // mock
+  //   .onGet(new RegExp(API_INDUSTRY_MEMBERS + '/(.*)'))
+  //   .reply(200, {data: members[0]});
 
   /**Application list**/
-  mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
+  /*  mock.onGet(API_APPLICATIONS_LISTS).reply(200, {data: applicationsList});
 
   mock
     .onGet(new RegExp(API_APPLICATIONS_LISTS + '/(.*)'))
-    .reply(200, {data: applicationsList[0]});
+    .reply(200, {data: applicationsList[0]});*/
 
   /**  joblist **/
-  mock.onGet(API_JOB_LISTS).reply(200, {data: jobLists});
-  mock
-    .onGet(new RegExp(API_JOB_LISTS + '/(.*)'))
-    .reply(200, {data: jobLists[0]});
+  /*mock.onGet(API_JOBS).reply(200, {data: jobLists});
+  mock.onGet(new RegExp(API_JOBS + '/(.*)')).reply(200, {data: jobLists[0]});*/
 
   /** job requiremeents **/
-  mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});
+  /*  mock.onGet(API_JOB_REQUIREMENT).reply(200, {data: jobRequirements});*/
 
   /** API_HUMAN_RESOURCE_DEMAND **/
-  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});
-  mock
+  /*  mock.onGet(API_HUMAN_RESOURCE_DEMAND_LIST).reply(200, {data: hrDemand});*/
+  /*  mock
     .onGet(new RegExp(API_HUMAN_RESOURCE_DEMAND_LIST + '/(.*)'))
-    .reply(200, {data: hrDemand[0]});
+    .reply(200, {data: hrDemand[0]});*/
+
+  mock.onGet(API_INSTITUTE_QUESTION_BANK).reply(200, {data: questionBank});
+  mock
+    .onGet(new RegExp(API_INSTITUTE_QUESTION_BANK + '/(.*)'))
+    .reply(200, {data: questionBank[0]});
+
+  // const paymentRedirectTo = youthDomain() + '/assessment-payment/';
+  // mock.onPost(API_ASSESSMENT_PAYMENT_PAY).reply(200, {
+  //   redirect_url: paymentRedirectTo + 'success',
+  // });
 
   //Put it on the bottom of that function
   mock.onAny().passThrough();

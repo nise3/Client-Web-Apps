@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Container, Tabs, Tab, Grid, Skeleton} from '@mui/material';
+import {Box, Container, Grid, Skeleton, Tab, Tabs} from '@mui/material';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {
   useFetchCourseList,
@@ -9,7 +9,7 @@ import {useIntl} from 'react-intl';
 import CourseSectionCarousel from './courseSectionCarousel';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import CourseTypes from '../../@softbd/utilities/CourseTypes';
-import {useVendor} from '../../@crema/utility/AppHooks';
+import PageSizes from '../../@softbd/utilities/PageSizes';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -27,7 +27,7 @@ const TabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}>
-      {value === index && <Box sx={{pt: 3}}>{children}</Box>}
+      {value === index && <Box sx={{paddingTop: '10px'}}>{children}</Box>}
     </div>
   );
 };
@@ -41,22 +41,20 @@ const indexProps = (index: number) => {
 
 const CoursesSection = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
 
   const [upcomingCoursesFilter, setUpcomingCoursesFilter] = useState<any>({
-    page_size: 10,
+    page_size: PageSizes.TEN,
     availability: CourseTypes.UPCOMING,
-    institute_id: vendor?.id,
   });
 
   const [runningCoursesFilter, setRunningCoursesFilter] = useState<any>({
-    page_size: 10,
+    page_size: PageSizes.TEN,
     availability: CourseTypes.RUNNING,
-    institute_id: vendor?.id,
   });
 
   const {data: upcomingCourses, isLoading: isUpcomingCourse} =
     useFetchUpcomingCourseList(upcomingCoursesFilter);
+
   const {data: runningCourseList, isLoading: isLoadingCourseList} =
     useFetchCourseList('recent', runningCoursesFilter);
 
@@ -78,7 +76,7 @@ const CoursesSection = () => {
 
   return (
     <Container maxWidth='lg'>
-      <Grid container mt={14}>
+      <Grid container sx={{marginTop: '60px'}}>
         <Grid item xs={12}>
           <UnderlinedHeading>{messages['common.courses']}</UnderlinedHeading>
           <Box sx={{width: '100%'}}>
@@ -117,7 +115,7 @@ const CoursesSection = () => {
               ) : runningCourseList && runningCourseList.length ? (
                 <CourseSectionCarousel courses={runningCourseList} />
               ) : (
-                <NoDataFoundComponent />
+                <NoDataFoundComponent messageType={messages['course.label']} />
               )}
             </Box>
           </TabPanel>
@@ -138,7 +136,7 @@ const CoursesSection = () => {
               ) : upcomingCourses && upcomingCourses.length ? (
                 <CourseSectionCarousel courses={upcomingCourses} />
               ) : (
-                <NoDataFoundComponent />
+                <NoDataFoundComponent messageType={messages['course.label']} />
               )}
             </Box>
           </TabPanel>

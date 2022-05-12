@@ -1,16 +1,18 @@
 import React from 'react';
-import {Box, Button, CardMedia, Chip, Grid, Typography} from '@mui/material';
+import {Box, Button, Chip, Grid, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {H6} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import CallIcon from '@mui/icons-material/Call';
+import CardMediaImageView from '../../../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const PREFIX = 'CompleteJob';
@@ -28,13 +30,12 @@ const StyledGrid = styled(Grid)(() => {
   };
 });
 
-const CompleteJobPost = ({jobId, onBack, onContinue}: Props) => {
+const CompleteJobPost = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
   const {messages} = useIntl();
   return (
     <StyledGrid container spacing={3}>
       <Grid item xs={12} mt={2} display={'flex'} justifyContent={'center'}>
-        <CardMedia
-          component='img'
+        <CardMediaImageView
           className={classes.image}
           image={'/images/done.jpeg'}
           alt={'Completed'}

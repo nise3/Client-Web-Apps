@@ -15,7 +15,7 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['institute.label']} />
+      <PageMeta title={messages['industry_association.label']} />
       <IndustryAssociationsPage />
     </>
   );

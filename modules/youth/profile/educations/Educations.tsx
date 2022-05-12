@@ -19,7 +19,7 @@ import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../../@crema/utility/IntlMessages';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {Body2, S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
 
 const PREFIX = 'Educations';
@@ -87,22 +87,20 @@ const Educations: FC<EducationsProps> = ({
                   <Verified />
                 </Avatar>
                 <Box sx={{marginLeft: '15px'}}>
-                  <H3 sx={{...result.subtitle2}} className={classes.textStyle}>
+                  <S1 sx={{...result.subtitle2}} className={classes.textStyle}>
                     {education?.education_level_title}
                     {' ('}
                     {education?.exam_degree_id
                       ? education?.exam_degree_title
                       : education?.exam_degree_name}
                     {')'}
-                  </H3>
+                  </S1>
                   {education?.major_or_concentration && (
                     <Typography variant={'subtitle2'}>
                       {education.major_or_concentration}
                     </Typography>
                   )}
-                  <Typography variant={'caption'}>
-                    {education?.institute_name}
-                  </Typography>
+                  <Body2>{education?.institute_name}</Body2>
                   <Typography variant={'subtitle2'}>
                     {messages['education.result']}: {getResult(education)}
                   </Typography>

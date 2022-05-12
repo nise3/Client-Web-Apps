@@ -2,22 +2,22 @@ import React from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Box,
-  CardMedia,
   Container,
   Grid,
+  Skeleton,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
-import {Skeleton} from '@mui/material';
+import {Link} from '../../../@softbd/elements/common';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'NoticeDetails';
 
@@ -53,6 +53,8 @@ const NoticeDetails = () => {
     Number(noticeId),
   );
 
+  const theme = useTheme();
+
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={3}>
@@ -67,7 +69,7 @@ const NoticeDetails = () => {
               </Box>
             </Grid>
             <Grid item xs={6} textAlign={'right'}>
-              <Tooltip title={messages['common.like']}>
+              {/*<Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
                   sx={{backgroundColor: '#008fff'}}
@@ -84,12 +86,23 @@ const NoticeDetails = () => {
                   className={classes.icon}
                   sx={{backgroundColor: '#ffb700b8'}}
                 />
-              </Tooltip>
+              </Tooltip>*/}
               <Tooltip title={messages['common.download_label']}>
-                <SystemUpdateAltOutlinedIcon
-                  className={classes.icon}
-                  sx={{backgroundColor: '#2fc94d'}}
-                />
+                {notice?.file_path ? (
+                  <Link
+                    target={'_blank'}
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + notice.file_path}>
+                    <SystemUpdateAltOutlinedIcon
+                      className={classes.icon}
+                      sx={{backgroundColor: '#2fc94d'}}
+                    />
+                  </Link>
+                ) : (
+                  <SystemUpdateAltOutlinedIcon
+                    className={classes.icon}
+                    sx={{backgroundColor: '#2fc94d'}}
+                  />
+                )}
               </Tooltip>
             </Grid>
           </Grid>
@@ -105,19 +118,31 @@ const NoticeDetails = () => {
             <Skeleton variant='rectangular' width={1150} height={400} />
           </Grid>
         ) : (
-          <Grid item xs={12}>
-            <CardMedia
-              component='img'
-              height='300'
-              image={
-                notice?.main_image_path
-                  ? notice?.main_image_path
-                  : '/images/notice_details.jpg'
-              }
-              alt={notice?.image_alt_title}
-              title={notice?.title}
-            />
-          </Grid>
+          <>
+            {notice && notice?.main_image_path && (
+              <Grid item xs={12}>
+                <CardMediaImageView
+                  height='400'
+                  sx={{
+                    objectFit: 'unset',
+                    [theme.breakpoints.down('sm')]: {
+                      height: 150,
+                    },
+                    [theme.breakpoints.up('xl')]: {
+                      height: 550,
+                    },
+                  }}
+                  image={notice?.main_image_path}
+                  alt={
+                    notice?.image_alt_title
+                      ? notice?.image_alt_title
+                      : notice?.title
+                  }
+                  title={notice?.title}
+                />
+              </Grid>
+            )}
+          </>
         )}
 
         <Grid item xs={12}>

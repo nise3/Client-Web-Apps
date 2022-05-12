@@ -2,7 +2,6 @@ import React, {useCallback, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import BasicInfo from './BasicInfo';
 import OverviewSection from './OverviewSection';
-import FeatureJobSection from './FeatureJobSection';
 import PostSection from './PostSection';
 import RecentJobSection from './RecentJobSection';
 import CourseListSection from './CourseListSection';
@@ -10,6 +9,8 @@ import SideMenu from '../../../@softbd/elements/YouthSideMenu';
 import {Container, Grid} from '@mui/material';
 import Scrollbar from '../../../@crema/core/Scrollbar';
 import {debounce} from 'lodash';
+import PageSizes from '../../../@softbd/utilities/PageSizes';
+import {objectFilter} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'YouthFeedPage';
 
@@ -74,11 +75,14 @@ const YouthFeedPage = () => {
   const [loadingMainPostData, setLoadingMainPostData] = useState(false);
   const isSearching = useRef<boolean>(false);
 
-  const [filters, setFilters] = useState<any>({page: 1, page_size: 5});
+  const [filters, setFilters] = useState<any>({
+    page: 1,
+    page_size: PageSizes.TEN,
+  });
   const pageIndex = useRef(1);
 
   const filterPost = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
       pageIndex.current = 1;
@@ -86,7 +90,7 @@ const YouthFeedPage = () => {
       isSearching.current = true;
 
       setFilters((prev: any) => {
-        return {...prev, ...newFilter};
+        return objectFilter({...prev, ...newFilter});
       });
     },
     [filters],
@@ -135,9 +139,9 @@ const YouthFeedPage = () => {
               <Grid item xs={12}>
                 <OverviewSection addFilter={filterPost} />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}> //TODO it will be implemented in future
                 <FeatureJobSection />
-              </Grid>
+              </Grid>*/}
               <Grid item xs={12}>
                 <PostSection
                   filters={filters}

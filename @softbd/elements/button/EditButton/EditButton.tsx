@@ -18,7 +18,7 @@ const EditButton = ({
   onClick,
   isLoading,
   className,
-  variant = 'contained',
+  variant = 'text',
   ...extra
 }: Props) => {
   return isLoading ? (

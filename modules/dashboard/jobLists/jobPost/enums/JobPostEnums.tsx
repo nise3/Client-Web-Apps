@@ -35,14 +35,19 @@ export enum OtherBenefit {
   NO = 0,
 }
 
+export enum WorkPlaceTypes {
+  HOME = 1,
+  OFFICE = 2,
+}
+
 export enum SalaryReviewType {
-  YEARLY = 1,
-  HALF_YEARLY = 0,
+  HALF_YEARLY = 1,
+  YEARLY = 2,
 }
 
 export enum LunchFacilityType {
-  FULL_SUBSIDIZE = 1,
-  PARTIALLY_SUBSIDIZE = 0,
+  PARTIALLY_SUBSIDIZE = 1,
+  FULL_SUBSIDIZE = 2,
 }
 
 export enum Gender {

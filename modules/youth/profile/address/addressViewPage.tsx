@@ -9,7 +9,7 @@ import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor} from '@mui/icons-material';
 import CircularDeleteButton from '../component/CircularDeleteButton';
-import {H3} from '../../../../@softbd/elements/common';
+import {S1} from '../../../../@softbd/elements/common';
 
 const PREFIX = 'AddressViewPage';
 const classes = {
@@ -72,11 +72,13 @@ const AddressViewPage = ({
           <HorizontalLine />
           <StyledGrid container spacing={2}>
             <Grid item xs={12} sm={8} md={8}>
-              <H3 sx={{...style.subtitle2}} className={classes.textStyle}>
+              <S1 sx={{...style.subtitle2}} className={classes.textStyle}>
                 {address.address_type == 1
                   ? messages['common.present_address']
-                  : messages['common.permanent_address']}
-              </H3>
+                  : address.address_type == 2
+                  ? messages['common.permanent_address']
+                  : messages['common.other_address']}
+              </S1>
               {getAddressString(address)}
             </Grid>
             <Grid item xs={12} sm={4} md={4}>

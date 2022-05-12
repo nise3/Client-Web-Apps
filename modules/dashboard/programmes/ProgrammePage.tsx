@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -17,16 +17,49 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {deleteProgramme} from '../../../services/instituteManagement/ProgrammeService';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
+import RowStatus from '../users/RowStatus';
 
 const ProgrammePage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const authUser = useAuthUser<CommonAuthUser>();
+  const [instituteFilterItems, setInstituteFilterItems] = useState<Array<any>>(
+    [],
+  );
+
+  const [instituteFilter, setInstituteFilter] = useState<any>(null);
+  const {data: institutes} = useFetchAllInstitutes(instituteFilter);
+
+  useEffect(() => {
+    if (authUser && authUser.isSystemUser) {
+      setInstituteFilter({row_status: RowStatus.ACTIVE});
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    if (authUser && authUser.isSystemUser && institutes) {
+      setInstituteFilterItems(
+        institutes.map((institute: any) => {
+          return {
+            id: institute.id,
+            title: institute.title,
+          };
+        }),
+      );
+    }
+  }, [institutes]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -75,21 +108,29 @@ const ProgrammePage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
         Header: messages['common.title'],
         accessor: 'title',
       },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
-      },
+
       {
         Header: messages['institute.label'],
-        accessor: 'institute_title_en',
+        accessor: 'institute_id',
+        isVisible: authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser,
+        filter: 'selectFilter',
+        selectFilterItems: instituteFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.institute_title}</>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -118,7 +159,7 @@ const ProgrammePage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale, instituteFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

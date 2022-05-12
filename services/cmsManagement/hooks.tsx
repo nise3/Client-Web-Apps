@@ -1,26 +1,34 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+  useLocalizedAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BANNERS,
   API_CALENDAR_EVENTS,
   API_CMS_GLOBAL_CONFIG,
+  API_FAQS,
   API_GALLERY_ALBUM_CONTENTS,
   API_GALLERY_ALBUMS,
+  API_NISE_PUBLICATIONS,
+  API_NOTICE_OR_NEWSES,
   API_PARTNERS,
+  API_PUBLIC_CALENDAR_EVENTS,
+  API_PUBLIC_FAQ,
   API_PUBLIC_GALLERY_ALBUM_CONTENTS,
   API_PUBLIC_GALLERY_ALBUMS,
+  API_PUBLIC_NISE_STATICS,
   API_PUBLIC_NOTICE_OR_NEWS,
   API_PUBLIC_PARTNERS,
+  API_PUBLIC_PUBLICATIONS,
+  API_PUBLIC_RECENT_ACTIVITIES,
+  API_PUBLIC_SLIDERS,
   API_PUBLIC_STATIC_PAGE_BLOCKS,
+  API_RECENT_ACTIVITIES,
   API_SLIDERS,
   API_STATIC_PAGE_TYPES,
-  CMS_NOTICE_OR_NEWS,
-  CMS_RECENT_ACTIVITY,
-  PUBLIC_API_SLIDERS,
+  API_VISITOR_FEEDBACKS,
 } from '../../@softbd/common/apiRoutes';
-
-/*export function useFetchVisitorFeedbacks(params: any) {
-  return useAxiosSWR([API_VISITOR_FEEDBACKS, params]);
-}*/
 
 export function useFetchSliders(params: any) {
   return useAxiosSWR([API_SLIDERS, params]);
@@ -34,8 +42,10 @@ export function useFetchSliderBanners(params: any) {
   return useAxiosSWR([API_BANNERS, params]);
 }
 
-export function useFetchStaticPageBlock(pageCode: string, params: any) {
-  return useAxiosSWR([API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params]);
+export function useFetchStaticPageBlock(pageCode: any, params: any) {
+  return useLocalizedAxiosSWR(
+    pageCode ? [API_PUBLIC_STATIC_PAGE_BLOCKS + pageCode, params] : null,
+  );
 }
 
 export function useFetchSliderBanner(bannerId: number | null) {
@@ -48,12 +58,22 @@ export function useFetchStaticPageTypes(params: any) {
 
 export function useFetchRecentActivity(recentActivityId: number | null) {
   return useAxiosSWR(
-    recentActivityId ? CMS_RECENT_ACTIVITY + '/' + recentActivityId : null,
+    recentActivityId ? API_RECENT_ACTIVITIES + '/' + recentActivityId : null,
+  );
+}
+
+export function useFetchPublicRecentActivities(params: any) {
+  return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
+}
+
+export function useFetchPublicRecentActivityDetails(itemId: any) {
+  return useLocalizedAxiosSWR(
+    itemId ? API_PUBLIC_RECENT_ACTIVITIES + '/' + itemId : null,
   );
 }
 
 export function useFetchNoticeOrNews(itemId: number | null) {
-  return useAxiosSWR(itemId ? CMS_NOTICE_OR_NEWS + '/' + itemId : null);
+  return useAxiosSWR(itemId ? API_NOTICE_OR_NEWSES + '/' + itemId : null);
 }
 
 /** fetches CMS Global Config */
@@ -66,7 +86,7 @@ export function useFetchPartners(params: any) {
 }
 
 export function useFetchPublicPartners(params: any) {
-  return useAxiosSWR([API_PUBLIC_PARTNERS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_PARTNERS, params]);
 }
 
 export function useFetchPartner(partnerId: number | null) {
@@ -79,7 +99,7 @@ export function useFetchGalleryAlbums(params: any) {
 }
 
 export function useFetchPublicGalleryAlbums(params: any) {
-  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_GALLERY_ALBUMS, params]);
 }
 
 export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
@@ -89,7 +109,7 @@ export function useFetchGalleryAlbum(galleryAlbumId: number | null) {
 }
 
 export function useFetchPublicGalleryAlbum(galleryAlbumId: number | null) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     galleryAlbumId ? API_PUBLIC_GALLERY_ALBUMS + '/' + galleryAlbumId : null,
   );
 }
@@ -100,7 +120,7 @@ export function useFetchGalleryAlbumContents(params: any) {
 }
 
 export function useFetchPublicGalleryAlbumContents(params: any) {
-  return useAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_GALLERY_ALBUM_CONTENTS, params]);
 }
 
 export function useFetchGalleryAlbumContent(
@@ -116,7 +136,7 @@ export function useFetchGalleryAlbumContent(
 export function useFetchPublicGalleryAlbumContent(
   galleryAlbumContentId: number | null,
 ) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     galleryAlbumContentId
       ? API_PUBLIC_GALLERY_ALBUM_CONTENTS + '/' + galleryAlbumContentId
       : null,
@@ -128,22 +148,65 @@ export function useFetchCalenderEvents(params: any) {
   return useAxiosSWR([API_CALENDAR_EVENTS, params]);
 }
 
+export function useFetchPublicCalenderEvents(params: any) {
+  // console.log('axis: ', params);
+  return useLocalizedAxiosSWR([API_PUBLIC_CALENDAR_EVENTS, params]);
+}
+
 /** fetches a single calendar event */
 export function useFetchCalendarEvent(eventId: number | null | undefined) {
-  // return useAxiosSWR(faqId ? API_CALENDAR_EVENTS + '/' + eventId : null);
-  return useAxiosSWR([API_CALENDAR_EVENTS + '/' + eventId]);
+  return useAxiosSWR(eventId ? API_CALENDAR_EVENTS + '/' + eventId : null);
 }
 
 export function useFetchPublicNoticeOrNewses(params: any) {
-  return useAxiosSWR([API_PUBLIC_NOTICE_OR_NEWS, params]);
+  return useLocalizedAxiosSWR(
+    params ? [API_PUBLIC_NOTICE_OR_NEWS, params] : null,
+  );
 }
 
 export function useFetchPublicNoticeOrNews(noticeId: number | null) {
-  return useAxiosSWR(
+  return useLocalizedAxiosSWR(
     noticeId ? API_PUBLIC_NOTICE_OR_NEWS + '/' + noticeId : null,
   );
 }
 
 export function useFetchPublicSliders(params: any) {
-  return useAxiosSWR([PUBLIC_API_SLIDERS, params]);
+  return useLocalizedAxiosSWR([API_PUBLIC_SLIDERS, params]);
+}
+
+export function useFetchFAQ(faqId: number | null) {
+  return useAxiosSWR(faqId ? API_FAQS + '/' + faqId : null);
+}
+
+export function useFetchPublicFAQ(params: any) {
+  return useLocalizedAxiosSWR([API_PUBLIC_FAQ, params]);
+}
+
+export function useFetchVisitorFeedback(visitorId: number | null) {
+  return useAxiosSWR(
+    visitorId ? API_VISITOR_FEEDBACKS + '/' + visitorId : null,
+  );
+}
+
+export function useFetchNiseStatics() {
+  return useDataLocalizationAxiosSWR(API_PUBLIC_NISE_STATICS);
+}
+
+export function useFetchPublications(params: any) {
+  return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
+}
+export function useFetchPublicPublications(params: any) {
+  return useLocalizedAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
+}
+
+export function useFetchPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_NISE_PUBLICATIONS + '/' + publicationId : null,
+  );
+}
+
+export function useFetchPublicPublication(publicationId: number | null) {
+  return useAxiosSWR(
+    publicationId ? API_PUBLIC_PUBLICATIONS + '/' + publicationId : null,
+  );
 }

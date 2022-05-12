@@ -28,15 +28,17 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import NoticeOrNewsTypes from '../../../@softbd/utilities/NoticeOrNewsTypes';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconStaticPage from '../../../@softbd/icons/IconStaticPage';
 
 interface NoticeOrNewsAddEditPopupProps {
   itemId: number | null;
@@ -47,8 +49,10 @@ interface NoticeOrNewsAddEditPopupProps {
 const initialValues = {
   type: '',
   title: '',
+  title_en: '',
   institute_id: '',
   organization_id: '',
+  industry_association_id: '',
   details: '',
   main_image_path: '',
   grid_image_path: '',
@@ -83,6 +87,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -98,21 +103,28 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       type: yup
         .string()
         .required()
         .label(messages['common.type'] as string),
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .trim()
-              .required()
-              .label(messages['common.show_in'] as string)
-          : yup.string(),
+      show_in: authUser?.isSystemUser
+        ? yup
+            .string()
+            .trim()
+            .required()
+            .label(messages['common.show_in'] as string)
+        : yup.string(),
       institute_id: yup
         .mixed()
         .label(messages['common.institute'] as string)
@@ -131,6 +143,15 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
+          },
+          then: yup.string().required(),
+        }),
       main_image_path: yup
         .string()
         .required()
@@ -140,8 +161,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -149,8 +173,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -158,8 +185,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });
@@ -199,6 +229,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         details: itemData?.details,
         image_alt_title: itemData?.image_alt_title,
         show_in: itemData?.show_in,
@@ -242,7 +273,9 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
     } else {
       reset(initialValues);
     }
@@ -262,13 +295,45 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
       setIsLoadingSectionNameList(true);
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+
+      if (id != ShowInTypes.TSP) {
+        setValue('institute_id', '');
       }
+      if (id != ShowInTypes.INDUSTRY) {
+        setValue('organization_id', '');
+      }
+
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
+      }
+
+      try {
+        if (id === ShowInTypes.TSP && instituteList.length == 0) {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstituteList(response.data);
+          }
+        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+          const response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryList(response.data);
+          }
+        } else if (
+          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+          industryAssociationList.length == 0
+        ) {
+          const response = await getAllIndustryAssociations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryAssociationList(response.data);
+          }
+        }
+      } catch (e) {}
 
       setShowInId(id);
       setIsLoadingSectionNameList(false);
@@ -320,14 +385,21 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
       }
 
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
+      if (formData.show_in != ShowInTypes.TSP) {
+        delete formData.institute_id;
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY) {
+        delete formData.organization_id;
+      }
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        delete formData.industry_association_id;
       }
 
       let data = {...formData};
@@ -359,7 +431,6 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       } else {
         await createNoticeOrNews(data);
         createSuccessMessage('common.notice_or_news');
-        mutateNoticeOrNews();
       }
       props.onClose();
       refreshDataTable();
@@ -374,6 +445,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
       {...props}
       title={
         <>
+          <IconStaticPage />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -391,6 +463,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -399,7 +472,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
+        {authUser?.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
               <CustomFormSelect
@@ -442,6 +515,19 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
                   errorInstance={errors}
                 />
               )}
+              {showInId == ShowInTypes.INDUSTRY_ASSOCIATION && (
+                <CustomFilterableFormSelect
+                  required
+                  id={'industry_association_id'}
+                  label={messages['common.industry_association']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryAssociationList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              )}
             </Grid>
           </React.Fragment>
         )}
@@ -478,6 +564,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['application/pdf']}
             label={messages['common.file_path']}
             required={false}
           />
@@ -490,8 +577,11 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.main_image_path']}
             required={true}
+            height={'550'}
+            width={'1080'}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -501,6 +591,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.grid_image_path']}
             required={false}
           />
@@ -512,6 +603,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={['image/*']}
             label={messages['common.thumb_image_path']}
             required={false}
           />
@@ -546,6 +638,9 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+          <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+            {messages['common.give_publish_date']}
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
@@ -592,7 +687,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['notice_or_news.add_language']}
           </Button>
         </Grid>
 

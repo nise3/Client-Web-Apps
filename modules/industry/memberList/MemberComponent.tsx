@@ -13,6 +13,7 @@ import {H5, Link, Text} from '../../../@softbd/elements/common';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {Room} from '@mui/icons-material';
 import {useRouter} from 'next/router';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'MemberComponent';
 
@@ -64,7 +65,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         className={classes.cardHeader}
         avatar={
           member?.logo ? (
-            <Avatar className={classes.avatar} src={member.logo} />
+            <AvatarImageView className={classes.avatar} src={member?.logo} />
           ) : (
             <Avatar className={classes.avatar}>
               {member?.title?.charAt(0)}
@@ -73,16 +74,18 @@ const MemberComponent = ({member}: MemberComponentProps) => {
         }
         title={<H5 fontWeight={'bold'}>{member?.title}</H5>}
         subheader={
-          <Typography
-            sx={{
-              color: 'primary.main',
-            }}>
-            {messages['common.establish_date']}
-            {formatDate(member?.created_at, {
-              month: 'long',
-              year: 'numeric',
-            })}
-          </Typography>
+          member?.date_of_establishment && (
+            <Typography
+              sx={{
+                color: 'primary.main',
+              }}>
+              {messages['common.establish_date']}
+              {formatDate(member?.date_of_establishment, {
+                month: 'long',
+                year: 'numeric',
+              })}
+            </Typography>
+          )
         }
       />
       <Link href={`${path}/${member?.id}`}>
@@ -90,7 +93,7 @@ const MemberComponent = ({member}: MemberComponentProps) => {
           variant={'outlined'}
           color={'primary'}
           className={classes.detailsButton}>
-          {messages['common.details']}
+          {messages['industry.details']}
         </Button>
       </Link>
       <CardContent>

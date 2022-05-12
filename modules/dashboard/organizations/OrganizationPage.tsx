@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -16,16 +16,43 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconOrganization from '../../../@softbd/icons/IconOrganization';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {useFetchOrganizationTypes} from '../../../services/organaizationManagement/hooks';
 
 const OrganizationPage = () => {
   const {successStack} = useNotiStack();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
 
   const [organizationId, setOrganizationId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [organizationTypeFilters] = useState({
+    row_status: RowStatus.ACTIVE,
+  });
+  const [organizationTypeFilterItems, setOrganizationTypeFilterItems] =
+    useState([]);
+  const {data: organizationTypes} = useFetchOrganizationTypes(
+    organizationTypeFilters,
+  );
+
+  useEffect(() => {
+    if (organizationTypes) {
+      setOrganizationTypeFilterItems(
+        organizationTypes.map((type: any) => {
+          return {
+            id: type?.id,
+            title: type?.title,
+          };
+        }),
+      );
+    }
+  }, [organizationTypes]);
 
   const closeAddEditModal = () => {
     setIsOpenAddEditModal(false);
@@ -46,7 +73,28 @@ const OrganizationPage = () => {
   const closeDetailsModal = () => {
     setIsOpenDetailsModal(false);
   };
-
+  /*const rejectAction = async (itemId: number) => {
+    let response = await rejectOrganization(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_rejected'
+          values={{subject: <IntlMessages id='common.organization' />}}
+        />,
+      );
+    }
+  };
+  const approveAction = async (itemId: number) => {
+    let response = await ApproveOrganization(itemId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_approved'
+          values={{subject: <IntlMessages id='common.organization' />}}
+        />,
+      );
+    }
+  };*/
   const deleteOrganizationItem = async (organizationId: number) => {
     let response = await deleteOrganization(organizationId);
     if (isResponseSuccess(response)) {
@@ -71,24 +119,45 @@ const OrganizationPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
-
       {
-        Header: messages['menu.organization_type'],
+        Header: messages['common.memberId'],
+        accessor: 'membership_id',
+      },
+      {
+        Header: messages['organization_type.label'],
         accessor: 'organization_type_title_en',
         disableFilters: true,
         disableSortBy: true,
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization_type.label'],
+        accessor: 'organization_type_id',
+        filter: 'selectFilter',
+        selectFilterItems: organizationTypeFilterItems,
+        disableSortBy: true,
+        isVisible: locale == LocaleLanguage.BN,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.organization_type_title}</>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -103,10 +172,23 @@ const OrganizationPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          /*   let itemId = data?.id;*/
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
+              {/*<ApproveButton
+                itemId={itemId}
+                approveTitle={messages['common.organization'] as string}
+                approveAction={approveAction}>
+                {messages['common.approve']}
+              </ApproveButton>
+              <RejectButton
+                itemId={itemId}
+                rejectTitle={messages['common.organization'] as string}
+                rejectAction={rejectAction}>
+                {messages['common.reject']}
+              </RejectButton>*/}
               <DeleteButton
                 deleteAction={() => deleteOrganizationItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -117,7 +199,7 @@ const OrganizationPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale, organizationTypeFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

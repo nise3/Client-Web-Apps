@@ -7,6 +7,7 @@ import {ThemeMode} from '../../../shared/constants/AppEnums';
 import {
   IColumnInstance,
   IFilters,
+  ISelectFilterItem,
   ITableInstance,
 } from '../../../shared/Interface/common.interface';
 
@@ -55,6 +56,14 @@ const getFilterValue = (
       return min ? (max ? `${min}-${max}` : `>=${min}`) : `<=${max}`;
     case 'rowStatusFilter':
       return getRowStatusLabel(filterValue);
+    case 'selectFilter':
+      let name;
+      const data = (column.selectFilterItems || []).find(
+        (item: ISelectFilterItem) => item.id == filterValue,
+      );
+      if (data) name = data.title;
+
+      return name ?? filterValue;
   }
 
   return filterValue;

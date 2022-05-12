@@ -3,17 +3,11 @@ import {styled} from '@mui/material/styles';
 import {
   Box,
   Button,
-  CardMedia,
   Container,
   Grid,
   Skeleton,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
@@ -21,6 +15,7 @@ import {useFetchPublicNoticeOrNews} from '../../../services/cmsManagement/hooks'
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {Link} from '../../../@softbd/elements/common';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'NoticeDetails';
 
@@ -81,7 +76,7 @@ const NoticeDetails = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} textAlign={'right'}>
+            {/*<Grid item xs={6} textAlign={'right'}>
               <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
@@ -106,7 +101,7 @@ const NoticeDetails = () => {
                   sx={{backgroundColor: '#2fc94d'}}
                 />
               </Tooltip>
-            </Grid>
+            </Grid>*/}
           </Grid>
         </Grid>
 
@@ -121,15 +116,15 @@ const NoticeDetails = () => {
           </Grid>
         ) : (
           <Grid item xs={12}>
-            <CardMedia
-              component='img'
+            <CardMediaImageView
               height='300'
-              image={
-                notice?.main_image_path
-                  ? notice?.main_image_path
-                  : '/images/notice_details.jpg'
+              image={notice?.main_image_path}
+              alt={
+                notice?.image_alt_title
+                  ? notice?.image_alt_title
+                  : notice?.title
               }
-              alt={notice?.image_alt_title}
+              defaultImage={'/images/notice_details.jpg'}
               title={notice?.title}
             />
           </Grid>

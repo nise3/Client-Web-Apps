@@ -6,30 +6,33 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {Login} from '@mui/icons-material';
-import {NavLink as Link} from '../../../elements/common';
+import {NavLink as Link, Text} from '../../../elements/common';
 import {
-  LINK_FRONTEND_INDUSTRY_ROOT,
-  LINK_FRONTEND_INDUSTRY_ABOUT_US,
+  LINK_FRONTEND_FAQ,
   LINK_FRONTEND_INDUSTRY_CONTACT,
-  LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR,
   LINK_FRONTEND_INDUSTRY_MEMBER_LIST,
-  LINK_SIGNUP,
+  LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION,
   LINK_FRONTEND_INDUSTRY_PUBLICATION,
+  LINK_FRONTEND_INDUSTRY_ROOT,
+  LINK_FRONTEND_JOBS,
 } from '../../../common/appLinks';
 import {classes, StyledAppBar, StyledBox} from './Header.style';
 import {useIntl} from 'react-intl';
-import {Container} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import LanguageSwitcher from '../../../../@crema/core/LanguageSwitcher';
 import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/GotoDashboardButton';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
-import {gotoLoginSignUpPage} from '../../../common/constants';
-import LogoCustomizable from '../../../elements/common/LogoCustomizable';
+import {useFetchPublicIndustryAssocDetails} from '../../../../services/IndustryManagement/hooks';
+import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
+import CardMediaImageView from '../../../elements/display/ImageView/CardMediaImageView';
 
 interface AppHeaderProps {}
 
 const Header: React.FC<AppHeaderProps> = () => {
   const authUser = useAuthUser();
+
+  const {data: industryAssociationDetails} =
+    useFetchPublicIndustryAssocDetails();
 
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -58,13 +61,6 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_ABOUT_US}>
-          {/*{messages['menu.about_us']}*/}
-          About us
-        </Link>
-      </MenuItem>
-
-      <MenuItem component='span' className={classes.menuItemMobile}>
         <Link href={LINK_FRONTEND_INDUSTRY_PUBLICATION}>
           {messages['menu.publication']}
         </Link>
@@ -77,9 +73,7 @@ const Header: React.FC<AppHeaderProps> = () => {
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <Link href={LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR}>
-          {messages['menu.job_circular']}
-        </Link>
+        <Link href={LINK_FRONTEND_JOBS}>{messages['menu.job_circular']}</Link>
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
@@ -87,20 +81,17 @@ const Header: React.FC<AppHeaderProps> = () => {
           {messages['menu.member_list']}
         </Link>
       </MenuItem>
-
       <MenuItem component='span' className={classes.menuItemMobile}>
-        <LanguageSwitcher />
+        <Link href={LINK_FRONTEND_FAQ}>{messages['menu.faq']}</Link>
+      </MenuItem>
+      <MenuItem component='span' className={classes.menuItemMobile}>
+        <Link href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}>
+          {messages['common.member_registration']}
+        </Link>
       </MenuItem>
 
       <MenuItem component='span' className={classes.menuItemMobile}>
-        {authUser ? (
-          <GotoDashboardButton />
-        ) : (
-          <Link href={gotoLoginSignUpPage(LINK_SIGNUP)}>
-            <Login className={classes.menuIcons} />
-            {messages['common.registration_login']}
-          </Link>
-        )}
+        <LanguageSwitcher />
       </MenuItem>
     </Menu>
   );
@@ -111,15 +102,35 @@ const Header: React.FC<AppHeaderProps> = () => {
         <Container
           maxWidth='lg'
           sx={{margin: 'auto', display: 'flex'}}
-          className={classes.logoArea}>
+          className={classes.logoArea}
+          style={{marginTop: '16px'}}>
           <Link
             href={LINK_FRONTEND_INDUSTRY_ROOT}
             className={classes.headerHalfLogo}>
-            <LogoCustomizable
-              instituteName='Industry'
-              instituteLogo='/images/logo-industry.svg'
-            />
+            {industryAssociationDetails?.logo && (
+              <Box sx={{marginRight: '10px'}}>
+                <CardMediaImageView
+                  className={classes.logoInstitute}
+                  image={industryAssociationDetails?.logo}
+                  alt='industry logo'
+                />
+              </Box>
+            )}
           </Link>
+          <Grid item md={4} className={classes.instituteName}>
+            <Text
+              fontWeight={'bold'}
+              style={{color: '#6C91C5', fontWeight: '700'}}>
+              {industryAssociationDetails?.title}
+            </Text>
+          </Grid>
+          <Grid item md={4} className={classes.headerHalf}>
+            <img
+              className={classes.logoInstitute}
+              src='/images/NISE-SSP34.png'
+              alt='NISECube'
+            />
+          </Grid>
         </Container>
       </StyledBox>
 
@@ -146,12 +157,6 @@ const Header: React.FC<AppHeaderProps> = () => {
                   </Link>
 
                   <Link
-                    href={LINK_FRONTEND_INDUSTRY_ABOUT_US}
-                    className={classes.menuItem}>
-                    {messages['footer.about_us']}
-                  </Link>
-
-                  <Link
                     href={LINK_FRONTEND_INDUSTRY_PUBLICATION}
                     className={classes.menuItem}>
                     {messages['menu.publication']}
@@ -163,9 +168,7 @@ const Header: React.FC<AppHeaderProps> = () => {
                     {messages['menu.industry_contact']}
                   </Link>
 
-                  <Link
-                    href={LINK_FRONTEND_INDUSTRY_JOB_CIRCULAR}
-                    className={classes.menuItem}>
+                  <Link href={LINK_FRONTEND_JOBS} className={classes.menuItem}>
                     {messages['menu.job_circular']}
                   </Link>
 
@@ -174,6 +177,22 @@ const Header: React.FC<AppHeaderProps> = () => {
                     className={classes.menuItem}>
                     {messages['menu.member_list']}
                   </Link>
+
+                  <Link href={LINK_FRONTEND_FAQ} className={classes.menuItem}>
+                    {messages['menu.faq']}
+                  </Link>
+
+                  <Link
+                    href={LINK_FRONTEND_INDUSTRY_MEMBER_REGISTRATION}
+                    className={classes.menuItem}>
+                    {messages['common.member_registration']}
+                  </Link>
+
+                  {/*<Link
+                    href={LINK_FRONTEND_INDUSTRY_ENROLLMENT}
+                    className={classes.menuItem}>
+                    {messages['menu.enrollment']}
+                  </Link>*/}
                 </Box>
               </Box>
             </Box>
@@ -182,16 +201,7 @@ const Header: React.FC<AppHeaderProps> = () => {
               <Box sx={{height: '100%'}} className={classes.languageSwitcher}>
                 <LanguageSwitcher />
               </Box>
-              {authUser ? (
-                <GotoDashboardButton />
-              ) : (
-                <Link
-                  href={gotoLoginSignUpPage(LINK_SIGNUP)}
-                  className={classes.menuItemRegOrLogin}>
-                  <Login className={classes.menuIcons} />
-                  {messages['common.registration_login']}
-                </Link>
-              )}
+              {authUser ? <GotoDashboardButton /> : <GotoSignInOrUpButton />}
             </Box>
 
             <Box ml={1} className={classes.sectionMobile}>

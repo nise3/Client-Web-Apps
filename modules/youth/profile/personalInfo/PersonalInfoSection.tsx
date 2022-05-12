@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
+import {Box, Card, CardContent, Divider, Grid, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomParabolaButton from '../component/CustomParabolaButton';
 import {BorderColor, EmojiEventsOutlined, Schedule} from '@mui/icons-material';
@@ -29,6 +21,8 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {ThemeMode} from '../../../../shared/constants/AppEnums';
 import {H1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'PersonalInfoSection';
 
@@ -90,7 +84,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 /** component loaded in /youth => first section */
 const PersonalInfoSection = () => {
-  const {messages, formatNumber} = useIntl();
+  const {messages, formatNumber, locale} = useIntl();
   const result = useCustomStyle();
 
   const authUser = useAuthUser<YouthAuthUser>();
@@ -123,6 +117,21 @@ const PersonalInfoSection = () => {
     })();
   };
 
+  const getName = () => {
+    let firstName = authUser?.first_name;
+    let lastName = authUser?.last_name;
+
+    if (locale != LocaleLanguage.BN) {
+      if (authUser?.first_name_en) {
+        firstName = authUser.first_name_en;
+        lastName = authUser?.last_name_en ? authUser?.last_name_en : '';
+      }
+    }
+
+    return firstName + ' ' + lastName;
+  };
+
+  // @ts-ignore
   return isOpenPersonalInformationEditForm ? (
     <PersonalInformationEdit onClose={closePersonalInformationEditForm} />
   ) : (
@@ -130,8 +139,9 @@ const PersonalInfoSection = () => {
       <CardContent>
         <Grid item container spacing={2} className={classes.aboutYouth}>
           <Grid item xs={12} sm={2}>
-            <Avatar
-              alt='youth profile pic'
+            <AvatarImageView
+              alt='youth profile picture'
+              title='youth profile picture'
               src={authUser?.photo}
               sx={{height: 100, width: 100, margin: 'auto'}}
             />
@@ -144,7 +154,7 @@ const PersonalInfoSection = () => {
                     ...result.h5,
                   }}
                   className={classes.textColor}>
-                  {authUser?.first_name} {authUser?.last_name}
+                  {getName()}
                 </H1>
                 <Typography variant={'subtitle2'} className={classes.grayText}>
                   {messages['common.email']}: {authUser?.email}

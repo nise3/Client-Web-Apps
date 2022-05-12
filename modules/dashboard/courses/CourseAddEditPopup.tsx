@@ -16,23 +16,26 @@ import {
   createCourse,
   updateCourse,
 } from '../../../services/instituteManagement/CourseService';
-import IconCourse from '../../../@softbd/icons/IconProgramme';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
-  useFetchProgrammes,
+  useFetchInstitute,
+  useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
-import {useFetchYouthSkills} from '../../../services/youthManagement/hooks';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {ICourse} from '../../../shared/Interface/institute.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
+import _ from 'lodash';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -42,12 +45,14 @@ interface CourseAddEditPopupProps {
 
 const initialValues = {
   title: '',
+  title_en: '',
   institute_id: '',
+  industry_association_id: '',
   branch_id: '',
   program_id: '',
   level: '',
   language_medium: '',
-  code: '',
+  // code: '',
   course_fee: '',
   duration: '',
   skills: [],
@@ -60,14 +65,14 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   ...props
 }) => {
   const {messages} = useIntl();
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
 
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+  const [instituteFilters, setInstituteFilters] = useState<any>(null);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchInstitute(instituteFilters);
 
   const {
     data: itemData,
@@ -75,9 +80,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     mutate: mutateCourse,
   } = useFetchCourse(itemId);
 
-  /*  const [branchFilters, setBranchFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });*/
   const [programmeFilters, setProgrammeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
@@ -86,45 +88,15 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser?.isInstituteUser) {
-      setProgrammeFilters((prevState: any) => {
-        return objectFilter({
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        });
-      });
-
-      /*setBranchFilters((prevState: any) => {
-        return objectFilter({
-          ...prevState,
-          ...{institute_id: authUser.institute_id},
-        });
-      });*/
-    } else {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let institutes = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-          setIsLoadingInstitutes(false);
-          setInstitutes(institutes.data);
-        } catch (e) {}
-      })();
+    if (authUser?.isSystemUser) {
+      setInstituteFilters({row_status: RowStatus.ACTIVE});
     }
   }, []);
 
-  // const {data: institutes, isLoading: isLoadingInstitutes} =
-  //   useFetchInstitutes(instituteFilters);
-
-  /*  const {data: branches, isLoading: isLoadingBranches} =
-        useFetchBranches(branchFilters);*/
-
   const {data: programmes, isLoading: isLoadingProgrammes} =
-    useFetchProgrammes(programmeFilters);
+    useFetchPrograms(programmeFilters);
 
-  const {data: skills, isLoading: isLoadingSkills} =
-    useFetchYouthSkills(youthSkillsFilter);
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
@@ -134,20 +106,24 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
-      institute_id: authUser?.isInstituteUser
-        ? yup.string()
-        : yup
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
+      institute_id: authUser?.isSystemUser
+        ? yup
             .string()
             .trim()
             .required()
-            .label(messages['institute.label'] as string),
-      code: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.code'] as string),
+            .label(messages['institute.label'] as string)
+        : yup.string().nullable(),
       course_fee: yup
         .number()
         .required()
@@ -164,7 +140,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .label(messages['course.language_medium'] as string),
       skills: yup
         .array()
-        .of(yup.number())
+        .of(yup.object())
         .min(1)
         .label(messages['common.skills'] as string),
     });
@@ -300,8 +276,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        code: itemData?.code,
+        // code: itemData?.code,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         branch_id: itemData?.branch_id,
         program_id: itemData?.program_id,
         level: itemData?.level,
@@ -373,10 +350,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
-    /*setBranchFilters({
-      row_status: RowStatus.ACTIVE,
-      institute_id: instituteId,
-    });*/
     setProgrammeFilters({
       row_status: RowStatus.ACTIVE,
       institute_id: instituteId,
@@ -384,21 +357,24 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
-    data.application_form_settings = getConfigInfoData(
+    let formData = _.cloneDeep(data);
+    formData.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
 
-    if (authUser?.isInstituteUser) {
-      data.institute_id = Number(authUser.institute_id);
+    if (!authUser?.isSystemUser) {
+      delete formData?.institute_id;
     }
+
+    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
 
     try {
       if (itemId) {
-        await updateCourse(itemId, data);
+        await updateCourse(itemId, formData);
         updateSuccessMessage('course.label');
         mutateCourse();
       } else {
-        await createCourse(data);
+        await createCourse(formData);
         createSuccessMessage('course.label');
       }
       props.onClose();
@@ -428,6 +404,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -435,7 +412,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5}>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             required
@@ -455,16 +432,17 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <CustomTextInput
-            required
-            id='code'
-            label={messages['common.code']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {/*Todo: this section is hide because backend is generating code need discussion*/}
+        {/*<Grid item xs={12} sm={6} md={6}>*/}
+        {/*  <CustomTextInput*/}
+        {/*    required*/}
+        {/*    id='code'*/}
+        {/*    label={messages['common.code']}*/}
+        {/*    register={register}*/}
+        {/*    errorInstance={errors}*/}
+        {/*    isLoading={isLoading}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
         <Grid item xs={6} sm={3} md={3}>
           <CustomTextInput
             required
@@ -484,7 +462,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        {!authUser?.isInstituteUser && (
+        {authUser?.isSystemUser && (
           <Grid item xs={12} sm={6} md={6}>
             <CustomFormSelect
               required
@@ -500,19 +478,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             />
           </Grid>
         )}
-        {/*<Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
-            id='branch_id'
-            label={messages['branch.label']}
-            isLoading={isLoadingBranches}
-            control={control}
-            options={branches}
-            optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
-            errorInstance={errors}
-          />
-        </Grid>*/}
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             id='program_id'
@@ -525,23 +490,18 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
-          <CustomFormSelect
+          <CustomSelectAutoComplete
             required
             id='skills'
             label={messages['common.skills']}
-            isLoading={isLoadingSkills}
             control={control}
             options={skills}
-            multiple={true}
             optionValueProp={'id'}
             optionTitleProp={['title_en', 'title']}
             errorInstance={errors}
-            defaultValue={[]}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             required
@@ -555,7 +515,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomFormSelect
             required
@@ -569,7 +528,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='overview'
@@ -592,7 +550,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='target_group'
@@ -615,7 +572,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='objectives'
@@ -627,7 +583,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='objectives_en'
@@ -639,7 +594,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='training_methodology'
@@ -651,7 +605,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='training_methodology_en'
@@ -663,7 +616,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='evaluation_system'
@@ -675,7 +627,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='evaluation_system_en'
@@ -687,7 +638,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='prerequisite'
@@ -699,7 +649,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='prerequisite_en'
@@ -711,7 +660,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='eligibility'
@@ -723,7 +671,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             id='eligibility_en'
@@ -735,7 +682,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='cover_image'
@@ -745,6 +691,9 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             register={register}
             label={messages['common.cover_image']}
             required={false}
+            height={'400'}
+            width={'600'}
+            acceptedFileTypes={['image/*']}
           />
         </Grid>
         <Grid item xs={12}>
@@ -756,6 +705,11 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item container xs={12}>
+          <Grid item xs={12}>
+            <h3 style={{marginTop: '0', marginBottom: '5px', color: 'gray'}}>
+              {messages['course.enrollment_form_config']}
+            </h3>
+          </Grid>
           {configItemList.map((item: any, index: any) => {
             let states = [...configItemsState];
             return item.isVisible ? (
@@ -810,8 +764,8 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
                       }
                       label={
                         configRequiredItems.includes(item.key)
-                          ? messages['common.required']
-                          : messages['common.not_required']
+                          ? (messages['common.required'] as string)
+                          : (messages['common.not_required'] as string)
                       }
                     />
                   </Grid>

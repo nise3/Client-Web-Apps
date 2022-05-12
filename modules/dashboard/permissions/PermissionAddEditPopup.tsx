@@ -18,7 +18,10 @@ import {
 import IconPermission from '../../../@softbd/icons/IconPermission';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import { IPermission } from '../../../shared/Interface/userManagement.interface';
+import {IPermission} from '../../../shared/Interface/userManagement.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import {PermissionMethodsKeyByLabel} from '../../../@softbd/utilities/Permission';
 
 interface PermissionGroupAddEditPopupProps {
   itemId: number | null;
@@ -54,13 +57,15 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
       title_en: yup
         .string()
-        .trim()
-        .required()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
         .label(messages['common.title_en'] as string),
       key: yup
         .string()
@@ -83,8 +88,36 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
         .label(messages['permission.module'] as string),
     });
   }, [messages]);
+
+  const methods = useMemo(
+    () => [
+      {
+        id: PermissionMethodsKeyByLabel.GET,
+        label: messages['permissions.method_get'],
+      },
+      {
+        id: PermissionMethodsKeyByLabel.POST,
+        label: messages['permissions.method_post'],
+      },
+      {
+        id: PermissionMethodsKeyByLabel.PUT,
+        label: messages['permissions.method_put'],
+      },
+      {
+        id: PermissionMethodsKeyByLabel.PATCH,
+        label: messages['permissions.method_patch'],
+      },
+      {
+        id: PermissionMethodsKeyByLabel.DELETE,
+        label: messages['permissions.method_delete'],
+      },
+    ],
+    [messages],
+  );
+
   const {
     register,
+    control,
     reset,
     setError,
     handleSubmit,
@@ -150,7 +183,7 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -209,14 +242,18 @@ const PermissionAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
+
         <Grid item xs={12}>
-          <CustomTextInput
+          <CustomFormSelect
             required
+            isLoading={false}
             id='method'
             label={messages['permission.method']}
-            register={register}
+            control={control}
+            options={methods}
+            optionValueProp={'id'}
+            optionTitleProp={['label']}
             errorInstance={errors}
-            isLoading={isLoading}
           />
         </Grid>
       </Grid>

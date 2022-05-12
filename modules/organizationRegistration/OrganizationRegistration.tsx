@@ -39,6 +39,7 @@ const OrganizationRegistration = () => {
   const {successStack, errorStack} = useNotiStack();
   const isLoading = false;
   const [filters] = useState({});
+
   const {data: divisions, isLoading: isLoadingDivisions}: any =
     useFetchDivisions(filters);
 
@@ -62,7 +63,7 @@ const OrganizationRegistration = () => {
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.organization_name'] as string),
       organization_type_id: yup
         .string()

@@ -3,7 +3,7 @@ import CourseDetailsHeaderSection from './CourseDetailsHeaderSection';
 import CourseContentSection from './CourseContentSection';
 import SimilarCourseSection from './SimilarCourseSection';
 import CourseDetailsSkillMatchingJobSection from './CourseDetailsSkillMatchingJobSection';
-import {useFetchCourseDetailsWithParams} from '../../../services/instituteManagement/hooks';
+import {useFetchPublicCourseDetailsWithParams} from '../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -15,7 +15,7 @@ const CourseDetails = () => {
 
   const [courseDetailsFilter, setCourseDetailsFilter] = useState<any>({});
 
-  const {data: courseDetails} = useFetchCourseDetailsWithParams(
+  const {data: courseDetails} = useFetchPublicCourseDetailsWithParams(
     Number(courseId),
     courseDetailsFilter,
   );
@@ -45,7 +45,10 @@ const CourseDetails = () => {
       <CourseDetailsHeaderSection course={courseDetails} />
       <CourseContentSection course={courseDetails} />
       <SimilarCourseSection skillIds={skillIds} courseId={Number(courseId)} />
-      <CourseDetailsSkillMatchingJobSection />
+      <CourseDetailsSkillMatchingJobSection
+        skillIds={skillIds}
+        courseId={courseId}
+      />
     </>
   );
 };

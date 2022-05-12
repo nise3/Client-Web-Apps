@@ -36,9 +36,11 @@ import {
   IStaticPageContent,
 } from '../../../shared/Interface/common.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 const initialValues: Partial<IStaticPageContent> = {
   title: '',
+  title_en: '',
   content: '',
   is_attachment_available: '0',
   attachment_type: '',
@@ -90,6 +92,10 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         code: PageBlockTemplateTypes.PBT_RL,
         title: messages['page_block.template_code_pbt_rl'],
       },
+      {
+        code: PageBlockTemplateTypes.PBT_SHOW_EDITOR_CONTENT,
+        title: messages['page_block.template_code_pbt_show_editor_content'],
+      },
     ],
     [messages],
   );
@@ -121,13 +127,23 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
               .required()
               .label(messages['common.show_in'] as string)
           : yup.string(),
+
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       template_code: yup
         .string()
-        .title()
+        .required()
         .label(messages['static_page.template_code'] as string),
       is_button_available: yup
         .string()
@@ -192,8 +208,11 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -201,8 +220,11 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });
@@ -222,30 +244,36 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    switch (pageCategory) {
-      case StaticPageCategoryTypes.COMMON:
-        if (authUser) {
-          if (authUser.isInstituteUser) setShowIn(ShowInTypes.TSP);
-          else if (authUser.isOrganizationUser) setShowIn(ShowInTypes.INDUSTRY);
-          else setShowIn(ShowInTypes.NICE3);
-        }
-        break;
-      case StaticPageCategoryTypes.NISE3:
-        setShowIn(ShowInTypes.NICE3);
-        break;
-      case StaticPageCategoryTypes.YOUTH:
-        setShowIn(ShowInTypes.YOUTH);
-        break;
-      case StaticPageCategoryTypes.TSP:
-        setShowIn(ShowInTypes.TSP);
-        break;
-      case StaticPageCategoryTypes.INDUSTRY:
-        setShowIn(ShowInTypes.INDUSTRY);
-        break;
-      default:
-        setShowIn(null);
+    if (authUser && authUser?.isSystemUser) {
+      switch (pageCategory) {
+        case StaticPageCategoryTypes.COMMON:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.NISE3:
+          setShowIn(ShowInTypes.NICE3);
+          break;
+        case StaticPageCategoryTypes.YOUTH:
+          setShowIn(ShowInTypes.YOUTH);
+          break;
+        case StaticPageCategoryTypes.RPL:
+          setShowIn(ShowInTypes.RPL);
+          break;
+        default:
+          setShowIn(null);
+      }
     }
   }, [pageCategory, authUser]);
+
+  useEffect(() => {
+    if (authUser && !authUser?.isSystemUser) {
+      (async () => {
+        setIsLoading(true);
+        const response = await getStaticPageOrBlockByPageCode(pageCode, {});
+        if (response && response.data) setItemData(response.data);
+        setIsLoading(false);
+      })();
+    }
+  }, [authUser]);
 
   useEffect(() => {
     if (authUser && showIn) {
@@ -254,11 +282,6 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         setItemData(null);
         try {
           const params: any = {show_in: showIn};
-          if (authUser.isInstituteUser) {
-            params.institute_id = authUser.institute_id;
-          } else if (authUser.isOrganizationUser) {
-            params.organization_id = authUser.organization_id;
-          }
 
           const response = await getStaticPageOrBlockByPageCode(
             pageCode,
@@ -281,7 +304,9 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH].includes(item.id),
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL].includes(
+          item.id,
+        ),
       );
 
       setShowInList(filteredShowIn);
@@ -302,6 +327,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         is_button_available: itemData?.is_button_available,
         button_text: itemData?.button_text,
         video_url: itemData?.video_url,
+        image_path: itemData?.image_path,
         video_id: itemData?.video_id,
         image_alt_title: itemData?.image_alt_title,
         row_status: String(itemData?.row_status),
@@ -393,12 +419,6 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
     try {
       if (authUser?.isSystemUser) {
         formData.show_in = showIn;
-      } else if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      } else if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
       }
 
       let data = {...formData};
@@ -409,7 +429,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       if (data.attachment_type == ContentTypes.IMAGE) {
         delete data.video_id;
         delete data.video_url;
-      } else if (data.attachment_type == ContentTypes.IMAGE) {
+      } else if (data.attachment_type != ContentTypes.IMAGE) {
         delete data.image_path;
         delete data.image_alt_title;
       }
@@ -452,7 +472,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
           />
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -564,6 +584,8 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
                       register={register}
                       label={messages['common.image_path']}
                       required={true}
+                      height={'150'}
+                      width={'400'}
                     />
                   </Grid>
 
@@ -679,7 +701,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['static_page.add_language']}
           </Button>
         </Grid>
 

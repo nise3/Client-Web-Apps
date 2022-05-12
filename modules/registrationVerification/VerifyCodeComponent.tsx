@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useMemo} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Grid, Input, Link, Typography} from '@mui/material';
 import CustomTextInput from '../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -14,6 +14,9 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
 import {classes, StyledPaper} from './index.style';
 import {createVerificationCode} from '../../services/youthManagement/RegistrationVerificationService';
+import cookieInstance from '../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_SEND_TIME} from '../../shared/constants/AppConst';
+import {RESEND_CODE_RETRY_TIME_IN_MILLIS} from '../../@softbd/common/constants';
 
 const inputProps = {
   maxLength: 1,
@@ -31,6 +34,8 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 }) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
+  const [resendTime, setResendTime] = useState<string | null>(null);
+  const [resendCode, setResendCode] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -54,6 +59,45 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   const watchAllFields: any = watch(['code1', 'code2', 'code3', 'code4']);
 
   useEffect(() => {
+    let resendDate = cookieInstance.get(COOKIE_KEY_SEND_TIME);
+    if (resendCode || resendDate) {
+      resendDate = resendDate ? Number(resendDate) : null;
+      const currentDate = new Date();
+
+      if (
+        resendDate &&
+        currentDate.getTime() - resendDate < RESEND_CODE_RETRY_TIME_IN_MILLIS
+      ) {
+        const expireTime = resendDate + RESEND_CODE_RETRY_TIME_IN_MILLIS;
+        const timeout = expireTime - currentDate.getTime();
+
+        if (timeout > 0) {
+          const interval = setInterval(() => {
+            const time = new Date();
+            let remainingSec = Math.ceil((expireTime - time.getTime()) / 1000);
+            let remainingMin = Math.floor(remainingSec / 60);
+            remainingSec = remainingSec % 60;
+            setResendTime(
+              '0' +
+                remainingMin +
+                ':' +
+                (remainingSec < 10 ? '0' + remainingSec : remainingSec),
+            );
+
+            if (remainingSec < 0) {
+              clearInterval(interval);
+              setResendTime(null);
+              setResendCode(false);
+            }
+          }, 1000);
+        }
+      } else {
+        setResendTime(null);
+      }
+    }
+  }, [resendCode]);
+
+  useEffect(() => {
     focusFiled();
     setValue('codes', watchAllFields.join(''));
   }, [watchAllFields]);
@@ -70,7 +114,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   const resendVerificationCode = useCallback(
     () => async () => {
       try {
-        const response = await createVerificationCode(userEmailAndMobile);
+        await createVerificationCode(userEmailAndMobile);
         const successMsg = userEmailAndMobile.email ? (
           <IntlMessages
             id='common.verification_message_on_email'
@@ -83,7 +127,19 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
           />
         );
 
-        response && successStack(successMsg);
+        successStack(successMsg);
+
+        const current = new Date();
+        let expireDate = new Date();
+        const expireTime =
+          expireDate.getTime() + RESEND_CODE_RETRY_TIME_IN_MILLIS;
+        expireDate.setTime(expireTime);
+
+        cookieInstance.set(COOKIE_KEY_SEND_TIME, current.getTime(), {
+          expires: expireDate,
+        });
+        setResendTime('03:00');
+        setResendCode(true);
       } catch (error: any) {
         processServerSideErrors({
           error,
@@ -120,6 +176,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   return (
     <StyledPaper>
       <Typography
+        tabIndex={0}
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
         {messages['common.enter_verification_code']}
@@ -187,15 +244,22 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
           )}
         </Box>
         <Box className={classes.sendCode}>
-          <Link
-            sx={{
-              '&:hover': {
-                cursor: 'pointer',
-              },
-            }}
-            onClick={resendVerificationCode()}>
-            {messages['common.send_code_text']}
-          </Link>
+          {resendTime ? (
+            <Typography variant={'caption'}>
+              Send code again in {resendTime} minute
+            </Typography>
+          ) : (
+            <Link
+              tabIndex={0}
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer',
+                },
+              }}
+              onClick={resendVerificationCode()}>
+              {messages['common.send_code_text']}
+            </Link>
+          )}
         </Box>
 
         <Grid item xs={12}>

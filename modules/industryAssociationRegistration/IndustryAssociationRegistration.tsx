@@ -59,7 +59,7 @@ const IndustryAssociationRegistration = () => {
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['association.association_name'] as string),
       mobile: yup
         .string()
@@ -73,7 +73,7 @@ const IndustryAssociationRegistration = () => {
         .email()
         .required()
         .label(messages['common.email'] as string),
-      industry_association_trade_id: yup
+      trade_id: yup
         .string()
         .trim()
         .required()
@@ -157,7 +157,6 @@ const IndustryAssociationRegistration = () => {
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submitted data', data);
     try {
       await industryAssociationRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
@@ -203,7 +202,7 @@ const IndustryAssociationRegistration = () => {
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
                 required
-                id='industry_association_trade_id'
+                id='trade_id'
                 isLoading={isLoading}
                 label={messages['association.association_trades']}
                 control={control}

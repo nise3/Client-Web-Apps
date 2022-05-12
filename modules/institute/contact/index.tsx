@@ -13,12 +13,22 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import {H1, H2} from '../../../@softbd/elements/common';
 import RoomIcon from '@mui/icons-material/Room';
 import GoogleMapReact from 'google-map-react';
-import {useFetchInstitutesContactMap} from '../../../services/instituteManagement/hooks';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
+import {
+  useFetchPublicInstituteDetails,
+  useFetchPublicTrainingCenters,
+} from '../../../services/instituteManagement/hooks';
+import {
+  EMAIL_REGEX,
+  MOBILE_NUMBER_REGEX,
+} from '../../../@softbd/common/patternRegex';
 import {createVisitorFeedback} from '../../../services/cmsManagement/VisitorFeedbackService';
 import {VisitorFeedbackTypes} from '../../../services/cmsManagement/Constants';
-import {useVendor} from '../../../@crema/utility/AppHooks';
 import {ThemeMode} from '../../../shared/constants/AppEnums';
+import {GOOGLE_MAP_API_KEY} from '../../../@softbd/common/constants';
+import {
+  isValidLatitude,
+  isValidLongitude,
+} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'InstituteContact';
 
@@ -83,10 +93,13 @@ const MapComponent = ({text}: MapProp) => (
 
 const InstituteContact = () => {
   const {messages} = useIntl();
-  const vendor = useVendor();
+  const {data: institute} = useFetchPublicInstituteDetails();
   const {successStack, errorStack} = useNotiStack();
 
-  const {data: mapsData} = useFetchInstitutesContactMap();
+  const [trainingCenterFilters] = useState<any>({});
+  const {data: trainingCenters} = useFetchPublicTrainingCenters(
+    trainingCenterFilters,
+  );
 
   const [mapCenter, setMapCenter] = useState({
     lat: 23.776488939377593,
@@ -96,17 +109,39 @@ const InstituteContact = () => {
   const [mapLocations, setMapLocations] = useState([]);
 
   useEffect(() => {
-    setMapLocations(mapsData);
-  }, [mapsData]);
+    if (trainingCenters && trainingCenters.length > 0) {
+      let locations: any = [];
+      trainingCenters.map((tc: any) => {
+        if (
+          isValidLatitude(tc?.location_latitude) &&
+          isValidLongitude(tc?.location_longitude)
+        ) {
+          locations.push({
+            title: tc.title,
+            lat: tc.location_latitude,
+            lng: tc.location_longitude,
+          });
+        }
+      });
+      setMapLocations(locations);
+    }
+  }, [trainingCenters]);
 
-  const APIKEY = 'AIzaSyCUacnvu4F1i4DXD_o9pxhkZHvU1RYhz5I';
+  const onChangeMapValue = (trainingCenterId: any) => {
+    let filterData = trainingCenters?.filter(
+      (item: any) => item.id == trainingCenterId,
+    );
 
-  const onChangeMapValue = (value: any) => {
-    let filterData = mapsData?.filter((item: any) => item.title === value);
-    let newArr: any = [...filterData];
-    setMapLocations(newArr);
-    if (newArr.length > 0) {
-      setMapCenter({lat: newArr[0].lat, lng: newArr[0].lng});
+    if (filterData.length > 0) {
+      if (
+        isValidLatitude(filterData[0]?.location_latitude) &&
+        isValidLongitude(filterData[0]?.location_longitude)
+      ) {
+        setMapCenter({
+          lat: parseFloat(filterData[0].location_latitude),
+          lng: parseFloat(filterData[0].location_longitude),
+        });
+      }
     }
   };
 
@@ -123,10 +158,13 @@ const InstituteContact = () => {
         .label(messages['common.phone_number'] as string)
         .matches(MOBILE_NUMBER_REGEX),
       email: yup
-        .string()
-        .email()
-        .nullable(true)
-        .label(messages['common.email'] as string),
+        .mixed()
+        .label(messages['common.email'] as string)
+        .test(
+          'email_validation',
+          messages['common.validation_email_error'] as string,
+          (value) => !value || Boolean(value.match(EMAIL_REGEX)),
+        ),
 
       comment: yup
         .string()
@@ -142,13 +180,12 @@ const InstituteContact = () => {
     control,
     formState: {errors, isSubmitting},
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     data.form_type = VisitorFeedbackTypes.CONTACTUS;
-    if (vendor) data.institute_id = vendor.id;
 
     try {
       await createVisitorFeedback(data);
@@ -189,7 +226,7 @@ const InstituteContact = () => {
                 <Grid>
                   <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
                     <Grid container spacing={5}>
-                      {!vendor?.id && (
+                      {!institute?.id && (
                         <Grid item xs={12}>
                           <CustomFormSelect
                             id='recipient'
@@ -275,8 +312,8 @@ const InstituteContact = () => {
                       label={messages['common.location']}
                       isLoading={false}
                       control={control}
-                      optionValueProp={'title'}
-                      options={mapsData}
+                      optionValueProp={'id'}
+                      options={trainingCenters}
                       optionTitleProp={['title']}
                       onChange={onChangeMapValue}
                     />
@@ -284,10 +321,9 @@ const InstituteContact = () => {
                   <Grid item xs={12}>
                     <div className={classes.mapDiv}>
                       <GoogleMapReact
-                        bootstrapURLKeys={{key: APIKEY}}
-                        defaultCenter={mapCenter}
-                        defaultZoom={11}
-                        center={mapCenter}>
+                        bootstrapURLKeys={{key: GOOGLE_MAP_API_KEY}}
+                        center={mapCenter}
+                        zoom={11}>
                         {mapLocations?.map((item: any, i: number) => (
                           <MapComponent
                             key={i}

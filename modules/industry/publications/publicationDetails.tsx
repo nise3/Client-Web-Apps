@@ -1,16 +1,13 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid, Tooltip} from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ShareIcon from '@mui/icons-material/Share';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
+import {Box, Button, Container, Grid} from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
 import {useRouter} from 'next/router';
-import {useFetchPublication} from '../../../services/IndustryManagement/hooks';
+import {useFetchPublicPublication} from '../../../services/IndustryManagement/hooks';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'PublicationDetails';
 
@@ -21,6 +18,8 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  marginBottom: '60px',
+
   [`& .${classes.date}`]: {
     display: 'flex',
     alignItems: 'center',
@@ -45,7 +44,7 @@ const PublicationDetails = () => {
   const router = useRouter();
   const {publicationId}: any = router.query;
 
-  const {data: publicationData} = useFetchPublication(publicationId);
+  const {data: publicationData} = useFetchPublicPublication(publicationId);
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -55,14 +54,17 @@ const PublicationDetails = () => {
             <Grid item xs={12} md={5}>
               <Box className={classes.date}>
                 <Link href={'/publications'}>
-                  <Button variant={'outlined'} color={'primary'}>
-                    <ArrowBackIosIcon style={{fontSize: 'small'}} />
+                  <Button
+                    variant={'outlined'}
+                    color={'primary'}
+                    sx={{fontWeight: 'bold'}}>
+                    <ArrowBackIosIcon style={{fontSize: 'medium'}} />
                     {messages['industry.publication_list']}
                   </Button>
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} md={7} textAlign={'right'}>
+            {/*<Grid item xs={12} md={7} textAlign={'right'}>
               <Tooltip title={messages['common.like']}>
                 <ThumbUpAltIcon
                   className={classes.icon}
@@ -87,7 +89,7 @@ const PublicationDetails = () => {
                   sx={{backgroundColor: '#2fc94d'}}
                 />
               </Tooltip>
-            </Grid>
+            </Grid>*/}
           </Grid>
         </Grid>
 
@@ -100,17 +102,16 @@ const PublicationDetails = () => {
             alignItems: 'center',
             flexDirection: 'column',
           }}>
-          <CardMedia
-            component='img'
+          <CardMediaImageView
             height='200'
-            sx={{width: '150px'}}
+            width='150px'
             image={publicationData?.image_path}
-            // image={'/images/testPublication.png'}
             alt={publicationData?.title}
           />
           <H1
             sx={{
               ...result.h2,
+              fontWeight: 'bold',
             }}
             mt={3}>
             {publicationData?.title}
@@ -118,7 +119,9 @@ const PublicationDetails = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Body1>{publicationData?.description}</Body1>
+          <Body1 sx={{fontWeight: 'bold'}}>
+            {publicationData?.description}
+          </Body1>
         </Grid>
       </Grid>
     </StyledContainer>

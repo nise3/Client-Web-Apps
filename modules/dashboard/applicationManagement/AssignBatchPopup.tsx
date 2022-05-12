@@ -18,6 +18,7 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
 import {IBatchAssign} from '../../../shared/Interface/organization.interface';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 interface AssignBatchPopup {
   itemId: number | null;
@@ -36,7 +37,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   courseId,
   ...props
 }) => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const isEdit = itemId != null;
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
@@ -60,7 +61,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -125,6 +126,14 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
         </>
       }>
       <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <div>
+            {messages['common.preferred_training_center']}:{' '}
+            {locale == LocaleLanguage.BN
+              ? itemData?.training_center_title
+              : itemData?.training_center_title_en}
+          </div>
+        </Grid>
         <Grid item xs={12}>
           <CustomFormSelect
             required

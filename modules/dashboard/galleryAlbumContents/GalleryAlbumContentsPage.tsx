@@ -11,20 +11,31 @@ import GalleryAlbumContentsPageAddEditPopup from './GalleryAlbumContentsPageAddE
 import GalleryAlbumContentDetailsPopup from './GalleryAlbumContentDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconVideo from '../../../@softbd/icons/IconVideo';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_GALLERY_ALBUM_CONTENTS} from '../../../@softbd/common/apiRoutes';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {deleteGalleryAlbumContent} from '../../../services/cmsManagement/GalleryAlbumContentService';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
+import GalleryAlbumContentTypes from './GalleryAlbumContentTypes';
 
 const GalleryAlbumContentsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
-
+  const [contentTypeFilterItems] = useState<Array<ISelectFilterItem>>([
+    {
+      id: GalleryAlbumContentTypes.IMAGE,
+      title: messages['common.image'] as string,
+    },
+    {
+      id: GalleryAlbumContentTypes.VIDEO,
+      title: messages['common.video'] as string,
+    },
+  ]);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -72,7 +83,11 @@ const GalleryAlbumContentsPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,
@@ -83,16 +98,32 @@ const GalleryAlbumContentsPage = () => {
       },
       {
         Header: messages['common.content_type'],
+        accessor: 'content_type',
+        filter: 'selectFilter',
+        selectFilterItems: contentTypeFilterItems,
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
-          if (data.content_type === 1) {
+          if (data.content_type === GalleryAlbumContentTypes.IMAGE) {
             return <p>{messages['common.image']}</p>;
-          } else if (data.content_type === 2) {
+          } else if (data.content_type === GalleryAlbumContentTypes.VIDEO) {
             return <p>{messages['common.video']}</p>;
           } else {
             return '';
           }
         },
+      },
+      {
+        Header: messages['common.published_at'],
+        accessor: 'published_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
+        isVisible: false,
       },
       {
         Header: messages['gallery_album.featured_status'],
@@ -108,20 +139,9 @@ const GalleryAlbumContentsPage = () => {
         },
       },
       {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: false,
-      },
-
-      {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -145,18 +165,11 @@ const GalleryAlbumContentsPage = () => {
         sortable: false,
       },
     ];
-  }, [messages]);
+  }, [messages, locale]);
 
   const {data, loading, pageCount, totalCount, onFetchData} =
     useReactTableFetchData({
       urlPath: API_GALLERY_ALBUM_CONTENTS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
     });
 
   return (

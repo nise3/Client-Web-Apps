@@ -23,7 +23,7 @@ const CardItem = (item: any, key: number) => {
         <Box>
           <Image
             className={classes.image}
-            src={item.img}
+            src={item?.img}
             alt='crema-logo'
             height={50}
             width={'100%'}

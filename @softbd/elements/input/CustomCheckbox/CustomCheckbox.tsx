@@ -1,12 +1,13 @@
 import {Checkbox, FormControlLabel} from '@mui/material';
-import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 import TextInputSkeleton from '../../display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import React from 'react';
+// import React, {JSXElementConstructor, ReactElement} from 'react';
 import Typography from '@mui/material/Typography';
+import {MessageFormatElement} from 'react-intl';
 
 type Props = {
   id: string;
-  label: string | MessageFormatElement[];
+  label: string | number | MessageFormatElement[];
+  // label: string | number | MessageFormatElement[] | ReactElement<any, string | JSXElementConstructor<any>>;
   isLoading?: boolean;
   register?: any;
   errorInstance?: any;
@@ -39,6 +40,7 @@ const CustomCheckbox = ({
         sx={{
           marginLeft: '0',
         }}
+        tabIndex={0}
         control={
           <Checkbox
             color='primary'
@@ -48,7 +50,7 @@ const CustomCheckbox = ({
             style={{padding: '2px', marginRight: 5}}
           />
         }
-        label={label}
+        label={label as string}
       />
     </Typography>
   );

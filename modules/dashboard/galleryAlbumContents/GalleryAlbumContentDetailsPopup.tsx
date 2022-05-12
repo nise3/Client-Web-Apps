@@ -19,6 +19,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -68,7 +69,7 @@ const GalleryAlbumContentDetailsPopup = ({
             <IntlMessages id='galleries.institute' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -149,14 +150,14 @@ const GalleryAlbumContentDetailsPopup = ({
           <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.grid_image_path']}
-              imageUrl={itemData?.grid_image_path}
+              imageUrl={itemData?.content_grid_image_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ImageView
               label={messages['common.thumb_image_path']}
-              imageUrl={itemData?.thumb_image_path}
+              imageUrl={itemData?.content_thumb_image_path}
               isLoading={isLoading}
             />
           </Grid>

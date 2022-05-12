@@ -1,12 +1,10 @@
-import React, {useMemo} from 'react';
-import {Card, CardContent, CardHeader, CardMedia, Grid} from '@mui/material';
+import React from 'react';
+import {Grid} from '@mui/material';
 import clsx from 'clsx';
 import StyledTile from '../../../@softbd/Tile/StyledTile';
 import {styled} from '@mui/material/styles';
-import IndustryOneMonthStatisticsChart from './IndustryOneMonthStatisticsChart';
-import SectorBasedPeopleChart from './SectorBasedPeopleChart';
 import DashboardTabView from './DashboardTabView';
-import {useIntl} from 'react-intl';
+import {useFetchIndustryAssociationDashboardStatics} from '../../../services/IndustryAssociationManagement/hooks';
 
 const PREFIX = 'IndustryDashboard';
 
@@ -89,25 +87,15 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const IndustryDashboard = () => {
-  const {messages} = useIntl();
-
-  const industryStatistics = useMemo(
-    () => ({
-      industry: 2415,
-      employed: 652,
-      unemployed: 20,
-      job_vacancy: 150,
-      trending_skills: 320,
-    }),
-    [],
-  );
+  const {data: industryStatistics} =
+    useFetchIndustryAssociationDashboardStatics();
 
   return (
     <StyledGrid container spacing={3}>
       <Grid item xs={12}>
         <StyledTile
           className={clsx(classes.cardColors, classes.cardColor1)}
-          headerNumber={industryStatistics?.industry}
+          headerNumber={industryStatistics?.organizations}
           message={'common.industry'}
         />
 
@@ -124,7 +112,7 @@ const IndustryDashboard = () => {
         />
         <StyledTile
           className={clsx(classes.cardColors, classes.cardColor4)}
-          headerNumber={industryStatistics?.job_vacancy}
+          headerNumber={industryStatistics?.vacancies}
           message={'common.job_vacancy'}
         />
         <StyledTile
@@ -133,7 +121,7 @@ const IndustryDashboard = () => {
           message={'common.trending_skills'}
         />
       </Grid>
-      <Grid item xs={12} md={7}>
+      {/*<Grid item xs={12} md={12}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <IndustryOneMonthStatisticsChart />
@@ -142,27 +130,27 @@ const IndustryDashboard = () => {
             <SectorBasedPeopleChart />
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12} md={5}>
-        <Card
-          sx={{
-            height: '100%',
-          }}>
-          <CardHeader title={messages['common.district_map']} />
-          <CardContent
-            sx={{
-              height: '100%',
-              display: 'flex',
-            }}>
-            <CardMedia
-              component={'img'}
-              image={'/images/district_map.png'}
-              className={classes.mapStyle}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid>*/}
+      {/*<Grid item xs={12} md={5}>*/}
+      {/*  <Card*/}
+      {/*    sx={{*/}
+      {/*      height: '100%',*/}
+      {/*    }}>*/}
+      {/*    <CardHeader title={messages['common.district_map']} />*/}
+      {/*    <CardContent*/}
+      {/*      sx={{*/}
+      {/*        height: '100%',*/}
+      {/*        display: 'flex',*/}
+      {/*      }}>*/}
+      {/*      <CardMedia*/}
+      {/*        component={'img'}*/}
+      {/*        image={'/images/district_map.png'}*/}
+      {/*        className={classes.mapStyle}*/}
+      {/*      />*/}
+      {/*    </CardContent>*/}
+      {/*  </Card>*/}
+      {/*</Grid>*/}
+      <Grid item xs={12} sx={{paddingBottom: '18px'}}>
         <DashboardTabView />
       </Grid>
     </StyledGrid>

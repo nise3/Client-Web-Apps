@@ -26,10 +26,12 @@ import {
 
 import {FilterChipBar} from './FilterChipBar';
 import {
+  dateTimeFilter,
   DefaultColumnFilter,
   fuzzyTextFilter,
   numericTextFilter,
   rowStatusFilter,
+  selectFilter,
 } from './filters';
 import {TableToolbar} from './TableToolbar';
 import {TooltipCell} from './TooltipCell';
@@ -149,6 +151,8 @@ const filterTypes = {
   fuzzyText: fuzzyTextFilter,
   numeric: numericTextFilter,
   rowStatusFilter: rowStatusFilter,
+  selectFilter: selectFilter,
+  dateTimeFilter: dateTimeFilter,
 };
 
 /**
@@ -243,7 +247,7 @@ export default function ReactTable<T extends object>({
     ...props,
     columns,
     data,
-    autoResetHiddenColumns: false,
+    //autoResetHiddenColumns: false, TODO this line commented because its effecting in hiddenColumns visibilities
     manualPagination: true,
     manualFilters: skipDefaultFilter,
     autoResetPage: !skipPageResetRef.current,
@@ -379,7 +383,10 @@ export default function ReactTable<T extends object>({
                             }}
                             key={index}
                             className={classes.tableCell}>
-                            {cell.render('Cell')}
+                            {cell.render('Cell', {
+                              currentPageIndex: pageIndex,
+                              currentPageSize: pageSize,
+                            })}
                           </TableCell>
                         );
                       })}

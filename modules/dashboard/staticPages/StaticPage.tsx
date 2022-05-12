@@ -15,11 +15,22 @@ import StaticBlockAddEditPopup from './StaticBlockAddEditPopup';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const StaticPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
-
+  const [showInFilterItems, setShowInFilterItems] = useState<Array<any>>([]);
+  const staticPagetypeFilterItems = [
+    {
+      id: StaticPageTypes.BLOCK,
+      title: messages['static_page_content_type.page_block'],
+    },
+    {
+      id: StaticPageTypes.PAGE,
+      title: messages['static_page_content_type.static_page'],
+    },
+  ];
   const [staticPageTypesFilters, setStaticPageTypesFilters] = useState({
     category: [StaticPageCategoryTypes.COMMON],
   });
@@ -38,11 +49,28 @@ const StaticPage = () => {
         categories.push(
           StaticPageCategoryTypes.NISE3,
           StaticPageCategoryTypes.YOUTH,
+          StaticPageCategoryTypes.RPL,
         );
+        setShowInFilterItems([
+          {
+            id: StaticPageCategoryTypes.NISE3,
+            title: getCategoryTitle(StaticPageCategoryTypes.NISE3),
+          },
+          {
+            id: StaticPageCategoryTypes.YOUTH,
+            title: getCategoryTitle(StaticPageCategoryTypes.YOUTH),
+          },
+          {
+            id: StaticPageCategoryTypes.RPL,
+            title: getCategoryTitle(StaticPageCategoryTypes.RPL),
+          },
+        ]);
       } else if (authUser?.isInstituteUser) {
         categories.push(StaticPageCategoryTypes.TSP);
       } else if (authUser?.isOrganizationUser) {
         categories.push(StaticPageCategoryTypes.INDUSTRY);
+      } else if (authUser?.isIndustryAssociationUser) {
+        categories.push(StaticPageCategoryTypes.INDUSTRY_ASSOCIATION);
       }
 
       setStaticPageTypesFilters({
@@ -85,12 +113,16 @@ const StaticPage = () => {
     }
   };
 
-  const getCategoryTitle = (category: number) => {
+  const getCategoryTitle = (category: number | string) => {
     switch (category) {
       case StaticPageCategoryTypes.NISE3:
         return messages['common.nise3'];
       case StaticPageCategoryTypes.YOUTH:
         return messages['common.youth'];
+      case StaticPageCategoryTypes.TSP:
+        return messages['common.tsp'];
+      case StaticPageCategoryTypes.INDUSTRY_ASSOCIATION:
+        return messages['common.industry_association'];
       default:
         return '';
     }
@@ -110,19 +142,32 @@ const StaticPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.type'],
+        accessor: 'type',
+        filter: 'selectFilter',
+        selectFilterItems: staticPagetypeFilterItems,
         Cell: (props: any) => {
           return getPageTypeTitle(props.row.original.type);
         },
       },
       {
         Header: messages['common.show_in'],
+        accessor: 'category',
+        isVisible: authUser && authUser.isSystemUser,
+        disableFilters: !authUser?.isSystemUser ? true : false,
+        filter: authUser?.isSystemUser ? 'selectFilter' : null,
+        selectFilterItems: authUser?.isSystemUser ? showInFilterItems : [],
         Cell: (props: any) => {
           return getCategoryTitle(props.row.original.category);
         },
-        isVisible: authUser && authUser.isSystemUser,
       },
       {
         Header: messages['common.actions'],
@@ -138,7 +183,7 @@ const StaticPage = () => {
         sortable: false,
       },
     ],
-    [messages, authUser],
+    [messages, authUser, showInFilterItems],
   );
 
   return (
@@ -153,7 +198,7 @@ const StaticPage = () => {
           columns={columns}
           data={staticPageTypes || []}
           loading={isLoading}
-          hideToolbar={true}
+          hideToolbar={false}
         />
         {isOpenAddEditModal &&
           selectedStaticPage &&

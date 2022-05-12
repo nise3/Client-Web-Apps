@@ -1,25 +1,27 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid} from '@mui/material';
+import {Box, Button, Container, Grid} from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import {
-  courseDuration,
+  getCourseDuration,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
-import {H1, Link} from '../../../@softbd/elements/common';
+import {Body1, H1, Link} from '../../../@softbd/elements/common';
 import {
   LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD,
+  LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION,
   LINK_YOUTH_SIGNUP,
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {
   gotoLoginSignUpPage,
   youthDomain,
 } from '../../../@softbd/common/constants';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -48,7 +50,7 @@ interface CourseDetailsHeaderProps {
 
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
   const {messages, formatNumber} = useIntl();
-  const authUser = useAuthUser<YouthAuthUser>();
+  const authUser = useAuthUser();
 
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -62,12 +64,13 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
                 : messages['common.free']}
             </Box>
           </Box>
-          <H1 mb={8} style={{fontWeight: 'bold', fontSize: '1.640625rem'}}>
+          <H1 mb={1} style={{fontWeight: 'bold', fontSize: '1.640625rem'}}>
             {course?.title}
           </H1>
+          <Body1 mb={6}>{course?.institute_title}</Body1>
           {course?.duration && (
             <TagChip
-              label={courseDuration(messages, formatNumber, course.duration)}
+              label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
           {course?.lessons && (
@@ -96,41 +99,73 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({course}) => {
             />
           )}
 
-          <Box mt={4} mb={3}>
-            {!course?.enrolled ? (
-              course?.enrollable ? (
-                <Link
-                  href={
-                    authUser
-                      ? youthDomain() +
-                        LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
-                        course?.id
-                      : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
-                  }>
-                  <Button variant={'contained'} color={'primary'}>
-                    {messages['common.enroll_now']}
-                  </Button>
-                </Link>
+          {(!authUser || authUser?.isYouthUser) && (
+            <Box mt={4} mb={3}>
+              {!course?.enrolled ? (
+                course?.enrollable ? (
+                  <Link
+                    href={
+                      authUser
+                        ? youthDomain() +
+                          LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT +
+                          course?.id
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button variant={'contained'} color={'primary'}>
+                      {messages['common.enroll_now']}
+                    </Button>
+                  </Link>
+                ) : (
+                  <CustomChip
+                    label={messages['common.not_enrollable']}
+                    color={'primary'}
+                  />
+                )
               ) : (
-                <CustomChip
-                  label={messages['common.not_available']}
-                  color={'primary'}
-                />
-              )
-            ) : (
-              <Box mt={4}>
-                <CustomChip
-                  label={messages['common.already_enrolled']}
-                  color={'primary'}
-                />
-              </Box>
-            )}
-          </Box>
+                <Box mt={4}>
+                  {!course?.verified ? (
+                    <Link
+                      href={
+                        authUser
+                          ? youthDomain() +
+                            LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION +
+                            course?.id +
+                            `?enrollment_id=${course?.enrollment_id}`
+                          : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                      }>
+                      <Button variant={'contained'} color={'primary'}>
+                        {messages['common.verify_enrollment']}
+                      </Button>
+                    </Link>
+                  ) : !course?.payment_status ? (
+                    <Link
+                      href={
+                        authUser
+                          ? youthDomain() +
+                            LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD +
+                            course?.id +
+                            `?enrollment_id=${course?.enrollment_id}`
+                          : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                      }>
+                      <Button variant={'contained'} color={'primary'}>
+                        {messages['common.pay_now']}
+                      </Button>
+                    </Link>
+                  ) : (
+                    <CustomChip
+                      label={messages['common.already_enrolled']}
+                      color={'primary'}
+                    />
+                  )}
+                </Box>
+              )}
+            </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <CardMedia
+          <CardMediaImageView
             image={course?.cover_image}
-            sx={{height: 300, width: '100%'}}
+            sx={{height: 300, width: '100%', backgroundSize: '100%'}}
             title={course?.title}
           />
         </Grid>

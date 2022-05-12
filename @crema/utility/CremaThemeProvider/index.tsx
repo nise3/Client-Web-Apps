@@ -10,8 +10,14 @@ import {
   ThemeMode,
   ThemeStyle,
 } from '../../../shared/constants/AppEnums';
-import {useUrlSearchParams} from 'use-url-search-params';
+import {
+  InitialType,
+  TypesType,
+  useUrlSearchParams,
+} from 'use-url-search-params';
 import AppContextPropsType from '../../../redux/types/AppContextPropsType';
+
+//import {InitialType, TypesType} from 'use-url-search-params/dist/typedefs';
 
 declare module '@mui/material/styles' {
   interface DefaultTheme extends Theme {}

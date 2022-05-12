@@ -1,19 +1,22 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
+  Button,
   Card,
   CardContent,
-  CardMedia,
   LinearProgress,
   Typography,
 } from '@mui/material';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {courseDuration, getIntlNumber} from '../../utilities/helpers';
+import {getCourseDuration, getIntlNumber} from '../../utilities/helpers';
 import {useRouter} from 'next/router';
+import {useCustomStyle} from '../../hooks/useCustomStyle';
+import {H5, H6} from '../common';
+import CardMediaImageView from '../display/ImageView/CardMediaImageView';
+import AvatarImageView from '../display/ImageView/AvatarImageView';
 
 const PREFIX = 'CourseCardComponent';
 
@@ -25,6 +28,7 @@ const classes = {
   tagBox: `${PREFIX}-tagBox`,
   courseTitle: `${PREFIX}-courseTitle`,
   overflowDottedText: `${PREFIX}-overflowDottedText`,
+  overflowDottedInstituteTitle: `${PREFIX}-overflowDottedInstituteTitle`,
 };
 
 const StyledCard = styled(Card)(({theme}) => ({
@@ -34,8 +38,8 @@ const StyledCard = styled(Card)(({theme}) => ({
   height: '100%',
 
   [`& .${classes.trainingCardImage}`]: {
-    height: 140,
-    objectFit: 'contain',
+    height: 150,
+    objectFit: 'unset',
   },
 
   [`& .${classes.providerLogo}`]: {
@@ -43,11 +47,12 @@ const StyledCard = styled(Card)(({theme}) => ({
     width: 55,
     border: '1px solid ' + theme.palette.grey['300'],
     position: 'absolute',
-    top: 110,
+    top: 120,
     left: 10,
     background: theme.palette.common.white,
     '& img': {
       height: 'auto',
+      objectFit: 'unset',
     },
   },
 
@@ -65,6 +70,8 @@ const StyledCard = styled(Card)(({theme}) => ({
 
   [`& .${classes.tagBox}`]: {
     marginTop: 5,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 
   [`& .${classes.courseTitle}`]: {
@@ -78,33 +85,44 @@ const StyledCard = styled(Card)(({theme}) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  [`& .${classes.overflowDottedInstituteTitle}`]: {
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }));
 
 interface CourseCardComponentProps {
   course: any;
+  handleViewExam?: (e: any, exams: any) => void;
 }
 
-const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
+const CourseCardComponent: FC<CourseCardComponentProps> = ({
+  course,
+  handleViewExam,
+}) => {
   const {messages, formatNumber} = useIntl();
+  const customStyle = useCustomStyle();
   const router = useRouter();
   const pathname = router.pathname;
   const isMyCoursePage = pathname.split('/').indexOf('my-courses') > -1;
 
   return (
     <StyledCard>
-      <CardMedia
-        component={'img'}
-        className={classes.trainingCardImage}
+      <CardMediaImageView
         image={course?.cover_image}
-        title={course.title}
-        alt={course.title}
+        className={classes.trainingCardImage}
+        title={course?.title}
+        alt={course?.title}
       />
       <CardContent sx={{paddingBottom: '16px !important'}}>
-        <Avatar
+        <AvatarImageView
           variant='square'
           className={classes.providerLogo}
           alt={course?.institute_title}
-          src={course?.cover_image}
+          src={course?.logo}
         />
         <Box className={classes.courseFee}>
           {messages['common.course_fee']}:
@@ -115,27 +133,36 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
           </Box>
         </Box>
 
-        <Box
-          fontWeight={'bold'}
-          title={course.title}
-          className={classes.overflowDottedText}>
-          {course.title}
+        <Box>
+          <H5
+            fontWeight={'bold'}
+            title={course.title}
+            className={classes.overflowDottedText}
+            sx={{
+              ...customStyle.h6,
+            }}>
+            {course.title}
+          </H5>
         </Box>
 
-        <Box
-          marginTop={'5px'}
-          title={course.institute_title}
-          className={classes.overflowDottedText}>
-          {messages['common.institute_name']}: {course.institute_title}
+        <Box marginTop={'5px'} minHeight={'50px'}>
+          <H6
+            fontWeight={'bold'}
+            title={course.institute_title}
+            className={classes.overflowDottedInstituteTitle}
+            sx={{
+              ...customStyle.body1,
+            }}>
+            {course.institute_title}
+          </H6>
         </Box>
 
         <Box className={classes.tagBox}>
           {course?.duration && (
             <TagChip
-              label={courseDuration(messages, formatNumber, course.duration)}
+              label={getCourseDuration(course.duration, formatNumber, messages)}
             />
           )}
-          <TagChip label={formatNumber(15) + ' ' + messages['common.lesson']} />
         </Box>
 
         {isMyCoursePage && course?.total_enroll && (
@@ -158,6 +185,20 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({course}) => {
                 values={{subject: formatNumber(course.progress) + '%'}}
               />
             </Box>
+          </Box>
+        )}
+        {isMyCoursePage && course?.exams && course?.exams?.length > 0 && (
+          <Box sx={{textAlign: 'center', paddingTop: '10px'}}>
+            <Button
+              variant={'outlined'}
+              size={'small'}
+              onClick={(e) => {
+                if (handleViewExam) {
+                  handleViewExam(e, course.exams);
+                }
+              }}>
+              {messages['common.view_exam']}
+            </Button>
           </Box>
         )}
       </CardContent>

@@ -9,6 +9,9 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {useIntl} from 'react-intl';
 import Avatar from '@mui/material/Avatar';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import {Button} from '@mui/material';
+import {Link} from '../../../@softbd/elements/common';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'UserInfoDetailsPopup';
 
@@ -50,13 +53,18 @@ export default function UserInfoDetailsPopup({onClose, openEditModal}: Props) {
       maxWidth={'md'}
       actions={
         <>
+          <Button variant='outlined' size='medium'>
+            <Link href='/update-password'>
+              {messages['common.change_password']}
+            </Link>
+          </Button>
           <EditButton onClick={() => openEditModal()} />
         </>
       }>
       <Grid container spacing={5}>
         <Grid item xs={12}>
           {authUser?.profile_pic ? (
-            <Avatar
+            <AvatarImageView
               className={classes.ProfileImage}
               src={authUser?.profile_pic}
             />

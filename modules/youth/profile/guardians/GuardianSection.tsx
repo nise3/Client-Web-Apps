@@ -12,8 +12,9 @@ import {Guardian} from '../../../../services/youthManagement/typing';
 import VerticalLine from '../component/VerticalLine';
 import {styled} from '@mui/material/styles';
 import {Fonts, ThemeMode} from '../../../../shared/constants/AppEnums';
-import {H3} from '../../../../@softbd/elements/common';
+import {S1} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import NoDataFoundComponent from '../../common/NoDataFoundComponent';
 
 const PREFIX = 'GuardianSection';
 const classes = {
@@ -73,6 +74,8 @@ const GuardianSection = () => {
         <GuardianViewPage
           onEdit={openGuardianAddEditForm}
           onClose={closeGuardianView}
+          guardians={guardians}
+          mutateGuardians={mutateGuardians}
         />
       )}
       {isOpenGuardianAddEditForm && (
@@ -98,22 +101,27 @@ const GuardianSection = () => {
             <Avatar>G</Avatar>
             <Box sx={{marginLeft: '15px'}}>
               {!guardians || guardians?.length == 0 ? (
-                <Typography>{messages['common.no_data_found']}</Typography>
+                <NoDataFoundComponent
+                  messageType={messages['guardian.title']}
+                  messageTextType={'inherit'}
+                  sx={{marginTop: '10px'}}
+                />
               ) : (
                 <React.Fragment>
                   <StyledBox sx={{display: 'flex'}}>
                     {guardians.map((guardian: Guardian, index: number) => (
                       <React.Fragment key={guardian.id}>
                         {index != 0 && <VerticalLine />}
-                        <H3
+                        <S1
                           sx={{...result.body1}}
                           className={classes.textStyle}>
                           {guardian.name}
-                        </H3>
+                        </S1>
                       </React.Fragment>
                     ))}
                   </StyledBox>
                   <Typography
+                    tabIndex={0}
                     variant={'caption'}
                     onClick={() => {
                       openGuardianView();

@@ -13,8 +13,7 @@ import {
 import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
 import {useIntl} from 'react-intl';
-import {useDashboardMostDemandableCourse} from '../../../services/global/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {useFetchDashboardMostDemandableCourse} from '../../../services/global/hooks';
 
 const StyledBox = styled(Box)(({theme}) => ({
   [`& .MuiCardHeader-title`]: {
@@ -26,13 +25,10 @@ const StyledBox = styled(Box)(({theme}) => ({
 
 const MostDemandableCourseChart = () => {
   const {messages} = useIntl();
-  const authUser = useAuthUser();
 
   const barChartSize: number = 30;
   const barChartSpace: number = 20;
-  const {data: dashData} = useDashboardMostDemandableCourse(
-    authUser?.isInstituteUser ? (authUser?.institute_id as number) : undefined,
-  );
+  const {data: dashData} = useFetchDashboardMostDemandableCourse();
   const [demandableCourse, setDemandableCourse] = useState<any>([]);
 
   const heightNumber: number = demandableCourse
@@ -62,7 +58,9 @@ const MostDemandableCourseChart = () => {
         <Card>
           <CardContent>
             <Typography>{`${data.name}`}</Typography>
-            <Typography>Value: {`${data.value}`}</Typography>
+            <Typography>
+              {messages['common.value']}: {`${data.value}`}
+            </Typography>
           </CardContent>
         </Card>
       );

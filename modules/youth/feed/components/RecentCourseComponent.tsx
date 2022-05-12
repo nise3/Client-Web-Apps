@@ -1,11 +1,13 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Avatar, Box, Button} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {Fonts} from '../../../../shared/constants/AppEnums';
 import {useIntl} from 'react-intl';
 import Link from 'next/link';
 import {H3} from '../../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../../@softbd/hooks/useCustomStyle';
+import {LINK_FRONTEND_YOUTH_COURSE_DETAILS} from '../../../../@softbd/common/appLinks';
+import AvatarImageView from '../../../../@softbd/elements/display/ImageView/AvatarImageView';
 
 const PREFIX = 'RecentCourseComponent';
 
@@ -23,6 +25,9 @@ const StyledBox = styled(Box)(({theme}) => ({
     height: 45,
     width: 45,
     border: '1px solid ' + theme.palette.grey['300'],
+    '& img': {
+      objectFit: 'contain',
+    },
   },
 
   [`& .${classes.courseTitle}`]: {
@@ -48,9 +53,10 @@ const RecentCourseComponent = ({data: course}: any) => {
     <>
       <StyledBox display={'flex'}>
         <Box>
-          <Avatar
+          <AvatarImageView
             alt='provider image'
-            src={course.logoUrl}
+            variant={'square'}
+            src={course?.logo}
             className={classes.courseProviderImage}
           />
         </Box>
@@ -64,11 +70,11 @@ const RecentCourseComponent = ({data: course}: any) => {
 
           <Box>
             <Link
-              href={'../../course-details/__'.replace('__', course.id)}
+              href={LINK_FRONTEND_YOUTH_COURSE_DETAILS + course.id}
               passHref>
               <Button
-                className={classes.detailsButton}
-                variant='contained'
+                variant='outlined'
+                color='primary'
                 size={'small'}
                 style={{marginLeft: 10}}>
                 {messages['common.details']}

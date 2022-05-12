@@ -9,8 +9,6 @@ const EventCalendarPage = asyncComponent(
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
-  // const router = useRouter();
-  // console.log(router.query);
 
   return (
     <>

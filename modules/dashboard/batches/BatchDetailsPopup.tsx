@@ -11,6 +11,7 @@ import IconBatch from '../../../@softbd/icons/IconBatch';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 import {ITrainer} from '../../../shared/Interface/institute.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -38,6 +39,7 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='batches.label' />
           </>
         }
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -108,28 +110,40 @@ const BatchDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.registration_start_date']}
-              value={getMomentDateFormat(itemData?.registration_start_date)}
+              value={getMomentDateFormat(
+                itemData?.registration_start_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.registration_end_date']}
-              value={getMomentDateFormat(itemData?.registration_end_date)}
+              value={getMomentDateFormat(
+                itemData?.registration_end_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.start_date']}
-              value={getMomentDateFormat(itemData?.batch_start_date)}
+              value={getMomentDateFormat(
+                itemData?.batch_start_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['batches.end_date']}
-              value={getMomentDateFormat(itemData?.batch_end_date)}
+              value={getMomentDateFormat(
+                itemData?.batch_end_date,
+                'DD MMM YYYY',
+              )}
               isLoading={isLoading}
             />
           </Grid>

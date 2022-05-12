@@ -3,9 +3,6 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_COURSES} from '../../@softbd/common/apiRoutes';
 import {ICourse} from '../../shared/Interface/institute.interface';
 
-/**
- * @deprecated
- */
 export const getAllCourses = async (params = {}) => {
   try {
     let response: any = await apiGet(API_COURSES, {params});

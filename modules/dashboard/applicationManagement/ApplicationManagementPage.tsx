@@ -7,22 +7,24 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import AssignBatchButton from './AssignBatchButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import AssignBatchPopup from './AssignBatchPopup';
 import {FiUserCheck} from 'react-icons/fi';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const ApplicationManagementPage = () => {
-  const authUser = useAuthUser();
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -80,26 +82,53 @@ const ApplicationManagementPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
         Header: messages['applicationManagement.programTitle'],
         accessor: 'program_title',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['applicationManagement.programTitle_en'],
+        accessor: 'program_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['applicationManagement.courseTitle'],
         accessor: 'course_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['applicationManagement.courseTitle_en'],
+        accessor: 'course_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['menu.batch'],
         accessor: 'batch_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['menu.batch_en'],
+        accessor: 'batch_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['applicationManagement.applicantFullName_en'],
+        accessor: 'full_name_en',
+        isVisible: locale == LocaleLanguage.EN,
+        disableFilters: true,
       },
       {
         Header: messages['applicationManagement.applicantFullName'],
         accessor: 'full_name',
-        isVisible: true,
+        isVisible: locale == LocaleLanguage.BN,
         disableFilters: true,
       },
       {
@@ -145,7 +174,7 @@ const ApplicationManagementPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <AssignBatchButton
+              <CommonButton
                 onClick={() => openAssignBatchModal(data.id, data.course_id)}
                 btnText='applicationManagement.assignBatch'
                 startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
@@ -165,17 +194,12 @@ const ApplicationManagementPage = () => {
         },
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        return params;
-      },
     });
 
   const filteredData = data?.map((youth: any) => {

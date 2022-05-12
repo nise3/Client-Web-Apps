@@ -42,6 +42,10 @@ const addressType = [
     id: 2,
     label: 'Permanent Address',
   },
+  {
+    id: 3,
+    label: 'Other Address',
+  },
 ];
 
 interface Porps {
@@ -140,12 +144,12 @@ const AddressAddEditPage = ({
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [itemData, districts, upazilas]);
 
   const onSubmit: SubmitHandler<IAddressAddEdit> = async (data) => {
     try {
       if (itemId) {
-        await updateAddress(itemData, data);
+        await updateAddress(itemId, data);
         updateSuccessMessage('common.address');
       } else {
         await createAddress(data);
@@ -234,6 +238,7 @@ const AddressAddEditPage = ({
             </Grid>
             <Grid item xs={6}>
               <CustomFilterableFormSelect
+                required
                 id='address_type'
                 label={messages['label.address_type']}
                 isLoading={false}

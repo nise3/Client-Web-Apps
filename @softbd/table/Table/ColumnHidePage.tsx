@@ -2,6 +2,7 @@ import {Checkbox, FormControlLabel, Popover, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import React, {ReactElement} from 'react';
 import {TableInstance} from 'react-table';
+import {IColumnInstance} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'ColumnHidePage';
 
@@ -79,8 +80,10 @@ export function ColumnHidePage<T extends object>({
           Visible Columns
         </Typography>
         <div className={classes.grid}>
-          {hideableColumns.map((column) => {
-            return (
+          {hideableColumns.map((column: any | IColumnInstance<any>) => {
+            return column.permanentVisible ? (
+              <></>
+            ) : (
               <FormControlLabel
                 key={column.id}
                 control={
@@ -89,7 +92,7 @@ export function ColumnHidePage<T extends object>({
                     disabled={column.isVisible && onlyOneOptionLeft}
                   />
                 }
-                label={column.render('Header')}
+                label={column.render('Header') as string}
                 checked={column.isVisible}
                 onChange={() => toggleHideColumn(column.id, column.isVisible)}
               />

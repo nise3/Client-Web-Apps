@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowStatus/DecoratedRowStatus';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {useFetchOccupation} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -24,7 +25,7 @@ const OccupationDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
     <CustomDetailsViewMuiModal
       {...props}
       open={true}
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconOccupation />

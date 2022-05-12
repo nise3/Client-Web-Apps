@@ -1,4 +1,4 @@
-import {Avatar, Card, CardContent, Grid, Typography} from '@mui/material';
+import {Card, CardContent, Grid, Typography} from '@mui/material';
 import React from 'react';
 
 interface TrainingCenterCardProps {
@@ -11,22 +11,17 @@ const TrainingCenterCard = ({trainingCenter}: TrainingCenterCardProps) => {
       <CardContent>
         <Grid container sx={{alignItems: 'center', flexDirection: 'column'}}>
           <Grid item xs={12}>
-            <Avatar
-              alt={trainingCenter?.institute_title}
-              title={trainingCenter?.institute_title}
-              variant='square'
-              src={'http://lorempixel.com/300/200?id=' + trainingCenter?.id}
-              sx={{
-                width: 110,
-                height: 110,
-                '>img': {height: 'auto'},
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography mt={4} variant={'h5'}>
-              {trainingCenter.title}
+            <Typography
+              mt={3}
+              mb={3}
+              variant={'h5'}
+              sx={{wordBreak: 'break-word'}}>
+              {trainingCenter?.title}
+              {trainingCenter?.district_title ? (
+                <>, {trainingCenter?.district_title}</>
+              ) : (
+                <></>
+              )}
             </Typography>
           </Grid>
         </Grid>

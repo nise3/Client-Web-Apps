@@ -15,12 +15,16 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import IconProgramme from '../../../@softbd/icons/IconProgramme';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import {deletePublication} from '../../../services/IndustryManagement/PublicationService';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {Book} from '@mui/icons-material';
 
 const PublicationsPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -75,47 +79,39 @@ const PublicationsPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['publication.author'],
         accessor: 'author',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['publication.author_en'],
         accessor: 'author_en',
         disableFilters: true,
         disableSortBy: true,
-        isVisible: false,
-      },
-      {
-        Header: messages['common.description'],
-        accessor: 'description',
-        disableFilters: true,
-        disableSortBy: true,
-        isVisible: false,
-      },
-      {
-        Header: messages['common.description_en'],
-        accessor: 'description_en',
-        disableFilters: true,
-        disableSortBy: true,
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -139,7 +135,7 @@ const PublicationsPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
@@ -152,7 +148,7 @@ const PublicationsPage = () => {
       <PageBlock
         title={
           <>
-            <IconProgramme /> <IntlMessages id='publication.label' />
+            <Book /> <IntlMessages id='publication.label' />
           </>
         }
         extra={[

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, Container, Grid} from '@mui/material';
 import CourseListHeaderSection from './CourseListHeaderSection';
 import SkillMatchingCoursesSection from './SkillMatchingCoursesSection';
@@ -6,9 +6,7 @@ import PopularCoursesSection from './PopularCoursesSection';
 import TrendingCoursesSection from './TrendingCoursesSection';
 import {useRouter} from 'next/router';
 import {styled} from '@mui/material/styles';
-import {getShowInTypeByDomain} from '../../../@softbd/utilities/helpers';
-import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
-import {useVendor} from '../../../@crema/utility/AppHooks';
+import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'AllCourseSection';
 
@@ -28,19 +26,9 @@ const CourseListPage = () => {
   const [filters, setFilters] = useState<any>({});
   const router = useRouter();
   const {courseType} = router.query;
-  const vendor = useVendor();
-  const showInType = getShowInTypeByDomain();
-
-  useEffect(() => {
-    if (showInType && showInType == ShowInTypes.TSP) {
-      setFilters((prev: any) => {
-        return {...prev, ...{institute_id: vendor?.id}};
-      });
-    }
-  }, [showInType]);
 
   const filterCoursesListTrainingList = useCallback(
-    (filterKey: string, filterValue: number | null) => {
+    (filterKey: string, filterValue: any) => {
       const newFilter: any = {};
       newFilter[filterKey] = filterValue;
 
@@ -51,9 +39,26 @@ const CourseListPage = () => {
     [],
   );
 
+  const filterCoursesListByRouteParams = useCallback(
+    (filters: Array<FilterItem>) => {
+      const newFilter: any = {};
+      filters.map((item) => {
+        newFilter[item.filterKey] = item.filterValue;
+      });
+
+      setFilters((prev: any) => {
+        return {...prev, ...newFilter};
+      });
+    },
+    [],
+  );
+
   return (
     <StyledCourseSection>
-      <CourseListHeaderSection addFilterKey={filterCoursesListTrainingList} />
+      <CourseListHeaderSection
+        addFilterKey={filterCoursesListTrainingList}
+        routeParamsFilters={filterCoursesListByRouteParams}
+      />
       <Container maxWidth={'lg'} className={classes.mainContent}>
         <Grid container spacing={5}>
           {courseType == 'skill-matching' && (

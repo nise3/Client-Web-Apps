@@ -20,6 +20,7 @@ import {
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -39,7 +40,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
       case AlbumTypes.VIDEO:
         return messages['album_type.video'];
       case AlbumTypes.MIXED:
-        return messages['album_type.mixed'];
+        return messages['common.mixed'];
       default:
         return '';
     }
@@ -56,7 +57,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='galleries.institute' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -107,7 +108,7 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           {itemData?.show_in && itemData.show_in == ShowInTypes.TSP && (
             <Grid item xs={12} md={6}>
               <DetailsInputView
-                label={messages['institute.label']}
+                label={messages['common.institute_name']}
                 value={itemData?.institute_title}
                 isLoading={isLoading}
               />
@@ -123,6 +124,17 @@ const GalleryAlbumDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               />
             </Grid>
           )}
+
+          {itemData?.show_in &&
+            itemData.show_in == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_association']}
+                  value={itemData?.industry_association_title}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            )}
 
           <Grid item xs={12} md={6}>
             <DetailsInputView

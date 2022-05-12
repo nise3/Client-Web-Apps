@@ -1,13 +1,19 @@
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {Box, Container, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
-import {ArrowRightAlt} from '@mui/icons-material';
 import React, {useState} from 'react';
-import {useFetchCourseList} from '../../services/youthManagement/hooks';
 import {useIntl} from 'react-intl';
 import CourseCardComponent from '../../@softbd/elements/CourseCardComponent';
-import {H2, Link} from '../../@softbd/elements/common';
-import VerticalBar from './components/VerticalBar';
+import {Link, SeeMoreLinkButton} from '../../@softbd/elements/common';
+import PageSizes from '../../@softbd/utilities/PageSizes';
+import {useFetchCourseList} from '../../services/instituteManagement/hooks';
+import SectionTitle from './SectionTitle';
+import {
+  LINK_FRONTEND_COURSE_DETAILS,
+  LINK_FRONTEND_COURSE_LIST,
+} from '../../@softbd/common/appLinks';
+import BoxCardsSkeleton from '../institute/Components/BoxCardsSkeleton';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 const PREFIX = 'PopularCourse';
 
@@ -17,7 +23,7 @@ const classes = {
 };
 
 const StyledGrid = styled(Grid)(() => ({
-  marginTop: '50px',
+  marginTop: '60px',
   backgroundColor: '#fff',
 
   [`& .${classes.title}`]: {
@@ -39,28 +45,31 @@ const StyledGrid = styled(Grid)(() => ({
 const PopularCourse = () => {
   const {messages} = useIntl();
 
-  const [courseFilters] = useState<any>({page_size: 10});
+  const [courseFilters] = useState<any>({page_size: PageSizes.TEN});
   const pathValue = 'popular';
-  const {data: courseList} = useFetchCourseList(pathValue, courseFilters);
+  const {data: courseList, isLoading: isLoadingCourses} = useFetchCourseList(
+    pathValue,
+    courseFilters,
+  );
 
   return (
     <StyledGrid container xl={12}>
       <Container maxWidth='lg'>
-        <Box
-          style={{marginBottom: '50px', marginTop: '50px'}}
-          className={classes.title}
-          justifyContent={'center'}>
-          <VerticalBar />
-          <H2 style={{fontSize: '2rem', fontWeight: 'bold'}}>
-            {messages['common.popular_courses']}
-          </H2>
-        </Box>
-        <Box mb={2}>
-          {courseList && courseList.length > 0 ? (
+        <SectionTitle
+          title={messages['common.popular_courses'] as string}
+          center={true}
+        />
+        <Box mb={2} sx={{marginTop: '-16px'}}>
+          {isLoadingCourses ? (
+            <BoxCardsSkeleton />
+          ) : courseList && courseList.length > 0 ? (
             <CustomCarousel>
               {courseList.map((course: any, key: number) => (
-                <Link passHref key={key} href={`/course-details/${course.id}`}>
-                  <Box mr={1} ml={1}>
+                <Link
+                  passHref
+                  key={key}
+                  href={`${LINK_FRONTEND_COURSE_DETAILS}${course.id}`}>
+                  <Box mr={1} ml={1} height={'100%'}>
                     <CourseCardComponent course={course} />
                   </Box>
                 </Link>
@@ -68,28 +77,19 @@ const PopularCourse = () => {
             </CustomCarousel>
           ) : (
             <Grid container sx={{justifyContent: 'center'}}>
-              <Typography variant={'h6'}>
-                {messages['common.no_data_found']}
-              </Typography>
+              <NoDataFoundComponent
+                messageType={messages['course.label']}
+                messageTextType={'h6'}
+              />
             </Grid>
           )}
         </Box>
         {courseList && courseList?.length > 0 && (
           <Grid item container justifyContent='center' spacing={2}>
-            <Link
-              href={'/course-list/popular'}
-              passHref
-              className={classes.seeMore}>
-              <Button
-                variant='outlined'
-                color='primary'
-                endIcon={<ArrowRightAlt />}
-                style={{
-                  borderRadius: '10px',
-                }}>
-                {messages['common.see_more']}
-              </Button>
-            </Link>
+            <SeeMoreLinkButton
+              href={`${LINK_FRONTEND_COURSE_LIST}/${pathValue}`}
+              label={messages['common.see_more'] as string}
+            />
           </Grid>
         )}
       </Container>

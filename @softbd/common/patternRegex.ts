@@ -20,6 +20,10 @@ export const TEXT_REGEX_PASSWORD = new RegExp(
   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,20}$)',
 );
 export const EMAIL_REGEX = new RegExp(
-  '(<|^)[a-z\\d.]+([a-z\\d.]{2,30})+@(?:[a-z\\d]+\\.)+([a-z]{2,})(>|$)',
+  '(<|^)[a-z\\d.]+([a-z\\d.\\s_-]{0,30})+@(?:[a-z\\d]+\\.)+([a-z]{2,})(>|$)',
 );
 export const NID_REGEX = new RegExp('^[0-9]{10}$|^[0-9]{13}$|^[0-9]{17}$');
+
+export const SPECIAL_CHARACTER_VALIDATION = new RegExp(
+  /[$&+,:;=?@#|'<>.^*()%!-]/g,
+);

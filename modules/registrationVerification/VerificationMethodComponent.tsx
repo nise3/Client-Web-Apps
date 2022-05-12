@@ -81,6 +81,7 @@ const VerificationMethodComponent: FC<VerificationMethodComponentProps> = ({
   return (
     <StyledPaper>
       <Typography
+        tabIndex={0}
         variant={'h5'}
         style={{marginBottom: '10px', fontWeight: 'bold'}}>
         {messages['common.verify_text']}

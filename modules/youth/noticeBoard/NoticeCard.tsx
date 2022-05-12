@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import {styled} from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardContent,
+  Chip,
   Grid,
   Typography,
 } from '@mui/material';
@@ -13,6 +13,8 @@ import {useIntl} from 'react-intl';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import {H2, Link} from '../../../@softbd/elements/common';
 import {useCustomStyle} from '../../../@softbd/hooks/useCustomStyle';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const PREFIX = 'NoticeCard';
 
@@ -57,8 +59,6 @@ interface NoticeCardProps {
   notice: any;
 }
 
-const logo = '/images/creativeIt.png';
-
 const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
   const {messages, formatDate} = useIntl();
   const result = useCustomStyle();
@@ -70,10 +70,15 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
           <Grid item xs={3} md={3}>
             <Box className={classes.avatar}>
               {/*Todo: logo have to implement after real api ready*/}
-              <Avatar
-                src={notice?.grid_image_path ? notice?.grid_image_path : logo}
-                alt={notice?.image_alt_title}
+              <AvatarImageView
+                src={notice?.grid_image_path}
+                alt={
+                  notice?.image_alt_title
+                    ? notice?.image_alt_title
+                    : notice?.title
+                }
                 className={classes.avatarImage}
+                variant='square'
               />
             </Box>
           </Grid>
@@ -90,16 +95,28 @@ const NoticeCard: FC<NoticeCardProps> = ({notice}) => {
 
             <Box>
               {notice?.published_at && (
-                <Button
+                <Chip
+                  size={'medium'}
+                  sx={{
+                    background: '#e8f1ec',
+                    border: '1px solid #e4f1ea',
+                    borderRadius: '5px',
+                    height: '40px',
+                    marginRight: '15px',
+                  }}
+                  label={getIntlDateFromString(formatDate, notice.published_at)}
                   variant='outlined'
-                  className={classes.btn}
-                  sx={{background: '#e4f1ea', border: '1px solid #e4f1ea'}}>
-                  {getIntlDateFromString(formatDate, notice.published_at)}
+                />
+              )}
+              {notice?.file_path && (
+                <Button color={'primary'} variant={'outlined'}>
+                  <Link
+                    target={'_blank'}
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + notice.file_path}>
+                    {messages['common.download']}
+                  </Link>
                 </Button>
               )}
-              <Button color={'primary'} variant={'contained'}>
-                {messages['common.download']}
-              </Button>
             </Box>
           </Grid>
         </Grid>

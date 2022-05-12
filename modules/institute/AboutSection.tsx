@@ -1,22 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Box, Button, CardMedia, Container, Grid, Skeleton} from '@mui/material';
+import {Box, Button, Container, Grid, Skeleton} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import {H1, Link} from '../../@softbd/elements/common';
 import {
   BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_INSTITUTE_DETAILS,
 } from '../../@softbd/utilities/StaticContentConfigs';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
 import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {useVendor} from '../../@crema/utility/AppHooks';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
-import {useIntl} from 'react-intl';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
+import CardMediaImageView from '../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 const PREFIX = 'AboutSection';
 
@@ -38,11 +36,9 @@ const StyledGrid = styled(Grid)(({theme}) => ({
     padding: '50px',
     background: theme.palette.grey[200],
     color: theme.palette.text.primary,
+    marginTop: '60px',
     [theme.breakpoints.up('md')]: {
-      marginTop: '120px',
-    },
-    [theme.breakpoints.down('xl')]: {
-      // marginTop: '120px',
+      marginTop: '150px',
     },
   },
 
@@ -103,24 +99,17 @@ const StyledGrid = styled(Grid)(({theme}) => ({
 }));
 
 const AboutSection = () => {
-  const vendor = useVendor();
-  const {messages} = useIntl();
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [templateConfig, setTemplateConfig] = useState<any>({
     textLeft: true,
   });
 
-  const [staticPageParams] = useState<any>({
-    show_in: ShowInTypes.TSP,
-    institute_id: vendor?.id,
-  });
+  const [staticPageParams] = useState<any>({});
 
   const {data: blockData, isLoading} = useFetchStaticPageBlock(
     BLOCK_ID_INSTITUTE_DETAILS,
     staticPageParams,
   );
-
-  console.log('blockdata-------', blockData);
 
   useEffect(() => {
     if (blockData) {
@@ -198,11 +187,14 @@ const AboutSection = () => {
                 {blockData.attachment_type == ContentTypes.IMAGE &&
                   blockData.image_path && (
                     <Zoom>
-                      <CardMedia
-                        component={'img'}
+                      <CardMediaImageView
                         className={classes.imageView}
-                        image={blockData.image_path}
-                        alt={blockData?.image_alt_title}
+                        image={blockData?.image_path}
+                        alt={
+                          blockData?.image_alt_title
+                            ? blockData?.image_alt_title
+                            : blockData?.title
+                        }
                       />
                     </Zoom>
                   )}
@@ -233,10 +225,7 @@ const AboutSection = () => {
         </Container>
       ) : (
         <Grid container sx={{marginTop: '-35px'}}>
-          <NoDataFoundComponent
-            message={messages['common.no_data_found'] as string}
-            messageTextType={'h6'}
-          />
+          <NoDataFoundComponent messageTextType={'h6'} />
         </Grid>
       )}
     </StyledGrid>

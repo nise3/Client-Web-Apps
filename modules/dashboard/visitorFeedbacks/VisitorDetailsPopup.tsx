@@ -4,9 +4,10 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconInstitute from '../../../@softbd/icons/IconInstitute';
-import {useFetchVisitorFeedback} from '../../../services/instituteManagement/hooks';
+import IconVisitorFeedback from '../../../@softbd/icons/IconVisitorFeedback';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useFetchVisitorFeedback} from '../../../services/cmsManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -17,15 +18,15 @@ const VisitorDetailsPopup = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchVisitorFeedback(itemId);
 
-  console.log('visitor: ', itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
         {...props}
         open={true}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         title={
           <>
-            <IconInstitute />
+            <IconVisitorFeedback />
             <IntlMessages id='visitor_feedback.label' />
           </>
         }
@@ -49,13 +50,13 @@ const VisitorDetailsPopup = ({itemId, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/*<Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.address']}
               value={itemData?.address}
               isLoading={isLoading}
             />
-          </Grid>
+          </Grid>*/}
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.email']}

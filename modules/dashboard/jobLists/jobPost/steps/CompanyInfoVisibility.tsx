@@ -11,11 +11,16 @@ import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSw
 import Tooltip from '@mui/material/Tooltip';
 import {Help} from '@mui/icons-material';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import {useFetchJobCompanyInfoVisibility} from '../../../../../services/IndustryManagement/hooks';
+import {saveCompanyInfoVisibility} from '../../../../../services/IndustryManagement/JobService';
+import {useFetchIndustryAssociationTrades} from '../../../../../services/IndustryAssociationManagement/hooks';
+import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
   jobId: string;
   onBack: () => void;
   onContinue: () => void;
+  setLatestStep: (step: number) => void;
 }
 
 const initialValue = {
@@ -27,10 +32,23 @@ const initialValue = {
   company_name_en: '',
 };
 
-const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
+const CompanyInfoVisibility = ({
+  jobId,
+  onBack,
+  onContinue,
+  setLatestStep,
+}: Props) => {
   const {messages} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const [isShowCompanyName, setIsShowCompanyName] = useState<boolean>(false);
+  const {data: companyInfo} = useFetchJobCompanyInfoVisibility(jobId);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [associationTradeFilter] = useState<any>({});
+  const {data: associationTrades, isLoading: isLoadingTrades} =
+    useFetchIndustryAssociationTrades(associationTradeFilter);
+
+  const id = 'top';
+  usePageLoadToTop({id, dependency: isReady});
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -42,7 +60,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
         .mixed()
         .label(messages['common.company_name_bn'] as string)
         .when('is_company_name_visible', {
-          is: true,
+          is: (value: boolean) => !value,
           then: yup.string().required(),
         }),
       company_industry_type: yup
@@ -59,20 +77,48 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
     reset,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    reset(initialValue);
-  }, []);
+    if (companyInfo && companyInfo?.latest_step) {
+      const latestStep = companyInfo.latest_step;
+      delete companyInfo?.latest_step;
+
+      if (latestStep >= 4) {
+        setIsReady(true);
+        reset({
+          is_company_name_visible: companyInfo?.is_company_name_visible,
+          is_company_address_visible: companyInfo?.is_company_address_visible,
+          is_company_business_visible: companyInfo?.is_company_business_visible,
+          company_industry_type: companyInfo?.company_industry_type,
+          company_name: companyInfo?.company_name,
+          company_name_en: companyInfo?.company_name_en,
+        });
+        setIsShowCompanyName(companyInfo.is_company_name_visible != 1);
+      }
+      setLatestStep(latestStep);
+    } else {
+      reset(initialValue);
+    }
+  }, [companyInfo]);
+
+  console.log('error', errors);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('data-->', data);
       data.job_id = jobId;
-      //do data save work here
-      //const response = await saveCompanyInfoVisibility(data);
+
+      data.is_company_name_visible = data.is_company_name_visible ? 1 : 0;
+      data.is_company_address_visible = data.is_company_address_visible ? 1 : 0;
+      data.is_company_business_visible = data.is_company_business_visible
+        ? 1
+        : 0;
+
+      // console.log('data-->', data);
+      await saveCompanyInfoVisibility(data);
+
       successStack('Data saved successfully');
       onContinue();
     } catch (error: any) {
@@ -80,8 +126,8 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
     }
   };
 
-  return (
-    <Box mt={2}>
+  return isReady ? (
+    <Box mt={2} id={id}>
       <Typography mb={3} variant={'h5'} fontWeight={'bold'}>
         {messages['job_posting.company_info_visibility']}
       </Typography>
@@ -109,7 +155,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_name_visible == 1}
               isLoading={false}
               onChange={(value: boolean) => {
                 setIsShowCompanyName(!value);
@@ -165,7 +211,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_address_visible == 1}
               isLoading={false}
             />
           </Grid>
@@ -174,11 +220,11 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
               required
               id='company_industry_type'
               label={messages['job_posting.company_type']}
-              isLoading={false}
+              isLoading={isLoadingTrades}
               control={control}
-              options={[]}
+              options={associationTrades || []}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -204,7 +250,7 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
               yesLabel={messages['common.show'] as string}
               noLabel={messages['common.hide'] as string}
               register={register}
-              defaultChecked={true}
+              defaultChecked={companyInfo?.is_company_business_visible == 1}
               isLoading={false}
             />
           </Grid>
@@ -224,6 +270,8 @@ const CompanyInfoVisibility = ({jobId, onBack, onContinue}: Props) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

@@ -25,6 +25,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOccupation} from '../../../shared/Interface/occupation.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OccupationAddEditPopupProps {
   itemId: number | null;
@@ -60,11 +61,19 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup.string().label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       job_sector_id: yup
         .string()
         .trim()
@@ -80,7 +89,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -135,7 +144,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

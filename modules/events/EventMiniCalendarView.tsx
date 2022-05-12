@@ -6,31 +6,27 @@ import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
 import {Box, Card, CardContent, Grid} from '@mui/material';
 import EventCalendarDetails from './EventCalendarDetails';
 import CancelButton from '../../@softbd/elements/button/CancelButton/CancelButton';
-import {ICalendar, ICalendarQuery} from '../../shared/Interface/common.interface';
-import {addStartEndPropsToList, eventsDateTimeMap, getNavigationFilter} from '../../services/global/globalService';
-import {useForm} from 'react-hook-form';
+import {
+  ICalendar,
+  ICalendarQuery,
+} from '../../shared/Interface/common.interface';
+import {
+  addStartEndPropsToList,
+  eventsDateTimeMap,
+  getNavigationFilter,
+} from '../../services/global/globalService';
 import {useFetchTrainingCenters} from '../../services/instituteManagement/hooks';
 import CustomFilterableSelect from '../youth/training/components/CustomFilterableSelect';
 import {useIntl} from 'react-intl';
-import {useAuthUser, useVendor} from '../../@crema/utility/AppHooks';
+import {calendarService} from '../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 const EventMiniCalendarView = () => {
-  const {
-    reset,
-    formState: {errors},
-  } = useForm<any>();
   const {messages} = useIntl();
   const [selectedItem, setSelectedItem] = useState<ICalendar>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
-    type: 'month'
+    type: 'month',
   });
-  const vendor = useVendor();
-  const authUser = useAuthUser();
-  if (authUser?.isInstituteUser) {
-    viewFilters.institute_id = vendor?.id;
-  }
-
 
   const [eventsList, setEventsList] = useState<Array<ICalendar>>([]);
   const [isOpenDetailsView, setIsOpenDetailsView] = useState(false);
@@ -39,6 +35,7 @@ const EventMiniCalendarView = () => {
   const [trainingCenterFilters] = useState({});
   const {data: trainingCenters, isLoading: isLoadingTrainingCenter} =
     useFetchTrainingCenters(trainingCenterFilters);
+  const [selectedTrainingCenter, setSelectedTrainingCenter] = useState<any>('');
 
   useEffect(() => {
     addStartEndPropsToList(events);
@@ -50,14 +47,10 @@ const EventMiniCalendarView = () => {
     }
   }, [events]);
 
-  useEffect(() => {
-      reset({
-        inst_id: vendor?.id
-      });
-  }, []);
-
   const onSelectEvent = (e: any) => {
-    const item = eventsList.find((ev: ICalendar) => ev.id === e.id) as ICalendar;
+    const item = eventsList.find(
+      (ev: ICalendar) => ev.id === e.id,
+    ) as ICalendar;
     setSelectedItem(item);
     setIsOpenDetailsView(true);
     // console.log(item);
@@ -69,26 +62,28 @@ const EventMiniCalendarView = () => {
   const onNavigateEvent = (e: any) => {
     setViewFilters((prev) => {
       return getNavigationFilter(e, prev);
-    })
-  }
-
+    });
+  };
+  const intlOpt = useIntl();
+  const calendarServiceOpt = calendarService(eventsList, intlOpt);
   return (
-      <Card>
-        <Grid style={{padding: 20}} xs={12} md={12}>
-          <CustomFilterableSelect
-            id='institute_id'
-            label={messages['common.training_center']}
-            isLoading={isLoadingTrainingCenter}
-            options={trainingCenters}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-            // onChange={(e)=> {
-            //   changeCalendar(e)
-            // }}
-          />
-        </Grid>
-        <CardContent>
+    <Card>
+      <CardContent>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={12}>
+            <CustomFilterableSelect
+              id='training_center_id'
+              label={messages['common.training_center']}
+              isLoading={isLoadingTrainingCenter}
+              options={trainingCenters}
+              optionValueProp={'id'}
+              optionTitleProp={['title']}
+              defaultValue={selectedTrainingCenter}
+              onChange={(value: any) => {
+                setSelectedTrainingCenter(value);
+              }}
+            />
+          </Grid>
           <Grid item xs={12} md={12}>
             {isOpenDetailsView ? (
               <div>
@@ -110,17 +105,23 @@ const EventMiniCalendarView = () => {
                 defaultDate={moment().toDate()}
                 views={['month']}
                 onView={(view: View) =>
-                  setViewFilters((prev)=>{
-                   return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}}
+                  setViewFilters((prev) => {
+                    return {
+                      ...prev,
+                      ...{type: view === 'agenda' ? 'schedule' : view},
+                    };
                   })
                 }
                 onNavigate={onNavigateEvent}
                 onSelectEvent={onSelectEvent}
+                components={calendarServiceOpt.componentObject}
+                formats={calendarServiceOpt.calendarFormatOption}
               />
             )}
           </Grid>
-        </CardContent>
-      </Card>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 

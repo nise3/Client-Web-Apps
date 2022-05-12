@@ -1,33 +1,37 @@
-import React, {useCallback} from 'react';
-import {styled} from '@mui/material/styles';
-import {Box, Button, Container, Grid, Typography} from '@mui/material';
-import LogoCustomizable from '../../../elements/common/LogoCustomizable';
-import {H6, Link, Text} from '../../../elements/common';
 import {
   ArrowForwardIos,
   ArrowRightAlt,
   Email,
   Home,
   LocalPhone,
+  PhoneAndroid,
 } from '@mui/icons-material';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import GoToTop from '../../../../modules/goToTop';
+import {useFetchStaticPageBlock} from '../../../../services/cmsManagement/hooks';
+import {useFetchPublicInstituteDetailsWithParams} from '../../../../services/instituteManagement/hooks';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../common/apiRoutes';
 import {
   LINK_FRONTEND_INSTITUTE_CONTACT,
   LINK_FRONTEND_INSTITUTE_FAQ,
   LINK_FRONTEND_INSTITUTE_NOTICE_BOARD,
   LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES,
   LINK_INSTITUTE_FRONTEND_STATIC_CONTENT,
-  LINK_SIGNUP,
 } from '../../../common/appLinks';
-import {getSSOLoginUrl} from '../../../common/SSOConfig';
+import {H6, Link, Text} from '../../../elements/common';
+import LogoCustomizable from '../../../elements/common/LogoCustomizable';
 import {
+  BLOCK_ID_INSTITUTE_DETAILS,
   CONTENT_ID_ABOUT_US,
   CONTENT_ID_PRIVACY_POLICY,
   CONTENT_ID_TERMS_AND_CONDITIONS,
 } from '../../../utilities/StaticContentConfigs';
-import {useVendor} from '../../../../@crema/utility/AppHooks';
-import {gotoLoginSignUpPage} from '../../../common/constants';
+import {getBrowserCookie} from '../../../libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
+import {convertEnglishDigitsToBengali} from '../../../utilities/helpers';
 
 const PREFIX = 'Footer';
 
@@ -39,10 +43,13 @@ const classes = {
   primary: `${PREFIX}-primary`,
   bullet: `${PREFIX}-bullet`,
   textColor: `${PREFIX}-textColor`,
+  textLineClamp: `${PREFIX}-textColor`,
 };
 
+const textColor = (theme: any) => ({color: theme.palette.grey[700]});
+
 const StyledContainer = styled(Grid)(({theme}) => ({
-  marginTop: '50px',
+  marginTop: '80px',
   background: theme.palette.grey.A100,
   padding: '20px',
 
@@ -56,11 +63,19 @@ const StyledContainer = styled(Grid)(({theme}) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
-    color: theme.palette.grey[700],
+    ...textColor(theme),
   },
 
   [`& .${classes.textColor}`]: {
-    color: theme.palette.grey[700],
+    ...textColor(theme),
+  },
+  [`& .${classes.textLineClamp}`]: {
+    ...textColor(theme),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitLineClamp: '4',
+    WebkitBoxOrient: 'vertical',
   },
 }));
 
@@ -72,7 +87,7 @@ const StyledFoot = styled(Grid)(({theme}) => ({
   },
 
   [`& .${classes.softbdImage}`]: {
-    width: '147px',
+    //width: '147px',
   },
 
   [`& .${classes.primary}`]: {
@@ -88,29 +103,42 @@ const StyledFoot = styled(Grid)(({theme}) => ({
   },
 }));
 
+// const langConst: LanguageCodes;
 const Footer = () => {
-  const {messages} = useIntl();
-  const vendor = useVendor();
+  const {messages, locale} = useIntl();
+  const [instituteFilter] = useState({});
+  const [staticPageParams] = useState<any>({
+    selected_language: locale,
+  });
 
-  const redirectToSSO = useCallback(() => {
-    window.location.href = getSSOLoginUrl();
-  }, []);
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+  const {data: institute} =
+    useFetchPublicInstituteDetailsWithParams(instituteFilter);
+
+  // const [staticPageParams] = useState<any>({});
+
+  const {data: blockData} = useFetchStaticPageBlock(
+    BLOCK_ID_INSTITUTE_DETAILS,
+    staticPageParams,
+  );
+
+  // console.log('public institute details ', blockData)
 
   const getAddress = () => {
     let address = '';
     let addrs = [];
-    if (vendor) {
-      if (vendor.address) {
-        addrs.push(vendor.address);
+    if (institute) {
+      if (institute.address) {
+        addrs.push(institute.address);
       }
-      if (vendor.upazila_title) {
-        addrs.push(vendor.upazila_title);
+      if (institute.upazila_title) {
+        addrs.push(institute.upazila_title);
       }
-      if (vendor.district_title) {
-        addrs.push(vendor.district_title);
+      if (institute.district_title) {
+        addrs.push(institute.district_title);
       }
-      if (vendor.division_title) {
-        addrs.push(vendor.division_title);
+      if (institute.division_title) {
+        addrs.push(institute.division_title);
       }
 
       address = addrs.join(', ');
@@ -125,15 +153,16 @@ const Footer = () => {
           <Grid container spacing={8}>
             <Grid item xs={12} md={4} lg={4} p={0}>
               <LogoCustomizable
-                instituteName={'যুব উন্নয়ন অধিদপ্তর'}
-                instituteLogo='/images/DYD-and-gov-Logo.png'
+                instituteName={institute?.title}
+                instituteLogo={institute?.logo}
               />
-              <Box mt={4}>
-                <Text className={classes.textColor}>
-                  গনপ্রজাতন্ত্রী বাংলাদেশ সরকারের রূপকল্প ২০২১ বাস্তবায়নে
-                  যুবকদের আত্মকর্মসংস্থান ও স্বাবলম্বী করে তোলার লক্ষে "অনলাইনে
-                  বিভিন্ন প্রশিক্ষন কোর্সের পরিচালনা ও পর্যবেক্ষন করা"।
-                </Text>
+              <Box
+                className={classes.textLineClamp}
+                mt={4}
+                dangerouslySetInnerHTML={{__html: blockData?.content}}>
+                {/* <Text className={classes.textColor} >*/}
+
+                {/* </Text> */}
               </Box>
               <Box display='flex' justifyContent='left' mt={4}>
                 <Link
@@ -163,15 +192,37 @@ const Footer = () => {
                 <Text
                   style={{marginTop: '2px', marginLeft: '6px'}}
                   className={classes.textColor}>
-                  {vendor?.email}
+                  {institute?.email}
                 </Text>
               </Box>
-              <Box display='flex' mt={4}>
-                <LocalPhone className={classes.primary} />
-                <Text style={{marginLeft: '6px'}} className={classes.textColor}>
-                  +৮৮-০২-৯৫৫৯৩৮৯
-                </Text>
-              </Box>
+              {institute?.primary_mobile ? (
+                <Box display='flex' mt={4}>
+                  <PhoneAndroid className={classes.primary} />
+                  <Text
+                    style={{marginLeft: '6px'}}
+                    className={classes.textColor}>
+                    {language === 'bn'
+                      ? convertEnglishDigitsToBengali(institute?.primary_mobile)
+                      : institute?.primary_mobile}
+                  </Text>
+                </Box>
+              ) : (
+                <></>
+              )}
+              {institute?.primary_phone ? (
+                <Box display='flex' mt={4}>
+                  <LocalPhone className={classes.primary} />
+                  <Text
+                    style={{marginLeft: '6px'}}
+                    className={classes.textColor}>
+                    {language === 'bn'
+                      ? convertEnglishDigitsToBengali(institute?.primary_phone)
+                      : institute?.primary_phone}
+                  </Text>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Grid>
             <Grid item xs={12} md={4} lg={4} p={0} sx={{marginTop: 3}}>
               <H6 className={classes.primary}>
@@ -179,31 +230,13 @@ const Footer = () => {
               </H6>
               <Box display='flex' mt={4} justifyContent='space-between'>
                 <Box>
-                  <Text className={classes.bullet}>
+                  {/*<Link href='/' className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.online_courses']}
-                  </Text>
-                  <Link
-                    href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
-                    className={classes.bullet}>
-                    <ArrowForwardIos
-                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
-                      className={classes.primary}
-                    />{' '}
-                    {messages['footer.news']}
-                  </Link>
-                  <Link
-                    href={LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES}
-                    className={classes.bullet}>
-                    <ArrowForwardIos
-                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
-                      className={classes.primary}
-                    />{' '}
-                    {messages['footer.events']}
-                  </Link>
+                  </Link>*/}
                   <Link
                     href={
                       LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
@@ -217,6 +250,24 @@ const Footer = () => {
                     {messages['footer.about_us']}
                   </Link>
                   <Link
+                    href={LINK_FRONTEND_INSTITUTE_NOTICE_BOARD}
+                    className={classes.bullet}>
+                    <ArrowForwardIos
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                      className={classes.primary}
+                    />{' '}
+                    {messages['footer.notices']}
+                  </Link>
+                  <Link
+                    href={LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES}
+                    className={classes.bullet}>
+                    <ArrowForwardIos
+                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                      className={classes.primary}
+                    />{' '}
+                    {messages['footer.events']}
+                  </Link>
+                  <Link
                     href={LINK_FRONTEND_INSTITUTE_CONTACT}
                     className={classes.bullet}>
                     <ArrowForwardIos
@@ -228,7 +279,8 @@ const Footer = () => {
                   <Link
                     target={'_blank'}
                     href={
-                      'https://file.nise3.xyz/uploads/tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
+                      FILE_SERVER_FILE_VIEW_ENDPOINT +
+                      'tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
                     }
                     className={classes.bullet}>
                     <ArrowForwardIos
@@ -246,24 +298,24 @@ const Footer = () => {
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
-                    {messages['footer.question_and_answer']}
+                    {messages['footer.faq']}
                   </Link>
-                  <Link onClick={redirectToSSO} className={classes.bullet}>
+                  {/*<Link href={getSSOLoginUrl()} className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
                     {messages['footer.login']}
-                  </Link>
-                  <Link
-                    href={gotoLoginSignUpPage(LINK_SIGNUP)}
+                  </Link>*/}
+                  {/*<Link
+                    href={gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)}
                     className={classes.bullet}>
                     <ArrowForwardIos
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
-                    {messages['footer.sign_up']}
-                  </Link>
+                    {messages['common.youth_registration']}
+                  </Link>*/}
                   <Link
                     href={
                       LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
@@ -319,7 +371,10 @@ const Footer = () => {
             <Grid item md={6} />
             <Grid item md={2}>
               <Typography variant='subtitle2' gutterBottom={true}>
-                <Box component={'span'} fontWeight='fontWeightBold'>
+                <Box
+                  component={'span'}
+                  fontWeight='fontWeightBold'
+                  sx={{whiteSpace: 'nowrap'}}>
                   {messages['footer.technical_assistance']}
                 </Box>
               </Typography>

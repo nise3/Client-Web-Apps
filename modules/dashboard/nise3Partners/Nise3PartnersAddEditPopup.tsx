@@ -28,6 +28,7 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import {Box, Button, IconButton} from '@mui/material';
 import {IPartner} from '../../../shared/Interface/common.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface PartnerAddEditPopupProps {
   itemId: number | null;
@@ -37,6 +38,7 @@ interface PartnerAddEditPopupProps {
 
 const initialValues = {
   title: '',
+  title_en: '',
   main_image_path: '',
   grid_image_path: '',
   thumb_image_path: '',
@@ -73,16 +75,26 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -90,8 +102,11 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -99,8 +114,11 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
     });
@@ -268,6 +286,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -360,7 +379,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['faq.add_language']}
+            {messages['nise3_partner.add_language']}
           </Button>
         </Grid>
 

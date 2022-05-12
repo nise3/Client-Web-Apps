@@ -20,6 +20,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {Division} from '../../../shared/Interface/location.interface';
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface DivisionAddEditPopupProps {
   itemId: number | null;
@@ -50,14 +51,19 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       bbs_code: yup
         .string()
         .trim()
@@ -125,7 +131,7 @@ const DivisionAddEditPopup: FC<DivisionAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

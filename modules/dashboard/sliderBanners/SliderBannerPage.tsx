@@ -11,43 +11,52 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
-import {useFetchSliderBanners} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchSliderBanners,
+  useFetchSliders,
+} from '../../../services/cmsManagement/hooks';
 import SliderBannerAddEditPopup from './SliderBannerAddEditPopup';
 import SliderBannerDetailsPopup from './SliderBannerDetailsPopup';
 import {deleteSliderBanner} from '../../../services/cmsManagement/SliderBannerService';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {ISelectFilterItem} from '../../../shared/Interface/common.interface';
 
 const SliderBannerPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
 
-  const [sliderBannerFilters, setSliderBannerFilters] = useState({});
+  const [sliderBannerFilters] = useState({});
   const {
     data: sliderBanners,
     isLoading,
     mutate: mutateSliderBanners,
   }: any = useFetchSliderBanners(sliderBannerFilters);
 
+  const [sliderFilterItems, setSliderFilterItems] = useState<
+    Array<ISelectFilterItem>
+  >([]);
+  const [sliderFilters] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: sliders} = useFetchSliders(sliderFilters);
+
+  useEffect(() => {
+    if (sliders) {
+      setSliderFilterItems(
+        sliders.map((slider: any) => {
+          return {
+            id: slider.id,
+            title: slider.title,
+          };
+        }),
+      );
+    }
+  }, [sliders]);
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderBannerFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderBannerFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -100,35 +109,36 @@ const SliderBannerPage = () => {
           return props.row.index + 1;
         },
       },
-
       {
         Header: messages['common.title'],
         accessor: 'title',
       },
       {
+        Header: messages['common.link'],
+        accessor: 'link',
+      },
+      {
         Header: messages['common.sub_title'],
         accessor: 'sub_title',
         isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['slider.label'],
-        accessor: 'slider_title',
+        accessor: 'slider_id',
         isVisible: false,
+        filter: 'selectFilter',
+        selectFilterItems: sliderFilterItems,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <>{data?.slider_title}</>;
+        },
       },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
-        isVisible: false,
-      },
+
       {
         Header: messages['common.status'],
         accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -152,7 +162,7 @@ const SliderBannerPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, sliderFilterItems],
   );
 
   return (

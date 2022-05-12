@@ -4,27 +4,30 @@ import {momentLocalizer, View} from 'react-big-calendar';
 import Calendar from '../../../@softbd/calendar/Calendar';
 import {useFetchCalenderEvents} from '../../../services/cmsManagement/hooks';
 import CalendarAddEditPopup from './EventCalendarAddEditPopup';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import EventCalendarDetailsPopup from './EventCalendarDetailsPopupup';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import {ICalendar, ICalendarQuery} from '../../../shared/Interface/common.interface';
-import {addStartEndPropsToList, getCalenderViewFilter, getNavigationFilter} from '../../../services/global/globalService';
+import {
+  ICalendar,
+  ICalendarQuery,
+} from '../../../shared/Interface/common.interface';
+import {
+  addStartEndPropsToList,
+  getCalenderViewFilter,
+  getNavigationFilter,
+} from '../../../services/global/globalService';
+import {Event} from '@mui/icons-material';
+import {calendarService} from '../../../services/CalendarService/CalendarService';
 
 const localizer = momentLocalizer(moment);
 
 const EventCalendar = () => {
-  const {messages} = useIntl();
-  const authUser = useAuthUser();
-
-  // const isEditable = comProps.editable ? comProps.editable : false;
+  const {messages, formatDate} = useIntl();
+  const intlOpt = useIntl();
 
   let requestQuery: ICalendarQuery = {
     type: 'month',
   };
-  if (authUser?.isInstituteUser) {
-    requestQuery.institute_id = authUser.institute_id;
-  }
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>();
   const [selectedStartDate, setSelectedStartDate] = useState<
@@ -63,6 +66,12 @@ const EventCalendar = () => {
 
   const refreshDataTable = useCallback(
     (event, item) => {
+      if (item.start) {
+        item.start = new Date(`${item.start}T${item.start_time}`);
+      }
+      if (item.end) {
+        item.end = new Date(`${item.end}T${item.end_time}`);
+      }
       switch (event) {
         case 'delete':
           const newList = eventsList.filter(
@@ -84,20 +93,23 @@ const EventCalendar = () => {
   );
 
   useEffect(() => {
-    addStartEndPropsToList(events);
+    if (events) {
+      addStartEndPropsToList(events);
+    }
   }, [events]);
 
   useEffect(() => {
     if (events) {
       // events = eventsDateTimeMap(events);
       events.map((e: ICalendar) => {
-        let start = e.start_time ? `${e.start}T${e.start_time}` : `${e.start}`;
-        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}`;
+        let start = e.start_time
+          ? `${e.start}T${e.start_time}`
+          : `${e.start}T00:00:00`;
+        let end = e.end_time ? `${e.end}T${e.end_time}` : `${e.end}T00:00:00`;
         e.start = new Date(start);
         e.end = new Date(end);
         return e;
       });
-      // console.log(events);
       setEventsList(events);
     }
   }, [events]);
@@ -106,7 +118,7 @@ const EventCalendar = () => {
     setSelectedStartDate(slotInfo.start as string);
     setSelectedEndDate(slotInfo.end as string);
     openAddEditModal(slotInfo.id);
-    // console.log(slotInfo)
+    console.log(slotInfo);
   };
   const onSelectEvent = (e: any) => {
     openDetailsModal(e.id as number);
@@ -114,17 +126,25 @@ const EventCalendar = () => {
   const onNavigateEvent = (e: any) => {
     setViewFilters((prev) => {
       return getNavigationFilter(e, prev);
-    })
-  }
+    });
+  };
   const onViewEvent = (view: View) => {
     setViewFilters((prev) => {
       return getCalenderViewFilter(view, prev);
-    })
-  }
+    });
+  };
+
+  const calendarServiceOpt = calendarService(eventsList, intlOpt);
 
   return (
     <>
-      <PageBlock title={messages['menu.calendar']}>
+      <PageBlock
+        title={
+          <>
+            <Event />
+            {messages['menu.calendar']}
+          </>
+        }>
         <Calendar
           events={eventsList}
           // events={events1}
@@ -138,6 +158,15 @@ const EventCalendar = () => {
           onNavigate={onNavigateEvent}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
+          components={calendarServiceOpt.componentObject}
+          formats={{
+            monthHeaderFormat: (date, culture, localizer) => {
+              return formatDate(date, {
+                month: 'long',
+                year: 'numeric',
+              });
+            },
+          }}
         />
 
         {isOpenAddEditModal && (

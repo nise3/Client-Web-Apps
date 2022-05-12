@@ -1,34 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import {Button, Container, Grid} from '@mui/material';
-import {useFetchInstitutesRecentActivity} from '../../services/instituteManagement/hooks';
+import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
-import {ArrowRightAlt} from '@mui/icons-material';
-import {H2, H6, Link} from '../../@softbd/elements/common';
-import {getShowInTypeByDomain} from '../../@softbd/utilities/helpers';
-import VerticalBar from './components/VerticalBar';
+import {SeeMoreLinkButton} from '../../@softbd/elements/common';
+import {useFetchPublicRecentActivities} from '../../services/cmsManagement/hooks';
+import SectionTitle from './SectionTitle';
+import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../@softbd/common/appLinks';
+import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
-let defaultImage =
-  'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80';
+let defaultImage = '/images/recent_activity_blank.avif';
 
 const PREFIX = 'RecentActivities';
 
 const classes = {
-  titleTypography: `${PREFIX}-titleTypography`,
   vBar: `${PREFIX}-vBar`,
   vBar2: `${PREFIX}-vBar2`,
+  seeMore: `${PREFIX}-seeMore`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => {
   return {
-    [`& .${classes.titleTypography}`]: {
-      color: theme.palette.primary.dark,
-      display: 'flex',
-      fontSize: '2rem',
-      fontWeight: 'bold',
-      marginBottom: '38px',
-    },
     [`& .${classes.vBar}`]: {
       height: '17px',
       width: '2px',
@@ -41,17 +33,19 @@ const StyledContainer = styled(Container)(({theme}) => {
       background: 'yellow',
       marginRight: '10px',
     },
+    [`& .${classes.seeMore}`]: {
+      marginTop: '31px',
+      marginBottom: '15px',
+    },
   };
 });
 
 const RecentActivities = () => {
-  const [recentActivityFilter, setRecentActivityFilter] = useState<any>({});
+  const [recentActivityFilter] = useState<any>({});
   const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
   const {data: recentActivitiesData} =
-    useFetchInstitutesRecentActivity(recentActivityFilter);
-
-  const showInType = getShowInTypeByDomain();
+    useFetchPublicRecentActivities(recentActivityFilter);
 
   useEffect(() => {
     let data = recentActivitiesData?.filter((item: any) => {
@@ -75,46 +69,34 @@ const RecentActivities = () => {
     setRecentActivitiesList(final);
   }, [recentActivitiesData]);
 
-  useEffect(() => {
-    if (showInType) {
-      let params: any = {
-        show_in: showInType,
-      };
-
-      setRecentActivityFilter((prev: any) => {
-        return {...prev, ...params};
-      });
-    }
-  }, [showInType]);
-
   const {messages} = useIntl();
 
   return (
-    <StyledContainer maxWidth={'lg'} style={{marginTop: '78px'}}>
+    <StyledContainer maxWidth={'lg'} style={{marginTop: '60px'}}>
+      <SectionTitle
+        title={messages['recent_activities.label'] as string}
+        center={true}
+      />
+
       <Grid container>
         <Grid item md={12}>
-          <H2 className={classes.titleTypography}>
-            <VerticalBar />
-            {messages['recent_activities.label']}
-          </H2>
           {recentActivitiesList && recentActivitiesList.length > 0 ? (
             <RecentActivityMasonryGroupView items={recentActivitiesList} />
           ) : (
-            <H6>{messages['common.no_data_found']}</H6>
+            <NoDataFoundComponent
+              messageType={messages['menu.recent_activity']}
+              messageTextType={'h6'}
+            />
           )}
         </Grid>
       </Grid>
       {recentActivitiesList && recentActivitiesList.length > 0 && (
-        <Grid container justifyContent='flex-end'>
-          <Link href={'/recent-activities'}>
-            <Button
-              sx={{borderRadius: '10px'}}
-              variant='outlined'
-              color='primary'
-              endIcon={<ArrowRightAlt />}>
-              {messages['freelance_corner.see_more']}
-            </Button>
-          </Link>
+        <Grid container justifyContent='center'>
+          <SeeMoreLinkButton
+            href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}
+            label={messages['common.see_more'] as string}
+            sx={{marginTop: '31px', marginBottom: '15px'}}
+          />
         </Grid>
       )}
     </StyledContainer>

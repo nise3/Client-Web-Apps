@@ -20,6 +20,7 @@ import {useFetchOrganizationService} from '../../../services/organaizationManage
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IService} from '../../../shared/Interface/services.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface ServiceAddEditPopupProps {
   itemId: number | null;
@@ -50,11 +51,18 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup.string().label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
     });
   }, [messages]);
   const {
@@ -117,7 +125,7 @@ const ServiceAddEditPopup: FC<ServiceAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

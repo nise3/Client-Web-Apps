@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Card, CardMedia, Grid} from '@mui/material';
+import {Card, Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -11,6 +11,8 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import {useFetchCourse} from '../../../services/instituteManagement/hooks';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
 import {ISkill} from '../../../shared/Interface/organization.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 type Props = {
   itemId: number;
@@ -89,7 +91,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='course.label' />
           </>
         }
-        maxWidth={'md'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -118,13 +120,13 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={6}>
-            <DetailsInputView
-              label={messages['common.code']}
-              value={itemData?.code}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {/*<Grid item xs={12} sm={6} md={6}>*/}
+          {/*  <DetailsInputView*/}
+          {/*    label={messages['common.code']}*/}
+          {/*    value={itemData?.code}*/}
+          {/*    isLoading={isLoading}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
           <Grid item xs={6} sm={3} md={3}>
             <DetailsInputView
               label={messages['course.fee']}
@@ -147,13 +149,7 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-          {/*<Grid item xs={12} sm={6} md={6}>
-            <DetailsInputView
-              label={messages['branch.label']}
-              value={itemData?.branch_title}
-              isLoading={isLoading}
-            />
-          </Grid>*/}
+
           <Grid item xs={12} sm={6} md={6}>
             <DetailsInputView
               label={messages['programme.label']}
@@ -293,11 +289,10 @@ const CourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Card>
-              <CardMedia
-                component='img'
+              <CardMediaImageView
                 height='194'
                 image={itemData?.cover_image}
-                alt='Course cover image'
+                alt={itemData?.title}
               />
             </Card>
 

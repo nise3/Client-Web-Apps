@@ -1,8 +1,9 @@
-import {Box, Button, CardMedia, Typography} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import {Link} from '../../../@softbd/elements/common';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {SeeMoreLinkButton} from '../../../@softbd/elements/common';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {useIntl} from 'react-intl';
 
 const PREFIX = 'LandingBannerTemplateCenterBackground';
 
@@ -18,10 +19,19 @@ const StyledBox = styled(Box)(({theme}) => ({
   position: 'relative',
   justifyContent: 'center',
   zIndex: 0,
+  [theme.breakpoints.up('xl')]: {
+    height: 550,
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: 150,
+  },
+  [theme.breakpoints.only('sm')]: {
+    height: 300,
+  },
 
   [`& .${classes.image}`]: {
     zIndex: -1,
-    objectFit: 'cover',
+    objectFit: 'unset',
     height: '100%',
     width: '100%',
     position: 'absolute',
@@ -40,13 +50,13 @@ interface BannerProps {
 }
 
 const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
+  const {messages} = useIntl();
   return (
     <StyledBox>
-      <CardMedia
-        component='img'
+      <CardMediaImageView
         image={banner?.banner_image_path}
         className={classes.image}
-        alt={banner?.image_alt_title}
+        alt={banner?.image_alt_title ? banner?.image_alt_title : banner?.title}
         title={banner?.title}
       />
       <Box sx={{margin: 'auto'}}>
@@ -54,17 +64,16 @@ const LandingBannerTemplateCenterBackground = ({banner}: BannerProps) => {
           {banner?.title}
         </Typography>
         {banner?.is_button_available ? (
-          <Link
+          <SeeMoreLinkButton
             href={banner?.link}
-            passHref={true}
+            label={messages['common.see_more'] as string}
             sx={{
               display: 'flex',
               justifyContent: 'center',
-            }}>
-            <Button variant='contained' color={'primary'}>
-              {banner?.button_text} <ArrowForwardIcon />
-            </Button>
-          </Link>
+            }}
+            variant='contained'
+            color={'primary'}
+          />
         ) : (
           ''
         )}

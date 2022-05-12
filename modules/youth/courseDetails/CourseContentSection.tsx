@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, SyntheticEvent, useRef, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {
   Avatar,
@@ -7,32 +7,40 @@ import {
   Divider,
   Grid,
   Link,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
+  Paper,
   Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material';
 import {TabContext, TabList} from '@mui/lab';
-import {
-  Alarm,
-  CardMembership,
-  Language,
-  PlayCircleOutline,
-} from '@mui/icons-material';
+import {Alarm, CardMembership, Language} from '@mui/icons-material';
 import clsx from 'clsx';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CourseDetailsTabs from './CourseDetailsTabs';
 import {
-  courseDuration,
+  getCourseDuration,
+  getIntlDateFromString,
   getIntlNumber,
 } from '../../../@softbd/utilities/helpers';
+import NoDataFoundComponent from '../common/NoDataFoundComponent';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import {useFetchTrainingCentersWithBatches} from '../../../services/instituteManagement/hooks';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
 const PREFIX = 'CourseContentSection';
 
 const classes = {
+  iconStyle: `${PREFIX}-iconStyle`,
+  accordion: `${PREFIX}-accordion`,
   sectionTitleStyle: `${PREFIX}-sectionTitleStyle`,
   dFlexAlignCenter: `${PREFIX}-dFlexAlignCenter`,
   courseBadgeBox: `${PREFIX}-courseBadgeBox`,
@@ -48,6 +56,9 @@ const classes = {
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
+  [`& .${classes.accordion}`]: {
+    marginBottom: '10px',
+  },
   [`& .${classes.sectionTitleStyle}`]: {
     fontSize: '1rem',
     fontWeight: 'bold',
@@ -131,7 +142,7 @@ interface CourseContentProps {
   course: any;
 }
 
-const lessonsList = [
+/*const lessonsList = [
   {
     name: 'Introduction',
     duration: '6.22',
@@ -148,16 +159,28 @@ const lessonsList = [
     name: 'Operation with data types',
     duration: '6.22',
   },
-];
+];*/
 
 const CourseContentSection: FC<CourseContentProps> = ({course}) => {
-  const {messages, formatNumber} = useIntl();
-
+  const {messages, formatNumber, formatDate} = useIntl();
   const [value, setValue] = useState<string>(CourseDetailsTabs.TAB_OVERVIEW);
   const overviewRef = useRef<any>();
   const lessonRef = useRef<any>();
+  const assessmentMethodRef = useRef<any>();
   const requirementRef = useRef<any>();
+  const objectiveRef = useRef<any>();
+  const eligibilityRef = useRef<any>();
+  const targetGroupRef = useRef<any>();
   const trainerRef = useRef<any>();
+  const trainingMethodologyRef = useRef<any>();
+
+  const [expandedState, setExpanded] = useState<string | false>(false);
+  const {data: trainingCentersWithBatches, isLoading: trainingCentersLoading} =
+    useFetchTrainingCentersWithBatches(course?.id);
+  const handleChangeAccordion =
+    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -175,6 +198,12 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           block: 'start',
         });
         break;
+      case CourseDetailsTabs.TAB_EVALUATION_SYSTEM:
+        assessmentMethodRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
       case CourseDetailsTabs.TAB_REQUIREMENTS:
         requirementRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -187,6 +216,32 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
           block: 'start',
         });
         break;
+      case CourseDetailsTabs.TAB_TRAINING_METHODOLOGY:
+        trainingMethodologyRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+      case CourseDetailsTabs.TAB_OBJECTIVE:
+        objectiveRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+
+      case CourseDetailsTabs.TAB_ELIGIBILITY:
+        eligibilityRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
+
+      case CourseDetailsTabs.TAB_TARGET_GROUP:
+        targetGroupRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        break;
     }
   };
 
@@ -195,7 +250,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
       <TabContext value={value}>
         <Box sx={{background: '#e6f3ec'}}>
           <Container maxWidth={'lg'}>
-            <TabList aria-label='tabs' onChange={handleChange}>
+            <TabList
+              aria-label='tabs'
+              onChange={handleChange}
+              variant='scrollable'
+              scrollButtons='auto'>
               <Tab
                 label={messages['course_details.overview']}
                 value={CourseDetailsTabs.TAB_OVERVIEW}
@@ -205,8 +264,28 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 value={CourseDetailsTabs.TAB_LESSON}
               />
               <Tab
+                label={messages['course_details.objective']}
+                value={CourseDetailsTabs.TAB_OBJECTIVE}
+              />
+              <Tab
+                label={messages['course_details.assessment_method']}
+                value={CourseDetailsTabs.TAB_EVALUATION_SYSTEM}
+              />
+              <Tab
+                label={messages['course_details.target_group']}
+                value={CourseDetailsTabs.TAB_TARGET_GROUP}
+              />
+              <Tab
                 label={messages['course_details.requirements']}
                 value={CourseDetailsTabs.TAB_REQUIREMENTS}
+              />
+              <Tab
+                label={messages['course_details.training_methodology']}
+                value={CourseDetailsTabs.TAB_TRAINING_METHODOLOGY}
+              />
+              <Tab
+                label={messages['course_details.eligibility']}
+                value={CourseDetailsTabs.TAB_ELIGIBILITY}
               />
               <Tab
                 label={messages['course_details.trainer']}
@@ -261,7 +340,11 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                   <Alarm className={classes.courseBadgeIcon} />
                   <Box>
                     <Box className={classes.courseBadgeTitle}>
-                      {courseDuration(messages, formatNumber, course?.duration)}
+                      {getCourseDuration(
+                        course?.duration,
+                        formatNumber,
+                        messages,
+                      )}
                     </Box>
                   </Box>
                 </Box>
@@ -270,10 +353,117 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
 
             <Box ref={overviewRef} className={classes.boxMargin}>
               <h2 className={classes.sectionTitleStyle}>
+                {messages['course.available_training_centers']}
+              </h2>
+              <Grid item xs={12} my={2}>
+                {!course?.id || trainingCentersLoading ? (
+                  <TextInputSkeleton />
+                ) : trainingCentersWithBatches &&
+                  trainingCentersWithBatches.length ? (
+                  trainingCentersWithBatches.map((item: any) => (
+                    <Accordion
+                      className={classes.accordion}
+                      expanded={expandedState === item?.id}
+                      onChange={handleChangeAccordion(item?.id)}
+                      key={item?.id}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls='panel1bh-content'
+                        id='panel1bh-header'>
+                        <Typography
+                          sx={{
+                            width: '100%',
+                            color:
+                              expandedState == item?.id ? 'primary.main' : '',
+                          }}>
+                          {item?.title}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <TableContainer component={Paper}>
+                          <Table
+                            size={'small'}
+                            aria-label="Training Center's table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  {messages['rpl_batch.title']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.registration_start_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.registration_end_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.start_date']}
+                                </TableCell>
+                                <TableCell>
+                                  {messages['batches.end_date']}
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {(item?.batches || []).map(
+                                (batch: any, index: number) => (
+                                  <TableRow key={index}>
+                                    <TableCell component='th'>
+                                      {batch?.title}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.registration_start_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.registration_end_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.batch_start_date,
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {getIntlDateFromString(
+                                        formatDate,
+                                        batch?.batch_end_date,
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                ),
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                ) : (
+                  <Typography>
+                    {messages['course.no_training_center_found']}
+                  </Typography>
+                )}
+              </Grid>
+            </Box>
+
+            <Box ref={overviewRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.overview']}
               </h2>
-
-              <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
+              {course?.overview ? (
+                <Typography sx={{paddingTop: 4}}>{course?.overview}</Typography>
+              ) : (
+                <NoDataFoundComponent
+                  messageType={messages['course_details.overview']}
+                  messageTextType={'body1'}
+                  sx={{}}
+                />
+              )}
             </Box>
 
             <Box ref={lessonRef} style={{marginTop: 20, marginBottom: 20}}>
@@ -283,7 +473,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <Box style={{display: 'flex', alignItems: 'center'}}>
                 {course?.duration && (
                   <Typography>
-                    {courseDuration(messages, formatNumber, course?.duration)}
+                    {getCourseDuration(course.duration, formatNumber, messages)}
                   </Typography>
                 )}
                 {course?.enroll_count > 0 && (
@@ -299,7 +489,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 )}
               </Box>
 
-              <Grid container>
+              {/*<Grid container>
                 <Grid item xs={12} sm={8} md={7} className={classes.lessonBox}>
                   <List dense={false} className={classes.listStyle}>
                     {(lessonsList || []).map((lesson: any, index: any) => {
@@ -323,13 +513,39 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     })}
                   </List>
                 </Grid>
-              </Grid>
+              </Grid>*/}
+            </Box>
+
+            <Box ref={objectiveRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.objective']}
+              </h2>
               <Box>
-                <h2 className={classes.sectionTitleStyle}>
-                  {messages['course_details.assisment_method']}
-                </h2>
-                <Typography>{course?.evaluation_system}</Typography>
+                {course?.objective ? (
+                  <Typography>{course?.objective}</Typography>
+                ) : (
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.objective']}
+                    messageTextType={'body1'}
+                    sx={{}}
+                  />
+                )}
               </Box>
+            </Box>
+
+            <Box ref={assessmentMethodRef}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.assessment_method']}
+              </h2>
+              {course?.evaluation_system ? (
+                <Typography>{course?.evaluation_system}</Typography>
+              ) : (
+                <NoDataFoundComponent
+                  messageType={messages['course_details.assessment_method']}
+                  messageTextType={'body1'}
+                  sx={{}}
+                />
+              )}
             </Box>
 
             <Box ref={requirementRef} className={classes.boxMargin}>
@@ -337,7 +553,68 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 {messages['course_details.requirements']}
               </h2>
               <Box>
-                <Typography>{course?.prerequisite}</Typography>
+                {course?.prerequisite ? (
+                  <Typography>{course?.prerequisite}</Typography>
+                ) : (
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.requirements']}
+                    messageTextType={'body1'}
+                    sx={{}}
+                  />
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={eligibilityRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.eligibility']}
+              </h2>
+              <Box>
+                {course?.eligibility ? (
+                  <Typography>{course?.eligibility}</Typography>
+                ) : (
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.eligibility']}
+                    messageTextType={'body1'}
+                    sx={{}}
+                  />
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={targetGroupRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.target_group']}
+              </h2>
+              <Box>
+                {course?.target_group ? (
+                  <Typography>{course?.target_group}</Typography>
+                ) : (
+                  <NoDataFoundComponent
+                    messageType={messages['course_details.target_group']}
+                    messageTextType={'body1'}
+                    sx={{}}
+                  />
+                )}
+              </Box>
+            </Box>
+
+            <Box ref={trainingMethodologyRef} className={classes.boxMargin}>
+              <h2 className={classes.sectionTitleStyle}>
+                {messages['course_details.training_methodology']}
+              </h2>
+              <Box>
+                {course?.training_methodology ? (
+                  <Typography>{course?.training_methodology}</Typography>
+                ) : (
+                  <NoDataFoundComponent
+                    messageType={
+                      messages['course_details.training_methodology']
+                    }
+                    messageTextType={'body1'}
+                    sx={{}}
+                  />
+                )}
               </Box>
             </Box>
 
@@ -345,7 +622,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
               <h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.trainer']}
               </h2>
-              {course?.trainers &&
+              {course?.trainers && course.trainers.length > 1 ? (
                 course.trainers.map((trainer: any, index: number) => (
                   <Box
                     key={index}
@@ -353,13 +630,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                       classes.dFlexAlignCenter,
                       classes.trainerBox,
                     )}>
-                    <Avatar
-                      sx={{height: 60, width: 60}}
-                      src={
-                        'http://lorempixel.com/80/80?id=1' +
-                        trainer?.trainer_name_en
-                      }
-                    />
+                    <Avatar sx={{height: 60, width: 60}} />
                     <Box className={classes.trainerNameAndAboutBox}>
                       <Box fontWeight={'bold'}>
                         {trainer?.trainer_name || trainer?.trainer_name_en}
@@ -380,7 +651,14 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                       </Link>
                     </Box>
                   </Box>
-                ))}
+                ))
+              ) : (
+                <NoDataFoundComponent
+                  messageType={messages['course_details.trainer']}
+                  messageTextType={'body1'}
+                  sx={{}}
+                />
+              )}
             </Box>
           </Box>
         </Container>

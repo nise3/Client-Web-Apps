@@ -2,7 +2,7 @@ import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {Grid, Typography} from '@mui/material';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup/dist/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -10,7 +10,6 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {useFetchInstituteProfile} from '../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
@@ -27,6 +26,11 @@ import {updateInstituteProfile} from '../../../services/instituteManagement/Inst
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+} from '../../../@softbd/common/constants';
 
 interface InstituteProfileEditPopupProps {
   onClose: () => void;
@@ -38,10 +42,9 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
-  const {data: profileData, mutate: mutateProfile} = useFetchInstituteProfile(
-    authUser?.institute_id,
-  );
+
+  const {data: profileData, mutate: mutateProfile} = useFetchInstituteProfile();
+
   const [divisionsFilter] = useState({});
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
@@ -69,8 +72,60 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
     },
     [upazilas],
   );
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
+      title: yup
+        .string()
+        .title('bn', true, messages['common.special_character_error'] as string)
+        .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
+      address: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.address'] as string),
+      email: yup
+        .string()
+        .required()
+        .email()
+        .label(messages['common.email'] as string),
+      name_of_the_office_head: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['institute.name_of_the_office_head'] as string),
+      name_of_the_office_head_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(
+          messages['institute.name_of_the_office_head_designation'] as string,
+        ),
+      contact_person_name: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_name'] as string),
+      contact_person_designation: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.contact_person_designation'] as string),
+      contact_person_email: yup
+        .string()
+        .trim()
+        .required()
+        .email()
+        .label(messages['common.contact_person_email'] as string),
       loc_division_id: yup
         .string()
         .trim()
@@ -81,18 +136,25 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['districts.label'] as string),
-      name_of_the_office_head: yup
+      location_latitude: yup
         .string()
-        .trim()
-        .required()
-        .label(messages['common.name_of_the_office_head'] as string),
-      contact_person_designation: yup
+        .nullable()
+        .test(
+          'lat-err',
+          `${messages['common.location_latitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
+      location_longitude: yup
         .string()
-        .trim()
-        .required()
-        .label(messages['common.contact_person_designation'] as string),
+        .nullable()
+        .test(
+          'long-err',
+          `${messages['common.location_longitude']} ${messages['common.not_valid']}`,
+          (value) => isLatLongValid(value as string),
+        ),
     });
   }, [messages]);
+
   const {
     control,
     reset,
@@ -104,27 +166,33 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   } = useForm<any>({resolver: yupResolver(validationSchema)});
 
   useEffect(() => {
-    reset({
-      title: profileData?.title,
-      title_en: profileData?.title_en,
-      loc_division_id: profileData?.loc_division_id,
-      loc_district_id: profileData?.loc_district_id,
-      loc_upazila_id: profileData?.loc_upazila_id,
-      location_latitude: profileData?.location_latitude,
-      location_longitude: profileData?.location_longitude,
-      google_map_src: profileData?.google_map_src,
-      address: profileData?.address,
-      name_of_the_office_head: profileData?.name_of_the_office_head,
-      name_of_the_office_head_en: profileData?.name_of_the_office_head_en,
-      name_of_the_office_head_designation:
-        profileData?.name_of_the_office_head_designation,
-      name_of_the_office_head_designation_en:
-        profileData?.name_of_the_office_head_designation_en,
-      contact_person_name: profileData?.contact_person_name,
-      contact_person_name_en: profileData?.contact_person_name_en,
-      contact_person_designation: profileData?.contact_person_designation,
-      contact_person_designation_en: profileData?.contact_person_designation_en,
-    });
+    if (profileData) {
+      reset({
+        title_en: profileData?.title_en,
+        title: profileData?.title,
+        email: profileData?.email,
+        loc_division_id: profileData?.loc_division_id,
+        loc_district_id: profileData?.loc_district_id,
+        loc_upazila_id: profileData?.loc_upazila_id,
+        address: profileData?.address,
+        google_map_src: profileData?.google_map_src,
+        name_of_the_office_head: profileData?.name_of_the_office_head,
+        name_of_the_office_head_en: profileData?.name_of_the_office_head_en,
+        name_of_the_office_head_designation:
+          profileData?.name_of_the_office_head_designation,
+        name_of_the_office_head_designation_en:
+          profileData?.name_of_the_office_head_designation_en,
+        contact_person_name: profileData?.contact_person_name,
+        contact_person_name_en: profileData?.contact_person_name_en,
+        contact_person_designation: profileData?.contact_person_designation,
+        contact_person_designation_en:
+          profileData?.contact_person_designation_en,
+        contact_person_email: profileData?.contact_person_email,
+        /*row_status: String(profileData?.row_status),*/
+        logo: profileData?.logo,
+      });
+    }
+
     setDistrictsList(
       filterDistrictsByDivisionId(districts, profileData?.loc_division_id),
     );
@@ -134,9 +202,8 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
   }, [profileData, districts, upazilas]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log('submit->', data);
     try {
-      await updateInstituteProfile(authUser?.institute_id, data);
+      await updateInstituteProfile(data);
       updateSuccessMessage('institute_profile.label');
       mutateProfile();
       props.onClose();
@@ -160,6 +227,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={false} />
@@ -175,8 +243,8 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
 
         <Grid item xs={12}>
           <FileUploadComponent
-            id='profile_image'
-            defaultFileUrl={''}
+            id='logo'
+            defaultFileUrl={profileData?.logo}
             errorInstance={errors}
             setValue={setValue}
             register={register}
@@ -189,7 +257,15 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
           <CustomTextInput
             required
             id='title'
-            label={messages['common.institute_name']}
+            label={messages['common.institute_name_bn']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='title_en'
+            label={messages['common.institute_name_en']}
             register={register}
             errorInstance={errors}
           />
@@ -197,13 +273,13 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
-            id='title_en'
-            label={messages['common.institute_name']}
+            id='email'
+            label={messages['common.email']}
             register={register}
             errorInstance={errors}
+            placeholder='example@gmail.com'
           />
         </Grid>
-
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
@@ -268,6 +344,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.location_latitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LATITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -276,6 +353,7 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             label={messages['common.location_longitude']}
             register={register}
             errorInstance={errors}
+            placeholder={FORM_PLACEHOLDER.LONGITUDE}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -320,7 +398,11 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
+        <Grid item xs={12} sx={{mb: 3}}>
+          <Typography variant={'h6'}>
+            {messages['common.contact_person_info']}
+          </Typography>
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='contact_person_name'
@@ -355,6 +437,24 @@ const InstituteProfileEditPopup: FC<InstituteProfileEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='contact_person_email'
+            label={messages['common.contact_person_email']}
+            register={register}
+            errorInstance={errors}
+            placeholder='example@gmail.com'
+          />
+        </Grid>
+        {/*        <Grid item xs={12} md={6}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={profileData?.row_status}
+            isLoading={isLoadingData}
+          />
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );

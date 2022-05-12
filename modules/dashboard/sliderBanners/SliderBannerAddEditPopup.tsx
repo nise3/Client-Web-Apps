@@ -14,7 +14,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   useFetchCMSGlobalConfig,
@@ -32,6 +31,7 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconSliderBanner from '../../../@softbd/icons/IconSliderBanner';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SliderBannerAddEditPopupProps {
   itemId: number | null;
@@ -42,6 +42,7 @@ interface SliderBannerAddEditPopupProps {
 const initialValues = {
   slider_id: '',
   title: '',
+  title_en: '',
   sub_title: '',
   banner_template_code: '',
   link: '',
@@ -60,7 +61,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-  const authUser = useAuthUser();
 
   const isEdit = itemId != null;
   const {
@@ -72,7 +72,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   const {data: cmsGlobalConfig, isLoading: isFetching} =
     useFetchCMSGlobalConfig();
 
-  const [sliderFilters, setSliderFilters] = useState<any>({
+  const [sliderFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: sliders, isLoading: isSliderLoading} =
@@ -95,11 +95,20 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['slider.label'] as string),
+
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       banner_image_path: yup
         .string()
         .required()
@@ -134,8 +143,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()
@@ -154,8 +166,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()
@@ -174,8 +189,11 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
             button_text: yup
               .string()
@@ -189,9 +207,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
               }),
           }),
     });
-  }, [messages, selectedCodes, authUser]);
-
-  // console.log('selected codes', selectedCodes);
+  }, [messages, selectedCodes]);
 
   const {
     register,
@@ -219,23 +235,13 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         code: SliderTemplateShowTypes.BT_RL,
         title: messages['slider.template_code_bt_rl'],
       },
+      {
+        code: SliderTemplateShowTypes.BT_OB,
+        title: messages['slider.template_code_bt_ob'],
+      },
     ],
     [messages],
   );
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setSliderFilters({
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setSliderFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -378,6 +384,36 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
     }
   };
 
+  let [imgwidth, setImgWidth] = useState<string>('1080');
+  let [imgheight, setImgHeight] = useState<string>('550');
+
+  const templateOnChange = (e: any) => {
+    switch (e) {
+      case 'BT_CB':
+        setImgWidth('1080');
+        setImgHeight('550');
+        break;
+
+      case 'BT_LR':
+        setImgWidth('720');
+        setImgHeight('450');
+        break;
+
+      case 'BT_RL':
+        setImgWidth('720');
+        setImgHeight('450');
+        break;
+
+      case 'BT_OB':
+        setImgWidth('1080');
+        setImgHeight('550');
+        break;
+
+      default:
+        setImgWidth('1080');
+        setImgHeight('550');
+    }
+  };
   return (
     <HookFormMuiModal
       open={true}
@@ -398,7 +434,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -407,7 +443,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item container xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
             required
             id={'slider_id'}
@@ -443,6 +479,20 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
         </Grid>
 
         <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            id={'banner_template_code'}
+            label={messages['slider.banner_template_code']}
+            isLoading={false}
+            control={control}
+            options={templateCodes}
+            optionValueProp={'code'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
+            onChange={templateOnChange}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='banner_image_path'
             defaultFileUrl={itemData?.banner_image_path}
@@ -451,6 +501,8 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
             register={register}
             label={messages['common.image_path']}
             required={true}
+            height={imgheight}
+            width={imgwidth}
           />
         </Grid>
 
@@ -511,19 +563,6 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
           </React.Fragment>
         )}
 
-        <Grid item container xs={12} md={6}>
-          <CustomFilterableFormSelect
-            id={'banner_template_code'}
-            label={messages['slider.banner_template_code']}
-            isLoading={false}
-            control={control}
-            options={templateCodes}
-            optionValueProp={'code'}
-            optionTitleProp={['title']}
-            errorInstance={errors}
-          />
-        </Grid>
-
         <Grid item xs={12}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6}>
@@ -547,7 +586,7 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
                 onClick={onAddOtherLanguageClick}
                 disabled={!selectedLanguageCode}>
                 <Add />
-                {messages['faq.add_language']}
+                {messages['slider_banner.add_language']}
               </Button>
             </Grid>
           </Grid>

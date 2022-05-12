@@ -23,6 +23,7 @@ import {
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {District} from '../../../shared/Interface/location.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface DistrictAddEditPopupProps {
   itemId: number | null;
@@ -55,14 +56,19 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       bbs_code: yup
         .string()
         .trim()
@@ -136,7 +142,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

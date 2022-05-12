@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -17,32 +17,21 @@ import {deleteRank} from '../../../services/organaizationManagement/RankService'
 import IconRank from '../../../@softbd/icons/IconRank';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {useFetchRanks} from '../../../services/organaizationManagement/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const RankPage = () => {
-  const {messages} = useIntl();
+  const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [rankFilters, setRankFilters] = useState({});
+  const [rankFilters] = useState({});
   const {
     data: ranks,
     isLoading,
     mutate: mutateRanks,
   } = useFetchRanks(rankFilters);
-
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isOrganizationUser && authUser.organization_id) {
-        setRankFilters({
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, []);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -97,21 +86,33 @@ const RankPage = () => {
       {
         Header: messages['common.title'],
         accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
         accessor: 'title_en',
-        isVisible: false,
+        isVisible: locale == LocaleLanguage.EN,
       },
 
       {
         Header: messages['rank_types.label'],
+        accessor: 'rank_type_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['rank_types.label_en'],
         accessor: 'rank_type_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
+      {
+        Header: messages['organization.label_en'],
+        accessor: 'organization_title_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['organization.label'],
-        accessor: 'organization_title_en',
-        isVisible: false,
+        accessor: 'organization_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['ranks.display_order'],
@@ -150,7 +151,7 @@ const RankPage = () => {
         sortable: false,
       },
     ],
-    [messages],
+    [messages, locale],
   );
 
   return (

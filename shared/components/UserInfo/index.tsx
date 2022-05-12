@@ -15,6 +15,15 @@ import UserInfoDetailsPopup from './UserInfoDetailsPopup';
 import UserInfoEditPopup from './UserInfoEditPopup';
 import {getSSOLogoutUrl} from '../../../@softbd/common/SSOConfig';
 import {Link} from '../../../@softbd/elements/common';
+import {checkPermission} from '../../../@crema/utility/authorizations';
+import {useIntl} from 'react-intl';
+import AvatarImageView from '../../../@softbd/elements/display/ImageView/AvatarImageView';
+import {loadAuthenticateUser} from '../../../redux/actions/AuthUserLoad';
+import {useDispatch} from 'react-redux';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_YOUTH_USER_AS_TRAINER} from '../../constants/AppConst';
+import {Divider} from '@mui/material';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 const PREFIX = 'UserInfo';
 
@@ -83,6 +92,19 @@ const UserInfo: React.FC = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const user: CommonAuthUser | null = useAuthUser();
+  const {messages, locale} = useIntl();
+  const dispatch = useDispatch();
+  const [isYouthAsTrainerUser] = useState<any>(
+    getBrowserCookie(COOKIE_KEY_YOUTH_USER_AS_TRAINER),
+  );
+
+  const gotoYouthProfile = useCallback(async () => {
+    try {
+      await loadAuthenticateUser(dispatch, true);
+    } catch (error) {
+      console.log('user load failed: ', error);
+    }
+  }, []);
 
   const closeEditModal = useCallback(() => {
     setIsOpenEditModal(false);
@@ -118,11 +140,29 @@ const UserInfo: React.FC = () => {
     }
   };
 
+  const getUserTypeName = () => {
+    if (user?.isSystemUser) {
+      return messages['user.type.system'];
+    } else if (user?.isTrainingCenterUser) {
+      return messages['common.training_center'];
+    } else if (user?.isInstituteUser) {
+      return messages['user.type.institute'];
+    } else if (user?.isOrganizationUser) {
+      return messages['user.type.organization'];
+    } else if (user?.isIndustryAssociationUser) {
+      return messages['user.type.industry_association'];
+    }
+    return '';
+  };
+
   return (
     <StyledBox>
       <Box display='flex' alignItems='center'>
         {user && user?.profile_pic ? (
-          <Avatar className={classes.profilePic} src={user.profile_pic} />
+          <AvatarImageView
+            className={classes.profilePic}
+            src={user?.profile_pic}
+          />
         ) : (
           <Avatar className={classes.profilePic}>{getUserAvatar()}</Avatar>
         )}
@@ -132,7 +172,10 @@ const UserInfo: React.FC = () => {
             alignItems='center'
             justifyContent='space-between'>
             <Box mb={0} className={classes.userName}>
-              {user && (user.displayName ? user.displayName : 'Admin User ')}
+              {user &&
+                (locale == LocaleLanguage.EN
+                  ? user.displayName ?? ''
+                  : user.name ?? '')}
             </Box>
             <Box
               className={classes.pointer}
@@ -144,14 +187,53 @@ const UserInfo: React.FC = () => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                <MenuItem onClick={openDetailsModal}>My account</MenuItem>
+                <MenuItem onClick={openDetailsModal}>
+                  {messages['my_account.label']}
+                </MenuItem>
+                {isYouthAsTrainerUser && isYouthAsTrainerUser == '1' && (
+                  <Divider sx={{margin: '0 !important'}} />
+                )}
+                {isYouthAsTrainerUser && isYouthAsTrainerUser == '1' && (
+                  <MenuItem onClick={gotoYouthProfile}>
+                    {messages['common.goto_youth']}
+                  </MenuItem>
+                )}
+                {user?.isIndustryAssociationUser &&
+                  checkPermission(user, ['view_any_association_profile']) && (
+                    <MenuItem>
+                      <Link href='/association-profile'>
+                        {messages['association.association_profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                {user?.isInstituteUser &&
+                  checkPermission(user, ['view_institute_profile']) && (
+                    <MenuItem>
+                      <Link href='/institute-profile'>
+                        {messages['institute_profile.label']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                {user?.isOrganizationUser &&
+                  checkPermission(user, ['view_organization_profile']) && (
+                    <MenuItem>
+                      <Link href='/organization-profile'>
+                        {messages['common.profile']}
+                      </Link>
+                    </MenuItem>
+                  )}
+                <Divider sx={{margin: '0 !important'}} />
                 <MenuItem>
-                  <Link href={getSSOLogoutUrl()}>Logout</Link>
+                  <Link href={getSSOLogoutUrl()}>
+                    {messages['common.logout']}
+                  </Link>
                 </MenuItem>
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>{user?.userType}</Box>
+          <Box className={classes.designation}>
+            {getUserTypeName()} {messages['user.label']}
+          </Box>
         </Box>
       </Box>
       {isOpenDetailsModal && (

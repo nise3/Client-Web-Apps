@@ -9,16 +9,17 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconRank from '../../../@softbd/icons/IconRank';
+import IconSkill from '../../../@softbd/icons/IconSkill';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
   createSkill,
   updateSkill,
 } from '../../../services/organaizationManagement/SkillService';
-import {useFetchSkill} from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {ISkill} from '../../../shared/Interface/organization.interface';
+import {useFetchSkill} from '../../../services/youthManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SkillAddEditPopupProps {
   itemId: number | null;
@@ -29,8 +30,6 @@ interface SkillAddEditPopupProps {
 const initialValues = {
   title_en: '',
   title: '',
-  description: '',
-  row_status: '1',
 };
 
 const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
@@ -50,14 +49,19 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup
-        .string()
-        .title('en')
-        .label(messages['common.title_en'] as string),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       description: yup.string(),
       row_status: yup.string(),
     });
@@ -78,8 +82,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       reset({
         title_en: itemData?.title_en,
         title: itemData?.title,
-        description: itemData?.description,
-        row_status: String(itemData?.row_status),
       });
     } else {
       reset(initialValues);
@@ -109,7 +111,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
       {...props}
       title={
         <>
-          <IconRank />
+          <IconSkill />
           {isEdit ? (
             <IntlMessages
               id='common.edit'
@@ -123,7 +125,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -132,7 +134,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
             id='title'
@@ -142,7 +144,7 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <CustomTextInput
             required
             id='title_en'
@@ -152,26 +154,6 @@ const SkillAddEditPopup: FC<SkillAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
-        {/*     <Grid item xs={12}>
-          <CustomTextInput
-            id='description'
-            label={messages['common.description']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-            multiline={true}
-            rows={3}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues.row_status}
-            isLoading={isLoading}
-          />
-        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );

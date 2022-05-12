@@ -88,7 +88,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     return yup.object().shape({
       institute_name: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.institute_name_bn'] as string),
       education_level_id: yup
         .string()
@@ -107,7 +107,11 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
         selectedEducationLevel.code == EducationLevelCodePHD
           ? yup
               .string()
-              .title()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(
                 messages['education.education_exam_degree_name_bn'] as string,
               )
@@ -161,7 +165,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
           ? yup
               .number()
               .required()
-              .lessThan(6)
+              .max(5)
               .label(messages['education.cgpa'] as string)
           : yup.string().nullable(),
       year_of_passing:
@@ -188,7 +192,7 @@ const EducationAddEditPage: FC<EducationAddEditPageProps> = ({
     handleSubmit,
     setError,
     formState: {errors, isSubmitting},
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 

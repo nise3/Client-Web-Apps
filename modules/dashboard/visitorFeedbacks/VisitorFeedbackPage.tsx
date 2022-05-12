@@ -9,12 +9,10 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_VISITOR_FEEDBACKS} from '../../../@softbd/common/apiRoutes';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 
 const VisitorFeedbackPage = () => {
   const {messages} = useIntl();
-  const authUser = useAuthUser<CommonAuthUser>();
 
   const {
     onFetchData,
@@ -24,13 +22,6 @@ const VisitorFeedbackPage = () => {
     totalCount,
   } = useReactTableFetchData({
     urlPath: API_VISITOR_FEEDBACKS,
-    paramsValueModifier: (params: any) => {
-      if (authUser?.isInstituteUser)
-        params['institute_id'] = authUser?.institute_id;
-      else if (authUser?.isOrganizationUser)
-        params['organization_id'] = authUser?.organization_id;
-      return params;
-    },
   });
 
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -52,13 +43,20 @@ const VisitorFeedbackPage = () => {
         disableFilters: true,
         disableSortBy: true,
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
       },
       {
         Header: messages['common.name'],
         accessor: 'name',
-        isVisible: true,
+      },
+      {
+        Header: messages['common.comment'],
+        accessor: 'comment',
       },
       {
         Header: messages['common.mobile'],
@@ -67,30 +65,19 @@ const VisitorFeedbackPage = () => {
       {
         Header: messages['common.email'],
         accessor: 'email',
-        isVisible: false,
+        disableFilters: true,
       },
       {
         Header: messages['common.address'],
         accessor: 'address',
         isVisible: false,
+        disableFilters: true,
       },
+
       {
-        Header: messages['common.comment'],
-        accessor: 'short_comment',
-      },
-      {
-        Header: messages['common.achieved_at'],
-        accessor: 'achieved_at',
-        isVisible: false,
-      },
-      {
-        Header: messages['institute.label'],
-        accessor: 'institute_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['organization.label'],
-        accessor: 'organization_title',
+        Header: messages['common.archived_at'],
+        accessor: 'archived_at',
+        filter: 'dateTimeFilter',
         isVisible: false,
       },
       {
@@ -110,13 +97,13 @@ const VisitorFeedbackPage = () => {
   );
 
   let modifiedData = visitorFeedbacks?.map((feedback: any) => {
-    let short_comment = feedback?.comment
+    let comment = feedback?.comment
       ? feedback?.comment.substr(0, 25) + '.....'
       : '';
 
     return {
       ...feedback,
-      short_comment,
+      comment,
     };
   });
 

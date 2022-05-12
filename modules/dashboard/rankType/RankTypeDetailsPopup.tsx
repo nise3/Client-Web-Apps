@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconRankType from '../../../@softbd/icons/IconRankType';
 import {useFetchRankType} from '../../../services/organaizationManagement/hooks';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -31,7 +32,7 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             <IntlMessages id='rank_types.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />
@@ -63,7 +64,7 @@ const RankTypeDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['organization.label']}
-              value={itemData?.organization_title_en}
+              value={itemData?.organization_title}
               isLoading={isLoading}
             />
           </Grid>

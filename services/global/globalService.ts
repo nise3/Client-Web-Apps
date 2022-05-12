@@ -32,7 +32,10 @@ export const formatDateTime = (itemData: ICalendar) => {
 export const getNavigationFilter = (event: any, prev: any) => {
   const monthNumber = moment(event).month() + 1;
   const yearNumber = moment(event).year();
-  return {...prev, ...{ month: monthNumber, year: yearNumber }}
+  if (prev.type === 'day'){
+    return {...prev, ...{ month: monthNumber, date: moment(event).format('YYYY-MM-DD'), year: yearNumber }}
+  }
+  return {...prev, ...{ month: monthNumber, year: yearNumber }};
 }
 export const getCalenderViewFilter = (view: View, prev: any) => {
   return {...prev, ...{type: view === 'agenda' ? 'schedule' : view}};

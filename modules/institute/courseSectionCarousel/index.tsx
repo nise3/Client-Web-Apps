@@ -18,8 +18,9 @@ const StyledCarouselBox = styled(Box)(({theme}) => ({
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
-    padding: '20px 10px 60px 10px',
+    padding: '20px 10px 35px',
     margin: 0,
+    height: '100%',
   },
   '& .react-multiple-carousel__arrow--left': {
     left: 0,

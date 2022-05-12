@@ -4,8 +4,7 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import {styled} from '@mui/material/styles';
 import {IDashboardStatistics} from '../../../shared/Interface/dashboard.interface';
-import {useDashboardStatistics} from '../../../services/global/hooks';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {useFetchDashboardStatistics} from '../../../services/global/hooks';
 
 const PREFIX = 'Dashboard';
 
@@ -87,12 +86,11 @@ const StyledBox = styled(Box)(({theme}) => ({
     textAlign: 'center',
     padding: theme.spacing(1),
     color: '#fff',
-  }
+  },
 }));
 const StyledTileSection = () => {
   const [dashStatistics, setDashStatistics] = useState<IDashboardStatistics>();
-  const authUser = useAuthUser();
-  let {data: statistics} = useDashboardStatistics(authUser?.isInstituteUser ? authUser?.institute_id as number : undefined);
+  let {data: statistics} = useFetchDashboardStatistics();
 
   // debugger
   useEffect(() => {
@@ -102,42 +100,65 @@ const StyledTileSection = () => {
   return (
     <StyledBox>
       <Grid container className={classes.card} spacing={2}>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={dashStatistics?.total_course} message={'dashboard.totalCourse'}/>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor1)}
+            headerNumber={dashStatistics?.total_course}
+            message={'dashboard.totalCourse'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor2)}
+            headerNumber={dashStatistics?.total_enroll}
+            message={'dashboard.totalEnroll'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor3)}
+            headerNumber={dashStatistics?.total_certificate_issue}
+            message={'dashboard.totalCertificateIssue'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor4)}
+            headerNumber={dashStatistics?.total_trending_course}
+            message={'dashboard.totalTrendingCourse'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor5)}
+            headerNumber={dashStatistics?.total_demand_from_industry}
+            message={'dashboard.DemandFromIndustry'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor6)}
+            headerNumber={dashStatistics?.total_batch}
+            message={'dashboard.totalNumberOfBatch'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor7)}
+            headerNumber={dashStatistics?.total_running_students}
+            message={'dashboard.RunningStudent'}
+          />
+        </Grid>
+        <Grid item md={3} sm={3}>
+          <StyledTile
+            className={clsx(classes.cardColors, classes.cardColor1)}
+            headerNumber={dashStatistics?.total_trainers}
+            message={'dashboard.NumberOfTrainer'}
+          />
+        </Grid>
       </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor2)}
-                    headerNumber={dashStatistics?.total_enroll} message={'dashboard.totalEnroll'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor3)}
-                    headerNumber={dashStatistics?.total_certificate_issue} message={'dashboard.totalCertificateIssue'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor4)}
-                    headerNumber={dashStatistics?.total_trending_course} message={'dashboard.totalTrendingCourse'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor5)}
-                    headerNumber={dashStatistics?.total_demand_from_industry} message={'dashboard.DemandFromIndustry'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor6)}
-                    headerNumber={dashStatistics?.total_batch} message={'dashboard.totalNumberOfBatch'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor7)}
-                    headerNumber={dashStatistics?.total_running_students} message={'dashboard.RunningStudent'}/>
-      </Grid>
-      <Grid item md={3} sm={3}>
-        <StyledTile className={clsx(classes.cardColors, classes.cardColor1)}
-                    headerNumber={dashStatistics?.total_trainers} message={'dashboard.NumberOfTrainer'}/>
-      </Grid>
-    </Grid>
     </StyledBox>
   );
-}
+};
 
 export default StyledTileSection;
-

@@ -18,7 +18,6 @@ import {
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
-  useFetchOrganizations,
   useFetchRank,
   useFetchRankTypes,
 } from '../../../services/organaizationManagement/hooks';
@@ -27,6 +26,10 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IRank} from '../../../shared/Interface/rank.interface';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+
 interface RankAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
@@ -52,26 +55,34 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<CommonAuthUser>();
 
   const {data: itemData, isLoading, mutate: mutateRank} = useFetchRank(itemId);
-  const [organizationFilters] = useState({row_status: RowStatus.ACTIVE});
   const [rankTypeFilters, setRankTypeFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-
-  const {data: organizations, isLoading: isLoadingOrganizations} =
-    useFetchOrganizations(organizationFilters);
-
   const {data: rankTypes, isLoading: isLoadingRankTypes} =
     useFetchRankTypes(rankTypeFilters);
+
+  const [organizations, setOrganizations] = useState<Array<any>>([]);
+  const [isLoadingOrganizations, setIsLoadingOrganizations] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       organization_id:
         authUser && authUser.isSystemUser
           ? yup
@@ -101,13 +112,19 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (authUser) {
-      if (authUser.isOrganizationUser && authUser.organization_id) {
-        setRankTypeFilters({
-          organization_id: authUser.organization_id,
-          row_status: RowStatus.ACTIVE,
-        });
-      }
+    if (authUser?.isSystemUser) {
+      setIsLoadingOrganizations(true);
+      (async () => {
+        try {
+          let response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          setIsLoadingOrganizations(false);
+          if (response && response?.data) {
+            setOrganizations(response.data);
+          }
+        } catch (e) {}
+      })();
     }
   }, []);
 
@@ -122,11 +139,6 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
         display_order: itemData?.display_order,
         row_status: String(itemData?.row_status),
       });
-
-      setRankTypeFilters({
-        organization_id: itemData?.organization_id,
-        row_status: RowStatus.ACTIVE,
-      });
     } else {
       reset(initialValues);
     }
@@ -140,8 +152,8 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<IRank> = async (data: IRank) => {
-    if (authUser && authUser.isOrganizationUser) {
-      data.organization_id = authUser?.organization_id;
+    if (!authUser?.isSystemUser) {
+      delete data.organization_id;
     }
 
     try {
@@ -180,7 +192,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>

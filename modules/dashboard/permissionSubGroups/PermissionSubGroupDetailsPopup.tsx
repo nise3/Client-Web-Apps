@@ -9,6 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchPermissionSubGroup} from '../../../services/userManagement/hooks';
 import IconPermissionSubGroup from '../../../@softbd/icons/IconPermissionSubGroup';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
@@ -35,7 +36,7 @@ const PermissionSubGroupDetailsPopup = ({
             <IntlMessages id='permission_sub_group.label' />
           </>
         }
-        maxWidth={'sm'}
+        maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
         actions={
           <>
             <CancelButton onClick={props.onClose} isLoading={isLoading} />

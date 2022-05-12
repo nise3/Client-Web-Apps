@@ -7,12 +7,12 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {Fade} from 'react-awesome-reveal';
+import {Zoom} from 'react-awesome-reveal';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import {H4} from '../../@softbd/elements/common';
-import {useIntl} from 'react-intl';
+import {createIntl, useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
-import React, {useEffect, useState} from 'react';
+import React, {Children, useEffect, useState} from 'react';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import moment from 'moment';
 import {momentLocalizer, View} from 'react-big-calendar';
@@ -21,11 +21,12 @@ import {
   ICalendar,
   ICalendarQuery,
 } from '../../shared/Interface/common.interface';
-import {useFetchCalenderEvents} from '../../services/cmsManagement/hooks';
+import {useFetchPublicCalenderEvents} from '../../services/cmsManagement/hooks';
 import {
   addStartEndPropsToList,
   eventsDateTimeMap,
 } from '../../services/global/globalService';
+import {createIntlCache} from '@formatjs/intl';
 
 const localizer = momentLocalizer(moment);
 const PREFIX = 'EventSection';
@@ -39,7 +40,7 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
-  marginTop: '40px',
+  marginTop: '60px',
   [`& .${classes.boxItem}`]: {
     background: theme.palette.background.paper,
     borderRadius: 4 * parseInt(theme.shape.borderRadius.toString()),
@@ -59,8 +60,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.gridContainer}`]: {
     borderRadius: 8,
     padding: '24px',
-    marginTop: '24px',
-    // boxShadow: '0 0 1px #888 inset',
   },
   [`& .${classes.dateHeader}`]: {
     borderRadius: 8,
@@ -93,8 +92,16 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 const EventSection = () => {
-  const {messages, formatDate} = useIntl();
+  const {messages, formatDate, locale} = useIntl();
   const dateFormat = 'YYYY-MM-DD';
+  const cache = createIntlCache();
+  const intl = createIntl(
+    {
+      locale: locale,
+      messages: {},
+    },
+    cache,
+  );
 
   const [selectedItems, setSelectedItems] = useState<Array<ICalendar>>();
   const [viewFilters, setViewFilters] = useState<ICalendarQuery>({
@@ -105,7 +112,7 @@ const EventSection = () => {
     moment(Date.now()).format(dateFormat),
   );
 
-  let {data: events} = useFetchCalenderEvents(viewFilters);
+  let {data: events} = useFetchPublicCalenderEvents(viewFilters);
 
   useEffect(() => {}, [currentDate]);
 
@@ -135,12 +142,79 @@ const EventSection = () => {
     // console.log('onSelectSlot >>', e, eventsList);
     setCurrentDate(moment(e.start).format(dateFormat));
     setSelectedDateItems(e.start);
-    // console.log(item);
+  };
+
+  const startDates = eventsList.map((e) =>
+    moment(e.start).format(dateFormat),
+  ) as string[];
+  const hasEvent = (currentDate: string, allDates: string[]): boolean =>
+    allDates.find((e) => e == currentDate) != undefined;
+  const parsDate = (datevalue: any): string =>
+    moment(datevalue).format(dateFormat);
+  const eventsByDate = (currentDate: string, allDates: string[]): string[] =>
+    allDates.filter((e) => e == currentDate);
+
+  // example implementation of a wrapper
+  const ColoredDateCellWrapper = (evnt: any) => {
+    const {children, value} = evnt;
+    const currentDate = parsDate(value);
+    let _backgroundColor = '';
+    if (hasEvent(currentDate, startDates)) {
+      _backgroundColor = '#671688';
+    }
+    return React.cloneElement(Children.only(children), {
+      style: {
+        ...children.style,
+        ...{
+          backgroundColor: _backgroundColor,
+        },
+      },
+    });
+  };
+
+  const customDateCellWrap = (e: any) => {
+    const dateNumber = intl.formatNumber(e.label);
+    const dateFontSize = {fontSize: '1.5rem'};
+    const dateSpan = <span style={dateFontSize}>{dateNumber}</span>;
+    return (
+      <div>
+        {hasEvent(parsDate(e.date), startDates) ? (
+          <div style={{color: '#fff', position: 'relative'}}>
+            {dateSpan}
+            <div
+              style={{
+                fontSize: '0.8rem',
+                position: 'absolute',
+                backgroundColor: '#fff',
+                color: '#671688',
+                padding: '3px',
+                borderRadius: '5px',
+              }}>
+              {intl.formatNumber(
+                eventsByDate(parsDate(e.date), startDates).length,
+              )}
+            </div>
+          </div>
+        ) : (
+          dateSpan
+        )}
+      </div>
+    );
+  };
+  const componentObject = {
+    dateCellWrapper: ColoredDateCellWrapper,
+    month: {
+      dateHeader: customDateCellWrap,
+      header: (e: any) => {
+        const lbl = messages[`calendar.${e.label}`];
+        return <span>{lbl}</span>;
+      },
+    },
   };
 
   return (
     <StyledContainer maxWidth='lg'>
-      <Fade direction='up'>
+      <Zoom>
         <UnderlinedHeading>{messages['menu.events']}</UnderlinedHeading>
         <Card className={classes.gridContainer}>
           <Grid container spacing={4}>
@@ -168,7 +242,7 @@ const EventSection = () => {
                 </List>
               ) : (
                 <NoDataFoundComponent
-                  message={messages['common.no_data_found'] as string}
+                  messageType={messages['menu.events']}
                   messageTextType={'h6'}
                 />
               )}
@@ -198,11 +272,20 @@ const EventSection = () => {
                     return {...prev, month, year};
                   });
                 }}
+                components={componentObject}
+                formats={{
+                  monthHeaderFormat: (date, culture, localizer) => {
+                    return formatDate(date, {
+                      month: 'long',
+                      year: 'numeric',
+                    });
+                  },
+                }}
               />
             </Grid>
           </Grid>
         </Card>
-      </Fade>
+      </Zoom>
     </StyledContainer>
   );
 };

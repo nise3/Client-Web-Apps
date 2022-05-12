@@ -15,8 +15,6 @@ import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
   createSlider,
-  getAllIndustries,
-  getAllInstitutes,
   updateSlider,
 } from '../../../services/cmsManagement/SliderService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -29,6 +27,11 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import IconSlider from '../../../@softbd/icons/IconSlider';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface SliderAddEditPopupProps {
   itemId: number | null;
@@ -39,6 +42,7 @@ interface SliderAddEditPopupProps {
 const initialValues = {
   institute_id: '',
   organization_id: '',
+  industry_association_id: '',
   row_status: '1',
 };
 
@@ -64,6 +68,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -72,9 +77,17 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .trim()
-        .required()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
+
       show_in:
         authUser && authUser.isSystemUser
           ? yup
@@ -101,6 +114,15 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           },
           then: yup.string().required(),
         }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
+          },
+          then: yup.string().required(),
+        }),
     });
   }, [messages, authUser]);
 
@@ -123,12 +145,15 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         show_in: itemData?.show_in,
         organization_id: itemData?.organization_id,
         institute_id: itemData?.institute_id,
+        industry_association_id: itemData?.industry_association_id,
         row_status: String(itemData?.row_status),
       };
 
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
     } else {
       reset(initialValues);
     }
@@ -145,13 +170,37 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
         setValue('organization_id', '');
       }
 
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
       }
+
+      try {
+        if (id === ShowInTypes.TSP && instituteList.length == 0) {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstituteList(response.data);
+          }
+        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+          const response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryList(response.data);
+          }
+        } else if (
+          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+          industryAssociationList.length == 0
+        ) {
+          const response = await getAllIndustryAssociations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryAssociationList(response.data);
+          }
+        }
+      } catch (e) {}
 
       setShowInId(id);
       setIsLoadingSectionNameList(false);
@@ -160,24 +209,23 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      if (!authUser?.isSystemUser) {
+        delete data.show_in;
+        delete data.institute_id;
+        delete data.organization_id;
+        delete data.industry_association_id;
+      }
+
       if (data.show_in != ShowInTypes.TSP) {
         data.institute_id = '';
-        objectFilter(data);
       }
       if (data.show_in != ShowInTypes.INDUSTRY) {
         data.organization_id = '';
-        objectFilter(data);
       }
-
-      if (authUser?.isInstituteUser) {
-        data.institute_id = authUser?.institute_id;
-        data.show_in = ShowInTypes.TSP;
+      if (data.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        data.industry_association_id = '';
       }
-
-      if (authUser?.isOrganizationUser) {
-        data.organization_id = authUser?.organization_id;
-        data.show_in = ShowInTypes.INDUSTRY;
-      }
+      objectFilter(data);
 
       if (itemId) {
         await updateSlider(itemId, data);
@@ -214,7 +262,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -239,8 +287,8 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
                 onChange={changeShowInAction}
               />
             </Grid>
-            <Grid item xs={12}>
-              {showInId == ShowInTypes.TSP && (
+            {showInId == ShowInTypes.TSP && (
+              <Grid item xs={12}>
                 <CustomFilterableFormSelect
                   required
                   id={'institute_id'}
@@ -252,8 +300,10 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              )}
-              {showInId == ShowInTypes.INDUSTRY && (
+              </Grid>
+            )}
+            {showInId == ShowInTypes.INDUSTRY && (
+              <Grid item xs={12}>
                 <CustomFilterableFormSelect
                   required
                   id={'organization_id'}
@@ -265,8 +315,23 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
                   optionTitleProp={['title']}
                   errorInstance={errors}
                 />
-              )}
-            </Grid>
+              </Grid>
+            )}
+            {showInId == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12}>
+                <CustomFilterableFormSelect
+                  required
+                  id={'industry_association_id'}
+                  label={messages['common.industry_association']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryAssociationList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
           </React.Fragment>
         )}
 

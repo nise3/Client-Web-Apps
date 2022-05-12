@@ -6,21 +6,20 @@ import SearchBox from './SearchBox';
 import TrendSearchItemList from './TrendSearchItemList';
 import {H6} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
-import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 import {useFetchPublicSliders} from '../../services/cmsManagement/hooks';
 import LandingBannerTemplateCenterBackground from './components/LandingBannerTemplateCenterBackground';
 import LandingBannerTemplateRightLeft from './components/LandingBannerTemplateRightLeft';
 import LandingBannerTemplateLeftRight from './components/LandingBannerTemplateLeftRight';
 import NiseImageCarousel from './components/NiseImageCarousel';
+import LandingBannerTemplateBackgroundImage from './components/LandingBannerTemplateBackgroundImage';
 
 const PREFIX = 'CoverArea';
 
 const classes = {
   root: `${PREFIX}-root`,
   trendWrapper: `${PREFIX}-trendWrapper`,
-  fold: `${PREFIX}-fold`,
-  certifiedImage: `${PREFIX}-certifiedImage`,
-  coverImg: `${PREFIX}-coverImg`,
+  niseFullForm: `${PREFIX}-niseFullForm`,
+  niseFullFormImage: `${PREFIX}-niseFullFormImage`,
 };
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -34,6 +33,26 @@ const StyledBox = styled(Box)(({theme}) => ({
     position: 'relative',
     background: '#ddd',
   },
+  [`& .${classes.niseFullForm}`]: {
+    [theme.breakpoints.up('md')]: {
+      position: 'absolute',
+      right: '48px',
+      top: '17px',
+    },
+    [theme.breakpoints.only('md')]: {
+      right: '10px',
+    },
+    right: '40px',
+  },
+  [`& .${classes.niseFullFormImage}`]: {
+    width: '430px', // '450px',
+    [theme.breakpoints.only('md')]: {
+      width: '350px',
+    },
+    [theme.breakpoints.only('sm')]: {
+      width: '220px',
+    },
+  },
 }));
 
 const getBannerTemplate = (banner: any) => {
@@ -44,6 +63,8 @@ const getBannerTemplate = (banner: any) => {
       return <LandingBannerTemplateRightLeft banner={banner} />;
     case 'BT_LR':
       return <LandingBannerTemplateLeftRight banner={banner} />;
+    case 'BT_OB':
+      return <LandingBannerTemplateBackgroundImage banner={banner} />;
     default:
       return <LandingBannerTemplateCenterBackground banner={banner} />;
   }
@@ -52,9 +73,8 @@ const getBannerTemplate = (banner: any) => {
 const CoverArea = () => {
   const {messages} = useIntl();
 
-  const [sliderFilters] = useState({
-    show_in: ShowInTypes.NICE3,
-  });
+  const [sliderFilters] = useState({});
+
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
@@ -95,6 +115,13 @@ const CoverArea = () => {
                     messages['nise.health_care'],
                   ]}
                 />
+                <Box className={classes.niseFullForm}>
+                  <img
+                    className={classes.niseFullFormImage}
+                    src='/images/Nise3-orginal-size.png'
+                    alt='nise full form'
+                  />
+                </Box>
               </Grid>
             </Container>
           </Slide>

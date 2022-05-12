@@ -14,7 +14,7 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 
 import {
   useFetchCourses,
-  useFetchProgrammes,
+  useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {
   useFetchCMSGlobalConfig,
@@ -37,16 +37,13 @@ import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {
-  getAllIndustries,
-  getAllInstitutes,
-} from '../../../services/cmsManagement/FAQService';
 import AlbumTypes from './AlbumTypes';
-import {
-  getMomentDateFormat,
-  objectFilter,
-} from '../../../@softbd/utilities/helpers';
+import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
+import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
+import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -57,9 +54,11 @@ interface GalleryAddEditPopupProps {
 const initialValues = {
   id: '',
   title: '',
+  title_en: '',
   institute_id: '',
   parent_gallery_album_id: '',
   organization_id: '',
+  industry_association_id: '',
   course_id: '',
   program_id: '',
   image_alt_title: '',
@@ -87,6 +86,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     useFetchCMSGlobalConfig();
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
+  const [industryAssociationList, setIndustryAssociationList] = useState([]);
   const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
     useState<boolean>(false);
   const [languageList, setLanguageList] = useState<any>([]);
@@ -98,39 +98,25 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
 
-  const [programFilters, setProgramFilter] = useState<any>({
+  const [programFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: programmes, isLoading: isLoadingProgramme} =
-    useFetchProgrammes(programFilters);
+    useFetchPrograms(programFilters);
 
-  const [courseFilters, setCourseFilters] = useState<any>({
+  const [courseFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: courses, isLoading: isLoadingCourse} =
     useFetchCourses(courseFilters);
 
-  const [galleryAlbumFilters, setGalleryAlbumFilter] = useState<any>({
+  const [galleryAlbumFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const [filteredGalleryAlbums, setFilteredGalleryAlbums] = useState([]);
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
     useFetchGalleryAlbums(galleryAlbumFilters);
-  useEffect(() => {
-    if (authUser) {
-      if (authUser.isInstituteUser) {
-        setGalleryAlbumFilter({
-          row_status: RowStatus.ACTIVE,
-          institute_id: authUser.institute_id,
-        });
-      } else if (authUser.isOrganizationUser) {
-        setGalleryAlbumFilter({
-          row_status: RowStatus.ACTIVE,
-          organization_id: authUser.organization_id,
-        });
-      }
-    }
-  }, [authUser]);
+
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredLanguage = cmsGlobalConfig.language_configs?.filter(
@@ -164,8 +150,16 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     return yup.object().shape({
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
       featured: yup
         .string()
         .required()
@@ -181,13 +175,12 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
              is: (value: number) => value == GalleryAlbumContentTypes.IMAGE,
              then: yup.string().required(),
            }),*/
-      show_in:
-        authUser && authUser.isSystemUser
-          ? yup
-              .string()
-              .required()
-              .label(messages['common.show_in'] as string)
-          : yup.string(),
+      show_in: authUser?.isSystemUser
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.show_in'] as string)
+        : yup.string(),
       institute_id: yup
         .mixed()
         .label(messages['institute.label'] as string)
@@ -202,13 +195,25 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           is: (value: number) => value == ShowInTypes.INDUSTRY,
           then: yup.string().required(),
         }),
+      industry_association_id: yup
+        .mixed()
+        .label(messages['common.industry_association'] as string)
+        .when('show_in', {
+          is: (val: number) => {
+            return val == ShowInTypes.INDUSTRY_ASSOCIATION;
+          },
+          then: yup.string().required(),
+        }),
       language_en: !selectedCodes.includes(LanguageCodes.ENGLISH)
         ? yup.object().shape({})
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_hi: !selectedCodes.includes(LanguageCodes.HINDI)
@@ -216,8 +221,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       language_te: !selectedCodes.includes(LanguageCodes.TELEGU)
@@ -225,8 +233,11 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         : yup.object().shape({
             title: yup
               .string()
-              .trim()
-              .required()
+              .title(
+                'bn',
+                true,
+                messages['common.special_character_error'] as string,
+              )
               .label(messages['common.title'] as string),
           }),
       main_image_path: yup
@@ -259,7 +270,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       },
       {
         id: AlbumTypes.MIXED,
-        label: messages['album_type.mixed'],
+        label: messages['common.mixed'],
       },
     ],
     [messages],
@@ -280,26 +291,13 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   );
 
   useEffect(() => {
-    if (authUser && authUser.isInstituteUser) {
-      setCourseFilters({
-        row_status: RowStatus.ACTIVE,
-        institute_id: authUser.institute_id,
-      });
-
-      setProgramFilter({
-        row_status: RowStatus.ACTIVE,
-        institute_id: authUser.institute_id,
-      });
-    }
-  }, [authUser]);
-
-  useEffect(() => {
     if (itemData) {
       let data: any = {
         title: itemData?.title,
         institute_id: itemData?.institute_id,
         parent_gallery_album_id: itemData?.parent_gallery_album_id,
         organization_id: itemData?.organization_id,
+        industry_association_id: itemData?.industry_association_id,
         course_id: itemData?.course_id,
         program_id: itemData?.program_id,
         image_alt_title: itemData?.image_alt_title,
@@ -341,7 +339,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       }
       reset(data);
       setShowInId(itemData?.show_in);
-      changeShowInAction(itemData?.show_in);
+      if (authUser?.isSystemUser) {
+        changeShowInAction(itemData?.show_in);
+      }
     } else {
       reset(initialValues);
     }
@@ -358,13 +358,37 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         setValue('organization_id', '');
       }
 
-      if (id === ShowInTypes.TSP && instituteList.length == 0) {
-        const institutes = await getAllInstitutes();
-        setInstituteList(institutes);
-      } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-        const industries = await getAllIndustries();
-        setIndustryList(industries);
+      if (id != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        setValue('industry_association_id', '');
       }
+
+      try {
+        if (id === ShowInTypes.TSP && instituteList.length == 0) {
+          const response = await getAllInstitutes({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setInstituteList(response.data);
+          }
+        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
+          const response = await getAllOrganizations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryList(response.data);
+          }
+        } else if (
+          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
+          industryAssociationList.length == 0
+        ) {
+          const response = await getAllIndustryAssociations({
+            row_status: RowStatus.ACTIVE,
+          });
+          if (response && response?.data) {
+            setIndustryAssociationList(response.data);
+          }
+        }
+      } catch (e) {}
 
       setShowInId(id);
       setIsLoadingSectionNameList(false);
@@ -418,23 +442,22 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (formData: any) => {
     try {
+      console.log('formData: ', formData);
+      if (!authUser?.isSystemUser) {
+        delete formData.show_in;
+        delete formData.institute_id;
+        delete formData.organization_id;
+        delete formData.industry_association_id;
+      }
+
       if (formData.show_in != ShowInTypes.TSP) {
-        formData.institute_id = '';
-        objectFilter(formData);
+        delete formData.institute_id;
       }
       if (formData.show_in != ShowInTypes.INDUSTRY) {
-        formData.organization_id = '';
-        objectFilter(formData);
+        delete formData.organization_id;
       }
-
-      if (authUser?.isInstituteUser) {
-        formData.institute_id = authUser?.institute_id;
-        formData.show_in = ShowInTypes.TSP;
-      }
-
-      if (authUser?.isOrganizationUser) {
-        formData.organization_id = authUser?.organization_id;
-        formData.show_in = ShowInTypes.INDUSTRY;
+      if (formData.show_in != ShowInTypes.INDUSTRY_ASSOCIATION) {
+        delete formData.industry_association_id;
       }
 
       let data = {...formData};
@@ -492,6 +515,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
           )}
         </>
       }
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
@@ -500,7 +524,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        {authUser && authUser.isSystemUser && (
+        {authUser?.isSystemUser && (
           <React.Fragment>
             <Grid item xs={12} md={6}>
               <CustomFilterableFormSelect
@@ -541,6 +565,21 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   isLoading={isLoadingSectionNameList}
                   control={control}
                   options={industryList}
+                  optionValueProp={'id'}
+                  optionTitleProp={['title']}
+                  errorInstance={errors}
+                />
+              </Grid>
+            )}
+            {showInId == ShowInTypes.INDUSTRY_ASSOCIATION && (
+              <Grid item xs={12} md={6}>
+                <CustomFilterableFormSelect
+                  required
+                  id={'industry_association_id'}
+                  label={messages['common.industry_association']}
+                  isLoading={isLoadingSectionNameList}
+                  control={control}
+                  options={industryAssociationList}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -643,6 +682,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
+          <Box sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
+            {messages['common.give_publish_date']}
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
@@ -662,6 +704,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             register={register}
             label={messages['common.main_image_path']}
             required={true}
+            height={'400'}
+            width={'1080'}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -675,7 +719,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             required={false}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <FileUploadComponent
             id='thumb_image_path'
             defaultFileUrl={itemData?.thumb_image_path}
@@ -706,7 +750,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             onClick={onAddOtherLanguageClick}
             disabled={!selectedLanguageCode}>
             <Add />
-            {messages['common.add_language']}
+            {messages['gallery_album.add_language']}
           </Button>
         </Grid>
 

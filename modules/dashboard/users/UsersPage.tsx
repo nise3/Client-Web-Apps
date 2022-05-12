@@ -1,7 +1,10 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -17,12 +20,10 @@ import IconUser from '../../../@softbd/icons/IconUser';
 import {API_USERS} from '../../../@softbd/common/apiRoutes';
 import UserAddEditPopup from './UserAddEditPopup';
 import UserDetailsPopup from './UserDetailsPopup';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 const UsersPage = () => {
   const {messages} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -73,7 +74,11 @@ const UsersPage = () => {
       {
         Header: '#',
         Cell: (props: any) => {
-          return props.row.index + 1;
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
         },
         disableFilters: true,
         disableSortBy: true,
@@ -85,6 +90,11 @@ const UsersPage = () => {
       {
         Header: messages['common.name_en'],
         accessor: 'name_en',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.mobile'],
+        accessor: 'mobile',
         isVisible: false,
       },
 
@@ -132,13 +142,6 @@ const UsersPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_USERS,
-      paramsValueModifier: (params: any) => {
-        if (authUser?.isInstituteUser)
-          params['institute_id'] = authUser?.institute_id;
-        else if (authUser?.isOrganizationUser)
-          params['organization_id'] = authUser?.organization_id;
-        return params;
-      },
     });
 
   return (

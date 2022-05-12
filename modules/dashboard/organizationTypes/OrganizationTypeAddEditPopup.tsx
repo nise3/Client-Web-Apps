@@ -21,6 +21,7 @@ import {useFetchOrganizationType} from '../../../services/organaizationManagemen
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IOrganizationType} from '../../../shared/Interface/organizationType.interface';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface OrganizationTypeAddEditPopupProps {
   itemId: number | null;
@@ -53,11 +54,18 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      title_en: yup.string(),
       title: yup
         .string()
-        .title()
+        .title('bn', true, messages['common.special_character_error'] as string)
         .label(messages['common.title'] as string),
+      title_en: yup
+        .string()
+        .title(
+          'en',
+          false,
+          messages['common.special_character_error'] as string,
+        )
+        .label(messages['common.title_en'] as string),
     });
   }, [messages]);
   const {
@@ -87,10 +95,8 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IOrganizationType> = async (
     data: IOrganizationType,
   ) => {
-    const {is_government} = data;
-    if (data && is_government) {
-      data = {...data, is_government: 1 * is_government};
-    }
+    data.is_government = data.is_government ? 1 : 0;
+
     try {
       if (itemId) {
         await updateOrganizationType(itemId, data);
@@ -111,6 +117,7 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
     <HookFormMuiModal
       {...props}
       open={true}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       title={
         <>
           <IconOrganizationType />
@@ -127,7 +134,6 @@ const OrganizationTypeAddEditPopup: FC<OrganizationTypeAddEditPopupProps> = ({
           )}
         </>
       }
-      maxWidth={'sm'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
