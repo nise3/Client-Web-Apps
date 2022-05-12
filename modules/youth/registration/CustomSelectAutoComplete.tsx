@@ -52,9 +52,11 @@ export default function CustomSelectAutoComplete({
     if (option && optionTitleProp) {
       let arr = [];
       for (let i = 0; i < optionTitleProp.length; i++) {
-        arr.push(option[optionTitleProp[i]]);
+        if (option[optionTitleProp[i]]) {
+          arr.push(option[optionTitleProp[i]]);
+        }
       }
-      title = arr.join('-');
+      title = arr.join(' - ');
     }
 
     return title;
@@ -119,11 +121,7 @@ export default function CustomSelectAutoComplete({
                     style={{marginRight: 8}}
                     checked={selected}
                   />
-                  {optionTitleProp?.length > 1
-                    ? option[optionTitleProp[0]] +
-                      '-' +
-                      option[optionTitleProp[1]]
-                    : option[optionTitleProp[0]]}
+                  {getTitle(option, optionTitleProp)}
                 </li>
               )}
               fullWidth

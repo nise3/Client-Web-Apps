@@ -1980,10 +1980,12 @@
   "common.search_3": "Search",
   "common.in_progress": "In progress",
   "common.not_participated": "Not participated",
-  "application.type" : "Application Type",
+  "application.type": "Application Type",
   "institute.corresponding_industry": "What industry does your institute belong to?",
   "membership.id_number": "Membership ID/ Number",
   "membership.last_renew_year": "Last Renew Year",
   "business_type.services": "Services",
-  "common.language_switcher": "Language switcher"
+  "common.language_switcher": "Language switcher",
+  "common.subject": "Subject",
+  "common.subject_en": "Subject(En)"
 }
