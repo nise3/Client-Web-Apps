@@ -1906,7 +1906,6 @@
   "common.goto_youth": "ইয়ুথ প্রোফাইল",
   "AM": "পূর্বাহ্ন",
   "PM": "অপরাহ্ন",
-  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
   "common.submitted_feedback": "আপনার প্রতিক্রিয়া লক্ষ্য করা হয়েছে। আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ।",
   "filePond.file_type": "ফাইলের ধরন সঠিক নয়",
   "filePond.max_file_size": "সর্বোচ্চ ফাইল সাইজ ",
@@ -1996,7 +1995,7 @@
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
   "business_type.services": "সেবা সমূহ",
   "common.subject": "সাবজেক্ট",
-  "common.subject_en": "সাবজেক্ট(ইংরেজি)"
+  "common.subject_en": "সাবজেক্ট(ইংরেজি)",
   "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
   "common.result_type": "ফলাফলের ধরণ",
   "common.purpose_name": "উদ্দেশ্য"
