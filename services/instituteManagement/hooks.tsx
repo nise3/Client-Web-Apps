@@ -53,6 +53,9 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
 }
+export function useFetchLocalizedInstitutes(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
 
 export function useFetchBranch(branchId: number | null) {
   return useAxiosSWR(branchId ? API_BRANCHES + '/' + branchId : null);
@@ -60,6 +63,10 @@ export function useFetchBranch(branchId: number | null) {
 
 export function useFetchBranches(params: any) {
   return useAxiosSWR(params ? [API_BRANCHES, params] : null);
+}
+
+export function useFetchLocalizedBranches(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_BRANCHES, params] : null);
 }
 
 export function useFetchProgramme(programmeId: number | null) {
@@ -88,6 +95,12 @@ export function useFetchTrainingCenter(trainingCenterId: number | null) {
 
 export function useFetchTrainingCenters(params: any) {
   return useAxiosSWR(params ? [API_TRAINING_CENTERS, params] : null);
+}
+
+export function useFetchLocalizedTrainingCenters(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_TRAINING_CENTERS, params] : null,
+  );
 }
 
 export function useFetchCourse(courseId: number | null) {

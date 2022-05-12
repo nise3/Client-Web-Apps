@@ -214,6 +214,7 @@
   "common.industry": "সংস্থা",
   "common.member_registration": "মেম্বার রেজিস্ট্রেশন",
   "common.training_center": "ট্রেনিং সেন্টার",
+  "common.training": "ট্রেনিং",
   "common.miscellaneous": "অন্যান্য",
   "button.click_me": "ক্লিক",
   "error.404Error": "খুঁজে পাওয়া যাইনি",
@@ -1300,6 +1301,7 @@
   "common.employment_status": "কর্মসংস্থানের অবস্থা",
   "job_posting.employment_status_full_time": "পূর্ণকালীন",
   "job_posting.employment_status_part_time": "খন্ডকালীন",
+  "job_posting.employment_status_casual": "ক্যাজুয়াল",
   "job_posting.employment_status_internship": "ইন্টার্নশীপ",
   "job_posting.employment_status_contractual": "চুক্তিভিত্তিক",
   "job_posting.employment_status_freelance": "ফ্রিল্যান্স",
@@ -1980,5 +1982,12 @@
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
   "business_type.services": "সেবা সমূহ",
   "common.subject": "সাবজেক্ট",
-  "common.subject_en": "সাবজেক্ট(ইংরেজি)"
+  "common.subject_en": "সাবজেক্ট(ইংরেজি)",
+  "common.on_institute_premises": "ইনস্টিটিউট প্রাঙ্গনে",
+  "common.on_branch_premises": "ব্রাঞ্চ প্রাঙ্গনে",
+  "common.on_training_premises": "ট্রেইনিং সেন্টার প্রাঙ্গনে",
+  "nationality.bangladeshi": "বাংলাদেশী",
+  "nationality.nepali": "নেপালী",
+  "nationality.indian": "ভারতীয়",
+  "nationality.pakistani": "পাকিস্তানী"
 }

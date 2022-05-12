@@ -334,7 +334,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           control={control}
           options={nationalities}
           optionValueProp={'id'}
-          optionTitleProp={['title', 'title_en']}
+          optionTitleProp={['title']}
           errorInstance={errors}
         />
       </Grid>

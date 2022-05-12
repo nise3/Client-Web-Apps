@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_PERMISSION_GROUPS,
   API_PERMISSION_SUB_GROUPS,
@@ -9,6 +12,9 @@ import {
 
 export function useFetchRoles(params: any) {
   return useAxiosSWR([API_ROLES, params]);
+}
+export function useFetchLocalizedRoles(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_ROLES, params] : null);
 }
 
 export function useFetchRole(roleId: number | null) {
@@ -47,6 +53,11 @@ export function useFetchPermissionSubGroup(
 
 export function useFetchPermissionSubGroups(params: any) {
   return useAxiosSWR(params ? [API_PERMISSION_SUB_GROUPS, params] : null);
+}
+export function useFetchLocalizedPermissionSubGroups(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PERMISSION_SUB_GROUPS, params] : null,
+  );
 }
 
 export function useFetchUser(userId: number | null) {

@@ -28,9 +28,9 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {
@@ -39,8 +39,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
+  useFetchLocalizedPermissionSubGroups,
   useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -128,11 +128,11 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -142,7 +142,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   );
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   const nonRequiredPhoneValidationSchema = useMemo(() => {
     return yup.object().shape({
@@ -444,7 +444,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                   control={control}
                   options={permissionSubGroups}
                   optionValueProp='id'
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -519,7 +519,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDivisionAction}
               />
@@ -534,7 +534,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={districtsList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDistrictAction}
               />
@@ -547,7 +547,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={upazilasList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

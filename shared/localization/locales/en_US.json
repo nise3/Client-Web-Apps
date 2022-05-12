@@ -369,6 +369,7 @@
   "common.industry": "Industry",
   "common.member_registration": "Member Registration",
   "common.training_center": "Training Center",
+  "common.training": "Training",
   "menu.about_us": "About Us",
   "menu.profile": "Profile",
   "menu.publication": "Publication",
@@ -1302,6 +1303,7 @@
   "common.employment_status": "Employment Status",
   "job_posting.employment_status_full_time": "Full time",
   "job_posting.employment_status_part_time": "Part time",
+  "job_posting.employment_status_casual": "Casual",
   "job_posting.employment_status_internship": "Internship",
   "job_posting.employment_status_contractual": "Contractual",
   "job_posting.employment_status_freelance": "Freelance",
@@ -1979,5 +1981,12 @@
   "membership.last_renew_year": "Last Renew Year",
   "business_type.services": "Services",
   "common.subject": "Subject",
-  "common.subject_en": "Subject(En)"
+  "common.subject_en": "Subject(En)",
+  "common.on_institute_premises": "On institute premises",
+  "common.on_branch_premises": "On branch premises",
+  "common.on_training_premises": "On training center premises",
+  "nationality.bangladeshi": "Bangladeshi",
+  "nationality.nepali": "Nepali",
+  "nationality.indian": "Indian",
+  "nationality.pakistani": "Pakistani"
 }
