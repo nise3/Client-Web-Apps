@@ -31,25 +31,15 @@ const method_names: any = {
 
 const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
-  //const {successStack} = useNotiStack();
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
   }, []);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-    setSelectedItemId(null);
   }, []);
 
   const refreshDataTable = useCallback(() => {
@@ -125,11 +115,22 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         }
         extra={[
           data && data != [] ? (
-            <EditButton
-              key={1}
-              onClick={() => openAddEditModal(1)}
-              isLoading={false}
-            />
+            <>
+              <Link href='/template/organization-list.xlsx' download>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('file downloading')}
+                  btnText={'4ir.tna_report_attachment'}
+                  variant={'outlined'}
+                  color={'primary'}
+                />
+              </Link>
+              <EditButton
+                key={1}
+                onClick={() => openAddEditModal(1)}
+                isLoading={false}
+              />
+            </>
           ) : (
             <AddButton
               key={1}
@@ -158,7 +159,8 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         {isOpenAddEditModal && (
           <FourIRTNAReportAddEditPopup
             key={1}
-            isEdit={selectedItemId != null}
+            // isEdit={data != null && data != []}
+            isEdit={false}
             onClose={closeAddEditModal}
             itemData={data}
             fourIRInitiativeId={fourIRInitiativeId}

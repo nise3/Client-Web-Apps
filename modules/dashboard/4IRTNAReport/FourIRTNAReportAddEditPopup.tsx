@@ -21,9 +21,8 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
-import {isLatLongValid} from '../../../@softbd/common/constants';
 
-interface ImplementingTeamAddEditPopupProps {
+interface FourIRTNAReportAddEditPopupProps {
   itemData: any;
   isEdit: boolean;
   fourIRInitiativeId: number;
@@ -75,7 +74,7 @@ const initialValues = {
   row_status: 1,
 };
 
-const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
+const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
   fourIRInitiativeId,
   refreshDataTable,
   itemData,
@@ -147,7 +146,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
               .required()
               .test(
                 'rrrrr',
-                messages['4ir.tna_report.fgd_workshop'] as string,
+                messages['4ir.tna_report_fgd_workshop'] as string,
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
@@ -155,7 +154,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                   return true;
                 },
               )
-              .label(messages['4ir.tna_report.fgd_workshop'] as string)
+              .label(messages['4ir.tna_report_fgd_workshop'] as string)
           : yup.mixed().nullable(),
 
       industry_visit_workshop_numbers: isIndustryVisit
@@ -220,16 +219,6 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
               ] as string,
             )
         : yup.string().nullable(),
-      // existing_report_review_workshop_numbers: isExistingReportReviewFile
-      //   ? yup
-      //       .number()
-      //       .required()
-      //       .label(
-      //         messages[
-      //           '4ir.tna_report_existing_report_review_workshop'
-      //         ] as string,
-      //       )
-      //   : yup.string().nullable(),
       existing_report_review_file:
         isExistingReportReviewFile && !isEdit
           ? yup
@@ -280,6 +269,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
       row_status: yup.number(),
     });
   }, [
+    isEdit,
     messages,
     isWorkshopMethodWorkshop,
     isFGDWorkshop,
@@ -313,31 +303,9 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
     });
 
     if (itemData) {
-      reset(
-        {...initialValues, ...setter},
-        //     {
-        //   workshop_method_workshop_numbers:
-        //     itemData?.workshop_method_workshop_numbers,
-        //   workshop_method_file: itemData?.workshop_method_file,
-        //   fgd_workshop_numbers: itemData?.fgd_workshop_numbers,
-        //   fgd_workshop_file: itemData?.fgd_workshop_file,
-        //   industry_visit_workshop_numbers:
-        //     itemData?.industry_visit_workshop_numbers,
-        //   industry_visit_file: itemData?.industry_visit_file,
-        //   desktop_research_workshop_numbers:
-        //     itemData?.desktop_research_workshop_numbers,
-        //   desktop_research_file: itemData?.desktop_research_file,
-        //   existing_report_review_workshop_numbers:
-        //     itemData?.existing_report_review_workshop_numbers,
-        //   existing_report_review_file: itemData?.existing_report_review_file,
-        //   others_workshop_numbers: itemData?.others_workshop_numbers,
-        //   others_file: itemData?.others_file,
-        //   file_path: itemData?.file_path,
-        //   row_status: itemData?.row_status,
-        // }
-      );
+      reset({...initialValues, ...setter});
     } else reset(initialValues);
-  }, [itemData]);
+  }, [itemData, reset]);
 
   const closeAction = async () => {
     props.onClose();
@@ -345,8 +313,6 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(data);
-
     try {
       const payload = new FormData();
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
@@ -523,7 +489,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isWorkshopMethodWorkshop}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsWorkshopMethodWorkshop((prev) => !prev);
                 }}
                 isLoading={false}
@@ -596,7 +562,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isFGDWorkshop}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsFGDWorkshop((prev) => !prev);
                 }}
                 isLoading={false}
@@ -671,7 +637,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isIndustryVisit}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsIndustryVisit((prev) => !prev);
                 }}
                 isLoading={false}
@@ -746,7 +712,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isDesktopResearchFile}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsDesktopResearchFile((prev) => !prev);
                 }}
                 isLoading={false}
@@ -823,7 +789,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isExistingReportReviewFile}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsExistingReportReviewFile((prev) => !prev);
                 }}
                 isLoading={false}
@@ -897,7 +863,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 checked={isOthersFile}
-                onChange={(event: any) => {
+                onChange={() => {
                   setIsOthersFile((prev) => !prev);
                 }}
                 isLoading={false}
@@ -1003,7 +969,7 @@ const FourIRTNAReportAddEditPopup: FC<ImplementingTeamAddEditPopupProps> = ({
           stepNo={3}
           initiativeId={fourIRInitiativeId}
           completionStep={3}
-          formStep={3}
+          formStep={5}
         />
       )}
     </HookFormMuiModal>
