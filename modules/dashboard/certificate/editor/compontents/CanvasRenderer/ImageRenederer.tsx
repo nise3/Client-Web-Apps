@@ -92,6 +92,7 @@ function ImageRenderer({id, props}: Props) {
         <Image
           {...props}
           {...additionalProps}
+          draggable={!props.isLocked}
           ref={(el) => {
             additionalProps.ref.current = el;
             imageRef.current = el;

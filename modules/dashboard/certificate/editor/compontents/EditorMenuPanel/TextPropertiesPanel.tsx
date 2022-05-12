@@ -9,7 +9,7 @@ import TextStrokeSetting from './TextProperties/TextStrokeSetting';
 import TextShadowSetting from './TextProperties/TextShadowSetting';
 import LineHeightSetting from './TextProperties/LineHeightSetting';
 import TextSizeSetting from './TextProperties/TextSizeSetting';
-import ShapeActions from '../ui/ShapeActions';
+import ShapeActions from '../ui/ShapeActions/ShapeActions';
 import {activePanelState} from '../../state/atoms/editor';
 import {useRecoilValue} from 'recoil';
 

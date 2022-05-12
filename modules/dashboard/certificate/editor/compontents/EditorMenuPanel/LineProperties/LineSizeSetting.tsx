@@ -26,7 +26,7 @@ function LineStrokeSetting({elementId}: Props) {
   const scaleX = elementProps.scaleX ?? 1;
 
   return (
-    <SideMenuSetting label='Size' htmlFor='input-stro-color'>
+    <SideMenuSetting label='Size' htmlFor='input-stroke-color'>
       <div className='single-property-slider-input'>
         <Slider
           min={0.5}

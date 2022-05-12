@@ -51,7 +51,7 @@ const CertificateTemplatePage = () => {
   // }, []);
 
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
-    const path = 'certificate/editor';
+    const path = '/certificate/editor';
     const params = certificateId
       ? { pathname: path, certificateId }
       : { pathname: path };

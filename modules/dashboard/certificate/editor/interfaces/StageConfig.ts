@@ -1,12 +1,12 @@
-import Konva from "konva";
-import { ShapeType } from "./Shape";
+import Konva from 'konva';
+import {ShapeType} from './Shape';
 
-export type Dimensions = { width: number; height: number };
+export type Dimensions = {width: number; height: number};
 
 export interface CanvasElement {
   id: string;
   type: ShapeType;
-  props: Konva.ShapeConfig;
+  props: Konva.ShapeConfig & {isLocked: boolean};
 }
 
 export interface Template {

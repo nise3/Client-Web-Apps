@@ -7,12 +7,13 @@ import {
 } from '../../state/atoms/editor';
 import SideMenuPanel from '../ui/SideMenuPanel';
 import ElementToolPanel from './ElementMenuPanel';
-import ImagePropertiesPanel from './ImagePropertyPanel';
+import ImagePropertiesPanel from './ImagePropertiesPanel';
 import ImageToolPanel from './ImageToolPanel';
 import InputToolPanel from './InputMenuPanel';
-import LinePropertiesPanel from './LinePropertyPanel';
+import LinePropertiesPanel from './LinePropertiesPanel';
+import RectanglePropertiesPanel from './RectanglePropertyPanel';
 import SettingsToolPanel from './SettingsToolPanel/SettingsToolPanel';
-import TextPropertiesPanel from './TextPropertyPanel';
+import TextPropertiesPanel from './TextPropertiesPanel';
 import TextToolPanel from './TextToolPanel';
 
 function EditorMenuPanel() {
@@ -28,6 +29,8 @@ function EditorMenuPanel() {
         return <TextPropertiesPanel elementId={selectedElementId} />;
       case EditorPanel.LineProperties:
         return <LinePropertiesPanel elementId={selectedElementId} />;
+      case EditorPanel.RectangleProperties:
+        return <RectanglePropertiesPanel elementId={selectedElementId} />;
       case EditorPanel.ImageProperties:
         return <ImagePropertiesPanel elementId={selectedElementId} />;
     }

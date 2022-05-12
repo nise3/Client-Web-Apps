@@ -89,6 +89,7 @@ function TextRenderer({id, props, centered}: Props) {
             {...additionalProps}
             fillEnabled={true}
             keepRatio
+            draggable={!props.isLocked}
             fill={props.fillEnabled ? props.fill : 'transparent'}
             ref={(el) => {
               additionalProps.ref.current = el;

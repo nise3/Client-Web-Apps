@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
@@ -8,18 +8,17 @@ import {jsPDF} from 'jspdf';
 // import useTemplateDispatcher from '../../state/dispatchers/template';
 // import {downloadURI} from './../../utils/downloadUri';
 function ViewHeader() {
+  const [loading, setLoading] = useState<boolean>(false);
   const {getStageAreaRef} = StageRefContainer.useContainer();
 
-  const handleClick = async () => {
+  const handleClick = () => {
+    // setLoading(true);
     const template = getStageAreaRef();
     console.log(template);
     if (template) {
-      console.log(template);
       const uri = template.toDataURL({pixelRatio: 8});
       const orientation =
         template.attrs.width > template.attrs.height ? 'l' : 'p';
-      console.log(orientation);
-      // downloadURI(uri, "certificate.png");
       const doc = new jsPDF({
         orientation: orientation,
         unit: 'px',
@@ -33,8 +32,12 @@ function ViewHeader() {
         Number(template.attrs.height),
       );
       doc.save('certificate.pdf');
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   };
+
   return (
     <div className='editor-header'>
       <div className='editor-header-inner'>
@@ -52,8 +55,12 @@ function ViewHeader() {
           <Button
             variant='outlined'
             startIcon={<SaveIcon />}
-            onClick={handleClick}>
-            Download
+            onClick={() => {
+              setLoading(true);
+              handleClick();
+            }}
+            disabled={loading}>
+            {!loading ? 'Download' : 'Downloading'}
           </Button>
         </div>
       </div>

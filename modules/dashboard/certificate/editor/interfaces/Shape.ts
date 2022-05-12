@@ -13,6 +13,7 @@ export type ImageFit = 'fill' | 'scale';
 
 export interface ImageConfig extends Konva.ImageConfig {
   imageFit: ImageFit;
+  isLocked: boolean;
 }
 
 export type TextConfig = Konva.TextConfig & {};
