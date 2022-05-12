@@ -12,6 +12,7 @@ import CBLMStep from './CBLMStep';
 import ResourceManagementStep from './ResourceManagementStep';
 import ToTStep from './ToTStep';
 import FourIRCourseStep from './FourIRCourseStep';
+import SkillDevelopmentStep from './SkillDevelopmentStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -206,6 +207,16 @@ const TeamAndCellView = () => {
         case 9:
           return (
             <FourIRCourseStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+
+        case 11:
+          return (
+            <SkillDevelopmentStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}

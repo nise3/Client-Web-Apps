@@ -91,17 +91,17 @@ export interface IScaleUp extends IIdTitleCreateUpdateAt {
 }
 
 export interface ITNAReport {
-  workshop_method_workshop_numbers?: number;
+  workshop_method_workshop_numbers?: number | string;
   workshop_method_file?: string;
-  fgd_workshop_numbers?: number;
+  fgd_workshop_numbers?: number | string;
   fgd_workshop_file?: string;
-  industry_visit_workshop_numbers?: number;
+  industry_visit_workshop_numbers?: number | string;
   industry_visit_file?: string;
-  desktop_research_workshop_numbers?: number;
+  desktop_research_workshop_numbers?: number | string;
   desktop_research_file?: string;
-  existing_report_review_workshop_numbers?: number;
+  existing_report_review_workshop_numbers?: number | string;
   existing_report_review_file?: string;
-  others_workshop_numbers?: number;
+  others_workshop_numbers?: number | string;
   others_file?: string;
   file_path?: string;
   row_status?: number;
@@ -118,4 +118,11 @@ export interface IResource extends IIdTitleCreateUpdateAt {
   budget_approval_status: number | string;
   given_budget: number | string;
   row_status: number | string;
+}
+
+export interface ISkillDevelopment extends IIdTitleCreateUpdateAt {
+  traning_center: string;
+  batch_start_date: string;
+  batch_end_date: string;
+  batch_number: number;
 }
