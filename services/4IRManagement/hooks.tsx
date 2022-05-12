@@ -10,6 +10,7 @@ import {
   API_4IR_SCALE_UP,
   API_4IR_SECTORS,
   API_4IR_TAGLINES,
+  API_4IR_TOT,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRInitiative(initiativeId: number | null) {
@@ -77,9 +78,9 @@ export function useFetchFourIRResources(params: any) {
 }
 
 export function useFetchFourIRToT(totId: number | null) {
-  return useAxiosSWR(totId ? API_4IR_Resource_Management + '/' + totId : null);
+  return useAxiosSWR(totId ? API_4IR_TOT + '/' + totId : null);
 }
 
 export function useFetchFourIRToTs(params: any) {
-  return useAxiosSWR([API_4IR_Resource_Management, params]);
+  return useAxiosSWR([API_4IR_TOT, params]);
 }
