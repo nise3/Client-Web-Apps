@@ -11,6 +11,7 @@ import CurriculumStep from './CurriculumStep';
 import CBLMStep from './CBLMStep';
 import ResourceManagementStep from './ResourceManagementStep';
 import ToTStep from './ToTStep';
+import FourIRCourseStep from './FourIRCourseStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -66,9 +67,15 @@ const steps: Array<StepObj> = [
     id: 8,
     langKey: '4ir_tot.label',
   },
+  {
+    id: 9,
+    langKey: 'course.label',
+  },
 ];
 
-const stepNames: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8];
+const stepNames: Array<number> = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+];
 
 const TeamAndCellView = () => {
   const {messages} = useIntl();
@@ -190,6 +197,15 @@ const TeamAndCellView = () => {
         case 8:
           return (
             <ToTStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 9:
+          return (
+            <FourIRCourseStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}

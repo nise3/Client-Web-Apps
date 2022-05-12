@@ -483,6 +483,7 @@
   "training_center.label_en": "Training center (English)",
   "training_center.centerLocationType": "Center Location Type",
   "course.label": "Course",
+  "4ir_course.label": "4IR Course",
   "course.label_en": "Course (English)",
   "course.duration": "Duration (in hour)",
   "course.fee": "Fee",

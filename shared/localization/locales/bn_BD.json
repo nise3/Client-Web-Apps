@@ -426,6 +426,7 @@
   "training_center.label_en": "ট্রেইনিং সেন্টার (ইংরেজি)",
   "training_center.centerLocationType": "সেন্টারের অবস্থানের ধরন",
   "course.label": "কোর্স",
+  "4ir_course.label": "4 আই আর কোর্স",
   "course.label_en": "কোর্স (ইংরেজি)",
   "course.duration": "সময়কাল (ঘন্টায়)",
   "course.fee": "ফি",
