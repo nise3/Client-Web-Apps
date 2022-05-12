@@ -653,7 +653,11 @@
   width: 2.5rem;
   height: 2rem;
 }
-
+.tooltip-button-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .view-area-container {
   position: relative;
   width: 100%;

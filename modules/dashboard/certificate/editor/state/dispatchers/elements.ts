@@ -144,6 +144,7 @@ function useElementsDispatcher() {
             ...props,
             scaleX,
             scaleY,
+            isLocked: false,
             x: x ?? centeredX,
             y: y ?? centeredY,
           },
