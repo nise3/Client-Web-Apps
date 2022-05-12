@@ -31,6 +31,7 @@ import {
   API_4IR_TNA_REPORT,
   API_4IR_TEAM_MEMBERS,
   API_4IR_GUIDELINE,
+  API_4IR_COURSE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -111,6 +112,10 @@ export function useFetchTrainingCenters(params: any) {
 
 export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
+}
+
+export function useFetchFourIRCourse(courseId: number | null) {
+  return useAxiosSWR(courseId ? API_4IR_COURSE + '/' + courseId : null);
 }
 
 export function useFetchCourses(params: any) {
