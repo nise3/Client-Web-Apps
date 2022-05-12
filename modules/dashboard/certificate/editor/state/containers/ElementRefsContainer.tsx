@@ -1,9 +1,6 @@
 import Konva from 'konva';
-import {useCallback, useMemo, useRef, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {createContainer} from 'unstated-next';
-import {isTruthy} from './../../utils/isTruthy';
-import {elementIdsState} from './../atoms/template';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { createContainer } from 'unstated-next';
 
 export type ElementRefs = Record<
   string,
@@ -16,7 +13,6 @@ export type ElementRefs = Record<
 
 function useElementRefsState() {
   const transformerRef = useRef<Konva.Transformer | null>(null);
-  const elementIds = useRecoilValue(elementIdsState);
   const [elementRefs, setElementRefs] = useState<ElementRefs>({});
 
   const setElementRef = useCallback(

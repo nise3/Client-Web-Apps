@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import CanvasRenderer from './compontents/CanvasRenderer/CanvasRenderer';
 import EditorHeader from './compontents/EditorHeader/EditorHeader';
 import EditorMenu from './compontents/EditorMenu/EditorMenu';
 import EditorMenuPanel from './compontents/EditorMenuPanel/EditorMenuPanel';
-import {EditorAreaContainer} from './state/containers/EditorAreaContainer';
-import {StageRefContainer} from './state/containers/StageRefContainer';
-import CanvasRenderer from './compontents/CanvasRenderer/CanvasRenderer';
 import MainArea from './layouts/MainArea';
-import dynamic from 'next/dynamic';
+import { EditorAreaContainer } from './state/containers/EditorAreaContainer';
+import { StageRefContainer } from './state/containers/StageRefContainer';
 // const CanvasRenderer = dynamic(
 //   () => import('./compontents/CanvasRenderer/CanvasRenderer'),
 //   {ssr: false},

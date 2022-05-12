@@ -1,10 +1,9 @@
 import React from 'react';
-import Button from '../ui/Button';
-import {DefaultFonts} from '../../constants';
-import {ShapeType, TextConfig} from '../../interfaces/Shape';
+import { DefaultFonts } from '../../constants';
+import { ShapeType, TextConfig } from '../../interfaces/Shape';
 import useElementsDispatcher from '../../state/dispatchers/elements';
+import Button from '../ui/Button';
 import SideMenuPanel from '../ui/SideMenuPanel';
-import {Input} from '@mui/material';
 
 const INPUT_PROPERTY = {
   candidateName: {

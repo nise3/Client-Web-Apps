@@ -1,9 +1,9 @@
-import React from 'react';
-import {useSetRecoilState} from 'recoil';
-import {EditorPanel} from '../../interfaces/Editor';
-import {activePanelState} from '../../state/atoms/editor';
-import {Button, IconButton} from '@mui/material';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { IconButton } from '@mui/material';
+import React from 'react';
+import { useSetRecoilState } from 'recoil';
+import { EditorPanel } from '../../interfaces/Editor';
+import { activePanelState } from '../../state/atoms/editor';
 interface Props {
   children?: React.ReactNode;
   title?: React.ReactText;

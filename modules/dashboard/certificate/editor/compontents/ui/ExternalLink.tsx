@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 
 interface Props
   extends Omit<

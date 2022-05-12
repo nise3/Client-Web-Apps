@@ -40,7 +40,7 @@ const InteractiveKonvaElement = ({
 }: Props) => {
   const {updateElementProps, selectElement, deleteElement} =
     useElementsDispatcher();
-  const {elementRefs, transformerRef, setElementRef} =
+  const {transformerRef, setElementRef} =
     ElementRefsContainer.useContainer();
   const shapeRef = useRef<Konva.Shape>(null);
   useEffect(() => {

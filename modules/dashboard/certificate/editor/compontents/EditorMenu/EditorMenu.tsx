@@ -1,16 +1,13 @@
 import React from 'react';
+import SideMenu from '../ui/SideMenu';
 import ElementsToolButton from './buttons/ElementsToolButton';
 import ImageToolButton from './buttons/ImageToolButton';
+import InputToolButton from './buttons/InputToolButton';
+import Logo from './buttons/Logo';
 import SettingsToolButton from './buttons/SettingsToolButton';
 import TextToolButton from './buttons/TextToolButton';
-import Logo from './buttons/Logo';
-import SideMenu from '../ui/SideMenu';
-import {useRecoilValue} from 'recoil';
-import {ratioState} from '../../state/atoms/editor';
-import InputToolButton from './buttons/InputToolButton';
 
 function EditorMenu() {
-  const ratio = useRecoilValue(ratioState);
 
   return (
     <SideMenu>

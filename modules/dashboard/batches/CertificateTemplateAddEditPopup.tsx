@@ -42,7 +42,8 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
 }) => {
   // console.log('item id', itemId)
   const { messages } = useIntl();
-  const { errorStack, successStack } = useNotiStack();
+  const { errorStack } = useNotiStack();
+  //@ts-ignore
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   const [certificateTypeId, setCertificateTypeId] = useState<number>();
   const [certificateId, setCertificateId] = useState<number>();
@@ -76,7 +77,6 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   }, [messages]);
 
   const {
-    register,
     control,
     reset,
     setError,

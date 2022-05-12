@@ -1,12 +1,11 @@
 import React from "react";
-import SideMenuSetting from "../../ui/SideMenuSetting";
-import PanelColorPicker from "../../ui/PanelColorPicker";
 import { RGBColor } from "react-color";
-import { fromRgba, toRgba } from "../../../utils/color";
-import useTemplateDispatcher from "../../../state/dispatchers/template";
 import { useRecoilValue } from "recoil";
 import { backgroundState } from "../../../state/atoms/template";
-import { Tooltip } from "@mui/material";
+import useTemplateDispatcher from "../../../state/dispatchers/template";
+import { fromRgba, toRgba } from "../../../utils/color";
+import PanelColorPicker from "../../ui/PanelColorPicker";
+import SideMenuSetting from "../../ui/SideMenuSetting";
 
 function BackgroundColorSetting() {
   const { updateBackground } = useTemplateDispatcher();

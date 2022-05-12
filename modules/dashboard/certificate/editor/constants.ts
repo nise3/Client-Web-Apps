@@ -1,8 +1,7 @@
 import Konva from 'konva';
-import {Filter} from 'konva/lib/Node';
-import {uniq} from 'ramda';
-import {EditorPanel} from './interfaces/Editor';
-import {ShapeType} from './interfaces/Shape';
+import { Filter } from 'konva/lib/Node';
+import { EditorPanel } from './interfaces/Editor';
+import { ShapeType } from './interfaces/Shape';
 
 export const CANVAS_STROKE = 1;
 export const EDITOR_MARGIN = 8 + CANVAS_STROKE;

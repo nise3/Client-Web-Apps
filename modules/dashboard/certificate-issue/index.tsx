@@ -2,7 +2,6 @@ import { useEventCallback } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -17,8 +16,6 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import { useFetchCertificateIssued } from '../../../services/instituteManagement/hooks';
 import { ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
@@ -27,7 +24,6 @@ import ApproveButton from '../industry-associations/ApproveButton';
 const CertificateIssuePage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
-  const authUser = useAuthUser<CommonAuthUser>();
   const route = useRouter();
   const {batchId} = route.query;
   // console.log('useRouter', batchId);
@@ -81,9 +77,9 @@ const CertificateIssuePage = () => {
 
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
-  const [certificateIssueFilter] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
+  // const [certificateIssueFilter] = useState<any>({
+  //   row_status: RowStatus.ACTIVE,
+  // });
   
   // const {data: youthListByBatch} = useFetchCourseEnrolment(
   //   certificateIssueFilter,
@@ -100,7 +96,7 @@ const CertificateIssuePage = () => {
 
   // console.log('after youthListByBatch', youthListByBatch)
   // const response = await courseEnroll(certificateIssueFilter);
-  const [issueFilterItems, setIssueFilterItems] = useState([]);
+  // const [issueFilterItems, setIssueFilterItems] = useState([]);
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
@@ -196,7 +192,10 @@ const CertificateIssuePage = () => {
               {/* <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
               <ApproveButton
-                onClick={() => issueCerrificate1(data)}
+                approveAction={() =>
+                  issueCerrificate1(data)
+                }
+                // onClick={() => issueCerrificate1(data)}
                 buttonText={messages['certificate.certificate_issue'] as string} 
               />
             </DatatableButtonGroup>
@@ -205,7 +204,7 @@ const CertificateIssuePage = () => {
         sortable: false,
       },
     ],
-    [messages, locale, issueFilterItems],
+    [messages, locale],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =

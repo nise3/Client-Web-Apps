@@ -25,7 +25,7 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { createCertificateById } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { deleteBatch } from '../../../services/instituteManagement/BatchService';
-import { ICertificate, ICertificateBatchSetting } from '../../../shared/Interface/certificates';
+import { ICertificateBatchSetting } from '../../../shared/Interface/certificates';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
@@ -68,7 +68,7 @@ const BatchesPage = () => {
     const certificateId = item.certificate_id as number;
     if(certificateId){
       createCertificateById(certificateId)
-      .then((res: ICertificate)=> {
+      .then((res: any)=> {
         setIsOpenAddEditTemplateModal(true);
         item.certificate_type = res?.data?.result_type;
                                             
@@ -287,6 +287,7 @@ const BatchesPage = () => {
             key={1}
             onClose={closeDetailsTemplateModal}
             refreshDataTable={refreshDataTable}
+            // @ts-ignore
             batch={selectedBatchItem}
           />
         )}

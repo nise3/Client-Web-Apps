@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -17,7 +17,7 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
 
   const columns = useMemo(
@@ -106,7 +106,7 @@ const CertificateIssuedPage = () => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
+          // toggleResetTable={isToggleTable}
         />
         
       </PageBlock>

@@ -1,9 +1,7 @@
-import MinimizeIcon from "@mui/icons-material/Minimize";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import React from "react";
 import { Tooltip } from "@mui/material";
-import { Add, Minimize } from "@mui/icons-material";
+import React from "react";
 import classNames from "../../utils/className";
 
 interface Props extends React.HTMLAttributes<HTMLElement> {

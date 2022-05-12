@@ -1,15 +1,14 @@
+import { Slider } from '@mui/material';
+import { LineConfig } from 'konva/lib/shapes/Line';
 import React from 'react';
-import {RGBColor} from 'react-color';
-import {useRecoilValue} from 'recoil';
-import {Slider} from '@mui/material';
-import {fromRgba, toRgba} from '../../../utils/color';
-import {TextConfig} from '../../../interfaces/Shape';
+import { RGBColor } from 'react-color';
+import { useRecoilValue } from 'recoil';
+import { isString } from 'util';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
-import {elementPropsSelector} from '../../../state/selectors/elements';
+import { elementPropsSelector } from '../../../state/selectors/elements';
+import { fromRgba, toRgba } from '../../../utils/color';
 import PanelColorPicker from '../../ui/PanelColorPicker';
 import SideMenuSetting from '../../ui/SideMenuSetting';
-import {isString} from 'util';
-import {LineConfig} from 'konva/lib/shapes/Line';
 
 interface Props {
   elementId: string;
@@ -21,10 +20,6 @@ function LineStrokeSetting({elementId}: Props) {
   );
 
   const {updateElementProps} = useElementsDispatcher();
-
-  const handleChangeEnabled = (strokeEnabled: boolean) => () => {
-    updateElementProps<LineConfig>(elementId, {strokeEnabled});
-  };
 
   const handleChangeColor = (color: RGBColor) => {
     updateElementProps<LineConfig>(elementId, {stroke: toRgba(color)});

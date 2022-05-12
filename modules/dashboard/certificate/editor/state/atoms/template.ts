@@ -1,7 +1,6 @@
 import Konva from 'konva';
-import {atom, atomFamily} from 'recoil';
-import {DefaultFonts} from '../../constants';
-import {Dimensions, CanvasElement} from '../../interfaces/StageConfig';
+import { atom, atomFamily } from 'recoil';
+import { CanvasElement, Dimensions } from '../../interfaces/StageConfig';
 // import { historyEffect } from '../effects/history';
 
 export const dimensionsState = atom<Dimensions>({

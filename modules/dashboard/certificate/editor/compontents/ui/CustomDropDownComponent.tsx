@@ -1,13 +1,11 @@
 import {
-  ThemeProvider,
-  List,
+  createTheme, List,
   ListItem,
   ListItemText,
   Menu,
-  MenuItem,
-  createTheme,
+  MenuItem, ThemeProvider
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
 interface Props {
   options: Array<any>;

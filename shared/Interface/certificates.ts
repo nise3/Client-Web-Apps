@@ -20,5 +20,5 @@ export interface ICertificateIssueView extends ICertificateIssue{
 }
 
 export interface ICertificateBatchSetting extends IBatch{
-  certificate_type?: number
+  certificate_type?: number;
 }

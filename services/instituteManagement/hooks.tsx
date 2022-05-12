@@ -30,7 +30,6 @@ import {
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_CERTIFICATES_ISSUE,
 } from '../../@softbd/common/apiRoutes';
-import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
 
 export function useFetchInstitute(instituteId: number | null) {
   return useAxiosSWR(instituteId ? API_INSTITUTES + '/' + instituteId : null);

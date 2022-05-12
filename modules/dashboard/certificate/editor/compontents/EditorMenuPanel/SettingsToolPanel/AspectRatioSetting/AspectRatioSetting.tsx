@@ -1,18 +1,17 @@
-import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {ThemeProvider, createTheme} from '@mui/material/styles';
-import {AspectRatio} from 'react-aspect-ratio';
-import SideMenuSetting from '../../../ui/SideMenuSetting';
+import MenuItem from '@mui/material/MenuItem';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { equals } from 'ramda';
+import * as React from 'react';
+import { AspectRatio } from 'react-aspect-ratio';
+import { useRecoilValue } from 'recoil';
+import { EditorAreaContainer } from '../../../../state/containers/EditorAreaContainer';
 import useEditorDispatcher from '../../../../state/dispatchers/editor';
-import {EditorAreaContainer} from '../../../../state/containers/EditorAreaContainer';
-import {useRecoilValue} from 'recoil';
-import {dimensionsState} from './../../../../state/atoms/template';
-import {equals} from 'ramda';
-import {Dimensions} from '../../../../interfaces/StageConfig';
+import SideMenuSetting from '../../../ui/SideMenuSetting';
+import { dimensionsState } from './../../../../state/atoms/template';
 
 export const options = [
   // {

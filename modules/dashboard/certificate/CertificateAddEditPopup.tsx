@@ -1,31 +1,30 @@
-import React, {FC, useEffect, useMemo} from 'react';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import { yupResolver } from '@hookform/resolvers/yup';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import Grid from '@mui/material/Grid';
+import { useRouter } from 'next/router';
+import React, { FC, useEffect, useMemo } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
+import { isBreakPointUp } from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import Grid from '@mui/material/Grid';
+import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import yup from '../../../@softbd/libs/yup';
+import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import {
   createCertificate,
-  updateCertificate,
+  updateCertificate
 } from '../../../services/CertificateAuthorityManagement/CertificateService';
-import {useIntl} from 'react-intl';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import {useFetchDivision} from '../../../services/locationManagement/hooks';
-import yup from '../../../@softbd/libs/yup';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {RESULT_TYPE} from './Constants';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import {ICertificate} from './../../../shared/Interface/certificates';
+import { useFetchCertificate } from '../../../services/CertificateAuthorityManagement/hooks';
+import { ICertificate } from './../../../shared/Interface/certificates';
+import { RESULT_TYPE } from './Constants';
 import useTemplateDispatcher from './editor/state/dispatchers/template';
-import {toTemplateJSON} from './editor/utils/template';
-import {useRouter} from 'next/router';
-import {useFetchCertificate} from '../../../services/CertificateAuthorityManagement/hooks';
+import { toTemplateJSON } from './editor/utils/template';
 interface CertificateAddEditPopupProps {
   onClose: () => void;
 }

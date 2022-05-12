@@ -1,26 +1,25 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Layer, Rect, Stage} from 'react-konva';
-import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
-import {EditorAreaContainer} from '../../state/containers/EditorAreaContainer';
-import {ElementRefsContainer} from '../../state/containers//ElementRefsContainer';
-import useRatioControls from '../../hooks/useRatioControl';
-import {Dimensions} from '../../interfaces/StageConfig';
-import {isLoadingState, ratioState} from '../../state/atoms/editor';
-import {backgroundState, dimensionsState} from '../../state/atoms/template';
-import Elements from './Elements';
-import useTemplateDispatcher from '../../state/dispatchers/template';
-import {useRouter} from 'next/router';
-import {getCertificateIssueByIssueId} from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import {
-  getYouthProfile,
-  getYouthProfileById,
-} from '../../../../../../services/youthManagement/YouthService';
-import {getBatch} from '../../../../../../services/instituteManagement/BatchService';
-import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Layer, Rect, Stage } from 'react-konva';
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
-import {loadTemplateImages} from '../../utils/template';
-import {StageRefContainer} from '../../state/containers/StageRefContainer';
+import { getCertificateIssueByIssueId } from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
+import { getCertificateById } from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
+import { getBatch } from '../../../../../../services/instituteManagement/BatchService';
+import {
+  getYouthProfileById
+} from '../../../../../../services/youthManagement/YouthService';
+import { CANVAS_STROKE, EDITOR_MARGIN } from '../../constants';
+import useRatioControls from '../../hooks/useRatioControl';
+import { Dimensions } from '../../interfaces/StageConfig';
+import { isLoadingState, ratioState } from '../../state/atoms/editor';
+import { backgroundState, dimensionsState } from '../../state/atoms/template';
+import { ElementRefsContainer } from '../../state/containers//ElementRefsContainer';
+import { EditorAreaContainer } from '../../state/containers/EditorAreaContainer';
+import { StageRefContainer } from '../../state/containers/StageRefContainer';
+import useTemplateDispatcher from '../../state/dispatchers/template';
+import { loadTemplateImages } from '../../utils/template';
+import Elements from './Elements';
 
 interface IYouthCertificateDetails {
   'candidate-name': string;

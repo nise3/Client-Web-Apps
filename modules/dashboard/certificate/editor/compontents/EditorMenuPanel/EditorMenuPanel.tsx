@@ -1,9 +1,9 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
-import {EditorPanel} from '../../interfaces/Editor';
+import { useRecoilValue } from 'recoil';
+import { EditorPanel } from '../../interfaces/Editor';
 import {
   activePanelState,
-  selectedElementIdState,
+  selectedElementIdState
 } from '../../state/atoms/editor';
 import SideMenuPanel from '../ui/SideMenuPanel';
 import ElementToolPanel from './ElementMenuPanel';

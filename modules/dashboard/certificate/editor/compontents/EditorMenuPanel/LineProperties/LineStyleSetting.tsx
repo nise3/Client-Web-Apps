@@ -1,17 +1,14 @@
-import React, {useMemo} from 'react';
-import {useRecoilValue} from 'recoil';
-import Button from '../../ui/Button';
+import { LineConfig } from 'konva/lib/shapes/Line';
+import React, { useMemo } from 'react';
 import {
-  CgBorderStyleSolid,
-  CgBorderStyleDotted,
-  CgBorderStyleDashed,
+  CgBorderStyleDashed, CgBorderStyleDotted, CgBorderStyleSolid
 } from 'react-icons/all';
-
-import classNames from '../../../utils/className';
+import { useRecoilValue } from 'recoil';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
-import {elementPropsSelector} from '../../../state/selectors/elements';
+import { elementPropsSelector } from '../../../state/selectors/elements';
+import Button from '../../ui/Button';
 import SideMenuSetting from '../../ui/SideMenuSetting';
-import {LineConfig} from 'konva/lib/shapes/Line';
+
 
 interface Props {
   elementId: string;

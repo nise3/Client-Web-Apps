@@ -1,4 +1,3 @@
-import { useIntl } from 'react-intl';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
 
@@ -7,8 +6,6 @@ const CertificatePage = asyncComponent(
 );
 
 export default DashboardPage(() => {
-  const {messages} = useIntl();
-
   return (
     <>
       <CertificatePage />

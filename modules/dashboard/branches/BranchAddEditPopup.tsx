@@ -115,11 +115,11 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const getUseForm = useForm<IBranch>({
-    resolver: yupResolver(validationSchema),
-  });
+  // const getUseForm = useForm<IBranch>({
+  //   resolver: yupResolver(validationSchema),
+  // });
 
-  console.log('frm ', validationSchema);
+  // console.log('frm ', validationSchema);
 
   useEffect(() => {
     if (authUser?.isSystemUser) {

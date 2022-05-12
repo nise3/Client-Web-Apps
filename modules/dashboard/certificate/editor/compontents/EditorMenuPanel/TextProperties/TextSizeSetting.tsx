@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { TextConfig } from "../../../interfaces/Shape";
