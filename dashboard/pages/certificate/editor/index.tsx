@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useIntl } from 'react-intl';
 import PageMeta from '../../../../@crema/core/PageMeta';
-import AuthenticatedBlankPage from '../../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
+import AuthenticatedBlankPage from './../../../../@softbd/layouts/hoc/AuthenticatedBlankPage';
 const CertificateEditor = dynamic(
   () =>
     import('./../../../../modules/dashboard/certificate/CertificateEditorPage'),
@@ -10,7 +10,7 @@ const CertificateEditor = dynamic(
   },
 );
 
-const CertificateEditorPage = DefaultPage(() => {
+const CertificateEditorPage = AuthenticatedBlankPage(() => {
   const {messages} = useIntl();
 
   return (
