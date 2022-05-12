@@ -6,16 +6,19 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
+  setSelectedCourseId: any;
 }
 
-const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
+const FourIREnrollmentApprovalPage = ({
+  fourIRInitiativeId,
+  setSelectedCourseId,
+}: Props) => {
   const {messages, locale} = useIntl();
 
   const columns = useMemo(
@@ -33,17 +36,19 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
         },
       },
       {
-        Header: messages['4ir.skill_development_traning_center'],
-        accessor: 'traning_center',
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
       },
 
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          let data = props.row.original;
+          let item = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => console.log(data.id)} />
+              <ReadButton
+                onClick={() => setSelectedCourseId(item.id as number)}
+              />
             </DatatableButtonGroup>
           );
         },
@@ -55,12 +60,12 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      // todo -> Fetch from url
-      urlPath: './4ir_TNA_report',
+      urlPath: API_COURSE_ENROLLMENTS,
     });
 
   return (
     <>
+      <div>Course list</div>
       <PageBlock
         title={
           <>

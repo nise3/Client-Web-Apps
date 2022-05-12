@@ -1,6 +1,4 @@
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconBranch from '../../../@softbd/icons/IconBranch';
+import {useState} from 'react';
 import CourseListPage from './CourseListPage';
 import BatchListPage from './BatchListPage';
 import YouthListPage from './YouthListPage';
@@ -10,18 +8,27 @@ interface Props {
 }
 
 const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
+  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
+  // const [selectedBatchId, setSelectedBatchId] = useState<number | null>(null);
+  // const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
+
   return (
     <>
-      <PageBlock
-        title={
-          <>
-            <IconBranch /> <IntlMessages id='4ir.enrollment_approval' />
-          </>
-        }>
-        <CourseListPage fourIRInitiativeId={fourIRInitiativeId} />
-        <BatchListPage fourIRInitiativeId={fourIRInitiativeId} />
-        <YouthListPage fourIRInitiativeId={fourIRInitiativeId} />
-      </PageBlock>
+      <button onClick={() => setSelectedCourseId(null)}>Toggle</button>
+      {!selectedCourseId && (
+        <CourseListPage
+          setSelectedCourseId={setSelectedCourseId}
+          fourIRInitiativeId={fourIRInitiativeId}
+        />
+      )}
+
+      {selectedCourseId && (
+        <BatchListPage
+          selectedCourseId={selectedCourseId}
+          fourIRInitiativeId={fourIRInitiativeId}
+        />
+      )}
+      {null && <YouthListPage fourIRInitiativeId={fourIRInitiativeId} />}
     </>
   );
 };

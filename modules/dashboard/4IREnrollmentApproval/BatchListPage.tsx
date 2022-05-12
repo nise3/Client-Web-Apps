@@ -1,4 +1,3 @@
-import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
@@ -6,19 +5,21 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-
+import {useMemo} from 'react';
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
+  selectedCourseId: number;
 }
 
-const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
+const FourIREnrollmentApprovalPage = ({
+  fourIRInitiativeId,
+  selectedCourseId,
+}: Props) => {
   const {messages, locale} = useIntl();
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const columns = useMemo(
     () => [
@@ -68,12 +69,18 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      // todo -> api is not ready
-      urlPath: './4ir_TNA_report',
+      urlPath: API_BATCHES,
+      paramsValueModifier: (params) => {
+        params['course_id'] = selectedCourseId;
+        return params;
+      },
     });
+
+  console.log('Batch list data : ', data);
 
   return (
     <>
+      <div>Batch page</div>
       <PageBlock
         title={
           <>
@@ -87,7 +94,6 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
       </PageBlock>
     </>

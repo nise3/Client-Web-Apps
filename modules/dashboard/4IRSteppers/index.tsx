@@ -73,6 +73,10 @@ const steps: Array<StepObj> = [
     id: 9,
     langKey: 'course.label',
   },
+  {
+    id: 10,
+    langKey: '4ir.enrollment_approval',
+  },
 ];
 
 const stepNames: Array<number> = [

@@ -11,6 +11,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -69,7 +70,7 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       // todo -> api is not ready
-      urlPath: './4ir_TNA_report',
+      urlPath: API_COURSE_ENROLLMENTS,
     });
 
   return (
