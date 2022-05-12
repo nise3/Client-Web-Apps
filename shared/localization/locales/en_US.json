@@ -2016,5 +2016,6 @@
   "4ir_tot.organiser": "Organiser",
   "4ir_tot.co_organiser": "Co-Organiser",
   "4ir_tot.participants": "Participants",
-  "4ir_tot.label": "4IR ToT"
+  "4ir_tot.label": "4IR ToT",
+  "4ir.enrollment_approval": "Enrollment Approval"
 }
