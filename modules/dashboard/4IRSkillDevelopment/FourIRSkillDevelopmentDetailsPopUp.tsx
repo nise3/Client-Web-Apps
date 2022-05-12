@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchTNAReport} from '../../../services/instituteManagement/hooks';
+//import {useFetch4IRScaleUp} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -16,13 +16,24 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRTNAReportDetailsPopup = ({
+const FourIRSkillDevelopmentDetailsPopUp = ({
   itemId,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchTNAReport(itemId);
+  const {data: itemData, isLoading} = {
+    data: {
+      id: 1,
+      traning_center: 'Traning Center',
+      batch_start_date: '12/03/2001',
+      batch_end_date: '12/03/2001',
+      batch_number: 23232,
+    },
+    isLoading: false,
+  };
+  // todo -> api is not ready
+  // useFetch4IRScaleUp(itemId);
 
   return (
     <>
@@ -32,7 +43,7 @@ const FourIRTNAReportDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.TNA_report' />
+            <IntlMessages id='4ir.skill_development' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -51,36 +62,30 @@ const FourIRTNAReportDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.workshop_name}
+              label={messages['4ir.skill_development_traning_center']}
+              value={itemData?.traning_center}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.required_skill']}
-              value={itemData?.skill_required}
+              label={messages['4ir.skill_development_batch_start_date']}
+              value={itemData?.batch_start_date}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.start_date']}
-              value={itemData?.start_date}
+              label={messages['4ir.skill_development_batch_end_date']}
+              value={itemData?.batch_end_date}
               isLoading={isLoading}
             />
           </Grid>
+
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.end_date']}
-              value={itemData?.end_date}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.venue']}
-              value={itemData?.venue}
+              label={messages['4ir.skill_development_batch_number']}
+              value={itemData?.batch_number}
               isLoading={isLoading}
             />
           </Grid>
@@ -90,4 +95,4 @@ const FourIRTNAReportDetailsPopup = ({
   );
 };
 
-export default FourIRTNAReportDetailsPopup;
+export default FourIRSkillDevelopmentDetailsPopUp;
