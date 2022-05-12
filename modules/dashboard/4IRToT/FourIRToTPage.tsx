@@ -17,6 +17,7 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TOT} from '../../../@softbd/common/apiRoutes';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
+
 interface IFourIRToTPageProps {
   fourIRInitiativeId: number;
 }
@@ -69,10 +70,14 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
         },
       },
 
-      {
+      /*{
         Header: messages['4ir_tot.master_trainer'],
-        accessor: 'master_trainer_name',
-      },
+        accessor: 'name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return data?.master_trainers.name[0];
+        },
+      },*/
       {
         Header: messages['common.attachment'],
         disableFilters: true,

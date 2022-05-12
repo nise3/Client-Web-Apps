@@ -251,7 +251,6 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log('the cs submitted data: ', data);
     try {
       let payload = {
         four_ir_initiative_id: fourIRInitiativeId,

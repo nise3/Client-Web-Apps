@@ -114,7 +114,6 @@ export const API_TRAINING_CENTERS =
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
-
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
@@ -209,6 +208,7 @@ export const API_4IR_CURRICULUM =
 export const API_4IR_Resource_Management =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
 export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
+export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */
