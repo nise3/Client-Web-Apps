@@ -53,7 +53,8 @@ export const elementPropsSelector = selectorFamily({
   key: 'elementPropsSelector',
   get:
     <P extends ShapeConfig>(id: string) =>
-    ({get}) =>
+    ({ get }) =>
+    //@ts-ignore
       get(elementSelector(id))?.props as P,
 });
 

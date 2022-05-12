@@ -107,6 +107,7 @@ const BatchesPage = () => {
         setSelectedBatchItem(item)
       })
     } else {
+      setSelectedBatchItem(item)
       setIsOpenAddEditTemplateModal(true);
     }
 
