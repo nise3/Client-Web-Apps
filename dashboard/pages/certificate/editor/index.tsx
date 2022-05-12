@@ -11,7 +11,7 @@ const CertificateEditor = dynamic(
   },
 );
 
-const CertificateEditorPage = AuthenticatedBlankPage(() => {
+const CertificateEditorPage = DefaultPage(() => {
   const {messages} = useIntl();
 
   return (

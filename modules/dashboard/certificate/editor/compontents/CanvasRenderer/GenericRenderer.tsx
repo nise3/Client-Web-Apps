@@ -25,7 +25,13 @@ function GenericRenderer({
       id={id}
       rotateEnabled={rotateEnabled}
       enabledAnchors={enabledAnchors}>
-      {(additionalProps) => <Component {...props} {...additionalProps} />}
+      {(additionalProps) => (
+        <Component
+          {...props}
+          {...additionalProps}
+          draggable={!props.isLocked}
+        />
+      )}
     </InteractiveKonvaElement>
   );
 }

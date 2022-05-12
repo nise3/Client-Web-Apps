@@ -1,6 +1,6 @@
 import React from 'react';
 import {EditorPanel} from '../../interfaces/Editor';
-import ShapeActions from '../ui/ShapeActions';
+import ShapeActions from '../ui/ShapeActions/ShapeActions';
 import SideMenuPanel from '../ui/SideMenuPanel';
 import LineSizeSetting from './LineProperties/LineSizeSetting';
 import LineStrokeSetting from './LineProperties/LineStrokeSetting';

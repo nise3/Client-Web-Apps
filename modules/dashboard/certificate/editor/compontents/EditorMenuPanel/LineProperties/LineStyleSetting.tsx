@@ -6,8 +6,6 @@ import {
   CgBorderStyleDotted,
   CgBorderStyleDashed,
 } from 'react-icons/all';
-
-import classNames from '../../../utils/className';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
 import {elementPropsSelector} from '../../../state/selectors/elements';
 import SideMenuSetting from '../../ui/SideMenuSetting';

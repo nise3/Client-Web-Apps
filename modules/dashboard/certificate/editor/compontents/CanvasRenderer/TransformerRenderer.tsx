@@ -51,11 +51,13 @@ function TransformerRenderer({elementId, isSelected, isHighlighted}: Props) {
       ref={localTransformerRef}
       ignoreStroke
       rotationSnaps={[0, 90, 180, 270]}
+      padding={3}
       keepRatio={element?.transformerProps?.keepRatio ?? false}
       boundBoxFunc={(oldBox, newBox) =>
         newBox.width < MIN_WIDTH || newBox.height < MIN_HEIGHT ? oldBox : newBox
       }
       {...(!isSelected ? highlightProps : {})}
+      {...(element?.ref?.attrs.isLocked ? highlightProps : {})}
     />
   );
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import {EditorPanel} from '../../interfaces/Editor';
-import SideMenuPanel from './../ui/SideMenuPanel';
-import ShapeActions from './../ui/ShapeActions';
-import ImageBlurSetting from './../EditorMenuPanel/ImageProperties/ImageBlurSetting';
-import ImageFileSetting from './../EditorMenuPanel/ImageProperties/ImageFileSetting';
-import ImageOpacitySetting from './../EditorMenuPanel/ImageProperties/ImageOpacitySetting';
+import SideMenuPanel from '../ui/SideMenuPanel';
+import ShapeActions from '../ui/ShapeActions/ShapeActions';
+import ImageBlurSetting from './ImageProperties/ImageBlurSetting';
+import ImageFileSetting from './ImageProperties/ImageFileSetting';
+import ImageOpacitySetting from './ImageProperties/ImageOpacitySetting';
 
 interface Props {
   elementId: string;

@@ -1,50 +1,47 @@
 import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {Slider} from '@mui/material';
-import {TextConfig} from '../../../interfaces/Shape';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
 import {elementPropsSelector} from '../../../state/selectors/elements';
-import PanelColorPicker from '../../ui/PanelColorPicker';
 import SideMenuSetting from '../../ui/SideMenuSetting';
-import {isString} from 'util';
-import {LineConfig} from 'konva/lib/shapes/Line';
+import {ShapeConfig} from 'konva/lib/Shape';
 
 interface Props {
   elementId: string;
 }
 
-function LineStrokeSetting({elementId}: Props) {
+function StrokeWidthSetting({elementId}: Props) {
   const elementProps = useRecoilValue(
-    elementPropsSelector<LineConfig>(elementId),
+    elementPropsSelector<ShapeConfig>(elementId),
   );
 
   const {updateElementProps} = useElementsDispatcher();
 
-  const handleChangescaleX = (scaleX: number | number[]) => {
-    if (!(scaleX instanceof Array)) {
-      updateElementProps<LineConfig>(elementId, {scaleX});
+  const handleChangeStrokeWidth = (strokeWidth: number | number[]) => {
+    if (!(strokeWidth instanceof Array)) {
+      updateElementProps<ShapeConfig>(elementId, {strokeWidth});
     }
   };
 
-  const scaleX = elementProps.scaleX ?? 1;
+  const strokeWidth = elementProps.strokeWidth ?? 1;
 
   return (
-    <SideMenuSetting label='Size' htmlFor='input-stroke-color'>
+    <SideMenuSetting label='Stroke Width' htmlFor='input--rect-radius'>
       <div className='single-property-slider-input'>
         <Slider
           min={0.5}
-          max={5}
-          value={scaleX}
+          max={4}
+          value={strokeWidth}
           step={0.5}
           onChange={(event, value: number | number[]) => {
             event.preventDefault();
-            handleChangescaleX(value);
+            handleChangeStrokeWidth(value);
           }}
         />
-        <span className='slider-container-value'>{scaleX}</span>
+        <span className='slider-container-value'>{strokeWidth}</span>
       </div>
     </SideMenuSetting>
   );
 }
 
-export default LineStrokeSetting;
+export default StrokeWidthSetting;
