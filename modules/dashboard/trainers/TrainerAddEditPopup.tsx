@@ -637,6 +637,16 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           </Grid>
         )}
         <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            required
+            id='date_of_birth'
+            label={messages['common.date_of_birth']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='subject'
@@ -650,16 +660,6 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           <CustomTextInput
             id='subject_en'
             label={messages['common.subject_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CustomDateTimeField
-            required
-            id='date_of_birth'
-            label={messages['common.date_of_birth']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
