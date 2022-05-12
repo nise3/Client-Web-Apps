@@ -256,6 +256,7 @@ const FourIRCoursePage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
           <FourIRCourseAddEditPopup
             key={1}
             onClose={closeAddEditModal}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />

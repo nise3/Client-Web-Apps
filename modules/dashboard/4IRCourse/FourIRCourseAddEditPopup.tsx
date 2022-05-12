@@ -35,10 +35,13 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {LEVEL, LANGUAGE_MEDIUM} from '../courses/CourseEnums';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import _ from 'lodash';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
+  fourIRInitiativeId: number | string;
   refreshDataTable: () => void;
 }
 
@@ -61,6 +64,7 @@ const initialValues = {
 const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   itemId,
   refreshDataTable,
+  fourIRInitiativeId,
   ...props
 }) => {
   const {messages} = useIntl();
@@ -68,6 +72,7 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
@@ -144,7 +149,7 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         .label(messages['course.language_medium'] as string),
       skills: yup
         .array()
-        .of(yup.number())
+        .of(yup.object())
         .min(1)
         .label(messages['common.skills'] as string),
     });
@@ -360,30 +365,45 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
     });
   }, []);
 
+  const closeAction = async () => {
+    props.onClose();
+    refreshDataTable();
+  };
+
   const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
-    data.application_form_settings = getConfigInfoData(
+    let formData = _.cloneDeep(data);
+    formData.application_form_settings = getConfigInfoData(
       data.application_form_settings,
     );
 
     if (!authUser?.isSystemUser) {
-      delete data?.institute_id;
+      delete formData?.institute_id;
     }
 
+    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
+
     try {
+      let payload = {
+        four_ir_initiative_id: fourIRInitiativeId,
+        ...formData,
+      };
+
       if (itemId) {
-        await updateCourse(itemId, data);
-        updateSuccessMessage('course.label');
+        await updateCourse(itemId, payload);
+        updateSuccessMessage('4ir_course.label');
         mutateCourse();
+        await closeAction();
       } else {
-        await createCourse(data);
-        createSuccessMessage('course.label');
+        await createCourse(payload);
+        createSuccessMessage('4ir_course.label');
+        setShowSuccessPopUp(true);
       }
-      props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
+
+  console.log('the form errors: ', errors);
 
   return (
     <HookFormMuiModal
@@ -778,6 +798,15 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
           })}
         </Grid>
       </Grid>
+      {showSuccessPopUp && fourIRInitiativeId && (
+        <SuccessPopup
+          closeAction={closeAction}
+          stepNo={9}
+          initiativeId={fourIRInitiativeId}
+          completionStep={9}
+          formStep={11}
+        />
+      )}
     </HookFormMuiModal>
   );
 };
