@@ -342,7 +342,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         ) {
           assignTrainersResponse = await assignTrainersToBatch(
             response.data.id,
-            data.trainers,
+            getTrainerIds(data.trainers),
           );
         }
         if (assignTrainersResponse) {
