@@ -77,6 +77,8 @@ const initialValues = {
   training_center_id: '',
   trainer_registration_number: '',
   email: '',
+  subject: '',
+  subject_en: '',
   mobile: '',
   about_me: '',
   about_me_en: '',
@@ -228,12 +230,13 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       trainer_name: yup
-        .mixed()
-        .label(messages['common.title'] as string)
+        .string()
+        .required()
+        .label(messages['common.name'] as string)
         .test(
           'special character validation',
           messages['common.special_character_error'] as string,
-          (value) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
+          (value) => !Boolean(value?.match(SPECIAL_CHARACTER_VALIDATION)),
         ),
       mobile: yup
         .string()
@@ -250,6 +253,10 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['common.gender'] as string),
+      subject: yup
+        .string()
+        .required()
+        .label(messages['common.subject'] as string),
       marital_status: yup
         .string()
         .required()
@@ -363,6 +370,8 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         about_me: itemData?.about_me,
         about_me_en: itemData?.about_me_en,
         gender: itemData?.gender,
+        subject: itemData?.subject,
+        subject_en: itemData?.subject_en,
         marital_status: itemData?.marital_status,
         religion: itemData?.religion,
         date_of_birth: itemData?.date_of_birth
@@ -627,7 +636,25 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             />
           </Grid>
         )}
-
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='subject'
+            label={messages['common.subject']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='subject_en'
+            label={messages['common.subject_en']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
             required

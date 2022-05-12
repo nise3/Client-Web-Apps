@@ -107,7 +107,20 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.subject']}
+              value={itemData?.subject}
+              isLoading={isLoading}
+            />
+          </Grid>{' '}
+          <Grid item xs={6}>
+            <DetailsInputView
+              label={messages['common.subject_en']}
+              value={itemData?.subject_en}
+              isLoading={isLoading}
+            />
+          </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.about_me']}
@@ -115,7 +128,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['branch.label']}
@@ -172,7 +184,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.educational_qualification']}
@@ -259,7 +270,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['menu.skill']}
@@ -269,7 +279,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['training_center.label']}
@@ -277,7 +286,6 @@ const TrainerDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['common.status']}
