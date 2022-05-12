@@ -243,24 +243,12 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
 
-export function useFetchExam(examId: any, params?: any) {
-  return useAxiosSWR(
-    examId
-      ? params
-        ? [API_EXAMS + '/' + examId, params]
-        : API_EXAMS + '/' + examId
-      : null,
-  );
+export function useFetchExam(examId: any) {
+  return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
 
-export function useFetchExamDetails(examId: any, params?: any) {
-  return useAxiosSWR(
-    examId
-      ? params
-        ? [API_EXAMS + '/' + examId, params]
-        : API_EXAMS + '/' + examId
-      : null,
-  );
+export function useFetchExamDetails(examId: any) {
+  return useDataLocalizationAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
 
 export function useFetchExamQuestionPaper(examId: number | null) {

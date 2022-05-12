@@ -13,10 +13,8 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
 import {Button} from '@mui/material';
 import {
-  useFetchCourses,
   useFetchExam,
   useFetchSubjects,
-  useFetchTrainingCentersWithBatches,
 } from '../../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import RowStatus from '../../../../@softbd/utilities/RowStatus';
@@ -32,8 +30,8 @@ import OffLineExam from './offLineExam';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import _, {cloneDeep} from 'lodash';
-import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import {questionTypesArray} from '../../questionsBank/QuestionBanksEnums';
+import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 
 interface ExamAddEditPopupProps {
   itemId: number | null;
@@ -52,33 +50,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
   const router = useRouter();
   const examId = Number(router.query.id);
-
-  const [examParams] = useState<any>({
-    purpose_name: ExamPurposeNames.BATCH,
-  });
   const {
     data: itemData,
     isLoading: isLoadingExam,
     mutate: mutateExam,
-  } = useFetchExam(examId, examParams);
+  } = useFetchExam(examId);
 
   const [subjectFilters] = useState({});
   const {data: subjects, isLoading: isLoadingSubjects} =
     useFetchSubjects(subjectFilters);
 
-  const [courseFilters] = useState<any>({
-    row_status: RowStatus.ACTIVE,
-  });
-  const {data: courses, isLoading: isLoadingCourse} =
-    useFetchCourses(courseFilters);
-
   const [examType, setExamType] = useState<number | null>(null);
-  const [batches, setBatches] = useState<Array<any>>([]);
   const [subjectId, setSubjectId] = useState<any>(null);
-
-  const [courseId, setCourseId] = useState<any>(null);
-  const {data: trainingCenters, isLoading: isTrainingCentersLoading} =
-    useFetchTrainingCentersWithBatches(courseId);
 
   const examQuestionsSchema = useMemo(() => {
     return yup.array().of(
@@ -119,36 +102,45 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['subject.label'] as string),
-      course_id: yup
-        .string()
-        .required()
-        .label(messages['course.label'] as string),
-      training_center_id: yup
-        .string()
-        .required()
-        .label(messages['training_center.label'] as string),
-      purpose_id: yup
-        .string()
-        .required()
-        .label(messages['batches.label'] as string),
       type: yup
         .string()
         .required()
         .label(messages['common.exam_type'] as string),
-      exam_date:
+      total_marks:
+        examType &&
+        ![ExamTypes.ONLINE, ExamTypes.OFFLINE, ExamTypes.MIXED].includes(
+          examType,
+        )
+          ? yup
+              .string()
+              .label(messages['common.marks'] as string)
+              .required()
+          : yup.string(),
+      start_date:
         Number(examType) == ExamTypes.MIXED
           ? yup.string()
           : yup
               .string()
               .label(messages['common.exam_date'] as string)
               .required(),
+      end_date:
+        examType &&
+        ![ExamTypes.ONLINE, ExamTypes.OFFLINE, ExamTypes.MIXED].includes(
+          examType,
+        )
+          ? yup
+              .string()
+              .label(messages['common.end_date'] as string)
+              .required()
+          : yup.string(),
       duration:
-        Number(examType) == ExamTypes.MIXED
-          ? yup.string()
-          : yup
+        Number(examType) == ExamTypes.ONLINE ||
+        Number(examType) == ExamTypes.OFFLINE
+          ? yup
               .string()
               .label(messages['common.duration_min'] as string)
-              .required(),
+              .required()
+          : yup.string(),
       total_set:
         Number(examType) == ExamTypes.OFFLINE
           ? yup
@@ -164,7 +156,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       online:
         Number(examType) == ExamTypes.MIXED
           ? yup.object().shape({
-              exam_date: yup
+              start_date: yup
                 .string()
                 .required()
                 .label(messages['common.exam_date'] as string),
@@ -178,7 +170,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       offline:
         Number(examType) == ExamTypes.MIXED
           ? yup.object().shape({
-              exam_date: yup
+              start_date: yup
                 .string()
                 .required()
                 .label(messages['common.exam_date'] as string),
@@ -238,7 +230,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   });
 
   const setFormValues = (data: any, exam: any) => {
-    data.exam_date = exam?.exam_date.replace(' ', 'T');
+    data.start_date = exam?.start_date.replace(' ', 'T');
     data.duration = exam?.duration;
 
     if (exam?.type == ExamTypes.OFFLINE) {
@@ -303,9 +295,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         title: itemData?.title,
         title_en: itemData?.title_en,
         subject_id: itemData?.subject_id,
-        course_id: itemData?.course_id,
-        training_center_id: itemData?.training_center_id,
-        purpose_id: itemData?.purpose_id,
         type: itemData?.type,
         row_status: itemData?.row_status,
       };
@@ -326,15 +315,12 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         }
       }
 
-      onChangeCourse(itemData?.course_id);
-      onChangeTrainingCenter(itemData?.training_center_id);
-
       setExamType(itemData?.type);
       setSubjectId(itemData?.subject_id);
 
       reset(data);
     }
-  }, [itemData, trainingCenters]);
+  }, [itemData]);
 
   const onChangeExamType = useCallback((value) => {
     setExamType(Number(value));
@@ -361,17 +347,16 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
     let data = cloneDeep(formData);
 
-    data.purpose_name = ExamPurposeNames.BATCH;
-
-    if (examType !== ExamTypes.MIXED) {
+    if (examType == ExamTypes.ONLINE || examType == ExamTypes.OFFLINE) {
       delete data.online;
       delete data.offline;
       if (examType == ExamTypes.ONLINE) delete data.total_set;
 
-      data.exam_date =
-        data.exam_date
+      data.start_date =
+        data.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
+      data.end_date = data.start_date;
 
       let arr: any = data.exam_questions.filter(
         (item: any) => item.is_question_checked != false,
@@ -390,22 +375,23 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
 
         return rest;
       });
-    }
-
-    if (examType == ExamTypes.MIXED) {
-      delete data.exam_date;
+    } else if (examType == ExamTypes.MIXED) {
+      delete data.start_date;
+      delete data.end_date;
       delete data.duration;
       delete data.exam_questions;
 
-      data.online.exam_date =
-        data.online.exam_date
+      data.online.start_date =
+        data.online.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
+      data.online.end_date = data.online.start_date;
 
-      data.offline.exam_date =
-        data.offline.exam_date
+      data.offline.start_date =
+        data.offline.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
+      data.offline.end_date = data.offline.start_date;
 
       let arrOnline: any = data.online.exam_questions.filter(
         (item: any) => item.is_question_checked != false,
@@ -437,12 +423,24 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
           return rest;
         },
       );
+    } else {
+      delete data.exam_questions;
+      delete data.online;
+      delete data.offline;
+
+      data.start_date =
+        data.start_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace('T', ' ') + ':00';
+      data.end_date =
+        data.end_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace('T', ' ') + ':00';
     }
 
-    if (examType != ExamTypes.MIXED) {
-      // total_marks total_marks
+    if (examType == ExamTypes.ONLINE || examType == ExamTypes.OFFLINE) {
       data.total_marks = getTotalCount(data.exam_questions);
-    } else {
+    } else if (examType == ExamTypes.MIXED) {
       data.online.total_marks = getTotalCount(data.online.exam_questions);
       data.offline.total_marks = getTotalCount(data.offline.exam_questions);
     }
@@ -490,24 +488,24 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         id: ExamTypes.MIXED,
         label: messages['common.mixed'],
       },
+      {
+        id: ExamTypes.PRACTICAL,
+        label: messages['common.practical'],
+      },
+      {
+        id: ExamTypes.FIELDWORK,
+        label: messages['common.field_work'],
+      },
+      {
+        id: ExamTypes.PRESENTATION,
+        label: messages['common.presentation'],
+      },
+      {
+        id: ExamTypes.ASSIGNMENT,
+        label: messages['common.assignment'],
+      },
     ],
     [messages],
-  );
-
-  const onChangeCourse = useCallback((courseId: any) => {
-    setCourseId(courseId);
-    setBatches([]);
-  }, []);
-
-  const onChangeTrainingCenter = useCallback(
-    (trainingCenterId: any) => {
-      let arr = (trainingCenters || []).filter(
-        (item: any) => item.id == trainingCenterId,
-      );
-      if (arr && arr.length > 0) setBatches(arr[0]?.batches);
-      else setBatches([]);
-    },
-    [trainingCenters],
   );
 
   return (
@@ -590,48 +588,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='course_id'
-                label={messages['course.label']}
-                isLoading={isLoadingCourse}
-                control={control}
-                options={courses}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-                onChange={onChangeCourse}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='training_center_id'
-                label={messages['training_center.label']}
-                isLoading={isTrainingCentersLoading}
-                control={control}
-                options={trainingCenters}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-                onChange={onChangeTrainingCenter}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CustomFilterableFormSelect
-                required
-                id='purpose_id'
-                label={messages['batches.label']}
-                isLoading={isTrainingCentersLoading}
-                control={control}
-                options={batches}
-                optionValueProp={'id'}
-                optionTitleProp={['title']}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
               <CustomFormSelect
                 required
                 id={'type'}
@@ -645,6 +601,43 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 onChange={onChangeExamType}
               />
             </Grid>
+
+            {examType &&
+            ![ExamTypes.ONLINE, ExamTypes.OFFLINE, ExamTypes.MIXED].includes(
+              examType,
+            ) ? (
+              <>
+                <Grid item xs={6}>
+                  <CustomDateTimePicker
+                    required
+                    id={'start_date'}
+                    label={messages['common.start_date']}
+                    register={register}
+                    errorInstance={errors}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CustomDateTimePicker
+                    required
+                    id={'end_date'}
+                    label={messages['common.end_date']}
+                    register={register}
+                    errorInstance={errors}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <CustomTextInput
+                    required
+                    id={'total_marks'}
+                    label={messages['common.marks']}
+                    register={register}
+                    errorInstance={errors}
+                  />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
             {(examType == ExamTypes.ONLINE || examType == ExamTypes.MIXED) &&
               subjectId && (

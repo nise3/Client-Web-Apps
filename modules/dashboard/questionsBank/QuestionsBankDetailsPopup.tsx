@@ -34,12 +34,6 @@ const QuestionsBankDetailsPopup = ({
         return messages['common.fill_in_the_blanks'];
       case QuestionType.YES_NO:
         return messages['question.type.y_n'];
-      case QuestionType.PRACTICAL:
-        return messages['common.practical'];
-      case QuestionType.FIELD_WORK:
-        return messages['common.field_work'];
-      case QuestionType.PRESENTATION:
-        return messages['common.presentation'];
       case QuestionType.DESCRIPTIVE:
         return messages['common.descriptive'];
       default:
@@ -71,156 +65,106 @@ const QuestionsBankDetailsPopup = ({
         }>
         <Grid container spacing={5}>
           <Grid item xs={6}>
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <DetailsInputView
-                  label={messages['subject.label']}
-                  value={itemData?.exam_subject_title}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </Grid>
+            <DetailsInputView
+              label={messages['subject.label']}
+              value={itemData?.exam_subject_title}
+              isLoading={isLoading}
+            />
           </Grid>
           <Grid item xs={6}>
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <DetailsInputView
-                  label={messages['question.type']}
-                  value={questionType(itemData?.question_type)}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </Grid>
+            <DetailsInputView
+              label={messages['question.type']}
+              value={questionType(itemData?.question_type)}
+              isLoading={isLoading}
+            />
           </Grid>
           <Grid item xs={6}>
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <DetailsInputView
-                  label={messages['common.title']}
-                  value={itemData?.title}
-                  isLoading={isLoading}
-                />
-              </Grid>
-            </Grid>
+            <DetailsInputView
+              label={messages['common.title']}
+              value={itemData?.title}
+              isLoading={isLoading}
+            />
           </Grid>
-          <Grid item xs={6}>
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <DetailsInputView
-                  label={messages['common.title_en']}
-                  value={itemData?.title_en}
-                  isLoading={isLoading}
-                />
-              </Grid>
+          {itemData?.question_type != QuestionType.FILL_IN_THE_BLANK && (
+            <Grid item xs={6}>
+              <DetailsInputView
+                label={messages['common.title_en']}
+                value={itemData?.title_en}
+                isLoading={isLoading}
+              />
             </Grid>
-          </Grid>
+          )}
 
           {itemData && QuestionType.MCQ == itemData?.question_type && (
             <>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option1']}
-                      value={itemData?.option_1}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option1']}
+                  value={itemData?.option_1}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option1_en']}
-                      value={itemData?.option_1_en}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option1_en']}
+                  value={itemData?.option_1_en}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option2']}
-                      value={itemData?.option_2}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option2']}
+                  value={itemData?.option_2}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option2_en']}
-                      value={itemData?.option_2_en}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option2_en']}
+                  value={itemData?.option_2_en}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option3']}
-                      value={itemData?.option_3}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option3']}
+                  value={itemData?.option_3}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option3_en']}
-                      value={itemData?.option_3_en}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option3_en']}
+                  value={itemData?.option_3_en}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option4']}
-                      value={itemData?.option_4}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option4']}
+                  value={itemData?.option_4}
+                  isLoading={isLoading}
+                />
               </Grid>
               <Grid item xs={6}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <DetailsInputView
-                      label={messages['option.option4_en']}
-                      value={itemData?.option_4_en}
-                      isLoading={isLoading}
-                    />
-                  </Grid>
-                </Grid>
+                <DetailsInputView
+                  label={messages['option.option4_en']}
+                  value={itemData?.option_4_en}
+                  isLoading={isLoading}
+                />
               </Grid>
             </>
           )}
           {(QuestionType.MCQ == itemData?.question_type ||
             QuestionType.YES_NO == itemData?.question_type) && (
             <Grid item xs={6}>
-              <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <DetailsInputView
-                    label={messages['question.answer']}
-                    value={(itemData?.answers || [])
-                      .map((ans: any) => ans)
-                      .join(', ')}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-              </Grid>
+              <DetailsInputView
+                label={messages['question.answer']}
+                value={(itemData?.answers || [])
+                  .map((ans: any) => ans)
+                  .join(', ')}
+                isLoading={isLoading}
+              />
             </Grid>
           )}
         </Grid>

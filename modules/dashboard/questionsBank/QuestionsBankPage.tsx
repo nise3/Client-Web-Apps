@@ -151,12 +151,6 @@ const QuestionsBankPage = () => {
         return messages['common.fill_in_the_blanks'];
       case QuestionType.YES_NO:
         return messages['question.type.y_n'];
-      case QuestionType.PRACTICAL:
-        return messages['common.practical'];
-      case QuestionType.FIELD_WORK:
-        return messages['common.field_work'];
-      case QuestionType.PRESENTATION:
-        return messages['common.presentation'];
       case QuestionType.DESCRIPTIVE:
         return messages['common.descriptive'];
       default:

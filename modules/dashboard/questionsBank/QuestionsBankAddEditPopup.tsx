@@ -63,9 +63,6 @@ const QuestionsBankAddEditPopup = ({
   const isEdit = itemId != null;
 
   const [subjectFilters] = useState({});
-  const [isMCQ, setIsMCQ] = useState<boolean>(false);
-  const [isYesNo, setIsYesNo] = useState<boolean>(false);
-  const [isFillInBlank, setIsFillInBlank] = useState<boolean>(false);
 
   const {
     data: itemData,
@@ -75,6 +72,8 @@ const QuestionsBankAddEditPopup = ({
 
   const {data: subjects, isLoading: isFetchingSubjects} =
     useFetchSubjects(subjectFilters);
+
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -91,44 +90,49 @@ const QuestionsBankAddEditPopup = ({
         .string()
         .required()
         .label(messages['common.question_type'] as string),
-      option_1: isMCQ
-        ? yup
-            .string()
-            .required()
-            .label(messages['option.option1'] as string)
-        : yup.string().nullable(),
-      option_2: isMCQ
-        ? yup
-            .string()
-            .required()
-            .label(messages['option.option2'] as string)
-        : yup.string().nullable(),
-      option_3: isMCQ
-        ? yup
-            .string()
-            .required()
-            .label(messages['option.option3'] as string)
-        : yup.string().nullable(),
-      option_4: isMCQ
-        ? yup
-            .string()
-            .required()
-            .label(messages['option.option4'] as string)
-        : yup.string().nullable(),
-      answers: isMCQ
-        ? yup
-            .array()
-            .of(yup.mixed())
-            .min(1)
-            .label(messages['question.answer'] as string)
-        : isYesNo
-        ? yup
-            .string()
-            .required()
-            .label(messages['option.answer'] as string)
-        : yup.mixed(),
+      option_1:
+        selectedType && selectedType == QuestionType.MCQ
+          ? yup
+              .string()
+              .required()
+              .label(messages['option.option1'] as string)
+          : yup.string().nullable(),
+      option_2:
+        selectedType && selectedType == QuestionType.MCQ
+          ? yup
+              .string()
+              .required()
+              .label(messages['option.option2'] as string)
+          : yup.string().nullable(),
+      option_3:
+        selectedType && selectedType == QuestionType.MCQ
+          ? yup
+              .string()
+              .required()
+              .label(messages['option.option3'] as string)
+          : yup.string().nullable(),
+      option_4:
+        selectedType && selectedType == QuestionType.MCQ
+          ? yup
+              .string()
+              .required()
+              .label(messages['option.option4'] as string)
+          : yup.string().nullable(),
+      answers:
+        selectedType && selectedType == QuestionType.MCQ
+          ? yup
+              .array()
+              .of(yup.mixed())
+              .min(1)
+              .label(messages['question.answer'] as string)
+          : selectedType && selectedType == QuestionType.YES_NO
+          ? yup
+              .string()
+              .required()
+              .label(messages['option.answer'] as string)
+          : yup.mixed(),
     });
-  }, [messages, isMCQ, isYesNo]);
+  }, [messages, selectedType]);
 
   const questionTypes = useMemo(
     () => [
@@ -143,18 +147,6 @@ const QuestionsBankAddEditPopup = ({
       {
         key: QuestionType.YES_NO,
         label: messages['question.type.y_n'],
-      },
-      {
-        key: QuestionType.PRACTICAL,
-        label: messages['common.practical'],
-      },
-      {
-        key: QuestionType.FIELD_WORK,
-        label: messages['common.field_work'],
-      },
-      {
-        key: QuestionType.PRESENTATION,
-        label: messages['common.presentation'],
       },
       {
         key: QuestionType.DESCRIPTIVE,
@@ -234,11 +226,7 @@ const QuestionsBankAddEditPopup = ({
             : itemData?.answers,
         row_status: itemData?.row_status,
       };
-      setIsMCQ(String(itemData?.question_type) == QuestionType.MCQ);
-      setIsFillInBlank(
-        String(itemData?.question_type) == QuestionType.FILL_IN_THE_BLANK,
-      );
-      setIsYesNo(String(itemData?.question_type) == QuestionType.YES_NO);
+      setSelectedType(String(itemData?.question_type));
 
       reset(data);
     } else {
@@ -247,31 +235,11 @@ const QuestionsBankAddEditPopup = ({
   }, [itemData]);
 
   const onChangeType = (value: any) => {
-    setIsMCQ(String(value) == QuestionType.MCQ);
-    setIsFillInBlank(String(value) == QuestionType.FILL_IN_THE_BLANK);
-    setIsYesNo(String(value) == QuestionType.YES_NO);
+    setSelectedType(value ? String(value) : null);
   };
 
-  useEffect(() => {
-    if (itemData && itemData.question_type == QuestionType.MCQ) {
-      setIsMCQ(String(itemData.question_type) == QuestionType.MCQ);
-    }
-    if (itemData && itemData.question_type == QuestionType.FILL_IN_THE_BLANK) {
-      setIsFillInBlank(
-        String(itemData.question_type) == QuestionType.FILL_IN_THE_BLANK,
-      );
-    }
-    if (itemData && itemData.question_type == QuestionType.YES_NO) {
-      setIsYesNo(String(itemData.question_type) == QuestionType.YES_NO);
-    }
-  }, [itemData]);
-
-  // console.log('errors->', errors);
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    // console.log('data->', data);
-
-    if (!isMCQ) {
+    if (selectedType != QuestionType.MCQ) {
       data.option_1 = '';
       data.option_1_en = '';
       data.option_2 = '';
@@ -282,15 +250,19 @@ const QuestionsBankAddEditPopup = ({
       data.option_4_en = '';
     }
 
-    if (!isEdit && !isMCQ && !isYesNo) {
+    if (
+      !isEdit &&
+      selectedType != QuestionType.MCQ &&
+      selectedType != QuestionType.YES_NO
+    ) {
       data.answers = [];
     }
 
-    if (isYesNo && data.answers) {
+    if (selectedType == QuestionType.YES_NO && data.answers) {
       data.answers = [String(data.answers)];
     }
 
-    if (isMCQ && data.answers) {
+    if (selectedType == QuestionType.MCQ && data.answers) {
       data.answers = data?.answers.map((ans: any) => String(ans));
     }
 
@@ -377,7 +349,7 @@ const QuestionsBankAddEditPopup = ({
             errorInstance={errors}
             isLoading={isLoading}
           />
-          {isFillInBlank && (
+          {selectedType == QuestionType.FILL_IN_THE_BLANK && (
             <Box
               sx={{fontStyle: 'italic', fontWeight: 'bold', marginTop: '6px'}}>
               Ex: This is [[fill in the blank]] question.(Ans will be in [[]],
@@ -385,17 +357,19 @@ const QuestionsBankAddEditPopup = ({
             </Box>
           )}
         </Grid>
-        <Grid item xs={6}>
-          <CustomTextInput
-            id={'title_en'}
-            label={messages['common.question_en']}
-            register={register}
-            errorInstance={errors}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {selectedType != QuestionType.FILL_IN_THE_BLANK && (
+          <Grid item xs={6}>
+            <CustomTextInput
+              id={'title_en'}
+              label={messages['common.question_en']}
+              register={register}
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
 
-        {isMCQ && (
+        {selectedType == QuestionType.MCQ && (
           <>
             <Grid item xs={6}>
               <CustomTextInput
@@ -476,7 +450,8 @@ const QuestionsBankAddEditPopup = ({
           </>
         )}
 
-        {(isMCQ || isYesNo) && (
+        {(selectedType == QuestionType.MCQ ||
+          selectedType == QuestionType.YES_NO) && (
           <Grid item xs={6}>
             <CustomFormSelect
               id='answers'
@@ -484,11 +459,13 @@ const QuestionsBankAddEditPopup = ({
               label={messages['question.answer']}
               isLoading={false}
               control={control}
-              options={isMCQ ? answerOptions : yesNoOption}
+              options={
+                selectedType == QuestionType.MCQ ? answerOptions : yesNoOption
+              }
               optionValueProp={'id'}
               optionTitleProp={['label']}
               errorInstance={errors}
-              multiple={isMCQ}
+              multiple={selectedType == QuestionType.MCQ}
               defaultValue={initialValues.answers}
             />
           </Grid>

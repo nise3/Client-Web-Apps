@@ -9,13 +9,10 @@ export enum QuestionType {
   MCQ = '1',
   FILL_IN_THE_BLANK = '2',
   YES_NO = '3',
-  PRACTICAL = '4',
-  FIELD_WORK = '5',
-  PRESENTATION = '6',
-  DESCRIPTIVE = '7',
+  DESCRIPTIVE = '4',
 }
 
-export const questionTypesArray = ['1', '2', '3', '4', '5', '6', '7'];
+export const questionTypesArray = ['1', '2', '3', '4'];
 
 export enum AnswerType {
   YES = '1',
