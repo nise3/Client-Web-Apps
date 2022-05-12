@@ -1,4 +1,3 @@
-import { CERTIFICATE_API_URL, CERTIFICATE_TYPE_API_URL } from "../../modules/dashboard/certificate-issue/certificate-issue-constant";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL

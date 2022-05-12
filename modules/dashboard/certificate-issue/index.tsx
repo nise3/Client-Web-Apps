@@ -1,32 +1,27 @@
-import {yupResolver} from '@hookform/resolvers/yup';
-import {useEventCallback} from '@mui/material';
+import { useEventCallback } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {useIntl} from 'react-intl';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {API_CERTIFICATES_ISSUE, API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
+import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import yup from '../../../@softbd/libs/yup';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
-  isResponseSuccess,
+  isResponseSuccess
 } from '../../../@softbd/utilities/helpers';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import { CommonAuthUser } from '../../../redux/types/models/CommonAuthUser';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
-import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
-import { useFetchCertificateIssued, useFetchCourseEnrolment } from '../../../services/instituteManagement/hooks';
-import { ICertificate, ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
+import { useFetchCertificateIssued } from '../../../services/instituteManagement/hooks';
+import { ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
 import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
@@ -166,8 +161,14 @@ const CertificateIssuePage = () => {
         },
       },
       {
-        Header: messages['common.youths'],
-        accessor: 'youth_id',
+        Header: messages['common.name'],
+        accessor: 'youth_profile.first_name',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['common.name_en'],
+        accessor: 'youth_profile.first_name_en',
+        isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['menu.batch'],
@@ -239,9 +240,11 @@ const CertificateIssuePage = () => {
             <IconCourse /> <IntlMessages id='certificate.certificate_issue' />
           </>
         }>
+          <div>{certificatesIssueList[0]?.isIssued}</div>
         <ReactTable
           columns={columns}
           data={certificatesIssueList}
+          // data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

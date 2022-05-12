@@ -1,34 +1,19 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
+import { FiUserCheck } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import { API_CERTIFICATES_ISSUE } from '../../../@softbd/common/apiRoutes';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
-import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_BRANCHES, API_CERTIFICATES_ISSUE} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import BranchAddEditPopup from './BranchAddEditPopup';
-import BranchDetailsPopup from './BranchDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteBranch} from '../../../services/instituteManagement/BranchService';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {useFetchAllInstitutes} from '../../../services/instituteManagement/hooks';
-import { FiUserCheck } from 'react-icons/fi';
-import Link from 'next/link';
-import { getYouthProfiles } from '../../../services/youthManagement/YouthService';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import {
+  getCalculatedSerialNo
+} from '../../../@softbd/utilities/helpers';
+import PageBlock from '../../../@softbd/utilities/PageBlock';
+
 
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
