@@ -2017,5 +2017,10 @@
   "4ir_tot.organiser": "অর্গানাইজার",
   "4ir_tot.co_organiser": "কো-অর্গানাইজার",
   "4ir_tot.participants": "অংশগ্রহণকারী",
-  "4ir_tot.label": "4 আই আর টিওটি"
+  "4ir_tot.label": "4 আই আর টিওটি",
+  "4ir.researcher_name" : "রিসার্চারের নাম",
+  "4ir.research_team_information" : "রিসার্চ টিম তথ্য",
+  "4ir.report_file" : "রিপোর্ট ফাইল",
+  "4ir.research_method" : "রিসার্চ মেথড",
+  "4ir_project_analysis.label" : "4 আই আর প্রজেক্ট এনালাইসিস"
 }

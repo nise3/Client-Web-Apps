@@ -6,6 +6,7 @@ import {
   API_4IR_CURRICULUM,
   API_4IR_INITIATIVE,
   API_4IR_OCCUPATIONS,
+  API_4IR_PROJECT_ANALYSIS,
   API_4IR_Resource_Management,
   API_4IR_SCALE_UP,
   API_4IR_SECTORS,
@@ -83,4 +84,14 @@ export function useFetchFourIRToT(totId: number | null) {
 
 export function useFetchFourIRToTs(params: any) {
   return useAxiosSWR([API_4IR_TOT, params]);
+}
+
+export function useFetch4IRProjectAnalysis(analysisId: number | null) {
+  return useAxiosSWR(
+    analysisId ? API_4IR_PROJECT_ANALYSIS + '/' + analysisId : null,
+  );
+}
+
+export function useFetchAll4IRProjectAnalysis(params: any) {
+  return useAxiosSWR([API_4IR_PROJECT_ANALYSIS, params]);
 }

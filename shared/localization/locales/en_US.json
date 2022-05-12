@@ -2016,5 +2016,10 @@
   "4ir_tot.organiser": "Organiser",
   "4ir_tot.co_organiser": "Co-Organiser",
   "4ir_tot.participants": "Participants",
-  "4ir_tot.label": "4IR ToT"
+  "4ir_tot.label": "4IR ToT",
+  "4ir.researcher_name" : "Researcher Name",
+  "4ir.research_team_information" : "Research Team Information",
+  "4ir.report_file" : "Report File",
+  "4ir.research_method" : "Research Method",
+  "4ir_project_analysis.label" : "4IR Project Analysis"
 }
