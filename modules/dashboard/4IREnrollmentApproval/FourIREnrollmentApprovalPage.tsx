@@ -1,7 +1,9 @@
 import {useState} from 'react';
 import CourseListPage from './CourseListPage';
-import BatchListPage from './BatchListPage';
-import YouthListPage from './YouthListPage';
+import EnrolledYouthList from './EnrolledYouthList';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_COURSES} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -12,23 +14,45 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
   // const [selectedBatchId, setSelectedBatchId] = useState<number | null>(null);
   // const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
 
+  const previousHandler = () => {
+    setSelectedCourseId(null);
+  };
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_COURSES,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
+    });
+
   return (
     <>
-      <button onClick={() => setSelectedCourseId(null)}>Toggle</button>
+      {selectedCourseId && (
+        <CommonButton
+          onClick={() => previousHandler()}
+          btnText={'common.previous'}
+        />
+      )}
       {!selectedCourseId && (
         <CourseListPage
+          onFetchData={onFetchData}
+          data={data}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
           setSelectedCourseId={setSelectedCourseId}
           fourIRInitiativeId={fourIRInitiativeId}
         />
       )}
 
       {selectedCourseId && (
-        <BatchListPage
+        <EnrolledYouthList
           selectedCourseId={selectedCourseId}
           fourIRInitiativeId={fourIRInitiativeId}
         />
       )}
-      {null && <YouthListPage fourIRInitiativeId={fourIRInitiativeId} />}
     </>
   );
 };
