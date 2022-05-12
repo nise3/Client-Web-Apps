@@ -6,7 +6,7 @@ import {
   API_4IR_CURRICULUM,
   API_4IR_INITIATIVE,
   API_4IR_OCCUPATIONS,
-  API_4IR_Resource_Management,
+  API_4IR_RESOURCE_MANAGEMENT,
   API_4IR_SCALE_UP,
   API_4IR_SECTORS,
   API_4IR_TAGLINES,
@@ -69,12 +69,12 @@ export function useFetchFourIRTagline(taglineId: number | null) {
 
 export function useFetchFourIRResource(resourceId: number | null) {
   return useAxiosSWR(
-    resourceId ? API_4IR_Resource_Management + '/' + resourceId : null,
+    resourceId ? API_4IR_RESOURCE_MANAGEMENT + '/' + resourceId : null,
   );
 }
 
 export function useFetchFourIRResources(params: any) {
-  return useAxiosSWR([API_4IR_Resource_Management, params]);
+  return useAxiosSWR([API_4IR_RESOURCE_MANAGEMENT, params]);
 }
 
 export function useFetchFourIRToT(totId: number | null) {

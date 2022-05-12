@@ -23,7 +23,6 @@ interface IFourIRToTPageProps {
 }
 const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
   const {messages, locale} = useIntl();
-  //const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);

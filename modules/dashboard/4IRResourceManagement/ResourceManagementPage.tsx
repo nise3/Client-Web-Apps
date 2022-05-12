@@ -9,12 +9,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import ResourceManagementAddEditPopup from './ResourceManagementAddEditPopup';
 import ResourceManagementDetailsPopup from './ResourceManagementDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-//import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-//import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import IconSkill from '../../../@softbd/icons/IconSkill';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_Resource_Management} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_RESOURCE_MANAGEMENT} from '../../../@softbd/common/apiRoutes';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
@@ -22,7 +20,6 @@ interface IFourIRRMPageProps {
 
 const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   const {messages} = useIntl();
-  //const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -51,19 +48,6 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  /*const deleteOccupationItem = async (occupationId: number) => {
-    let response = await deleteFourIROccupation(occupationId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='menu.occupations' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };*/
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -119,10 +103,6 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {/*<DeleteButton
-                deleteAction={() => deleteOccupationItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />*/}
             </DatatableButtonGroup>
           );
         },
@@ -134,7 +114,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_Resource_Management,
+      urlPath: API_4IR_RESOURCE_MANAGEMENT,
       paramsValueModifier: (params) => {
         params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;

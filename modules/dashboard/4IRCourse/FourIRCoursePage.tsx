@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
@@ -6,41 +6,75 @@ import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_4IR_COURSE} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRInitiativeAddEditPopup from './FourIRInitiativeAddEditPopup';
-import FourIRInitiativeDetailsPopup from './FourIRInitiativeDetailsPopup';
+import FourIRCourseAddEditPopup from './FourIRCourseAddEditPopup';
+import FourIRCourseDetailsPopup from './FourIRCourseDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import TaskIcon from '@mui/icons-material/Task';
 import {
   getCalculatedSerialNo,
-  getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {useRouter} from 'next/router';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
-import {deleteInitiative} from '../../../services/4IRManagement/InitiativeService';
+import IconCourse from '../../../@softbd/icons/IconCourse';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import RowStatus from '../../../@softbd/utilities/RowStatus';
+import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
+import {LEVEL} from '../courses/CourseEnums';
+import {deleteFourIRCourse} from '../../../services/4IRManagement/CourseService';
 
-const FourIRInitiativesPage = () => {
-  const router = useRouter();
-  const presentPath = router.asPath;
+interface IFourIRCoursePageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIRCoursePage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
+  const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+
+  const [youthSkillsFilter] = useState<any>({
+    row_status: RowStatus.ACTIVE,
+  });
+  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+
+  const [skillFilterItems, setSkillFilterItems] = useState([]);
+
+  useEffect(() => {
+    if (skills) {
+      setSkillFilterItems(
+        skills.map((skill: any) => {
+          if (language === 'bn') {
+            return {
+              id: skill?.id,
+              title: skill?.title,
+            };
+          } else {
+            return {
+              id: skill?.id,
+              title: skill?.title_en,
+            };
+          }
+        }),
+      );
+    }
+  }, [skills, language]);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const taglineId = Number(router.query.taglineId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -60,32 +94,24 @@ const FourIRInitiativesPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteInitiativeItem = async (initiativeId: number) => {
-    let response = await deleteInitiative(initiativeId);
+  const deleteCourseItem = async (courseId: number) => {
+    let response = await deleteFourIRCourse(courseId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='initiative.label' />}}
+          values={{subject: <IntlMessages id='4ir_course.label' />}}
         />,
       );
       refreshDataTable();
     }
   };
 
-  const openIncompleteStep = useCallback(
-    (initiativeId: any, completionStep: any, formStep: any) => {
-      router.push({
-        pathname: presentPath + '/' + initiativeId,
-        query: {
-          completionStep: completionStep,
-          formStep: formStep,
-          presentStep: completionStep + 1,
-        },
-      });
-    },
-    [presentPath],
-  );
+  const courseLevelFilterItems = [
+    {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
+    {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
+    {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
+  ];
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -105,58 +131,54 @@ const FourIRInitiativesPage = () => {
           );
         },
       },
+      {
+        Header: messages['common.title'],
+        accessor: 'title',
+      },
 
       {
-        Header: messages['common.initiative'],
-        accessor: 'name',
-      },
-      {
-        Header: messages['initiative.name_en'],
-        accessor: 'name_en',
+        Header: messages['common.skills'],
+        accessor: 'skills',
+        filter: 'selectFilter',
+        selectFilterItems: skillFilterItems,
         isVisible: false,
       },
       {
-        Header: messages['common.organization'],
-        accessor: 'organization_name',
+        Header: messages['institute.label'],
+        accessor: 'institute_title',
+        isVisible: locale == LocaleLanguage.BN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['common.organization_en'],
-        accessor: 'initiative.name_en',
-        isVisible: false,
+        Header: messages['institute.label'],
+        accessor: 'institute_title_en',
+        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
       {
-        Header: messages['common.designation'],
-        accessor: 'designation',
-      },
-      {
-        Header: messages['initiative.budget'],
-        accessor: 'budget',
+        Header: messages['course.fee'],
+        accessor: 'course_fee',
         disableFilters: true,
       },
       {
-        Header: messages['common.start_date'],
-        accessor: 'start_date',
-        filter: 'dateTimeFilter',
-        isVisible: false,
+        Header: messages['course.duration'],
+        accessor: 'duration',
         disableFilters: true,
+      },
+      {
+        Header: messages['course.course_level'],
+        accessor: 'level',
+        filter: 'selectFilter',
+        selectFilterItems: courseLevelFilterItems,
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
-          );
-        },
-      },
-      {
-        Header: messages['common.end_date'],
-        accessor: 'end_date',
-        filter: 'dateTimeFilter',
-        isVisible: false,
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <span>{getMomentDateFormat(data?.start_date, 'DD MMM, YYYY')}</span>
-          );
+          if (data?.level == LEVEL.BEGINNER) {
+            return <>{messages['level.beginner']}</>;
+          } else if (data?.level == LEVEL.INTERMEDIATE) {
+            return <>{messages['level.intermediate']}</>;
+          } else {
+            return <>{messages['level.expert']}</>;
+          }
         },
       },
       {
@@ -176,30 +198,8 @@ const FourIRInitiativesPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(
-                    data?.id,
-                    data?.completion_step,
-                    data?.form_step,
-                  );
-                }}
-                btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step + 1}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(data?.id, 1, 1);
-                }}
-                btnText={`4ir.view_steps`}
-                extraText={''}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
               <DeleteButton
-                deleteAction={() => deleteInitiativeItem(data.id)}
+                deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -208,14 +208,14 @@ const FourIRInitiativesPage = () => {
         sortable: false,
       },
     ],
-    [messages, locale],
+    [messages, locale, skillFilterItems],
   );
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_INITIATIVE,
+      urlPath: API_4IR_COURSE,
       paramsValueModifier: (params) => {
-        params['four_ir_tagline_id'] = taglineId;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
       },
     });
@@ -225,7 +225,7 @@ const FourIRInitiativesPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_initiative.label' />
+            <IconCourse /> <IntlMessages id='course.label' />
           </>
         }
         extra={[
@@ -237,7 +237,7 @@ const FourIRInitiativesPage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['initiative.label'],
+                  subject: messages['course.label'],
                 }}
               />
             }
@@ -253,17 +253,17 @@ const FourIRInitiativesPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRInitiativeAddEditPopup
+          <FourIRCourseAddEditPopup
             key={1}
-            fourIRTaglineId={taglineId}
             onClose={closeAddEditModal}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRInitiativeDetailsPopup
+          <FourIRCourseDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
@@ -275,4 +275,4 @@ const FourIRInitiativesPage = () => {
   );
 };
 
-export default FourIRInitiativesPage;
+export default FourIRCoursePage;
