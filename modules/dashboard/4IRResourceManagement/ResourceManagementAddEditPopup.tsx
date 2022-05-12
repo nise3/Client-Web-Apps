@@ -208,7 +208,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         <Grid item xs={6}>
           <FileUploadComponent
             id='file_path'
-            //defaultFileUrl={authUser?.profile_pic}
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}

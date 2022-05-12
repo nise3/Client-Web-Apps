@@ -189,6 +189,15 @@ const FourIRInitiativesPage = () => {
                 startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
                 color='secondary'
               />
+              <CommonButton
+                onClick={() => {
+                  openIncompleteStep(data?.id, 1, 1);
+                }}
+                btnText={`4ir.view_steps`}
+                extraText={''}
+                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
+                color='secondary'
+              />
               <DeleteButton
                 deleteAction={() => deleteInitiativeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
