@@ -8,11 +8,11 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import {useFetchCourse} from '../../../services/instituteManagement/hooks';
+import {useFetchFourIRCourse} from '../../../services/instituteManagement/hooks';
 import {ISkill} from '../../../shared/Interface/organization.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
-import {LEVEL, LANGUAGE_MEDIUM} from '../courses/CourseEnums';
+import {LANGUAGE_MEDIUM, LEVEL} from '../courses/CourseEnums';
 
 type Props = {
   itemId: number;
@@ -22,7 +22,7 @@ type Props = {
 
 const FourIRCourseDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchCourse(itemId);
+  const {data: itemData, isLoading} = useFetchFourIRCourse(itemId);
 
   const getSkillsName = useCallback(
     (skills: any = []) => {

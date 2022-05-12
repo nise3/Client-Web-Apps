@@ -15,7 +15,6 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {deleteCourse} from '../../../services/instituteManagement/CourseService';
 import {
   getCalculatedSerialNo,
   isResponseSuccess,
@@ -29,6 +28,7 @@ import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 import {LEVEL} from '../courses/CourseEnums';
+import {deleteFourIRCourse} from '../../../services/4IRManagement/CourseService';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
@@ -95,7 +95,7 @@ const FourIRCoursePage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
   }, []);
 
   const deleteCourseItem = async (courseId: number) => {
-    let response = await deleteCourse(courseId);
+    let response = await deleteFourIRCourse(courseId);
     if (isResponseSuccess(response)) {
       successStack(
         <IntlMessages

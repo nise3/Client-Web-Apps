@@ -12,10 +12,6 @@ import {useIntl} from 'react-intl';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {
-  createCourse,
-  updateCourse,
-} from '../../../services/instituteManagement/CourseService';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
@@ -34,9 +30,13 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-import {LEVEL, LANGUAGE_MEDIUM} from '../courses/CourseEnums';
+import {LANGUAGE_MEDIUM, LEVEL} from '../courses/CourseEnums';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import _ from 'lodash';
+import {
+  createFourIRCourse,
+  updateFourIRCourse,
+} from '../../../services/4IRManagement/CourseService';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
@@ -309,7 +309,7 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         prerequisite: itemData?.prerequisite,
         prerequisite_en: itemData?.prerequisite_en,
         row_status: String(itemData?.row_status),
-        skills: getSkillIds(itemData?.skills),
+        skills: itemData?.skills,
         cover_image: itemData?.cover_image,
       });
       setValuesOfConfigs(itemData?.application_form_settings);
@@ -317,10 +317,6 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData]);
-
-  const getSkillIds = (skills: any) => {
-    return skills.map((item: any) => item.id);
-  };
 
   const setValuesOfConfigs = (config: string | undefined | null) => {
     try {
@@ -371,30 +367,27 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   };
 
   const onSubmit: SubmitHandler<ICourse> = async (data: ICourse) => {
-    let formData = _.cloneDeep(data);
-    formData.application_form_settings = getConfigInfoData(
-      data.application_form_settings,
-    );
-
-    if (!authUser?.isSystemUser) {
-      delete formData?.institute_id;
-    }
-
-    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
-
     try {
-      let payload = {
-        four_ir_initiative_id: fourIRInitiativeId,
-        ...formData,
-      };
+      let formData: any = _.cloneDeep(data);
+      formData.application_form_settings = getConfigInfoData(
+        data.application_form_settings,
+      );
+
+      if (!authUser?.isSystemUser) {
+        delete formData?.institute_id;
+      }
+
+      formData.skills = (data?.skills || []).map((skill: any) => skill.id);
+
+      formData.four_ir_initiative_id = fourIRInitiativeId;
 
       if (itemId) {
-        await updateCourse(itemId, payload);
+        await updateFourIRCourse(itemId, formData);
         updateSuccessMessage('4ir_course.label');
         mutateCourse();
         await closeAction();
       } else {
-        await createCourse(payload);
+        await createFourIRCourse(formData);
         createSuccessMessage('4ir_course.label');
         setShowSuccessPopUp(true);
       }
