@@ -29,6 +29,13 @@ import { ICertificateBatchSetting } from '../../../shared/Interface/certificates
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUserCheck} from 'react-icons/fi';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import DownloadIcon from '@mui/icons-material/Download';
+import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 
 const BatchesPage = () => {
   const { messages, locale } = useIntl();
@@ -38,6 +45,11 @@ const BatchesPage = () => {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedBatchItem, setSelectedBatchItem] = useState<ICertificateBatchSetting | null>(null);
+<<<<<<< HEAD
+=======
+  const [courseId, setCourseId] = useState<number>();
+
+>>>>>>> d5638594 (relolved conflict)
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isOpenAddEditTemplateModal, setIsOpenAddEditTemplateModal] = useState(false);
@@ -82,6 +94,31 @@ const BatchesPage = () => {
 
 
     
+  }, []);
+
+  const closeDetailsTemplateModal = useCallback(() => {
+    setSelectedBatchItem(null)
+    setIsOpenAddEditTemplateModal(false);
+  }, []);
+
+  const openDetailsTemplateModal = useCallback((item: ICertificateBatchSetting) => {
+    const certificateId = item.certificate_id as number;
+    if(certificateId){
+      createCertificateById(certificateId)
+      .then((res: any)=> {
+        setIsOpenAddEditTemplateModal(true);
+        item.certificate_type = res?.data?.result_type;
+
+        setSelectedBatchItem(item)
+      })
+    } else {
+      setIsOpenAddEditTemplateModal(true);
+    }
+
+    // const certificate = certificatesList.find(item=> item.id === certificateId);
+
+
+
   }, []);
 
   const closeDetailsTemplateModal = useCallback(() => {
@@ -215,6 +252,30 @@ const BatchesPage = () => {
                 variant='outlined'
                 onClick={() => openDetailsTemplateModal(data)}
                 color='primary'
+<<<<<<< HEAD
+=======
+              />
+              {data.certificate_id &&
+                <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+                  <CommonButton
+                    btnText='certificate.certificate_issue'
+                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    style={{ marginLeft: '10px' }}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Link>
+              }
+
+              <CommonButton
+                key={2}
+                onClick={() => openImportModal(data?.course_id, data?.id)}
+                btnText={messages['common.import'] as string}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '5px'}}
+                startIcon={<DownloadIcon />}
+>>>>>>> d5638594 (relolved conflict)
               />
               {data.certificate_id &&
                 <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
