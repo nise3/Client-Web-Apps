@@ -1,14 +1,14 @@
-import { ShapeConfig } from "konva/lib/Shape";
-import { without } from "ramda";
-import { DefaultValue, selector, selectorFamily } from "recoil";
-import { CanvasElement } from "../../interfaces/StageConfig";
-import { selectedElementIdState } from "../atoms/editor";
-import { elementIdsState, elementState } from "../atoms/template";
+import {ShapeConfig} from 'konva/lib/Shape';
+import {without} from 'ramda';
+import {DefaultValue, selector, selectorFamily} from 'recoil';
+import {CanvasElement} from '../../interfaces/StageConfig';
+import {selectedElementIdState} from '../atoms/editor';
+import {elementIdsState, elementState} from '../atoms/template';
 
 export const elementsSelector = selector<CanvasElement[]>({
-  key: "elementsSelector",
-  get: ({ get }) => get(elementIdsState).map((id) => get(elementState(id))!),
-  set: ({ reset, get, set }, elements) => {
+  key: 'elementsSelector',
+  get: ({get}) => get(elementIdsState).map((id) => get(elementState(id))!),
+  set: ({reset, get, set}, elements) => {
     if (elements instanceof DefaultValue) {
       get(elementIdsState).map((id) => reset(elementState(id)));
       reset(elementIdsState);
@@ -18,7 +18,7 @@ export const elementsSelector = selector<CanvasElement[]>({
         elements.map((element) => {
           set(elementState(element.id), element);
           return element.id;
-        })
+        }),
       );
     }
   },
@@ -28,15 +28,14 @@ export const elementSelector = selectorFamily<
   CanvasElement | undefined,
   string
 >({
-  key: "elementSelector",
+  key: 'elementSelector',
   get:
     (id) =>
-    ({ get }) =>
+    ({get}) =>
       get(elementState(id)),
   set:
     (id) =>
-    ({ set, get, reset }, element) => {
-   
+    ({set, get, reset}, element) => {
       if (element instanceof DefaultValue) {
         reset(elementState(id));
         set(elementIdsState, (elementIds) => without([id], elementIds));
@@ -51,17 +50,17 @@ export const elementSelector = selectorFamily<
 });
 
 export const elementPropsSelector = selectorFamily({
-  key: "elementPropsSelector",
+  key: 'elementPropsSelector',
   get:
     <P extends ShapeConfig>(id: string) =>
-    ({ get }) =>
+    ({get}) =>
       get(elementSelector(id))?.props as P,
 });
 
 export const isSelectedElementSelector = selectorFamily({
-  key: "isSelectedElementSelector",
+  key: 'isSelectedElementSelector',
   get:
     (id: string) =>
-    ({ get }) =>
+    ({get}) =>
       get(selectedElementIdState) === id,
 });
