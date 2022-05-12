@@ -80,9 +80,6 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     useFetchLocalizedUpazilas(upazilasFilter);
   const {data: institutes, isLoading: isLoadingInstitutes} =
     useFetchLocalizedInstitutes(institutesFilter);
-  /*const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);*/
 
   const {
     data: itemData,
