@@ -58,7 +58,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   //   mutate: mutateBatch,
   // } = useFetchBatch(itemId);
 
-  // console.log('batch data ', batch)
+  console.log('batch data ', batch)
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -127,16 +127,16 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
     data.certificate_id = data.certificate_id;
     const datawithcetificateid = { ...batch, ...data };
-    try {
+    // try {
       if (batch.id) {
         await updateBatch(batch.id, datawithcetificateid);
         // mutateBatch();
       }
       props.onClose();
       refreshDataTable();
-    } catch (error: any) {
-      processServerSideErrors({ error, setError, validationSchema, errorStack });
-    }
+    // } catch (error: any) {
+    //   processServerSideErrors({ error, setError, validationSchema, errorStack });
+    // }
   };
 
   return (

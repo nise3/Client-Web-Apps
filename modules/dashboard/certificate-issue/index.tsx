@@ -95,7 +95,7 @@ const CertificateIssuePage = () => {
   
 
   // console.log('after youthListByBatch', youthListByBatch)
-  // const response = await courseEnroll(certificateIssueFilter);
+// const response = await courseEnroll(certificateIssueFilter);
   // const [issueFilterItems, setIssueFilterItems] = useState([]);
 
   const refreshDataTable = useCallback(() => {
@@ -221,7 +221,7 @@ const CertificateIssuePage = () => {
     useEffect(() => {
         if(data){
           const filteredData = data.map((item:any)=>{
-            const isIssued = issuedData.find((issue:ICertificateIssueView) => issue.certificate_id == item.certificate_id) !== undefined;
+            const isIssued = issuedData.find((issue:ICertificateIssueView) => issue.certificate_id == item.certificate_id && issue.youth_id == item.youth_id) !== undefined;
             return {...item, ...{isIssued: isIssued}}
           })
           .filter((e:any) => !e.isIssued)
