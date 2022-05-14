@@ -270,6 +270,7 @@ export const API_YOUTH_UPDATE_PASSWORD =
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
+export const API_YOUTH_GUARDIANS_BY_YOUTH = YOUTH_SERVICE_PATH + '/youth-guardians-by-youth';
 
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';

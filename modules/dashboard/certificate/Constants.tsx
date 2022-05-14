@@ -5,3 +5,8 @@ export enum RESULT_TYPE {
   MARKS = 4,
   PARTICIPATION = 5,
 }
+
+export const CERTIRICATE_LANGUAGE = {
+  BANGLA : 1,
+  ENGLISH : 2
+}

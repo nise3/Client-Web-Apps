@@ -22,7 +22,7 @@ import {
 } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { useFetchCertificate } from '../../../services/CertificateAuthorityManagement/hooks';
 import { ICertificate } from './../../../shared/Interface/certificates';
-import { RESULT_TYPE } from './Constants';
+import { CERTIRICATE_LANGUAGE, RESULT_TYPE } from './Constants';
 import useTemplateDispatcher from './editor/state/dispatchers/template';
 import { toTemplateJSON } from './editor/utils/template';
 interface CertificateAddEditPopupProps {
@@ -33,11 +33,13 @@ const initialValues = {
   title_en: '',
   title: '',
   resultType: '',
+  language: 1,
 };
 interface Certificate {
   title: string;
   title_en: string;
   resultType: number;
+  language: number;
 }
 
 const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
@@ -82,6 +84,19 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     ],
     [messages],
   );
+  const LanguageOptions = useMemo(
+    () => [
+      {
+        id: CERTIRICATE_LANGUAGE.BANGLA,
+        label: 'Bangla',
+      },
+      {
+        id: CERTIRICATE_LANGUAGE.ENGLISH,
+        label: 'English',
+      },
+    ],
+    [messages],
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -97,6 +112,10 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
         .number()
         .required()
         .label(messages['common.title'] as string),
+      language: yup
+        .number()
+        .required()
+        .label(messages['common.language'] as string),
     });
   }, [messages]);
 
@@ -130,8 +149,9 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     const dataToSave: Partial<ICertificate> = {
       title: data.title!,
       title_en: data.title_en!,
-      result_type: Number(data.resultType!),
+      result_type: data.resultType!,
       template: templateJson,
+      language: data.language
     };
     console.log(dataToSave);
     try {
@@ -206,6 +226,20 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
             isLoading={isLoading}
             control={control}
             options={resultType}
+            multiple={false}
+            optionValueProp='id'
+            optionTitleProp={['label']}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomFormSelect
+            required
+            id='language'
+            label={messages['common.language']}
+            isLoading={isLoading}
+            control={control}
+            options={LanguageOptions}
             multiple={false}
             optionValueProp='id'
             optionTitleProp={['label']}

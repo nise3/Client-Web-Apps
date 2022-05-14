@@ -6,6 +6,7 @@ export interface ICertificate {
   title_en: string;
   title: string;
   result_type: number;
+  language: number;
   issued_at: string;
 }
 
