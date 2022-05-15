@@ -121,7 +121,7 @@ function ViewRenderer() {
         // console.log(gardian, father_name, mother_name)
 
         setYouthInfoData((prev) => {
-          
+
           const youboj = {
             'candidate-name': `${youth[isBangla ? 'first_name' : 'first_name_en']} ${youth[isBangla ? 'last_name' : 'last_name_en']}`,
             'candidate-nid':
@@ -136,7 +136,7 @@ function ViewRenderer() {
             'father-name': father_name,
             'mother-name': mother_name
           }
-          
+
           return {
             ...prev,
             ...youboj,
@@ -144,7 +144,7 @@ function ViewRenderer() {
         });
       });
     })
-    
+
 }, [query]);
 
 const loadTemplate = async (template: any, youthInfo: any) => {

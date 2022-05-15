@@ -1,7 +1,6 @@
-import { Slider } from '@mui/material';
-import { LineConfig } from 'konva/lib/shapes/Line';
 import React from 'react';
 import {useRecoilValue} from 'recoil';
+import {Slider} from '@mui/material';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
 import {elementPropsSelector} from '../../../state/selectors/elements';
 import SideMenuSetting from '../../ui/SideMenuSetting';

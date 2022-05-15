@@ -2,9 +2,7 @@ import React from 'react';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
-import { Button } from '@mui/material';
 import Router from 'next/router';
-import React from 'react';
 interface Props {
   onClick: (selectedItemId?: number | null) => void;
 }
