@@ -3,7 +3,6 @@ import {RGBColor} from 'react-color';
 import {useRecoilValue} from 'recoil';
 import {Slider} from '@mui/material';
 import {fromRgba, toRgba} from '../../../utils/color';
-import {TextConfig} from '../../../interfaces/Shape';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
 import {elementPropsSelector} from '../../../state/selectors/elements';
 import PanelColorPicker from '../../ui/PanelColorPicker';
@@ -21,10 +20,6 @@ function LineStrokeSetting({elementId}: Props) {
   );
 
   const {updateElementProps} = useElementsDispatcher();
-
-  const handleChangeEnabled = (strokeEnabled: boolean) => () => {
-    updateElementProps<LineConfig>(elementId, {strokeEnabled});
-  };
 
   const handleChangeColor = (color: RGBColor) => {
     updateElementProps<LineConfig>(elementId, {stroke: toRgba(color)});

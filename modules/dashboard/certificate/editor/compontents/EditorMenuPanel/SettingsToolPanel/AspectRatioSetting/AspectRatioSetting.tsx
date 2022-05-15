@@ -12,7 +12,7 @@ import {EditorAreaContainer} from '../../../../state/containers/EditorAreaContai
 import {useRecoilValue} from 'recoil';
 import {dimensionsState} from './../../../../state/atoms/template';
 import {equals} from 'ramda';
-import {Dimensions} from '../../../../interfaces/StageConfig';
+// import {Dimensions} from '../../../../interfaces/StageConfig';
 
 export const options = [
   // {

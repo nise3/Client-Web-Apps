@@ -13,7 +13,6 @@ import useTemplateDispatcher from '../../state/dispatchers/template';
 import {useRouter} from 'next/router';
 import {getCertificateIssueByIssueId} from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import {
-  getYouthProfile,
   getYouthProfileById,
 } from '../../../../../../services/youthManagement/YouthService';
 import {getBatch} from '../../../../../../services/instituteManagement/BatchService';
