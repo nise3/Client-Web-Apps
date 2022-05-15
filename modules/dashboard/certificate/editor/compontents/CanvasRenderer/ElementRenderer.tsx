@@ -44,7 +44,13 @@ function ElementRenderer({id}: Props) {
       );
     case ShapeType.Line:
       return (
-        <GenericRenderer id={id} key={id} props={props} component={Line} />
+        <GenericRenderer
+          id={id}
+          key={id}
+          props={props}
+          rotateEnabled={false}
+          component={Line}
+        />
       );
 
     default:

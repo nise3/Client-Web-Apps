@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Layer, Rect, Stage } from 'react-konva';
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
+import { RELATION_TYPES } from '../../../../../../@softbd/common/constants';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
 import { getCertificateIssueByIssueId } from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import { getCertificateById } from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
@@ -58,6 +59,7 @@ function ViewRenderer() {
   const [youthInfoData, setYouthInfoData] = useState<
     Partial<IYouthCertificateDetails> | undefined
   >({
+    // TODO: When Result module is ready remove initial grade value
     grade: 5,
   });
   const [certificateId, setCertificateId] = useState<any>(null);
@@ -102,8 +104,7 @@ function ViewRenderer() {
       Promise.all([
         getYouthProfileById(issueInfo.youth_id).then(res => res.data),
         getBatch(issueInfo.batch_id).then(res => res.data),
-        // getGuardianByYouthId(issueInfo.youth_id)
-        getGuardianByYouthId(9).then(res => res.data),
+        getGuardianByYouthId(issueInfo.youth_id),
         getCertificateById(issueInfo.certificate_id)
       ]).then(resp => {
         const youth = resp[0];
@@ -115,13 +116,20 @@ function ViewRenderer() {
         const isBangla = certificate.data.language == CERTIRICATE_LANGUAGE.BANGLA;
         // console.log('certificate.data.language' , certificate.data.language)
         if(gardian && gardian.length > 0){
-          father_name = gardian.find((e:any)=> e.relationship_type == 1)[isBangla ? 'name' : 'name_en'];
-          mother_name = gardian.find((e:any)=> e.relationship_type == 2)[isBangla ? 'name' : 'name_en'];
+          const father = gardian.find((e:any)=> e.relationship_type == RELATION_TYPES.FATHER);
+          const mother = gardian.find((e:any)=> e.relationship_type == RELATION_TYPES.MOTHER);
+          // father_name = mother ? mother[isBangla ? 'name' : 'name_en'] : null;
+          if(mother){
+            mother_name = mother[isBangla ? 'name' : 'name_en'];
+          }
+          if(father){
+            father_name = father[isBangla ? 'name' : 'name_en'];
+          }
         }
         // console.log(gardian, father_name, mother_name)
 
         setYouthInfoData((prev) => {
-          
+
           const youboj = {
             'candidate-name': `${youth[isBangla ? 'first_name' : 'first_name_en']} ${youth[isBangla ? 'last_name' : 'last_name_en']}`,
             'candidate-nid':
@@ -136,7 +144,7 @@ function ViewRenderer() {
             'father-name': father_name,
             'mother-name': mother_name
           }
-          
+
           return {
             ...prev,
             ...youboj,
@@ -144,7 +152,7 @@ function ViewRenderer() {
         });
       });
     })
-    
+
 }, [query]);
 
 const loadTemplate = async (template: any, youthInfo: any) => {

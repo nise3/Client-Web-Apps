@@ -135,6 +135,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
         title_en: itemData?.title_en,
         title: itemData?.title,
         resultType: itemData?.result_type,
+        language: itemData?.language,
       });
     } else {
       reset(initialValues);

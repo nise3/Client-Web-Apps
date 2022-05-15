@@ -21,7 +21,7 @@ function MoveLayerDownAction({elementId}: Props) {
   const moveDownDisabled = head(elementIds) === elementId;
 
   return (
-    <Tooltip title='Move up' className='flex'>
+    <Tooltip title='Move Down' className='flex'>
       <span className='tooltip-button-container'>
         <Button
           type={'secondary'}
@@ -29,10 +29,11 @@ function MoveLayerDownAction({elementId}: Props) {
           className={'shape-action-button'}
           disabled={moveDownDisabled}>
           <IconButton
-            aria-label='delete'
+            aria-label='move down action'
             disabled={moveDownDisabled}
             sx={{padding: 0}}
-            disableRipple>
+            //
+          >
             <ArrowDownIcon style={{height: '1rem', width: '1rem'}} />
           </IconButton>
         </Button>

@@ -2,6 +2,7 @@ import React from 'react';
 import {EditorPanel} from '../../interfaces/Editor';
 import ShapeActions from '../ui/ShapeActions/ShapeActions';
 import SideMenuPanel from '../ui/SideMenuPanel';
+import LineRotationSetting from './LineProperties/LineRotationSetting';
 import LineSizeSetting from './LineProperties/LineSizeSetting';
 import LineStrokeSetting from './LineProperties/LineStrokeSetting';
 import LineStyleSetting from './LineProperties/LineStyleSetting';
@@ -19,6 +20,7 @@ function LinePropertiesPanel({elementId}: Props) {
       <LineStrokeSetting elementId={elementId} />
       <LineSizeSetting elementId={elementId} />
       <LineStyleSetting elementId={elementId} />
+      <LineRotationSetting elementId={elementId} />
     </SideMenuPanel>
   );
 }

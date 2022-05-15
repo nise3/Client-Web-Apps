@@ -13,7 +13,7 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import IconDistrict from '../../../@softbd/icons/IconDistrict';
+import CertificateTemplateIcon from '../../../@softbd/icons/IconCertificateTemplate';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
@@ -28,16 +28,6 @@ const CertificateTemplatePage = () => {
   const { successStack, errorStack } = useNotiStack();
   const router = useRouter();
 
-  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  // const [isOpenCertificateViewModal, setIsopenCertificateViewModal] =
-  //   useState(false);
-  // const [cerificateFilter] = useState<any>({});
-
-  // const {
-  //   data: certificates,
-  //   mutate: mutateCertificates,
-  //   isLoading,
-  // } = useFetchCertificates();
   const { onFetchData, data, loading, pageCount, totalCount } =
     useReactTableFetchData({
       urlPath: API_CERTIFICATES,
@@ -123,10 +113,10 @@ const CertificateTemplatePage = () => {
         Header: messages['common.result_type'],
         accessor: 'result_type_name',
       },
-      {
-        Header: messages['common.purpose_name'],
-        accessor: 'purpose_name',
-      },
+      // {
+      //   Header: messages['common.purpose_name'],
+      //   accessor: 'purpose_name',
+      // },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -184,7 +174,7 @@ const CertificateTemplatePage = () => {
       <PageBlock
         title={
           <>
-            <IconDistrict /> <IntlMessages id='certificate.label' />
+            <CertificateTemplateIcon /> <IntlMessages id='certificate_template.name_en' />
           </>
         }
         extra={[
@@ -196,7 +186,7 @@ const CertificateTemplatePage = () => {
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['certificate.label'],
+                  subject: messages['certificate_template.name_en'],
                 }}
               />
             }
