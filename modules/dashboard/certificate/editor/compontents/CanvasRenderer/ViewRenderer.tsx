@@ -159,7 +159,7 @@ const loadTemplate = async (template: any, youthInfo: any) => {
 };
 
 useEffect(() => {
-  if (youthInfoData?.['batch-name'] && certificateId) {
+  if (certificateId) {
     getCertificateById(certificateId)
       .then((res) => {
         const { template } = res.data;
