@@ -55,6 +55,7 @@ function ViewRenderer() {
   const [containerDimensions, setContainerDimensions] = useState<
     Dimensions | undefined
   >();
+  // TODO: When Result module is ready remove initial grade value
   const [youthInfoData, setYouthInfoData] = useState<
     Partial<IYouthCertificateDetails> | undefined
   >({
@@ -102,8 +103,7 @@ function ViewRenderer() {
       Promise.all([
         getYouthProfileById(issueInfo.youth_id).then(res => res.data),
         getBatch(issueInfo.batch_id).then(res => res.data),
-        // getGuardianByYouthId(issueInfo.youth_id)
-        getGuardianByYouthId(9).then(res => res.data),
+        getGuardianByYouthId(issueInfo.youth_id),
         getCertificateById(issueInfo.certificate_id)
       ]).then(resp => {
         const youth = resp[0];
