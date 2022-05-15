@@ -1,5 +1,5 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid} from '@mui/material';
+import {Grid, Link} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
@@ -17,11 +17,11 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetchFourIRToT} from '../../../services/4IRManagement/hooks';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import MasterTrainerFieldArray from './MasterTrainerFieldArray';
 import {createToT, updateToT} from '../../../services/4IRManagement/ToTService';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
 interface ToTAddEditPopupProps {
   itemId: number | null;
@@ -171,17 +171,33 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      let payload = {
-        four_ir_initiative_id: fourIRInitiativeId,
-        ...data,
-      };
+      const formData = new FormData();
+      formData.append('four_ir_initiative_id', String(fourIRInitiativeId));
+
+      Object.keys(data).forEach((field) => {
+        if (data?.[field]) {
+          if (field == 'participants') {
+            formData.append(field, data[field]?.[0]);
+          } else if (field == 'master_trainers') {
+            formData.append('master_trainers', JSON.stringify(data[field]));
+            //formData.append('master_trainers', data[field]);
+          } else {
+            formData.append(field, data[field]);
+          }
+        }
+      });
+
+      // let payload = {
+      //   four_ir_initiative_id: fourIRInitiativeId,
+      //   ...data,
+      // };
       if (itemId) {
-        await updateToT(itemId, payload);
+        await updateToT(itemId, formData);
         updateSuccessMessage('4ir_tot.label');
         mutate();
         await closeAction();
       } else {
-        await createToT(payload);
+        await createToT(formData);
         createSuccessMessage('4ir_tot.label');
         setShowSuccessPopUp(true);
         await closeAction();
@@ -202,6 +218,26 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
         email: item?.email,
       };
     });
+  };
+
+  const emptyFile = (fileId: any) => {
+    setValue(fileId, '');
+  };
+
+  const fileUploadHandler = (files: any, fileId: any) => {
+    if (files.length < 1) {
+      emptyFile(fileId);
+      return;
+    }
+
+    if (
+      files[0].type !==
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      emptyFile(fileId);
+      errorStack(messages['common.only_xlsx_file']);
+      return;
+    }
   };
 
   return (
@@ -345,7 +381,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6} mt={5}>
+          {/*<Grid item xs={12} md={6} mt={5}>
             <FileUploadComponent
               id='participants'
               //defaultFileUrl={fileLinks}
@@ -356,7 +392,58 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
               required={false}
               // uploadedUrls={watch('projects')}
             />
+          </Grid>*/}
+
+          <Grid item xs={12} mt={5}>
+            <h3 style={{marginTop: '2px', marginBottom: '0', color: 'gray'}}>
+              {messages['4ir_tot.participants']}
+            </h3>
           </Grid>
+          <Grid item xs={12} mt={2}>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='participants'
+                  name='participants'
+                  label={''}
+                  register={register}
+                  type={'file'}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onInput={(files: any) =>
+                    fileUploadHandler(files, 'participants')
+                  }
+                  errorInstance={errors}
+                />
+              </Grid>
+
+              <Grid item container xs={'auto'} spacing={5}>
+                <Grid item>
+                  <Link href='/template/organization-list.xlsx' download>
+                    <CommonButton
+                      key={1}
+                      onClick={() => console.log('file downloading')}
+                      btnText={'4ir_tot.participants'}
+                      variant={'outlined'}
+                      color={'primary'}
+                    />
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <CommonButton
+                    key={1}
+                    onClick={() => emptyFile('participants')}
+                    btnText={'common.remove'}
+                    variant={'outlined'}
+                    color={'secondary'}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
           <Grid item xs={12} mt={2}>
             <FormRowStatus
               id='row_status'

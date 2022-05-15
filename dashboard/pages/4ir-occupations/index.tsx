@@ -5,10 +5,7 @@ import PageMeta from '../../../@crema/core/PageMeta';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 
 const FourIROccupationPage = asyncComponent(
-  () =>
-    import(
-      '../../../modules/dashboard/4IRResourceManagement/ResourceManagementPage'
-    ),
+  () => import('../../../modules/dashboard/4IRToT/FourIRToTPage'),
 );
 export default DashboardPage(() => {
   const {messages} = useIntl();
