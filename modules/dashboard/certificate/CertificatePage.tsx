@@ -19,6 +19,8 @@ import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { deleteCertificate } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { getAllBatches } from '../../../services/instituteManagement/BatchService';
+import { ICertificate, ICertificateView } from '../../../shared/Interface/certificates';
+import { CERTIFICATE_TYPE_LABEL, RESULT_TYPE } from './Constants';
 
 const CertificateTemplatePage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -41,14 +43,29 @@ const CertificateTemplatePage = () => {
       urlPath: API_CERTIFICATES,
     });
 
-  // const openCertificateDetailsModal = useCallback((itemId: number) => {
-  //   setIsopenCertificateViewModal(true);
-  //   setSelectedItemId(itemId);
-  // }, []);
-
-  // const closeCertificateDetailsModal = useCallback(() => {
-  //   setIsopenCertificateViewModal(false);
-  // }, []);
+  if (data) {
+    data.map((e:ICertificateView) => {
+      switch (e.result_type) {
+        case RESULT_TYPE.COMPETENT:
+          e.result_type_name = CERTIFICATE_TYPE_LABEL.COMPETENT;
+          break;
+        case RESULT_TYPE.NOT_COMPETENT:
+          e.result_type_name = CERTIFICATE_TYPE_LABEL.NOT_COMPETENT;
+          break;
+        case RESULT_TYPE.GRADING:
+          e.result_type_name = CERTIFICATE_TYPE_LABEL.GRADING;
+          break;
+        case RESULT_TYPE.MARKS:
+          e.result_type_name = CERTIFICATE_TYPE_LABEL.MARKS;
+          break;
+        case RESULT_TYPE.PARTICIPATION:
+          e.result_type_name = CERTIFICATE_TYPE_LABEL.PARTICIPATION;
+          break;
+        default:
+          break;
+      }
+    })
+  }
 
   const openCertificateAddUpdateView = useCallback((certificateId?: any) => {
     const path = '/certificate/editor';
@@ -62,25 +79,25 @@ const CertificateTemplatePage = () => {
 
     // 
     const { data: batch } = await getAllBatches({ certificate_id: certificateId })
-        // const { data: batch } = res;
-        if (batch.length == 0) {
-          let response = await deleteCertificate(certificateId);
-          if (isResponseSuccess(response)) {
-            successStack(
-              <IntlMessages
-                id='common.subject_deleted_successfully'
-                values={{ subject: <IntlMessages id='certificate.label' /> }}
-              />,
-            );
-            refreshDataTable();
-          }
-        } else {
-          errorStack("Already added to batch!")
-        }
-    
+    // const { data: batch } = res;
+    if (batch.length == 0) {
+      let response = await deleteCertificate(certificateId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{ subject: <IntlMessages id='certificate.label' /> }}
+          />,
+        );
+        refreshDataTable();
+      }
+    } else {
+      errorStack("Already added to batch!")
+    }
+
     // console.log(batch)
-    
-   
+
+
 
 
   };
@@ -104,7 +121,7 @@ const CertificateTemplatePage = () => {
       },
       {
         Header: messages['common.result_type'],
-        accessor: 'result_type',
+        accessor: 'result_type_name',
       },
       {
         Header: messages['common.purpose_name'],

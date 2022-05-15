@@ -22,7 +22,7 @@ import {
 } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { useFetchCertificate } from '../../../services/CertificateAuthorityManagement/hooks';
 import { ICertificate } from './../../../shared/Interface/certificates';
-import { CERTIRICATE_LANGUAGE, RESULT_TYPE } from './Constants';
+import { CERTIRICATE_LANGUAGE, CERTIFICATE_TYPE_LABEL, RESULT_TYPE } from './Constants';
 import useTemplateDispatcher from './editor/state/dispatchers/template';
 import { toTemplateJSON } from './editor/utils/template';
 interface CertificateAddEditPopupProps {
@@ -59,27 +59,26 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
     mutate: mutateCertificates,
   } = useFetchCertificate(query.certificateId ? Number(itemId) : null);
 
-  const resultType = useMemo(
-    () => [
+  const resultType = useMemo(() => [
       {
         id: RESULT_TYPE.COMPETENT,
-        label: 'COMPETENT',
+        label: CERTIFICATE_TYPE_LABEL.COMPETENT,
       },
       {
         id: RESULT_TYPE.NOT_COMPETENT,
-        label: 'NOT COMPETENT',
+        label: CERTIFICATE_TYPE_LABEL.NOT_COMPETENT,
       },
       {
         id: RESULT_TYPE.GRADING,
-        label: 'GRADING',
+        label: CERTIFICATE_TYPE_LABEL.GRADING,
       },
       {
         id: RESULT_TYPE.MARKS,
-        label: 'MARKS',
+        label: CERTIFICATE_TYPE_LABEL.MARKS,
       },
       {
         id: RESULT_TYPE.PARTICIPATION,
-        label: 'PARTICIPATION',
+        label: CERTIFICATE_TYPE_LABEL.PARTICIPATION,
       },
     ],
     [messages],
