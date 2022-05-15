@@ -10,6 +10,10 @@ export interface ICertificate {
   issued_at: string;
 }
 
+export interface ICertificateView extends ICertificate {
+  result_type_name?: string;
+}
+
 export interface ICertificateIssue {
   youth_id: string;
   batch_id: string;
