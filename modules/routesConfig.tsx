@@ -400,6 +400,42 @@ const routesConfig: NavItemProps[] = [
         ],
       },
       {
+        id: 'certificates_management',
+        title: 'Certificate',
+        messageId: 'common.certificate',
+        type: 'collapse',
+        icon: 'WorkspacePremiumIcon ',
+        children: [
+          {
+            id: 'certificate',
+            title: 'Certificate Template',
+            messageId: 'common.certificate_template',
+            permissionKey: 'view_any_user',
+            type: 'item',
+            icon: 'list',
+            url: '/certificate',
+          },
+          // {
+          //   id: 'certificate-issue',
+          //   title: 'Certificate Issue',
+          //   messageId: 'certificate.certificate_issue',
+          //   permissionKey: 'view_any_user',
+          //   type: 'item',
+          //   icon: 'list',
+          //   url: '/certificates/certificate-issue',
+          // },
+          {
+            id: 'certificate-issued',
+            title: 'Certificate Issued',
+            messageId: 'certificate.certificate_issued',
+            permissionKey: 'view_any_user',
+            type: 'item',
+            icon: 'list',
+            url: '/certificate-issued',
+          }
+        ],
+      },
+      {
         id: 'industry_association_management',
         title: 'Industry Association Management',
         messageId: 'menu.industry_association_management',

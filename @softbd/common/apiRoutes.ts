@@ -1,3 +1,4 @@
+
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
@@ -37,6 +38,8 @@ export const ORGANIZATION_SERVICE_PATH = process.env
 export const INSTITUTE_SERVICE_PATH = process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   : '/institute';
+// TODO Remove this
+// export const INSTITUTE_SERVICE_PATH = CERTIFICATE_API_URL;
 export const YOUTH_SERVICE_PATH = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   : '/youth';
@@ -119,10 +122,15 @@ export const API_TRAINING_CENTERS =
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
+export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
+export const API_CERTIFICATES_ISSUE = INSTITUTE_SERVICE_PATH + '/certificate-issued';
 
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
+// TODO Remove this
+  // export const API_COURSE_ENROLLMENTS =
+  // CERTIFICATE_API_URL + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
@@ -265,6 +273,7 @@ export const API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS =
 export const API_LANGUAGES = YOUTH_SERVICE_PATH + '/languages';
 
 export const API_YOUTH_PROFILE = YOUTH_SERVICE_PATH + '/youth-profile';
+export const API_YOUTH_PROFILES = YOUTH_SERVICE_PATH + '/youth-profiles';
 export const API_YOUTH_FEED_DATA_LIST = YOUTH_SERVICE_PATH + '/youth-feed';
 export const API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE =
   YOUTH_SERVICE_PATH + '/youth-change-freelance-status';
@@ -292,6 +301,7 @@ export const API_YOUTH_UPDATE_PASSWORD =
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
+export const API_YOUTH_GUARDIANS_BY_YOUTH = YOUTH_SERVICE_PATH + '/youth-guardians-by-youth';
 
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';

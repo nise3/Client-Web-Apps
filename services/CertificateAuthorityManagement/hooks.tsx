@@ -1,23 +1,13 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
-  API_RPL_QUESTION_BANK,
-  API_RPL_ASSESSMENTS,
-  API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS,
-  API_PUBLIC_RPL_OCCUPATIONS,
+  API_CERTIFICATES, API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS, API_PUBLIC_RPL_ASSESSMENTS_QUESTIONS, API_PUBLIC_RPL_OCCUPATIONS,
   API_PUBLIC_RPL_SECTORS,
-  API_PUBLIC_RTO_COUNTRIES,
-  API_PUBLIC_RPL_ASSESSMENTS_QUESTIONS,
-  API_REGISTERED_TRAINING_ORGANIZATIONS,
-  API_RPL_LEVELS,
+  API_PUBLIC_RTO_COUNTRIES, API_REGISTERED_TRAINING_ORGANIZATIONS, API_RPL_ASSESSMENTS, API_RPL_ASSESSMENT_QUESTIONS,
+  API_RPL_ASSESSMENT_QUESTION_SETS, API_RPL_LEVELS,
   API_RPL_OCCUPATIONS,
-  API_RPL_PUBLIC_LEVELS,
-  API_RPL_SECTORS,
-  API_RTO_BATCH,
-  API_RTO_COUNTRIES,
-  API_RPL_SUBJECTS,
-  API_RPL_ASSESSMENT_QUESTIONS,
-  API_RPL_ASSESSMENT_QUESTION_SETS,
+  API_RPL_PUBLIC_LEVELS, API_RPL_QUESTION_BANK, API_RPL_SECTORS, API_RPL_SUBJECTS, API_RTO_BATCH,
+  API_RTO_COUNTRIES
 } from '../../@softbd/common/apiRoutes';
+import { useAxiosSWR } from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchRTO(rtoId: number | null) {
   return useAxiosSWR(
@@ -141,4 +131,44 @@ export function useFetchRPLAssessmentQuestionSet(questionSetId: number | null) {
       ? API_RPL_ASSESSMENT_QUESTION_SETS + '/' + questionSetId
       : null,
   );
+}
+export function useFetchCertificates() {
+  return useAxiosSWR(API_CERTIFICATES);
+}
+
+export function useFetchCertificate(certifcateId: number | null) {
+  return useAxiosSWR(`${API_CERTIFICATES}/${certifcateId}`);
+}
+
+export function useFetchResultTypes() {
+  return {
+    order: 'ASC',
+    data: [
+      {
+        id: 1,
+        title: 'Competent',
+      },
+      {
+        id: 2,
+        title: 'Not Competent',
+      },
+      {
+        id: 3,
+        title: 'Grading',
+      },
+      {
+        id: 4,
+        title: 'Marks',
+      },
+      {
+        id: 5,
+        title: 'Participation',
+      },
+    ],
+    _response_status: {
+      success: true,
+      code: 200,
+      query_time: 0,
+    },
+  };
 }

@@ -3,10 +3,12 @@ import {
   API_ASSESSMENT_PAYMENT_PAY,
   API_COURSE_ENROLL,
   API_COURSE_ENROLL_PAYMENT_PAY,
+  API_YOUTHS,
   API_YOUTH_FREELANCE_PROFILE_STATUS_UPDATE,
   API_YOUTH_JOB_APPLICATION_INFORMATION_UPDATE,
   API_YOUTH_PERSONAL_INFO_UPDATE,
   API_YOUTH_PROFILE,
+  API_YOUTH_PROFILES,
   API_YOUTH_UPDATE_DEFAULT_CV_TEMPLATE,
   API_YOUTH_UPDATE_PASSWORD,
   COURSE_ENROLL_RESEND_VERIFICATION,
@@ -17,7 +19,23 @@ import {YouthPersonalInfo} from './typing';
 
 export const getYouthProfile = async () => {
   try {
-    let response: any = await apiGet(API_YOUTH_PROFILE);
+    let response: any = await apiGet(API_YOUTH_PROFILE, {});
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+export const getYouthProfiles = async (params:any) => {
+  try {
+    let response: any = await apiPost(API_YOUTH_PROFILES, params);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+export const getYouthProfileById = async (id:any) => {
+  try {
+    let response: any = await apiGet(API_YOUTHS + '/' + id);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

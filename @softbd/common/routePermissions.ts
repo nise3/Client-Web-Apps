@@ -295,6 +295,23 @@ export const routePermissions: any = {
     routePrefix: '/rpl-assessment-question-sets',
     permissionKeys: ['view_any_rpl_assessment_question_set'],
   },
+
+  '/certificates': {
+    routePrefix: '/certificate',
+    permissionKeys: ['view_any_user'],
+  },
+  '/certificate': {
+    routePrefix: '/certificate',
+    permissionKeys: ['view_any_user'],
+  },
+  '/certificate-issued': {
+    routePrefix: '/certificate-issued',
+    permissionKeys: ['view_any_user'],
+  },
+  '/certificate-issue': {
+    routePrefix: '/certificates',
+    permissionKeys: ['view_any_user'],
+  },
   '/subjects': {
     routePrefix: '/subjects',
     permissionKeys: ['view_any_exam_subject'],

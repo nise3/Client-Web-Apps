@@ -3,11 +3,11 @@ import {
   API_DISTRICTS,
   API_DIVISIONS,
   API_UNIONS,
-  API_UPAZILAS,
+  API_UPAZILAS
 } from '../../@softbd/common/apiRoutes';
 import {
   useAxiosSWR,
-  useLocalizedAxiosSWR,
+  useLocalizedAxiosSWR
 } from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchDivisions(params: any = null) {
