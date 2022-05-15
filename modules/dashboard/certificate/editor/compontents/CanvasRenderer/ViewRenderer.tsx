@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { Layer, Rect, Stage } from 'react-konva';
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
 import { RELATION_TYPES } from '../../../../../../@softbd/common/constants';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
+import { getIntlDateFromString } from '../../../../../../@softbd/utilities/helpers';
 import { getCertificateIssueByIssueId } from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import { getCertificateById } from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
 import { getBatch } from '../../../../../../services/instituteManagement/BatchService';
@@ -40,6 +42,7 @@ interface IYouthCertificateDetails {
 }
 
 function ViewRenderer() {
+  const {formatDate} = useIntl();
   const { errorStack } = useNotiStack();
   const ratio = useRecoilValue(ratioState);
   const dimensions = useRecoilValue(dimensionsState);
@@ -110,15 +113,18 @@ function ViewRenderer() {
       ]).then(resp => {
         const youth = resp[0];
         const batch = resp[1];
-        const {data: gardian} = resp[2];
+        const {data: guardian} = resp[2];
         const certificate = resp[3];
         let father_name:any = null;
         let mother_name:any = null;
+        // certificate.data.language = 1;
         const isBangla = certificate.data.language == CERTIRICATE_LANGUAGE.BANGLA;
         // console.log('certificate.data.language' , certificate.data.language)
-        if(gardian && gardian.length > 0){
-          const father = gardian.find((e:any)=> e.relationship_type == RELATION_TYPES.FATHER);
-          const mother = gardian.find((e:any)=> e.relationship_type == RELATION_TYPES.MOTHER);
+        if(guardian && guardian.length > 0){
+          console.log('guardians', guardian)
+          const father = guardian.find((e:any)=> e.relationship_type == RELATION_TYPES.FATHER);
+          console.log('father', father)
+          const mother = guardian.find((e:any)=> e.relationship_type == RELATION_TYPES.MOTHER);
           // father_name = mother ? mother[isBangla ? 'name' : 'name_en'] : null;
           if(mother){
             mother_name = mother[isBangla ? 'name' : 'name_en'];
@@ -138,8 +144,8 @@ function ViewRenderer() {
             'candidate-birth-cid':
               youth.identity_number_type === 2 ? youth.identity_number : null,
             'batch-name': batch[isBangla ? 'title' : 'title_en'],
-            'batch-start-date': batch.batch_start_date,
-            'batch-end-date': batch.batch_end_date,
+            'batch-start-date': isBangla ? getIntlDateFromString(formatDate, batch.batch_start_date,'short') : batch.batch_start_date,
+            'batch-end-date': isBangla ? getIntlDateFromString(formatDate, batch.batch_end_date,'short') : batch.batch_end_date,
             'course-name': batch[isBangla ? 'course_title' : 'course_title_en'],
             'training-center': batch[isBangla ? 'training_center_title' : 'training_center_title_en'],
             'father-name': father_name,
