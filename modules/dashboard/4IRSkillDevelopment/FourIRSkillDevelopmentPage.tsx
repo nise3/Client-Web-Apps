@@ -13,7 +13,6 @@ import FourIRSkillDevelopmentAddEditPopUp from './FourIRSkillDevelopmentAddEditP
 import FourIRSkillDevelopmentDetailsPopUp from './FourIRSkillDevelopmentDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
@@ -23,11 +22,9 @@ interface Props {
 
 const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -140,7 +137,6 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
           <FourIRSkillDevelopmentAddEditPopUp
