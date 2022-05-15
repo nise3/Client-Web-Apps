@@ -831,6 +831,7 @@
   "certificate.name_bn": "সনদপত্রের নাম",
   "certificate.label": "সনদপত্র",
   "certificate.name_en": "সনদপত্রের নাম (ইংরেজি)",
+  "certificate_template.name_en": "সনদপত্রের টেম্প্লেট",
   "certificate.upload": "সনদপত্র ফাইলটি আপলোড করুন",
   "certificate.result_type": "ফলাফলের ধরন",
   "institute.name": "প্রতিষ্ঠানের নাম",
