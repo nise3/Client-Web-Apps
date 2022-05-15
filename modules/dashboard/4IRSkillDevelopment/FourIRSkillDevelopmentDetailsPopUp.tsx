@@ -12,26 +12,19 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 type Props = {
   itemId: number;
+  itemData: any;
   onClose: () => void;
   openEditModal: (id: number) => void;
 };
 
 const FourIRSkillDevelopmentDetailsPopUp = ({
   itemId,
+  itemData,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = {
-    data: {
-      id: 1,
-      traning_center: 'Traning Center',
-      batch_start_date: '12/03/2001',
-      batch_end_date: '12/03/2001',
-      batch_number: 23232,
-    },
-    isLoading: false,
-  };
+  const isLoading = false;
   // todo -> api is not ready
   // useFetch4IRScaleUp(itemId);
 

@@ -1983,5 +1983,6 @@
   "4ir.skill_development_batch_start_date" : "Batch Start Date",
   "4ir.skill_development_batch_end_date" : "Batch End Date",
   "4ir.skill_development_batch_number" : "Batch Number",
-  "common.positive": "The number should be positive"
+  "common.positive": "The number should be positive",
+  "assessment.examiner": "Examiner Name"
 }

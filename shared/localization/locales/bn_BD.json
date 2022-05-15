@@ -1985,5 +1985,6 @@
   "4ir.skill_development_batch_start_date" : "ব্যাচ স্টার্ট ডেট",
   "4ir.skill_development_batch_end_date" : "ব্যাচ এন্ড ডেট",
   "4ir.skill_development_batch_number" : "ব্যাচ নম্বর",
-  "common.positive": "নম্বর পজিটিভ হবে"
+  "common.positive": "নম্বর পজিটিভ হবে",
+  "assessment.examiner": "পরীক্ষকের নাম"
 }
