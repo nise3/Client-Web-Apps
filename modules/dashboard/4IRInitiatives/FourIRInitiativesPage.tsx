@@ -25,6 +25,9 @@ import {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
 import {deleteInitiative} from '../../../services/4IRManagement/InitiativeService';
+import DownloadIcon from '@mui/icons-material/Download';
+import FourIRProjectActivationPopup from './FourIRProjectActivationPopup';
+import InitiativeImportPopup from './InitiativeImportPopup';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
@@ -33,6 +36,8 @@ const FourIRInitiativesPage = () => {
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenProjectActivationModal, setIsOpenProjectActivationModal] =
+    useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const closeAddEditModal = useCallback(() => {
@@ -40,13 +45,30 @@ const FourIRInitiativesPage = () => {
     setSelectedItemId(null);
   }, []);
 
+  const closeProjectActivationModal = useCallback(() => {
+    setIsOpenProjectActivationModal(false);
+    setSelectedItemId(null);
+  }, []);
+  const [isOpenImportModal, setIsOpenImportModal] = useState(false);
+
   const taglineId = Number(router.query.taglineId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
+    setIsOpenProjectActivationModal(false);
     setIsOpenAddEditModal(true);
     setSelectedItemId(itemId);
   }, []);
+
+  const openProjectActivationModal = useCallback(
+    (itemId: number | null = null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenAddEditModal(false);
+      setIsOpenProjectActivationModal(true);
+      setSelectedItemId(itemId);
+    },
+    [],
+  );
 
   const openDetailsModal = useCallback(
     (itemId: number) => {
@@ -58,6 +80,14 @@ const FourIRInitiativesPage = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+  }, []);
+
+  const openImportModal = useCallback((itemId: number | null = null) => {
+    setIsOpenImportModal(true);
+  }, []);
+
+  const closeImportModal = useCallback(() => {
+    setIsOpenImportModal(false);
   }, []);
 
   const deleteInitiativeItem = async (initiativeId: number) => {
@@ -189,15 +219,27 @@ const FourIRInitiativesPage = () => {
                 startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
                 color='secondary'
               />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(data?.id, 1, 1);
-                }}
-                btnText={`4ir.view_steps`}
-                extraText={''}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
+              {data?.tasks?.lenght == 3 ? (
+                <CommonButton
+                  onClick={() => {
+                    openIncompleteStep(data?.id, 1, 1);
+                  }}
+                  btnText={`4ir.view_steps`}
+                  extraText={''}
+                  startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
+                  color='secondary'
+                />
+              ) : (
+                <CommonButton
+                  onClick={() => {
+                    openProjectActivationModal(data?.id);
+                  }}
+                  btnText={`4ir.initiate_project`}
+                  extraText={''}
+                  startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
+                  color='secondary'
+                />
+              )}
               <DeleteButton
                 deleteAction={() => deleteInitiativeItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -242,6 +284,15 @@ const FourIRInitiativesPage = () => {
               />
             }
           />,
+          <CommonButton
+            key={2}
+            onClick={() => openImportModal()}
+            btnText={messages['common.import'] as string}
+            variant={'outlined'}
+            color={'primary'}
+            style={{marginLeft: '5px'}}
+            startIcon={<DownloadIcon />}
+          />,
         ]}>
         <ReactTable
           columns={columns}
@@ -252,12 +303,32 @@ const FourIRInitiativesPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
+
+        {isOpenImportModal && (
+          <InitiativeImportPopup
+            key={2}
+            onClose={closeImportModal}
+            userData={null}
+            fourIRTaglineId={taglineId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
+
         {isOpenAddEditModal && (
           <FourIRInitiativeAddEditPopup
             key={1}
             fourIRTaglineId={taglineId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
+
+        {isOpenProjectActivationModal && (
+          <FourIRProjectActivationPopup
+            key={1}
+            onClose={closeProjectActivationModal}
+            initiativeId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}

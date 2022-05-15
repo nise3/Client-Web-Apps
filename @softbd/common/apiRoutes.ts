@@ -211,6 +211,12 @@ export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
 export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
 export const API_4IR_PROJECT_ANALYSIS =
   FOUR_IR_SERVICE_PATH + '/project-analysis';
+export const API_4IR_PROJECT_ACTIVATION =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-task-update';
+export const API_FOUR_IR_INITIATIVE_IMPORT =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel';
+export const API_FOUR_IR_INITIATIVE_IMPORT_FORMAT =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel-format';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */
