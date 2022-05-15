@@ -83,6 +83,14 @@ export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
     ? process.env.NEXT_PUBLIC_TSP_DASHBOARD_DEMANDED_COURSE_PATH
     : '/demanded-courses');
 
+/** Core User service public routes section start */
+
+export const SEND_FORGET_PASSWORD_OTP = '/send-forget-password-otp';
+export const VERIFY_FORGET_PASSWORD_OTP = '/verify-forget-password-otp';
+export const RESET_FORGET_PASSWORD = '/reset-forget-password';
+
+/** Core User service public routes section end */
+
 /** Core User service private routes section start */
 
 export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';

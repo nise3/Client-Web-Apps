@@ -1997,5 +1997,14 @@
   "common.subject": "Subject",
   "common.subject_en": "Subject(En)",
   "common.purpose_name": "Purpose Name",
-  "common.result_type": "Result Type"
+  "common.result_type": "Result Type",
+  "common.forget_password": "Forgetten password?",
+  "common.verify_otp": "Verify OTP",
+  "common.reset_password": "Reset password",
+  "common.new_password": "New password",
+  "common.find_your_account": "Find your account",
+  "common.enter_username": "Please enter your username",
+  "forgot_password.find_account": "Your account has been found",
+  "forgot_password.otp_verification": "OTP has been successfully submitted",
+  "forgot_password.reset_password": "Password has been changed successfully"
 }
