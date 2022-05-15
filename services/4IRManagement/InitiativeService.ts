@@ -2,7 +2,7 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {
   API_4IR_INITIATIVE,
-  API_4IR_PROJECT_ACTIVATION,
+  API_4IR_PROJECT_TASK_UPDATE,
   API_FOUR_IR_INITIATIVE_IMPORT,
   API_FOUR_IR_INITIATIVE_IMPORT_FORMAT,
 } from '../../@softbd/common/apiRoutes';
@@ -53,10 +53,13 @@ export const updateInitiative = async (
   }
 };
 
-export const updateTask = async (initiativeId: number, data: IInitiative) => {
+export const updateProjectActivation = async (
+  initiativeId: number | null,
+  data: any,
+) => {
   try {
     let response: any = await apiPut(
-      API_4IR_PROJECT_ACTIVATION + '/' + initiativeId,
+      API_4IR_PROJECT_TASK_UPDATE + '/' + initiativeId,
       data,
     );
     return response.data;

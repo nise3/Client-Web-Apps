@@ -1,8 +1,6 @@
-import yup from '../../../@softbd/libs/yup';
 import {FormHelperText, Grid} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -14,12 +12,11 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-
-import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
-import {updateInitiative} from '../../../services/4IRManagement/InitiativeService';
+import {updateProjectActivation} from '../../../services/4IRManagement/InitiativeService';
+import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 
 interface ProjectAddEditPopupProps {
   initiativeId: number | null;
@@ -40,44 +37,19 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
-
-  const [isSillProvide, setIsSillProvide] = useState<boolean>(false);
+  const [isSkillProvide, setIsSkillProvide] = useState<boolean>(false);
   const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
   const [tasks, setTasks] = useState<any>([]);
+  const {updateSuccessMessage} = useSuccessMessage();
 
   const {
     data: itemData,
     isLoading,
-    mutate: mutateInitiative,
+    mutate: mutateInitiativeTasks,
   } = useFetch4IInitiative(initiativeId);
-
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      tasks: yup
-        .array()
-        .of(yup.boolean())
-        .min(1)
-        .required()
-        .test(
-          'at_least_one_validation',
-          messages['4ir_showcasing.task'] as string,
-          (value: any) => {
-            let isTrue;
-            value?.map((val: any) => {
-              if (val) {
-                isTrue = true;
-              }
-            });
-            return !!isTrue;
-          },
-        )
-        .label(messages['4ir_showcasing.task'] as string),
-    });
-  }, [messages]);
 
   const {
     register,
@@ -85,9 +57,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
-  } = useForm<any>({
-    resolver: yupResolver(validationSchema),
-  });
+  } = useForm<any>();
 
   const isChecked = (event: any, value: any) => {
     const checked = event.target.checked;
@@ -122,6 +92,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
       });
 
       setTasks(tasks);
+      setIsSkillProvide(itemData?.is_skill_provide);
     } else {
       reset(initialValues);
     }
@@ -135,22 +106,19 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       data.tasks = tasks;
-      data.is_skill_provide = Number(isSillProvide);
+      data.is_skill_provide = Number(isSkillProvide);
 
-      const response = await updateInitiative(initiativeId, {
-        four_ir_tagline_id: fourIRTaglineId,
-        ...data,
-      });
+      const response = await updateProjectActivation(initiativeId, data);
       updateSuccessMessage('4ir.initiated');
 
       if (response?.tasks?.lenght == 3) {
         setShowSuccessPopUp(true);
       } else {
-        mutateInitiative();
+        mutateInitiativeTasks();
         await closeAction();
       }
     } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
+      processServerSideErrors({error, setError, errorStack});
     }
   };
 
@@ -182,11 +150,12 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
             label={messages['initiative.is_skill_provided']}
             register={register}
             errorInstance={errors}
-            checked={isSillProvide}
+            checked={isSkillProvide}
             onChange={(event: any) => {
-              setIsSillProvide((prev) => !prev);
+              setIsSkillProvide((prev) => !prev);
             }}
             isLoading={false}
+            isDisabled={isSkillProvide}
           />
           <CustomCheckbox
             id='tasks[0]'
@@ -199,6 +168,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
               setIsProjectFinalized((prev) => !prev);
             }}
             isLoading={false}
+            isDisabled={isProjectFinalized}
           />
           <CustomCheckbox
             id='tasks[1]'
@@ -211,6 +181,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
               setIsProjectReviewed((pre) => !pre);
             }}
             isLoading={false}
+            isDisabled={isProjectReviewed}
           />
           <CustomCheckbox
             id='tasks[2]'
@@ -223,6 +194,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
               setIsProjectApproved((pre) => !pre);
             }}
             isLoading={false}
+            isDisabled={isProjectApproved}
           />
           {errors?.tasks && (
             <FormHelperText sx={{color: 'error.main'}}>

@@ -206,20 +206,22 @@ const FourIRInitiativesPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <CommonButton
-                onClick={() => {
-                  openIncompleteStep(
-                    data?.id,
-                    data?.completion_step,
-                    data?.form_step,
-                  );
-                }}
-                btnText={`4ir_showcasing.complete_step`}
-                extraText={data?.completion_step + 1}
-                startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
-                color='secondary'
-              />
-              {data?.tasks?.lenght == 3 ? (
+              {data?.tasks?.length == 3 && (
+                <CommonButton
+                  onClick={() => {
+                    openIncompleteStep(
+                      data?.id,
+                      data?.completion_step,
+                      data?.form_step,
+                    );
+                  }}
+                  btnText={`4ir_showcasing.complete_step`}
+                  extraText={data?.completion_step + 1}
+                  startIcon={<TaskIcon style={{marginLeft: '5px'}} />}
+                  color='secondary'
+                />
+              )}
+              {data?.tasks?.length == 3 ? (
                 <CommonButton
                   onClick={() => {
                     openIncompleteStep(data?.id, 1, 1);
