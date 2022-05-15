@@ -22,24 +22,15 @@ import { ICertificateIssue, ICertificateIssueView } from '../../../shared/Interf
 import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
-  const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const { messages, locale } = useIntl();
+  const { successStack } = useNotiStack();
   const route = useRouter();
-  const {batchId} = route.query;
-  // console.log('useRouter', batchId);
-  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  //   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
-  //   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const { batchId } = route.query;
 
-  // const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
-  // console.log('TYPES ', certificateTypes);
-  // const { data: certificates, isLoading: isLoadingCertificates } = useFetchCertificate();
-
-  // const [certificateTypeId, setCertificateTypeId] = useState<string>();
-  // const [certificateId, setCertificateId] = useState<string>();
   const [certificatesIssueList, setCertificatesIssueList] = useState<
     Array<ICertificateIssueView> | []
   >([]);
+  const { data: issuedData, mutate: mutateIssuedData } = useFetchCertificateIssued();
 
   // const validationSchema = useMemo(() => {
   //   return yup.object().shape({
@@ -80,22 +71,22 @@ const CertificateIssuePage = () => {
   // const [certificateIssueFilter] = useState<any>({
   //   row_status: RowStatus.ACTIVE,
   // });
-  
+
   // const {data: youthListByBatch} = useFetchCourseEnrolment(
   //   certificateIssueFilter,
   // );
-  
+
 
   // const {onFetchData, issuedData, loading, pageCount, totalCount} =
   //   useReactTableFetchData({
   //     urlPath: API_CERTIFICATES_ISSUE,
   //   });
 
-  
-  
+
+
 
   // console.log('after youthListByBatch', youthListByBatch)
-// const response = await courseEnroll(certificateIssueFilter);
+  // const response = await courseEnroll(certificateIssueFilter);
   // const [issueFilterItems, setIssueFilterItems] = useState([]);
 
   const refreshDataTable = useCallback(() => {
@@ -118,15 +109,16 @@ const CertificateIssuePage = () => {
       certificate_id: data.certificate_id,
       youth_id: data.youth_id,
     };
-    
+
     createCertificateIssue(issueData).then((res) => {
       if (isResponseSuccess(res)) {
         successStack(
           <IntlMessages
             id='common.certificatet_issued_successfully'
-            values={{subject: <IntlMessages id='certificate.certificate_issue' />}}
+            values={{ subject: <IntlMessages id='certificate.certificate_issue' /> }}
           />,
         );
+        mutateIssuedData();
         refreshDataTable();
       }
     });
@@ -196,7 +188,7 @@ const CertificateIssuePage = () => {
                   issueCerrificate1(data)
                 }
                 // onClick={() => issueCerrificate1(data)}
-                buttonText={messages['certificate.certificate_issue'] as string} 
+                buttonText={messages['certificate.certificate_issue'] as string}
               />
             </DatatableButtonGroup>
           );
@@ -215,22 +207,24 @@ const CertificateIssuePage = () => {
         return params;
       }
     });
-  
-    const {data: issuedData} = useFetchCertificateIssued();
-  
-    useEffect(() => {
-        if(data){
-          const filteredData = data.map((item:any)=>{
-            const isIssued = issuedData.find((issue:ICertificateIssueView) => issue.certificate_id == item.certificate_id && issue.youth_id == item.youth_id) !== undefined;
-            return {...item, ...{isIssued: isIssued}}
-          })
-          .filter((e:any) => !e.isIssued)
-          
-          if(filteredData && filteredData.length > 0){
-            setCertificatesIssueList(filteredData);
-          }
-        }
-    }, [data, issuedData])
+
+  useEffect(() => {
+    if (data) {
+
+      const filteredData = data.map((item: any) => {
+        const isIssued = issuedData.find((issue: ICertificateIssueView) => issue.certificate_id == item.certificate_id && issue.youth_id == item.youth_id) !== undefined;
+        return { ...item, ...{ isIssued: isIssued } }
+      })
+        .filter((e: any) => !e.isIssued)
+
+      if (filteredData && filteredData.length > 0) {
+        setCertificatesIssueList(filteredData);
+      }
+    }
+  }, [data, issuedData])
+
+  // console.log('checking ', isLoading, data);
+
   return (
     <>
       <PageBlock
@@ -239,7 +233,7 @@ const CertificateIssuePage = () => {
             <IconCourse /> <IntlMessages id='certificate.certificate_issue' />
           </>
         }>
-          <div>{certificatesIssueList[0]?.isIssued}</div>
+        {/* <div>{certificatesIssueList[0]?.isIssued}</div> */}
         <ReactTable
           columns={columns}
           data={certificatesIssueList}
@@ -250,6 +244,7 @@ const CertificateIssuePage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
+        {/* <ReactTable columns={columns} data={certificatesIssueList || []} loading={isLoading} /> */}
       </PageBlock>
     </>
   );
