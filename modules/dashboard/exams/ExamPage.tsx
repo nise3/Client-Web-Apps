@@ -87,6 +87,16 @@ const ExamPage = () => {
         return messages['common.offline'];
       case ExamTypes.MIXED:
         return messages['common.mixed'];
+      case ExamTypes.PRACTICAL:
+        return messages['common.practical'];
+      case ExamTypes.FIELDWORK:
+        return messages['common.field_work'];
+      case ExamTypes.PRESENTATION:
+        return messages['common.presentation'];
+      case ExamTypes.ASSIGNMENT:
+        return messages['common.assignment'];
+      default:
+        return '';
     }
   };
 
@@ -230,5 +240,4 @@ const ExamPage = () => {
     </>
   );
 };
-
 export default ExamPage;

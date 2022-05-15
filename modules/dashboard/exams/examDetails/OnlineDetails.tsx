@@ -71,7 +71,7 @@ const OnlineDetails = ({
               </S1>
               <S1 sx={{margin: 'auto'}}>
                 {messages['common.date']} {': '}
-                {getIntlDateFromString(formatTime, exam?.exam_date)}
+                {getIntlDateFromString(formatTime, exam?.start_date)}
               </S1>
             </Grid>
             <Grid
