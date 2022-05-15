@@ -80,7 +80,7 @@ const useReactTableFetchData = ({
 
   useEffect(() => {
     if (tableData) {
-      console.log('table', tableData);
+      // console.log('table', tableData);
       setTotalCount(tableData.data?.total);
       setPageCount(countPaginatePage(tableData.data?.total, params?.page_size));
     }
