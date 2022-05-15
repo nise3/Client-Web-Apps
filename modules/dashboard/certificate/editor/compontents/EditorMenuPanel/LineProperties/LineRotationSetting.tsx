@@ -10,38 +10,38 @@ interface Props {
   elementId: string;
 }
 
-function LineStrokeSetting({elementId}: Props) {
+function LineRotationSetting({elementId}: Props) {
   const elementProps = useRecoilValue(
     elementPropsSelector<LineConfig>(elementId),
   );
 
   const {updateElementProps} = useElementsDispatcher();
 
-  const handleChangescaleX = (scaleX: number | number[]) => {
-    if (!(scaleX instanceof Array)) {
-      updateElementProps<LineConfig>(elementId, {scaleX});
+  const handleChangeRotation = (rotation: number | number[]) => {
+    if (!(rotation instanceof Array)) {
+      updateElementProps<LineConfig>(elementId, {rotation});
     }
   };
 
-  const scaleX = elementProps.scaleX ?? 1;
+  const rotation = elementProps?.rotation ?? 0;
 
   return (
-    <SideMenuSetting label='Size' htmlFor='input-stroke-color'>
+    <SideMenuSetting label='Rotation' htmlFor='input-rotation'>
       <div className='single-property-slider-input'>
         <Slider
-          min={0.5}
-          max={5}
-          value={scaleX}
-          step={0.5}
+          min={-180}
+          max={180}
+          value={rotation}
+          step={5}
           onChange={(event, value: number | number[]) => {
             event.preventDefault();
-            handleChangescaleX(value);
+            handleChangeRotation(value);
           }}
         />
-        <span className='slider-container-value'>{scaleX}</span>
+        <span className='slider-container-value'>{rotation}</span>
       </div>
     </SideMenuSetting>
   );
 }
 
-export default LineStrokeSetting;
+export default LineRotationSetting;

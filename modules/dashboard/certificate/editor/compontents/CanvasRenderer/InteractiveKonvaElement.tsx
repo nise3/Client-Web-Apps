@@ -40,7 +40,7 @@ const InteractiveKonvaElement = ({
 }: Props) => {
   const {updateElementProps, selectElement, deleteElement} =
     useElementsDispatcher();
-  const {transformerRef, setElementRef} =
+  const { transformerRef, setElementRef} =
     ElementRefsContainer.useContainer();
   const shapeRef = useRef<Konva.Shape & {isLocked: boolean}>(null);
   useEffect(() => {
@@ -116,14 +116,10 @@ const InteractiveKonvaElement = ({
           return;
         }
 
-        if (isOutOfBounds(shapeRef.current)) {
-          deleteElement(id);
-        } else {
-          handleChange({
-            x: shapeRef.current.x(),
-            y: shapeRef.current.y(),
-          });
-        }
+        handleChange({
+          x: shapeRef.current.x(),
+          y: shapeRef.current.y(),
+        });
       },
     [deleteElement, handleChange, id, isOutOfBounds],
   );
