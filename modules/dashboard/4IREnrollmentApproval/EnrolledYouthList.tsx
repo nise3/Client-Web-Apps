@@ -17,19 +17,21 @@ import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import RejectButton from './RejectButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
-import AssignBatchPopup from './AssignBatchPopup';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
-const EnrolledYouthList = () => {
+interface IEnrolledYouthList {
+  selectedCourseId: number;
+}
+
+const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
+  //const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-  const [isOpenBatchAssignModal, setIsOpenBatchAssignModal] = useState(false);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -39,12 +41,6 @@ const EnrolledYouthList = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
-  }, []);
-
-  const closeAssignBatchModal = useCallback(() => {
-    setIsOpenBatchAssignModal(false);
-    setSelectedItemId(null);
-    setSelectedCourseId(null);
   }, []);
 
   const refreshDataTable = useCallback(() => {
@@ -209,15 +205,7 @@ const EnrolledYouthList = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {isOpenBatchAssignModal && (
-          <AssignBatchPopup
-            key={1}
-            onClose={closeAssignBatchModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-            courseId={selectedCourseId}
-          />
-        )}
+
         {isOpenDetailsModal && selectedItemId && (
           <ApplicationDetailsPopup
             key={1}

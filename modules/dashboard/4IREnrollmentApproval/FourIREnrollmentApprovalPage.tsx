@@ -50,7 +50,7 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
       {selectedCourseId && (
         <EnrolledYouthList
           selectedCourseId={selectedCourseId}
-          fourIRInitiativeId={fourIRInitiativeId}
+          // fourIRInitiativeId={fourIRInitiativeId}
         />
       )}
     </>
