@@ -104,12 +104,13 @@ function ViewRenderer() {
       Promise.all([
         getYouthProfileById(issueInfo.youth_id).then(res => res.data),
         getBatch(issueInfo.batch_id).then(res => res.data),
+        // getGuardianByYouthId(9),
         getGuardianByYouthId(issueInfo.youth_id),
         getCertificateById(issueInfo.certificate_id)
       ]).then(resp => {
         const youth = resp[0];
         const batch = resp[1];
-        const gardian = resp[2] as any[] | undefined;
+        const {data: gardian} = resp[2];
         const certificate = resp[3];
         let father_name:any = null;
         let mother_name:any = null;
