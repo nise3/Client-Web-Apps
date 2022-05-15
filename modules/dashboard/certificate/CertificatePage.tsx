@@ -19,7 +19,7 @@ import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { deleteCertificate } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { getAllBatches } from '../../../services/instituteManagement/BatchService';
-import { ICertificate, ICertificateView } from '../../../shared/Interface/certificates';
+import { ICertificateView } from '../../../shared/Interface/certificates';
 import { CERTIFICATE_TYPE_LABEL, RESULT_TYPE } from './Constants';
 
 const CertificateTemplatePage = () => {

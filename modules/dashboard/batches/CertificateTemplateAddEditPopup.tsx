@@ -8,11 +8,9 @@ import { isBreakPointUp } from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import yup from '../../../@softbd/libs/yup';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import { getCertificateByResultType } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { useFetchResultTypes } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
@@ -42,7 +40,6 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
 }) => {
   // console.log('item id', itemId)
   const { messages } = useIntl();
-  const { errorStack } = useNotiStack();
   //@ts-ignore
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   const [certificateTypeId, setCertificateTypeId] = useState<number>();
@@ -79,7 +76,6 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   const {
     control,
     reset,
-    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ICertificateBatchSetting>({
@@ -102,7 +98,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     if (certificateId) {
       const certificateOne: ICertificate | undefined = certificatesList.find(e => e.id === certificateId);
       const isExist = certificateOne?.issued_at !== null;
-      console.log('existance ', isExist)
+      // console.log('existance ', isExist)
       setIsTemplateEditable(isExist)
     }
   }, [certificateId, certificatesList])
