@@ -8,7 +8,7 @@ import { getCertificateById } from '../../../../../../services/CertificateAuthor
 import { getBatch } from '../../../../../../services/instituteManagement/BatchService';
 import { getGuardianByYouthId } from '../../../../../../services/youthManagement/GuardianService';
 import {
-  getYouthProfileById
+  getYouthProfileById,
 } from '../../../../../../services/youthManagement/YouthService';
 import { CERTIRICATE_LANGUAGE } from '../../../Constants';
 import { CANVAS_STROKE, EDITOR_MARGIN } from '../../constants';

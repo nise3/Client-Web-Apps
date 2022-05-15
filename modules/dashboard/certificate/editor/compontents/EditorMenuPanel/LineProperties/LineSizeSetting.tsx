@@ -2,11 +2,10 @@ import { Slider } from '@mui/material';
 import { LineConfig } from 'konva/lib/shapes/Line';
 import React from 'react';
 import {useRecoilValue} from 'recoil';
-import {Slider} from '@mui/material';
-import {TextConfig} from '../../../interfaces/Shape';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
-import { elementPropsSelector } from '../../../state/selectors/elements';
+import {elementPropsSelector} from '../../../state/selectors/elements';
 import SideMenuSetting from '../../ui/SideMenuSetting';
+import {LineConfig} from 'konva/lib/shapes/Line';
 
 interface Props {
   elementId: string;

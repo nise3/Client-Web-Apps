@@ -10,8 +10,11 @@ import { AspectRatio } from 'react-aspect-ratio';
 import { useRecoilValue } from 'recoil';
 import { EditorAreaContainer } from '../../../../state/containers/EditorAreaContainer';
 import useEditorDispatcher from '../../../../state/dispatchers/editor';
-import SideMenuSetting from '../../../ui/SideMenuSetting';
-import { dimensionsState } from './../../../../state/atoms/template';
+import {EditorAreaContainer} from '../../../../state/containers/EditorAreaContainer';
+import {useRecoilValue} from 'recoil';
+import {dimensionsState} from './../../../../state/atoms/template';
+import {equals} from 'ramda';
+// import {Dimensions} from '../../../../interfaces/StageConfig';
 
 export const options = [
   // {
