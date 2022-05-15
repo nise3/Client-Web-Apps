@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -16,6 +16,8 @@ import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ExamListPopup from './ExamListPopup';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -24,6 +26,9 @@ const YouthPage = () => {
   const path = router.asPath;
   const {batchId} = router.query;
   const {data: batch, isLoading} = useFetchBatch(Number(batchId));
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
+  const [isOpenExamListModal, setIsOpenExamListModal] = useState(false);
   const columns = useMemo(
     () => [
       {
@@ -75,18 +80,31 @@ const YouthPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+            <DatatableButtonGroup>
+              <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+                <CommonButton
+                  btnText='applicationManagement.viewCV'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  style={{marginTop: '10px'}}
+                />
+              </Link>
+
               <CommonButton
-                btnText='applicationManagement.viewCV'
-                startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                style={{marginTop: '10px'}}
+                key={2}
+                onClick={() => openExamListModal(data.id, data.youth_id)}
+                btnText={messages['batches.marksheet'] as string}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '20px'}}
+                // startIcon={<DownloadIcon />}
               />
-            </Link>
+            </DatatableButtonGroup>
           );
         },
         sortable: false,
@@ -121,7 +139,17 @@ const YouthPage = () => {
     };
   });
 
-  console.log(filteredData);
+  const openExamListModal = useCallback((itemId: number, youthId: number) => {
+    setIsOpenExamListModal(true);
+    setSelectedItemId(itemId);
+    setSelectedYouthId(youthId);
+  }, []);
+
+  const closeExamListModal = useCallback(() => {
+    setIsOpenExamListModal(false);
+  }, []);
+
+  //console.log(filteredData);
   return (
     <>
       {!isLoading && (
@@ -149,6 +177,14 @@ const YouthPage = () => {
             pageCount={pageCount}
             totalCount={totalCount}
           />
+          {isOpenExamListModal && (
+            <ExamListPopup
+              key={1}
+              itemId={selectedItemId}
+              youthId={selectedYouthId}
+              onClose={closeExamListModal}
+            />
+          )}
         </PageBlock>
       )}
     </>
