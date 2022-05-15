@@ -88,6 +88,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             is: (value: any) => value,
             then: yup.string().required(),
           }),
+        questions: yup
+          .array()
+          .of(yup.object())
+          .label(messages['exam.no_question_selected'] as string)
+          .when('question_selection_type', {
+            is: (value: any) => value && value !== QuestionSelectionType.RANDOM,
+            then: yup.array().required(),
+          }),
       }),
     );
   }, []);
@@ -140,7 +148,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               .string()
               .label(messages['common.duration_min'] as string)
               .required()
-          : yup.string(),
+          : yup.mixed(),
       total_set:
         Number(examType) == ExamTypes.OFFLINE
           ? yup
@@ -298,6 +306,18 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         type: itemData?.type,
         row_status: itemData?.row_status,
       };
+
+      if (
+        itemData &&
+        itemData?.type != ExamTypes.ONLINE &&
+        itemData?.type != ExamTypes.OFFLINE &&
+        itemData?.type != ExamTypes.MIXED
+      ) {
+        data.total_marks = Number(itemData?.exams[0]?.total_marks).toFixed();
+        data.end_date = itemData?.exams[0]?.end_date
+          .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
+          .replace(' ', 'T');
+      }
 
       if (itemData?.type != ExamTypes.MIXED) {
         setFormValues(data, itemData?.exams[0]);
@@ -470,6 +490,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       }
       router.back();
     } catch (error: any) {
+      console.log('api error->', error);
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
@@ -625,6 +646,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                     errorInstance={errors}
                   />
                 </Grid>
+
                 <Grid item xs={6}>
                   <CustomTextInput
                     required
@@ -632,6 +654,13 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                     label={messages['common.marks']}
                     register={register}
                     errorInstance={errors}
+                    InputLabelProps={
+                      !isNaN(examId)
+                        ? {
+                            shrink: true,
+                          }
+                        : {}
+                    }
                   />
                 </Grid>
               </>

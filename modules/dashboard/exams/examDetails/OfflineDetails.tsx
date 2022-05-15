@@ -4,8 +4,7 @@ import {ExamTypes, QuestionSelectionType} from '../ExamEnums';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import {Button, Grid} from '@mui/material';
 import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {Body1, Body2, H6, Link, S1} from '../../../../@softbd/elements/common';
-import {LINK_EXAM_YOUTH_LIST} from '../../../../@softbd/common/appLinks';
+import {Body1, Body2, H6, S1} from '../../../../@softbd/elements/common';
 import {
   getIntlDateFromString,
   getIntlNumber,
@@ -48,8 +47,6 @@ const OfflineDetails = ({
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
-  let url = LINK_EXAM_YOUTH_LIST + exam?.id;
 
   let answerIndex = 0;
   let questionIndex = 1;
@@ -99,11 +96,6 @@ const OfflineDetails = ({
         </Grid>
       )}
       <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
-        <Link href={url}>
-          <Button variant={'contained'} color={'primary'}>
-            {messages['common.examinees']}
-          </Button>{' '}
-        </Link>
         {examSetUuid && (
           <Button
             variant={'contained'}
