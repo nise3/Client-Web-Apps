@@ -23,9 +23,9 @@ import {
   updateGalleryAlbumContent,
 } from '../../../services/cmsManagement/GalleryAlbumContentService';
 import {
-  useFetchCMSGlobalConfig,
   useFetchGalleryAlbumContent,
-  useFetchGalleryAlbums,
+  useFetchLocalizedCMSGlobalConfig,
+  useFetchLocalizedGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Add, Delete} from '@mui/icons-material';
@@ -71,10 +71,10 @@ const GalleryAlbumContentsPageAddEditPopup: FC<
     row_status: RowStatus.ACTIVE,
   });
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
-    useFetchGalleryAlbums(galleryAlbumFilters);
+    useFetchLocalizedGalleryAlbums(galleryAlbumFilters);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
   const [languageList, setLanguageList] = useState<any>([]);
   const [allLanguages, setAllLanguages] = useState<any>([]);
 

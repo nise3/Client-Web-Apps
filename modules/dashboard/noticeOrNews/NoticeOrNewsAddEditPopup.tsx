@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
   useFetchNoticeOrNews,
 } from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
@@ -77,7 +77,7 @@ const NoticeOrNewsAddEditPopup: FC<NoticeOrNewsAddEditPopupProps> = ({
   const authUser = useAuthUser<CommonAuthUser>();
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const {
     data: itemData,

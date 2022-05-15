@@ -25,9 +25,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -111,6 +111,10 @@ export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
 }
 
+export function useFetchLocalizedCourses(params: any) {
+  return useDataLocalizationAxiosSWR([API_COURSES, params]);
+}
+
 export function useFetchCourseList(pathVariable: string, params: any) {
   return useDataLocalizationAxiosSWR(
     params
@@ -158,6 +162,7 @@ export function useFetchTrainer(trainerId: any) {
 export function useFetchTrainers(params: any) {
   return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
+
 export function useFetchLocalizedTrainers(params: any) {
   return useDataLocalizationAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
@@ -188,6 +193,11 @@ export function useFetchBatchesToAssign(courseId: number | null) {
     courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
   );
 }
+export function useFetchLocalizedBatchesToAssign(courseId: number | null) {
+  return useDataLocalizationAxiosSWR(
+    courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
+  );
+}
 
 /**hr-demand**/
 export function useFetchHrDemand(hrDemandId: any) {
@@ -197,7 +207,7 @@ export function useFetchHrDemand(hrDemandId: any) {
 }
 
 export function useFetchInstituteTraineeYouths() {
-  return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
+  return useDataLocalizationAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
 /**

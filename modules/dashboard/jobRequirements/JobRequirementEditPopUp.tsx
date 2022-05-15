@@ -26,7 +26,7 @@ import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoC
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import _ from 'lodash';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface JobRequirementEditPopupProps {
@@ -75,7 +75,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(skillFilter);
+    useFetchLocalizedSkills(skillFilter);
 
   const onAddHrDemand = useCallback(() => {
     setHrDemandFields((prev: any) => {
@@ -306,7 +306,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
                 isLoading={isLoadingIndustryAssociation}
                 options={industryAssociations}
                 optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 control={control}
                 errorInstance={errors}
               />
@@ -321,7 +321,7 @@ const JobRequirementEditPopup: FC<JobRequirementEditPopupProps> = ({
               isLoading={isLoadingIndustryAssocMembers}
               options={industryAssocMembers}
               optionValueProp={'id'}
-              optionTitleProp={['title', 'title_en']}
+              optionTitleProp={['title']}
               control={control}
               errorInstance={errors}
             />

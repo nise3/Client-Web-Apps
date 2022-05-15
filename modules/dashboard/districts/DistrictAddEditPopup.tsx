@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -18,7 +18,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import IconDistrict from '../../../@softbd/icons/IconDistrict';
 import {
   useFetchDistrict,
-  useFetchDivisions,
+  useFetchLocalizedDivisions,
 } from '../../../services/locationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -47,12 +47,14 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const isEdit = itemId != null;
+  const [divisionFilter] = useState({});
   const {
     data: itemData,
     isLoading,
     mutate: mutateDistrict,
   } = useFetchDistrict(itemId);
-  const {data: divisions, isLoading: isDivisionsLoading} = useFetchDivisions();
+  const {data: divisions, isLoading: isDivisionsLoading} =
+    useFetchLocalizedDivisions(divisionFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -160,7 +162,7 @@ const DistrictAddEditPopup: FC<DistrictAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

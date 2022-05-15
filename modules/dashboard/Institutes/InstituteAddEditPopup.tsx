@@ -39,8 +39,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
+  useFetchLocalizedPermissionGroups,
   useFetchLocalizedPermissionSubGroups,
-  useFetchPermissionGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -137,7 +137,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
-  const {data: permissionGroups} = useFetchPermissionGroups(
+  const {data: permissionGroups} = useFetchLocalizedPermissionGroups(
     permissionGroupFilters,
   );
 

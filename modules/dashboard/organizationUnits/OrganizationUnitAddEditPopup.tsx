@@ -26,15 +26,15 @@ import {
 } from '../../../services/organaizationManagement/OrganizationUnitService';
 import {isNeedToSelectOrganization} from '../../../@softbd/utilities/helpers';
 import {
-  useFetchOrganizations,
-  useFetchOrganizationServices,
+  useFetchLocalizedOrganizations,
+  useFetchLocalizedOrganizationServices,
+  useFetchLocalizedOrganizationUnitTypes,
   useFetchOrganizationUnit,
-  useFetchOrganizationUnitTypes,
 } from '../../../services/organaizationManagement/hooks';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -105,21 +105,21 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: organizations, isLoading: isLoadingOrganization} =
-    useFetchOrganizations(organizationFilters);
+    useFetchLocalizedOrganizations(organizationFilters);
   const {
     data: organizationUnitTypes,
     isLoading: isLoadingOrganizationUnitTypes,
-  } = useFetchOrganizationUnitTypes(organizationUnitTypeFilters);
+  } = useFetchLocalizedOrganizationUnitTypes(organizationUnitTypeFilters);
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const {data: services, isLoading: isLoadingServices} =
-    useFetchOrganizationServices(serviceFilters);
+    useFetchLocalizedOrganizationServices(serviceFilters);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -355,7 +355,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               control={control}
               options={organizations}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onOrganizationChange}
             />
@@ -370,7 +370,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={organizationUnitTypes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -409,7 +409,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onDivisionChange}
           />
@@ -422,7 +422,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onDistrictChange}
           />
@@ -435,7 +435,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -559,7 +559,7 @@ const OrganizationUnitAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={services}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             multiple={true}
             defaultValue={initialValues.services}

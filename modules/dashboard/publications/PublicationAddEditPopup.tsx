@@ -25,7 +25,7 @@ import {
 } from '../../../services/IndustryManagement/PublicationService';
 import {IPublication} from '../../../shared/Interface/publication.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
+import {useFetchLocalizedIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 
 interface PublicationAddEditPopupProps {
@@ -67,7 +67,7 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
     useState<any>(null);
 
   const {data: industryAssociations, isLoading: isLoadingAssociations} =
-    useFetchIndustryAssociations(industryAssociationsFilters);
+    useFetchLocalizedIndustryAssociations(industryAssociationsFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -265,7 +265,7 @@ const PublicationAddEditPopup: FC<PublicationAddEditPopupProps> = ({
               control={control}
               options={industryAssociations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>

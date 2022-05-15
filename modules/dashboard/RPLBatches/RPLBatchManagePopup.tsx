@@ -8,7 +8,7 @@ import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormM
 import {SubmitHandler, useForm} from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {useFetchTrainers} from '../../../services/instituteManagement/hooks';
+import {useFetchLocalizedTrainers} from '../../../services/instituteManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import {Division} from '../../../shared/Interface/location.interface';
@@ -51,7 +51,7 @@ const RPLBatchManagePopup: FC<CABatchManagePopupProps> = ({
 
   const [assessorFilter, setAssessorFilter] = useState<any>(null);
   const {data: assessors, isLoading: isLoadingAssessors} =
-    useFetchTrainers(assessorFilter);
+    useFetchLocalizedTrainers(assessorFilter);
 
   useEffect(() => {
     if (authUser) {

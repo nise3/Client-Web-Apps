@@ -44,6 +44,10 @@ export function useFetchUnions(params: any) {
   return useAxiosSWR([API_UNIONS, params]);
 }
 
+export function useFetchLocalizedUnions(params: any) {
+  return useDataLocalizationAxiosSWR([API_UNIONS, params]);
+}
+
 export function useFetchUpazila(upazilaId: number | null) {
   return useAxiosSWR(upazilaId ? API_UPAZILAS + '/' + upazilaId : null);
 }

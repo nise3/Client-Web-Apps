@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState, useCallback} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -17,7 +17,7 @@ import {useFetchCountries} from '../../../services/locationManagement/hooks';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {ICountry} from '../../../shared/Interface/country.interface';
 import {createRTOCountry} from '../../../services/CertificateAuthorityManagement/RTOCountryService';
-import {useFetchRTOCountries} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchLocalizedRTOCountries} from '../../../services/CertificateAuthorityManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 
@@ -39,7 +39,7 @@ const RTOCountryAddEditPopup: FC<CountryAddEditPopupProps> = ({
     data: serverSelectedCountries,
     isLoading,
     mutate: mutateCountry,
-  } = useFetchRTOCountries();
+  } = useFetchLocalizedRTOCountries();
 
   const [countryFilters] = useState<any>({});
   const {data: allCountries, isLoading: isCountriesLoading} =

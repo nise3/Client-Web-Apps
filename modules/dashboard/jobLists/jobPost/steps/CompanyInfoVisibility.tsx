@@ -13,7 +13,7 @@ import {Help} from '@mui/icons-material';
 import CustomTextInput from '../../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useFetchJobCompanyInfoVisibility} from '../../../../../services/IndustryManagement/hooks';
 import {saveCompanyInfoVisibility} from '../../../../../services/IndustryManagement/JobService';
-import {useFetchIndustryAssociationTrades} from '../../../../../services/IndustryAssociationManagement/hooks';
+import {useFetchLocalizedIndustryAssociationTrades} from '../../../../../services/IndustryAssociationManagement/hooks';
 import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
@@ -45,7 +45,7 @@ const CompanyInfoVisibility = ({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [associationTradeFilter] = useState<any>({});
   const {data: associationTrades, isLoading: isLoadingTrades} =
-    useFetchIndustryAssociationTrades(associationTradeFilter);
+    useFetchLocalizedIndustryAssociationTrades(associationTradeFilter);
 
   const id = 'top';
   usePageLoadToTop({id, dependency: isReady});

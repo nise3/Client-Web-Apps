@@ -127,6 +127,12 @@ export function useFetchInstituteHumanResourceDemands(params: any) {
   );
 }
 
+export function useFetchLocalizedInstituteHumanResourceDemands(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_INSTITUTE_HUMAN_RESOURCE_DEMANDS, params] : null,
+  );
+}
+
 export function useFetchPublicJobs(params: any) {
   const authUser = useAuthUser<YouthAuthUser>();
   const [parameters, setParameters] = useState<any>(params);

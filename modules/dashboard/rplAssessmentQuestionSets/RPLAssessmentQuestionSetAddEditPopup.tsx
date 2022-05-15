@@ -14,8 +14,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
+  useFetchLocalizedRPLAssessments,
   useFetchRPLAssessmentQuestionSet,
-  useFetchRPLAssessments,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {IQuestionSet} from '../../../shared/Interface/institute.interface';
 import IconCourse from '../../../@softbd/icons/IconCourse';
@@ -57,7 +57,7 @@ const RPLAssessmentQuestionSetAddEditPopup: FC<SubjectAddEditPopupProps> = ({
   const [assessmentFilters] = useState<any>({});
 
   const {data: assessmentData, isLoading: isLoadingAssessment} =
-    useFetchRPLAssessments(assessmentFilters);
+    useFetchLocalizedRPLAssessments(assessmentFilters);
 
   const [selectedAssessment, setSelectedAssessment] = useState<any>([]);
 

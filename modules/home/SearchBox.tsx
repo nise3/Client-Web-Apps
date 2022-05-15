@@ -16,7 +16,7 @@ import {useIntl} from 'react-intl';
 import Hidden from '../../@softbd/elements/Hidden';
 import {useRouter} from 'next/router';
 import RowStatus from '../../@softbd/utilities/RowStatus';
-import {useFetchUpazilas} from '../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../services/locationManagement/hooks';
 import {
   LINK_FRONTEND_JOBS,
   LINK_FRONTEND_NISE_TRAINING,
@@ -132,7 +132,7 @@ const SearchBox = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
   const [locationValue, setLocationValue] = useState<any>(null);
   const [typeValue, setTypeValue] = useState<any>('');
   const searchTextField = useRef<any>();
@@ -206,7 +206,7 @@ const SearchBox = () => {
             options={upazilas}
             isLoading={false}
             optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
             size='medium'
             dropdownStyle={{
               width: '400px',

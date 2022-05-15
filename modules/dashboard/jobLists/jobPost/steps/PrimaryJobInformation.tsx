@@ -23,10 +23,11 @@ import {
   ServiceTypes,
 } from '../enums/JobPostEnums';
 import CustomFormSwitch from '../../../../../@softbd/elements/input/CustomFormSwitch';
-import {useFetchPublicJobSectors} from '../../../../../services/organaizationManagement/hooks';
+import {
+  useFetchLocalizedPublicJobSectors,
+  useFetchLocalizedPublicOccupations,
+} from '../../../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
-import {IOccupation} from '../../../../../shared/Interface/occupation.interface';
-import {getAllPublicOccupations} from '../../../../../services/organaizationManagement/OccupationService';
 import {
   useFetchIndustryMembers,
   useFetchJobPrimaryInformation,
@@ -74,8 +75,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   //const [useNise3Email, setUseNise3Email] = useState<boolean>(true);
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isLoadingJobSector}: any =
-    useFetchPublicJobSectors(jobSectorFilters);
-  const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
+    useFetchLocalizedPublicJobSectors(jobSectorFilters);
 
   const {data: primaryJobInfo} = useFetchJobPrimaryInformation(jobId);
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -83,6 +83,11 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   const [latestStepValue, setLatestStepValue] = useState(1);
 
   const [industryAssociationMembersFilter] = useState({});
+  const [occupationFilter, setOccupationFilter] = useState<any>({});
+
+  const {data: occupations, isLoading: isLoadingOccuopations} =
+    useFetchLocalizedPublicOccupations(occupationFilter);
+
   const {
     data: industryAssociationMembers,
     isLoading: isLoadingIndustryAssocMembers,
@@ -269,16 +274,11 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
   const onJobSectorChange = useCallback(async (jobSectorId: number | null) => {
     if (jobSectorId) {
       try {
-        const response = await getAllPublicOccupations({
+        setOccupationFilter({
           row_status: RowStatus.ACTIVE,
           job_sector_id: jobSectorId,
         });
-        setOccupations(response.data);
-      } catch (e) {
-        setOccupations([]);
-      }
-    } else {
-      setOccupations([]);
+      } catch (e) {}
     }
   }, []);
 
@@ -387,7 +387,7 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
               control={control}
               options={jobSectors}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onJobSectorChange}
             />
@@ -398,11 +398,11 @@ const PrimaryJobInformation = ({jobId, onContinue, setLatestStep}: Props) => {
               required
               id='occupation_id'
               label={messages['occupations.label']}
-              isLoading={false}
+              isLoading={isLoadingOccuopations}
               control={control}
               options={occupations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>

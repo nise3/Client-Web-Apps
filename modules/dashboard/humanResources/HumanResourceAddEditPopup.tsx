@@ -14,9 +14,9 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
   useFetchHumanResource,
-  useFetchHumanResources,
+  useFetchLocalizedHumanResources,
+  useFetchLocalizedRanks,
   useFetchOrganizationUnit,
-  useFetchRanks,
 } from '../../../services/organaizationManagement/hooks';
 import {
   createHumanResource,
@@ -77,7 +77,8 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
     row_status: RowStatus.ACTIVE,
     organization_unit_id: orgUnitId,
   });
-  const {data: ranks, isLoading: isRanksLoading} = useFetchRanks(rankFilter);
+  const {data: ranks, isLoading: isRanksLoading} =
+    useFetchLocalizedRanks(rankFilter);
 
   useEffect(() => {
     if (humanResourceData) {
@@ -88,7 +89,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
   }, [humanResourceData]);
 
   const {data: humanResources, isLoading: isHumanResourcesLoading} =
-    useFetchHumanResources(humanResourceFilter);
+    useFetchLocalizedHumanResources(humanResourceFilter);
 
   const [organization, setOrganization] = useState<any | {}>({});
   const [organizationUnit, setOrganizationUnit] = useState<any | {}>({});
@@ -312,7 +313,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
               },
             ]}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             inputProps={{readOnly: true}}
           />
@@ -331,7 +332,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
               },
             ]}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             inputProps={{readOnly: true}}
           />
@@ -344,7 +345,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             control={control}
             options={humanResourceList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             inputProps={{readOnly: true}}
           />
@@ -357,7 +358,7 @@ const HumanResourceAddEditPopup: FC<HumanResourceAddEditPopupProps> = ({
             control={control}
             options={ranks}
             optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

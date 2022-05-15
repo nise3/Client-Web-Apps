@@ -3,11 +3,11 @@ import {Container, Grid} from '@mui/material';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {useIntl} from 'react-intl';
 import {
-  useFetchPublicRPLLevels,
-  useFetchPublicRPLOccupations,
-  useFetchPublicRPLSectors,
-  useFetchPublicRTOCountries,
-  useFetchPublicRTOS,
+  useFetchLocalizedPublicRPLLevels,
+  useFetchLocalizedPublicRPLOccupations,
+  useFetchLocalizedPublicRPLSectors,
+  useFetchLocalizedPublicRTOCountries,
+  useFetchLocalizedPublicRTOS,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -44,22 +44,22 @@ const SectorAndOccupationForm: FC<SectorAndOccupationFormProps> = ({
   const authUser = useAuthUser<YouthAuthUser>();
 
   const {data: countries, isLoading: isLoadingCountries} =
-    useFetchPublicRTOCountries(countryFilters);
+    useFetchLocalizedPublicRTOCountries(countryFilters);
 
   const {data: rplSectors, isLoading: isLoadingSectors} =
-    useFetchPublicRPLSectors(rplSectorFilters);
+    useFetchLocalizedPublicRPLSectors(rplSectorFilters);
 
   const {data: rplOccupations, isLoading: isLoadingOccupations} =
-    useFetchPublicRPLOccupations(rplOccupationFilters);
+    useFetchLocalizedPublicRPLOccupations(rplOccupationFilters);
 
   const {data: rplLevels, isLoading: isLoadingLevels} =
-    useFetchPublicRPLLevels(rplLevelFilters);
+    useFetchLocalizedPublicRPLLevels(rplLevelFilters);
 
   const {data: rtoCountries, isLoading: isLoadingRtoCountries} =
-    useFetchPublicRTOCountries(rtoCountryFilters);
+    useFetchLocalizedPublicRTOCountries(rtoCountryFilters);
 
   const {data: rtoList, isLoading: isLoadingRtoLists} =
-    useFetchPublicRTOS(rtoFilters);
+    useFetchLocalizedPublicRTOS(rtoFilters);
 
   const onCountryChange = useCallback(
     (countryId: any) => {

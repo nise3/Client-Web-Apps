@@ -25,6 +25,10 @@ export function useFetchPermissions(params: any) {
   return useAxiosSWR([API_PERMISSIONS, params]);
 }
 
+export function useFetchLocalizedPermissions(params: any) {
+  return useDataLocalizationAxiosSWR([API_PERMISSIONS, params]);
+}
+
 export function useFetchPermission(permissionId: number | null) {
   return useAxiosSWR(
     permissionId ? API_PERMISSIONS + '/' + permissionId : null,
@@ -33,6 +37,10 @@ export function useFetchPermission(permissionId: number | null) {
 
 export function useFetchPermissionGroups(params: any) {
   return useAxiosSWR([API_PERMISSION_GROUPS, params]);
+}
+
+export function useFetchLocalizedPermissionGroups(params: any) {
+  return useDataLocalizationAxiosSWR([API_PERMISSION_GROUPS, params]);
 }
 
 export function useFetchPermissionGroup(permissionGroupId: number | null) {
@@ -54,6 +62,7 @@ export function useFetchPermissionSubGroup(
 export function useFetchPermissionSubGroups(params: any) {
   return useAxiosSWR(params ? [API_PERMISSION_SUB_GROUPS, params] : null);
 }
+
 export function useFetchLocalizedPermissionSubGroups(params: any) {
   return useDataLocalizationAxiosSWR(
     params ? [API_PERMISSION_SUB_GROUPS, params] : null,
@@ -66,4 +75,8 @@ export function useFetchUser(userId: number | null) {
 
 export function useFetchUsers(params: any) {
   return useAxiosSWR([API_USERS, params]);
+}
+
+export function useFetchLocalizedUsers(params: any) {
+  return useDataLocalizationAxiosSWR([API_USERS, params]);
 }

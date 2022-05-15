@@ -12,10 +12,7 @@ import {
 import Tile from '../../../@softbd/Tile/Tile';
 import {Close, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {
-  useFetchLocalizedUpazilas,
-  useFetchUpazilas,
-} from '../../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
 import Hidden from '../../../@softbd/elements/Hidden';

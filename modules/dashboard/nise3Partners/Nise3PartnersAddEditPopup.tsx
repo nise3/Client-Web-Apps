@@ -19,7 +19,7 @@ import {
   updatePartner,
 } from '../../../services/cmsManagement/PartnersService';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
   useFetchPartner,
 } from '../../../services/cmsManagement/hooks';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
@@ -61,7 +61,7 @@ const Nise3PartnersAddEditPopup: FC<PartnerAddEditPopupProps> = ({
     mutate: mutatePartners,
   } = useFetchPartner(itemId);
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);

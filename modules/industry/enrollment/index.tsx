@@ -19,9 +19,9 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -42,7 +42,7 @@ import Boolean from './constants/Boolean';
 import BusinessOwnership from './constants/BusinessOwnership';
 import {Body1, H1, H2} from '../../../@softbd/elements/common';
 import {registerNASCIBMember} from '../../../services/IndustryManagement/NascibMemberRegistrationService';
-import {useFetchNascibMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
+import {useFetchLocalizedNascibMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import ImportExportType from './constants/ImportExportType';
 import RegistrationSuccessBox from '../memberRegistration/RegistrationSuccessBox';
@@ -90,13 +90,13 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
   const [upazilasFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(districtsFilter);
+    useFetchLocalizedDivisions(districtsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
   const {data: memberStaticData, isLoading: isLoadingMemberStaticData} =
-    useFetchNascibMemberStaticData();
+    useFetchLocalizedNascibMemberStaticData();
 
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
@@ -974,7 +974,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                           control={control}
                           options={districts}
                           optionValueProp={'id'}
-                          optionTitleProp={['title_en', 'title']}
+                          optionTitleProp={['title']}
                           errorInstance={errors}
                         />
                       </Grid>
@@ -987,7 +987,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                             control={control}
                             options={[{id: 1, title: 'Boidonath union'}]}
                             optionValueProp={'id'}
-                            optionTitleProp={['title_en', 'title']}
+                            optionTitleProp={[ 'title']}
                             errorInstance={errors}
                           />
                         </Grid>*/}
@@ -1035,7 +1035,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                           control={control}
                           options={districts}
                           optionValueProp={'id'}
-                          optionTitleProp={['title_en', 'title']}
+                          optionTitleProp={['title']}
                           errorInstance={errors}
                         />
                       </Grid>
@@ -1048,7 +1048,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                             control={control}
                             options={[{id: 1, title: 'Boidonath union'}]}
                             optionValueProp={'id'}
-                            optionTitleProp={['title_en', 'title']}
+                            optionTitleProp={[ 'title']}
                             errorInstance={errors}
                           />
                         </Grid>*/}
@@ -1298,7 +1298,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     control={control}
                     options={divisions}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                     onChange={changeDivisionAction}
                   />
@@ -1313,7 +1313,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     control={control}
                     options={districtsList}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                     onChange={changeDistrictAction}
                   />
@@ -1326,7 +1326,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     control={control}
                     options={upazilasList}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                   />
                 </Grid>
@@ -1399,7 +1399,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         control={control}
                         options={divisions}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                         onChange={onChangeFactoryDivision}
                       />
@@ -1413,7 +1413,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         control={control}
                         options={factoryDistrictsList}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                         onChange={onChangeFactoryDistrict}
                       />
@@ -1426,7 +1426,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         control={control}
                         options={factoryUpazilasList}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                       />
                     </Grid>
@@ -1693,7 +1693,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                         control={control}
                         options={memberStaticData?.smef_clusters || []}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                       />
                     )}
@@ -1773,7 +1773,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                       control={control}
                       options={memberStaticData?.sector || []}
                       optionValueProp={'id'}
-                      optionTitleProp={['title_en', 'title']}
+                      optionTitleProp={['title']}
                       errorInstance={errors}
                       onChange={handleSectorChange}
                     />
