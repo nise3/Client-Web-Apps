@@ -60,8 +60,7 @@ function useElementsDispatcher() {
         if (!canvasElement || selectedElementId === canvasElement.id) {
           return;
         }
-        console.log('canvasElement');
-        console.log(canvasElement);
+
         set(selectedElementIdState, canvasElement.id);
         const elementPanel = SHAPE_PROPERTIES_PANEL[canvasElement.type];
         if (elementPanel) {

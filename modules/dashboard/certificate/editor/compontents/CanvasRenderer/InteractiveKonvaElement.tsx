@@ -97,8 +97,11 @@ const InteractiveKonvaElement = ({
       if (!shape) {
         return;
       }
+      // console.log(evt.currentTarget.attrs.skewX);
+      // console.log(evt.currentTarget.attrs.rotation);
 
       if (transformerRef.current && transform) {
+        console.log(evt);
         shape.setAttrs(transform(evt, transformerRef.current));
       }
 
@@ -116,14 +119,10 @@ const InteractiveKonvaElement = ({
           return;
         }
 
-        if (isOutOfBounds(shapeRef.current)) {
-          deleteElement(id);
-        } else {
-          handleChange({
-            x: shapeRef.current.x(),
-            y: shapeRef.current.y(),
-          });
-        }
+        handleChange({
+          x: shapeRef.current.x(),
+          y: shapeRef.current.y(),
+        });
       },
     [deleteElement, handleChange, id, isOutOfBounds],
   );
