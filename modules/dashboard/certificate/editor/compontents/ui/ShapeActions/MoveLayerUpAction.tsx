@@ -29,7 +29,7 @@ function MoveLayerUpAction({elementId}: Props) {
           className={'shape-action-button'}
           disabled={moveUpDisabled}>
           <IconButton
-            aria-label='delete'
+            aria-label='move up action'
             disabled={moveUpDisabled}
             disableRipple
             sx={{padding: 0}}>
