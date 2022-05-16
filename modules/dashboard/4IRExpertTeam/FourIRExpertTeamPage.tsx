@@ -96,24 +96,18 @@ const FourIRExpertTeamPage = ({
         accessor: 'name',
       },
       {
-        Header: messages['common.email'],
-        accessor: 'email',
-      },
-      {
-        Header: messages['common.phone_number'],
-        accessor: 'phone_number',
-      },
-      {
-        Header: messages['role.label'],
-        accessor: 'role',
-        isVisible: false,
-      },
-      {
         Header: messages['common.designation'],
         accessor: 'designation',
+      },
+      {
+        Header: messages['common.organization'],
+        accessor: 'organization',
+      },
+      {
+        Header: messages['4ir.role_or_responsibility'],
+        accessor: 'role_responsibility',
         isVisible: false,
       },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
