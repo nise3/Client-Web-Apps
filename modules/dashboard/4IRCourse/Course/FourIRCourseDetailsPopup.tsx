@@ -1,18 +1,18 @@
 import React, {useCallback} from 'react';
 import {Card, Grid} from '@mui/material';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
+import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import {useFetchFourIRCourse} from '../../../services/instituteManagement/hooks';
-import {ISkill} from '../../../shared/Interface/organization.interface';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
-import {LANGUAGE_MEDIUM, LEVEL} from '../courses/CourseEnums';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import CustomChipRowStatus from '../../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import IconCourse from '../../../../@softbd/icons/IconCourse';
+import {useFetchFourIRCourse} from '../../../../services/instituteManagement/hooks';
+import {ISkill} from '../../../../shared/Interface/organization.interface';
+import {isBreakPointUp} from '../../../../@crema/utility/Utils';
+import CardMediaImageView from '../../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {LANGUAGE_MEDIUM, LEVEL} from '../../courses/CourseEnums';
 
 type Props = {
   itemId: number;

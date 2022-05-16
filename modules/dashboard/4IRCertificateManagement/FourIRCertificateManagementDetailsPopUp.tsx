@@ -1,27 +1,27 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import CancelButton from "../../../@softbd/elements/button/CancelButton/CancelButton";
-import CustomDetailsViewMuiModal from "../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal";
-import DetailsInputView from "../../../@softbd/elements/display/DetailsInputView/DetailsInputView";
-import { useIntl } from "react-intl";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import CustomChipRowStatus from "../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus";
-import { useFetchApplicationDetails } from "../../../services/instituteManagement/hooks";
-import CommonButton from "../../../@softbd/elements/button/CommonButton/CommonButton";
-import { FiUser } from "react-icons/fi";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { nationalities } from "../../../@softbd/utilities/Nationalities";
-import PhysicalDisabilityStatus from "../../../@softbd/utilities/PhysicalDisabilityStatus";
-import { isBreakPointUp } from "../../../@crema/utility/Utils";
-import IconCourse from "../../../@softbd/icons/IconCourse";
+import React from 'react';
+import {Grid} from '@mui/material';
+import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
+import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
+import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
+import {useIntl} from 'react-intl';
+import IntlMessages from '../../../@crema/utility/IntlMessages';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
+import {nationalities} from '../../../@softbd/utilities/Nationalities';
+import PhysicalDisabilityStatus from '../../../@softbd/utilities/PhysicalDisabilityStatus';
+import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number;
   onClose: () => void;
 };
 
-const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
+const FourIRCertificateManagementDetailsPopUp = ({itemId, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
 
@@ -113,7 +113,7 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
         title={
           <>
             <IconCourse />
-            <IntlMessages id='applicationManagement.details' />
+            <IntlMessages id='assessment.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -534,4 +534,4 @@ const ApplicationDetailsPopup = ({itemId, ...props}: Props) => {
   );
 };
 
-export default ApplicationDetailsPopup;
+export default FourIRCertificateManagementDetailsPopUp;
