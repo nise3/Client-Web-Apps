@@ -7,7 +7,7 @@ import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import theme from '../../../@softbd/layouts/themes/youth';
 import {useTheme} from '@mui/material/styles';
 
-const VerifyForgetPasswordOtpPage = asyncComponent(
+const VerifyForgotPasswordOtpPage = asyncComponent(
   () => import('../../../modules/verifyOTP'),
 );
 export default DefaultPage(() => {
@@ -16,7 +16,7 @@ export default DefaultPage(() => {
     <>
       <PageMeta title={messages['common.verify_otp'] as string} />
       <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
-        <VerifyForgetPasswordOtpPage />
+        <VerifyForgotPasswordOtpPage />
       </ThemeProvider>
     </>
   );

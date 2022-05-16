@@ -14,7 +14,7 @@ export default DefaultPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.forget_password'] as string} />
+      <PageMeta title={messages['common.forgot_password'] as string} />
       <ThemeProvider theme={responsiveFontSizes(theme(useTheme()))}>
         <ForgotPasswordPage />
       </ThemeProvider>
