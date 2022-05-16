@@ -1,33 +1,41 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
+import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
-import {LEVEL} from '../courses/CourseEnums';
+import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 
-interface IFourIRCoursePageProps {
+import ReactTable from '../../../../@softbd/table/Table/ReactTable';
+import CustomChipRowStatus from '../../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getCalculatedSerialNo} from '../../../../@softbd/utilities/helpers';
+import IconCourse from '../../../../@softbd/icons/IconCourse';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
+import RowStatus from '../../../../@softbd/utilities/RowStatus';
+import {getBrowserCookie} from '../../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
+import {LEVEL} from '../../courses/CourseEnums';
+import CommonButton from '../../../../@softbd/elements/button/CommonButton/CommonButton';
+
+interface ICourseListPage {
   fourIRInitiativeId: number;
   setSelectedCourseId: any;
+  onFetchData: any;
+  data: any;
+  loading: any;
+  pageCount: any;
+  totalCount: any;
 }
 
-const FourIRCoursePage = ({
-  fourIRInitiativeId,
+const CourseListPage = ({
   setSelectedCourseId,
-}: IFourIRCoursePageProps) => {
+  onFetchData,
+  data,
+  loading,
+  pageCount,
+  totalCount,
+}: ICourseListPage) => {
   const {messages, locale} = useIntl();
   const authUser = useAuthUser<CommonAuthUser>();
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
@@ -80,7 +88,7 @@ const FourIRCoursePage = ({
         },
       },
       {
-        Header: messages['common.title'],
+        Header: messages['applicationManagement.courseTitle'],
         accessor: 'title',
       },
 
@@ -100,23 +108,16 @@ const FourIRCoursePage = ({
       {
         Header: messages['institute.label'],
         accessor: 'institute_title_en',
-        isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        // isVisible: locale == LocaleLanguage.EN && authUser?.isSystemUser,
+        isVisible: false,
         disableFilters: !authUser?.isSystemUser || locale == LocaleLanguage.BN,
       },
-      {
-        Header: messages['course.fee'],
-        accessor: 'course_fee',
-        disableFilters: true,
-      },
-      {
-        Header: messages['course.duration'],
-        accessor: 'duration',
-        disableFilters: true,
-      },
+
       {
         Header: messages['course.course_level'],
         accessor: 'level',
         filter: 'selectFilter',
+        isVisible: false,
         selectFilterItems: courseLevelFilterItems,
         Cell: (props: any) => {
           let data = props.row.original;
@@ -133,6 +134,7 @@ const FourIRCoursePage = ({
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',
+        isVisible: false,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipRowStatus value={data?.row_status} />;
@@ -144,7 +146,10 @@ const FourIRCoursePage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => setSelectedCourseId(data.id)} />
+              <CommonButton
+                btnText={'enrollment_view_enrollment'}
+                onClick={() => setSelectedCourseId(data.id)}
+              />
             </DatatableButtonGroup>
           );
         },
@@ -153,11 +158,6 @@ const FourIRCoursePage = ({
     ],
     [messages, locale, skillFilterItems],
   );
-
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_COURSE_ENROLLMENTS,
-    });
 
   return (
     <>
@@ -180,4 +180,4 @@ const FourIRCoursePage = ({
   );
 };
 
-export default FourIRCoursePage;
+export default CourseListPage;

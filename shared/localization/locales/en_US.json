@@ -2021,5 +2021,9 @@
   "4ir.enrollment_approval": "Enrollment Approval",
   "common.about_user" : "About User",
   "enrollment_view_enrollment" : "View Enrollment",
-  "assessment.examiner": "Examiner Name"
+  "assessment.examiner": "Examiner Name",
+  "assessment.examinee": "Examinee Name",
+  "certificate.recipient_name": "Recipient Name",
+  "certificate.certificate_title": "Certificate title",
+  "certificate.certificate_title_en": "Certificate title (en)"
 }

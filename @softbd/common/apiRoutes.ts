@@ -124,8 +124,6 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
 export const BATCH_BY_4IR_INITIATIVE_ID =
   TSP_PUBLIC_SERVICE_PATH + '/batches-by-four-ir-initiative-id';
-//export const BATCH_BY_4IR_INITIATIVE_ID =
-//  INSTITUTE_SERVICE_PATH + '/api/v1/public/batches-by-four-ir-initiative-id';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
@@ -207,6 +205,8 @@ export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
+export const API_4IR_CERTIFICATE =
+  FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
 export const API_4IR_CURRICULUM =
   FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
 export const API_4IR_Resource_Management =

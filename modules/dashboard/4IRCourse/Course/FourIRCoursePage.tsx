@@ -1,40 +1,45 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import PageBlock from '../../../../@softbd/utilities/PageBlock';
+import AddButton from '../../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_COURSE} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import ReadButton from '../../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ReactTable from '../../../../@softbd/table/Table/ReactTable';
 import FourIRCourseAddEditPopup from './FourIRCourseAddEditPopup';
 import FourIRCourseDetailsPopup from './FourIRCourseDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CustomChipRowStatus from '../../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
 import {
   getCalculatedSerialNo,
   isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
-import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
-import {LEVEL} from '../courses/CourseEnums';
-import {deleteFourIRCourse} from '../../../services/4IRManagement/CourseService';
+} from '../../../../@softbd/utilities/helpers';
+import IconCourse from '../../../../@softbd/icons/IconCourse';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {CommonAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
+import RowStatus from '../../../../@softbd/utilities/RowStatus';
+import {getBrowserCookie} from '../../../../@softbd/libs/cookieInstance';
+import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
+import {LEVEL} from '../../courses/CourseEnums';
+import {deleteFourIRCourse} from '../../../../services/4IRManagement/CourseService';
+import CommonButton from '../../../../@softbd/elements/button/CommonButton/CommonButton';
+import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
+import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
+  showEnrollmentHandler: (id: number | null) => void;
 }
 
-const FourIRCoursePage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
+const FourIRCoursePage = ({
+  fourIRInitiativeId,
+  showEnrollmentHandler,
+}: IFourIRCoursePageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
@@ -201,6 +206,10 @@ const FourIRCoursePage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
               <DeleteButton
                 deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
+              />
+              <CommonButton
+                btnText={'enrollment_view_enrollment'}
+                onClick={() => showEnrollmentHandler(data.id)}
               />
             </DatatableButtonGroup>
           );

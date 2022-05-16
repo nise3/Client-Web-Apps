@@ -2022,5 +2022,10 @@
   "4ir.enrollment_approval": "এনরোলমেন্ট এপ্রোভাল",
   "common.about_user" : "ব্যবহারকারী সম্পর্কে",
   "enrollment_view_enrollment" : "এনরোলমেন্ট দেখুন",
-  "assessment.examiner": "পরীক্ষকের নাম"
+  "assessment.examiner": "পরীক্ষকের নাম",
+  "assessment.examinee": "পরীক্ষার্থীর নাম",
+  "certificate.recipient_name": "প্রাপক নাম",
+  "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
+  "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)"
+
 }

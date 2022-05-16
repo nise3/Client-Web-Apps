@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
-import FourIREnrollmentApprovalPage from '../4IREnrollmentApproval/FourIREnrollmentApprovalPage';
+import FourIREnrollmentApprovalPage from '../4IRCourse/FourIRCourseStepPage';
 import {Box, Button} from '@mui/material';
 import {useIntl} from 'react-intl';
 

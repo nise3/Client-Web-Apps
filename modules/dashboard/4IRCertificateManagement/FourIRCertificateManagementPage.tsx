@@ -4,15 +4,17 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import Genders from '../../../@softbd/utilities/Genders';
 import FourIRCertificateManagementDetailsPopUp from './FourIRCertificateManagementDetailsPopUp';
+import Link from 'next/link';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {FiUser} from 'react-icons/fi';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import CustomChipPaymentStatus from '../applicationManagement/CustomChipPaymentStatus';
+import {useRouter} from 'next/router';
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -22,6 +24,9 @@ const FourIRCertificateManagementPage = ({
   fourIRInitiativeId,
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
+
+  const router = useRouter();
+  const path = router.pathname;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -51,77 +56,27 @@ const FourIRCertificateManagementPage = ({
         },
       },
       {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'program_title',
-        isVisible: false,
+        Header: messages['certificate.certificate_title'],
+        accessor: 'certificate_title',
+        isVisible: locale == LocaleLanguage.BN,
       },
       {
-        Header: messages['applicationManagement.programTitle_en'],
-        accessor: 'program_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
-      },
-      {
-        Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['menu.batch'],
-        accessor: 'batch_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['menu.batch_en'],
-        accessor: 'batch_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['applicationManagement.applicantFullName_en'],
-        accessor: 'full_name_en',
+        Header: messages['certificate.certificate_title_en'],
+        accessor: 'certificate_title_en',
         isVisible: locale == LocaleLanguage.EN,
-        disableFilters: true,
       },
       {
-        Header: messages['applicationManagement.applicantFullName'],
-        accessor: 'full_name',
-        disableFilters: true,
+        Header: messages['common.type'],
+        accessor: 'type',
       },
       {
-        Header: messages['assessment.examiner'],
-        accessor: 'training_center_title',
-        disableFilters: true,
+        Header: messages['certificate.recipient_name'],
+        accessor: 'recipient_name',
       },
       {
-        Header: messages['common.paymentStatus'],
-        accessor: 'payment_status',
-        filter: 'rowStatusFilter',
-        isVisible: false,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipPaymentStatus value={data?.payment_status} />;
-        },
+        Header: messages['common.date'],
+        accessor: 'date',
       },
-      {
-        Header: messages['applicationManagement.status'],
-        isVisible: false,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
-        },
-      },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -129,6 +84,14 @@ const FourIRCertificateManagementPage = ({
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
+
+              <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+                <CommonButton
+                  btnText='common.download_label'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  style={{marginTop: '10px'}}
+                />
+              </Link>
             </DatatableButtonGroup>
           );
         },
@@ -139,28 +102,14 @@ const FourIRCertificateManagementPage = ({
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_COURSE_ENROLLMENTS,
+      urlPath: API_4IR_CERTIFICATE + `/${fourIRInitiativeId}`,
       paramsValueModifier: (params: any) => {
-        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        params['fourIrInitiativeId'] = fourIRInitiativeId;
         return params;
       },
     });
 
-  const filteredData = data?.map((youth: any) => {
-    let gender_label: string;
-    if (youth?.gender === parseInt(Genders.MALE)) {
-      gender_label = 'Male';
-    } else if (youth?.gender === parseInt(Genders.FEMALE)) {
-      gender_label = 'Female';
-    } else {
-      gender_label = 'Others';
-    }
-    return {
-      ...youth,
-      gender_label,
-      full_name: youth?.first_name + ' ' + youth?.last_name,
-    };
-  });
+  console.log(data);
 
   return (
     <>
@@ -171,8 +120,8 @@ const FourIRCertificateManagementPage = ({
           </>
         }>
         <ReactTable
+          data={data}
           columns={columns}
-          data={filteredData}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

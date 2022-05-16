@@ -1,42 +1,42 @@
-import yup from '../../../@softbd/libs/yup';
+import yup from '../../../../@softbd/libs/yup';
 import {FormControlLabel, Grid, Switch} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
+import HookFormMuiModal from '../../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
+import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
+import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
+import useNotiStack from '../../../../@softbd/hooks/useNotifyStack';
+import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
+import FormRowStatus from '../../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
+import IconCourse from '../../../../@softbd/icons/IconCourse';
+import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
   useFetchInstitute,
   useFetchPrograms,
-} from '../../../services/instituteManagement/hooks';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {ICourse} from '../../../shared/Interface/institute.interface';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-import {LANGUAGE_MEDIUM, LEVEL} from '../courses/CourseEnums';
-import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+} from '../../../../services/instituteManagement/hooks';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import CustomCheckbox from '../../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
+import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import CourseConfigKeys from '../../../../@softbd/utilities/CourseConfigKeys';
+import {useAuthUser} from '../../../../@crema/utility/AppHooks';
+import {ICourse} from '../../../../shared/Interface/institute.interface';
+import FileUploadComponent from '../../../filepond/FileUploadComponent';
+import {CommonAuthUser} from '../../../../redux/types/models/CommonAuthUser';
+import {isBreakPointUp} from '../../../../@crema/utility/Utils';
+import CustomSelectAutoComplete from '../../../youth/registration/CustomSelectAutoComplete';
+import {LANGUAGE_MEDIUM, LEVEL} from '../../courses/CourseEnums';
+import SuccessPopup from '../../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import _ from 'lodash';
 import {
   createFourIRCourse,
   updateFourIRCourse,
-} from '../../../services/4IRManagement/CourseService';
+} from '../../../../services/4IRManagement/CourseService';
 
 interface CourseAddEditPopupProps {
   itemId: number | null;
