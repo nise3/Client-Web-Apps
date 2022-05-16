@@ -18,7 +18,7 @@ interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
 }
 
-const FourIRCertificateM    anagementPage = ({
+const FourIRCertificateManagementPage = ({
   fourIRInitiativeId,
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
