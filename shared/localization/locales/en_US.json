@@ -2020,5 +2020,6 @@
   "4ir_tot.label": "4IR ToT",
   "4ir.enrollment_approval": "Enrollment Approval",
   "common.about_user" : "About User",
-  "enrollment_view_enrollment" : "View Enrollment"
+  "enrollment_view_enrollment" : "View Enrollment",
+  "assessment.examiner": "Examiner Name"
 }
