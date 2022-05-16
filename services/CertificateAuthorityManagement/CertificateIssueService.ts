@@ -1,5 +1,5 @@
 import { apiGet, apiPost } from '../../@softbd/common/api';
-import { API_CERTIFICATES_ISSUE } from '../../@softbd/common/apiRoutes';
+import { API_CERTIFICATES_ISSUE, API_CERTIFICATES_ISSUE_PUBLIC } from '../../@softbd/common/apiRoutes';
 import { catchBlockHandler } from '../../@softbd/utilities/helpers';
 import { ICertificateIssue } from '../../shared/Interface/certificates';
 
@@ -25,6 +25,26 @@ export const getCertificateIssueByIssueId = async (issue_id: any) => {
   } catch (error) {
     catchBlockHandler(error);
   }
-
 }
 
+export const getPublicCertificateIssueByIssueId = async (issue_id: any) => {
+  try {
+    let response: any = await apiGet(
+      API_CERTIFICATES_ISSUE_PUBLIC + '/' + issue_id
+    );
+    return response.data;
+
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+}
+
+export const getCertificateIssue = async (params: any) => {
+  try {
+    let response: any = await apiGet(API_CERTIFICATES_ISSUE, {params});
+    return response.data;
+
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+}

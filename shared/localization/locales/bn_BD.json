@@ -396,6 +396,7 @@
   "certificate_authority.details": "সার্টিফিকেট অথোরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথোরিটি ব্যবস্থাপনা",
   "certificate.certificate_issue": "সার্টিফিকেট ইস্যু",
+  "common.issue_date": "ইস্যুর তারিখ",
   "certificate.certificate_issued": "ইস্যুকৃত সার্টিফিকেট",
   "certificate.certificate_type": "সার্টিফিকেটের ধরন",
   "certificate_authority.batch": "আর পি এল ব্যাচ",

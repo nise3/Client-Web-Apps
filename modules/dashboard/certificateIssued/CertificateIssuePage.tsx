@@ -40,6 +40,10 @@ const CertificateIssuedPage = () => {
       //   accessor: 'certificate_id',
       // },
       {
+        Header: messages['common.title'],
+        accessor: 'certificate_title',
+      },
+      {
         Header: messages['common.youth_2'],
         accessor: 'youth_profile.first_name',
       },
@@ -47,10 +51,14 @@ const CertificateIssuedPage = () => {
         Header: messages['common.identity_number'],
         accessor: 'youth_profile.identity_number',
       },
-      // {
-      //   Header: messages['batches.label'],
-      //   accessor: 'batch_id'
-      // },
+      {
+        Header: messages['youth.email'],
+        accessor: 'youth_profile.email',
+      },
+      {
+        Header: messages['batches.label'],
+        accessor: 'batch_title'
+      },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
