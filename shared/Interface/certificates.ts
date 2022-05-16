@@ -15,8 +15,9 @@ export interface ICertificateView extends ICertificate {
 }
 
 export interface ICertificateIssue {
-  youth_id: string;
-  batch_id: string;
+  id?: number;
+  youth_id: number;
+  batch_id: number;
   certificate_id: number;
 }
 

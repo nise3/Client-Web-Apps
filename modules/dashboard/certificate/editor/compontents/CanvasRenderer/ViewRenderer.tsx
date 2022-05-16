@@ -1,18 +1,21 @@
-import {useRouter} from 'next/router';
-import React, {useEffect, useMemo, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {Layer, Rect, Stage} from 'react-konva';
-import {useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue} from 'recoil';
-import {RELATION_TYPES} from '../../../../../../@softbd/common/constants';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Layer, Rect, Stage } from 'react-konva';
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilValue } from 'recoil';
+import { useAuthUser } from '../../../../../../@crema/utility/AppHooks';
+import { RELATION_TYPES } from '../../../../../../@softbd/common/constants';
 import useNotiStack from '../../../../../../@softbd/hooks/useNotifyStack';
-import {getIntlDateFromString} from '../../../../../../@softbd/utilities/helpers';
-import {getCertificateIssueByIssueId} from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import {getCertificateById} from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
-import {getBatch} from '../../../../../../services/instituteManagement/BatchService';
-import {getGuardianByYouthId} from '../../../../../../services/youthManagement/GuardianService';
-import {getYouthProfileById} from '../../../../../../services/youthManagement/YouthService';
-import {CERTIRICATE_LANGUAGE} from '../../../Constants';
-import {CANVAS_STROKE, EDITOR_MARGIN} from '../../constants';
+import { convertEnglishDigitsToBengali, getIntlDateFromString, getMomentDateFormat } from '../../../../../../@softbd/utilities/helpers';
+import { getCertificateIssueByIssueId, getPublicCertificateIssueByIssueId } from '../../../../../../services/CertificateAuthorityManagement/CertificateIssueService';
+import { getCertificateById } from '../../../../../../services/CertificateAuthorityManagement/CertificateService';
+import { getBatch } from '../../../../../../services/instituteManagement/BatchService';
+import { getGuardianByYouthId } from '../../../../../../services/youthManagement/GuardianService';
+import {
+  getYouthProfileById
+} from '../../../../../../services/youthManagement/YouthService';
+import { CERTIRICATE_LANGUAGE } from '../../../Constants';
+import { CANVAS_STROKE, EDITOR_MARGIN } from '../../constants';
 import useRatioControls from '../../hooks/useRatioControl';
 import {Dimensions} from '../../interfaces/StageConfig';
 import {isLoadingState, ratioState} from '../../state/atoms/editor';
@@ -96,10 +99,23 @@ function ViewRenderer() {
   }, [editorAreaRef, fitToScreen, setScreenDimensions]);
 
   const router = useRouter();
-  const {query} = router;
+  const { query } = router;
+  const authUser = useAuthUser();
+
+
+  const certificateIssue = (certificateIssueId: number) => {
+    if(!authUser || authUser?.isYouthUser){
+      return getPublicCertificateIssueByIssueId(certificateIssueId);
+    } else {
+      return getCertificateIssueByIssueId(certificateIssueId);
+    }
+  }
 
   useEffect(() => {
-    getCertificateIssueByIssueId(query.certificateIssueId).then((res) => {
+    // let certificateIssue = Promise;
+    //  getCertificateIssueByIssueId(query.certificateIssueId)
+    certificateIssue(Number(query?.certificateIssueId))
+    .then((res) => {
       const issueInfo = res.data;
       setCertificateId(issueInfo.certificate_id);
       Promise.all([
@@ -139,25 +155,28 @@ function ViewRenderer() {
         // console.log(gardian, father_name, mother_name)
 
         setYouthInfoData((prev) => {
+          const identity = convertEnglishDigitsToBengali(youth.identity_number);
           const youboj = {
             'candidate-name': `${
               youth[isBangla ? 'first_name' : 'first_name_en']
             } ${youth[isBangla ? 'last_name' : 'last_name_en']}`,
             'candidate-nid':
-              youth.identity_number_type === 1 ? youth.identity_number : null,
+              youth.identity_number_type === 1 ? identity : null,
             'candidate-birth-cid':
-              youth.identity_number_type === 2 ? youth.identity_number : null,
+              youth.identity_number_type === 2 ? identity : null,
             'batch-name': batch[isBangla ? 'title' : 'title_en'],
-            'batch-start-date': isBangla
-              ? getIntlDateFromString(
-                  formatDate,
+            'batch-start-date': isBangla ? 
+                getIntlDateFromString(formatDate, batch.batch_start_date,'short') : 
+                getMomentDateFormat(
                   batch.batch_start_date,
-                  'short',
-                )
-              : batch.batch_start_date,
-            'batch-end-date': isBangla
-              ? getIntlDateFromString(formatDate, batch.batch_end_date, 'short')
-              : batch.batch_end_date,
+                  'DD MMMM, YYYY',
+                ),
+            'batch-end-date': isBangla ? 
+            getIntlDateFromString(formatDate, batch.batch_end_date,'short') : 
+            getMomentDateFormat(
+              batch.batch_end_date,
+              'DD MMMM, YYYY',
+            ),
             'course-name': batch[isBangla ? 'course_title' : 'course_title_en'],
             'training-center':
               batch[

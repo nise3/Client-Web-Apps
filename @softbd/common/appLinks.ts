@@ -106,6 +106,8 @@ export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_VERIFICATION =
   '/course-enroll-verification/';
 export const LINK_FRONTEND_YOUTH_COURSE_ENROLLMENT_CHOOSE_PAYMENT_METHOD =
   '/course-enroll-choose-payment-method/';
+export const LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW =
+  '/certificate-view/';
 export const LINK_FRONTEND_YOUTH_FAQ = '/faqs';
 
 export const LINK_FRONTEND_YOUTH_SKILL_MATCHING_COURSELIST =

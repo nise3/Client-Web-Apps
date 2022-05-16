@@ -5,7 +5,7 @@ import MainArea from './layouts/MainArea';
 import ViewHeader from './compontents/ViewHeader/ViewHeader';
 import ViewRenderer from './compontents/CanvasRenderer/ViewRenderer';
 
-function Certificate() {
+function CertificateView() {
   return (
     <StageRefContainer.Provider>
       <EditorAreaContainer.Provider>
@@ -22,4 +22,4 @@ function Certificate() {
   );
 }
 
-export default Certificate;
+export default CertificateView;
