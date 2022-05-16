@@ -2034,5 +2034,6 @@
   "4ir.research_team_information" : "Research Team Information",
   "4ir.report_file" : "Report File",
   "4ir.research_method" : "Research Method",
-  "4ir_project_analysis.label" : "4IR Project Analysis"
+  "4ir_project_analysis.label" : "4IR Project Analysis",
+  "tna.number_of_workshop": "Number of Workshops"
 }

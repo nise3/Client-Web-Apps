@@ -500,7 +500,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 <CustomTextInput
                   required
                   id='workshop_method_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   type={'number'}
                   register={register}
                   errorInstance={errors}
@@ -516,7 +516,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 <CustomTextInput
                   id='workshop_method_file'
                   name='workshop_method_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -575,7 +575,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isFGDWorkshop}
                   type={'number'}
                   id='fgd_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -591,7 +591,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='fgd_workshop_file'
                   name='fgd_workshop_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -650,7 +650,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isIndustryVisit}
                   type={'number'}
                   id='industry_visit_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -666,7 +666,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isIndustryVisit}
                   id='industry_visit_file'
                   name='industry_visit_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -725,7 +725,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isDesktopResearchFile}
                   type={'number'}
                   id='desktop_research_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -741,7 +741,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isDesktopResearchFile}
                   id='desktop_research_file'
                   name='desktop_research_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -801,7 +801,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='existing_report_review_workshop_numbers'
                   type={'number'}
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -817,7 +817,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='existing_report_review_file'
                   name='existing_report_review_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -875,7 +875,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isOthersFile}
                   disabled={!isOthersFile}
                   id='others_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   type={'number'}
                   register={register}
                   errorInstance={errors}
@@ -892,7 +892,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isOthersFile}
                   id='others_file'
                   name='others_file'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{

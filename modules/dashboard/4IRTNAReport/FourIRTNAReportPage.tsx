@@ -116,13 +116,17 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         extra={[
           data && data != [] ? (
             <>
-              <Link href='/template/organization-list.xlsx' download>
+              <Link
+                href='/template/organization-list.xlsx'
+                download
+                underline={'none'}>
                 <CommonButton
                   key={1}
                   onClick={() => console.log('file downloading')}
                   btnText={'4ir.tna_report_attachment'}
                   variant={'outlined'}
                   color={'primary'}
+                  style={{marginRight: '10px'}}
                 />
               </Link>
               <EditButton
