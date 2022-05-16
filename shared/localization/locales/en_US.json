@@ -1980,5 +1980,7 @@
   "matching_criteria.set_mandatory": "Set mandatory",
   "common.search_3": "Search",
   "common.in_progress": "In progress",
-  "common.not_participated": "Not participated"
+  "common.not_participated": "Not participated",
+  "batches.marking": "Marking",
+  "batches.marksheet": "Marksheet"
 }
