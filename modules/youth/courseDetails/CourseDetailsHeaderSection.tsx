@@ -16,8 +16,7 @@ import {
   LINK_YOUTH_SIGNUP,
 } from '../../../@softbd/common/appLinks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {YouthAuthUser} from '../../../redux/types/models/CommonAuthUser';
+import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import {
   gotoLoginSignUpPage,
