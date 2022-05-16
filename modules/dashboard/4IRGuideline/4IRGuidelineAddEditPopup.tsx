@@ -1,13 +1,10 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
-import yup from '../../../@softbd/libs/yup';
+import React, {FC, useEffect, useMemo} from 'react';
 import {Grid} from '@mui/material';
-import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -17,14 +14,13 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useFetchGuideline} from '../../../services/instituteManagement/hooks';
-import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
-import {getAll4IROccupations} from '../../../services/4IRManagement/OccupationService';
-import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {IGuideline} from '../../../shared/Interface/4IR.interface';
 import {
   createGuideline,
   updateGuideline,
 } from '../../../services/4IRManagement/GuidelineService';
+import yup from '../../../@softbd/libs/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 
 interface FourIRGuideLineAddEditPopupProps {
   itemId: number | null;
@@ -33,9 +29,8 @@ interface FourIRGuideLineAddEditPopupProps {
 }
 
 const initialValues = {
-  four_ir_occupation_id: '',
+  name: '',
   file_path: '',
-  guideline_details: '',
   row_status: 1,
 };
 
@@ -47,9 +42,6 @@ const FourIRGuideLineAddEditPopup: FC<FourIRGuideLineAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
-  const [occupation, setOccupation] = useState<Array<any>>([]);
-  const [isLoadingOccupation, setIsLoadingOccupation] =
-    useState<boolean>(false);
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
@@ -61,16 +53,19 @@ const FourIRGuideLineAddEditPopup: FC<FourIRGuideLineAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      four_ir_occupation_id: yup
+      name: yup
         .string()
-        .trim()
         .required()
-        .label(messages['menu.occupations'] as string),
+        .label(messages['common.file_path'] as string),
+      file_path: yup
+        .string()
+        .required()
+        .label(messages['common.file_path'] as string),
     });
   }, [messages]);
 
   const {
-    control,
+    // control,
     register,
     reset,
     setError,
@@ -83,27 +78,10 @@ const FourIRGuideLineAddEditPopup: FC<FourIRGuideLineAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    setIsLoadingOccupation(true);
-    (async () => {
-      try {
-        let response = await getAll4IROccupations({
-          row_status: RowStatus.ACTIVE,
-        });
-
-        setIsLoadingOccupation(false);
-        if (response && response?.data) {
-          setOccupation(response.data);
-        }
-      } catch (e) {}
-    })();
-  }, []);
-
-  useEffect(() => {
     if (itemData) {
       reset({
-        four_ir_occupation_id: itemData?.four_ir_occupation_id,
+        name: itemData?.name,
         file_path: itemData?.file_path,
-        guideline_details: itemData?.filguideline_detailse_path,
         row_status: itemData?.row_status,
       });
     } else reset(initialValues);
@@ -158,39 +136,29 @@ const FourIRGuideLineAddEditPopup: FC<FourIRGuideLineAddEditPopupProps> = ({
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
-          <CustomFilterableFormSelect
+          <CustomTextInput
             required
-            id='four_ir_occupation_id'
-            label={messages['menu.occupations']}
-            isLoading={isLoadingOccupation}
-            options={occupation}
-            optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
-            control={control}
+            id='name'
+            label={messages['menu.guideline_name']}
+            register={register}
             errorInstance={errors}
+            isLoading={false}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id='file_path'
             errorInstance={errors}
+            defaultFileUrl={itemData?.file_path}
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
             label={messages['common.guideline_upload']}
-            required={false}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={12}>
-          <CustomTextInput
-            id='guideline_details'
-            label={messages['common.write_here']}
-            register={register}
-            errorInstance={errors}
-            multiline
-            rows={5}
-            isLoading={false}
+            required={true}
+            acceptedFileTypes={[
+              'application/pdf',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
           />
         </Grid>
       </Grid>
