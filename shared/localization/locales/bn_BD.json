@@ -558,6 +558,7 @@
   "yup_validation_digit_length": "{path} অবশ্যই ১১ সংখ্যার হতে হবে",
   "required_field": "{path} লেখা আবশ্যক",
   "role.label": "রোল",
+  "4ir.role_or_responsibility": "রোল / দায়িত্ব",
   "role.unique_value": "ইউনিক ভ্যালু",
   "permission.uri": "ইউ.আর.আই",
   "permission.method": "মেথড",

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '@mui/material';
+import {Card, Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -10,6 +10,7 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
 type Props = {
   itemId: number;
@@ -80,8 +81,8 @@ const FourIRImplementingTeamDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['role.label']}
-              value={itemData?.role}
+              label={messages['4ir.role_or_responsibility']}
+              value={itemData?.role_responsibility}
               isLoading={isLoading}
             />
           </Grid>
@@ -94,17 +95,19 @@ const FourIRImplementingTeamDetailsPopup = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['4IR.contribution']}
-              value={itemData?.contribution}
+              label={messages['common.organization']}
+              value={itemData?.organization}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['4ir.responsibility']}
-              value={itemData?.responsibility}
-              isLoading={isLoading}
-            />
+            <Card>
+              <CardMediaImageView
+                height='194'
+                image={itemData?.file_path}
+                alt='Member photo'
+              />
+            </Card>
           </Grid>
           <Grid item xs={12}>
             <CustomChipRowStatus

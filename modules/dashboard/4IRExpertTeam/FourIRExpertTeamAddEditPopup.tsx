@@ -24,6 +24,7 @@ import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
@@ -37,10 +38,10 @@ const initialValues = {
   name_en: '',
   email: '',
   phone_number: '',
-  role: '',
+  role_responsibility: '',
   designation: '',
-  contribution: '',
-  responsibility: '',
+  organization: '',
+  file_path: '',
   row_status: 1,
 };
 
@@ -83,14 +84,22 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         .required()
         .matches(MOBILE_NUMBER_REGEX)
         .label(messages['common.mobile'] as string),
-      role: yup
+      role_responsibility: yup
         .string()
         .required()
-        .label(messages['common.role'] as string),
+        .label(messages['4ir.role_or_responsibility'] as string),
       designation: yup
         .string()
         .required()
         .label(messages['common.designation'] as string),
+      organization: yup
+        .string()
+        .required()
+        .label(messages['common.organization'] as string),
+      file_path: yup
+        .string()
+        .required()
+        .label(messages['common.photo'] as string),
     });
   }, [messages]);
 
@@ -100,6 +109,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
     reset,
     setError,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -118,10 +128,10 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         name_en: itemData?.name_en,
         email: itemData?.email,
         phone_number: itemData?.phone_number,
-        role: itemData?.role,
+        role_responsibility: itemData?.role_responsibility,
         designation: itemData?.designation,
-        contribution: itemData?.contribution,
-        responsibility: itemData?.responsibility,
+        organization: itemData?.organization,
+        file_path: itemData?.file_path,
         row_status: itemData?.row_status,
       });
     } else {
@@ -230,8 +240,8 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
             required
-            id='role'
-            label={messages['role.label']}
+            id='role_responsibility'
+            label={messages['4ir.role_or_responsibility']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
@@ -251,24 +261,23 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
-            id='contribution'
-            label={messages['4IR.contribution']}
+            required
+            id='organization'
+            label={messages['common.organization']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-            rows={5}
-            multiline={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <CustomTextInput
-            id='responsibility'
-            label={messages['4ir.responsibility']}
-            register={register}
+          <FileUploadComponent
+            id='file_path'
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
-            isLoading={isLoading}
-            rows={5}
-            multiline={true}
+            setValue={setValue}
+            register={register}
+            label={messages['common.photo']}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
