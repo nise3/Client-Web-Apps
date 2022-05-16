@@ -85,6 +85,18 @@ const FourIRCertificateManagementPage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
 
+              <Link
+                href={`/certificate/certificate-view/${data.id}`}
+                passHref={true}>
+                <CommonButton
+                  btnText='common.certificate_view'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  style={{marginLeft: '10px'}}
+                  variant='outlined'
+                  color='primary'
+                />
+              </Link>
+
               <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
                 <CommonButton
                   btnText='common.download_label'
