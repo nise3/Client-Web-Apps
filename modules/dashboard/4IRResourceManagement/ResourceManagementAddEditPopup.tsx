@@ -37,6 +37,7 @@ const initialValues = {
   budget_approval_status: '0',
   given_budget: '',
   row_status: '1',
+  file_path: '',
 };
 
 const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
@@ -71,6 +72,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         .required()
         .label(messages['4ir_rm.given_budget'] as string),
       row_status: yup.string(),
+      file_path: yup.string(),
     });
   }, [messages]);
 
@@ -92,6 +94,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         approval_status: itemData?.approval_status,
         budget_approval_status: itemData?.budget_approval_status,
         given_budget: itemData?.given_budget,
+        file_path: itemData?.file_path,
         row_status: itemData?.row_status,
       });
     } else {
@@ -208,7 +211,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         <Grid item xs={6}>
           <FileUploadComponent
             id='file_path'
-            //defaultFileUrl={authUser?.profile_pic}
+            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}

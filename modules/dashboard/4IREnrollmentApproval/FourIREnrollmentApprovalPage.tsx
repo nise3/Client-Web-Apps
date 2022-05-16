@@ -3,7 +3,7 @@ import CourseListPage from './CourseListPage';
 import EnrolledYouthList from './EnrolledYouthList';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSES} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_COURSE} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -11,8 +11,6 @@ interface Props {
 
 const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
-  // const [selectedBatchId, setSelectedBatchId] = useState<number | null>(null);
-  // const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
 
   const previousHandler = () => {
     setSelectedCourseId(null);
@@ -20,7 +18,7 @@ const FourIREnrollmentApprovalPage = ({fourIRInitiativeId}: Props) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_COURSES,
+      urlPath: API_4IR_COURSE,
       paramsValueModifier: (params) => {
         params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;

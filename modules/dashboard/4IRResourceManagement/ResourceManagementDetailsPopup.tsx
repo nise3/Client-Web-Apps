@@ -74,7 +74,7 @@ const ResourceManagementDetailsPopup = ({
           </Grid>
           <Grid item xs={6}>
             <CardMediaImageView
-              image={itemData?.cover_image}
+              image={itemData?.file_path}
               //className={classes.trainingCardImage}
               title={'common.attachment'}
               alt={'common.attachment'}
