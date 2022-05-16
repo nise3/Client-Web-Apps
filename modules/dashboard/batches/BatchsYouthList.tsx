@@ -29,6 +29,20 @@ const YouthPage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
   const [isOpenExamListModal, setIsOpenExamListModal] = useState(false);
+
+  const getGenderText = (gender: any) => {
+    switch (String(gender)) {
+      case Genders.MALE:
+        return messages['common.male'];
+      case Genders.FEMALE:
+        return messages['common.female'];
+      case Genders.OTHERS:
+        return messages['common.others'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -51,12 +65,20 @@ const YouthPage = () => {
       },
       {
         Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        accessor: 'first_name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return data?.first_name + ' ' + data?.last_name;
+        },
         disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
-        accessor: 'gender_label',
+        accessor: 'gender',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return getGenderText(data?.gender);
+        },
         disableFilters: true,
         isVisible: false,
       },
@@ -98,11 +120,10 @@ const YouthPage = () => {
               <CommonButton
                 key={2}
                 onClick={() => openExamListModal(data.id, data.youth_id)}
-                btnText={messages['batches.marksheet'] as string}
+                btnText={messages['batches.mark_distribution'] as string}
                 variant={'outlined'}
                 color={'primary'}
                 style={{marginLeft: '20px'}}
-                // startIcon={<DownloadIcon />}
               />
             </DatatableButtonGroup>
           );
@@ -113,7 +134,6 @@ const YouthPage = () => {
     [messages],
   );
 
-  // TODO:: Change the api route whenever its ready
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
@@ -123,22 +143,6 @@ const YouthPage = () => {
       },
     });
 
-  const filteredData = data.map((youth: any) => {
-    let gender_label: string;
-    if (youth.gender === parseInt(Genders.MALE)) {
-      gender_label = 'Male';
-    } else if (youth.gender === parseInt(Genders.FEMALE)) {
-      gender_label = 'Female';
-    } else {
-      gender_label = 'Others';
-    }
-    return {
-      ...youth,
-      gender_label,
-      full_name: youth.first_name + ' ' + youth.last_name,
-    };
-  });
-
   const openExamListModal = useCallback((itemId: number, youthId: number) => {
     setIsOpenExamListModal(true);
     setSelectedItemId(itemId);
@@ -147,9 +151,10 @@ const YouthPage = () => {
 
   const closeExamListModal = useCallback(() => {
     setIsOpenExamListModal(false);
+    setSelectedItemId(null);
+    setSelectedYouthId(null);
   }, []);
 
-  //console.log(filteredData);
   return (
     <>
       {!isLoading && (
@@ -171,13 +176,13 @@ const YouthPage = () => {
           }>
           <ReactTable
             columns={columns}
-            data={filteredData}
+            data={data || []}
             fetchData={onFetchData}
             loading={loading}
             pageCount={pageCount}
             totalCount={totalCount}
           />
-          {isOpenExamListModal && (
+          {isOpenExamListModal && selectedItemId && selectedYouthId && (
             <ExamListPopup
               key={1}
               itemId={selectedItemId}

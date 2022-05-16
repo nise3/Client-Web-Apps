@@ -1982,5 +1982,6 @@
   "common.in_progress": "In progress",
   "common.not_participated": "Not participated",
   "batches.marking": "Marking",
-  "batches.marksheet": "Marksheet"
+  "batches.marksheet": "Marksheet",
+  "batches.mark_distribution" : "Mark Distribution"
 }

@@ -4,7 +4,7 @@ import DashboardPage from '../../../../../../../../@softbd/layouts/hoc/Dashboard
 import PageMeta from '../../../../../../../../@crema/core/PageMeta';
 import asyncComponent from '../../../../../../../../@crema/utility/asyncComponent';
 
-const BatchesPage = asyncComponent(
+const MarkingViewPage = asyncComponent(
   () =>
     import(
       '../../../../../../../../modules/dashboard/batches/ExamMarking/ExamMarkingViewPage'
@@ -15,8 +15,8 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['batches.label']} />
-      <BatchesPage />
+      <PageMeta title={messages['common.marks_distribution'] as string} />
+      <MarkingViewPage />
     </>
   );
 });
