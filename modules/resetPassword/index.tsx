@@ -15,8 +15,8 @@ import {
 } from '../../@softbd/libs/cookieInstance';
 import {niseDomain} from '../../@softbd/common/constants';
 import {
-  COOKIE_KEY_FORGET_PASSWORD_USERNAME,
-  COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP,
+  COOKIE_KEY_FORGOT_PASSWORD_USERNAME,
+  COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP,
 } from '../../shared/constants/AppConst';
 import {TEXT_REGEX_PASSWORD} from '../../@softbd/common/patternRegex';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -32,9 +32,9 @@ const ResetPasswordPage = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    const username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
-    const otpCode = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP);
-    if (!otpCode || !username) {
+    const username = getBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_USERNAME);
+    const otpCode = getBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP);
+    if (!username || !otpCode || String(otpCode) != '1') {
       router.push(niseDomain()).then((r) => {});
     }
   }, []);
@@ -68,13 +68,12 @@ const ResetPasswordPage = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log(data);
-      data.username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
+      data.username = getBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_USERNAME);
       await resetPassword(data);
       setIsSubmitted(true);
       successStack(<IntlMessages id='forgot_password.reset_password' />);
-      removeBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
-      removeBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP);
+      removeBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_USERNAME);
+      removeBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP);
       router.push(getSSOLoginUrl()).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, errorStack});

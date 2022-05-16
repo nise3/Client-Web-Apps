@@ -15,14 +15,13 @@ import {
   setBrowserCookie,
 } from '../../@softbd/libs/cookieInstance';
 import {
-  COOKIE_KEY_FORGET_PASSWORD_USERNAME,
-  COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP,
+  COOKIE_KEY_FORGOT_PASSWORD_USERNAME,
+  COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP,
 } from '../../shared/constants/AppConst';
-import {verifyForgetPasswordOtp} from '../../services/userManagement/UserService';
+import {verifyForgotPasswordOtp} from '../../services/userManagement/UserService';
 import {LINK_RESET_PASSWORD} from '../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../@softbd/common/constants';
-// import {useRouter} from 'next/router';
 
 const inputProps = {
   maxLength: 1,
@@ -30,7 +29,7 @@ const inputProps = {
     textAlign: 'center',
   },
 };
-const ForgotPasswordPage = () => {
+const OTPVerificationPage = () => {
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -64,7 +63,7 @@ const ForgotPasswordPage = () => {
     'code6',
   ]);
   useEffect(() => {
-    const username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
+    const username = getBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_USERNAME);
     if (!username) {
       router.push(niseDomain()).then((r) => {});
     }
@@ -76,12 +75,15 @@ const ForgotPasswordPage = () => {
 
   const focusFiled = () => {
     const index = watchAllFields.indexOf('');
-    if (index >= 0 && index < 6) setFocus('code' + (index + 1));
+    if (watchAllFields[0] == undefined) {
+      setFocus('code1');
+    } else if (index >= 0 && index < 6) {
+      setFocus('code' + (index + 1));
+    }
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log(data);
       let formData: any = {};
       formData.otp_code =
         data.code1 +
@@ -90,21 +92,16 @@ const ForgotPasswordPage = () => {
         data.code4 +
         data.code5 +
         data.code6;
-      const username = getBrowserCookie(COOKIE_KEY_FORGET_PASSWORD_USERNAME);
-      formData.username = username;
+      formData.username = getBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_USERNAME);
 
-      await verifyForgetPasswordOtp(formData);
+      await verifyForgotPasswordOtp(formData);
       setIsSubmitted(true);
       successStack(<IntlMessages id='forgot_password.otp_verification' />);
       let expireDate = new Date();
       expireDate.setTime(expireDate.getTime() + 30 * 60 * 1000);
-      await setBrowserCookie(
-        COOKIE_KEY_FORGET_PASSWORD_VERIFY_OTP,
-        formData?.otp_code,
-        {
-          expires: expireDate,
-        },
-      );
+      await setBrowserCookie(COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP, 1, {
+        expires: expireDate,
+      });
 
       router.push(LINK_RESET_PASSWORD).then((r) => {});
     } catch (error: any) {
@@ -219,4 +216,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default OTPVerificationPage;

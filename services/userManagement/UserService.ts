@@ -87,7 +87,7 @@ export const updatePassword = async (userId: number, data: any) => {
   }
 };
 
-export const sendForgetPasswordOTP = async (data: any) => {
+export const sendForgotPasswordOTP = async (data: any) => {
   try {
     let response: any = await apiPost(
       CORE_SERVICE_PATH + SEND_FORGET_PASSWORD_OTP,
@@ -99,7 +99,7 @@ export const sendForgetPasswordOTP = async (data: any) => {
   }
 };
 
-export const verifyForgetPasswordOtp = async (data: any) => {
+export const verifyForgotPasswordOtp = async (data: any) => {
   try {
     let response: any = await apiPost(
       CORE_SERVICE_PATH + VERIFY_FORGET_PASSWORD_OTP,
