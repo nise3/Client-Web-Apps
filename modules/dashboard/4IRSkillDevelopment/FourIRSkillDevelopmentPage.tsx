@@ -1,21 +1,17 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-import FourIRSkillDevelopmentAddEditPopUp from './FourIRSkillDevelopmentAddEditPopUp';
 import FourIRSkillDevelopmentDetailsPopUp from './FourIRSkillDevelopmentDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {BATCH_BY_4IR_INITIATIVE_ID} from '../../../@softbd/common/apiRoutes';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -23,35 +19,23 @@ interface Props {
 
 const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-  const closeAddEditModal = useCallback(() => {
-    setIsOpenAddEditModal(false);
-    setSelectedItemId(null);
-  }, []);
-
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenAddEditModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  const [itemData, setItemData] = useState({});
 
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (item: any) => {
+      setItemData(item);
       setIsOpenDetailsModal(true);
-      setSelectedItemId(itemId);
+      setSelectedItemId(item.id as number);
     },
     [selectedItemId],
   );
 
   const closeDetailsModal = useCallback(() => {
+    setItemData({});
     setIsOpenDetailsModal(false);
   }, []);
-
-  const refreshDataTable = useCallback(() => {}, []);
 
   const columns = useMemo(
     () => [
@@ -84,17 +68,22 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
         accessor: 'batch_number',
       },
       {
+        Header: messages['common.title'],
+        accessor: 'title',
+        isVisible: false,
+      },
+      {
+        Header: messages['common.title_en'],
+        accessor: 'title_en',
+        isVisible: false,
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => {}}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              <ReadButton onClick={() => openDetailsModal(data)} />
             </DatatableButtonGroup>
           );
         },
@@ -106,8 +95,7 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      // todo -> api is not ready
-      urlPath: './4ir_TNA_report',
+      urlPath: BATCH_BY_4IR_INITIATIVE_ID + `/${fourIRInitiativeId}`,
     });
 
   return (
@@ -117,22 +105,7 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
           <>
             <IconBranch /> <IntlMessages id='4ir.skill_development' />
           </>
-        }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal()}
-            isLoading={false}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir.skill_development'],
-                }}
-              />
-            }
-          />,
-        ]}>
+        }>
         <ReactTable
           columns={columns}
           data={data}
@@ -140,24 +113,15 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
-        {isOpenAddEditModal && (
-          <FourIRSkillDevelopmentAddEditPopUp
-            fourIRInitiativeId={fourIRInitiativeId}
-            key={1}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
 
         {isOpenDetailsModal && selectedItemId && (
           <FourIRSkillDevelopmentDetailsPopUp
             key={1}
+            itemData={itemData}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
+            openEditModal={openDetailsModal}
           />
         )}
       </PageBlock>
