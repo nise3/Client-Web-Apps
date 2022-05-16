@@ -2,6 +2,7 @@ import React from 'react';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import DashboardPage from '../../../@softbd/layouts/hoc/DashboardPage';
+import {useIntl} from 'react-intl';
 
 const JobRequirementManagePage = asyncComponent(
   () =>
@@ -10,9 +11,10 @@ const JobRequirementManagePage = asyncComponent(
     ),
 );
 export default DashboardPage(() => {
+  const {messages} = useIntl();
   return (
     <>
-      <PageMeta title='Human Resource Demand' />
+      <PageMeta title={messages['human_resource_demand.label']} />
       <JobRequirementManagePage />
     </>
   );

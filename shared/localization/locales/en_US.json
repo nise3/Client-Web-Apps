@@ -389,6 +389,7 @@
   "menu.job_sector": "Job sector",
   "menu.services": "Service",
   "menu.static_page": "Static Page",
+  "menu.static_content": "Static Content",
   "menu.gallery_album": "Gallery Album",
   "menu.gallery_album_content": "Gallery Album Content",
   "menu.visitor_feedback": "Visitor Feedback",
@@ -1989,5 +1990,7 @@
   "nationality.nepali": "Nepali",
   "nationality.indian": "Indian",
   "nationality.pakistani": "Pakistani",
-  "common.course_details": "Course details"
+  "common.course_details": "Course details",
+  "human_resource_demand.label": "Human resource demand",
+  "youth_feed.label": "Youth feed"
 }

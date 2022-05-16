@@ -302,6 +302,7 @@
   "menu.slider_banners": "স্লাইডার ব্যানার",
   "menu.calendar": "পঞ্জিকা",
   "menu.static_page": "স্ট্যাটিক পেজ",
+  "menu.static_content": "স্ট্যাটিক কন্টেন্ট",
   "menu.enrollment": "তালিকাভুক্তিকরণ",
   "permission_group.label": "পারমিশন গ্রুপ",
   "permission_group.unique_value": "ইউনিক ভ্যালু",
@@ -383,6 +384,7 @@
   "common.not_valid": "সঠিক নয়",
   "human_resource_template.label": "হিউম্যান রিসোর্স টেম্পলেট",
   "human_resource.label": "হিউম্যান রিসোর্স",
+  "human_resource_demand.label": "হিউম্যান রিসোর্স চাহিদা",
   "human_resource_template.parent": "ঊর্ধ্বতন",
   "human_resource_template.display_order": "প্রদর্শন ক্রম",
   "human_resource_template.is_designation": "পদবী?",
@@ -1990,5 +1992,6 @@
   "nationality.nepali": "নেপালী",
   "nationality.indian": "ভারতীয়",
   "nationality.pakistani": "পাকিস্তানী",
-  "common.course_details": "কোর্সের বিস্তারিত"
+  "common.course_details": "কোর্সের বিস্তারিত",
+  "youth_feed.label": "নিউজফিড"
 }
