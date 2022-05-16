@@ -1,6 +1,10 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_BATCHES} from '../../@softbd/common/apiRoutes';
+import {
+  API_ASSIGN_EXAMS_TO_BATCH,
+  API_ASSIGN_TRAINERS_TO_BATCH,
+  API_BATCHES,
+} from '../../@softbd/common/apiRoutes';
 import {IBatch} from '../../shared/Interface/institute.interface';
 
 /**
@@ -56,8 +60,20 @@ export const assignTrainersToBatch = async (batchId: number, data: any) => {
   let trainersId = {trainerIds: data};
   try {
     let response: any = await apiPost(
-      API_BATCHES + '/' + batchId + '/assign-trainer-to-batch',
+      API_BATCHES + '/' + batchId + API_ASSIGN_TRAINERS_TO_BATCH,
       trainersId,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const assignExamsToBatch = async (batchId: number, data: any) => {
+  try {
+    let response: any = await apiPost(
+      API_BATCHES + '/' + batchId + API_ASSIGN_EXAMS_TO_BATCH,
+      data,
     );
     return response.data;
   } catch (error) {

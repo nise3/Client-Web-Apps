@@ -23,11 +23,13 @@ import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import DownloadIcon from '@mui/icons-material/Download';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
+import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
+import {Add} from '@mui/icons-material';
+import {Link} from '../../../@softbd/elements/common';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -42,6 +44,7 @@ const BatchesPage = () => {
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
+  const [isOpenExamAssignModal, setIsOpenExamAssignModal] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -70,6 +73,16 @@ const BatchesPage = () => {
   }, []);
   const closeImportModal = useCallback(() => {
     setIsOpenImportModal(false);
+  }, []);
+
+  const openExamAssignModal = useCallback((itemId: number) => {
+    setIsOpenExamAssignModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeExamAssignModal = useCallback(() => {
+    setIsOpenExamAssignModal(false);
+    setSelectedItemId(null);
   }, []);
 
   const deleteBatchItem = async (itemId: number) => {
@@ -213,11 +226,20 @@ const BatchesPage = () => {
               <CommonButton
                 key={2}
                 onClick={() => openImportModal(data?.course_id, data?.id)}
-                btnText={messages['common.import'] as string}
+                btnText={'common.import'}
                 variant={'outlined'}
                 color={'primary'}
                 style={{marginLeft: '5px'}}
                 startIcon={<DownloadIcon />}
+              />
+              <CommonButton
+                key={3}
+                onClick={() => openExamAssignModal(data?.id)}
+                btnText={'batch.assign_exam'}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '5px'}}
+                startIcon={<Add />}
               />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton
@@ -300,6 +322,14 @@ const BatchesPage = () => {
             onClose={closeImportModal}
             userData={null}
             refreshDataTable={refreshDataTable}
+          />
+        )}
+
+        {isOpenExamAssignModal && selectedItemId && (
+          <ExamAssignToBatchPopup
+            key={3}
+            batchId={selectedItemId}
+            onClose={closeExamAssignModal}
           />
         )}
       </PageBlock>

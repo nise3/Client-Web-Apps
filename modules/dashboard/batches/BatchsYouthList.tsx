@@ -26,7 +26,6 @@ const YouthPage = () => {
   const path = router.asPath;
   const {batchId} = router.query;
   const {data: batch, isLoading} = useFetchBatch(Number(batchId));
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
   const [isOpenExamListModal, setIsOpenExamListModal] = useState(false);
 
@@ -119,8 +118,8 @@ const YouthPage = () => {
 
               <CommonButton
                 key={2}
-                onClick={() => openExamListModal(data.id, data.youth_id)}
-                btnText={messages['batches.mark_distribution'] as string}
+                onClick={() => openExamListModal(data.youth_id)}
+                btnText={'batches.mark_distribution'}
                 variant={'outlined'}
                 color={'primary'}
                 style={{marginLeft: '20px'}}
@@ -143,15 +142,13 @@ const YouthPage = () => {
       },
     });
 
-  const openExamListModal = useCallback((itemId: number, youthId: number) => {
+  const openExamListModal = useCallback((youthId: number) => {
     setIsOpenExamListModal(true);
-    setSelectedItemId(itemId);
     setSelectedYouthId(youthId);
   }, []);
 
   const closeExamListModal = useCallback(() => {
     setIsOpenExamListModal(false);
-    setSelectedItemId(null);
     setSelectedYouthId(null);
   }, []);
 
@@ -182,10 +179,10 @@ const YouthPage = () => {
             pageCount={pageCount}
             totalCount={totalCount}
           />
-          {isOpenExamListModal && selectedItemId && selectedYouthId && (
+          {isOpenExamListModal && batchId && selectedYouthId && (
             <ExamListPopup
               key={1}
-              itemId={selectedItemId}
+              batchId={Number(batchId)}
               youthId={selectedYouthId}
               onClose={closeExamListModal}
             />

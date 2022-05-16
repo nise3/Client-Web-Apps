@@ -1983,5 +1983,7 @@
   "common.not_participated": "Not participated",
   "batches.marking": "Marking",
   "batches.marksheet": "Marksheet",
-  "batches.mark_distribution" : "Mark Distribution"
+  "batches.mark_distribution": "Mark Distribution",
+  "batch.assign_exam": "Assign Exam",
+  "batch.exam_assign_success": "Exams successfully assigned to batch"
 }

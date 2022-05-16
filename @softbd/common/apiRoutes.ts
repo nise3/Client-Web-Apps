@@ -124,6 +124,8 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
   INSTITUTE_SERVICE_PATH + '/assign-to-batch';
+export const API_ASSIGN_TRAINERS_TO_BATCH = '/assign-trainer-to-batch';
+
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
 
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
@@ -165,6 +167,8 @@ export const API_YOUTH_EXAM_MARK_UPDATE =
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
 export const API_EXAMS_PUBLISH = INSTITUTE_SERVICE_PATH + '/exam-publish';
+export const API_BATCHES_EXAMS = '/exams';
+export const API_ASSIGN_EXAMS_TO_BATCH = '/assign-exams-to-batch';
 
 /**             eRPL            */
 

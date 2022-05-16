@@ -4,6 +4,7 @@ import {
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_BATCHES,
+  API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
@@ -243,6 +244,10 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
 
+export function useFetchExams(params: any) {
+  return useAxiosSWR(params ? [API_EXAMS, params] : null);
+}
+
 export function useFetchExam(examId: any) {
   return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
@@ -267,5 +272,11 @@ export function useFetchPreviewYouthExam(
 ) {
   return useAxiosSWR(
     examId ? API_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId : null,
+  );
+}
+
+export function useFetchBatchExams(batchId: any) {
+  return useAxiosSWR(
+    batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null,
   );
 }

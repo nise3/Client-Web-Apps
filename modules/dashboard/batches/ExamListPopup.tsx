@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import yup from '../../../@softbd/libs/yup';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {useFetchExamDetails} from '../../../services/instituteManagement/hooks';
+import {useFetchBatchExams} from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {IBatch} from '../../../shared/Interface/institute.interface';
@@ -23,25 +23,25 @@ import {FiUserCheck} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 
 interface ExamListPopupProps {
-  itemId: number | null;
+  batchId: number | null;
   onClose: () => void;
   youthId: number | null;
 }
 
-const ExamListPopup: FC<ExamListPopupProps> = ({itemId, youthId, ...props}) => {
+const ExamListPopup: FC<ExamListPopupProps> = ({
+  batchId,
+  youthId,
+  ...props
+}) => {
   const {messages} = useIntl();
   const router = useRouter();
   const path = router.asPath;
   const {errorStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
 
-  const {
-    data: itemData,
-    isLoading,
-    //mutate: mutateBatch,
-  } = useFetchExamDetails(1);
+  const {data: batchExams, isLoading} = useFetchBatchExams(batchId);
 
-  console.log('dd', itemData);
+  console.log('batchExams', batchExams);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
