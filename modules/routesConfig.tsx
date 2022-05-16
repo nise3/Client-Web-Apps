@@ -669,15 +669,6 @@ const routesConfig: NavItemProps[] = [
         icon: 'person',
         children: [
           {
-            id: '4ir_taglines',
-            title: '4IR Taglines',
-            messageId: 'menu.tagline',
-            permissionKey: 'view_any_4ir_tagline',
-            type: 'item',
-            icon: 'work',
-            url: '/4ir-tagline',
-          },
-          {
             id: '4ir_guideline',
             title: '4IR Guideline',
             messageId: 'menu.guideline',
@@ -685,6 +676,15 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'work',
             url: '/4ir-guideline',
+          },
+          {
+            id: '4ir_taglines',
+            title: '4IR Taglines',
+            messageId: 'menu.tagline',
+            permissionKey: 'view_any_4ir_tagline',
+            type: 'item',
+            icon: 'work',
+            url: '/4ir-tagline',
           },
           {
             id: '4ir_occupations',

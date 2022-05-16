@@ -9,6 +9,7 @@ type Props = {
   label: string | number | MessageFormatElement[];
   // label: string | number | MessageFormatElement[] | ReactElement<any, string | JSXElementConstructor<any>>;
   isLoading?: boolean;
+  isDisabled?: boolean;
   register?: any;
   errorInstance?: any;
   checked: boolean | number;
@@ -20,6 +21,7 @@ const CustomCheckbox = ({
   register,
   label,
   isLoading,
+  isDisabled = false,
   errorInstance,
   checked,
   onChange,
@@ -46,6 +48,7 @@ const CustomCheckbox = ({
             {...register(id)}
             checked={checked}
             onChange={onChange}
+            disabled={isDisabled}
             style={{padding: '2px', marginRight: 5}}
           />
         }

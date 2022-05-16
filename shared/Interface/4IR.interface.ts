@@ -22,8 +22,8 @@ export interface IInitiative extends IIdTitleCreateUpdateAt {
   organization_name_en?: number | string;
   four_ir_occupation_id: number | string;
   start_date: number | string;
-  completion_step: number | string;
-  form_step: number | string;
+  completion_step?: number | string;
+  form_step?: number | string;
   details?: string;
   budget?: number;
   tasks: any[];
