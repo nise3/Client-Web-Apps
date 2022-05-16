@@ -2030,13 +2030,12 @@
   "common.about_user" : "About User",
   "assessment.examiner": "Examiner Name",
   "enrollment_view_enrollment" : "View Enrollment",
-  "4ir.researcher_name" : "Researcher Name",
-  "4ir.research_team_information" : "Research Team Information",
-  "4ir.report_file" : "Report File",
-  "4ir.research_method" : "Research Method",
-  "4ir_project_analysis.label" : "4IR Project Analysis",
   "assessment.examinee": "Examinee Name",
   "certificate.recipient_name": "Recipient Name",
   "certificate.certificate_title": "Certificate title",
-  "certificate.certificate_title_en": "Certificate title (en)"
+  "certificate.certificate_title_en": "Certificate title (en)",
+  "4ir.researcher_name" : "Researcher Name",
+  "4ir.research_team_information" : "Research Team Information",
+  "4ir.report_file" : "Report File",
+  "4ir.research_method" : "Research Method"
 }
