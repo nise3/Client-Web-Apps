@@ -111,7 +111,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
       const response = await updateProjectActivation(initiativeId, data);
       updateSuccessMessage('4ir.initiated');
 
-      if (response?.tasks?.lenght == 3) {
+      if (response?.data?.tasks?.length == 3) {
         setShowSuccessPopUp(true);
       } else {
         mutateInitiativeTasks();

@@ -254,6 +254,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
+            required
             id='four_ir_occupation_id'
             label={messages['menu.occupations']}
             isLoading={isLoadingOccupation}
@@ -266,6 +267,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomTextInput
+            required
             id='designation'
             label={messages['common.designation']}
             register={register}
@@ -306,6 +308,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='budget'
             label={messages['initiative.initiative_budget']}
             register={register}
