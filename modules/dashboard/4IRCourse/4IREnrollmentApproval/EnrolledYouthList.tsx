@@ -1,24 +1,18 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import PageBlock from '../../../@softbd/utilities/PageBlock';
+import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
-import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import IconCourse from '../../../@softbd/icons/IconCourse';
-import Genders from '../../../@softbd/utilities/Genders';
+import ReadButton from '../../../../@softbd/elements/button/ReadButton/ReadButton';
+import DatatableButtonGroup from '../../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
+import {API_COURSE_ENROLLMENTS} from '../../../../@softbd/common/apiRoutes';
+import ReactTable from '../../../../@softbd/table/Table/ReactTable';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import {getCalculatedSerialNo} from '../../../../@softbd/utilities/helpers';
+import IconCourse from '../../../../@softbd/icons/IconCourse';
+import Genders from '../../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
-import RejectButton from './RejectButton';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {rejectEnrollment} from '../../../services/instituteManagement/RegistrationService';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 
 interface IEnrolledYouthList {
   selectedCourseId: number;
@@ -26,12 +20,10 @@ interface IEnrolledYouthList {
 
 const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   //const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -42,21 +34,6 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  const refreshDataTable = useCallback(() => {
-    setIsToggleTable((previousToggle) => !previousToggle);
-  }, [isToggleTable]);
-
-  /** Method called to reject an application */
-  const rejectCourseEnrollment = async (enrollment_id: number) => {
-    let response = await rejectEnrollment(enrollment_id);
-    if (isResponseSuccess(response)) {
-      {
-        successStack(<IntlMessages id='applicationManagement.rejected' />);
-      }
-      refreshDataTable();
-    }
-  };
 
   const columns = useMemo(
     () => [
@@ -73,34 +50,10 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
         },
       },
       {
-        Header: messages['applicationManagement.programTitle'],
-        accessor: 'program_title',
+        Header: messages['applicationManagement.applicantFullName'],
+        accessor: 'full_name',
         isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['applicationManagement.programTitle_en'],
-        accessor: 'program_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: locale == LocaleLanguage.EN,
-      },
-      {
-        Header: messages['menu.batch'],
-        accessor: 'batch_title',
-        isVisible: locale == LocaleLanguage.BN,
-      },
-      {
-        Header: messages['menu.batch_en'],
-        accessor: 'batch_title_en',
-        isVisible: locale == LocaleLanguage.EN,
+        disableFilters: true,
       },
       {
         Header: messages['applicationManagement.applicantFullName_en'],
@@ -109,35 +62,71 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
         disableFilters: true,
       },
       {
-        Header: messages['applicationManagement.applicantFullName'],
-        accessor: 'full_name',
-        isVisible: locale == LocaleLanguage.BN,
-        disableFilters: true,
+        Header: messages['menu.industry_contact'],
+        accessor: 'mobile',
       },
+      {
+        Header: messages['common.email'],
+        accessor: 'email',
+      },
+
+      {
+        Header: messages['applicationManagement.programTitle'],
+        accessor: 'program_title',
+        isVisible: false,
+      },
+      {
+        Header: messages['applicationManagement.programTitle_en'],
+        accessor: 'program_title_en',
+        isVisible: false,
+      },
+      {
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
+        isVisible: false,
+      },
+      {
+        Header: messages['applicationManagement.courseTitle_en'],
+        accessor: 'course_title_en',
+        isVisible: false,
+      },
+      {
+        Header: messages['menu.batch'],
+        accessor: 'batch_title',
+        isVisible: false,
+      },
+      {
+        Header: messages['menu.batch_en'],
+        accessor: 'batch_title_en',
+        isVisible: false,
+      },
+
       {
         Header: messages['common.paymentStatus'],
         accessor: 'payment_status',
         filter: 'rowStatusFilter',
+        isVisible: false,
         Cell: (props: any) => {
           let data = props.row.original;
           return <CustomChipPaymentStatus value={data?.payment_status} />;
         },
       },
-      {
-        Header: messages['applicationManagement.status'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
-        },
-      },
+      // {
+      //   Header: messages['applicationManagement.status'],
+      //   isVisible: false,
+      //   Cell: (props: any) => {
+      //     let data = props.row.original;
+      //     if (data.row_status === 0) {
+      //       return <p>Inactive</p>;
+      //     } else if (data.row_status === 1) {
+      //       return <p>Approved</p>;
+      //     } else if (data.row_status === 2) {
+      //       return <p>Pending</p>;
+      //     } else {
+      //       return <p>Rejected</p>;
+      //     }
+      //   },
+      // },
 
       {
         Header: messages['common.actions'],
@@ -146,15 +135,6 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
-
-              {data.row_status !== 3 ? (
-                <RejectButton
-                  rejectAction={() => rejectCourseEnrollment(data.id)}
-                  rejectTitle={messages['common.delete_confirm'] as string}
-                />
-              ) : (
-                ''
-              )}
             </DatatableButtonGroup>
           );
         },
@@ -203,7 +183,6 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
           loading={loading}
           pageCount={pageCount}
           totalCount={totalCount}
-          toggleResetTable={isToggleTable}
         />
 
         {isOpenDetailsModal && selectedItemId && (

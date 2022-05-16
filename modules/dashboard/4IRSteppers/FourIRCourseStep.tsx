@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
-import FourIRCoursePage from '../4IRCourse/FourIRCoursePage';
+import FourIRCourseStepPage from '../4IRCourse/FourIRCourseStepPage';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -34,7 +34,7 @@ const FourIRCourseStep = ({
 
   return isReady ? (
     <>
-      <FourIRCoursePage fourIRInitiativeId={fourIRInitiativeId} />
+      <FourIRCourseStepPage fourIRInitiativeId={fourIRInitiativeId} />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}

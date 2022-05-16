@@ -15,6 +15,7 @@ import EnrollmentApprovalStep from './EnrollmentApprovalStep';
 import FourIRCourseStep from './FourIRCourseStep';
 import SkillDevelopmentStep from './SkillDevelopmentStep';
 import AssessmentStep from './AssessmentStep';
+import CertificationStep from './CertificationStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -77,6 +78,18 @@ const steps: Array<StepObj> = [
   {
     id: 10,
     langKey: '4ir.enrollment_approval',
+  },
+  {
+    id: 11,
+    langKey: 'common.skill_develop',
+  },
+  {
+    id: 12,
+    langKey: 'assessmentManagement.assessment',
+  },
+  {
+    id: 13,
+    langKey: 'common.certifications',
   },
 ];
 
@@ -243,6 +256,15 @@ const TeamAndCellView = () => {
         case 12:
           return (
             <AssessmentStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 13:
+          return (
+            <CertificationStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
