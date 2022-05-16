@@ -14,13 +14,18 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import FourIRGuidelineAddEditPopup from './4IRGuidelineAddEditPopup';
 import FourIRTNAReportDetailsPopup from './4IRGuidelineDetailsPopup';
-import {API_4IR_GUIDELINE} from '../../../@softbd/common/apiRoutes';
+import {
+  API_4IR_GUIDELINE,
+  FILE_SERVER_FILE_VIEW_ENDPOINT,
+} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-
+import DownloadIcon from '@mui/icons-material/Download';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteGuideline} from '../../../services/4IRManagement/GuidelineService';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {Link} from '../../../@softbd/elements/common';
 
 const FourIRGuidelinePage = () => {
   const {messages, locale} = useIntl();
@@ -86,14 +91,33 @@ const FourIRGuidelinePage = () => {
         },
       },
       {
-        Header: messages['common.initiative'],
-        accessor: 'four_ir_initiative_id',
+        Header: messages['menu.guideline_name'],
+        accessor: 'name',
         disableFilters: true,
       },
       {
-        Header: messages['common.file'],
+        Header: messages['4ir.tna_report_attachment'],
         accessor: 'file_path',
         disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + data?.file_path}`}
+              download
+              target={'_blank'}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          );
+        },
       },
       {
         Header: messages['common.status'],
