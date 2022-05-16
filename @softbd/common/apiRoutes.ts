@@ -124,6 +124,7 @@ export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
 export const API_CERTIFICATES_ISSUE = INSTITUTE_SERVICE_PATH + '/certificate-issued';
+export const API_CERTIFICATES_ISSUE_PUBLIC = INSTITUTE_SERVICE_PATH + '/public/youth-certificate-issued';
 
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =

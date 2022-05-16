@@ -15,7 +15,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import CertificateTemplateIcon from '../../../@softbd/icons/IconCertificateTemplate';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import { isResponseSuccess } from '../../../@softbd/utilities/helpers';
+import { getMomentDateFormat, isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { deleteCertificate } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { getAllBatches } from '../../../services/instituteManagement/BatchService';
@@ -113,10 +113,21 @@ const CertificateTemplatePage = () => {
         Header: messages['common.result_type'],
         accessor: 'result_type_name',
       },
-      // {
-      //   Header: messages['common.purpose_name'],
-      //   accessor: 'purpose_name',
-      // },
+      {
+        Header: messages['common.issue_date'],
+        accessor: 'issued_at',
+        Cell: (props: any) => {
+          let data = props.row.original;
+        return (
+            <span>
+              {getMomentDateFormat(
+                data?.issued_at,
+                'DD MMMM, YYYY',
+              )}
+            </span>
+          );
+        },
+      },
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
