@@ -18,6 +18,14 @@ import {Body1} from '../../../@softbd/elements/common';
 import CustomFieldArrayResultConfigGrading from './CustomFieldArrayResultConfigGrading';
 import IconResultConfig from '../../../@softbd/icons/IconResultConfig';
 import InputAdornment from '@mui/material/InputAdornment';
+import {
+  createResultConfig,
+  updateResultConfig,
+} from '../../../services/instituteManagement/CourseResultConfig';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useFetchResultConfigs} from '../../../services/instituteManagement/hooks';
 
 type IProps = {
   itemId: number | null;
@@ -25,8 +33,21 @@ type IProps = {
   refreshDataTable: () => void;
 };
 
-const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
+const ResultConfigAddEditPopup = ({
+  itemId,
+  refreshDataTable,
+  ...props
+}: IProps) => {
   const {messages} = useIntl();
+  const {errorStack} = useNotiStack();
+  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const [courseId] = useState({course_id: itemId});
+  const {data: itemData, isLoading, mutate} = useFetchResultConfigs(courseId);
+
+  console.log('itemdata->', itemData);
+
+  let isEdit = itemData?.id != null; //todo: temporary
 
   const [selectedResultType, setSelectedResultType] = useState<any>(null);
   const [percentages, setPercentages] = useState<any>(null);
@@ -40,23 +61,93 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
       result_percentages: yup.object().shape({
         online: yup
           .string()
-          .label('1000?')
+          .label(messages['common.online'] as string)
+          .nullable()
           .test(
-            //todo: work will start from here....
             'max_validation',
-            `${messages['common.online']} ${messages['common.not_valid']}`,
+            `${messages['common.total_percentage']}`,
             (value) =>
-              Boolean(percentages <= 100 && value && Number(value) <= 100),
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        offline: yup
+          .string()
+          .label(messages['common.offline'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        mixed: yup
+          .string()
+          .label(messages['common.mixed'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        practical: yup
+          .string()
+          .label(messages['common.practical'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        field_work: yup
+          .string()
+          .label(messages['common.field_work'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        presentation: yup
+          .string()
+          .label(messages['common.presentation'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        assignment: yup
+          .string()
+          .label(messages['common.assignment'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
+          ),
+        attendance: yup
+          .string()
+          .label(messages['common.attendance'] as string)
+          .nullable()
+          .test(
+            'max_validation',
+            `${messages['common.total_percentage']}`,
+            (value) =>
+              !value || Boolean(Number(value) <= 100 && percentages <= 100),
           ),
       }),
     });
-  }, [messages]);
+  }, [messages, percentages]);
 
   const {
     control,
     register,
     // reset,
-    // setError,
+    setError,
     watch,
     handleSubmit,
     setValue,
@@ -75,11 +166,14 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
         let values =
           Number(value?.result_percentages.online) +
           Number(value?.result_percentages.offline) +
+          Number(value?.result_percentages.mixed) +
           Number(value?.result_percentages.practical) +
           Number(value?.result_percentages.field_work) +
           Number(value?.result_percentages.presentation) +
           Number(value?.result_percentages.assignment) +
           Number(value?.result_percentages.attendance);
+
+        console.log('values->', values);
 
         setPercentages(values);
       }
@@ -101,6 +195,8 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
     [messages],
   );
 
+  useEffect(() => {}, [itemData]);
+
   const onSubmit: SubmitHandler<any> = async (data) => {
     let formData = _.cloneDeep(data);
 
@@ -112,34 +208,24 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
       delete formData.gradings;
     }
 
+    formData.course_id = itemId;
+
     console.log('fromData->', formData);
-    /*formData.application_form_settings = getConfigInfoData(
-      data.application_form_settings,
-    );
-
-    if (!authUser?.isSystemUser) {
-      delete formData?.institute_id;
-    }
-
-    formData.skills = (data?.skills || []).map((skill: any) => skill.id);
-
     try {
-      if (itemId) {
-        await updateCourse(itemId, formData);
+      if (itemData && itemData.id) {
+        await updateResultConfig(itemData.id, formData);
         updateSuccessMessage('course.label');
-        mutateCourse();
+        mutate();
       } else {
-        await createCourse(formData);
+        await createResultConfig(formData);
         createSuccessMessage('course.label');
       }
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
-    }*/
+    }
   };
-
-  let isLoading = false;
 
   return (
     <HookFormMuiModal
@@ -148,10 +234,17 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
       title={
         <>
           <IconResultConfig />
-          <IntlMessages
-            id='common.add_new'
-            values={{subject: <IntlMessages id='common.result_config' />}}
-          />
+          {isEdit ? (
+            <IntlMessages
+              id='common.edit'
+              values={{subject: <IntlMessages id='common.result_config' />}}
+            />
+          ) : (
+            <IntlMessages
+              id='common.add_new'
+              values={{subject: <IntlMessages id='common.result_config' />}}
+            />
+          )}
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -223,6 +316,9 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
 
         {selectedResultType !== null && (
           <>
+            <Grid item xs={12}>
+              <Body1>{messages['common.result_percentage']}</Body1>
+            </Grid>
             <Grid item xs={6}>
               <CustomTextInput
                 id={'result_percentages[online]'}
@@ -243,6 +339,21 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
                 id={'result_percentages[offline]'}
                 type={'number'}
                 label={messages['common.offline']}
+                register={register}
+                errorInstance={errors}
+                isLoading={false}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>%</InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                id={'result_percentages[mixed]'}
+                type={'number'}
+                label={messages['common.mixed']}
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
@@ -335,4 +446,4 @@ const ResultConfigPopup = ({itemId, refreshDataTable, ...props}: IProps) => {
   );
 };
 
-export default ResultConfigPopup;
+export default ResultConfigAddEditPopup;

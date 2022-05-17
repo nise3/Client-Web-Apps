@@ -31,7 +31,7 @@ import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
 import EditIcon from '@mui/icons-material/Edit';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import ResultConfigPopup from './ResultConfigPopup';
+import ResultConfigAddEditPopup from './ResultConfigAddEditPopup';
 
 const CoursePage = () => {
   const {messages, locale} = useIntl();
@@ -294,7 +294,7 @@ const CoursePage = () => {
         )}
 
         {isOpenResultConfigModal && selectedItemId && (
-          <ResultConfigPopup
+          <ResultConfigAddEditPopup
             key={selectedItemId}
             onClose={closeResultConfigModal}
             itemId={selectedItemId}
