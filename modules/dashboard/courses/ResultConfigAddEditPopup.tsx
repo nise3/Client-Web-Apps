@@ -2,12 +2,11 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
-import {Grid} from '@mui/material';
+import {Grid, Typography} from '@mui/material';
 import React, {useEffect, useMemo, useState} from 'react';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {ICourse} from '../../../shared/Interface/institute.interface';
 import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import _ from 'lodash';
@@ -18,10 +17,7 @@ import {Body1} from '../../../@softbd/elements/common';
 import CustomFieldArrayResultConfigGrading from './CustomFieldArrayResultConfigGrading';
 import IconResultConfig from '../../../@softbd/icons/IconResultConfig';
 import InputAdornment from '@mui/material/InputAdornment';
-import {
-  createResultConfig,
-  updateResultConfig,
-} from '../../../services/instituteManagement/CourseResultConfig';
+import {createResultConfig} from '../../../services/instituteManagement/CourseResultConfig';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -45,12 +41,7 @@ const ResultConfigAddEditPopup = ({
   const [courseId] = useState({course_id: itemId});
   const {data: itemData, isLoading, mutate} = useFetchResultConfigs(courseId);
 
-  console.log('itemdata->', itemData);
-
-  let isEdit = itemData?.id != null; //todo: temporary
-
   const [selectedResultType, setSelectedResultType] = useState<any>(null);
-  const [percentages, setPercentages] = useState<any>(null);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -58,128 +49,86 @@ const ResultConfigAddEditPopup = ({
         .string()
         .required()
         .label(messages['common.result_type'] as string),
-      result_percentages: yup.object().shape({
-        online: yup
-          .string()
-          .label(messages['common.online'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        offline: yup
-          .string()
-          .label(messages['common.offline'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        mixed: yup
-          .string()
-          .label(messages['common.mixed'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        practical: yup
-          .string()
-          .label(messages['common.practical'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        field_work: yup
-          .string()
-          .label(messages['common.field_work'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        presentation: yup
-          .string()
-          .label(messages['common.presentation'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        assignment: yup
-          .string()
-          .label(messages['common.assignment'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-        attendance: yup
-          .string()
-          .label(messages['common.attendance'] as string)
-          .nullable()
-          .test(
-            'max_validation',
-            `${messages['common.total_percentage']}`,
-            (value) =>
-              !value || Boolean(Number(value) <= 100 && percentages <= 100),
-          ),
-      }),
+      gradings: yup.array().of(
+        yup.object().shape({
+          label: yup
+            .string()
+            .required()
+            .label(messages['common.label'] as string),
+          min: yup
+            .string()
+            .required()
+            .label(messages['common.min'] as string),
+          max: yup
+            .string()
+            .required()
+            .label(messages['common.max'] as string),
+        }),
+      ),
+      total_percentage: yup
+        .number()
+        .required()
+        .test(
+          'max_validation',
+          `${messages['common.total_percentage']}`,
+          (value) => !value && Boolean(Number(value) == 100),
+        ),
     });
-  }, [messages, percentages]);
+  }, [messages]);
 
   const {
     control,
     register,
-    // reset,
+    reset,
     setError,
     watch,
     handleSubmit,
     setValue,
     getValues,
     formState: {errors, isSubmitting},
-  } = useForm<ICourse>({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  console.log('errors->', errors);
+  let watchResultPercentage = watch([
+    'result_percentages[online]',
+    'result_percentages[offline]',
+    'result_percentages[mixed]',
+    'result_percentages[practical]',
+    'result_percentages[field_work]',
+    'result_percentages[presentation]',
+    'result_percentages[assignment]',
+    'result_percentages[attendance]',
+  ]);
 
   useEffect(() => {
-    const subscription = watch((value: any) => {
-      console.log('watch->', value);
-      if (value && value?.result_percentages) {
-        let values =
-          Number(value?.result_percentages.online) +
-          Number(value?.result_percentages.offline) +
-          Number(value?.result_percentages.mixed) +
-          Number(value?.result_percentages.practical) +
-          Number(value?.result_percentages.field_work) +
-          Number(value?.result_percentages.presentation) +
-          Number(value?.result_percentages.assignment) +
-          Number(value?.result_percentages.attendance);
-
-        console.log('values->', values);
-
-        setPercentages(values);
+    let values: number = 0;
+    watchResultPercentage.map((value: any) => {
+      if (value) {
+        values += Number(value);
       }
     });
-    return () => subscription.unsubscribe();
-  }, [watch]);
+
+    setValue('total_percentage', values);
+  }, [watchResultPercentage]);
+
+  useEffect(() => {
+    if (itemData && itemData.id) {
+      reset({
+        result_type: Number(itemData?.result_type),
+        pass_marks: itemData?.pass_marks,
+        result_percentages: itemData?.result_percentages,
+        gradings: itemData?.gradings,
+      });
+      setSelectedResultType(Number(itemData?.result_type));
+    } else {
+      reset({
+        gradings: [{min: 0}],
+      });
+    }
+  }, [itemData]);
+
+  console.log('errors->', errors);
 
   const resultTypeLists = useMemo(
     () => [
@@ -195,8 +144,6 @@ const ResultConfigAddEditPopup = ({
     [messages],
   );
 
-  useEffect(() => {}, [itemData]);
-
   const onSubmit: SubmitHandler<any> = async (data) => {
     let formData = _.cloneDeep(data);
 
@@ -209,19 +156,18 @@ const ResultConfigAddEditPopup = ({
     }
 
     formData.course_id = itemId;
+    if (itemData?.id) formData.id = itemData.id;
 
     console.log('fromData->', formData);
     try {
+      await createResultConfig(formData);
       if (itemData && itemData.id) {
-        await updateResultConfig(itemData.id, formData);
         updateSuccessMessage('course.label');
         mutate();
       } else {
-        await createResultConfig(formData);
         createSuccessMessage('course.label');
       }
       props.onClose();
-      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -234,7 +180,7 @@ const ResultConfigAddEditPopup = ({
       title={
         <>
           <IconResultConfig />
-          {isEdit ? (
+          {itemData?.id != null ? (
             <IntlMessages
               id='common.edit'
               values={{subject: <IntlMessages id='common.result_config' />}}
@@ -275,13 +221,22 @@ const ResultConfigAddEditPopup = ({
             <Grid item xs={12}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
-                  <Body1>Label</Body1>
+                  <Body1>
+                    {messages['common.label']}{' '}
+                    <span style={{color: 'red'}}>*</span>
+                  </Body1>
                 </Grid>
                 <Grid item xs={3}>
-                  <Body1>Min</Body1>
+                  <Body1>
+                    {messages['common.min']}{' '}
+                    <span style={{color: 'red'}}>*</span>
+                  </Body1>
                 </Grid>
                 <Grid item xs={3}>
-                  <Body1>Max</Body1>
+                  <Body1>
+                    {messages['common.max']}{' '}
+                    <span style={{color: 'red'}}>*</span>
+                  </Body1>
                 </Grid>
               </Grid>
             </Grid>
@@ -439,6 +394,13 @@ const ResultConfigAddEditPopup = ({
                 }}
               />
             </Grid>
+            {errors?.['total_percentage'] && (
+              <Grid item xs={12}>
+                <Typography sx={{color: 'red'}}>
+                  {errors['total_percentage']?.message}
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
       </Grid>

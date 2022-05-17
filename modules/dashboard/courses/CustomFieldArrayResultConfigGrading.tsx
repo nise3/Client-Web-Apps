@@ -66,6 +66,7 @@ const CustomFieldArrayResultConfigGrading = ({
             <Grid container spacing={2} style={{paddingBottom: 20}}>
               <Grid item xs={3}>
                 <CustomTextInput
+                  required
                   id={labelId}
                   label={''}
                   register={register}
@@ -83,7 +84,6 @@ const CustomFieldArrayResultConfigGrading = ({
                   isLoading={isLoading}
                   errorInstance={errors}
                   disabled={true}
-                  InputProps={{inputProps: {min: 0, max: 99}}}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -95,7 +95,6 @@ const CustomFieldArrayResultConfigGrading = ({
                   register={register}
                   isLoading={isLoading}
                   errorInstance={errors}
-                  InputProps={{inputProps: {min: 0, max: 100}}}
                   onInput={(value: any) => {
                     onMaxChange(value, index);
                   }}
@@ -116,20 +115,20 @@ const CustomFieldArrayResultConfigGrading = ({
             }}
             disabled={
               (getValues()?.gradings &&
-                getValues()?.gradings[fields.length - 2]?.max &&
-                Number(getValues()?.gradings[fields.length - 2]?.max) > 99) ||
+                getValues()?.gradings[fields.length - 1]?.max &&
+                Number(getValues()?.gradings[fields.length - 1]?.max) > 99) ||
               false
             }>
             <AddCircleOutline />
           </Button>
           <Button
             onClick={() => {
-              if (fields.length > 0) {
+              if (fields.length > 1) {
                 remove(fields.length - 1);
                 setMaxInputValue(1);
               }
             }}
-            disabled={fields.length < 1}>
+            disabled={fields.length < 2}>
             <RemoveCircleOutline />
           </Button>
         </ButtonGroup>
