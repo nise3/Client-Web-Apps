@@ -807,7 +807,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
     } else {
       delete data.registered_authority;
     }
-
+    data.membership_type_id = memberStaticData?.membership_types[0].id;
     //change bank account types true false to 0, 1
     if (hasBankAccount) {
       data.bank_account_type.personal = data.bank_account_type.personal ? 0 : 1;
