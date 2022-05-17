@@ -266,18 +266,18 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
         .string()
         .required()
         .label(messages['membership.id'] as string),*/
-      membership_type_id: yup
+      /*membership_type_id: yup
         .string()
         .required()
-        .label(messages['membership.type'] as string),
+        .label(messages['membership.type'] as string),*/
       trade_license_no: yup
         .string()
         .required()
         .label(messages['institute.trade_licence_number'] as string),
-      identification_no: yup
+      /*identification_no: yup
         .string()
         .required()
-        .label(messages['common.organization_identification_number'] as string),
+        .label(messages['common.organization_identification_number'] as string),*/
       title: yup
         .string()
         .title('bn', true, messages['common.special_character_error'] as string)
@@ -1190,7 +1190,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
 
               <StyledHeader item xs={12}>
                 <p className={classes.headerText}>
-                  {messages['common.institute_information']}
+                  {messages['industry.institute_information']}
                 </p>
               </StyledHeader>
 
@@ -1206,7 +1206,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                   />
                 </Grid>*/}
 
-                <Grid item xs={12}>
+                {/*<Grid item xs={12}>
                   <FormRadioButtons
                     required
                     id='membership_type_id'
@@ -1223,6 +1223,20 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     control={control}
                     errorInstance={errors}
                   />
+                </Grid>*/}
+
+                <Grid item xs={6}>
+                  <CustomFormSelect
+                    required
+                    id='factory_category_id'
+                    label={messages['institute.corresponding_industry']}
+                    control={control}
+                    options={memberStaticData?.factory_categories}
+                    optionTitleProp={['title']}
+                    optionValueProp={'id'}
+                    errorInstance={errors}
+                    isLoading={isLoading}
+                  />
                 </Grid>
 
                 <Grid item xs={6}>
@@ -1235,7 +1249,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     isLoading={isLoading}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                {/*<Grid item xs={6}>
                   <CustomTextInput
                     required
                     id='identification_no'
@@ -1246,7 +1260,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     errorInstance={errors}
                     isLoading={isLoading}
                   />
-                </Grid>
+                </Grid>*/}
 
                 <Grid item xs={6}>
                   <CustomTextInput
@@ -1336,20 +1350,6 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     id='domain'
                     label={messages['common.website']}
                     register={register}
-                    errorInstance={errors}
-                    isLoading={isLoading}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <CustomFormSelect
-                    required
-                    id='factory_category_id'
-                    label={messages['institute.corresponding_industry']}
-                    control={control}
-                    options={memberStaticData?.factory_categories}
-                    optionTitleProp={['title']}
-                    optionValueProp={'id'}
                     errorInstance={errors}
                     isLoading={isLoading}
                   />
@@ -1768,7 +1768,7 @@ const NASCIBMemberRegistrationForm: FC<NASCIBMemberRegistrationFormProps> = ({
                     <CustomFormSelect
                       required
                       id='sector_id'
-                      label={messages['institute.sector']}
+                      label={messages['industry.enrollment.sector']}
                       isLoading={isLoadingMemberStaticData}
                       control={control}
                       options={memberStaticData?.sector || []}

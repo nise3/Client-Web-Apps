@@ -455,7 +455,7 @@ const CourseListHeaderSection = ({
                 <CustomFilterableSelect
                   id={'availability'}
                   defaultValue={selectedAvailability}
-                  label={messages['common.availability'] as string}
+                  label={messages['course.availability'] as string}
                   onChange={handleAvailabilityChange}
                   options={AVAILABILITIES}
                   isLoading={false}
