@@ -10,8 +10,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
-import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
-
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -21,7 +23,7 @@ type Props = {
 const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetch4IRCS(itemId);
-
+  console.log(itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -126,6 +128,13 @@ const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.approved_date']}
+              value={itemData?.approve_date}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.developed_organization_name']}
               value={itemData?.developed_organization_name}
               isLoading={isLoading}
@@ -167,11 +176,25 @@ const FourIRCSDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['common.file']}
-              imageUrl={itemData?.file_path}
-              isLoading={isLoading}
-            />
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
           </Grid>
           <Grid item xs={12}>
             <CustomChipRowStatus

@@ -9,9 +9,12 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {useFetch4IRCurriculum} from '../../../services/4IRManagement/hooks';
-
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
+import {Divider} from '@mui/material';
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -25,7 +28,7 @@ const FourIRCurriculumDetailsPopup = ({
 }: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetch4IRCurriculum(itemId);
-
+  console.log('item data:', itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -62,47 +65,62 @@ const FourIRCurriculumDetailsPopup = ({
                   </legend>
 
                   {itemData?.experts?.length > 0 &&
-                    itemData?.experts?.map((expert: any) => {
-                      return (
-                        <Grid container spacing={5} key={expert?.id} mb={5}>
-                          <Grid item xs={12} md={6}>
-                            <DetailsInputView
-                              label={messages['common.name']}
-                              value={expert?.name}
-                              isLoading={isLoading}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <DetailsInputView
-                              label={messages['common.designation']}
-                              value={expert?.designation}
-                              isLoading={isLoading}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <DetailsInputView
-                              label={messages['common.organization']}
-                              value={expert?.organization}
-                              isLoading={isLoading}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <DetailsInputView
-                              label={messages['common.mobile']}
-                              value={expert?.mobile}
-                              isLoading={isLoading}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <DetailsInputView
-                              label={messages['common.email']}
-                              value={expert?.email}
-                              isLoading={isLoading}
-                            />
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
+                    itemData?.experts?.map(
+                      (expert: any, index: number, array: any[]) => {
+                        return (
+                          <div key={`expert${index}`}>
+                            <Grid container spacing={5} key={expert?.id} mb={5}>
+                              <Grid item xs={12} md={6}>
+                                {/* {`${index + 1}.`} */}
+                                <DetailsInputView
+                                  label={messages['common.name']}
+                                  value={expert?.name}
+                                  isLoading={isLoading}
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <DetailsInputView
+                                  label={messages['common.designation']}
+                                  value={expert?.designation}
+                                  isLoading={isLoading}
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <DetailsInputView
+                                  label={messages['common.organization']}
+                                  value={expert?.organization}
+                                  isLoading={isLoading}
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <DetailsInputView
+                                  label={messages['common.mobile']}
+                                  value={expert?.mobile}
+                                  isLoading={isLoading}
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <DetailsInputView
+                                  label={messages['common.email']}
+                                  value={expert?.email}
+                                  isLoading={isLoading}
+                                />
+                              </Grid>
+                            </Grid>
+                            {!(index + 1 == array.length) && (
+                              <Divider
+                                sx={{
+                                  mt: '0',
+                                  mb: '14px',
+                                  borderBottomWidth: '1.5px',
+                                  borderColor: '#abaaaa',
+                                }}
+                              />
+                            )}
+                          </div>
+                        );
+                      },
+                    )}
                 </fieldset>
               </Grid>
             </Grid>
@@ -111,6 +129,13 @@ const FourIRCurriculumDetailsPopup = ({
             <DetailsInputView
               label={messages['4ir_cs.approved_by']}
               value={itemData?.approved_by}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.approved_date']}
+              value={itemData?.approve_date}
               isLoading={isLoading}
             />
           </Grid>
@@ -157,11 +182,25 @@ const FourIRCurriculumDetailsPopup = ({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['common.file']}
-              imageUrl={itemData?.file_path}
-              isLoading={isLoading}
-            />
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
           </Grid>
           <Grid item xs={12}>
             <CustomChipRowStatus

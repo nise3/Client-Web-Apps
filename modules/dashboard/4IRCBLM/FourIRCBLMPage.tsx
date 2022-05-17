@@ -4,23 +4,17 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CBLM} from '../../../@softbd/common/apiRoutes';
 import FourIRCBLMAddEditPopUp from './FourIRCBLMAddEditPopUp';
 import FourIRCBLMDetailsPopUp from './FourIRCBLMDetailsPopUp';
-import {deleteCBLM} from '../../../services/4IRManagement/CBLMServices';
 
 interface IFourIRCBLMPageProps {
   fourIRInitiativeId: number;
@@ -28,7 +22,6 @@ interface IFourIRCBLMPageProps {
 
 const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -56,19 +49,6 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteCBLMItem = async (cblmId: number) => {
-    let response = await deleteCBLM(cblmId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.CBLM' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
-
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
@@ -86,6 +66,16 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
             props.currentPageSize,
           );
         },
+      },
+      {
+        Header: messages['initiative.name'],
+        accessor: 'initiative_name',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.sector'],
+        accessor: 'sector_name',
+        disableFilters: true,
       },
       {
         Header: messages['4ir_cs.approved_by'],
@@ -114,10 +104,6 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteCBLMItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
             </DatatableButtonGroup>
           );
         },
@@ -135,7 +121,30 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
         return params;
       },
     });
+  let modifiedData = data?.map((fourIrCs: any) => {
+    let approved_by: string, sector_name: string;
+    if (parseInt(fourIrCs?.approved_by) === 1) {
+      approved_by = 'NSDA';
+    } else if (parseInt(fourIrCs?.approved_by) === 2) {
+      approved_by = 'BTEB';
+    } else {
+      approved_by = '';
+    }
 
+    if (parseInt(fourIrCs?.sector_name) === 1) {
+      sector_name = 'Sector 1';
+    } else if (parseInt(fourIrCs?.sector_name) === 2) {
+      sector_name = 'Sector 2';
+    } else {
+      sector_name = '';
+    }
+
+    return {
+      ...fourIrCs,
+      approved_by,
+      sector_name,
+    };
+  });
   return (
     <>
       <PageBlock
@@ -145,23 +154,25 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
           </>
         }
         extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir.CBLM'],
-                }}
-              />
-            }
-          />,
+          !(data?.length > 0) && (
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['4ir.CBLM'],
+                  }}
+                />
+              }
+            />
+          ),
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
+          data={modifiedData}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

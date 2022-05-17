@@ -29,6 +29,7 @@ import {
   updateCurriculum,
 } from '../../../services/4IRManagement/CurriculumService';
 import CustomExpertFieldArray from '../4IRCS/CustomExpertFieldArray';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface CurriculumAddEditPopupProps {
   itemId: number | null;
@@ -40,6 +41,7 @@ interface CurriculumAddEditPopupProps {
 const initialValues = {
   experts: [{}],
   approved_by: '',
+  approve_date: '',
   developed_organization_name: '',
   developed_organization_name_en: '',
   sector_name: '',
@@ -68,7 +70,6 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
     mutate: mutateCurriculum,
   } = useFetch4IRCurriculum(itemId);
   const {data: sectors, isLoading: isLoadingSectors} = useFetch4IRSectors();
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       experts: yup.array().of(
@@ -103,6 +104,10 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['4ir_cs.approved_by'] as string),
+      approve_date: yup
+        .string()
+        .required()
+        .label(messages['common.approved_date'] as string),
       developed_organization_name: yup
         .string()
         .trim()
@@ -118,6 +123,11 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.sector'] as string),
+      file_path: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.file'] as string),
     });
   }, [messages]);
 
@@ -152,6 +162,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
       let data: any = {
         experts: getExperts(itemData?.experts),
         approved_by: itemData?.approved_by,
+        approve_date: itemData?.approve_date,
         developed_organization_name: itemData?.developed_organization_name,
         developed_organization_name_en:
           itemData?.developed_organization_name_en,
@@ -194,7 +205,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
         four_ir_initiative_id: fourIRInitiativeId,
         ...data,
       };
-
+      console.log(payload);
       if (itemId) {
         await updateCurriculum(itemId, payload);
         updateSuccessMessage('4ir_curriculum.label');
@@ -267,6 +278,15 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='approve_date'
+            label={messages['common.approved_date']}
+            register={register}
+            errorInstance={errors}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='developed_organization_name'
@@ -313,7 +333,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
             control={control}
             options={sectors}
             optionValueProp='id'
-            optionTitleProp={['label']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -329,16 +349,21 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
             rows={3}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} justifyContent={'flex-start'}>
           <FileUploadComponent
             id='file_path'
             defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
             setValue={setValue}
             register={register}
+            acceptedFileTypes={[
+              'application/pdf',
+              '.docx',
+              'application/msword',
+            ]}
             sizeLimitText={'3MB'}
             label={messages['common.file_upload']}
-            required={false}
+            required={true}
           />
         </Grid>
         <Grid item xs={12}>

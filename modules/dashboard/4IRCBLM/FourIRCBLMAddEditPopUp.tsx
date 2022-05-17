@@ -29,6 +29,7 @@ import {
   createCBLM,
   updateCBLM,
 } from '../../../services/4IRManagement/CBLMServices';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface CBLMAddEditPopupProps {
   itemId: number | null;
@@ -40,6 +41,7 @@ interface CBLMAddEditPopupProps {
 const initialValues = {
   experts: [{}],
   approved_by: '',
+  approve_date: '',
   developed_organization_name: '',
   developed_organization_name_en: '',
   sector_name: '',
@@ -103,6 +105,10 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['4ir_cs.approved_by'] as string),
+      approve_date: yup
+        .string()
+        .required()
+        .label(messages['common.approved_date'] as string),
       developed_organization_name: yup
         .string()
         .trim()
@@ -118,6 +124,11 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.sector'] as string),
+      file_path: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.file'] as string),
     });
   }, [messages]);
 
@@ -152,6 +163,7 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
       let data: any = {
         experts: getExperts(itemData?.experts),
         approved_by: itemData?.approved_by,
+        approve_date: itemData?.approve_date,
         developed_organization_name: itemData?.developed_organization_name,
         developed_organization_name_en:
           itemData?.developed_organization_name_en,
@@ -265,6 +277,15 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
             optionTitleProp={['label']}
             errorInstance={errors}
           />
+        </Grid>{' '}
+        <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='approve_date'
+            label={messages['common.approved_date']}
+            register={register}
+            errorInstance={errors}
+            required
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
@@ -317,7 +338,6 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
             errorInstance={errors}
           />
         </Grid>
-
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='comments'
@@ -337,8 +357,13 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
+            acceptedFileTypes={[
+              'application/pdf',
+              '.docx',
+              'application/msword',
+            ]}
             label={messages['common.file_upload']}
-            required={false}
+            required={true}
           />
         </Grid>
         <Grid item xs={12}>

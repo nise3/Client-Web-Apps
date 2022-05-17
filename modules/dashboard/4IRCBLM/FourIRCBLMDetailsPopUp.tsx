@@ -9,9 +9,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {useFetch4IRCBLM} from '../../../services/4IRManagement/hooks';
-
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -112,6 +114,13 @@ const FourIRCBLMDetailsPopUp = ({itemId, openEditModal, ...props}: Props) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
+              label={messages['common.approved_date']}
+              value={itemData?.approve_date}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
               label={messages['common.developed_organization_name']}
               value={itemData?.developed_organization_name}
               isLoading={isLoading}
@@ -153,11 +162,25 @@ const FourIRCBLMDetailsPopUp = ({itemId, openEditModal, ...props}: Props) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['common.file']}
-              imageUrl={itemData?.file_path}
-              isLoading={isLoading}
-            />
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
           </Grid>
           <Grid item xs={12}>
             <CustomChipRowStatus
