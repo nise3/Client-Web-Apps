@@ -4,7 +4,7 @@ import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_COURSE_ENROLLMENTS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
@@ -12,7 +12,6 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
 import FourIRAssessmentDetailsPopUp from './FourIRAssessmentDetailsPopUp';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import CustomChipPaymentStatus from '../applicationManagement/CustomChipPaymentStatus';
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -50,76 +49,21 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
       },
       {
         Header: messages['applicationManagement.courseTitle'],
-        accessor: 'program_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['applicationManagement.programTitle_en'],
-        accessor: 'program_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
+        accessor: 'course_name',
       },
       {
         Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: false,
+        accessor: 'course_name_en',
+        isVisible: locale === LocaleLanguage.EN,
       },
       {
-        Header: messages['menu.batch'],
-        accessor: 'batch_title',
-        isVisible: false,
-      },
-      {
-        Header: messages['menu.batch_en'],
-        accessor: 'batch_title_en',
-        isVisible: false,
-      },
-      {
-        Header: messages['applicationManagement.applicantFullName_en'],
-        accessor: 'full_name_en',
-        isVisible: locale == LocaleLanguage.EN,
-        disableFilters: true,
-      },
-      {
-        Header: messages['applicationManagement.applicantFullName'],
-        accessor: 'full_name',
-        disableFilters: true,
+        Header: messages['assessment.examinee'],
+        accessor: 'examinee_name',
       },
       {
         Header: messages['assessment.examiner'],
-        accessor: 'training_center_title',
-        disableFilters: true,
+        accessor: 'examiner_name',
       },
-      {
-        Header: messages['common.paymentStatus'],
-        accessor: 'payment_status',
-        filter: 'rowStatusFilter',
-        isVisible: false,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipPaymentStatus value={data?.payment_status} />;
-        },
-      },
-      {
-        Header: messages['applicationManagement.status'],
-        isVisible: false,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          if (data.row_status === 0) {
-            return <p>Inactive</p>;
-          } else if (data.row_status === 1) {
-            return <p>Approved</p>;
-          } else if (data.row_status === 2) {
-            return <p>Pending</p>;
-          } else {
-            return <p>Rejected</p>;
-          }
-        },
-      },
-
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -137,7 +81,7 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_COURSE_ENROLLMENTS,
+      urlPath: API_4IR_ASSESSMENT + `/${fourIRInitiativeId}`,
       paramsValueModifier: (params: any) => {
         params['four_ir_initiative_id'] = fourIRInitiativeId;
         return params;
