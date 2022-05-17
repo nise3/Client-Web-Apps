@@ -74,7 +74,6 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('dddd', data);
       let formData: any = {};
       formData.exam_type_ids = (data?.exams || []).map((exam: any) => exam.id);
 

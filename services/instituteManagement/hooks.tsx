@@ -275,8 +275,7 @@ export function useFetchPreviewYouthExam(
   );
 }
 
-export function useFetchBatchExams(batchId: any) {
-  return useAxiosSWR(
-    batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null,
-  );
+export function useFetchBatchExams(batchId: any, params?: any) {
+  let path = batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null;
+  return useAxiosSWR(path ? (params ? [path, params] : path) : null);
 }

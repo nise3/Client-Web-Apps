@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
@@ -9,18 +9,18 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import Grid from '@mui/material/Grid';
 import yup from '../../../@softbd/libs/yup';
-import IconBatch from '../../../@softbd/icons/IconBatch';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {useFetchBatchExams} from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {IBatch} from '../../../shared/Interface/institute.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
 import {useRouter} from 'next/router';
+import {ExamTypes} from '../exams/ExamEnums';
+import IconExam from '../../../@softbd/icons/IconExam';
 
 interface ExamListPopupProps {
   batchId: number | null;
@@ -39,9 +39,13 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   const {errorStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
 
-  const {data: batchExams, isLoading} = useFetchBatchExams(batchId);
+  const [exams, setExams] = useState<Array<any>>([]);
 
-  console.log('batchExams', batchExams);
+  const [batchExamParams] = useState<any>({youth_id: youthId});
+  const {data: batchExams, isLoading} = useFetchBatchExams(
+    batchId,
+    batchExamParams,
+  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({});
@@ -51,15 +55,64 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
     register,
     setError,
     handleSubmit,
-    formState: {isSubmitting},
-  } = useForm<IBatch>({
+    formState: {errors, isSubmitting},
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<IBatch> = async (data: IBatch) => {
+  useEffect(() => {
+    if (batchExams) {
+      let examsData: any = [];
+      (batchExams?.exam_types || []).map((exam_type: any) => {
+        (exam_type.exams || []).map((exam: any) => {
+          let examObj = {
+            title: exam_type.title,
+            title_en: exam_type.title_en,
+            exam_id: exam.id,
+            type: exam.type,
+            exam_type_id: exam.exam_type_id,
+            exam_type: exam_type.type,
+            obtained_mark: exam.obtained_mark,
+            file_paths: exam.file_paths,
+          };
+          examsData.push(examObj);
+        });
+      });
+      setExams(examsData);
+    }
+  }, [batchExams]);
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      console.log('ddd', data);
+      data.exams = data.exams.map((exam: any) => ({
+        ...exam,
+        youth_id: youthId,
+        batch_id: batchId,
+      }));
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
+    }
+  };
+
+  const getTypeLabel = (type: any) => {
+    switch (Number(type)) {
+      case ExamTypes.ONLINE:
+        return messages['common.online'];
+      case ExamTypes.OFFLINE:
+        return messages['common.offline'];
+      case ExamTypes.MIXED:
+        return messages['common.mixed'];
+      case ExamTypes.PRACTICAL:
+        return messages['common.practical'];
+      case ExamTypes.FIELDWORK:
+        return messages['common.field_work'];
+      case ExamTypes.PRESENTATION:
+        return messages['common.presentation'];
+      case ExamTypes.ASSIGNMENT:
+        return messages['common.assignment'];
+      default:
+        return '';
     }
   };
 
@@ -69,11 +122,8 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
       open={true}
       title={
         <>
-          <IconBatch />
-          <IntlMessages
-            id='common.add_new'
-            values={{subject: <IntlMessages id='batches.marking' />}}
-          />
+          <IconExam />
+          <IntlMessages id='batches.marking' />
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
@@ -85,55 +135,71 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
-          <CustomTextInput
-            required
-            id='title'
-            label={messages['common.offline']}
-            register={register}
-            type={'number'}
-            inputProps={{
-              step: 1,
-            }}
-            //errorInstance={errors}
-            disabled={false}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {exams.map((exam: any, i) => {
+          let markingOrMarkSheetPath = `${path}/${youthId}/${
+            exam.auto_marking ? 'marksheet' : 'marking'
+          }/${exam.exam_id}`;
 
-        <Grid item xs={12}>
-          <Grid container spacing={5}>
-            <Grid item xs={6}>
+          return (
+            <Grid item xs={6} key={i} display={'flex'}>
               <CustomTextInput
-                required
-                id='title'
-                label={messages['common.online']}
+                sx={{display: 'none'}}
+                id={`exams[${i}][exam_id]`}
+                label={''}
+                type={'hidden'}
+                register={register}
+                errorInstance={errors}
+                defaultValue={exam.exam_id}
+              />
+              <CustomTextInput
+                sx={{display: 'none'}}
+                id={`exams[${i}][exam_type_id]`}
+                label={''}
+                type={'hidden'}
+                register={register}
+                errorInstance={errors}
+                defaultValue={exam.exam_type_id}
+              />
+              <CustomTextInput
+                sx={{display: 'none'}}
+                id={`exams[${i}][type]`}
+                label={''}
+                type={'hidden'}
+                register={register}
+                errorInstance={errors}
+                defaultValue={exam.type}
+              />
+              <CustomTextInput
+                required={Number(exam.type) != ExamTypes.ONLINE}
+                id={`exams[${i}][total_obtained_marks]`}
+                label={`${exam.title} (${getTypeLabel(exam.exam_type)}${
+                  exam.exam_type == ExamTypes.MIXED
+                    ? ' - ' + getTypeLabel(exam.type)
+                    : ''
+                })`}
                 register={register}
                 type={'number'}
                 inputProps={{
                   step: 1,
                 }}
-                //errorInstance={errors}
-                disabled={true}
+                errorInstance={errors}
+                disabled={Number(exam.type) == ExamTypes.ONLINE}
                 isLoading={isLoading}
               />
+              {exam.type == ExamTypes.ONLINE && (
+                <Link href={markingOrMarkSheetPath} passHref={true}>
+                  <CommonButton
+                    btnText={'common.answer_sheet'}
+                    startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                    style={{marginLeft: '10px'}}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Link>
+              )}
             </Grid>
-
-            <Grid item xs={6}>
-              {console.log(`pathid is: ${path}/${youthId}/marksheet/${1}`)}
-
-              <Link href={`${path}/${youthId}/marksheet/${1}`} passHref={true}>
-                <CommonButton
-                  btnText={messages['batches.marksheet'] as string}
-                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
-                  style={{marginLeft: '10px'}}
-                  variant='outlined'
-                  color='primary'
-                />
-              </Link>
-            </Grid>
-          </Grid>
-        </Grid>
+          );
+        })}
       </Grid>
     </HookFormMuiModal>
   );

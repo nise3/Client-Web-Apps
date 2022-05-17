@@ -9,7 +9,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
 import Router, {useRouter} from 'next/router';
-import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
@@ -18,6 +17,7 @@ import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ExamListPopup from './ExamListPopup';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import {Link} from '../../../@softbd/elements/common';
 
 const YouthPage = () => {
   const {messages} = useIntl();
