@@ -1,4 +1,4 @@
-import {Button, ButtonGroup, Grid} from '@mui/material';
+import {Button, ButtonGroup, Grid, Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 import React, {Fragment, useEffect, useState} from 'react';
@@ -12,6 +12,7 @@ type IProps = {
   control: any;
   setValue: any;
   getValues: any;
+  watch: any;
 };
 
 const CustomFieldArrayResultConfigGrading = ({
@@ -22,6 +23,7 @@ const CustomFieldArrayResultConfigGrading = ({
   control,
   setValue,
   getValues,
+  watch,
 }: IProps) => {
   const [maxInputValue, setMaxInputValue] = useState<number>(1);
 
@@ -30,7 +32,20 @@ const CustomFieldArrayResultConfigGrading = ({
     name: id,
   });
 
+  let watchGrading = watch(['gradings']);
+
   useEffect(() => {
+    let values: number = 0;
+    (watchGrading || []).map((grading: any, i: number) => {
+      grading.map((value: any) => {
+        values += Number(value.max);
+      });
+    });
+    setValue('total_gradings', values);
+  }, [watchGrading]);
+
+  useEffect(() => {
+    console.log('watch->', watch(['gradings']));
     if (
       fields.length > 1 &&
       Number(getValues().gradings[fields.length - 2].max) <= 99
@@ -106,6 +121,13 @@ const CustomFieldArrayResultConfigGrading = ({
       })}
 
       <Grid container justifyContent='flex-end'>
+        {errors?.['total_gradings'] && (
+          <Grid item xs={12}>
+            <Typography sx={{color: 'red'}}>
+              {errors['total_gradings']?.message}
+            </Typography>
+          </Grid>
+        )}
         <ButtonGroup color='primary' aria-label='outlined primary button group'>
           <Button
             onClick={() => {
