@@ -105,40 +105,44 @@ const BatchResultDetailsPage = () => {
             {messages['common.back']}
           </Button>,
         ]}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Body1>
-                  {messages['common.batch_name'] + ': ' + batchData.title}
-                </Body1>
-              </Grid>
+        <Grid container spacing={1}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Body1>
+              {messages['common.batch_name'] + ': ' + batchData.title}
+            </Body1>
+          </Grid>
 
-              <Grid
-                item
-                xs={12}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Body1>
-                  {messages['common.published_at'] +
-                    ': ' +
-                    getIntlDateFromString(
-                      formatDate,
-                      itemData[0].created_at,
-                      'short',
-                    )}
-                </Body1>
-              </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 8,
+            }}>
+            <Body1>
+              {messages['common.published_at'] +
+                ': ' +
+                getIntlDateFromString(
+                  formatDate,
+                  itemData[0].created_at,
+                  'short',
+                )}
+            </Body1>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider
+              sx={{marginY: 2, borderBottomWidth: 2, borderColor: '#837c7c'}}
+            />
+            <Grid container spacing={1}>
               <Grid
                 item
                 xs={3}
