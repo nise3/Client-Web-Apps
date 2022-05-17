@@ -11,7 +11,6 @@ import CurriculumStep from './CurriculumStep';
 import CBLMStep from './CBLMStep';
 import ResourceManagementStep from './ResourceManagementStep';
 import ToTStep from './ToTStep';
-import EnrollmentApprovalStep from './EnrollmentApprovalStep';
 import FourIRCourseStep from './FourIRCourseStep';
 import SkillDevelopmentStep from './SkillDevelopmentStep';
 import AssessmentStep from './AssessmentStep';
@@ -77,18 +76,14 @@ const steps: Array<StepObj> = [
   },
   {
     id: 10,
-    langKey: '4ir.enrollment_approval',
-  },
-  {
-    id: 11,
     langKey: 'common.skill_develop',
   },
   {
-    id: 12,
+    id: 11,
     langKey: 'assessmentManagement.assessment',
   },
   {
-    id: 13,
+    id: 12,
     langKey: 'common.certifications',
   },
 ];
@@ -233,7 +228,7 @@ const TeamAndCellView = () => {
             />
           );
 
-        case 10:
+        /*        case 10:
           return (
             <EnrollmentApprovalStep
               fourIRInitiativeId={initiativeId}
@@ -241,9 +236,9 @@ const TeamAndCellView = () => {
               onContinue={handleNext}
               setLatestStep={setLatestStep}
             />
-          );
+          );*/
 
-        case 11:
+        case 10:
           return (
             <SkillDevelopmentStep
               fourIRInitiativeId={initiativeId}
@@ -253,7 +248,7 @@ const TeamAndCellView = () => {
             />
           );
 
-        case 12:
+        case 11:
           return (
             <AssessmentStep
               fourIRInitiativeId={initiativeId}
@@ -262,7 +257,7 @@ const TeamAndCellView = () => {
               setLatestStep={setLatestStep}
             />
           );
-        case 13:
+        case 12:
           return (
             <CertificationStep
               fourIRInitiativeId={initiativeId}
