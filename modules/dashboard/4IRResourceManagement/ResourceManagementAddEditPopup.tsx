@@ -33,9 +33,9 @@ interface FourIRRMAddEditPopupProps {
 }
 
 const initialValues = {
-  approval_status: '0',
-  budget_approval_status: '0',
-  given_budget: '',
+  is_developed_financial_proposal: '0',
+  approve_by: '',
+  total_amount: '',
   row_status: '1',
   file_path: '',
 };
@@ -51,6 +51,8 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
+  const [isDevelopedFinancialProposal, setIsDevelopedFinancialProposal] =
+    useState<boolean>(false);
   const {
     data: itemData,
     isLoading,
@@ -59,22 +61,34 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      approval_status: yup
+      is_developed_financial_proposal: yup
         .number()
         .required()
-        .label(messages['4ir_rm.approval_status'] as string),
-      budget_approval_status: yup
-        .number()
+        .label(messages['4ir_rm.is_developed_financial_proposal'] as string),
+      approve_by: isDevelopedFinancialProposal
+        ? yup
+            .string()
+            .required()
+            .label(messages['4ir_cs.approved_by'] as string)
+        : yup.string().nullable(),
+      total_amount: isDevelopedFinancialProposal
+        ? yup
+            .number()
+            .required()
+            .label(messages['4ir_rm.given_budget'] as string)
+        : yup.number().nullable(),
+      file_path: isDevelopedFinancialProposal
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.word_or_pdf_file'] as string)
+        : yup.string().nullable(),
+      comment: yup
+        .string()
         .required()
-        .label(messages['4ir_rm.budget_approval_status'] as string),
-      given_budget: yup
-        .number()
-        .required()
-        .label(messages['4ir_rm.given_budget'] as string),
-      row_status: yup.string(),
-      file_path: yup.string(),
+        .label(messages['common.comment'] as string),
     });
-  }, [messages]);
+  }, [messages, isDevelopedFinancialProposal]);
 
   const {
     register,
@@ -91,12 +105,18 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
-        approval_status: itemData?.approval_status,
-        budget_approval_status: itemData?.budget_approval_status,
-        given_budget: itemData?.given_budget,
+        is_developed_financial_proposal:
+          itemData?.is_developed_financial_proposal,
+        approve_by: itemData?.approve_by,
+        total_amount: itemData?.total_amount,
         file_path: itemData?.file_path,
+        comment: itemData?.comment,
         row_status: itemData?.row_status,
       });
+
+      setIsDevelopedFinancialProposal(
+        itemData?.is_developed_financial_proposal,
+      );
     } else {
       reset(initialValues);
     }
@@ -158,11 +178,11 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <FormRadioButtons
             required
-            id={'approval_status'}
-            label={'4ir_rm.approval_status'}
+            id={'is_developed_financial_proposal'}
+            label={'4ir_rm.is_developed_financial_proposal'}
             radios={[
               {
                 label: messages['common.yes'],
@@ -173,51 +193,65 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
                 key: 0,
               },
             ]}
-            defaultValue={initialValues.approval_status}
+            defaultValue={initialValues?.is_developed_financial_proposal}
             control={control}
             errorInstance={errors}
+            onChange={() =>
+              setIsDevelopedFinancialProposal((prevState) => !prevState)
+            }
           />
         </Grid>
-        <Grid item xs={6}>
-          <FormRadioButtons
-            required
-            id={'budget_approval_status'}
-            label={'4ir_rm.budget_approval_status'}
-            radios={[
-              {
-                label: messages['common.yes'],
-                key: 1,
-              },
-              {
-                label: messages['common.no'],
-                key: 0,
-              },
-            ]}
-            defaultValue={initialValues.budget_approval_status}
-            control={control}
-            errorInstance={errors}
-          />
-        </Grid>
-        <Grid item xs={6}>
+        {isDevelopedFinancialProposal && (
+          <>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='approve_by'
+                label={messages['4ir_cs.approved_by']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CustomTextInput
+                required
+                id='total_amount'
+                label={messages['4ir_rm.given_budget']}
+                register={register}
+                errorInstance={errors}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FileUploadComponent
+                id='file_path'
+                defaultFileUrl={itemData?.file_path}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.word_or_pdf_file']}
+                required={true}
+                acceptedFileTypes={[
+                  'application/pdf',
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                ]}
+                sizeLimitText={'3MB'}
+              />
+            </Grid>
+            <Grid item xs={6}></Grid>
+          </>
+        )}
+        <Grid item xs={12}>
           <CustomTextInput
             required
-            id='given_budget'
-            label={messages['4ir_rm.given_budget']}
+            id='comment'
+            label={messages['common.comment']}
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <FileUploadComponent
-            id='file_path'
-            defaultFileUrl={itemData?.file_path}
-            errorInstance={errors}
-            setValue={setValue}
-            register={register}
-            label={messages['common.attachment']}
-            required={false}
-            acceptedFileTypes={['image/*']}
+            multiline={true}
+            rows={4}
           />
         </Grid>
         <Grid item xs={12}>
