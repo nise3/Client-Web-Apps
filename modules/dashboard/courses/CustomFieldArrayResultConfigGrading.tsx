@@ -1,7 +1,7 @@
 import {Button, ButtonGroup, Grid} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {useFieldArray} from 'react-hook-form';
 
 type IProps = {
@@ -23,6 +23,8 @@ const CustomFieldArrayResultConfigGrading = ({
   setValue,
   getValues,
 }: IProps) => {
+  const [maxInputValue, setMaxInputValue] = useState<number>(1);
+
   const {fields, append, remove} = useFieldArray({
     control,
     name: id,
@@ -41,8 +43,15 @@ const CustomFieldArrayResultConfigGrading = ({
   }, [fields, getValues]);
 
   const onMaxChange = (value: any, index: number) => {
-    if (index < fields.length - 1)
-      setValue(`${id}[${index + 1}][min]`, value ? Number(value) + 1 : 1);
+    if (Number(value) == 100) {
+      remove(fields.length);
+      setMaxInputValue(1);
+    }
+
+    setMaxInputValue(Number(value));
+
+    if (index < fields.length - 1 && Number(value) < 100)
+      setValue(`${id}[${index + 1}][min]`, value ? Number(value) + 1 : value);
   };
 
   return (
@@ -101,7 +110,8 @@ const CustomFieldArrayResultConfigGrading = ({
         <ButtonGroup color='primary' aria-label='outlined primary button group'>
           <Button
             onClick={() => {
-              append({});
+              if (maxInputValue < 99) append({});
+
               if (fields.length <= 0) setValue(`${id}[0][min]`, '0');
             }}
             disabled={
@@ -114,7 +124,10 @@ const CustomFieldArrayResultConfigGrading = ({
           </Button>
           <Button
             onClick={() => {
-              if (fields.length > 0) remove(fields.length - 1);
+              if (fields.length > 0) {
+                remove(fields.length - 1);
+                setMaxInputValue(1);
+              }
             }}
             disabled={fields.length < 1}>
             <RemoveCircleOutline />

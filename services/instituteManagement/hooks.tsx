@@ -8,6 +8,7 @@ import {
   API_BATCHES_TO_ASSIGN,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
+  API_COURSE_RESULT_CONFIG,
   API_COURSES,
   API_EXAM_QUESTION_BANK,
   API_EXAM_QUESTION_PAPER,
@@ -278,4 +279,8 @@ export function useFetchPreviewYouthExam(
 export function useFetchBatchExams(batchId: any, params?: any) {
   let path = batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null;
   return useAxiosSWR(path ? (params ? [path, params] : path) : null);
+}
+
+export function useFetchResultConfigs(params: any) {
+  return useAxiosSWR([API_COURSE_RESULT_CONFIG, params]);
 }

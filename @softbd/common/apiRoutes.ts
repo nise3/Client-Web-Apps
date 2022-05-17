@@ -112,6 +112,9 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 
+export const API_COURSE_RESULT_CONFIG =
+  INSTITUTE_SERVICE_PATH + '/course-result-configs';
+
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';

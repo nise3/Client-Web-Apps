@@ -1989,5 +1989,7 @@
   "common.grading": "Grading",
   "common.result_type": "Result Type",
   "common.pass_marks": "Pass marks",
-  "common.attendance": "Attendance"
+  "common.attendance": "Attendance",
+  "common.total_percentage": "Total percentage should not exceed 100",
+  "common.result_percentage": "*Percentage for process result"
 }
