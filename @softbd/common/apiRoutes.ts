@@ -207,6 +207,9 @@ export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_CERTIFICATE =
   FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
+
+export const API_4IR_ASSESSMENT =
+  FOUR_IR_SERVICE_PATH + '/get-four-ir-youth-assessment-list';
 export const API_4IR_CURRICULUM =
   FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
 export const API_4IR_RESOURCE_MANAGEMENT =
