@@ -13,7 +13,10 @@ import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import List from '@mui/material/List';
-import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
 
 type Props = {
   itemId: number;
@@ -136,13 +139,27 @@ const FourIRInitiativeDetailsPopup = ({
               isLoading={isLoading}
             />
           </Grid>
-
+          <Grid item xs={12} md={6}></Grid>
           <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['common.main_image_path']}
-              imageUrl={itemData?.file_path}
-              isLoading={isLoading}
-            />
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
           </Grid>
 
           <Grid item xs={12}>

@@ -556,6 +556,7 @@
   "common.permanent_house_address": "Permanent house address",
   "common.permanent_house_address_en": "Permanent house address (English)",
   "common.download_excel_file": "Download sample excel file",
+  "common.upload_excel_file": "Upload Excel File",
   "role.label": "Role",
   "4ir.role_or_responsibility": "Role / Responsibility",
   "my_account.label": "My Account",
@@ -2037,5 +2038,8 @@
   "4ir.researcher_name" : "Researcher Name",
   "4ir.research_team_information" : "Research Team Information",
   "4ir.report_file" : "Report File",
+  "4ir_project_analysis.label" : "4IR Project Analysis",
+  "tna.number_of_workshop": "Number of Workshops",
+  "tna.final_tna_report": "Final TNA Report",
   "4ir.research_method" : "Research Method"
 }

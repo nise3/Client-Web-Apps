@@ -316,16 +316,21 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
             isLoading={isLoading}
           />
         </Grid>
-
+        <Grid item xs={12} md={6}></Grid>
         <Grid item xs={12} md={6}>
           <FileUploadComponent
-            required={false}
             id='file_path'
-            defaultFileUrl={itemData?.file_path}
             errorInstance={errors}
+            defaultFileUrl={itemData?.file_path}
             setValue={setValue}
             register={register}
-            label={messages['initiative.file_path']}
+            sizeLimitText={'3MB'}
+            label={messages['common.guideline_upload']}
+            required={true}
+            acceptedFileTypes={[
+              'application/pdf',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
           />
         </Grid>
 
