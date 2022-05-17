@@ -4,16 +4,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { equals } from 'ramda';
 import * as React from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
-import { useRecoilValue } from 'recoil';
-import { EditorAreaContainer } from '../../../../state/containers/EditorAreaContainer';
 import useEditorDispatcher from '../../../../state/dispatchers/editor';
 import {EditorAreaContainer} from '../../../../state/containers/EditorAreaContainer';
 import {useRecoilValue} from 'recoil';
 import {dimensionsState} from './../../../../state/atoms/template';
 import {equals} from 'ramda';
+import SideMenuSetting from '../../../ui/SideMenuSetting';
 // import {Dimensions} from '../../../../interfaces/StageConfig';
 
 export const options = [
