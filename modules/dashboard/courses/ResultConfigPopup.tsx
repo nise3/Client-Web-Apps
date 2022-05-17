@@ -12,7 +12,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import yup from '../../../@softbd/libs/yup';
 import _ from 'lodash';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {ResultTypes} from './ResultTypes';
+import {ResultTypes} from '../../../@softbd/utilities/ResultTypes';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {Body1} from '../../../@softbd/elements/common';
 import CustomFieldArrayResultConfigGrading from './CustomFieldArrayResultConfigGrading';

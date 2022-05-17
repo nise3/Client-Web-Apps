@@ -40,6 +40,11 @@ const CustomFieldArrayResultConfigGrading = ({
     }
   }, [fields, getValues]);
 
+  const onMaxChange = (value: any, index: number) => {
+    if (index < fields.length - 1)
+      setValue(`${id}[${index + 1}][min]`, value ? Number(value) + 1 : 1);
+  };
+
   return (
     <>
       {fields.map((item: any, index: any) => {
@@ -82,6 +87,9 @@ const CustomFieldArrayResultConfigGrading = ({
                   isLoading={isLoading}
                   errorInstance={errors}
                   InputProps={{inputProps: {min: 0, max: 100}}}
+                  onInput={(value: any) => {
+                    onMaxChange(value, index);
+                  }}
                 />
               </Grid>
             </Grid>
