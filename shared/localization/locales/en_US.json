@@ -2028,6 +2028,7 @@
   "4ir_tot.co_organiser": "Co-Organiser",
   "4ir_tot.participants": "Participants",
   "4ir_tot.label": "4IR ToT",
+  "4ir_tot.tot": "ToT",
   "4ir.enrollment_approval": "Enrollment Approval",
   "common.about_user" : "About User",
   "assessment.examiner": "Examiner Name",
@@ -2043,5 +2044,7 @@
   "tna.number_of_workshop": "Number of Workshops",
   "tna.final_tna_report": "Final TNA Report",
   "4ir.research_method" : "Research Method",
-  "common.word_or_pdf_file": "Upload word / pdf file"
+  "common.word_or_pdf_file": "Upload word / pdf file",
+  "4ir.tot_date": "ToT Date",
+  "tot.proof_of_report_file": "Proof of Report (Image/ Excel)"
 }

@@ -12,17 +12,23 @@ import FourIRToTDetailsPopup from './FourIRToTDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TOT} from '../../../@softbd/common/apiRoutes';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import DownloadIcon from '@mui/icons-material/Download';
+import {deleteToT} from '../../../services/4IRManagement/ToTService';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface IFourIRToTPageProps {
   fourIRInitiativeId: number;
 }
+
 const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
   const {messages, locale} = useIntl();
+  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -54,6 +60,19 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
+  const deleteToTItem = async (totId: number) => {
+    let response = await deleteToT(totId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='initiative.label' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -68,33 +87,25 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
           );
         },
       },
-
-      /*{
-        Header: messages['4ir_tot.master_trainer'],
-        accessor: 'name',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return data?.master_trainers.name[0];
-        },
-      },*/
       {
-        Header: messages['common.attachment'],
+        Header: messages['common.occupation'],
+        accessor: 'initiative_name',
         disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <CommonButton
-              key={2}
-              //onClick={() => openImportModal(data?.course_id, data?.id)}
-              onClick={() => console.log(data)}
-              btnText={messages['common.import'] as string}
-              variant={'outlined'}
-              color={'primary'}
-              style={{marginLeft: '5px'}}
-              startIcon={<DownloadIcon />}
-            />
-          );
-        },
+      },
+      {
+        Header: messages['4ir_tot.organiser'],
+        accessor: 'organizer_name',
+        disableFilters: true,
+      },
+      {
+        Header: messages['4ir_tot.co_organiser'],
+        accessor: 'co_organizer_name',
+        disableFilters: true,
+      },
+      {
+        Header: messages['4ir.tot_date'],
+        accessor: 'tot_date',
+        disableFilters: true,
       },
       {
         Header: messages['common.status'],
@@ -113,10 +124,10 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {/*<DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
+              <DeleteButton
+                deleteAction={() => deleteToTItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
-              />*/}
+              />
             </DatatableButtonGroup>
           );
         },

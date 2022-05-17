@@ -34,8 +34,10 @@ const MasterTrainerFieldArray = ({
     <>
       {fields?.map((item: any, index: any) => {
         let nameId = `${id}.${index}.name`;
+        let designationId = `${id}.${index}.designation`;
+        let organizationNameId = `${id}.${index}.organization_name`;
+        let organizationNameEnId = `${id}.${index}.organization_name_en`;
         let mobileId = `${id}.${index}.mobile`;
-        let addressId = `${id}.${index}.address`;
         let emailId = `${id}.${index}.email`;
 
         return (
@@ -51,12 +53,11 @@ const MasterTrainerFieldArray = ({
                   isLoading={false}
                 />
               </Grid>
-
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   required
-                  id={mobileId}
-                  label={messages['common.mobile']}
+                  id={designationId}
+                  label={messages['common.designation']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}
@@ -65,8 +66,28 @@ const MasterTrainerFieldArray = ({
               <Grid item xs={12} md={6}>
                 <CustomTextInput
                   required
-                  id={addressId}
-                  label={messages['common.address']}
+                  id={organizationNameId}
+                  label={messages['common.organization_name']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  id={organizationNameEnId}
+                  label={messages['common.organization_name_en']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={false}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <CustomTextInput
+                  required
+                  id={mobileId}
+                  label={messages['common.mobile']}
                   register={register}
                   errorInstance={errors}
                   isLoading={false}

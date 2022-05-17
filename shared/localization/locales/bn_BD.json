@@ -2029,6 +2029,7 @@
   "4ir_tot.co_organiser": "কো-অর্গানাইজার",
   "4ir_tot.participants": "অংশগ্রহণকারী",
   "4ir_tot.label": "4 আই আর টিওটি",
+  "4ir_tot.tot": "টিওটি",
   "4ir.enrollment_approval": "এনরোলমেন্ট এপ্রোভাল",
   "common.about_user": "ব্যবহারকারী সম্পর্কে",
   "assessment.examiner": "পরীক্ষকের নাম",
@@ -2044,5 +2045,7 @@
   "certificate.recipient_name": "প্রাপক নাম",
   "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
   "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)",
-  "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন"
+  "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন",
+  "4ir.tot_date": "টিওটি তারিখ",
+  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)"
 }
