@@ -12,6 +12,7 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
 import FourIRAssessmentDetailsPopUp from './FourIRAssessmentDetailsPopUp';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {Typography} from '@mui/material';
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -21,16 +22,19 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Object | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
   /** details modal */
-  const openDetailsModal = useCallback((itemId: number) => {
+  const openDetailsModal = useCallback((item: any) => {
+    setSelectedItem(item);
     setIsOpenDetailsModal(true);
-    setSelectedItemId(itemId);
+    setSelectedItemId(item.id);
   }, []);
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+    setSelectedItem(null);
   }, []);
 
   const columns = useMemo(
@@ -49,16 +53,22 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
       },
       {
         Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_name',
+        accessor: 'course_title',
       },
       {
         Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_name_en',
+        accessor: 'course_title_en',
         isVisible: locale === LocaleLanguage.EN,
       },
       {
         Header: messages['assessment.examinee'],
-        accessor: 'examinee_name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          const youth_profile = data?.youth_profile;
+          return (
+            <Typography>{`${youth_profile?.first_name} ${youth_profile?.last_name}`}</Typography>
+          );
+        },
       },
       {
         Header: messages['assessment.examiner'],
@@ -70,7 +80,7 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <ReadButton onClick={() => openDetailsModal(data)} />
             </DatatableButtonGroup>
           );
         },
@@ -121,9 +131,10 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
           totalCount={totalCount}
         />
 
-        {isOpenDetailsModal && selectedItemId && (
+        {isOpenDetailsModal && selectedItem && selectedItemId && (
           <FourIRAssessmentDetailsPopUp
             key={1}
+            itemData={selectedItem}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
           />
