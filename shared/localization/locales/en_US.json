@@ -1985,5 +1985,10 @@
   "batches.marksheet": "Marksheet",
   "batches.mark_distribution": "Mark Distribution",
   "batch.assign_exam": "Assign Exam",
-  "batch.exam_assign_success": "Exams successfully assigned to batch"
+  "batch.exam_assign_success": "Exams successfully assigned to batch",
+  "common.result_config": "Result config",
+  "common.grading": "Grading",
+  "common.result_type": "Result Type",
+  "common.pass_marks": "Pass marks",
+  "common.attendance": "Attendance"
 }

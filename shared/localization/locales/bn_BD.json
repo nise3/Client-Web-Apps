@@ -1986,5 +1986,10 @@
   "batches.marksheet": "মার্কশীট",
   "batches.mark_distribution": "নাম্বার বিতরণ",
   "batch.assign_exam" : "পরীক্ষা যোগ করুন",
-  "batch.exam_assign_success": "পরীক্ষা সফলভাবে ব্যাচে এসাইন হয়েছে"
+  "batch.exam_assign_success": "পরীক্ষা সফলভাবে ব্যাচে এসাইন হয়েছে",
+  "common.result_config": "ফলাফল কনফিগারেশন",
+  "common.grading": "গ্রেডিং",
+  "common.result_type": "ফলাফলের ধরন",
+  "common.pass_marks": "পাস মার্কস",
+  "common.attendance": "অ্যাটেনডেন্স"
 }
