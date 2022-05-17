@@ -1,65 +1,158 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {Button, Grid} from '@mui/material';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import yup from '../../../@softbd/libs/yup';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
-import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
-import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-//import {useFetchOrganizations} from '../../../services/organaizationManagement/hooks';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import ReactTable from '../../../@softbd/table/Table/ReactTable';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import FourIRShowcasingAddEditPopup from './FourIRShowcasingAddEditPopup';
+import FourIRShowcasingDetailsPopup from './FourIRShowcasingDetailsPopup';
 
-const FourIRShowcasingPage = () => {
-  const {messages} = useIntl();
-  const {errorStack} = useNotiStack();
-  const {createSuccessMessage} = useSuccessMessage();
-  const validationSchema = useMemo(() => {
-    return yup.object().shape({
-      organization_name: yup
-        .string()
-        .title()
-        .label(messages['common.organization_name'] as string),
-    });
-  }, [messages]);
+import IntlMessages from '../../../@crema/utility/IntlMessages';
 
-  /*const {data: organizationData, isLoading: isLoadingOrganizationData} =
-    useFetchOrganizations({});
-  const [selectedOrganizationList, setSelectedOrganizationList] = useState<any>(
-    [],
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_SHOWCASE} from '../../../@softbd/common/apiRoutes';
+
+interface IFourShowcasingPageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIRShowcasingPage = ({
+  fourIRInitiativeId,
+}: IFourShowcasingPageProps) => {
+  const {messages, locale} = useIntl();
+  // const {successStack} = useNotiStack();
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const closeAddEditModal = useCallback(() => {
+    setIsOpenAddEditModal(false);
+    setSelectedItemId(null);
+  }, []);
+
+  const openAddEditModal = useCallback((itemId: number | null = null) => {
+    setIsOpenDetailsModal(false);
+    setIsOpenAddEditModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const openDetailsModal = useCallback(
+    (itemId: number) => {
+      setIsOpenDetailsModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
   );
-  const onOrganizationChange = useCallback((options) => {
-    setSelectedOrganizationList(options);
-  }, []);*/
 
-  const {
-    control,
-    register,
-    //reset,
-    setError,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<any>({
-    resolver: yupResolver(validationSchema),
-  });
+  // const deleteShowCasing = async (memberId: number) => {
+  //   let response = await deleteTeamMember(memberId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{subject: <IntlMessages id='4ir.team_member' />}}
+  //       />,
+  //     );
+  //     refreshDataTable();
+  //   }
+  // };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    try {
-      // await createCell(data);
-      createSuccessMessage('4ir_showcasing.label');
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenDetailsModal(false);
+  }, []);
 
-      /* props.onClose();
-      refreshDataTable();*/
-    } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
-    }
-  };
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable((prev) => !prev);
+  }, []);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (props: any) => {
+          return getCalculatedSerialNo(
+            props.row.index,
+            props.currentPageIndex,
+            props.currentPageSize,
+          );
+        },
+      },
+
+      {
+        Header: messages['showcasing.initiative_name'],
+        Cell: (props: any) => {
+          //let data = props.row.original;
+
+          // todo: initiative name will show here
+          return <div>Hello</div>;
+        },
+      },
+      {
+        Header: messages['showcasing.organization_name'],
+        accessor: 'organization_name',
+      },
+      {
+        Header: messages['showcasing.organization_name_en'],
+        accessor: 'organization_name_en',
+      },
+      {
+        Header: messages['common.start_time'],
+        accessor: 'start_time',
+      },
+      {
+        Header: messages['common.end_time'],
+        accessor: 'end_time',
+      },
+      {
+        Header: messages['common.venue'],
+        accessor: 'venue',
+      },
+      // {
+      //   Header: messages['common.event_description'],
+      //   accessor: 'event_description',
+      // },
+      //
+      // {
+      //   Header: messages['showcasing.invite_other_organization'],
+      //   accessor: 'invite_other_organization',
+      // },
+      {
+        Header: messages['common.actions'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <DatatableButtonGroup>
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <DeleteButton
+                deleteAction={() => console.log(data.id)}
+                deleteTitle={messages['common.delete_confirm'] as string}
+              />
+            </DatatableButtonGroup>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    [messages, locale],
+  );
+
+  const {onFetchData, data, loading, pageCount, totalCount} =
+    useReactTableFetchData({
+      urlPath: API_4IR_SHOWCASE,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
+    });
 
   return (
     <>
@@ -68,86 +161,49 @@ const FourIRShowcasingPage = () => {
           <>
             <IconBranch /> <IntlMessages id='4ir_showcasing.label' />
           </>
-        }>
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete={'off'}>
-          <Grid container spacing={5} mt={1}>
-            <Grid item xs={12} md={6}>
-              <CustomSelectAutoComplete
-                required
-                id='organization_name'
-                label={messages['common.organization_name']}
-                //isLoading={isLoadingOrganizationData}
-                control={control}
-                //options={organizationData}
-                optionValueProp='id'
-                optionTitleProp={['title']}
-                //defaultValue={selectedOrganizationList}
-                errorInstance={errors}
-                //onChange={onOrganizationChange}
+        }
+        extra={[
+          <AddButton
+            key={1}
+            onClick={() => openAddEditModal(null)}
+            isLoading={false}
+            tooltip={
+              <IntlMessages
+                id={'common.add_new'}
+                values={{
+                  subject: messages['4ir_showcasing.label'],
+                }}
               />
-            </Grid>
-            <Grid item xs={3}>
-              <CustomTimePicker
-                id='start_time'
-                label={messages['common.start_time']}
-                register={register}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <CustomTimePicker
-                id='end_time'
-                label={messages['common.end_time']}
-                register={register}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomDateTimeField
-                id='date'
-                label={messages['common.date']}
-                register={register}
-                errorInstance={errors}
-                //isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='invite_others'
-                label={messages['4ir_showcasing.invite_others']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='venue'
-                label={messages['common.venue']}
-                register={register}
-                errorInstance={errors}
-              />
-            </Grid>
+            }
+          />,
+        ]}>
+        <ReactTable
+          columns={columns}
+          data={data}
+          fetchData={onFetchData}
+          loading={loading}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          toggleResetTable={isToggleTable}
+        />
+        {isOpenAddEditModal && (
+          <FourIRShowcasingAddEditPopup
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeAddEditModal}
+            fourIRInitiativeId={fourIRInitiativeId}
+            refreshDataTable={refreshDataTable}
+          />
+        )}
 
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                id='event_description'
-                label={messages['common.event_description']}
-                register={register}
-                errorInstance={errors}
-                multiline={true}
-                rows={3}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container justifyContent={'center'}>
-                <Button
-                  type={'submit'}
-                  //disabled={isSubmitting || isFormSubmitted}
-                  variant='contained'>
-                  {messages['common.submit']}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </form>
+        {isOpenDetailsModal && selectedItemId && (
+          <FourIRShowcasingDetailsPopup
+            key={1}
+            itemId={selectedItemId}
+            onClose={closeDetailsModal}
+            openEditModal={openAddEditModal}
+          />
+        )}
       </PageBlock>
     </>
   );

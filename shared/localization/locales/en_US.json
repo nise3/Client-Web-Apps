@@ -2043,5 +2043,9 @@
   "tna.number_of_workshop": "Number of Workshops",
   "tna.final_tna_report": "Final TNA Report",
   "4ir.research_method" : "Research Method",
-  "common.word_or_pdf_file": "Upload word / pdf file"
+  "common.word_or_pdf_file": "Upload word / pdf file",
+  "showcasing.invite_other_organization": "Invite other organization",
+  "showcasing.organization_name": "Organization Name",
+  "showcasing.organization_name_en": "Organization Name (EN)",
+  "showcasing.initiative_name": "Initiative Name"
 }

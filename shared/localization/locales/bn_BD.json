@@ -2044,5 +2044,9 @@
   "certificate.recipient_name": "প্রাপক নাম",
   "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
   "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)",
-  "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন"
+  "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন",
+  "showcasing.invite_other_organization": "অন্য সংস্থাকে আমন্ত্রণ জানান",
+  "showcasing.organization_name": "প্রতিষ্ঠানের নাম",
+  "showcasing.organization_name_en": "প্রতিষ্ঠানের নাম (ইংরেজি)",
+  "showcasing.initiative_name": "উদ্যোগের নাম"
 }
