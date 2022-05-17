@@ -2,8 +2,12 @@ import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {
   API_USERS,
+  CORE_SERVICE_PATH,
   PROFILE_UPDATE,
+  RESET_FORGET_PASSWORD,
+  SEND_FORGET_PASSWORD_OTP,
   UPDATE_PASSWORD,
+  VERIFY_FORGET_PASSWORD_OTP,
 } from '../../@softbd/common/apiRoutes';
 import {IUser} from '../../shared/Interface/userManagement.interface';
 
@@ -75,6 +79,42 @@ export const updatePassword = async (userId: number, data: any) => {
   try {
     let response: any = await apiPut(
       API_USERS + '/' + userId + UPDATE_PASSWORD,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const sendForgotPasswordOTP = async (data: any) => {
+  try {
+    let response: any = await apiPost(
+      CORE_SERVICE_PATH + SEND_FORGET_PASSWORD_OTP,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const verifyForgotPasswordOtp = async (data: any) => {
+  try {
+    let response: any = await apiPost(
+      CORE_SERVICE_PATH + VERIFY_FORGET_PASSWORD_OTP,
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const resetPassword = async (data: any) => {
+  try {
+    let response: any = await apiPost(
+      CORE_SERVICE_PATH + RESET_FORGET_PASSWORD,
       data,
     );
     return response.data;
