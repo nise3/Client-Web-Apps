@@ -1992,5 +1992,7 @@
   "common.pass_marks": "পাস মার্কস",
   "common.attendance": "অ্যাটেনডেন্স",
   "common.total_percentage": "মোট শতাংশ ১০০ এর বেশি হওয়া যাবে না",
-  "common.result_percentage": "*ফলাফলের প্রকাশের প্রক্রিয়ার শতাংশ"
+  "common.result_percentage": "*ফলাফলের প্রকাশের প্রক্রিয়ার শতাংশ",
+  "common.batch_result": "ব্যাচের ফলাফল",
+  "common.batch_name": "ব্যাচের নাম"
 }

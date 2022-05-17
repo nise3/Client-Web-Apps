@@ -30,12 +30,16 @@ import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
 import {Add} from '@mui/icons-material';
 import {Link} from '../../../@softbd/elements/common';
+import Visibility from '@mui/icons-material/Visibility';
+import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
+
+  const url = LINK_BATCH_RESULT;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [courseId, setCourseId] = useState<number>();
@@ -71,6 +75,7 @@ const BatchesPage = () => {
     setSelectedItemId(batchId);
     setIsOpenImportModal(true);
   }, []);
+
   const closeImportModal = useCallback(() => {
     setIsOpenImportModal(false);
   }, []);
@@ -248,6 +253,17 @@ const BatchesPage = () => {
                   style={{marginLeft: '10px'}}
                   variant='outlined'
                   color='primary'
+                />
+              </Link>
+              <Link href={`${url}${data.id}`} passHref={true}>
+                <CommonButton
+                  key={4}
+                  onClick={() => console.log('clicked')}
+                  btnText={'common.batch_result'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '5px'}}
+                  startIcon={<Visibility />}
                 />
               </Link>
             </DatatableButtonGroup>

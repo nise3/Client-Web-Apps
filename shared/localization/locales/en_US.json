@@ -1991,5 +1991,7 @@
   "common.pass_marks": "Pass marks",
   "common.attendance": "Attendance",
   "common.total_percentage": "Total percentage should not exceed 100",
-  "common.result_percentage": "*Percentage for process result"
+  "common.result_percentage": "*Percentage for process result",
+  "common.batch_result": "Batch result",
+  "common.batch_name": "Batch name"
 }

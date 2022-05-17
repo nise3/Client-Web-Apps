@@ -284,3 +284,7 @@ export function useFetchBatchExams(batchId: any, params?: any) {
 export function useFetchResultConfigs(params: any) {
   return useAxiosSWR([API_COURSE_RESULT_CONFIG, params]);
 }
+
+export function useFetchBatchResult(batchId: number | null) {
+  return useAxiosSWR(batchId ? API_BATCHES + '/' + batchId + '/results' : null);
+}
