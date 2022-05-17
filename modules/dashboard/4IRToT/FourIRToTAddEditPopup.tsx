@@ -214,7 +214,9 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
     return (masterTrainers || []).map((item: any) => {
       return {
         name: item?.name,
-        address: item?.address,
+        designation: item?.designation,
+        organization_name: item?.organization_name,
+        organization_name_en: item?.organization_name_en,
         mobile: item?.mobile,
         email: item?.email,
       };

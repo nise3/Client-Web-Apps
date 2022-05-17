@@ -31,7 +31,11 @@ function apiDelete<T = any>(apiPath: string) {
     .catch(errorHandler);
 }
 
-function apiPut<R = any, T = any>(apiPath: string, data?: R) {
+function apiPut<R = any, T = any>(
+  apiPath: string,
+  data?: R,
+  config: AxiosRequestConfig = {},
+) {
   return axiosInstance
     .put(apiPath, data)
     .then((response: AxiosResponse<T>) => response)

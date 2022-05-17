@@ -21,11 +21,9 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [itemData, setItemData] = useState({});
 
   const openDetailsModal = useCallback(
     (item: any) => {
-      setItemData(item);
       setIsOpenDetailsModal(true);
       setSelectedItemId(item.id as number);
     },
@@ -33,7 +31,6 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
   );
 
   const closeDetailsModal = useCallback(() => {
-    setItemData({});
     setIsOpenDetailsModal(false);
   }, []);
 
@@ -53,7 +50,7 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
       },
       {
         Header: messages['4ir.skill_development_traning_center'],
-        accessor: 'traning_center',
+        accessor: 'training_center_title',
       },
       {
         Header: messages['4ir.skill_development_batch_start_date'],
@@ -64,8 +61,15 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
         accessor: 'batch_end_date',
       },
       {
-        Header: messages['4ir.skill_development_batch_number'],
-        accessor: 'batch_number',
+        Header: messages['batches.total_and_available_seat'],
+        accessor: 'number_of_seats',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{data?.available_seats + '/' + data?.number_of_seats}</span>
+          );
+        },
       },
       {
         Header: messages['common.title'],
@@ -118,10 +122,8 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRSkillDevelopmentDetailsPopUp
             key={1}
-            itemData={itemData}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
-            openEditModal={openDetailsModal}
           />
         )}
       </PageBlock>
