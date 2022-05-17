@@ -213,6 +213,7 @@
   "common.only_xlsx_file": "শুধুমাত্র .xlsx ফাইল দিতে পারবেন",
   "signup.label": "রেজিস্ট্রেশন",
   "common.download_excel_file": "নমুনা এক্সেল ফাইল ডাউনলোড",
+  "common.upload_excel_file": "এক্সেল ফাইল আপলোড",
   "common.youth": "ইয়ুথ",
   "common.industry": "সংস্থা",
   "common.member_registration": "মেম্বার রেজিস্ট্রেশন",
@@ -2036,5 +2037,6 @@
   "4ir.report_file": "রিপোর্ট ফাইল",
   "4ir.research_method": "রিসার্চ মেথড",
   "4ir_project_analysis.label": "4 আই আর প্রজেক্ট এনালাইসিস",
-  "tna.number_of_workshop": "ওয়ার্কশপের সংখ্যা"
+  "tna.number_of_workshop": "ওয়ার্কশপের সংখ্যা",
+  "tna.final_tna_report": "ফাইনাল টিএনএ রিপোর্ট"
 }

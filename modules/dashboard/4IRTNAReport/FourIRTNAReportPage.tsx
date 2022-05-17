@@ -12,7 +12,7 @@ import {API_4IR_TNA_REPORT} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
-//import {deleteTNAReport} from '../../../services/4IRManagement/TNAReportServices';
+import DownloadIcon from '@mui/icons-material/Download';
 import {Link, Typography} from '@mui/material';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 
@@ -87,6 +87,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
                 btnText={'common.file'}
                 variant={'outlined'}
                 color={'primary'}
+                startIcon={<DownloadIcon />}
               />
             </Link>
           );
@@ -117,7 +118,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           data && data != [] ? (
             <>
               <Link
-                href='/template/organization-list.xlsx'
+                href='/template/TNA-Guideline.docx'
                 download
                 underline={'none'}>
                 <CommonButton
