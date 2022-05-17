@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {ImageConfig, ImageFit, TextConfig} from '../../../interfaces/Shape';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { ImageConfig, ImageFit } from '../../../interfaces/Shape';
 import useElementsDispatcher from '../../../state/dispatchers/elements';
-import {elementPropsSelector} from '../../../state/selectors/elements';
+import { elementPropsSelector } from '../../../state/selectors/elements';
 import SideMenuSetting from '../../ui/SideMenuSetting';
 import CustomDropDownComponent from './../../ui/CustomDropDownComponent';
 
