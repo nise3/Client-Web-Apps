@@ -40,9 +40,6 @@ export function useFetchPublicSkills(params: any) {
 export function useFetchCertificateIssue(params: any) {
   return useDataLocalizationAxiosSWR([CERTIFICATE_TYPE_API_URL + 'certificates', params]);
 }
-export function useFetchCertificateIssue(params: any) {
-  return useDataLocalizationAxiosSWR([CERTIFICATE_TYPE_API_URL + 'certificates', params]);
-}
 
 export function useFetchYouthProfile() {
   return useAxiosSWR(API_YOUTH_PROFILE);

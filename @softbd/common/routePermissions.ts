@@ -331,17 +331,5 @@ export const routePermissions: any = {
   '/exams/youth-list/': {
     routePrefix: '/exams/youth-list/',
     permissionKeys: ['view_any_exam'],
-  },
-  '/certificate': {
-    routePrefix: '/certificate',
-    permissionKeys: ['view_any_user'],
-  },
-  '/certificate-issued': {
-    routePrefix: '/certificate-issued',
-    permissionKeys: ['view_any_user'],
-  },
-  '/certificate-issue': {
-    routePrefix: '/certificates',
-    permissionKeys: ['view_any_user'],
-  },
+  }
 };

@@ -153,7 +153,7 @@ function ViewRenderer() {
         // console.log(gardian, father_name, mother_name)
 
         setYouthInfoData((prev) => {
-          const identity = convertEnglishDigitsToBengali(youth.identity_number);
+          const identity = isBangla ? convertEnglishDigitsToBengali(youth.identity_number) : youth.identity_number;
           const youboj = {
             'candidate-name': `${
               youth[isBangla ? 'first_name' : 'first_name_en']

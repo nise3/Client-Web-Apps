@@ -555,3 +555,6 @@ export const getCalculatedSerialNo = (
 ) => {
   return page && size ? page * size + (index + 1) : index + 1;
 };
+
+export const convertEnglishDigitsToBengali = (digits: any) =>
+  digits.replace(/\d/g, (number: any) => '০১২৩৪৫৬৭৮৯'[number]);
