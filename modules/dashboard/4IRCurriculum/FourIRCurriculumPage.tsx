@@ -56,18 +56,18 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteCurriculumItem = async (curriculumId: number) => {
-    let response = await deleteCurriculum(curriculumId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_curriculum.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
+  // const deleteCurriculumItem = async (curriculumId: number) => {
+  //   let response = await deleteCurriculum(curriculumId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{subject: <IntlMessages id='4ir_curriculum.label' />}}
+  //       />,
+  //     );
+  //     refreshDataTable();
+  //   }
+  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -88,8 +88,23 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         },
       },
       {
+        Header: messages['initiative.name'],
+        accessor: 'initiative_name',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.sector'],
+        accessor: 'sector_name',
+        disableFilters: true,
+      },
+      {
         Header: messages['4ir_cs.approved_by'],
         accessor: 'approved_by',
+        disableFilters: true,
+      },
+      {
+        Header: messages['common.approved_date'],
+        accessor: 'approved_date',
         disableFilters: true,
       },
       {
@@ -114,10 +129,6 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteCurriculumItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
             </DatatableButtonGroup>
           );
         },
@@ -136,6 +147,31 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       },
     });
 
+  let modifiedData = data?.map((fourIrCs: any) => {
+    let approved_by: string, sector_name: string;
+    if (parseInt(fourIrCs?.approved_by) === 1) {
+      approved_by = 'NSDA';
+    } else if (parseInt(fourIrCs?.approved_by) === 2) {
+      approved_by = 'BTEB';
+    } else {
+      approved_by = '';
+    }
+
+    if (parseInt(fourIrCs?.sector_name) === 1) {
+      sector_name = 'Sector 1';
+    } else if (parseInt(fourIrCs?.sector_name) === 2) {
+      sector_name = 'Sector 2';
+    } else {
+      sector_name = '';
+    }
+
+    return {
+      ...fourIrCs,
+      approved_by,
+      sector_name,
+    };
+  });
+
   return (
     <>
       <PageBlock
@@ -145,23 +181,25 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
           </>
         }
         extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_curriculum.label'],
-                }}
-              />
-            }
-          />,
+          !(data?.length > 0) && (
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['4ir_curriculum.label'],
+                  }}
+                />
+              }
+            />
+          ),
         ]}>
         <ReactTable
           columns={columns}
-          data={data}
+          data={modifiedData}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
