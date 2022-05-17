@@ -43,6 +43,7 @@ import {signOut} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
 import Divider from '../../../components/Divider/Divider';
+import {getCDAPLoginUrl2} from '../../../common/CDAPConfig';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -201,6 +202,22 @@ const YouthProfileMenu = () => {
                     </ListItemIcon>
                     <ListItemText>
                       {messages['update_password.label']}
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
+              )}
+            {authUser?.youth_auth_source &&
+              Number(authUser.youth_auth_source) == 1 && <Divider />}
+            {authUser?.youth_auth_source &&
+              Number(authUser.youth_auth_source) == 1 && (
+                <Link href={getCDAPLoginUrl2()}>
+                  <MenuItem>
+                    {/*<ListItemIcon>
+                      <LockResetIcon />
+                    </ListItemIcon>*/}
+                    <ListItemText>
+                      {'My Gov'}
+                      {/*{messages['update_password.label']}*/}
                     </ListItemText>
                   </MenuItem>
                 </Link>

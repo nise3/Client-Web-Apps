@@ -115,7 +115,6 @@ export const LINK_FRONTEND_YOUTH_RECENT_COURSELIST = '/training/recent';
 export const LINK_FRONTEND_YOUTH_NEARBY_COURSELIST = '/training/nearby';
 export const LINK_FRONTEND_YOUTH_TRENDING_COURSELIST = '/training/trending';
 export const LINK_FRONTEND_YOUTH_UPDATE_PASSWORD = '/update-password';
-
 /** nise links  */
 export const LINK_FRONTEND_NISE_ROOT = '/';
 export const LINK_FRONTEND_NISE_TRAINING = '/training';
