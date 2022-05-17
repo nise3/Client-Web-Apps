@@ -69,7 +69,7 @@ const steps: Array<StepObj> = [
   },
   {
     id: 8,
-    langKey: '4ir_tot.label',
+    langKey: '4ir_tot.tot',
   },
   {
     id: 9,

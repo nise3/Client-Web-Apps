@@ -10,7 +10,10 @@ import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRow
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetchFourIRToT} from '../../../services/4IRManagement/hooks';
-import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
 
 type Props = {
   itemId: number;
@@ -73,15 +76,29 @@ const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <DetailsInputView
-                              label={messages['common.mobile']}
-                              value={master_trainer?.mobile}
+                              label={messages['common.organization']}
+                              value={master_trainer?.organization_name}
                               isLoading={isLoading}
                             />
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <DetailsInputView
-                              label={messages['common.address']}
-                              value={master_trainer?.address}
+                              label={messages['common.organization_en']}
+                              value={master_trainer?.organization_name_en}
+                              isLoading={isLoading}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={6}>
+                            <DetailsInputView
+                              label={messages['common.designation']}
+                              value={master_trainer?.designation}
+                              isLoading={isLoading}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={6}>
+                            <DetailsInputView
+                              label={messages['common.mobile']}
+                              value={master_trainer?.mobile}
                               isLoading={isLoading}
                             />
                           </Grid>
@@ -108,22 +125,14 @@ const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.name']}
-              value={itemData?.organiser_name}
+              value={itemData?.organizer_name}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.organiser_mobile}
-              isLoading={isLoading}
-            />
-          </Grid>
-
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.address']}
-              value={itemData?.organiser_address}
+              value={itemData?.organizer_address}
               isLoading={isLoading}
             />
           </Grid>
@@ -131,7 +140,7 @@ const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.email']}
-              value={itemData?.organiser_email}
+              value={itemData?.organizer_email}
               isLoading={isLoading}
             />
           </Grid>
@@ -143,40 +152,78 @@ const FourIRToTDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.name']}
-              value={itemData?.co_organiser_name}
+              value={itemData?.co_organizer_name}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.co_organiser_mobile}
-              isLoading={isLoading}
-            />
-          </Grid>
-
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.address']}
-              value={itemData?.co_organiser_address}
+              value={itemData?.co_organizer_address}
               isLoading={isLoading}
             />
           </Grid>
-
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.email']}
-              value={itemData?.co_organiser_email}
+              value={itemData?.co_organizer_email}
               isLoading={isLoading}
             />
           </Grid>
-
-          <Grid item xs={12} md={6}>
-            <ImageView
-              label={messages['4ir_tot.participants']}
-              imageUrl={itemData?.participants}
+          <Grid item xs={12} md={6} />
+          <Grid item xs={12} md={6} mt={5}>
+            <DetailsInputView
+              label={messages['4ir.tot_date']}
+              value={itemData?.tot_date}
               isLoading={isLoading}
             />
+          </Grid>
+          <Grid item xs={12} md={6} />
+          <Grid item xs={12} md={6}>
+            <Link
+              underline='none'
+              href={`${
+                FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.proof_of_report_file
+              }`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'start',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'tot.proof_of_report_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Link
+              underline='none'
+              href={`${
+                FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.participants
+              }`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'4ir_tot.participants'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
           </Grid>
 
           <Grid item xs={12} md={6}>
