@@ -145,6 +145,9 @@ export function useFetchTrainer(trainerId: any) {
 export function useFetchTrainers(params: any) {
   return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
+export function useFetchLocalizedTrainers(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_TRAINERS, params] : null);
+}
 
 export function useFetchPublicTrainingCenters(params: any) {
   return useDataLocalizationAxiosSWR(
