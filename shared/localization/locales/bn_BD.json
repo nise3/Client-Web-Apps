@@ -2038,5 +2038,9 @@
   "4ir.research_method": "রিসার্চ মেথড",
   "4ir_project_analysis.label": "4 আই আর প্রজেক্ট এনালাইসিস",
   "tna.number_of_workshop": "ওয়ার্কশপের সংখ্যা",
-  "tna.final_tna_report": "ফাইনাল টিএনএ রিপোর্ট"
+  "tna.final_tna_report": "ফাইনাল টিএনএ রিপোর্ট",
+  "assessment.examinee": "পরীক্ষার্থীর নাম",
+  "certificate.recipient_name": "প্রাপক নাম",
+  "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
+  "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)"
 }

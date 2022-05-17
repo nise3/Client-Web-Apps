@@ -3,10 +3,10 @@ import {CheckCircleOutline} from '@mui/icons-material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import FormLabel from '@mui/material/FormLabel';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
-import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
-import {Fonts} from '../../../shared/constants/AppEnums';
+import TextInputSkeleton from '../../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
+import IntlMessages from '../../../../@crema/utility/IntlMessages';
+import CustomChip from '../../../../@softbd/elements/display/CustomChip/CustomChip';
+import {Fonts} from '../../../../shared/constants/AppEnums';
 
 type Props = {
   value: number;

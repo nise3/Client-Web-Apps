@@ -118,6 +118,7 @@ export interface IResource extends IIdTitleCreateUpdateAt {
   budget_approval_status: number | string;
   given_budget: number | string;
   row_status: number | string;
+  file_path: string | null;
 }
 
 export interface ISkillDevelopment extends IIdTitleCreateUpdateAt {

@@ -102,6 +102,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
+
               <EditButton onClick={() => openAddEditModal(data.id)} />
             </DatatableButtonGroup>
           );
@@ -128,21 +129,23 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
             <IconSkill /> <IntlMessages id='4ir_rm.label' />
           </>
         }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_rm.resource'],
-                }}
-              />
-            }
-          />,
-        ]}>
+        extra={
+          !data && (
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['4ir_rm.resource'],
+                  }}
+                />
+              }
+            />
+          )
+        }>
         <ReactTable
           columns={columns}
           data={data}

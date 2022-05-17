@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
-import FourIREnrollmentApprovalPage from '../4IRCourse/FourIRCourseStepPage';
+import FourIRCertificateManagementPage from '../4IRCertificateManagement/FourIRCertificateManagementPage';
 import {Box, Button} from '@mui/material';
 import {useIntl} from 'react-intl';
 
@@ -11,7 +11,7 @@ interface Props {
   setLatestStep: (step: number) => void;
 }
 
-const EnrollmentApprovalStep = ({
+const CertificationStep = ({
   fourIRInitiativeId,
   onBack,
   onContinue,
@@ -25,7 +25,7 @@ const EnrollmentApprovalStep = ({
     if (itemData && itemData?.completion_step) {
       const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
-      if (latestStep >= 2) {
+      if (latestStep >= 1) {
         setIsReady(true);
       }
       setLatestStep(latestStep + 1);
@@ -34,7 +34,9 @@ const EnrollmentApprovalStep = ({
 
   return isReady ? (
     <>
-      <FourIREnrollmentApprovalPage fourIRInitiativeId={fourIRInitiativeId} />
+      <FourIRCertificateManagementPage
+        fourIRInitiativeId={fourIRInitiativeId}
+      />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
@@ -49,4 +51,4 @@ const EnrollmentApprovalStep = ({
   );
 };
 
-export default EnrollmentApprovalStep;
+export default CertificationStep;
