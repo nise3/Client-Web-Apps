@@ -12,7 +12,6 @@ import FourIRCSDetailsPopup from './FourIRCSDetailsPopup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-// import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
@@ -23,7 +22,6 @@ interface IFourIRCSPageProps {
 
 const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
-  // const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -50,19 +48,6 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  // const deleteCSItem = async (csId: number) => {
-  //   let response = await deleteCS(csId);
-  //   if (isResponseSuccess(response)) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_deleted_successfully'
-  //         values={{subject: <IntlMessages id='4ir_cs.label' />}}
-  //       />,
-  //     );
-  //     refreshDataTable();
-  //   }
-  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);

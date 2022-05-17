@@ -4,23 +4,17 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CURRICULUM} from '../../../@softbd/common/apiRoutes';
 import FourIRCurriculumAddEditPopup from './FourIRCurriculumAddEditPopup';
 import FourIRCurriculumDetailsPopup from './FourIRCurriculumDetailsPopup';
-import {deleteCurriculum} from '../../../services/4IRManagement/CurriculumService';
 
 interface IFourIRCSPageProps {
   fourIRInitiativeId: number;
@@ -28,7 +22,6 @@ interface IFourIRCSPageProps {
 
 const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -55,19 +48,6 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  // const deleteCurriculumItem = async (curriculumId: number) => {
-  //   let response = await deleteCurriculum(curriculumId);
-  //   if (isResponseSuccess(response)) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_deleted_successfully'
-  //         values={{subject: <IntlMessages id='4ir_curriculum.label' />}}
-  //       />,
-  //     );
-  //     refreshDataTable();
-  //   }
-  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -104,7 +84,7 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       },
       {
         Header: messages['common.approved_date'],
-        accessor: 'approved_date',
+        accessor: 'approve_date',
         disableFilters: true,
       },
       {

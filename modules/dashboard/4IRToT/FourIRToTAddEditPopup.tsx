@@ -181,17 +181,12 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             formData.append(field, data[field]?.[0]);
           } else if (field == 'master_trainers') {
             formData.append('master_trainers', JSON.stringify(data[field]));
-            //formData.append('master_trainers', data[field]);
           } else {
             formData.append(field, data[field]);
           }
         }
       });
 
-      // let payload = {
-      //   four_ir_initiative_id: fourIRInitiativeId,
-      //   ...data,
-      // };
       if (itemId) {
         await updateToT(itemId, formData);
         updateSuccessMessage('4ir_tot.label');
