@@ -33,7 +33,10 @@ import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {loadAuthenticateUser} from '../../../../redux/actions/AuthUserLoad';
 import {useDispatch} from 'react-redux';
-import {removeBrowserCookie} from '../../../libs/cookieInstance';
+import {
+  getBrowserCookie,
+  removeBrowserCookie,
+} from '../../../libs/cookieInstance';
 import {
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
@@ -44,6 +47,7 @@ import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
 import Divider from '../../../components/Divider/Divider';
 import {getCDAPLoginUrl2} from '../../../common/CDAPConfig';
+import IconUser from '../../../icons/IconUser';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -210,14 +214,18 @@ const YouthProfileMenu = () => {
               Number(authUser.youth_auth_source) == 1 && <Divider />}
             {authUser?.youth_auth_source &&
               Number(authUser.youth_auth_source) == 1 && (
-                <Link href={getCDAPLoginUrl2()}>
+                <Link
+                  href={getCDAPLoginUrl2(
+                    JSON.parse(
+                      getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA),
+                    ).access_token,
+                  )}>
                   <MenuItem>
-                    {/*<ListItemIcon>
-                      <LockResetIcon />
-                    </ListItemIcon>*/}
+                    <ListItemIcon>
+                      <IconUser />
+                    </ListItemIcon>
                     <ListItemText>
-                      {'My Gov'}
-                      {/*{messages['update_password.label']}*/}
+                      {messages['youth_layout.my_gov']}
                     </ListItemText>
                   </MenuItem>
                 </Link>

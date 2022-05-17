@@ -31,13 +31,13 @@ export const getCDAPLoginUrl = () => {
   );
 };
 
-export const getCDAPLoginUrl2 = () => {
+export const getCDAPLoginUrl2 = (accessToken: any) => {
   const redirectUrl = new URL(getHostUrl() + CDAP_CONFIG.callbackUrl);
 
   return (
     CDAP_CONFIG.authUrl2 +
     '?response_type=code&access_token=' +
-    CDAP_CONFIG.accessToken +
+    accessToken +
     '&nonce=%242y%2410%24maaT%2FWki5beHUYCfm5muZOvLnzmHtmeQMYadaX4WrMzGYH%2F7Oijh6&scope=openid' +
     'redirect_uri=' +
     encodeURI(redirectUrl.toString())
