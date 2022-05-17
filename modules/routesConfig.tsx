@@ -678,6 +678,15 @@ const routesConfig: NavItemProps[] = [
             url: '/4ir-guideline',
           },
           {
+            id: '4ir_showcasing',
+            title: '4IR ShowCasing',
+            messageId: '4ir_showcasing.label',
+            permissionKey: 'view_any_4ir_showcasing',
+            type: 'item',
+            icon: 'work',
+            url: '/4ir-showcasing',
+          },
+          {
             id: '4ir_taglines',
             title: '4IR Taglines',
             messageId: 'menu.tagline',
