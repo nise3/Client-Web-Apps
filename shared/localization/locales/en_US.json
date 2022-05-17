@@ -2000,6 +2000,7 @@
   "common.level_from": "Level from",
   "common.level_to": "Level to",
   "4ir_rm.approval_status": "Approval Status",
+  "4ir_rm.is_developed_financial_proposal": "Developed Financial Proposal?",
   "4ir_rm.budget_approval_status": "Budget Approval Status ",
   "4ir_rm.given_budget": "Given Budget",
   "common.attachment" : "Attachment",
@@ -2041,5 +2042,6 @@
   "4ir_project_analysis.label" : "4IR Project Analysis",
   "tna.number_of_workshop": "Number of Workshops",
   "tna.final_tna_report": "Final TNA Report",
-  "4ir.research_method" : "Research Method"
+  "4ir.research_method" : "Research Method",
+  "common.word_or_pdf_file": "Upload word / pdf file"
 }

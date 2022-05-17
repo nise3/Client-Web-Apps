@@ -10,9 +10,14 @@ import ResourceManagementAddEditPopup from './ResourceManagementAddEditPopup';
 import ResourceManagementDetailsPopup from './ResourceManagementDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconSkill from '../../../@softbd/icons/IconSkill';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_4IR_RESOURCE_MANAGEMENT} from '../../../@softbd/common/apiRoutes';
+import {
+  API_4IR_RESOURCE_MANAGEMENT,
+  FILE_SERVER_FILE_VIEW_ENDPOINT,
+} from '../../../@softbd/common/apiRoutes';
+import {Link} from '../../../@softbd/elements/common';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
@@ -63,36 +68,38 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
           return props.row.index + 1;
         },
       },
-
       {
-        Header: messages['4ir_rm.approval_status'],
-        accessor: 'approval_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.approval_status} />;
-        },
-      },
-      {
-        Header: messages['4ir_rm.budget_approval_status'],
-        accessor: 'budget_approval_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.budget_approval_status} />;
-        },
+        Header: messages['4ir_cs.approved_by'],
+        accessor: 'approve_by',
+        disableFilters: true,
       },
       {
         Header: messages['4ir_rm.given_budget'],
-        accessor: 'given_budget',
+        accessor: 'total_amount',
+        disableFilters: true,
       },
       {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        Header: messages['4ir.tna_report_attachment'],
+        accessor: 'file_path',
+        disableFilters: true,
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          return (
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + data?.file_path}`}
+              download
+              target={'_blank'}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          );
         },
       },
       {
@@ -130,7 +137,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
           </>
         }
         extra={
-          !data && (
+          !(data?.length > 0) && (
             <AddButton
               key={1}
               onClick={() => openAddEditModal(null)}

@@ -2001,6 +2001,7 @@
   "common.level_from": "লেভেল হইতে",
   "common.level_to": "লেভেল পর্যন্ত",
   "4ir_rm.approval_status": "অনুমোদনের অবস্থা",
+  "4ir_rm.is_developed_financial_proposal": "আর্থিক প্রস্তাবনা সম্পন্ন?",
   "4ir_rm.budget_approval_status": "বাজেট অনুমোদনের অবস্থা",
   "4ir_rm.given_budget": "প্রদানকৃত বাজেট",
   "common.attachment": "এটাচমেন্ট",
@@ -2042,5 +2043,6 @@
   "assessment.examinee": "পরীক্ষার্থীর নাম",
   "certificate.recipient_name": "প্রাপক নাম",
   "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
-  "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)"
+  "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)",
+  "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন"
 }

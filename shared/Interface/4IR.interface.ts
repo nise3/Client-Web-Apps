@@ -114,11 +114,12 @@ export interface IOccupation extends IIdTitleCreateUpdateAt {
 }
 
 export interface IResource extends IIdTitleCreateUpdateAt {
-  approval_status: number | string;
-  budget_approval_status: number | string;
-  given_budget: number | string;
+  is_developed_financial_proposal: number | string;
+  total_amount?: number | string;
+  approve_by?: string;
   row_status: number | string;
-  file_path: string | null;
+  file_path?: string | null;
+  comment: string;
 }
 
 export interface ISkillDevelopment extends IIdTitleCreateUpdateAt {
