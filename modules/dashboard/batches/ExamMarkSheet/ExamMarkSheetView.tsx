@@ -7,7 +7,6 @@ import {styled} from '@mui/material/styles';
 import FillInTheBlankTypeComponent from './FillInTheBlankTypeComponent';
 import MCQTypeComponent from './MCQTypeComponent';
 import YesNoTypeComponent from './YesNoTypeComponent';
-import FileView from './FileTypeComponent';
 import DescriptiveTypeComponent from './DescriptiveTypeComponent';
 
 import {useRouter} from 'next/router';
@@ -97,7 +96,7 @@ const ExamMarkingViewPage = () => {
           />
         );
       default:
-        return <FileView question={question} index={questionIndex++} />;
+        return <></>;
     }
   };
 

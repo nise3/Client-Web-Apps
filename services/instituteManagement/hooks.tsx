@@ -3,6 +3,7 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_BATCH_RESULT,
   API_BATCHES,
   API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
@@ -286,5 +287,5 @@ export function useFetchResultConfigs(params: any) {
 }
 
 export function useFetchBatchResult(batchId: number | null) {
-  return useAxiosSWR(batchId ? API_BATCHES + '/' + batchId + '/results' : null);
+  return useAxiosSWR(batchId ? API_BATCHES + '/' + batchId + API_BATCH_RESULT : null);
 }

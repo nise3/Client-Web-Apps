@@ -21,6 +21,9 @@ import {FiUserCheck} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import {ExamTypes} from '../exams/ExamEnums';
 import IconExam from '../../../@softbd/icons/IconExam';
+import {youthExamMarking} from '../../../services/instituteManagement/BatchService';
+import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 interface ExamListPopupProps {
   batchId: number | null;
@@ -33,10 +36,10 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   youthId,
   ...props
 }) => {
-  const {messages} = useIntl();
+  const {messages, formatNumber} = useIntl();
   const router = useRouter();
   const path = router.asPath;
-  const {errorStack} = useNotiStack();
+  const {errorStack, successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
 
   const [exams, setExams] = useState<Array<any>>([]);
@@ -63,7 +66,7 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   useEffect(() => {
     if (batchExams) {
       let examsData: any = [];
-      (batchExams?.exam_types || []).map((exam_type: any) => {
+      (batchExams || []).map((exam_type: any) => {
         (exam_type.exams || []).map((exam: any) => {
           let examObj = {
             title: exam_type.title,
@@ -74,6 +77,7 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
             exam_type: exam_type.type,
             obtained_mark: exam.obtained_mark,
             file_paths: exam.file_paths,
+            auto_marking: exam.auto_marking,
           };
           examsData.push(examObj);
         });
@@ -82,14 +86,18 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
     }
   }, [batchExams]);
 
+  console.log('errors->', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log('ddd', data);
       data.exams = data.exams.map((exam: any) => ({
         ...exam,
         youth_id: youthId,
         batch_id: batchId,
       }));
+      const response = await youthExamMarking(data);
+      if (isResponseSuccess(response)) {
+        successStack(messages['batch.youth_exam_marking']);
+      }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -182,6 +190,7 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                 inputProps={{
                   step: 1,
                 }}
+                defaultValue={exam.obtained_mark}
                 errorInstance={errors}
                 disabled={Number(exam.type) == ExamTypes.ONLINE}
                 isLoading={isLoading}
@@ -189,7 +198,11 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
               {exam.type == ExamTypes.ONLINE && (
                 <Link href={markingOrMarkSheetPath} passHref={true}>
                   <CommonButton
-                    btnText={'common.answer_sheet'}
+                    btnText={
+                      exam.auto_marking
+                        ? 'common.answer_sheet'
+                        : 'batches.mark_distribution'
+                    }
                     startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                     style={{marginLeft: '10px'}}
                     variant='outlined'
@@ -197,6 +210,20 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                   />
                 </Link>
               )}
+              {![ExamTypes.ONLINE, ExamTypes.OFFLINE, ExamTypes.MIXED].includes(
+                exam.type,
+              ) &&
+                exam.file_paths &&
+                exam.file_paths?.length > 0 &&
+                exam.file_paths.map((file: any, i: number) => (
+                  <Link
+                    href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
+                    passHref={true}
+                    key={i}
+                    target={'_blank'}>
+                    {messages['common.file_path']} {formatNumber(i + 1)}
+                  </Link>
+                ))}
             </Grid>
           );
         })}

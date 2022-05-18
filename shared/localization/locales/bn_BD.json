@@ -1984,7 +1984,7 @@
   "common.not_participated": "অংশ গ্রহন করা হয়নি",
   "batches.marking": "মার্কিং",
   "batches.mark_distribution": "নাম্বার বিতরণ",
-  "batch.assign_exam" : "পরীক্ষা যোগ করুন",
+  "batch.assign_exam": "পরীক্ষা যোগ করুন",
   "batch.exam_assign_success": "পরীক্ষা সফলভাবে ব্যাচে এসাইন হয়েছে",
   "common.result_config": "ফলাফল কনফিগারেশন",
   "common.grading": "গ্রেডিং",
@@ -1997,5 +1997,9 @@
   "common.min": "সর্বনিম্ন",
   "common.max": "সর্বোচ্চ",
   "common.batch_result": "ব্যাচের ফলাফল",
-  "common.batch_name": "ব্যাচের নাম"
+  "common.batch_name": "ব্যাচের নাম",
+  "batch.process_result": "ফলাফল প্রসেস",
+  "batch.process_result_success": "ফলাফল প্রসেস সফলভাবে সম্পন্ন হয়েছে",
+  "batch.process_result_failed": "ফলাফল প্রসেস করতে ব্যর্থ হয়েছে",
+  "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে"
 }

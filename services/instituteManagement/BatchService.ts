@@ -4,6 +4,8 @@ import {
   API_ASSIGN_EXAMS_TO_BATCH,
   API_ASSIGN_TRAINERS_TO_BATCH,
   API_BATCHES,
+  API_PROCESS_RESULT,
+  API_YOUTH_BATCH_EXAMS_MARK_UPDATE,
 } from '../../@softbd/common/apiRoutes';
 import {IBatch} from '../../shared/Interface/institute.interface';
 
@@ -75,6 +77,26 @@ export const assignExamsToBatch = async (batchId: number, data: any) => {
       API_BATCHES + '/' + batchId + API_ASSIGN_EXAMS_TO_BATCH,
       data,
     );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const processResult = async (batchId: number) => {
+  try {
+    let response: any = await apiPost(
+      API_BATCHES + '/' + batchId + API_PROCESS_RESULT,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const youthExamMarking = async (data: any) => {
+  try {
+    let response: any = await apiPost(API_YOUTH_BATCH_EXAMS_MARK_UPDATE, data);
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

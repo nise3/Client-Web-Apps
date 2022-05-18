@@ -59,11 +59,14 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
 
   useEffect(() => {
     if (batchExams && exams) {
-      let ids = (batchExams.exam_types || []).map(
-        (exam_type: any) => exam_type.id,
-      );
+      let ids = (batchExams || []).map((exam_type: any) => exam_type.id);
       reset({
-        exams: exams.filter((exam: any) => ids.includes(exam.id)),
+        exams: exams
+          .filter((exam: any) => ids.includes(exam.id))
+          .map((ex: any) => ({
+            ...ex,
+            type_label: getTypeLabel(ex.type),
+          })),
       });
     } else {
       reset({

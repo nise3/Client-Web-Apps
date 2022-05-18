@@ -17,7 +17,10 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
-import {deleteBatch} from '../../../services/instituteManagement/BatchService';
+import {
+  deleteBatch,
+  processResult,
+} from '../../../services/instituteManagement/BatchService';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
@@ -35,7 +38,7 @@ import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
 
@@ -49,6 +52,7 @@ const BatchesPage = () => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
   const [isOpenExamAssignModal, setIsOpenExamAssignModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -91,16 +95,33 @@ const BatchesPage = () => {
   }, []);
 
   const deleteBatchItem = async (itemId: number) => {
-    let response = await deleteBatch(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='batches.label' />}}
-        />,
-      );
+    try {
+      let response = await deleteBatch(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='batches.label' />}}
+          />,
+        );
 
-      refreshDataTable();
+        refreshDataTable();
+      }
+    } catch (error) {}
+  };
+
+  const processBatchResult = async (itemId: number) => {
+    try {
+      setIsProcessing(true);
+      let response = await processResult(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(messages['batch.process_result_success']);
+        refreshDataTable();
+      }
+    } catch (error) {
+      errorStack(messages['batch.process_result_failed']);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -255,17 +276,30 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              <Link href={`${url}${data.id}`} passHref={true}>
+              {data.result_published_at && (
+                <Link href={`${url}${data.id}`} passHref={true}>
+                  <CommonButton
+                    key={4}
+                    onClick={() => console.log('clicked')}
+                    btnText={'common.batch_result'}
+                    variant={'outlined'}
+                    color={'primary'}
+                    style={{marginLeft: '5px'}}
+                    startIcon={<Visibility />}
+                  />
+                </Link>
+              )}
+              {!data.result_published_at && (
                 <CommonButton
-                  key={4}
-                  onClick={() => console.log('clicked')}
-                  btnText={'common.batch_result'}
+                  key={5}
+                  onClick={() => processBatchResult(data.id)}
+                  btnText={'batch.process_result'}
                   variant={'outlined'}
                   color={'primary'}
                   style={{marginLeft: '5px'}}
                   startIcon={<Visibility />}
                 />
-              </Link>
+              )}
             </DatatableButtonGroup>
           );
         },
@@ -307,7 +341,7 @@ const BatchesPage = () => {
           columns={columns}
           data={data}
           fetchData={onFetchData}
-          loading={loading}
+          loading={loading || isProcessing}
           pageCount={pageCount}
           totalCount={totalCount}
           toggleResetTable={isToggleTable}

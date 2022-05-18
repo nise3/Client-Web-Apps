@@ -1996,5 +1996,9 @@
   "common.max": "Max",
   "common.total_gradings": "Total value should be 100",
   "common.batch_result": "Batch result",
-  "common.batch_name": "Batch name"
+  "common.batch_name": "Batch name",
+  "batch.process_result": "Result Process",
+  "batch.process_result_success": "Result process successfully completed",
+  "batch.process_result_failed": "Failed to process result",
+  "batch.youth_exam_marking": "Exams mark updated successfully"
 }

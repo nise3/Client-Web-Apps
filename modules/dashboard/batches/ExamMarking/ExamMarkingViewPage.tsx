@@ -7,7 +7,6 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import FillInTheBlankTypeComponent from '../ExamMarkSheet/FillInTheBlankTypeComponent';
 import MCQTypeComponent from '../ExamMarkSheet/MCQTypeComponent';
 import YesNoTypeComponent from '../ExamMarkSheet/YesNoTypeComponent';
-import FileView from '../ExamMarkSheet/FileTypeComponent';
 import DescriptiveTypeComponent from '../ExamMarkSheet/DescriptiveTypeComponent';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -136,33 +135,7 @@ const ExamMarkingViewPage = () => {
           />
         );
       default:
-        return (
-          <FileView
-            question={question}
-            index={questionIndex++}
-            inputField={
-              <TextField
-                id={'marks[' + marksIndex + '][marks_achieved]'}
-                label={messages['common.mark']}
-                type={'number'}
-                size='small'
-                sx={{width: '110px'}}
-                {...register('marks[' + marksIndex++ + '][marks_achieved]')}
-                defaultValue={getIntlNumber(
-                  formatNumber,
-                  question?.marks_achieved,
-                )}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position='end' sx={{width: '20px'}}>
-                      <EditIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            }
-          />
-        );
+        return <></>;
     }
   };
 
