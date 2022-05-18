@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
-import ResourceManagementPage from '../4IRResourceManagement/ResourceManagementPage';
+import FourIREmploymentPage from '../4IREmployment/FourIREmploymentPage';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -34,7 +34,7 @@ const EmploymentStep = ({
 
   return isReady ? (
     <>
-      <ResourceManagementPage fourIRInitiativeId={fourIRInitiativeId} />
+      <FourIREmploymentPage fourIRInitiativeId={fourIRInitiativeId} />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}

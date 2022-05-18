@@ -215,6 +215,7 @@ export const API_4IR_CURRICULUM =
 export const API_4IR_RESOURCE_MANAGEMENT =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
 export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
+export const API_4IR_TOT_UPDATE = FOUR_IR_SERVICE_PATH + '/tots-update';
 export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
 export const API_4IR_PROJECT_ANALYSIS =
   FOUR_IR_SERVICE_PATH + '/project-analysis';
