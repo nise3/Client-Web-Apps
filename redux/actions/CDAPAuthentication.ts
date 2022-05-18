@@ -1,4 +1,5 @@
 import {
+  CDAPUSER_NONCE,
   COOKIE_KEY_APP_ACCESS_TOKEN,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
@@ -46,6 +47,10 @@ export const onCDAPSignInCallback = (
           },
         },
       );
+
+      if (CDAPUserData) {
+        await setBrowserCookie(CDAPUSER_NONCE, CDAPUserData.nonce);
+      }
 
       let expireDate = new Date();
       expireDate.setTime(

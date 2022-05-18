@@ -38,6 +38,7 @@ import {
   removeBrowserCookie,
 } from '../../../libs/cookieInstance';
 import {
+  CDAPUSER_NONCE,
   COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA,
   COOKIE_KEY_AUTH_ID_TOKEN,
   COOKIE_KEY_CDAP_SESSION_STATE,
@@ -82,6 +83,8 @@ const YouthProfileMenu = () => {
       router.push(niseDomain());
     } catch (error) {}
   }, []);
+
+  let nonce = getBrowserCookie(CDAPUSER_NONCE);
 
   return (
     <div>
@@ -216,9 +219,9 @@ const YouthProfileMenu = () => {
               Number(authUser.youth_auth_source) == 1 && (
                 <Link
                   href={getCDAPLoginUrl2(
-                    JSON.parse(
-                      getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA),
-                    ).access_token,
+                    getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA)
+                      .access_token,
+                    nonce,
                   )}>
                   <MenuItem>
                     <ListItemIcon>
