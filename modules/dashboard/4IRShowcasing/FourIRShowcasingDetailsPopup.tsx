@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRTeam} from '../../../services/instituteManagement/hooks';
+import {useFetchShowcase} from '../../../services/instituteManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 
@@ -24,7 +24,7 @@ const FourIRShowcasingDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRTeam(itemId);
+  const {data: itemData, isLoading} = useFetchShowcase(itemId);
 
   return (
     <>
@@ -53,50 +53,67 @@ const FourIRShowcasingDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.name}
+              label={messages['menu.initiative']}
+              value={itemData?.four_ir_initiative_id}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            {/*  Empty for indentation*/}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.organization_name']}
+              value={itemData?.organization_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.name_en']}
-              value={itemData?.name_en}
+              label={messages['common.organization_name_en']}
+              value={itemData?.organization_name_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.email}
+              label={messages['showcasing.invite_other_organization']}
+              value={itemData?.invite_other_organization}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.mobile']}
-              value={itemData?.phone_number}
+              label={messages['showcasing.invite_other_organization_en']}
+              value={itemData?.invite_other_organization_en}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['4ir.role_or_responsibility']}
-              value={itemData?.role_responsibility}
+              label={messages['common.start_time']}
+              value={itemData?.start_time}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.designation']}
-              value={itemData?.designation}
+              label={messages['common.end_time']}
+              value={itemData?.end_time}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.organization']}
-              value={itemData?.organization}
+              label={messages['common.venue']}
+              value={itemData?.venue}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.event_description']}
+              value={itemData?.event_description}
               isLoading={isLoading}
             />
           </Grid>

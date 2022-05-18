@@ -8,7 +8,10 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
 import FourIRShowcasingAddEditPopup from './FourIRShowcasingAddEditPopup';
 import FourIRShowcasingDetailsPopup from './FourIRShowcasingDetailsPopup';
 
@@ -16,6 +19,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_SHOWCASE} from '../../../@softbd/common/apiRoutes';
+import {deleteShowcasing} from '../../../services/4IRManagement/ShowcasingServices';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 interface IFourShowcasingPageProps {
   fourIRInitiativeId: number;
@@ -25,7 +30,7 @@ const FourIRShowcasingPage = ({
   fourIRInitiativeId,
 }: IFourShowcasingPageProps) => {
   const {messages, locale} = useIntl();
-  // const {successStack} = useNotiStack();
+  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -50,18 +55,18 @@ const FourIRShowcasingPage = ({
     [selectedItemId],
   );
 
-  // const deleteShowCasing = async (memberId: number) => {
-  //   let response = await deleteTeamMember(memberId);
-  //   if (isResponseSuccess(response)) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_deleted_successfully'
-  //         values={{subject: <IntlMessages id='4ir.team_member' />}}
-  //       />,
-  //     );
-  //     refreshDataTable();
-  //   }
-  // };
+  const deleteShowcasingHandler = async (memberId: number) => {
+    let response = await deleteShowcasing(memberId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{subject: <IntlMessages id='4ir.team_member' />}}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
@@ -89,10 +94,10 @@ const FourIRShowcasingPage = ({
       {
         Header: messages['showcasing.initiative_name'],
         Cell: (props: any) => {
-          //let data = props.row.original;
-
+          let data = props.row.original;
+          // todo: initiatives name will retrive from api
           // todo: initiative name will show here
-          return <div>Hello</div>;
+          return <div>{data?.four_ir_initiative_id}</div>;
         },
       },
       {
@@ -133,7 +138,7 @@ const FourIRShowcasingPage = ({
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => console.log(data.id)}
+                deleteAction={() => deleteShowcasingHandler(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
