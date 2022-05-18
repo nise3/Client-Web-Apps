@@ -15,6 +15,9 @@ import FourIRCourseStep from './FourIRCourseStep';
 import SkillDevelopmentStep from './SkillDevelopmentStep';
 import AssessmentStep from './AssessmentStep';
 import CertificationStep from './CertificationStep';
+import ProjectAnalysisStep from './ProjectAnalysisStep';
+import ScaleUpStep from './ScaleUpStep';
+import EmploymentStep from './EmploymentStep';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
@@ -86,10 +89,22 @@ const steps: Array<StepObj> = [
     id: 12,
     langKey: 'common.certifications',
   },
+  {
+    id: 13,
+    langKey: 'employment.label',
+  },
+  {
+    id: 14,
+    langKey: '4ir.project_analysis',
+  },
+  {
+    id: 15,
+    langKey: '4ir.scale_up',
+  },
 ];
 
 const stepNames: Array<number> = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
 ];
 
 const TeamAndCellView = () => {
@@ -260,6 +275,33 @@ const TeamAndCellView = () => {
         case 12:
           return (
             <CertificationStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 13:
+          return (
+            <EmploymentStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 14:
+          return (
+            <ProjectAnalysisStep
+              fourIRInitiativeId={initiativeId}
+              onBack={handleBack}
+              onContinue={handleNext}
+              setLatestStep={setLatestStep}
+            />
+          );
+        case 15:
+          return (
+            <ScaleUpStep
               fourIRInitiativeId={initiativeId}
               onBack={handleBack}
               onContinue={handleNext}
