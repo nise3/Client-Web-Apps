@@ -358,8 +358,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
             register={register}
             acceptedFileTypes={[
               'application/pdf',
-              '.docx',
-              'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
             sizeLimitText={'3MB'}
             label={messages['common.file_upload']}
