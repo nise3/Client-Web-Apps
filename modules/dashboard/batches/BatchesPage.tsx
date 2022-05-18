@@ -219,7 +219,7 @@ const BatchesPage = () => {
                 color='primary'
               />
               {data.certificate_id &&
-                <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+                <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
                   <CommonButton
                     btnText='certificate.certificate_issue'
                     startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
@@ -239,17 +239,6 @@ const BatchesPage = () => {
                 style={{marginLeft: '5px'}}
                 startIcon={<DownloadIcon />}
               /> */}
-              {data.certificate_id &&
-                <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
-                  <CommonButton
-                    btnText='certificate.certificate_issue'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
-                    style={{ marginLeft: '10px' }}
-                    variant='outlined'
-                    color='primary'
-                  />
-                </Link>
-              }
 
             </DatatableButtonGroup>
           );

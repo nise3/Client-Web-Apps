@@ -1,30 +1,25 @@
 import {
-  useAxiosSWR,
-  useDataLocalizationAxiosSWR,
-} from '../../@softbd/hooks/useAxiosSWR';
-import {
-  API_LANGUAGES,
+  API_CERTIFICATES, API_LANGUAGES,
   API_PUBLIC_GET_BUSINESS_AREAS,
   API_PUBLIC_GET_EXPERIENCE_AREAS,
   API_PUBLIC_RPL_APPLICATIONS,
-  API_SKILLS,
-  API_YOUTH_ADDRESSES,
+  API_SKILLS, API_YOUTHS, API_YOUTH_ADDRESSES,
   API_YOUTH_CERTIFICATES,
   API_YOUTH_COURSES,
   API_YOUTH_EDUCATION,
-  API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS,
-  API_YOUTH_FEED_STATISTICS,
+  API_YOUTH_EDUCATION_EXAMS_BOARDS_EDUGROUPS_AND_SUBJECTS, API_YOUTH_FEED_DATA_LIST, API_YOUTH_FEED_STATISTICS,
   API_YOUTH_GUARDIANS,
   API_YOUTH_JOB_EXPERIENCES,
   API_YOUTH_LANGUAGE_PROFICIENCIES,
   API_YOUTH_MY_JOBS,
   API_YOUTH_PORTFOLIOS,
   API_YOUTH_PROFILE,
-  API_YOUTH_REFERENCES,
-  API_YOUTHS,
-  API_YOUTH_FEED_DATA_LIST,
+  API_YOUTH_REFERENCES
 } from '../../@softbd/common/apiRoutes';
-import { CERTIFICATE_TYPE_API_URL } from '../../modules/dashboard/certificate-issue/certificate-issue-constant';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR
+} from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchSkill(skillId: number | null) {
   return useAxiosSWR(skillId ? API_SKILLS + '/' + skillId : null);
@@ -38,7 +33,7 @@ export function useFetchPublicSkills(params: any) {
   return useDataLocalizationAxiosSWR([API_SKILLS, params]);
 }
 export function useFetchCertificateIssue(params: any) {
-  return useDataLocalizationAxiosSWR([CERTIFICATE_TYPE_API_URL + 'certificates', params]);
+  return useDataLocalizationAxiosSWR([API_CERTIFICATES, params]);
 }
 
 export function useFetchYouthProfile() {

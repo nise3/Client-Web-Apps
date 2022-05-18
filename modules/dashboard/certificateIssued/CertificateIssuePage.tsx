@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -17,6 +18,8 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
+  const router = useRouter();
+  const path = router.asPath;
   // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
 
@@ -65,7 +68,7 @@ const CertificateIssuedPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <Link href={`/certificate/certificate-view/${data.id}`} passHref={true}>
+              <Link href={`${path}/certificate/certificate-view/${data.id}`} passHref={true}>
                   <CommonButton
                     btnText='common.certificate_view'
                     startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}

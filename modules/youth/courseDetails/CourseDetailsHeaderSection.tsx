@@ -175,7 +175,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                       color={'primary'}
                     />
                   )}
-                  <Link
+                  {certificateIssue?.id && <Link
                     className={classes.certificateViewButton}
                     href={
                       authUser
@@ -187,7 +187,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                     <Button variant={'contained'} color={'primary'}>
                       {messages['common.certificate_view']}
                     </Button>
-                  </Link>
+                  </Link>}
                 </Box>
               )}
             </Box>
