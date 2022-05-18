@@ -1995,5 +1995,7 @@
   "common.total_gradings": "মোট ১০০ হতে হবে",
   "common.result_percentage": "ফলাফল প্রক্রিয়ার শতাংশ",
   "common.min": "সর্বনিম্ন",
-  "common.max": "সর্বোচ্চ"
+  "common.max": "সর্বোচ্চ",
+  "common.batch_result": "ব্যাচের ফলাফল",
+  "common.batch_name": "ব্যাচের নাম"
 }

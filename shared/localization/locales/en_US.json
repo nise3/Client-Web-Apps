@@ -1994,5 +1994,7 @@
   "common.result_percentage": "Percentage for process result",
   "common.min": "Min",
   "common.max": "Max",
-  "common.total_gradings": "Total value should be 100"
+  "common.total_gradings": "Total value should be 100",
+  "common.batch_result": "Batch result",
+  "common.batch_name": "Batch name"
 }
