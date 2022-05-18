@@ -361,7 +361,7 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
               'application/pdf',
               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
-            label={messages['common.file_upload']}
+            label={messages['common.word_or_pdf_file']}
             required={true}
           />
         </Grid>

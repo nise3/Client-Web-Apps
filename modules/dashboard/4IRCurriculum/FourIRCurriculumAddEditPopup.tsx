@@ -361,7 +361,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
             sizeLimitText={'3MB'}
-            label={messages['common.file_upload']}
+            label={messages['common.word_or_pdf_file']}
             required={true}
           />
         </Grid>
