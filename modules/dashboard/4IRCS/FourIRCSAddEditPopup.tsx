@@ -470,7 +470,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
           stepNo={4}
           initiativeId={fourIRInitiativeId}
           completionStep={4}
-          formStep={5}
+          formStep={6}
         />
       )}
     </HookFormMuiModal>

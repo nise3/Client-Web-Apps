@@ -381,7 +381,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
           stepNo={5}
           initiativeId={fourIRInitiativeId}
           completionStep={5}
-          formStep={6}
+          formStep={7}
         />
       )}
     </HookFormMuiModal>

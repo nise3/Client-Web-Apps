@@ -226,6 +226,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            disabled={itemData?.phone_number}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>

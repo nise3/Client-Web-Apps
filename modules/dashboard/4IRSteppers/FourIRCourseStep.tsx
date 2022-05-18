@@ -25,7 +25,7 @@ const FourIRCourseStep = ({
     if (itemData && itemData?.completion_step) {
       const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
-      if (latestStep >= 3) {
+      if (latestStep >= 8) {
         setIsReady(true);
       }
       setLatestStep(latestStep + 1);
