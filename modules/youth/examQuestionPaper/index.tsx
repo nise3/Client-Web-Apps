@@ -90,7 +90,7 @@ const ExamQuestionPaper = () => {
   useEffect(() => {
     let currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
     if (examQuestionData) {
-      let examDate = examQuestionData?.exam_date;
+      let examDate = examQuestionData?.start_date;
 
       let duration = moment.duration(
         moment(currentDate).diff(moment(examDate)),
@@ -140,6 +140,7 @@ const ExamQuestionPaper = () => {
   const clearLocalStorage = () => {
     localStorage.removeItem('questionPaper');
     localStorage.removeItem('questionAnswers');
+    localStorage.removeItem('batchId');
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
@@ -150,6 +151,9 @@ const ExamQuestionPaper = () => {
         formData.youth_id = authUser?.youthId;
       }
       formData.exam_id = examId;
+      localStorage.getItem('batchId')
+        ? (formData.batch_id = localStorage.getItem('batchId'))
+        : '';
 
       if (formData.questions) {
         formData.questions.map((question: any) => {
@@ -222,7 +226,7 @@ const ExamQuestionPaper = () => {
               </S2>
               <S2>
                 {messages['common.date']} {': '}
-                {formatDate(examQuestionData?.exam_date, {
+                {formatDate(examQuestionData?.start_date, {
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric',
