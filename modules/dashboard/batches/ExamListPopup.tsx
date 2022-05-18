@@ -17,7 +17,6 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {FiUserCheck} from 'react-icons/fi';
 import {useRouter} from 'next/router';
 import {ExamTypes} from '../exams/ExamEnums';
 import IconExam from '../../../@softbd/icons/IconExam';
@@ -98,6 +97,8 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
       if (isResponseSuccess(response)) {
         successStack(messages['batch.youth_exam_marking']);
       }
+
+      props.onClose();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -203,7 +204,6 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                         ? 'common.answer_sheet'
                         : 'batches.mark_distribution'
                     }
-                    startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
                     style={{marginLeft: '10px'}}
                     variant='outlined'
                     color='primary'

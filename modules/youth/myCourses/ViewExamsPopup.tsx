@@ -144,7 +144,7 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
                       {exam?.title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
-                      {exam?.exam_title} {exam?.subject_title}
+                      {exam?.subject_title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {getType(exam?.type)}

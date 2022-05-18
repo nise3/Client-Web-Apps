@@ -5,7 +5,6 @@ import {Body1, Body2, H4, H5, S1, S2} from '../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -56,7 +55,6 @@ const ExamQuestionPaper = () => {
   const {
     register,
     control,
-    setValue,
     setError,
     getValues,
     reset,
@@ -151,9 +149,8 @@ const ExamQuestionPaper = () => {
         formData.youth_id = authUser?.youthId;
       }
       formData.exam_id = examId;
-      localStorage.getItem('batchId')
-        ? (formData.batch_id = localStorage.getItem('batchId'))
-        : '';
+      let batchId = localStorage.getItem('batchId');
+      formData.batch_id = batchId;
 
       if (formData.questions) {
         formData.questions.map((question: any) => {
@@ -176,9 +173,9 @@ const ExamQuestionPaper = () => {
       }
 
       await submitExamPaper(formData);
+      await clearLocalStorage();
       submissionSuccessMessage('common.answer_sheet');
       setHasExamEnded(true);
-      clearLocalStorage();
       router.push(LINK_FRONTEND_YOUTH_MY_COURSES).then((r) => {});
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -366,10 +363,7 @@ const ExamQuestionPaper = () => {
                                     </Grid>
                                   </React.Fragment>
                                 );
-                              } else if (
-                                section?.question_type ==
-                                QuestionType.FILL_IN_THE_BLANK
-                              ) {
+                              } else {
                                 let fillInTheBlankItems = question?.title.split(
                                   /(?=\[\[\]\])|(?<=\[\[\]\])/g,
                                 );
@@ -423,23 +417,6 @@ const ExamQuestionPaper = () => {
                                           question?.individual_marks,
                                         )}
                                       </Body2>
-                                    </Grid>
-                                  </React.Fragment>
-                                );
-                              } else {
-                                return (
-                                  <React.Fragment key={question?.id}>
-                                    {questionHeader}
-                                    {hiddenFields}
-                                    <Grid item xs={11}>
-                                      <FileUploadComponent
-                                        id={'file_path'}
-                                        //defaultFileUrl={itemData?.collage_image_path}
-                                        setValue={setValue}
-                                        errorInstance={errors}
-                                        register={register}
-                                        label={messages['common.file_path']}
-                                      />
                                     </Grid>
                                   </React.Fragment>
                                 );
