@@ -299,9 +299,47 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       const itemType = methodType[item?.method_type];
       if (itemType) {
         setter[itemType.item_number] = item?.workshop_numbers;
-        //setter[itemType.item_file] = item?.tna_file_path;
       }
     });
+
+    if (
+      setter['workshop_method_workshop_numbers'] &&
+      setter['workshop_method_workshop_numbers'] != 0
+    ) {
+      setIsWorkshopMethodWorkshop(true);
+    }
+
+    if (setter['fgd_workshop_numbers'] && setter['fgd_workshop_numbers'] != 0) {
+      setIsFGDWorkshop(true);
+    }
+
+    if (
+      setter['industry_visit_workshop_numbers'] &&
+      setter['industry_visit_workshop_numbers'] != 0
+    ) {
+      setIsIndustryVisit(true);
+    }
+
+    if (
+      setter['desktop_research_workshop_numbers'] &&
+      setter['desktop_research_workshop_numbers'] != 0
+    ) {
+      setIsDesktopResearchFile(true);
+    }
+
+    if (
+      setter['existing_report_review_workshop_numbers'] &&
+      setter['existing_report_review_workshop_numbers'] != 0
+    ) {
+      setIsExistingReportReviewFile(true);
+    }
+
+    if (
+      setter['others_workshop_numbers'] &&
+      setter['others_workshop_numbers'] != 0
+    ) {
+      setIsOthersFile(true);
+    }
 
     if (itemData) {
       reset({...initialValues, ...setter});
@@ -316,32 +354,9 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       const payload = new FormData();
+
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
-
-      // const fieldArray = [
-      //   'desktop_research',
-      //   'workshop_method_workshop',
-      //   'existing_report_review',
-      //   'fgd',
-      //   'industry_visit',
-      //   'others',
-      // ];
-
-      // fieldArray.forEach((field: string, index: number) => {
-      //   if (data?.[`${field}_workshop`]) {
-      //     payload.append(
-      //       `${field}_workshop_numbers`,
-      //       String(data?.[`${field}_workshop_numbers`]),
-      //     );
-      //     payload.append(
-      //       `${field}_workshop_file`,
-      //       data?.[`${field}_file`]?.[0],
-      //     );
-      //   }
-      // });
-
       payload.append('row_status', String(data?.row_status));
-
       if (data?.file_path) payload.append('file_path', data?.file_path);
 
       if (data?.workshop_method_workshop) {
