@@ -34,42 +34,54 @@ interface FourIRTNAReportAddEditPopupProps {
 const methodType: any = {
   1: {
     item_number: 'workshop_method_workshop_numbers',
+    checkbox: 'workshop_method_workshop',
     item_file: 'workshop_method_file',
   },
   2: {
     item_number: 'fgd_workshop_numbers',
+    checkbox: 'fgd_workshop',
     item_file: 'fgd_workshop_file',
   },
   3: {
     item_number: 'industry_visit_workshop_numbers',
+    checkbox: 'industry_visit_workshop',
     item_file: 'industry_visit_file',
   },
   4: {
     item_number: 'desktop_research_workshop_numbers',
+    checkbox: 'desktop_research_workshop',
     item_file: 'desktop_research_file',
   },
   5: {
     item_number: 'existing_report_review_workshop_numbers',
+    checkbox: 'existing_report_review_workshop',
     item_file: 'existing_report_review_file',
   },
   6: {
     item_number: 'others_workshop_numbers',
+    checkbox: 'others_workshop',
     item_file: 'others_file',
   },
 };
 
 const initialValues = {
   workshop_method_workshop_numbers: '',
+  workshop_method_workshop: false,
   workshop_method_file: null,
   fgd_workshop_numbers: '',
+  fgd_workshop: false,
   fgd_workshop_file: null,
   industry_visit_workshop_numbers: '',
+  industry_visit_workshop: false,
   industry_visit_file: null,
   desktop_research_workshop_numbers: '',
+  desktop_research_workshop: false,
   desktop_research_file: null,
   existing_report_review_workshop_numbers: '',
+  existing_report_review_workshop: false,
   existing_report_review_file: null,
   others_workshop_numbers: '',
+  others_workshop: false,
   others_file: null,
   file_path: '',
   row_status: 1,
@@ -299,7 +311,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       const itemType = methodType[item?.method_type];
       if (itemType) {
         setter[itemType.item_number] = item?.workshop_numbers;
-        //setter[itemType.item_file] = item?.tna_file_path;
+        setter[itemType.checkbox] = item?.workshop_numbers ? true : false;
       }
     });
 
