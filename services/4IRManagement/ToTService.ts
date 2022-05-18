@@ -1,6 +1,6 @@
 import {apiDelete, apiGet, apiPost} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
-import {API_4IR_TOT} from '../../@softbd/common/apiRoutes';
+import {API_4IR_TOT, API_4IR_TOT_UPDATE} from '../../@softbd/common/apiRoutes';
 
 export const getAllToT = async (params = {}) => {
   try {
@@ -39,7 +39,7 @@ export const createToT = async (data: any) => {
 
 export const updateToT = async (totId: number, data: any) => {
   try {
-    let response: any = await apiPost(API_4IR_TOT + '/' + totId, data, {
+    let response: any = await apiPost(API_4IR_TOT_UPDATE + '/' + totId, data, {
       headers: {
         Accept: '*/*',
         'Content-Type': 'multipart/form-data',
