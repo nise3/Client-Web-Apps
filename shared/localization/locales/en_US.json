@@ -2045,5 +2045,6 @@
   "tna.final_tna_report": "Final TNA Report",
   "common.word_or_pdf_file": "Upload word / pdf file",
   "4ir.tot_date": "ToT Date",
-  "tot.proof_of_report_file": "Proof of Report (Image/ Excel)"
+  "tot.proof_of_report_file": "Proof of Report (Image/ Excel)",
+  "4ir.research_team_information": "Research Team Information"
 }

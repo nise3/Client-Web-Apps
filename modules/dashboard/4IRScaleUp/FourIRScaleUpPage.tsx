@@ -17,7 +17,11 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 
-const FourIRImplemntingTeamPage = () => {
+interface Props {
+  fourIRInitiativeId: number;
+}
+
+const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -104,6 +108,8 @@ const FourIRImplemntingTeamPage = () => {
     useReactTableFetchData({
       urlPath: './4ir_TNA_report',
     });
+
+  console.log('4IR Scale Up...');
 
   return (
     <>
