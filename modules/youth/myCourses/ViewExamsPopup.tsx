@@ -37,8 +37,6 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
     useState(false);
   const [exam, setExam] = useState<any>([]);
 
-  console.log('exams=>', exams);
-
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
     let minutes = Math.floor(duration % 60);
