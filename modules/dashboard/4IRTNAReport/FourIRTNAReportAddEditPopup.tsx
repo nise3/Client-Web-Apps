@@ -137,8 +137,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -163,8 +162,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(messages['4ir.tna_report_fgd_workshop'] as string)
@@ -187,8 +185,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -214,8 +211,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -245,8 +241,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -272,8 +267,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(messages['4ir.tna_report.others_workshop'] as string)
@@ -311,7 +305,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       const itemType = methodType[item?.method_type];
       if (itemType) {
         setter[itemType.item_number] = item?.workshop_numbers;
-        setter[itemType.checkbox] = item?.workshop_numbers ? true : false;
+        setter[itemType.checkbox] = !!item?.workshop_numbers;
       }
     });
 
@@ -369,28 +363,6 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       const payload = new FormData();
 
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
-
-      // const fieldArray = [
-      //   'desktop_research',
-      //   'workshop_method_workshop',
-      //   'existing_report_review',
-      //   'fgd',
-      //   'industry_visit',
-      //   'others',
-      // ];
-
-      // fieldArray.forEach((field: string, index: number) => {
-      //   if (data?.[`${field}_workshop`]) {
-      //     payload.append(
-      //       `${field}_workshop_numbers`,
-      //       String(data?.[`${field}_workshop_numbers`]),
-      //     );
-      //     payload.append(
-      //       `${field}_workshop_file`,
-      //       data?.[`${field}_file`]?.[0],
-      //     );
-      //   }
-      // });
 
       payload.append('row_status', String(data?.row_status));
 
