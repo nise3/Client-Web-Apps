@@ -1993,5 +1993,6 @@
   "common.total_percentage": "Total percentage should be 100",
   "common.result_percentage": "Percentage for process result",
   "common.min": "Min",
-  "common.max": "Max"
+  "common.max": "Max",
+  "common.total_gradings": "Total value should be 100"
 }

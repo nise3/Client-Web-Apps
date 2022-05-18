@@ -53,16 +53,25 @@ const ResultConfigAddEditPopup = ({
         yup.object().shape({
           label: yup
             .string()
-            .required()
-            .label(messages['common.label'] as string),
+            .label(messages['common.label'] as string)
+            .when('gradings', {
+              is: (value: any) => value,
+              then: yup.string().required(),
+            }),
           min: yup
             .string()
-            .required()
-            .label(messages['common.min'] as string),
+            .label(messages['common.min'] as string)
+            .when('gradings', {
+              is: (value: any) => value,
+              then: yup.string().required(),
+            }),
           max: yup
             .string()
-            .required()
-            .label(messages['common.max'] as string),
+            .label(messages['common.max'] as string)
+            .when('gradings', {
+              is: (value: any) => value,
+              then: yup.string().required(),
+            }),
         }),
       ),
       total_percentage: yup
@@ -71,7 +80,15 @@ const ResultConfigAddEditPopup = ({
         .test(
           'max_validation',
           `${messages['common.total_percentage']}`,
-          (value) => !value && Boolean(Number(value) == 100),
+          (value) => !value || Boolean(Number(value) == 100),
+        ),
+      total_gradings: yup
+        .number()
+        .required()
+        .test(
+          'max_validation',
+          `${messages['common.total_gradings']}`,
+          (value) => !value || Boolean(Number(value) == 100),
         ),
     });
   }, [messages]);
@@ -249,6 +266,7 @@ const ResultConfigAddEditPopup = ({
                 errors={errors}
                 setValue={setValue}
                 getValues={getValues}
+                watch={watch}
               />
             </Grid>
           </>
