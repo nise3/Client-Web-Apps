@@ -166,8 +166,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         {isOpenAddEditModal && (
           <FourIRTNAReportAddEditPopup
             key={'tna_add_edit'}
-            // isEdit={data != null && data != []}
-            isEdit={false}
+            isEdit={data != null && data != []}
             onClose={closeAddEditModal}
             itemData={data}
             fourIRInitiativeId={fourIRInitiativeId}
