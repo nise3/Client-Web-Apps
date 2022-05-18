@@ -95,9 +95,7 @@ const FourIRShowcasingPage = ({
         Header: messages['showcasing.initiative_name'],
         Cell: (props: any) => {
           let data = props.row.original;
-          // todo: initiatives name will retrive from api
-          // todo: initiative name will show here
-          return <div>{data?.four_ir_initiative_id}</div>;
+          return <div>{data?.initiative_name}</div>;
         },
       },
       {

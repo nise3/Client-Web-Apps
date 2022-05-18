@@ -116,9 +116,6 @@ const FourIRShowcasingAddEditPopUP = ({
   const [selectedTagline, setSelectedTagline] = useState<number | null>(null);
   const [isInitativeLoading, setIsInitiativeLoading] = useState<boolean>(false);
   const [initiativeData, setInitiativeData] = useState<any>([]);
-  // const [selectedInitiative, setSelectedInitative] = useState<number | null>(
-  //   null,
-  // );
 
   const onTaglineChangeHandler = (option: number | null) => {
     setSelectedTagline(option);

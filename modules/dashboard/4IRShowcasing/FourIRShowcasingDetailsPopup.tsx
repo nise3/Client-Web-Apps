@@ -53,12 +53,17 @@ const FourIRShowcasingDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['menu.initiative']}
-              value={itemData?.four_ir_initiative_id}
+              label={messages['showcasing.initiative_name']}
+              value={itemData?.initiative_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['showcasing.initiative_name_en']}
+              value={itemData?.initiative_name_en}
+              isLoading={isLoading}
+            />
             {/*  Empty for indentation*/}
           </Grid>
           <Grid item xs={12} md={6}>
