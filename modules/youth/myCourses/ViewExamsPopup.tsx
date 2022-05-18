@@ -33,9 +33,9 @@ interface ViewExamsPopupProps {
 
 const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
   const {messages, formatDate, formatTime, formatNumber} = useIntl();
-
   const [isOpenUploadAnsFileModal, setIsOpenUploadAnsFileModal] =
     useState(false);
+  const [exam, setExam] = useState<any>([]);
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
@@ -82,9 +82,9 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
     }
   };
 
-  const onOpenUploadAnsFileModal = useCallback(() => {
+  const onOpenUploadAnsFileModal = useCallback((exam: any) => {
     setIsOpenUploadAnsFileModal(true);
-    onClose();
+    setExam(exam);
   }, []);
 
   const onCloseUploadAnsFileModal = useCallback(() => {
@@ -134,6 +134,9 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
                   new Date(exam?.start_date).getTime() +
                     Number(exam?.duration) * 60 * 1000 <
                   new Date().getTime();
+
+                let isOverOthers =
+                  new Date(exam?.end_date).getTime() < new Date().getTime();
 
                 return (
                   <TableRow key={index}>
@@ -188,13 +191,18 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
                         ))}
                       {exam.type !== ExamTypes.ONLINE &&
                         exam.type !== ExamTypes.OFFLINE &&
-                        exam.type !== ExamTypes.MIXED && (
+                        exam.type !== ExamTypes.MIXED &&
+                        (exam?.participated ? (
+                          <Body1>{messages['exam.already_participated']}</Body1>
+                        ) : isOverOthers ? (
+                          <Body1>{messages['exam.exam_over']}</Body1>
+                        ) : (
                           <Button
                             variant={'outlined'}
-                            onClick={() => onOpenUploadAnsFileModal()}>
+                            onClick={() => onOpenUploadAnsFileModal(exam)}>
                             {messages['common.file_upload']}
                           </Button>
-                        )}
+                        ))}
                     </TableCell>
                   </TableRow>
                 );
@@ -207,7 +215,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
       </TableContainer>
 
       {isOpenUploadAnsFileModal && (
-        <UploadExamAnsFilePopup onClose={onCloseUploadAnsFileModal} />
+        <UploadExamAnsFilePopup
+          onClose={onCloseUploadAnsFileModal}
+          exam={exam}
+          batchId={batchId}
+        />
       )}
     </FrontendCustomModal>
   );

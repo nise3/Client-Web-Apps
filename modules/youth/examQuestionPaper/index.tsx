@@ -172,10 +172,6 @@ const ExamQuestionPaper = () => {
               );
             }
           }
-
-          if (question?.file_path) {
-            question.file_path = [question.file_path];
-          }
         });
       }
 
@@ -437,11 +433,7 @@ const ExamQuestionPaper = () => {
                                     {hiddenFields}
                                     <Grid item xs={11}>
                                       <FileUploadComponent
-                                        id={
-                                          'questions[' +
-                                          ansIndex +
-                                          '].file_path'
-                                        }
+                                        id={'file_path'}
                                         //defaultFileUrl={itemData?.collage_image_path}
                                         setValue={setValue}
                                         errorInstance={errors}
