@@ -2050,5 +2050,11 @@
   "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)",
   "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন",
   "4ir.tot_date": "টিওটি তারিখ",
-  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)"
+  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)",
+  "4ir.initiative-alalysis_recharge_upload": "আপলোড রিসার্চ টীম ইনফরমেশন (এক্সেল)",
+  "4ir.initiative-alalysis_report_upload": "আপলোড রিপোর্ট ফাইল (ওয়ার্ড / পিডিএফ)",
+  "common.only_word_pdf": "শুধুমাত্র .doc/.pdf ফাইল দিতে পারবেন",
+  "4ir_initiative_analysis.label": "ইনিশিয়েটিভ এনালাইসিস",
+  "4ir.research_method": "গবেষণা পদ্ধতি"
+
 }

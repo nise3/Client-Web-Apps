@@ -2046,5 +2046,11 @@
   "common.word_or_pdf_file": "Upload word / pdf file",
   "4ir.tot_date": "ToT Date",
   "tot.proof_of_report_file": "Proof of Report (Image/ Excel)",
-  "4ir.research_team_information": "Research Team Information"
+  "4ir.research_team_information": "Research Team Information",
+  "4ir.researcher_name": "Researcher Name",
+  "4ir.initiative-alalysis_recharge_upload": "Upload Research Team Information (Excel)",
+  "4ir.initiative-alalysis_report_upload": "Upload Report File (Word/PDF)",
+  "common.only_word_pdf" : "Only .doc/.pdf is allowed",
+  "4ir_initiative_analysis.label": "Initiative Analysis",
+  "4ir.research_method": "Rechearch Method"
 }

@@ -204,6 +204,7 @@ export const API_4IR_SECTORS = FOUR_IR_SERVICE_PATH + '/sectors';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
+export const API_4IR_ANALYSIS = FOUR_IR_SERVICE_PATH + '/initiative-analysis';
 export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_CERTIFICATE =
   FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
@@ -218,6 +219,8 @@ export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
 export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
 export const API_4IR_PROJECT_ANALYSIS =
   FOUR_IR_SERVICE_PATH + '/project-analysis';
+export const API_4IR_INITIATIVE_ANALYSIS =
+  FOUR_IR_SERVICE_PATH + '/initiative-analysis';
 export const API_4IR_PROJECT_TASK_UPDATE =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-task-update';
 export const API_FOUR_IR_INITIATIVE_IMPORT =

@@ -8,14 +8,19 @@ import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteBu
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-import FourIRScaleUpAddEditPopUp from './ProjectAnalysisAddEditPopup';
-import FourIRScaleUpDetailsPopUp from './ProjectAnalysisAddEditPopup';
+import {
+  getCalculatedSerialNo,
+  isResponseSuccess,
+} from '../../../@softbd/utilities/helpers';
+import ProjectAnalysisAddEditPopup from './ProjectAnalysisAddEditPopup';
+import ProjectAnalysisDetailsPopup from './FourIRScaleUpDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_INITIATIVE_ANALYSIS} from '../../../@softbd/common/apiRoutes';
+import {deleteInitiativeAnalysis} from '../../../services/4IRManagement/initiativeAnalysis';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -24,11 +29,14 @@ interface Props {
 const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
   const closeAddEditModal = useCallback(() => {
+    console.log('closing pop');
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
@@ -42,16 +50,36 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
+      setIsOpenAddEditModal(false);
       setSelectedItemId(itemId);
     },
     [selectedItemId],
   );
 
   const closeDetailsModal = useCallback(() => {
+    console.log('closing');
     setIsOpenDetailsModal(false);
+    setSelectedItemId(null);
   }, []);
 
-  const refreshDataTable = useCallback(() => {}, []);
+  const deleteInitiativeAnalysisItem = async (projectId: number) => {
+    let response = await deleteInitiativeAnalysis(projectId);
+    if (isResponseSuccess(response)) {
+      successStack(
+        <IntlMessages
+          id='common.subject_deleted_successfully'
+          values={{
+            subject: <IntlMessages id='4ir_initiative_analysis.label' />,
+          }}
+        />,
+      );
+      refreshDataTable();
+    }
+  };
+
+  const refreshDataTable = useCallback(() => {
+    setIsToggleTable(true);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -68,16 +96,12 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
         },
       },
       {
-        Header: messages['4ir.project_advancement'],
-        accessor: 'project_advancement',
+        Header: messages['4ir.researcher_name'],
+        accessor: 'researcher_name',
       },
       {
-        Header: messages['4ir.project_budget'],
-        accessor: 'project_budget',
-      },
-      {
-        Header: messages['4ir.previous_budget'],
-        accessor: 'previous_budget',
+        Header: messages['common.organization_name'],
+        accessor: 'organization_name',
       },
       {
         Header: messages['4ir.scale_up'],
@@ -86,13 +110,13 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
-          //   let data = props.row.original;
+          let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => {}} />
-              <EditButton onClick={() => {}} />
+              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
-                deleteAction={() => {}}
+                deleteAction={() => deleteInitiativeAnalysisItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
             </DatatableButtonGroup>
@@ -106,29 +130,33 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: './4ir_TNA_report',
+      urlPath: API_4IR_INITIATIVE_ANALYSIS,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
     });
 
-  console.log('4IR Scale Up...');
+  console.log('initiative id from page- ->', fourIRInitiativeId);
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.scale_up' />
+            <IconBranch /> <IntlMessages id='4ir_initiative_analysis.label' />
           </>
         }
         extra={[
           <AddButton
             key={1}
-            onClick={() => openDetailsModal(1)}
+            onClick={() => openAddEditModal()}
             isLoading={false}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}
                 values={{
-                  subject: messages['4ir.scale_up'],
+                  subject: messages['4ir_initiative_analysis.label'],
                 }}
               />
             }
@@ -144,8 +172,9 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRScaleUpAddEditPopUp
+          <ProjectAnalysisAddEditPopup
             key={1}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -153,11 +182,11 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRScaleUpDetailsPopUp
+          <ProjectAnalysisDetailsPopup
             key={1}
             itemId={selectedItemId}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
           />
         )}
       </PageBlock>
