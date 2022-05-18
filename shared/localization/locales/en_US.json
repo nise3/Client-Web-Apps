@@ -2045,5 +2045,12 @@
   "tna.final_tna_report": "Final TNA Report",
   "common.word_or_pdf_file": "Upload word / pdf file",
   "4ir.tot_date": "ToT Date",
-  "tot.proof_of_report_file": "Proof of Report (Image/ Excel)"
+  "tot.proof_of_report_file": "Proof of Report (Image/ Excel)",
+  "4ir.research_method" : "Research Method",
+  "showcasing.invite_other_organization": "Invite other organization",
+  "showcasing.invite_other_organization_en": "Invite other organization (EN)",
+  "showcasing.organization_name": "Organization Name",
+  "showcasing.organization_name_en": "Organization Name (EN)",
+  "showcasing.initiative_name": "Initiative Name",
+  "showcasing.initiative_name_en": "Initiative Name (EN)"
 }

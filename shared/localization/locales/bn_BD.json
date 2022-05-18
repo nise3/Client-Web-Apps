@@ -1929,6 +1929,7 @@
   "4ir.team_member": "টিম মেম্বার",
   "4ir.expert_team": "বিশেষজ্ঞ টিম",
   "4ir.TNA_report": "টিএনএ  রিপোর্ট",
+  "4ir.scale_up": "স্কেল আপ",
   "4ir_scaleUp.label": "4 আই আর স্কেল আপ",
   "4ir.project_advancement": "প্রজেক্ট এডভান্সমেন্ট ",
   "4ir.previous_budget": "পূর্ববর্তী বাজেট",
@@ -1961,7 +1962,6 @@
   "4ir_cell.label": "4 আই আর সেল",
   "4ir.employment": "জব প্লেসমেন্ট",
   "employment.label": "কর্মসংস্থান",
-  "4ir.scale_up": "স্কেল আপ",
   "4ir.project_analysis": "প্রকল্প বিশ্লেষণ",
   "4ir_cs.label": "4 আই আর কম্পিটেন্সি স্ট্যান্ডার্ড",
   "4ir.CS": "কম্পিটেন্সি স্ট্যান্ডার্ড",
@@ -2049,6 +2049,12 @@
   "certificate.certificate_title": "সার্টিফিকেটের টাইটেল",
   "certificate.certificate_title_en": "সার্টিফিকেটের টাইটেল (ইংরেজি)",
   "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন",
+  "showcasing.invite_other_organization": "অন্য সংস্থাকে আমন্ত্রণ জানান",
+  "showcasing.invite_other_organization_en": "অন্য সংস্থাকে আমন্ত্রণ জানান (ইংরেজি)" ,
+  "showcasing.organization_name": "প্রতিষ্ঠানের নাম",
+  "showcasing.organization_name_en": "প্রতিষ্ঠানের নাম (ইংরেজি)",
+  "showcasing.initiative_name": "উদ্যোগের নাম",
+  "showcasing.initiative_name_en": "উদ্যোগের নাম (ইংরেজি)",
   "4ir.tot_date": "টিওটি তারিখ",
   "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)"
 }

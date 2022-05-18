@@ -307,4 +307,8 @@ export const routePermissions: any = {
     routePrefix: '/4ir-guideline',
     permissionKeys: ['view_any_4ir_guideline'],
   },
+  '/4ir-showcasing': {
+    routePrefix: '/4ir-showcasing',
+    permissionKeys: ['view_any_4ir_showcasing'],
+  },
 };
