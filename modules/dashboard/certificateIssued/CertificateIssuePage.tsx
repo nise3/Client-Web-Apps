@@ -19,7 +19,8 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
   const router = useRouter();
-  const path = router.asPath;
+  const path = router.pathname;
+  // console.log('path check ', router, path)
   // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
 
@@ -43,7 +44,7 @@ const CertificateIssuedPage = () => {
       //   accessor: 'certificate_id',
       // },
       {
-        Header: messages['common.title'],
+        Header: messages['certificate.name_bn'],
         accessor: 'certificate_title',
       },
       {
@@ -68,7 +69,7 @@ const CertificateIssuedPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <Link href={`${path}/certificate/certificate-view/${data.id}`} passHref={true}>
+              <Link href={`/certificate/certificate-view/${data.certificate_id}`} passHref={true}>
                   <CommonButton
                     btnText='common.certificate_view'
                     startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}

@@ -16,6 +16,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
+import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
 import { useFetchCertificateIssued } from '../../../services/instituteManagement/hooks';
 import { ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
@@ -23,7 +24,7 @@ import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
   const { messages, locale } = useIntl();
-  const { successStack } = useNotiStack();
+  const { successStack, errorStack } = useNotiStack();
   const route = useRouter();
   const { batchId } = route.query;
 
@@ -32,107 +33,38 @@ const CertificateIssuePage = () => {
   >([]);
   const { data: issuedData, mutate: mutateIssuedData } = useFetchCertificateIssued();
 
-  // const validationSchema = useMemo(() => {
-  //   return yup.object().shape({
-  //     certificate_type: yup
-  //       .string()
-  //       .trim()
-  //       .required()
-  //       .label(messages['certificate.certificate_type'] as string),
-  //     certificate_Id: yup
-  //       .string()
-  //       .trim()
-  //       .required()
-  //       .label(messages['common.certificate'] as string),
-  //   });
-  // }, []);
-
-  // const {
-  //   control,
-  //   formState: {errors, isSubmitting},
-  // } = useForm<any>({resolver: yupResolver(validationSchema)});
-
-  // const changeCertificateTypeAction = useCallback((typeid: string) => {
-  //   setCertificateTypeId(typeid);
-  // }, []);
-  // const changeCertificatesAction = useCallback((certificateId: string) => {
-  //   setCertificateId(certificateId);
-  // }, []);
-
-  // useEffect(async () => {
-  //   const {data: certificate} = await getCertificateByResultType({
-  //     result_type: certificateTypeId,
-  //   });
-  //   setCertificatesList(certificate);
-  // }, [certificateTypeId]);
-
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  // const [certificateIssueFilter] = useState<any>({
-  //   row_status: RowStatus.ACTIVE,
-  // });
-
-  // const {data: youthListByBatch} = useFetchCourseEnrolment(
-  //   certificateIssueFilter,
-  // );
-
-
-  // const {onFetchData, issuedData, loading, pageCount, totalCount} =
-  //   useReactTableFetchData({
-  //     urlPath: API_CERTIFICATES_ISSUE,
-  //   });
-
-
-
-
-  // console.log('after youthListByBatch', youthListByBatch)
-  // const response = await courseEnroll(certificateIssueFilter);
-  // const [issueFilterItems, setIssueFilterItems] = useState([]);
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
   }, []);
 
-  // useEffect(() => {
-  //   if (youthListByBatch) {
-  //     setIssueFilterItems(
-  //       youthListByBatch.map((skill: any) => {
-  //         return {id: skill?.id, title: skill?.title};
-  //       }),
-  //     );
-  //   }
-  // }, [youthListByBatch]);
-
-  const issueCerrificate1 = useEventCallback((data: any) => {
+  const issueCerrificate = useEventCallback((data: any) => {
     const issueData: ICertificateIssue = {
       batch_id: data.batch_id,
       certificate_id: data.certificate_id,
       youth_id: data.youth_id,
     };
 
-    createCertificateIssue(issueData).then((res) => {
-      if (isResponseSuccess(res)) {
-        successStack(
-          <IntlMessages
-            id='common.certificatet_issued_successfully'
-            values={{ subject: <IntlMessages id='certificate.certificate_issue' /> }}
-          />,
-        );
-        mutateIssuedData();
-        refreshDataTable();
-      }
-    });
+    try {
+      createCertificateIssue(issueData)
+        .then((res) => {
+          if (isResponseSuccess(res)) {
+            successStack(
+              <IntlMessages
+                id='common.certificatet_issued_successfully'
+                values={{ subject: <IntlMessages id='certificate.certificate_issue' /> }}
+              />,
+            );
+            mutateIssuedData();
+            refreshDataTable();
+          }
+        });
+    } catch (error: any) {
+      processServerSideErrors({ error, errorStack });
+      refreshDataTable();
+    }
   });
-
-  //   const courseLevelFilterItems = [
-  //     {id: LEVEL.BEGINNER, title: messages['level.beginner'] as string},
-  //     {id: LEVEL.INTERMEDIATE, title: messages['level.intermediate'] as string},
-  //     {id: LEVEL.EXPERT, title: messages['level.expert'] as string},
-  //   ];
-
-  //   const refreshDataTable = useCallback(() => {
-  //     setIsToggleTable((prevToggle: any) => !prevToggle);
-  //   }, [isToggleTable]);
 
   const columns = useMemo(
     () => [
@@ -185,9 +117,8 @@ const CertificateIssuePage = () => {
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
               <ApproveButton
                 approveAction={() =>
-                  issueCerrificate1(data)
+                  issueCerrificate(data)
                 }
-                // onClick={() => issueCerrificate1(data)}
                 buttonText={messages['certificate.certificate_issue'] as string}
               />
             </DatatableButtonGroup>
@@ -199,7 +130,7 @@ const CertificateIssuePage = () => {
     [messages, locale],
   );
 
-  const {onFetchData, data, loading, pageCount, totalCount} =
+  const { onFetchData, data, loading, pageCount, totalCount } =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
       paramsValueModifier: (params: any) => {
