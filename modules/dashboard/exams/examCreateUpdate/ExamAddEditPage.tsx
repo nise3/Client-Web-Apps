@@ -63,7 +63,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
   const [examType, setExamType] = useState<number | null>(null);
   const [subjectId, setSubjectId] = useState<any>(null);
 
-  const examQuestionsSchema = useMemo(() => {
+  const examQuestionsSchema = (isOnline: boolean) => {
     return yup.array().of(
       yup.object().shape({
         is_question_checked: yup.boolean(),
@@ -88,17 +88,20 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
             is: (value: any) => value,
             then: yup.string().required(),
           }),
-        questions: yup
-          .array()
-          .of(yup.object())
-          .label(messages['exam.no_question_selected'] as string)
-          .when('question_selection_type', {
-            is: (value: any) => value && value !== QuestionSelectionType.RANDOM,
-            then: yup.array().required(),
-          }),
+        questions: isOnline
+          ? yup
+              .array()
+              .of(yup.object())
+              .label(messages['exam.no_question_selected'] as string)
+              .when('question_selection_type', {
+                is: (value: any) =>
+                  value && value !== QuestionSelectionType.RANDOM,
+                then: yup.array().required(),
+              })
+          : yup.array().of(yup.object()),
       }),
     );
-  }, []);
+  };
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -172,7 +175,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 .string()
                 .required()
                 .label(messages['common.duration_min'] as string),
-              exam_questions: examQuestionsSchema,
+              exam_questions: examQuestionsSchema(true),
             })
           : yup.object().shape({}),
       offline:
@@ -203,7 +206,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                     .label(messages['common.set_name'] as string),
                 }),
               ),
-              exam_questions: examQuestionsSchema,
+              exam_questions: examQuestionsSchema(false),
             })
           : yup.object().shape({}),
       sets:
@@ -220,7 +223,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
       exam_questions:
         Number(examType) == ExamTypes.MIXED
           ? yup.array().of(yup.object().shape({}))
-          : examQuestionsSchema,
+          : examQuestionsSchema(Number(examType) == ExamTypes.ONLINE),
     });
   }, [messages, examType]);
 

@@ -1992,7 +1992,7 @@
   "common.pass_marks": "পাস মার্কস",
   "common.attendance": "অ্যাটেনডেন্স",
   "common.total_percentage": "মোট শতাংশ ১০০ হতে হবে",
-  "common.total_gradings": "মোট ১০০ হতে হবে",
+  "common.total_gradings": "গ্রেডিং এর সর্বোচ্চ মান ১০০ হতে হবে",
   "common.result_percentage": "ফলাফল প্রক্রিয়ার শতাংশ",
   "common.min": "সর্বনিম্ন",
   "common.max": "সর্বোচ্চ",
@@ -2001,5 +2001,7 @@
   "batch.process_result": "ফলাফল প্রসেস",
   "batch.process_result_success": "ফলাফল প্রসেস সফলভাবে সম্পন্ন হয়েছে",
   "batch.process_result_failed": "ফলাফল প্রসেস করতে ব্যর্থ হয়েছে",
-  "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে"
+  "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে",
+  "batch.grad_min_will_greater_max": "গ্রেডিং ন্যূনতম মান আগের সর্বোচ্চ থেকে বেশি হওয়া উচিত",
+  "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত"
 }

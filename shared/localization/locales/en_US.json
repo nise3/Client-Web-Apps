@@ -1994,11 +1994,13 @@
   "common.result_percentage": "Percentage for process result",
   "common.min": "Min",
   "common.max": "Max",
-  "common.total_gradings": "Total value should be 100",
+  "common.total_gradings": "Max grading value should be 100",
   "common.batch_result": "Batch result",
   "common.batch_name": "Batch name",
   "batch.process_result": "Result Process",
   "batch.process_result_success": "Result process successfully completed",
   "batch.process_result_failed": "Failed to process result",
-  "batch.youth_exam_marking": "Exams mark updated successfully"
+  "batch.youth_exam_marking": "Exams mark updated successfully",
+  "batch.grad_min_will_greater_max": "Grading min value should be greater than previous max",
+  "batch.grad_max_will_greater_min": "Grading max value should be greater than min"
 }

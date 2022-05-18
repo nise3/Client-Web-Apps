@@ -32,18 +32,6 @@ const CustomFieldArrayResultConfigGrading = ({
     name: id,
   });
 
-  let watchGrading = watch(['gradings']);
-
-  useEffect(() => {
-    let values: number = 0;
-    (watchGrading || []).map((grading: any, i: number) => {
-      grading.map((value: any) => {
-        values += Number(value.max);
-      });
-    });
-    setValue('total_gradings', values);
-  }, [watchGrading]);
-
   useEffect(() => {
     console.log('watch->', watch(['gradings']));
     if (

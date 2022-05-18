@@ -42,6 +42,7 @@ const ResultConfigAddEditPopup = ({
   const {data: itemData, isLoading, mutate} = useFetchResultConfigs(courseId);
 
   const [selectedResultType, setSelectedResultType] = useState<any>(null);
+  const [totalPercentage, setTotalPercentage] = useState<any>(0);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -53,45 +54,31 @@ const ResultConfigAddEditPopup = ({
         yup.object().shape({
           label: yup
             .string()
-            .label(messages['common.label'] as string)
-            .when('gradings', {
-              is: (value: any) => value,
-              then: yup.string().required(),
-            }),
+            .required()
+            .label(messages['common.label'] as string),
           min: yup
             .string()
-            .label(messages['common.min'] as string)
-            .when('gradings', {
-              is: (value: any) => value,
-              then: yup.string().required(),
-            }),
+            .required()
+            .label(messages['common.min'] as string),
           max: yup
             .string()
-            .label(messages['common.max'] as string)
-            .when('gradings', {
-              is: (value: any) => value,
-              then: yup.string().required(),
-            }),
+            .required()
+            .label(messages['common.max'] as string),
         }),
       ),
       total_percentage: yup
         .number()
         .required()
         .test(
-          'max_validation',
+          'max_validation_percentage',
           `${messages['common.total_percentage']}`,
-          (value) => !value || Boolean(Number(value) == 100),
+          (value) => {
+            return totalPercentage && Boolean(Number(totalPercentage) == 100);
+          },
         ),
-      total_gradings: yup
-        .number()
-        .required()
-        .test(
-          'max_validation',
-          `${messages['common.total_gradings']}`,
-          (value) => !value || Boolean(Number(value) == 100),
-        ),
+      total_gradings: yup.number().nullable(),
     });
-  }, [messages]);
+  }, [messages, totalPercentage]);
 
   const {
     control,
@@ -102,6 +89,7 @@ const ResultConfigAddEditPopup = ({
     handleSubmit,
     setValue,
     getValues,
+    setFocus,
     formState: {errors, isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -126,6 +114,7 @@ const ResultConfigAddEditPopup = ({
       }
     });
 
+    setTotalPercentage(values);
     setValue('total_percentage', values);
   }, [watchResultPercentage]);
 
@@ -145,8 +134,6 @@ const ResultConfigAddEditPopup = ({
     }
   }, [itemData]);
 
-  console.log('errors->', errors);
-
   const resultTypeLists = useMemo(
     () => [
       {
@@ -161,22 +148,64 @@ const ResultConfigAddEditPopup = ({
     [messages],
   );
 
+  console.log('errors->', errors);
+
   const onSubmit: SubmitHandler<any> = async (data) => {
-    let formData = _.cloneDeep(data);
-
-    if (ResultTypes.GRADING == formData.result_type) {
-      delete formData.pass_marks;
-    }
-
-    if (ResultTypes.MARKING == formData.result_type) {
-      delete formData.gradings;
-    }
-
-    formData.course_id = itemId;
-    if (itemData?.id) formData.id = itemData.id;
-
-    console.log('fromData->', formData);
     try {
+      let max = 0;
+      let isMaxSmall: boolean = false;
+      let isMinBig: boolean = false;
+      if (data.gradings) {
+        data.gradings.map((grad: any, i: number) => {
+          if (Number(grad.max) > max) {
+            max = Number(grad.max);
+          }
+          if (Number(grad.max) <= Number(grad.min)) {
+            isMaxSmall = true;
+            setFocus(`gradings[${i}][max]`);
+          }
+          if (i > 0) {
+            if (Number(data.gradings[i - 1].max) > Number(grad.min)) {
+              isMinBig = true;
+              setFocus(`gradings[${i - 1}][max]`);
+            }
+          }
+        });
+      }
+
+      if (isMaxSmall) {
+        setError('total_gradings', {
+          message: messages['batch.grad_max_will_greater_min'] as string,
+        });
+        return;
+      }
+
+      if (isMinBig) {
+        setError('total_gradings', {
+          message: messages['batch.grad_min_will_greater_max'] as string,
+        });
+        return;
+      }
+      if (max != 100) {
+        setError('total_gradings', {
+          message: messages['common.total_gradings'] as string,
+        });
+        return;
+      }
+
+      let formData = _.cloneDeep(data);
+
+      if (ResultTypes.GRADING == formData.result_type) {
+        delete formData.pass_marks;
+      }
+
+      if (ResultTypes.MARKING == formData.result_type) {
+        delete formData.gradings;
+      }
+
+      formData.course_id = itemId;
+      if (itemData?.id) formData.id = itemData.id;
+
       await createResultConfig(formData);
       if (itemData && itemData.id) {
         updateSuccessMessage('course.label');
