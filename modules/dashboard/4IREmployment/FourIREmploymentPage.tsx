@@ -8,18 +8,11 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import FourIREmploymentAddEditPopup from './FourIREmploymentAddEditPopup';
 import FourIREmploymentDetailsPopup from './FourIREmploymentDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import {Typography} from '@mui/material';
-import {deleteFourIREmployment} from '../../../services/4IRManagement/EmploymentServices';
 
 interface IFourEmploymentPageProps {
   fourIRInitiativeId: number;
@@ -29,7 +22,6 @@ const FourIREmploymentPage = ({
   fourIRInitiativeId,
 }: IFourEmploymentPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -56,20 +48,6 @@ const FourIREmploymentPage = ({
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
   }, []);
-
-  //
-  //  const deleteEmploymentItem = async (projectId: number) => {
-  //   let response = await deleteFourIREmployment(projectId);
-  //   if (isResponseSuccess(response)) {
-  //     successStack(
-  //       <IntlMessages
-  //         id='common.subject_deleted_successfully'
-  //         values={{subject: <IntlMessages id='4ir_cs.label' />}}
-  //       />,
-  //     );
-  //     refreshDataTable();
-  //   }
-  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -120,23 +98,25 @@ const FourIREmploymentPage = ({
 
           // todo: key will be changed
           const e_status =
-            data.employment_status == 1
+            data?.employment_status == 1
               ? 'Self Employed'
-              : data.employment == 2
+              : data?.employment_status == 2
               ? 'Employed'
               : 'Not Applicable';
           return <Typography>{e_status}</Typography>;
         },
       },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
-      },
+
+      /** dont remove the following commented code, until you are sure */
+      /*      {
+              Header: messages['common.status'],
+              accessor: 'row_status',
+              filter: 'rowStatusFilter',
+              Cell: (props: any) => {
+                let data = props.row.original;
+                return <CustomChipRowStatus value={data?.row_status} />;
+              },
+            },*/
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
@@ -145,10 +125,6 @@ const FourIREmploymentPage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {/*<DeleteButton*/}
-              {/*  deleteAction={() => deleteEmploymentItem(data.id)}*/}
-              {/*  deleteTitle={messages['common.delete_confirm'] as string}*/}
-              {/*/>*/}
             </DatatableButtonGroup>
           );
         },
@@ -187,6 +163,7 @@ const FourIREmploymentPage = ({
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
+            certificateData={data}
           />
         )}
 

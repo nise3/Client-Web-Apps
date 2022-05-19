@@ -22,7 +22,7 @@ export const createFourIREmployment = async (data: any) => {
 };
 
 export const updateFourIREmployment = async (
-  occupationId: number,
+  occupationId: number | null,
   data: any,
 ) => {
   try {

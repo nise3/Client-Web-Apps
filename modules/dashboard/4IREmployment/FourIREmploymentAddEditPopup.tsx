@@ -9,7 +9,6 @@ import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeF
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-//import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -20,15 +19,13 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {IEmployment} from '../../../shared/Interface/4IR.interface';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {createFourIREmployment} from '../../../services/4IRManagement/EmploymentServices';
-//import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
-//import FileUploadComponent from '../../filepond/FileUploadComponent';
-//import {createCS, updateCS} from '../../../services/4IRManagement/CSService';
 
 interface CSAddEditPopupProps {
   itemId: number | null;
   onClose: () => void;
   fourIRInitiativeId: number;
   refreshDataTable: () => void;
+  certificateData: any;
 }
 
 const initialValues = {
@@ -55,30 +52,18 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
   itemId,
   fourIRInitiativeId,
   refreshDataTable,
+  certificateData,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const isEdit = itemId != null;
 
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const {updateSuccessMessage} = useSuccessMessage();
   const [employmentStatus, setEmploymentStatus] = useState<number>(1);
 
   const onEmploymentChange = (e: any) => {
     setEmploymentStatus(e);
   };
-
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateProject,
-  } = {
-    data: initialValues,
-    isLoading: false,
-    mutate: () => null,
-  };
-
-  //useFetch4IRCS(itemId);
 
   const validationSchema = useMemo(() => {
     return employmentStatus != 2
@@ -142,51 +127,49 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
   });
 
   useEffect(() => {
-    if (itemData) {
+    const certificate = certificateData?.find(
+      (certificate: any) => certificate?.id === itemId,
+    );
+
+    if (certificate?.employment_info) {
       reset({
-        ...initialValues,
-        contact_number: itemData.contact_number,
-        name: itemData.name,
-        name_en: itemData?.name_en,
-        email: itemData.email,
-        designation: itemData.designation,
-        industry_name: itemData.industry_name,
-        industry_name_en: itemData.industry_name_en,
-        starting_salary: itemData.starting_salary,
-        job_starting_date: itemData.job_starting_date,
-        medium_of_job: itemData.medium_of_job,
+        contact_number: certificate?.employment_info?.contact_number,
+        name: certificate?.employment_info?.name,
+        name_en: certificate?.employment_info?.name_en,
+        email: certificate?.employment_info?.email,
+        designation: certificate?.employment_info?.designation,
+        industry_name: certificate?.employment_info?.industry_name,
+        industry_name_en: certificate?.employment_info?.industry_name_en,
+        starting_salary: certificate?.employment_info?.starting_salary,
+        job_starting_date: certificate?.employment_info?.job_starting_date,
+        medium_of_job: certificate?.employment_info?.medium_of_job,
+        employment_status: certificate?.employment_info?.employment_status,
       });
+      setEmploymentStatus(certificate?.employment_status);
     } else {
       reset(initialValues);
     }
-  }, [itemData]);
+  }, [certificateData]);
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {};
-      if (employmentStatus === 2) {
-        payload = {
-          four_ir_initiative_id: fourIRInitiativeId,
-          ...data,
-        };
-      } else {
-        payload = {
-          four_ir_initiative_id: fourIRInitiativeId,
-          employment_status: data?.employment_status,
-        };
-      }
-      console.log(payload);
-      if (itemId) {
-        // await createFourIREmployment(payload);
-        updateSuccessMessage('4ir.employment');
-        mutateProject();
-      } else {
-        // todo -> api call here
-        // info: we will not gonna create a job,
-        // we will just update employment everytime.
-        createSuccessMessage('4ir.employment');
-      }
-      // props.onClose();
+
+      const youthID = certificateData?.find(
+        (certificate: any) => certificate?.id === itemId,
+      );
+
+      payload = {
+        four_ir_initiative_id: fourIRInitiativeId,
+        user_id: youthID?.youth_id,
+        employment_status: employmentStatus,
+        ...data,
+      };
+
+      await createFourIREmployment(payload);
+      updateSuccessMessage('4ir.employment');
+
+      props.onClose();
       refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -200,30 +183,24 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
       title={
         <>
           <IconBranch />
-          {isEdit ? (
-            <IntlMessages
-              id='common.edit'
-              values={{subject: <IntlMessages id='4ir.employment' />}}
-            />
-          ) : (
-            <IntlMessages
-              id='common.add_new'
-              values={{subject: <IntlMessages id='4ir.employment' />}}
-            />
-          )}
+          <IntlMessages
+            id='common.edit'
+            values={{subject: <IntlMessages id='4ir.employment' />}}
+          />
         </>
       }
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       handleSubmit={handleSubmit(onSubmit)}
       actions={
         <>
-          <CancelButton onClick={props.onClose} isLoading={isLoading} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <CancelButton onClick={props.onClose} isLoading={false} />
+          <SubmitButton isSubmitting={isSubmitting} isLoading={false} />
         </>
       }>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <CustomFilterableFormSelect
+            defaultValue={employmentStatus}
             required
             id={'employment_status'}
             label={messages['4ir.employment_status']}
@@ -237,7 +214,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}></Grid>
+        <Grid item xs={12} md={6} />
 
         {employmentStatus === 2 && (
           <>
@@ -248,7 +225,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.name']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -259,7 +236,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.name_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -270,7 +247,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.contact_number']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -281,7 +258,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -292,7 +269,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.industry_name']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -302,7 +279,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.industry_name_en']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -313,7 +290,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.designation']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -324,7 +301,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.starting_salary']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -335,7 +312,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.job_starting_date']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
 
@@ -346,7 +323,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
                 label={messages['common.job_medium']}
                 register={register}
                 errorInstance={errors}
-                isLoading={isLoading}
+                isLoading={false}
               />
             </Grid>
           </>

@@ -51,7 +51,7 @@ const FourIREmploymentDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.name']}
+              label={messages['4ir.employment_status']}
               value={
                 itemData?.employment_status == 1
                   ? 'Self Employed'
@@ -63,7 +63,7 @@ const FourIREmploymentDetailsPopup = ({
             />
           </Grid>
 
-          {itemData?.employment_status === 2 && (
+          {itemData?.employment_status == 2 && (
             <>
               <Grid item xs={12} md={6}>
                 <DetailsInputView
