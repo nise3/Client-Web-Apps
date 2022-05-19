@@ -1,10 +1,8 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -19,10 +17,17 @@ import {
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
-import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
+import {Typography} from '@mui/material';
+import {deleteFourIREmployment} from '../../../services/4IRManagement/EmploymentServices';
 
-const FourIREmploymentPage = () => {
+interface IFourEmploymentPageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIREmploymentPage = ({
+  fourIRInitiativeId,
+}: IFourEmploymentPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -52,18 +57,19 @@ const FourIREmploymentPage = () => {
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_cs.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
+  //
+  //  const deleteEmploymentItem = async (projectId: number) => {
+  //   let response = await deleteFourIREmployment(projectId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{subject: <IntlMessages id='4ir_cs.label' />}}
+  //       />,
+  //     );
+  //     refreshDataTable();
+  //   }
+  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -85,12 +91,42 @@ const FourIREmploymentPage = () => {
       },
 
       {
-        Header: messages['common.level'],
-        accessor: 'level',
+        Header: messages['common.name'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>{`${data.youth_profile.first_name} ${data.youth_profile.last_name}`}</Typography>
+          );
+        },
       },
       {
-        Header: messages['common.organization_name'],
-        accessor: 'organization_name',
+        Header: messages['common.contact_number'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <Typography>{data.youth_profile.mobile}</Typography>;
+        },
+      },
+      {
+        Header: messages['youth.email'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <Typography>{data.youth_profile.email}</Typography>;
+        },
+      },
+      {
+        Header: messages['4ir.employment_status'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+
+          // todo: key will be changed
+          const e_status =
+            data.employment_status == 1
+              ? 'Self Employed'
+              : data.employment == 2
+              ? 'Employed'
+              : 'Not Applicable';
+          return <Typography>{e_status}</Typography>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -109,10 +145,10 @@ const FourIREmploymentPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              {/*<DeleteButton*/}
+              {/*  deleteAction={() => deleteEmploymentItem(data.id)}*/}
+              {/*  deleteTitle={messages['common.delete_confirm'] as string}*/}
+              {/*/>*/}
             </DatatableButtonGroup>
           );
         },
@@ -124,7 +160,7 @@ const FourIREmploymentPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_CS,
+      urlPath: API_4IR_CERTIFICATE + `/${fourIRInitiativeId}`,
     });
 
   return (
@@ -134,22 +170,7 @@ const FourIREmploymentPage = () => {
           <>
             <IconBranch /> <IntlMessages id='4ir.employment' />
           </>
-        }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_cs.label'],
-                }}
-              />
-            }
-          />,
-        ]}>
+        }>
         <ReactTable
           columns={columns}
           data={data}
@@ -162,6 +183,7 @@ const FourIREmploymentPage = () => {
         {isOpenAddEditModal && (
           <FourIREmploymentAddEditPopup
             key={1}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

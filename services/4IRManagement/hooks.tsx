@@ -4,7 +4,9 @@ import {
   API_4IR_CELL,
   API_4IR_CS,
   API_4IR_CURRICULUM,
+  API_4IR_EMPLOYMENT,
   API_4IR_INITIATIVE,
+  API_4IR_INITIATIVE_ANALYSIS,
   API_4IR_OCCUPATIONS,
   API_4IR_PROJECT_ANALYSIS,
   API_4IR_RESOURCE_MANAGEMENT,
@@ -13,6 +15,7 @@ import {
   API_4IR_TAGLINES,
   API_4IR_TOT,
   API_4IR_PROJECT_CONTRIBUTIONS,
+  API_FOUR_IR_ROLES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRInitiative(initiativeId: number | null) {
@@ -33,6 +36,10 @@ export function useFetch4IRCell(cellId: number | null) {
 
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
+}
+
+export function useFetchEmployment(employedId: number | null) {
+  return useAxiosSWR(employedId ? API_4IR_EMPLOYMENT + '/' + employedId : null);
 }
 
 export function useFetch4IRSectors() {
@@ -93,9 +100,16 @@ export function useFetch4IRProjectAnalysis(analysisId: number | null) {
   );
 }
 
+export function useFetch4IRInitiativeAnalysis(analysisId: number | null) {
+  return useAxiosSWR(
+    analysisId ? API_4IR_INITIATIVE_ANALYSIS + '/' + analysisId : null,
+  );
+}
+
 export function useFetchAll4IRProjectAnalysis(params: any) {
   return useAxiosSWR([API_4IR_PROJECT_ANALYSIS, params]);
 }
-export function useFetch4IRProjectContribution(params: any) {
-  return useAxiosSWR([API_4IR_PROJECT_CONTRIBUTIONS, params]);
+
+export function useFetchFourIRRoles(params: any) {
+  return useAxiosSWR([API_FOUR_IR_ROLES, params]);
 }

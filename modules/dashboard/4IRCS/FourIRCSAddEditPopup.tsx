@@ -27,6 +27,7 @@ import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import CustomExpertFieldArray from './CustomExpertFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 interface CSAddEditPopupProps {
   itemId: number | null;
@@ -40,6 +41,7 @@ const initialValues = {
   level_from: '',
   level_to: '',
   approved_by: '',
+  approve_date: '',
   developed_organization_name: '',
   developed_organization_name_en: '',
   sector_name: '',
@@ -64,7 +66,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: itemData, isLoading, mutate: mutateCS} = useFetch4IRCS(itemId);
   const {data: sectors, isLoading: isLoadingSectors} = useFetch4IRSectors();
-
+  console.log(sectors);
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       experts: yup.array().of(
@@ -109,6 +111,10 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['4ir_cs.approved_by'] as string),
+      approve_date: yup
+        .string()
+        .required()
+        .label(messages['common.approved_date'] as string),
       developed_organization_name: yup
         .string()
         .trim()
@@ -124,6 +130,11 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.sector'] as string),
+      file_path: yup
+        .string()
+        .trim()
+        .required()
+        .label(messages['common.file'] as string),
     });
   }, [messages]);
 
@@ -214,6 +225,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         level_from: itemData?.level_from,
         level_to: itemData?.level_to,
         approved_by: itemData?.approved_by,
+        approve_date: itemData?.approve_date,
         developed_organization_name: itemData?.developed_organization_name,
         developed_organization_name_en:
           itemData?.developed_organization_name_en,
@@ -256,7 +268,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         four_ir_initiative_id: fourIRInitiativeId,
         ...data,
       };
-
+      console.log(payload);
       if (itemId) {
         await updateCS(itemId, payload);
         updateSuccessMessage('4ir_cs.label');
@@ -355,6 +367,15 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
+          <CustomDateTimeField
+            id='approve_date'
+            label={messages['common.approved_date']}
+            register={register}
+            errorInstance={errors}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <CustomTextInput
             required
             id='developed_organization_name'
@@ -425,8 +446,12 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
-            label={messages['common.file_upload']}
-            required={false}
+            acceptedFileTypes={[
+              'application/pdf',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
+            label={messages['common.word_or_pdf_file']}
+            required={true}
           />
         </Grid>
         <Grid item xs={12}>
@@ -444,7 +469,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
           stepNo={4}
           initiativeId={fourIRInitiativeId}
           completionStep={4}
-          formStep={5}
+          formStep={6}
         />
       )}
     </HookFormMuiModal>

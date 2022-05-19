@@ -1,5 +1,7 @@
 import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_4IR_INITIATIVE,
+  API_4IR_TAGLINES,
   API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
   API_HUMAN_RESOURCES,
@@ -56,10 +58,24 @@ export function useFetchAssociationTrades(params: any) {
   return useAxiosSWR([API_ASSOCIATION_TRADES, params]);
 }
 
+export function useFetchTagline() {
+  return useAxiosSWR(API_4IR_TAGLINES);
+}
+
+export function useFetchInitiative(initiativeId: number | null) {
+  return useAxiosSWR(
+    initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null,
+  );
+}
+
 export function useFetchOrganization(organizationId: number | null) {
   return useAxiosSWR(
     organizationId ? API_ORGANIZATIONS + '/' + organizationId : null,
   );
+}
+
+export function useFetchOrganizationShowCasing() {
+  return useAxiosSWR(API_ORGANIZATIONS);
 }
 
 export function useFetchOrganizations(params: any) {

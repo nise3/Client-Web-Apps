@@ -13,12 +13,18 @@ import Genders from '../../../../@softbd/utilities/Genders';
 import ApplicationDetailsPopup from './ApplicationDetailsPopup';
 import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
+import {Button} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface IEnrolledYouthList {
   selectedCourseId: number;
+  previousHandler: () => void;
 }
 
-const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
+const EnrolledYouthList = ({
+  selectedCourseId,
+  previousHandler,
+}: IEnrolledYouthList) => {
   const {messages, locale} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -175,6 +181,15 @@ const EnrolledYouthList = ({selectedCourseId}: IEnrolledYouthList) => {
           <>
             <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />
           </>
+        }
+        extra={
+          <Button
+            startIcon={<ArrowBackIcon />}
+            variant='outlined'
+            onClick={() => previousHandler()}
+            style={{float: 'right', right: '10px', top: '10px'}}>
+            {messages['common.back']}
+          </Button>
         }>
         <ReactTable
           columns={columns}

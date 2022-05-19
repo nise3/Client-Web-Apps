@@ -6,7 +6,6 @@ import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {useFetchApplicationDetails} from '../../../services/instituteManagement/hooks';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {useRouter} from 'next/router';
@@ -18,12 +17,13 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 
 type Props = {
   itemId: number;
+  itemData: any;
   onClose: () => void;
 };
 
-const FourIRAssessmentDetailsPopUp = ({itemId, ...props}: Props) => {
+const FourIRAssessmentDetailsPopUp = ({itemId, itemData, ...props}: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
+  const isLoading = false;
 
   const router = useRouter();
   const path = router.pathname;

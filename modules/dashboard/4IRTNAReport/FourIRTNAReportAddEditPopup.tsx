@@ -21,6 +21,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
+import DownloadIcon from '@mui/icons-material/Download';
 
 interface FourIRTNAReportAddEditPopupProps {
   itemData: any;
@@ -33,42 +34,54 @@ interface FourIRTNAReportAddEditPopupProps {
 const methodType: any = {
   1: {
     item_number: 'workshop_method_workshop_numbers',
+    checkbox: 'workshop_method_workshop',
     item_file: 'workshop_method_file',
   },
   2: {
     item_number: 'fgd_workshop_numbers',
+    checkbox: 'fgd_workshop',
     item_file: 'fgd_workshop_file',
   },
   3: {
     item_number: 'industry_visit_workshop_numbers',
+    checkbox: 'industry_visit_workshop',
     item_file: 'industry_visit_file',
   },
   4: {
     item_number: 'desktop_research_workshop_numbers',
+    checkbox: 'desktop_research_workshop',
     item_file: 'desktop_research_file',
   },
   5: {
     item_number: 'existing_report_review_workshop_numbers',
+    checkbox: 'existing_report_review_workshop',
     item_file: 'existing_report_review_file',
   },
   6: {
     item_number: 'others_workshop_numbers',
+    checkbox: 'others_workshop',
     item_file: 'others_file',
   },
 };
 
 const initialValues = {
   workshop_method_workshop_numbers: '',
+  workshop_method_workshop: false,
   workshop_method_file: null,
   fgd_workshop_numbers: '',
+  fgd_workshop: false,
   fgd_workshop_file: null,
   industry_visit_workshop_numbers: '',
+  industry_visit_workshop: false,
   industry_visit_file: null,
   desktop_research_workshop_numbers: '',
+  desktop_research_workshop: false,
   desktop_research_file: null,
   existing_report_review_workshop_numbers: '',
+  existing_report_review_workshop: false,
   existing_report_review_file: null,
   others_workshop_numbers: '',
+  others_workshop: false,
   others_file: null,
   file_path: '',
   row_status: 1,
@@ -124,8 +137,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -150,8 +162,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(messages['4ir.tna_report_fgd_workshop'] as string)
@@ -174,8 +185,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -201,8 +211,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -232,8 +241,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(
@@ -259,8 +267,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 (value: any) => {
                   if (!value) return false;
                   if (value === '') return false;
-                  if (value.length === 0) return false;
-                  return true;
+                  return value.length !== 0;
                 },
               )
               .label(messages['4ir.tna_report.others_workshop'] as string)
@@ -298,9 +305,48 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       const itemType = methodType[item?.method_type];
       if (itemType) {
         setter[itemType.item_number] = item?.workshop_numbers;
-        //setter[itemType.item_file] = item?.tna_file_path;
+        setter[itemType.checkbox] = !!item?.workshop_numbers;
       }
     });
+
+    if (
+      setter['workshop_method_workshop_numbers'] &&
+      setter['workshop_method_workshop_numbers'] != 0
+    ) {
+      setIsWorkshopMethodWorkshop(true);
+    }
+
+    if (setter['fgd_workshop_numbers'] && setter['fgd_workshop_numbers'] != 0) {
+      setIsFGDWorkshop(true);
+    }
+
+    if (
+      setter['industry_visit_workshop_numbers'] &&
+      setter['industry_visit_workshop_numbers'] != 0
+    ) {
+      setIsIndustryVisit(true);
+    }
+
+    if (
+      setter['desktop_research_workshop_numbers'] &&
+      setter['desktop_research_workshop_numbers'] != 0
+    ) {
+      setIsDesktopResearchFile(true);
+    }
+
+    if (
+      setter['existing_report_review_workshop_numbers'] &&
+      setter['existing_report_review_workshop_numbers'] != 0
+    ) {
+      setIsExistingReportReviewFile(true);
+    }
+
+    if (
+      setter['others_workshop_numbers'] &&
+      setter['others_workshop_numbers'] != 0
+    ) {
+      setIsOthersFile(true);
+    }
 
     if (itemData) {
       reset({...initialValues, ...setter});
@@ -315,29 +361,8 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       const payload = new FormData();
+
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
-
-      // const fieldArray = [
-      //   'desktop_research',
-      //   'workshop_method_workshop',
-      //   'existing_report_review',
-      //   'fgd',
-      //   'industry_visit',
-      //   'others',
-      // ];
-
-      // fieldArray.forEach((field: string, index: number) => {
-      //   if (data?.[`${field}_workshop`]) {
-      //     payload.append(
-      //       `${field}_workshop_numbers`,
-      //       String(data?.[`${field}_workshop_numbers`]),
-      //     );
-      //     payload.append(
-      //       `${field}_workshop_file`,
-      //       data?.[`${field}_file`]?.[0],
-      //     );
-      //   }
-      // });
 
       payload.append('row_status', String(data?.row_status));
 
@@ -500,7 +525,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 <CustomTextInput
                   required
                   id='workshop_method_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   type={'number'}
                   register={register}
                   errorInstance={errors}
@@ -516,7 +541,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 <CustomTextInput
                   id='workshop_method_file'
                   name='workshop_method_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -530,13 +555,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -575,7 +605,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isFGDWorkshop}
                   type={'number'}
                   id='fgd_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -591,7 +621,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='fgd_workshop_file'
                   name='fgd_workshop_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -605,13 +635,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -650,7 +685,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isIndustryVisit}
                   type={'number'}
                   id='industry_visit_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -666,7 +701,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isIndustryVisit}
                   id='industry_visit_file'
                   name='industry_visit_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -680,13 +715,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -725,7 +765,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   disabled={!isDesktopResearchFile}
                   type={'number'}
                   id='desktop_research_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -741,7 +781,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isDesktopResearchFile}
                   id='desktop_research_file'
                   name='desktop_research_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -755,13 +795,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -801,7 +846,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='existing_report_review_workshop_numbers'
                   type={'number'}
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   register={register}
                   errorInstance={errors}
                 />
@@ -817,7 +862,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required
                   id='existing_report_review_file'
                   name='existing_report_review_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -831,13 +876,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -875,7 +925,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isOthersFile}
                   disabled={!isOthersFile}
                   id='others_workshop_numbers'
-                  label={''}
+                  label={messages['tna.number_of_workshop']}
                   type={'number'}
                   register={register}
                   errorInstance={errors}
@@ -892,7 +942,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                   required={isOthersFile}
                   id='others_file'
                   name='others_file'
-                  label={''}
+                  label={messages['common.upload_excel_file']}
                   register={register}
                   type={'file'}
                   InputLabelProps={{
@@ -906,13 +956,18 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               </Grid>
 
               <Grid item md={2} xs={4}>
-                <Link href='/template/organization-list.xlsx' download>
+                <Link
+                  href='/template/tna-report.xlsx'
+                  download
+                  underline={'none'}
+                  style={{whiteSpace: 'nowrap'}}>
                   <CommonButton
                     key={1}
                     onClick={() => console.log('file downloading')}
                     btnText={'4ir.tna_report_demo_file'}
                     variant={'outlined'}
                     color={'primary'}
+                    startIcon={<DownloadIcon />}
                   />
                 </Link>
               </Grid>
@@ -936,19 +991,27 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
-            label={messages['common.project_upload']}
+            label={messages['tna.final_tna_report']}
             required={false}
+            acceptedFileTypes={[
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
           />
         </Grid>
 
         <Grid item md={2} xs={4} sx={{display: 'flex', alignItems: 'center'}}>
-          <Link href='/template/organization-list.xlsx' download>
+          <Link
+            href='/template/TNA-Guideline.docx'
+            download
+            underline={'none'}
+            style={{whiteSpace: 'nowrap'}}>
             <CommonButton
               key={1}
               onClick={() => console.log('file downloading')}
               btnText={'4ir.tna_report_demo_file'}
               variant={'outlined'}
               color={'primary'}
+              startIcon={<DownloadIcon />}
             />
           </Link>
         </Grid>

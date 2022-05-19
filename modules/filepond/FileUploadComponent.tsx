@@ -49,6 +49,7 @@ interface FilepondComponentProps {
   'application/pdf',
   'application/vnd.ms-excel',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]*/
 
 const StyledWrapper = styled('div')(() => ({...FilepondCSS}));

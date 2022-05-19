@@ -2,7 +2,7 @@ import yup from '../../../@softbd/libs/yup';
 import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -24,6 +24,8 @@ import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {useFetchFourIRRoles} from '../../../services/4IRManagement/hooks';
 
 interface ImplementingTeamAddEditPopupProps {
   itemId: number | null;
@@ -38,6 +40,7 @@ const initialValues = {
   email: '',
   phone_number: '',
   role_responsibility: '',
+  application_role_id: '',
   designation: '',
   organization: '',
   file_path: '',
@@ -52,6 +55,10 @@ const FourIRImplementingTeamAddEditPopup: FC<
   const isEdit = itemId != null;
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
+  const [roleFilter] = useState({});
+  const {data: roles, isLoading: isLoadingRoles} =
+    useFetchFourIRRoles(roleFilter);
 
   const {
     data: itemData,
@@ -89,6 +96,10 @@ const FourIRImplementingTeamAddEditPopup: FC<
         .string()
         .required()
         .label(messages['4ir.role_or_responsibility'] as string),
+      application_role_id: yup
+        .string()
+        .required()
+        .label(messages['role.role_in_application'] as string),
       designation: yup
         .string()
         .required()
@@ -124,6 +135,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
         email: itemData?.email,
         phone_number: itemData?.phone_number,
         role_responsibility: itemData?.role_responsibility,
+        application_role_id: itemData?.application_role_id,
         designation: itemData?.designation,
         organization: itemData?.organization,
         file_path: itemData?.file_path,
@@ -226,6 +238,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            disabled={itemData?.phone_number}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -237,6 +250,20 @@ const FourIRImplementingTeamAddEditPopup: FC<
             errorInstance={errors}
             isLoading={isLoading}
             rows={3}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'application_role_id'}
+            isLoading={isLoadingRoles}
+            options={roles}
+            control={control}
+            label={messages['role.label']}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>

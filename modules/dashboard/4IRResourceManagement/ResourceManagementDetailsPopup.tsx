@@ -10,7 +10,10 @@ import IconSkill from '../../../@softbd/icons/IconSkill';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchFourIRResource} from '../../../services/4IRManagement/hooks';
-import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
+import {Link} from '../../../@softbd/elements/common';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
 
 type Props = {
   itemId: number;
@@ -53,31 +56,51 @@ const ResourceManagementDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['4ir_rm.approval_status']}
-              value={itemData?.approval_status ? 'Yes' : 'No'}
+              label={messages['4ir_rm.is_developed_financial_proposal']}
+              value={itemData?.is_developed_financial_proposal ? 'Yes' : 'No'}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
-              label={messages['4ir_rm.budget_approval_status']}
-              value={itemData?.budget_approval_status ? 'Yes' : 'No'}
+              label={messages['4ir_cs.approved_by']}
+              value={itemData?.approve_by}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>
             <DetailsInputView
               label={messages['4ir_rm.given_budget']}
-              value={itemData?.given_budget}
+              value={itemData?.total_amount}
               isLoading={isLoading}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          </Grid>
           <Grid item xs={6}>
-            <CardMediaImageView
-              image={itemData?.file_path}
-              //className={classes.trainingCardImage}
-              title={'common.attachment'}
-              alt={'common.attachment'}
+            <DetailsInputView
+              label={messages['common.comment']}
+              value={itemData?.comment}
+              isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={6}>

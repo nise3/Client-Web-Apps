@@ -24,8 +24,7 @@ const CertificationStep = ({
   useEffect(() => {
     if (itemData && itemData?.completion_step) {
       const latestStep = itemData?.completion_step;
-      delete itemData?.completion_step;
-      if (latestStep >= 1) {
+      if (latestStep >= 11) {
         setIsReady(true);
       }
       setLatestStep(latestStep + 1);

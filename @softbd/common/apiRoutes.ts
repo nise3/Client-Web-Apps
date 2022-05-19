@@ -89,6 +89,7 @@ export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
+export const API_FOUR_IR_ROLES = CORE_SERVICE_PATH + '/roles-for-4IR';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
 export const API_YOUTH_EXIST_CHECK = YOUTH_SERVICE_PATH + '/youth-exist-check';
@@ -195,9 +196,11 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 /** 4IR service routes section start*/
 export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/projects';
 export const API_4IR_GUIDELINE = FOUR_IR_SERVICE_PATH + '/guidelines';
+export const API_4IR_SHOWCASE = FOUR_IR_SERVICE_PATH + '/showcasing';
 export const API_4IR_INITIATIVE = FOUR_IR_SERVICE_PATH + '/initiatives';
 export const API_4IR_ALL_INITIATIVE = FOUR_IR_SERVICE_PATH + '/all-initiatives';
 export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_EMPLOYMENT = FOUR_IR_SERVICE_PATH + '/employments';
 export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
@@ -205,25 +208,35 @@ export const API_4IR_SECTORS = FOUR_IR_SERVICE_PATH + '/sectors';
 export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
-export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
+export const API_4IR_ANALYSIS = FOUR_IR_SERVICE_PATH + '/initiative-analysis';
+export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/scale-up';
+// export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
 export const API_4IR_PROJECT_CONTRIBUTIONS =
   FOUR_IR_SERVICE_PATH + '/contributions';
 export const API_4IR_CERTIFICATE =
   FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
+
+export const API_4IR_ASSESSMENT =
+  FOUR_IR_SERVICE_PATH + '/get-four-ir-youth-assessment-list';
 export const API_4IR_CURRICULUM =
   FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
 export const API_4IR_RESOURCE_MANAGEMENT =
   FOUR_IR_SERVICE_PATH + '/resource-managements';
 export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
+export const API_4IR_TOT_UPDATE = FOUR_IR_SERVICE_PATH + '/tots-update';
 export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
 export const API_4IR_PROJECT_ANALYSIS =
   FOUR_IR_SERVICE_PATH + '/project-analysis';
+export const API_4IR_INITIATIVE_ANALYSIS =
+  FOUR_IR_SERVICE_PATH + '/initiative-analysis';
 export const API_4IR_PROJECT_TASK_UPDATE =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-task-update';
 export const API_FOUR_IR_INITIATIVE_IMPORT =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel';
 export const API_FOUR_IR_INITIATIVE_IMPORT_FORMAT =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel-format';
+export const API_FOUR_IR_COURSE_APPROVE =
+  FOUR_IR_SERVICE_PATH + '/approve-four-ir-course';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */

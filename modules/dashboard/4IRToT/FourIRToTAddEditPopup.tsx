@@ -22,6 +22,9 @@ import MasterTrainerFieldArray from './MasterTrainerFieldArray';
 import {createToT, updateToT} from '../../../services/4IRManagement/ToTService';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface ToTAddEditPopupProps {
   itemId: number | null;
@@ -32,16 +35,16 @@ interface ToTAddEditPopupProps {
 
 const initialValues = {
   master_trainers: [{}],
-  organiser_name: '',
-  organiser_mobile: '',
-  organiser_address: '',
-  organiser_email: '',
-  co_organiser_name: '',
-  co_organiser_mobile: '',
-  co_organiser_address: '',
-  co_organiser_email: '',
+  organizer_name: '',
+  organizer_address: '',
+  organizer_email: '',
+  co_organizer_name: '',
+  co_organizer_address: '',
+  co_organizer_email: '',
   row_status: '1',
   participants: '',
+  tot_date: '',
+  proof_of_report_file: '',
 };
 
 const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
@@ -68,17 +71,20 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             .trim()
             .required()
             .label(messages['common.name'] as string),
+          organization_name: yup
+            .string()
+            .required()
+            .label(messages['common.organization'] as string),
+          designation: yup
+            .string()
+            .required()
+            .label(messages['common.designation'] as string),
           mobile: yup
             .string()
             .trim()
             .required()
             .label(messages['common.mobile'] as string)
             .matches(MOBILE_NUMBER_REGEX),
-          address: yup
-            .string()
-            .trim()
-            .required()
-            .label(messages['common.address'] as string),
           email: yup
             .string()
             .email()
@@ -86,50 +92,45 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             .label(messages['common.email'] as string),
         }),
       ),
-
-      organiser_name: yup
+      organizer_name: yup
         .string()
         .trim()
         .required()
         .label(messages['common.name'] as string),
-      organiser_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.mobile'] as string)
-        .matches(MOBILE_NUMBER_REGEX),
-      organiser_address: yup
+      organizer_address: yup
         .string()
         .trim()
         .required()
         .label(messages['common.address'] as string),
-      organiser_email: yup
+      organizer_email: yup
         .string()
         .email()
         .required()
         .label(messages['common.email'] as string),
 
-      co_organiser_name: yup
+      co_organizer_name: yup
         .string()
         .trim()
         .required()
         .label(messages['common.name'] as string),
-      co_organiser_mobile: yup
-        .string()
-        .trim()
-        .required()
-        .label(messages['common.mobile'] as string)
-        .matches(MOBILE_NUMBER_REGEX),
-      co_organiser_address: yup
+      co_organizer_address: yup
         .string()
         .trim()
         .required()
         .label(messages['common.address'] as string),
-      co_organiser_email: yup
+      co_organizer_email: yup
         .string()
         .email()
         .required()
         .label(messages['common.email'] as string),
+      tot_date: yup
+        .string()
+        .required()
+        .label(messages['4ir.tot_date'] as string),
+      proof_of_report_file: yup
+        .string()
+        .required()
+        .label(messages['tot.proof_of_report_file'] as string),
     });
   }, [messages]);
 
@@ -149,15 +150,15 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
     if (itemData) {
       reset({
         master_trainers: getMasterTrainers(itemData?.master_trainers),
-        organiser_name: itemData?.organiser_name,
-        organiser_mobile: itemData?.organiser_mobile,
-        organiser_address: itemData?.organiser_address,
-        organiser_email: itemData?.organiser_email,
-        co_organiser_name: itemData?.co_organiser_name,
-        co_organiser_mobile: itemData?.co_organiser_mobile,
-        co_organiser_address: itemData?.co_organiser_address,
-        co_organiser_email: itemData?.co_organiser_email,
+        organizer_name: itemData?.organizer_name,
+        organizer_address: itemData?.organizer_address,
+        organizer_email: itemData?.organizer_email,
+        co_organizer_name: itemData?.co_organizer_name,
+        co_organizer_address: itemData?.co_organizer_address,
+        co_organizer_email: itemData?.co_organizer_email,
         row_status: itemData?.row_status,
+        tot_date: itemData?.tot_date,
+        proof_of_report_file: itemData?.proof_of_report_file,
       });
     } else {
       reset(initialValues);
@@ -180,17 +181,12 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             formData.append(field, data[field]?.[0]);
           } else if (field == 'master_trainers') {
             formData.append('master_trainers', JSON.stringify(data[field]));
-            //formData.append('master_trainers', data[field]);
           } else {
             formData.append(field, data[field]);
           }
         }
       });
 
-      // let payload = {
-      //   four_ir_initiative_id: fourIRInitiativeId,
-      //   ...data,
-      // };
       if (itemId) {
         await updateToT(itemId, formData);
         updateSuccessMessage('4ir_tot.label');
@@ -213,7 +209,9 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
     return (masterTrainers || []).map((item: any) => {
       return {
         name: item?.name,
-        address: item?.address,
+        designation: item?.designation,
+        organization_name: item?.organization_name,
+        organization_name_en: item?.organization_name_en,
         mobile: item?.mobile,
         email: item?.email,
       };
@@ -294,7 +292,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='organiser_name'
+                id='organizer_name'
                 label={messages['common.name']}
                 register={register}
                 errorInstance={errors}
@@ -304,17 +302,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='organiser_mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='organiser_address'
+                id='organizer_address'
                 label={messages['common.address']}
                 register={register}
                 errorInstance={errors}
@@ -324,7 +312,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='organiser_email'
+                id='organizer_email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -342,7 +330,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='co_organiser_name'
+                id='co_organizer_name'
                 label={messages['common.name']}
                 register={register}
                 errorInstance={errors}
@@ -352,17 +340,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='co_organiser_mobile'
-                label={messages['common.mobile']}
-                register={register}
-                errorInstance={errors}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='co_organiser_address'
+                id='co_organizer_address'
                 label={messages['common.address']}
                 register={register}
                 errorInstance={errors}
@@ -372,7 +350,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required
-                id='co_organiser_email'
+                id='co_organizer_email'
                 label={messages['common.email']}
                 register={register}
                 errorInstance={errors}
@@ -380,20 +358,6 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
               />
             </Grid>
           </Grid>
-
-          {/*<Grid item xs={12} md={6} mt={5}>
-            <FileUploadComponent
-              id='participants'
-              //defaultFileUrl={fileLinks}
-              errorInstance={errors}
-              setValue={setValue}
-              register={register}
-              label={messages['4ir_tot.participants']}
-              required={false}
-              // uploadedUrls={watch('projects')}
-            />
-          </Grid>*/}
-
           <Grid item xs={12} mt={5}>
             <h3 style={{marginTop: '2px', marginBottom: '0', color: 'gray'}}>
               {messages['4ir_tot.participants']}
@@ -421,13 +385,17 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
 
               <Grid item container xs={'auto'} spacing={5}>
                 <Grid item>
-                  <Link href='/template/organization-list.xlsx' download>
+                  <Link
+                    href='/template/perticipient-list.xlsx'
+                    download
+                    underline={'none'}>
                     <CommonButton
                       key={1}
                       onClick={() => console.log('file downloading')}
                       btnText={'4ir_tot.participants'}
                       variant={'outlined'}
                       color={'primary'}
+                      startIcon={<DownloadIcon />}
                     />
                   </Link>
                 </Grid>
@@ -443,15 +411,40 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
               </Grid>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item xs={6} md={6} mt={5}>
+          <CustomDateTimeField
+            required
+            id='tot_date'
+            label={messages['4ir.tot_date']}
+            register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={6} md={6}>
+          <FileUploadComponent
+            id='proof_of_report_file'
+            defaultFileUrl={itemData?.proof_of_report_file}
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['tot.proof_of_report_file']}
+            required={true}
+            acceptedFileTypes={[
+              'image/*',
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]}
+          />
+        </Grid>
 
-          <Grid item xs={12} mt={2}>
-            <FormRowStatus
-              id='row_status'
-              control={control}
-              defaultValue={initialValues.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+        <Grid item xs={12} mt={2}>
+          <FormRowStatus
+            id='row_status'
+            control={control}
+            defaultValue={initialValues.row_status}
+            isLoading={isLoading}
+          />
         </Grid>
       </Grid>
       {showSuccessPopUp && fourIRInitiativeId && (

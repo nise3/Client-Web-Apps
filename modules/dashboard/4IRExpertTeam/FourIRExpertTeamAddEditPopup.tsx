@@ -25,6 +25,8 @@ import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import {useFetchFourIRRoles} from '../../../services/4IRManagement/hooks';
 
 interface IExpertTeamAddEditPopupProps {
   itemId: number | null;
@@ -39,6 +41,7 @@ const initialValues = {
   email: '',
   phone_number: '',
   role_responsibility: '',
+  application_role_id: '',
   designation: '',
   organization: '',
   file_path: '',
@@ -55,6 +58,10 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
   const {errorStack} = useNotiStack();
   const isEdit = itemId != null;
   const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
+
+  const [roleFilter] = useState({});
+  const {data: roles, isLoading: isLoadingRoles} =
+    useFetchFourIRRoles(roleFilter);
 
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
@@ -88,6 +95,10 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['4ir.role_or_responsibility'] as string),
+      application_role_id: yup
+        .string()
+        .required()
+        .label(messages['role.role_in_application'] as string),
       designation: yup
         .string()
         .required()
@@ -129,6 +140,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
         email: itemData?.email,
         phone_number: itemData?.phone_number,
         role_responsibility: itemData?.role_responsibility,
+        application_role_id: itemData?.application_role_id,
         designation: itemData?.designation,
         organization: itemData?.organization,
         file_path: itemData?.file_path,
@@ -235,6 +247,7 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             register={register}
             errorInstance={errors}
             isLoading={isLoading}
+            disabled={itemData?.phone_number}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -246,6 +259,19 @@ const FourIRExpertTeamAddEditPopup: FC<IExpertTeamAddEditPopupProps> = ({
             errorInstance={errors}
             isLoading={isLoading}
             rows={3}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomFilterableFormSelect
+            required
+            id={'application_role_id'}
+            isLoading={isLoadingRoles}
+            options={roles}
+            control={control}
+            label={messages['role.label']}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            errorInstance={errors}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>

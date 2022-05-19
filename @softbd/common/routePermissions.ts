@@ -297,15 +297,19 @@ export const routePermissions: any = {
   },
   '/4ir-occupations': {
     routePrefix: '/4ir-occupations',
-    permissionKeys: ['view_any_4ir_occupation'],
+    permissionKeys: ['view_any_4ir_occupations'],
   },
   '/4ir-tagline': {
     routePrefix: '/4ir-tagline',
-    permissionKeys: ['view_any_4ir_tagline'],
+    permissionKeys: ['view_any_4ir_taglines'],
   },
   '/4ir-guideline': {
     routePrefix: '/4ir-guideline',
     permissionKeys: ['view_any_4ir_guideline'],
+  },
+  '/4ir-showcasing': {
+    routePrefix: '/4ir-showcasing',
+    permissionKeys: ['view_any_4ir_showcasing'],
   },
   '/contribution': {
     routePrefix: '/contribution',
