@@ -62,15 +62,15 @@ const BatchResultDetailsPage = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 8,
+              marginBottom: 4,
             }}>
             <Body1>
               {messages['common.published_at'] +
               ': ' +
-              batchData?.[0]?.result_published_at
+              batchData?.result_published_at
                 ? getIntlDateFromString(
                     formatDate,
-                    batchData[0].result_published_at,
+                    batchData?.result_published_at,
                     'short',
                   )
                 : ''}
@@ -109,7 +109,7 @@ const BatchResultDetailsPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Body1>{messages['education.result']}</Body1>
+                <Body1>{messages['common.obtained_mark']}</Body1>
               </Grid>
               <Grid
                 item
@@ -119,7 +119,7 @@ const BatchResultDetailsPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Body1>{messages['common.obtained_mark']}</Body1>
+                <Body1>{messages['education.result']}</Body1>
               </Grid>
             </Grid>
           </Grid>

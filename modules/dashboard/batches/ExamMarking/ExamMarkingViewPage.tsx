@@ -114,6 +114,9 @@ const ExamMarkingViewPage = () => {
                 sx={{width: '110px'}}
                 {...register(`${id}[marks_achieved]`)}
                 defaultValue={question?.marks_achieved}
+                inputProps={{
+                  step: 0.01,
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end' sx={{width: '20px'}}>

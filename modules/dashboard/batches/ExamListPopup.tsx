@@ -18,8 +18,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {Link} from '../../../@softbd/elements/common';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {Body2, Link} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {ExamTypes} from '../exams/ExamEnums';
 import IconExam from '../../../@softbd/icons/IconExam';
@@ -27,6 +26,8 @@ import {youthExamMarking} from '../../../services/instituteManagement/BatchServi
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 import InputAdornment from '@mui/material/InputAdornment';
+import Tooltip from '@mui/material/Tooltip';
+import {DriveFileRenameOutline, InsertDriveFile} from '@mui/icons-material';
 
 interface ExamListPopupProps {
   batchId: number;
@@ -82,10 +83,13 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
             type: exam.type,
             exam_type_id: exam.exam_type_id,
             exam_type: exam_type.type,
-            obtained_mark: exam.obtained_mark,
+            obtained_mark: !isNaN(exam?.obtained_mark)
+              ? String(Number(exam.obtained_mark))
+              : '',
             file_paths: exam.file_paths,
             auto_marking: exam.auto_marking,
             total_marks: exam.total_marks,
+            participated: exam.participated,
           };
           examsData.push(examObj);
         });
@@ -203,11 +207,13 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                 })`}
                 register={register}
                 type={'number'}
+                inputProps={{
+                  step: 0.01,
+                }}
                 InputProps={{
-                  step: 1,
                   endAdornment: (
-                    <InputAdornment position='end'>
-                      Total Marks: {parseInt(exam?.total_marks)}
+                    <InputAdornment position='end' sx={{color: 'green'}}>
+                      Total Marks: {Number(exam?.total_marks)}
                     </InputAdornment>
                   ),
                 }}
@@ -216,18 +222,32 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                 disabled={Number(exam.type) == ExamTypes.ONLINE}
                 isLoading={isLoading}
               />
-              {exam.type == ExamTypes.ONLINE && (
-                <Link href={markingOrMarkSheetPath} passHref={true}>
-                  <CommonButton
-                    btnText={
-                      exam.auto_marking
-                        ? 'common.answer_sheet'
-                        : 'batches.mark_distribution'
+              {exam.type == ExamTypes.ONLINE && !exam.participated && (
+                <Body2>{messages['common.not_participated']}</Body2>
+              )}
+              {exam.type == ExamTypes.ONLINE && exam.participated && (
+                <Link
+                  href={markingOrMarkSheetPath}
+                  passHref={true}
+                  style={{
+                    alignSelf: 'center',
+                    marginLeft: '10px',
+                    border: '1px solid #3a7edc',
+                    padding: '0px 5px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                  }}>
+                  <Tooltip
+                    title={
+                      messages[
+                        exam.auto_marking
+                          ? 'common.answer_sheet'
+                          : 'batches.mark_distribution'
+                      ] as any
                     }
-                    style={{marginLeft: '10px'}}
-                    variant='outlined'
-                    color='primary'
-                  />
+                    arrow>
+                    <DriveFileRenameOutline />
+                  </Tooltip>
                 </Link>
               )}
               {![ExamTypes.ONLINE, ExamTypes.OFFLINE, ExamTypes.MIXED].includes(
@@ -240,8 +260,22 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                     href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
                     passHref={true}
                     key={i}
-                    target={'_blank'}>
-                    {messages['common.file_path']} {formatNumber(i + 1)}
+                    target={'_blank'}
+                    style={{
+                      marginLeft: '10px',
+                      alignSelf: 'center',
+                      border: '1px solid #3a7edc',
+                      padding: '5px 5px 0px 5px',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                    }}>
+                    <Tooltip
+                      title={`${
+                        messages['common.file_path'] as any
+                      } ${formatNumber(i + 1)}`}
+                      arrow>
+                      <InsertDriveFile />
+                    </Tooltip>
                   </Link>
                 ))}
             </Grid>
@@ -256,17 +290,20 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
               label={messages['common.attendance']}
               register={register}
               type={'number'}
+              inputProps={{
+                step: 0.01,
+              }}
               InputProps={{
-                step: 1,
                 endAdornment: (
-                  <InputAdornment position='end'>
-                    Total Marks:{' '}
-                    {parseInt(resultConfig?.total_attendance_marks)}
+                  <InputAdornment position='end' sx={{color: 'green'}}>
+                    Total Marks: {Number(resultConfig?.total_attendance_marks)}
                   </InputAdornment>
                 ),
               }}
               defaultValue={
-                batchYouthExams?.attendance ? batchYouthExams?.attendance : '0'
+                batchYouthExams?.attendance
+                  ? String(Number(batchYouthExams?.attendance))
+                  : '0'
               }
               errorInstance={errors}
               isLoading={isLoading}
