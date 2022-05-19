@@ -1696,6 +1696,7 @@
   "question.difficulty_level": "ডিফিকাল্টি লেভেল",
   "answer.type.yes": "হ্যাঁ",
   "answer.type.no": "না",
+  "question.given_answer": "Given answer",
   "common.assessment": "মূল্যায়ন",
   "common.self_assessment": "নিজেকে যাচাইকরণ",
   "common.assessment_result": "মূল্যায়ন ফলাফল",

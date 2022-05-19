@@ -12,7 +12,6 @@ type IProps = {
   control: any;
   setValue: any;
   getValues: any;
-  watch: any;
 };
 
 const CustomFieldArrayResultConfigGrading = ({
@@ -23,7 +22,6 @@ const CustomFieldArrayResultConfigGrading = ({
   control,
   setValue,
   getValues,
-  watch,
 }: IProps) => {
   const [maxInputValue, setMaxInputValue] = useState<number>(1);
 
@@ -33,7 +31,6 @@ const CustomFieldArrayResultConfigGrading = ({
   });
 
   useEffect(() => {
-    console.log('watch->', watch(['gradings']));
     if (
       fields.length > 1 &&
       Number(getValues().gradings[fields.length - 2].max) <= 99

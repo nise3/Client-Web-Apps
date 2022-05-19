@@ -24,7 +24,7 @@ const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
           {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
         <Body2>{question?.title}</Body2>
-        <Body2 sx={{fontWeight: 'bold'}}>
+        <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
           {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
         </Body2>
       </Grid>

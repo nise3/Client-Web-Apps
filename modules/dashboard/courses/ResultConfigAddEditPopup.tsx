@@ -295,7 +295,6 @@ const ResultConfigAddEditPopup = ({
                 errors={errors}
                 setValue={setValue}
                 getValues={getValues}
-                watch={watch}
               />
             </Grid>
           </>
