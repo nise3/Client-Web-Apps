@@ -82,7 +82,9 @@ const tabKeys = [
 
 const initialValues = {
   first_name: '',
+  first_name_en: '',
   last_name: '',
+  last_name_en: '',
   date_of_birth: '',
   signature_image_path: '',
   passport_photo_path: '',
@@ -273,20 +275,40 @@ const YouthCourseRegistrationPage = () => {
         return yup.object().shape({
           first_name: yup
             .string()
+            .required()
             .title(
               'bn',
               true,
               messages['common.special_character_error'] as string,
             )
             .label(messages['common.first_name_bn'] as string),
+          first_name_en: yup
+            .string()
+            .required()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
+            .label(messages['common.first_name_en'] as string),
           last_name: yup
             .string()
+            .required()
             .title(
               'bn',
               true,
               messages['common.special_character_error'] as string,
             )
             .label(messages['common.last_name_bn'] as string),
+          last_name_en: yup
+            .string()
+            .required()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
+            .label(messages['common.last_name_en'] as string),
           date_of_birth: yup
             .string()
             .trim()
