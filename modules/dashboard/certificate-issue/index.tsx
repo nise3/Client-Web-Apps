@@ -120,7 +120,7 @@ const CertificateIssuePage = () => {
                 approveAction={() =>
                   issueCerrificate(data)
                 }
-                buttonText={messages['certificate.certificate_issued'] as string}
+                buttonText={messages['certificate.certificate_issue'] as string}
               /> : <IntlMessages id={messages['certificate.certificate_issued_done'] as string} />
               }
               
