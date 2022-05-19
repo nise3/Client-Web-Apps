@@ -10,7 +10,6 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRInitiativeAnalysis} from '../../../services/4IRManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import CardMediaImageView from '../../../@softbd/elements/display/ImageView/CardMediaImageView';
 import {FiUser} from 'react-icons/fi';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import Link from 'next/link';
@@ -21,29 +20,13 @@ type Props = {
   openEditModal: (id: number) => void;
 };
 
-const FourIRScaleUpDetailsPopUp = ({
+const InitiativeAnalysisDetailsPopUp = ({
   itemId,
   openEditModal,
   ...props
 }: Props) => {
   const {messages} = useIntl();
   const {data: itemData, isLoading} = useFetch4IRInitiativeAnalysis(itemId);
-  //
-  //     {
-  //   data: {
-  //     id: 1,
-  //     project_advancement: ' Project Advancement',
-  //     project_budget: 100000,
-  //     previous_budget: 1000000,
-  //     project_details: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-  //     scale_up: 'true',
-  //   },
-  //   isLoading: false,
-  // };
-
-  // useFetch4IRScaleUp(itemId);
-
-  console.log(itemData);
 
   return (
     <>
@@ -128,4 +111,4 @@ const FourIRScaleUpDetailsPopUp = ({
   );
 };
 
-export default FourIRScaleUpDetailsPopUp;
+export default InitiativeAnalysisDetailsPopUp;

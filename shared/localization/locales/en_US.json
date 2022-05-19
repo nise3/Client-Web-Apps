@@ -2052,5 +2052,11 @@
   "4ir.initiative-alalysis_report_upload": "Upload Report File (Word/PDF)",
   "common.only_word_pdf" : "Only .doc/.pdf is allowed",
   "4ir_initiative_analysis.label": "Initiative Analysis",
-  "4ir.research_method": "Rechearch Method"
+  "4ir.research_method": "Rechearch Method",
+  "4ir.scaleup_implement_timeline":"Implement Timeline",
+  "4ir.scaleup_beneficiary_target":"beneficiary target",
+  "4ir.scaleup_number_of_beneficiary":"Number Of Beneficiary",
+  "4ir.scaleup_implement_area":"Implement Area",
+  "4ir.scaleup_document_approved_by":"Is Document Approved?"
+
 }

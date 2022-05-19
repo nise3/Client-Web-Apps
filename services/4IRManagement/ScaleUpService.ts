@@ -1,7 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiPut} from '../../@softbd/common/api';
 import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {API_4IR_SCALE_UP} from '../../@softbd/common/apiRoutes';
-import {IProject, IScaleUp} from '../../shared/Interface/4IR.interface';
+import {IScaleUp} from '../../shared/Interface/4IR.interface';
 
 export const getAllScaleUps = async (params = {}) => {
   try {

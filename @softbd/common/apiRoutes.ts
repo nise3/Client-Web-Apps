@@ -205,7 +205,7 @@ export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
 export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
 export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
 export const API_4IR_ANALYSIS = FOUR_IR_SERVICE_PATH + '/initiative-analysis';
-export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/4ir-scale-up';
+export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/scale-up';
 export const API_4IR_CERTIFICATE =
   FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
 

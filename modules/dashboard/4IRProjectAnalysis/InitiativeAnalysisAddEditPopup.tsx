@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import yup from '../../../@softbd/libs/yup';
 import {Grid, Link} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -22,6 +22,7 @@ import {
   createInitiativeAnalysis,
   updateInitiativeAnalysis,
 } from '../../../services/4IRManagement/initiativeAnalysis';
+import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface FourIRTNAReportAddEditPopupProps {
   fourIRInitiativeId: number;
@@ -40,7 +41,7 @@ const initialValues = {
   row_status: '1',
 };
 
-const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
+const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
   fourIRInitiativeId,
   refreshDataTable,
   itemId,
@@ -49,12 +50,10 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
-  console.log('itemId is :', itemId);
   const isEdit = itemId != null;
 
-  console.log('inititive id from page load -> ', fourIRInitiativeId);
-
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
 
   const {data: itemData} = useFetch4IRInitiativeAnalysis(itemId);
 
@@ -131,8 +130,6 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      console.log(data);
-      console.log('initiative id from popup :', fourIRInitiativeId);
       const payload = new FormData();
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
 
@@ -174,9 +171,8 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       } else {
         await createInitiativeAnalysis(payload);
         createSuccessMessage('4ir_initiative_analysis.label');
-        // setShowSuccessPopUp(true);
+        setShowSuccessPopUp(true);
       }
-      console.log(data);
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
@@ -191,7 +187,6 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       emptyFile(fileId);
       return;
     }
-    console.log(files);
 
     if (type == 'execl') {
       if (
@@ -217,8 +212,6 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       }
     }
   };
-
-  console.log('isEdit :', isEdit);
 
   return (
     <HookFormMuiModal
@@ -356,7 +349,7 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
         </Grid>
       </Grid>
 
-      {/*{showSuccessPopUp && fourIRInitiativeId && (
+      {showSuccessPopUp && fourIRInitiativeId && (
         <SuccessPopup
           closeAction={closeAction}
           stepNo={16}
@@ -364,8 +357,8 @@ const ProjectAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
           completionStep={16}
           formStep={18}
         />
-      )}*/}
+      )}
     </HookFormMuiModal>
   );
 };
-export default ProjectAnalysisAddEditPopup;
+export default InitiativeAnalysisAddEditPopup;

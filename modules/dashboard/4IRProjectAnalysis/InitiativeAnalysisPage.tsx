@@ -12,8 +12,8 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
-import ProjectAnalysisAddEditPopup from './ProjectAnalysisAddEditPopup';
-import ProjectAnalysisDetailsPopup from './FourIRScaleUpDetailsPopUp';
+import InitiativeAnalysisAddEditPopup from './InitiativeAnalysisAddEditPopup';
+import InitiativeAnalysisDetailsPopUp from './InitiativeAnalysisDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -26,7 +26,7 @@ interface Props {
   fourIRInitiativeId: number;
 }
 
-const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
+const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
 
@@ -36,7 +36,6 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
   const closeAddEditModal = useCallback(() => {
-    console.log('closing pop');
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
@@ -57,7 +56,6 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   );
 
   const closeDetailsModal = useCallback(() => {
-    console.log('closing');
     setIsOpenDetailsModal(false);
     setSelectedItemId(null);
   }, []);
@@ -78,7 +76,7 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   };
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable(true);
+    setIsToggleTable((prev) => !prev);
   }, []);
 
   const columns = useMemo(
@@ -137,8 +135,6 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
       },
     });
 
-  console.log('initiative id from page- ->', fourIRInitiativeId);
-
   return (
     <>
       <PageBlock
@@ -172,7 +168,7 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <ProjectAnalysisAddEditPopup
+          <InitiativeAnalysisAddEditPopup
             key={1}
             fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
@@ -182,10 +178,10 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <ProjectAnalysisDetailsPopup
+          <InitiativeAnalysisDetailsPopUp
             key={1}
             itemId={selectedItemId}
-            fourIRInitiativeId={fourIRInitiativeId}
+            openEditModal={openAddEditModal}
             onClose={closeDetailsModal}
           />
         )}
@@ -194,4 +190,4 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   );
 };
 
-export default FourIRImplemntingTeamPage;
+export default FourIRInitiativeAnalysisPage;
