@@ -112,18 +112,6 @@ const QuestionEditPopup: FC<QuestionEditPopupProps> = ({
         label: messages['question.type.y_n'],
       },
       {
-        key: QuestionType.PRACTICAL,
-        label: messages['common.practical'],
-      },
-      {
-        key: QuestionType.FIELD_WORK,
-        label: messages['common.field_work'],
-      },
-      {
-        key: QuestionType.PRESENTATION,
-        label: messages['common.presentation'],
-      },
-      {
         key: QuestionType.DESCRIPTIVE,
         label: messages['common.descriptive'],
       },
