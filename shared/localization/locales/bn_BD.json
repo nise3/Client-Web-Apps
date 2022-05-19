@@ -2060,7 +2060,8 @@
   "4ir.scaleup_beneficiary_target":"বেনিফিশিয়ারি টার্গেট",
   "4ir.scaleup_number_of_beneficiary":"বেনিফিশিয়ারি সংখ্যা",
   "4ir.scaleup_implement_area":"এলাকা বাস্তবায়ন",
-  "4ir.scaleup_document_approved_by":"ডকুমেন্ট কী অনুমোদিত?"
+  "4ir.scaleup_document_approved_by":"ডকুমেন্ট কী অনুমোদিত?",
+  "common.budget_reuired" : "বাজেট আবশ্যক  প্রদান করুন"
 
 
 }

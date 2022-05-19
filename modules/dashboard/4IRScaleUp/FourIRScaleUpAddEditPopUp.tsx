@@ -78,7 +78,8 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         .string()
         .label(messages['project.name_en'] as string),
       budget: yup
-        .string()
+        .number()
+        .min(1, messages['common.budget_reuired'] as string)
         .required()
         .label(messages['initiative.budget'] as string),
       implement_timeline: yup
@@ -107,13 +108,21 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
       approval_status: yup
         .string()
         .label(messages['common.approval_status'] as string),
-      approve_by: yup.string().label(messages['4ir_cs.approved_by'] as string),
+      approve_by: isApprovalStatus
+        ? yup
+            .string()
+            .required()
+            .label(messages['4ir_cs.approved_by'] as string)
+        : yup.string().label(messages['4ir_cs.approved_by'] as string),
       'documents_approval-status': yup
         .string()
         .label(messages['4ir.scaleup_document_approved_by'] as string),
-      file_path: yup.string().label(messages['common.file_path'] as string),
+      file_path: yup
+        .string()
+        .required()
+        .label(messages['common.file_path'] as string),
     });
-  }, [messages]);
+  }, [messages, isApprovalStatus]);
 
   const {
     //control,
@@ -205,6 +214,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             id='budget'
+            type={'number'}
             label={messages['initiative.budget']}
             register={register}
             errorInstance={errors}
@@ -272,7 +282,10 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
             register={register}
             label={messages['common.file_path']}
             defaultFileUrl={itemData?.file_path}
-            acceptedFileTypes={['.docx']}
+            acceptedFileTypes={[
+              //      '.docx',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
           />
         </Grid>
 

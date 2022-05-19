@@ -2057,6 +2057,6 @@
   "4ir.scaleup_beneficiary_target":"beneficiary target",
   "4ir.scaleup_number_of_beneficiary":"Number Of Beneficiary",
   "4ir.scaleup_implement_area":"Implement Area",
-  "4ir.scaleup_document_approved_by":"Is Document Approved?"
-
+  "4ir.scaleup_document_approved_by":"Is Document Approved?",
+  "common.budget_reuired" : "Budget is required."
 }
