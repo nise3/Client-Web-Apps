@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -9,13 +9,15 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconUser from '../../../@softbd/icons/IconUser';
 import Genders from '../../../@softbd/utilities/Genders';
 import Router, {useRouter} from 'next/router';
-import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ExamListPopup from './ExamListPopup';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import {Link} from '../../../@softbd/elements/common';
 
 const YouthPage = () => {
   const {messages} = useIntl();
@@ -24,6 +26,22 @@ const YouthPage = () => {
   const path = router.asPath;
   const {batchId} = router.query;
   const {data: batch, isLoading} = useFetchBatch(Number(batchId));
+  const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
+  const [isOpenExamListModal, setIsOpenExamListModal] = useState(false);
+
+  const getGenderText = (gender: any) => {
+    switch (String(gender)) {
+      case Genders.MALE:
+        return messages['common.male'];
+      case Genders.FEMALE:
+        return messages['common.female'];
+      case Genders.OTHERS:
+        return messages['common.others'];
+      default:
+        return '';
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -46,12 +64,20 @@ const YouthPage = () => {
       },
       {
         Header: messages['youth.fullName'],
-        accessor: 'full_name',
+        accessor: 'first_name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return data?.first_name + ' ' + data?.last_name;
+        },
         disableFilters: true,
       },
       {
         Header: messages['youth.gender'],
-        accessor: 'gender_label',
+        accessor: 'gender',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return getGenderText(data?.gender);
+        },
         disableFilters: true,
         isVisible: false,
       },
@@ -75,18 +101,33 @@ const YouthPage = () => {
           return <CustomChipRowStatus value={data?.row_status} />;
         },
       },
+
       {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
-              <CommonButton
-                btnText='applicationManagement.viewCV'
-                startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                style={{marginTop: '10px'}}
-              />
-            </Link>
+            <DatatableButtonGroup>
+              <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+                <CommonButton
+                  btnText='applicationManagement.viewCV'
+                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  style={{marginTop: '10px'}}
+                />
+              </Link>
+              {data?.result_published_at ? (
+                <></>
+              ) : (
+                <CommonButton
+                  key={2}
+                  onClick={() => openExamListModal(data.youth_id)}
+                  btnText={'batches.mark_distribution'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '20px'}}
+                />
+              )}
+            </DatatableButtonGroup>
           );
         },
         sortable: false,
@@ -95,7 +136,6 @@ const YouthPage = () => {
     [messages],
   );
 
-  // TODO:: Change the api route whenever its ready
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
@@ -105,23 +145,16 @@ const YouthPage = () => {
       },
     });
 
-  const filteredData = data.map((youth: any) => {
-    let gender_label: string;
-    if (youth.gender === parseInt(Genders.MALE)) {
-      gender_label = 'Male';
-    } else if (youth.gender === parseInt(Genders.FEMALE)) {
-      gender_label = 'Female';
-    } else {
-      gender_label = 'Others';
-    }
-    return {
-      ...youth,
-      gender_label,
-      full_name: youth.first_name + ' ' + youth.last_name,
-    };
-  });
+  const openExamListModal = useCallback((youthId: number) => {
+    setIsOpenExamListModal(true);
+    setSelectedYouthId(youthId);
+  }, []);
 
-  console.log(filteredData);
+  const closeExamListModal = useCallback(() => {
+    setIsOpenExamListModal(false);
+    setSelectedYouthId(null);
+  }, []);
+
   return (
     <>
       {!isLoading && (
@@ -143,12 +176,21 @@ const YouthPage = () => {
           }>
           <ReactTable
             columns={columns}
-            data={filteredData}
+            data={data || []}
             fetchData={onFetchData}
             loading={loading}
             pageCount={pageCount}
             totalCount={totalCount}
           />
+          {isOpenExamListModal && batch && selectedYouthId && (
+            <ExamListPopup
+              key={1}
+              batchId={Number(batchId)}
+              courseId={Number(batch.course_id)}
+              youthId={selectedYouthId}
+              onClose={closeExamListModal}
+            />
+          )}
         </PageBlock>
       )}
     </>

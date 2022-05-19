@@ -96,7 +96,7 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 interface CourseCardComponentProps {
   course: any;
-  handleViewExam?: (e: any, exams: any) => void;
+  handleViewExam?: (e: any, exams: any, batch_id: any) => void;
 }
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({
@@ -194,7 +194,7 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
               size={'small'}
               onClick={(e) => {
                 if (handleViewExam) {
-                  handleViewExam(e, course.exams);
+                  handleViewExam(e, course.exams, course.batch_id);
                 }
               }}>
               {messages['common.view_exam']}

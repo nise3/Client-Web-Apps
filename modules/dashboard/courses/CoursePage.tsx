@@ -29,6 +29,9 @@ import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {getBrowserCookie} from '../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../shared/constants/AppConst';
+import EditIcon from '@mui/icons-material/Edit';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import ResultConfigAddEditPopup from './ResultConfigAddEditPopup';
 
 const CoursePage = () => {
   const {messages, locale} = useIntl();
@@ -37,6 +40,7 @@ const CoursePage = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [isOpenResultConfigModal, setIsOpenResultConfigModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
 
@@ -86,8 +90,20 @@ const CoursePage = () => {
     [selectedItemId],
   );
 
+  const openResultConfigModal = useCallback(
+    (itemId: number) => {
+      setIsOpenResultConfigModal(true);
+      setSelectedItemId(itemId);
+    },
+    [selectedItemId],
+  );
+
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+  }, []);
+
+  const closeResultConfigModal = useCallback(() => {
+    setIsOpenResultConfigModal(false);
   }, []);
 
   const deleteCourseItem = async (courseId: number) => {
@@ -201,6 +217,14 @@ const CoursePage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
+              <CommonButton
+                onClick={() => {
+                  openResultConfigModal(data.id);
+                }}
+                btnText='common.result_config'
+                startIcon={<EditIcon />}
+                color='primary'
+              />
               <DeleteButton
                 deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
@@ -266,6 +290,15 @@ const CoursePage = () => {
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+          />
+        )}
+
+        {isOpenResultConfigModal && selectedItemId && (
+          <ResultConfigAddEditPopup
+            key={selectedItemId}
+            onClose={closeResultConfigModal}
+            itemId={selectedItemId}
+            refreshDataTable={refreshDataTable}
           />
         )}
       </PageBlock>

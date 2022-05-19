@@ -1,30 +1,31 @@
 import React, {useCallback} from 'react';
 import {Button, Grid, InputAdornment, Paper, TextField} from '@mui/material';
-import {Body1, Body2, H6, S1} from '../../../../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
 import FillInTheBlankTypeComponent from '../ExamMarkSheet/FillInTheBlankTypeComponent';
 import MCQTypeComponent from '../ExamMarkSheet/MCQTypeComponent';
 import YesNoTypeComponent from '../ExamMarkSheet/YesNoTypeComponent';
-import FileView from '../ExamMarkSheet/FileTypeComponent';
 import DescriptiveTypeComponent from '../ExamMarkSheet/DescriptiveTypeComponent';
-import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
+
+import EditIcon from '@mui/icons-material/Edit';
+
+import {ArrowBack} from '@mui/icons-material';
+import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
+import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 import {
   getIntlDateFromString,
   getIntlNumber,
   getIntlTimeFromString,
   question_type,
-} from '../../../../../@softbd/utilities/helpers';
-import EditIcon from '@mui/icons-material/Edit';
-import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
-import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkeleton';
+} from '../../../../@softbd/utilities/helpers';
+import {Body1, Body2, H6, S1} from '../../../../@softbd/elements/common';
+import {useFetchPreviewYouthExam} from '../../../../services/instituteManagement/hooks';
 import {useRouter} from 'next/router';
-import {youthExamMarkUpdate} from '../../../../../services/instituteManagement/ExamService';
-import useSuccessMessage from '../../../../../@softbd/hooks/useSuccessMessage';
-import {ArrowBack} from '@mui/icons-material';
+import {youthExamMarkUpdate} from '../../../../services/instituteManagement/ExamService';
+import QuestionSkeleton from '../../../youth/examQuestionPaper/QuestionSkeleton';
+import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
@@ -34,7 +35,6 @@ const ExamMarkingViewPage = () => {
   const router = useRouter();
   const {updateSuccessMessage} = useSuccessMessage();
   let questionIndex = 1;
-  let examResultIds: any = [];
   let {examId, youthId} = router.query;
   const {data: examSheet, isLoading: isExamLoading} = useFetchPreviewYouthExam(
     Number(examId),
@@ -50,7 +50,6 @@ const ExamMarkingViewPage = () => {
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
     let minutes = Math.floor(duration % 60);
-    console.log('hour, minutes', hour, minutes);
     if (hour > 0) {
       if (minutes > 0) {
         return (
@@ -82,15 +81,11 @@ const ExamMarkingViewPage = () => {
     }
   }, []);
 
-  const getQuestionTypeComponent = (questionType: any, question: any) => {
-    // const examResultId = question?.exam_result_id;
-    if (
-      questionType != QuestionType.YES_NO &&
-      questionType != QuestionType.MCQ &&
-      questionType != QuestionType.FILL_IN_THE_BLANK
-    ) {
-      examResultIds.push(question?.exam_result_id);
-    }
+  const getQuestionTypeComponent = (
+    questionType: any,
+    question: any,
+    id: string,
+  ) => {
     switch (String(questionType)) {
       case QuestionType.YES_NO:
         return (
@@ -112,16 +107,16 @@ const ExamMarkingViewPage = () => {
             index={questionIndex++}
             inputField={
               <TextField
-                id={'marks[' + marksIndex + '][marks_achieved]'}
+                id={`${id}[marks_achieved]`}
                 label={messages['common.mark']}
                 type={'number'}
                 size='small'
                 sx={{width: '110px'}}
-                {...register('marks[' + marksIndex++ + '][marks_achieved]')}
-                defaultValue={getIntlNumber(
-                  formatNumber,
-                  question?.marks_achieved,
-                )}
+                {...register(`${id}[marks_achieved]`)}
+                defaultValue={question?.marks_achieved}
+                inputProps={{
+                  step: 0.01,
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end' sx={{width: '20px'}}>
@@ -134,56 +129,23 @@ const ExamMarkingViewPage = () => {
           />
         );
       default:
-        return (
-          <FileView
-            question={question}
-            index={questionIndex++}
-            inputField={
-              <TextField
-                id={'marks[' + marksIndex + '][marks_achieved]'}
-                label={messages['common.mark']}
-                type={'number'}
-                size='small'
-                sx={{width: '110px'}}
-                {...register('marks[' + marksIndex++ + '][marks_achieved]')}
-                defaultValue={getIntlNumber(
-                  formatNumber,
-                  question?.marks_achieved,
-                )}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position='end' sx={{width: '20px'}}>
-                      <EditIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            }
-          />
-        );
+        return <></>;
     }
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     console.log('data submit', data);
-    if (examResultIds) {
-      examResultIds.map((examResultId: any, index: number) => {
-        data.marks[index].exam_result_id = examResultId;
-        data.marks[index].marks_achieved = isNaN(
-          data.marks[index].marks_achieved,
-        )
-          ? 0
-          : Number(data.marks[index].marks_achieved);
-      });
-    }
+    data.marks.map((mark: any) => {
+      mark.marks_achieved = isNaN(mark.marks_achieved)
+        ? 0
+        : Number(mark.marks_achieved);
+    });
     data.exam_id = examId;
     data.youth_id = youthId;
-
-    console.log(' format data', data);
     try {
       await youthExamMarkUpdate(data);
       updateSuccessMessage('common.marks_distribution');
-      // mutateExamMark();
+      router.back();
     } catch (error: any) {}
   };
   return (
@@ -311,11 +273,41 @@ const ExamMarkingViewPage = () => {
 
                           {section?.questions && section?.questions.length ? (
                             section?.questions.map((question: any) => {
+                              let id = `marks[${marksIndex}]`;
+                              marksIndex++;
+                              let questionType = String(section?.question_type);
                               return (
                                 <Grid item xs={12} key={question?.question_id}>
+                                  <TextField
+                                    id={`${id}[exam_answer_id]`}
+                                    label={''}
+                                    sx={{display: 'none'}}
+                                    {...register(`${id}[exam_answer_id]`)}
+                                    defaultValue={question?.exam_answer_id}
+                                  />
+                                  <TextField
+                                    id={`${id}[youth_exam_id]`}
+                                    label={''}
+                                    sx={{display: 'none'}}
+                                    {...register(`${id}[youth_exam_id]`)}
+                                    defaultValue={question?.youth_exam_id}
+                                  />
+                                  {(questionType == QuestionType.YES_NO ||
+                                    questionType == QuestionType.MCQ ||
+                                    questionType ==
+                                      QuestionType.FILL_IN_THE_BLANK) && (
+                                    <TextField
+                                      id={`${id}[marks_achieved]`}
+                                      label={''}
+                                      sx={{display: 'none'}}
+                                      {...register(`${id}[marks_achieved]`)}
+                                      defaultValue={question?.marks_achieved}
+                                    />
+                                  )}
                                   {getQuestionTypeComponent(
                                     section?.question_type,
                                     question,
+                                    id,
                                   )}
                                 </Grid>
                               );

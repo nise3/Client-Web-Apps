@@ -111,6 +111,12 @@ const CourseRegistrationVerification = () => {
 
   const focusFiled = () => {
     const index = watchAllFields.indexOf('');
+    if (
+      watchAllFields?.[0] == 'undefined' ||
+      watchAllFields?.[0] == undefined
+    ) {
+      setFocus('code1');
+    }
     if (index >= 0 && index < 4) setFocus('code' + (index + 1));
   };
 

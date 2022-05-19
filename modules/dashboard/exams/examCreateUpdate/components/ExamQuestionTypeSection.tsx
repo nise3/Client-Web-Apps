@@ -275,7 +275,9 @@ const ExamQuestionTypeSection = ({
                           ? formatNumber(
                               localQuestions?.[index]?.questions.length,
                             ) + messages['exam.question_selected']
-                          : messages['exam.no_question_selected']}
+                          : useFrom.errors?.exam_questions
+                          ? messages['exam.no_question_selected']
+                          : ''}
                       </Body2>
                     </Grid>
                   ))}

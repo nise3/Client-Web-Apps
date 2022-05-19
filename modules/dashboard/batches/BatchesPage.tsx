@@ -20,23 +20,43 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { createCertificateById } from '../../../services/CertificateAuthorityManagement/CertificateService';
 import { deleteBatch } from '../../../services/instituteManagement/BatchService';
 import { ICertificateBatchSetting } from '../../../shared/Interface/certificates';
+import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
+import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
+import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
+import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
+import {
+  deleteBatch,
+  processResult,
+} from '../../../services/instituteManagement/BatchService';
+import IconBatch from '../../../@softbd/icons/IconBatch';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUserCheck} from 'react-icons/fi';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import DownloadIcon from '@mui/icons-material/Download';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
+import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
+import {Add} from '@mui/icons-material';
+import {Link} from '../../../@softbd/elements/common';
+import Visibility from '@mui/icons-material/Visibility';
+import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
 import { useIntl } from 'react-intl';
 
 const BatchesPage = () => {
   const { messages, locale } = useIntl();
   const { successStack } = useNotiStack();
+  const {messages, locale} = useIntl();
+  const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
+
+  const url = LINK_BATCH_RESULT;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedBatchItem, setSelectedBatchItem] = useState<ICertificateBatchSetting | null>(null);
@@ -48,6 +68,8 @@ const BatchesPage = () => {
 
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
+  const [isOpenExamAssignModal, setIsOpenExamAssignModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -74,6 +96,7 @@ const BatchesPage = () => {
     setSelectedItemId(batchId);
     setIsOpenImportModal(true);
   }, []);
+
   const closeImportModal = useCallback(() => {
     setIsOpenImportModal(false);
   }, []);
@@ -104,7 +127,26 @@ const BatchesPage = () => {
     setIsOpenAddEditTemplateModal(false);
   }, []);
 
+  const openExamAssignModal = useCallback((itemId: number) => {
+    setIsOpenExamAssignModal(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeExamAssignModal = useCallback(() => {
+    setIsOpenExamAssignModal(false);
+    setSelectedItemId(null);
+  }, []);
+
   const deleteBatchItem = async (itemId: number) => {
+    try {
+      let response = await deleteBatch(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='batches.label' />}}
+          />,
+        );
     let response = await deleteBatch(itemId);
     if (isResponseSuccess(response)) {
       successStack(
@@ -114,7 +156,34 @@ const BatchesPage = () => {
         />,
       );
 
-      refreshDataTable();
+        refreshDataTable();
+      }
+    } catch (error) {}
+  };
+
+  const processBatchResult = async (itemId: number) => {
+    try {
+      setIsProcessing(true);
+      let response = await processResult(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(messages['batch.process_result_success']);
+        refreshDataTable();
+      } else {
+        let msg = 'Failed to process result';
+        let error_code = response?.data.error_code;
+        if (error_code == 'no_exams') {
+          msg = 'No exams to process results';
+        } else if (error_code == 'already_published') {
+          msg = 'Results already published';
+        } else if (error_code == 'no_config') {
+          msg = 'No result config configured for course';
+        }
+        errorStack(msg);
+      }
+    } catch (error) {
+      errorStack(messages['batch.process_result_failed']);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -264,11 +333,20 @@ const BatchesPage = () => {
               <CommonButton
                 key={2}
                 onClick={() => openImportModal(data?.course_id, data?.id)}
-                btnText={messages['common.import'] as string}
+                btnText={'common.import'}
                 variant={'outlined'}
                 color={'primary'}
                 style={{marginLeft: '5px'}}
                 startIcon={<DownloadIcon />}
+              />
+              <CommonButton
+                key={3}
+                onClick={() => openExamAssignModal(data?.id)}
+                btnText={'batch.assign_exam'}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '5px'}}
+                startIcon={<Add />}
               />
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton
@@ -279,6 +357,30 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
+              {data.result_published_at && (
+                <Link href={`${url}${data.id}`} passHref={true}>
+                  <CommonButton
+                    key={4}
+                    onClick={() => console.log('clicked')}
+                    btnText={'common.batch_result'}
+                    variant={'outlined'}
+                    color={'primary'}
+                    style={{marginLeft: '5px'}}
+                    startIcon={<Visibility />}
+                  />
+                </Link>
+              )}
+              {!data.result_published_at && (
+                <CommonButton
+                  key={5}
+                  onClick={() => processBatchResult(data.id)}
+                  btnText={'batch.process_result'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '5px'}}
+                  startIcon={<Visibility />}
+                />
+              )}
             </DatatableButtonGroup>
           );
         },
@@ -320,7 +422,7 @@ const BatchesPage = () => {
           columns={columns}
           data={data}
           fetchData={onFetchData}
-          loading={loading}
+          loading={loading || isProcessing}
           pageCount={pageCount}
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
@@ -360,6 +462,14 @@ const BatchesPage = () => {
             onClose={closeImportModal}
             userData={null}
             refreshDataTable={refreshDataTable}
+          />
+        )}
+
+        {isOpenExamAssignModal && selectedItemId && (
+          <ExamAssignToBatchPopup
+            key={3}
+            batchId={selectedItemId}
+            onClose={closeExamAssignModal}
           />
         )}
       </PageBlock>

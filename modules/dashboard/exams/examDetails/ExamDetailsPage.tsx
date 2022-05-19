@@ -4,7 +4,6 @@ import {useIntl} from 'react-intl';
 import IconExam from '../../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../ExamEnums';
 import {useFetchExamDetails} from '../../../../services/instituteManagement/hooks';
-import {ExamPurposeNames} from '../../../../@softbd/utilities/ExamPurposeNames';
 import PageBlock from '../../../../@softbd/utilities/PageBlock';
 import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
@@ -12,24 +11,21 @@ import {useForm} from 'react-hook-form';
 import QuestionSkeleton from '../../../youth/examQuestionPaper/QuestionSkeleton';
 import OnlineDetails from './OnlineDetails';
 import OfflineDetails from './OfflineDetails';
+import OtherExamDetails from './OtherExamDetails';
 
 const ExamDetailsPage = () => {
   const {messages} = useIntl();
 
   const [onlineExam, setOnlineExam] = useState<any>(null);
   const [offlineExam, setOfflineExam] = useState<any>(null);
+  const [otherExam, setOtherExam] = useState<any>(null);
 
   const router = useRouter();
 
   const itemId = router.query.id;
 
-  const [examParams] = useState<any>({
-    purpose_name: ExamPurposeNames.BATCH,
-  });
-  const {data: examData, isLoading: isLoadingExam} = useFetchExamDetails(
-    itemId,
-    examParams,
-  );
+  const {data: examData, isLoading: isLoadingExam} =
+    useFetchExamDetails(itemId);
 
   const examType = (data: any) => {
     switch (data) {
@@ -39,6 +35,14 @@ const ExamDetailsPage = () => {
         return messages['common.offline'];
       case ExamTypes.MIXED:
         return messages['common.mixed'];
+      case ExamTypes.PRACTICAL:
+        return messages['common.practical'];
+      case ExamTypes.FIELDWORK:
+        return messages['common.field_work'];
+      case ExamTypes.PRESENTATION:
+        return messages['common.presentation'];
+      case ExamTypes.ASSIGNMENT:
+        return messages['common.assignment'];
       default:
         return '';
     }
@@ -51,7 +55,9 @@ const ExamDetailsPage = () => {
         {
           ExamTypes.ONLINE === Number(exam?.type)
             ? setOnlineExam(exam)
-            : setOfflineExam(exam);
+            : ExamTypes.OFFLINE === Number(exam?.type)
+            ? setOfflineExam(exam)
+            : setOtherExam(exam);
         }
       });
   }, [examData]);
@@ -94,7 +100,6 @@ const ExamDetailsPage = () => {
                     key={onlineExam?.id}
                     exam={onlineExam}
                     examData={examData}
-                    examType={examType}
                     register={register}
                     control={control}
                     errors={errors}
@@ -111,6 +116,15 @@ const ExamDetailsPage = () => {
                     control={control}
                     errors={errors}
                     setValue={setValue}
+                  />
+                )}
+
+                {otherExam && (
+                  <OtherExamDetails
+                    key={otherExam?.id}
+                    exam={otherExam}
+                    examData={examData}
+                    examType={examType}
                   />
                 )}
               </>

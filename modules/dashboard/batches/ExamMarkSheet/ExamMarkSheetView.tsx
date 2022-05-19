@@ -1,32 +1,28 @@
 import React, {useCallback} from 'react';
 import {Button, Grid, Paper} from '@mui/material';
-import {
-  Body1,
-  Body2,
-  H6,
-  Link,
-  S1,
-} from '../../../../../@softbd/elements/common';
+
 import {useIntl} from 'react-intl';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import FillInTheBlankTypeComponent from './FillInTheBlankTypeComponent';
 import MCQTypeComponent from './MCQTypeComponent';
 import YesNoTypeComponent from './YesNoTypeComponent';
-import FileView from './FileTypeComponent';
 import DescriptiveTypeComponent from './DescriptiveTypeComponent';
-import NoDataFoundComponent from '../../../../youth/common/NoDataFoundComponent';
+
+import {useRouter} from 'next/router';
+
+import {ArrowBack} from '@mui/icons-material';
+import NoDataFoundComponent from '../../../youth/common/NoDataFoundComponent';
 import {
   getIntlDateFromString,
   getIntlNumber,
   getIntlTimeFromString,
   question_type,
-} from '../../../../../@softbd/utilities/helpers';
-import {QuestionType} from '../../../questionsBank/QuestionBanksEnums';
-import {useFetchPreviewYouthExam} from '../../../../../services/instituteManagement/hooks';
-import {useRouter} from 'next/router';
-import QuestionSkeleton from '../../../../youth/examQuestionPaper/QuestionSkeleton';
-import {ArrowBack} from '@mui/icons-material';
+} from '../../../../@softbd/utilities/helpers';
+import {Body1, Body2, H6, S1} from '../../../../@softbd/elements/common';
+import {useFetchPreviewYouthExam} from '../../../../services/instituteManagement/hooks';
+import QuestionSkeleton from '../../../youth/examQuestionPaper/QuestionSkeleton';
+import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: '25px',
@@ -100,7 +96,7 @@ const ExamMarkingViewPage = () => {
           />
         );
       default:
-        return <FileView question={question} index={questionIndex++} />;
+        return <></>;
     }
   };
 
@@ -111,16 +107,6 @@ const ExamMarkingViewPage = () => {
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
-            {!examSheet?.auto_marking && (
-              <Link href={`/exams/youth-list/${examId}/marking/${youthId}`}>
-                <Button
-                  variant={'outlined'}
-                  color={'primary'}
-                  sx={{marginRight: '10px'}}>
-                  {messages['common.marks_distribution']}
-                </Button>
-              </Link>
-            )}
             <Button
               variant={'contained'}
               color={'primary'}
@@ -144,11 +130,15 @@ const ExamMarkingViewPage = () => {
             </S1>
             <S1>
               {messages['common.date']} {': '}
-              {getIntlDateFromString(formatDate, examSheet?.start_date)}
+              {examSheet?.start_date
+                ? getIntlDateFromString(formatDate, examSheet?.start_date)
+                : ''}
             </S1>
             <S1>
               {messages['common.time']} {': '}
-              {getIntlTimeFromString(formatTime, examSheet?.start_date)}
+              {examSheet?.start_date
+                ? getIntlTimeFromString(formatTime, examSheet?.start_date)
+                : ''}
             </S1>
           </Grid>
 

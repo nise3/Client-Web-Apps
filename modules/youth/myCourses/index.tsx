@@ -12,6 +12,7 @@ const MyCoursePage = () => {
   const [courseFilters] = useState({});
   const [isOpenViewExamModal, setIsOpenViewExamModal] = useState(false);
   const [courseExam, setCourseExam] = useState([]);
+  const [batchId, setBatchId] = useState<any>(null);
 
   const {data: courseList, isLoading: isLoadingCourses} =
     useFetchYouthCourses(courseFilters);
@@ -21,10 +22,11 @@ const MyCoursePage = () => {
     setIsOpenViewExamModal(false);
   }, []);
 
-  const handleViewExam = (e: any, exams: any) => {
+  const handleViewExam = (e: any, exams: any, batchId: any) => {
     e.preventDefault();
     setCourseExam(exams);
     setIsOpenViewExamModal(true);
+    setBatchId(batchId);
   };
   return (
     <Container maxWidth={'lg'} sx={{padding: 5}}>
@@ -54,6 +56,7 @@ const MyCoursePage = () => {
                           duration: course.duration,
                           progress: (course.id * 40) % 100,
                           exams: course?.exams,
+                          batch_id: course.batch_id,
                         }}
                         handleViewExam={handleViewExam}
                       />
@@ -72,7 +75,11 @@ const MyCoursePage = () => {
         </Grid>
       )}
       {isOpenViewExamModal && (
-        <ViewExamsPopup onClose={onCloseViewExamModal} exams={courseExam} />
+        <ViewExamsPopup
+          onClose={onCloseViewExamModal}
+          exams={courseExam}
+          batchId={batchId}
+        />
       )}
     </Container>
   );
