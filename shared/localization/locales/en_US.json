@@ -2068,5 +2068,8 @@
   "common.start_year" : "Start Year",
   "common.end_year": "End Year",
   "showcasing.initiative_name_en": "Initiative Name (EN)",
+  "common.start_year" : "Start Year",
+  "common.end_year": "End Year",
+  "showcasing.initiative_name_en": "Initiative Name (EN)",
   "role.role_in_application": "Role in application"
 }

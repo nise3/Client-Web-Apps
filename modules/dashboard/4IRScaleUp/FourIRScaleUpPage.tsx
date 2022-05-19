@@ -98,8 +98,12 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
         accessor: 'budget',
       },
       {
-        Header: messages['4ir.scaleup_implement_timeline'],
-        accessor: 'implement_timeline',
+        Header: messages['common.start_year'],
+        accessor: 'timeline_start_year',
+      },
+      {
+        Header: messages['common.end_year'],
+        accessor: 'timeline_end_year',
       },
       {
         Header: messages['common.start_date'],

@@ -35,7 +35,8 @@ const initialValues = {
   project_name: '',
   project_name_en: '',
   budget: '0',
-  implement_timeline: '',
+  timeline_start_year: '',
+  timeline_end_year: '',
   start_date: '',
   end_date: '',
   beneficiary_target: '',
@@ -82,10 +83,14 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         .min(1, messages['common.budget_reuired'] as string)
         .required()
         .label(messages['initiative.budget'] as string),
-      implement_timeline: yup
+      timeline_start_year: yup
         .string()
         .required()
-        .label(messages['4ir.scaleup_implement_timeline'] as string),
+        .label(messages['common.start_year'] as string),
+      timeline_end_year: yup
+        .string()
+        .required()
+        .label(messages['common.end_year'] as string),
       start_date: yup
         .string()
         .required()
@@ -223,8 +228,19 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
-            id='implement_timeline'
-            label={messages['4ir.scaleup_implement_timeline']}
+            id='timeline_start_year'
+            type={'number'}
+            label={messages['common.start_year']}
+            register={register}
+            errorInstance={errors}
+            isLoading={false}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            id='timeline_end_year'
+            type={'number'}
+            label={messages['common.end_year']}
             register={register}
             errorInstance={errors}
             isLoading={false}
@@ -274,34 +290,29 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <FileUploadComponent
-            id={'file_path'}
-            errorInstance={errors}
-            setValue={setValue}
+        <Grid item xs={12} sm={12} md={6}>
+          <CustomTextInput
+            required
+            id='implement_area'
+            label={messages['4ir.scaleup_implement_area']}
             register={register}
-            label={messages['common.file_path']}
-            defaultFileUrl={itemData?.file_path}
-            acceptedFileTypes={[
-              //      '.docx',
-              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            ]}
+            errorInstance={errors}
+            isLoading={false}
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
-          <Grid container>
-            <Grid item xs={12} md={6}>
-              <CustomTextInput
-                required
-                id='implement_area'
-                label={messages['4ir.scaleup_implement_area']}
-                register={register}
-                errorInstance={errors}
-                isLoading={false}
-              />
-            </Grid>
-          </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomCheckbox
+            id='documents_approval-status'
+            label={messages['4ir.scaleup_document_approved_by']}
+            register={register}
+            errorInstance={errors}
+            checked={isDocumentApproved}
+            onChange={(event: any) => {
+              setIsDocumentApproved((prev) => !prev);
+            }}
+            isLoading={false}
+          />
         </Grid>
 
         <Grid item xs={12} md={12}>
@@ -336,16 +347,17 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         )}
 
         <Grid item xs={12} md={6}>
-          <CustomCheckbox
-            id='documents_approval-status'
-            label={messages['4ir.scaleup_document_approved_by']}
-            register={register}
+          <FileUploadComponent
+            id={'file_path'}
             errorInstance={errors}
-            checked={isDocumentApproved}
-            onChange={(event: any) => {
-              setIsDocumentApproved((prev) => !prev);
-            }}
-            isLoading={false}
+            setValue={setValue}
+            register={register}
+            label={messages['common.file_path']}
+            defaultFileUrl={itemData?.file_path}
+            // acceptedFileTypes={[
+            //   //      '.docx',
+            //   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            // ]}
           />
         </Grid>
       </Grid>
