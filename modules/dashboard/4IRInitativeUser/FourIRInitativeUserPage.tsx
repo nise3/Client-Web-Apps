@@ -14,7 +14,6 @@ import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
 // import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import Router, {useRouter} from 'next/router';
 import FourIRInitiativeUserDetailsPopup from './FourIRInitiativeUserDetailsPopup';
-import BackButton from '../../../@softbd/elements/button/BackButton';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -30,7 +29,7 @@ const FourIRInitativeUserPage = ({
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const {initiativeId} = router.query;
-  const [selectedInitiativeIdId, setSelectedInitiativeIdId] = useState<number>(
+  const [selectedInitiativeIdId] = useState<number>(
     parseInt(initiativeId as string),
   );
   const openDetailsModal = useCallback(
@@ -129,6 +128,7 @@ const FourIRInitativeUserPage = ({
         }
         extra={[
           <Button
+            key={'button-1'}
             startIcon={<ArrowBackIcon />}
             variant='outlined'
             onClick={() => Router.back()}
