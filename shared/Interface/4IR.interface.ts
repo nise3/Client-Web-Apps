@@ -58,13 +58,16 @@ export interface ICS extends IIdTitleCreateUpdateAt {
 }
 
 export interface IEmployment {
+  employment_status: string;
   name: string;
+  name_en: string;
   contact_number: string;
   email: string;
   designation: string;
   industry_name: string;
+  industry_name_en: string;
   starting_salary: number;
-  job_starting_data: string;
+  job_starting_date: string;
   medium_of_job: string;
 }
 

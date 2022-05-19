@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
@@ -21,6 +20,7 @@ import {
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
+import {Typography} from '@mui/material';
 
 interface IFourEmploymentPageProps {
   fourIRInitiativeId: number;
@@ -91,12 +91,42 @@ const FourIREmploymentPage = ({
       },
 
       {
-        Header: messages['common.level'],
-        accessor: 'level',
+        Header: messages['common.name'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>{`${data.youth_profile.first_name} ${data.youth_profile.last_name}`}</Typography>
+          );
+        },
       },
       {
-        Header: messages['common.organization_name'],
-        accessor: 'organization_name',
+        Header: messages['common.contact_number'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <Typography>{data.youth_profile.mobile}</Typography>;
+        },
+      },
+      {
+        Header: messages['youth.email'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return <Typography>{data.youth_profile.email}</Typography>;
+        },
+      },
+      {
+        Header: messages['4ir.employment_status'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+
+          // todo: key will be changed
+          const e_status =
+            data.employment_status == 1
+              ? 'Self Employed'
+              : data.employment == 2
+              ? 'Employed'
+              : 'Not Applicable';
+          return <Typography>{e_status}</Typography>;
+        },
       },
       {
         Header: messages['common.status'],
@@ -140,22 +170,7 @@ const FourIREmploymentPage = ({
           <>
             <IconBranch /> <IntlMessages id='4ir.employment' />
           </>
-        }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_cs.label'],
-                }}
-              />
-            }
-          />,
-        ]}>
+        }>
         <ReactTable
           columns={columns}
           data={data}
@@ -168,6 +183,7 @@ const FourIREmploymentPage = ({
         {isOpenAddEditModal && (
           <FourIREmploymentAddEditPopup
             key={1}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}

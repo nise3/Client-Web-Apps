@@ -2065,5 +2065,7 @@
   "4ir.scaleup_number_of_beneficiary":"বেনিফিশিয়ারি সংখ্যা",
   "4ir.scaleup_implement_area":"এলাকা বাস্তবায়ন",
   "4ir.scaleup_document_approved_by":"ডকুমেন্ট কী অনুমোদিত?",
-  "role.role_in_application": "অ্যাপ্লিকেশনে রোল"
+  "role.role_in_application": "অ্যাপ্লিকেশনে রোল",
+  "4ir.employment_status" : "চাকুরির অবস্থা",
+  "common.industry_name_en": "সংস্থা নাম (ইংরেজি)"
 }

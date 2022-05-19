@@ -1338,6 +1338,7 @@
   "job_posting.contact_person_job": "Contact Person jor this Job",
   "common.human_resource": "HR Demand",
   "common.industry_name": "Industry Name",
+
   "common.no_of_vacancy": "No. of Vacancy",
   "job_posting.application_deadline": "Application Deadline",
   "job_posting.application_deadline_warning": "You can select a deadline within next 30 days",
@@ -2064,12 +2065,7 @@
   "showcasing.organization_name": "Organization Name",
   "showcasing.organization_name_en": "Organization Name (EN)",
   "showcasing.initiative_name": "Initiative Name",
-  "showcasing.initiative_name_en": "Initiative Name (EN)",
-  "common.start_year" : "Start Year",
-  "common.end_year": "End Year",
-  "showcasing.initiative_name_en": "Initiative Name (EN)",
-  "common.start_year" : "Start Year",
-  "common.end_year": "End Year",
-  "showcasing.initiative_name_en": "Initiative Name (EN)",
-  "role.role_in_application": "Role in application"
+  "role.role_in_application": "Role in application",
+  "4ir.employment_status" : "Employment Status",
+  "common.industry_name_en": "Industry Name (EN)"
 }
