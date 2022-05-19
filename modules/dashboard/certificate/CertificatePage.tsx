@@ -82,7 +82,7 @@ const CertificateTemplatePage = () => {
         refreshDataTable();
       }
     } else {
-      errorStack("Already added to batch!")
+      errorStack(messages['certificate.certificate_added_alreadt_batch'])
     }
 
     // console.log(batch)

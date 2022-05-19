@@ -8,6 +8,7 @@ import { isBreakPointUp } from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import yup from '../../../@softbd/libs/yup';
@@ -43,6 +44,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   // console.log('item id', itemId)
   const { messages } = useIntl();
   const {selectSuccessMessage} = useSuccessMessage();
+  const {errorStack} = useNotiStack();
   //@ts-ignore
   const { data: certificateTypes, isLoading: isLoadingTypes } = useFetchResultTypes();
   const [certificateTypeId, setCertificateTypeId] = useState<number>();
@@ -59,7 +61,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
   //   mutate: mutateBatch,
   // } = useFetchBatch(itemId);
 
-  console.log('batch data ', batch)
+  // console.log('batch data ', batch)
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -81,6 +83,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
     control,
     reset,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<ICertificateBatchSetting>({
     resolver: yupResolver(validationSchema),
@@ -136,7 +139,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({ error, validationSchema });
+      processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
 

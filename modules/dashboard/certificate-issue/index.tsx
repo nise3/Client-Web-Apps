@@ -18,8 +18,7 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
-import { useFetchCertificateIssued } from '../../../services/instituteManagement/hooks';
-import { ICertificateIssue, ICertificateIssueView } from '../../../shared/Interface/certificates';
+import { ICertificateIssue } from '../../../shared/Interface/certificates';
 import ApproveButton from '../industry-associations/ApproveButton';
 
 const CertificateIssuePage = () => {
@@ -28,10 +27,10 @@ const CertificateIssuePage = () => {
   const route = useRouter();
   const { batchId } = route.query;
 
-  const [certificatesIssueList, setCertificatesIssueList] = useState<
-    Array<ICertificateIssueView> | []
-  >([]);
-  const { data: issuedData, mutate: mutateIssuedData } = useFetchCertificateIssued();
+  // const [certificatesIssueList, setCertificatesIssueList] = useState<
+  //   Array<ICertificateIssueView> | []
+  // >([]);
+  // const { data: issuedData, mutate: mutateIssuedData } = useFetchCertificateIssued();
 
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
 
@@ -56,7 +55,7 @@ const CertificateIssuePage = () => {
                 values={{ subject: <IntlMessages id='certificate.certificate_issue' /> }}
               />,
             );
-            mutateIssuedData();
+            // mutateIssuedData();
             refreshDataTable();
           }
         });

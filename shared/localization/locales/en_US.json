@@ -449,6 +449,7 @@
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
   "certificate.certificate_issue": "Certificate Issue",
+  "certificate.certificate_added_alreadt_batch": "This Certificate Already Added to Batch",
   "common.issue_date": "Issue Date",
   "certificate.certificate_issued": "Certificate Issued",
   "certificate.certificate_issued_done": "Certificate Issued Done",

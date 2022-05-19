@@ -394,6 +394,7 @@
   "certificate_authority.details": "সার্টিফিকেট অথোরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথোরিটি ব্যবস্থাপনা",
   "certificate.certificate_issue": "সার্টিফিকেট ইস্যু",
+  "certificate.certificate_added_alreadt_batch": "সার্টিফিকেটি ইতোমধ্যে ব্যাচে যোগ করা হয়েছে",
   "common.issue_date": "ইস্যুর তারিখ",
   "certificate.certificate_issued": "ইস্যুকৃত সার্টিফিকেট",
   "certificate.certificate_issued_done": "সার্টিফিকেট ইস্যু হয়েছে",

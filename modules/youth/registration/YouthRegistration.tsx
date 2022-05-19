@@ -295,7 +295,6 @@ const YouthRegistration = () => {
         skillIds.push(skill.id);
       });
       data.skills = skillIds;
-
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       setIsFormSubmitted(true);
