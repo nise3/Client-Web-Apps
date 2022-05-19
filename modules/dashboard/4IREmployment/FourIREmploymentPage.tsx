@@ -3,7 +3,6 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -18,9 +17,9 @@ import {
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import {Typography} from '@mui/material';
+import {deleteFourIREmployment} from '../../../services/4IRManagement/EmploymentServices';
 
 interface IFourEmploymentPageProps {
   fourIRInitiativeId: number;
@@ -58,18 +57,19 @@ const FourIREmploymentPage = ({
     setIsOpenDetailsModal(false);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_cs.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
+  //
+  //  const deleteEmploymentItem = async (projectId: number) => {
+  //   let response = await deleteFourIREmployment(projectId);
+  //   if (isResponseSuccess(response)) {
+  //     successStack(
+  //       <IntlMessages
+  //         id='common.subject_deleted_successfully'
+  //         values={{subject: <IntlMessages id='4ir_cs.label' />}}
+  //       />,
+  //     );
+  //     refreshDataTable();
+  //   }
+  // };
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prevToggle: any) => !prevToggle);
@@ -145,10 +145,10 @@ const FourIREmploymentPage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
-                deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              {/*<DeleteButton*/}
+              {/*  deleteAction={() => deleteEmploymentItem(data.id)}*/}
+              {/*  deleteTitle={messages['common.delete_confirm'] as string}*/}
+              {/*/>*/}
             </DatatableButtonGroup>
           );
         },

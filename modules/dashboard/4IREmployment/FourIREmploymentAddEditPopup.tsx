@@ -177,16 +177,17 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
       }
       console.log(payload);
       if (itemId) {
-        // todo -> api call here
-        await createFourIREmployment(payload);
+        // await createFourIREmployment(payload);
         updateSuccessMessage('4ir.employment');
         mutateProject();
       } else {
         // todo -> api call here
+        // info: we will not gonna create a job,
+        // we will just update employment everytime.
         createSuccessMessage('4ir.employment');
       }
-      //props.onClose();
-      //refreshDataTable();
+      // props.onClose();
+      refreshDataTable();
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
