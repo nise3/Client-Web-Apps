@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
-import ResourceManagementPage from '../4IRResourceManagement/ResourceManagementPage';
+import ProjectAnalysisPage from '../4IRProjectAnalysis/InitiativeAnalysisPage';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -38,7 +38,7 @@ const ProjectAnalysisStep = ({
 
   return isReady ? (
     <>
-      <ResourceManagementPage fourIRInitiativeId={fourIRInitiativeId} />
+      <ProjectAnalysisPage fourIRInitiativeId={fourIRInitiativeId} />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}

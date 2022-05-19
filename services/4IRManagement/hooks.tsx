@@ -5,6 +5,7 @@ import {
   API_4IR_CS,
   API_4IR_CURRICULUM,
   API_4IR_INITIATIVE,
+  API_4IR_INITIATIVE_ANALYSIS,
   API_4IR_OCCUPATIONS,
   API_4IR_PROJECT_ANALYSIS,
   API_4IR_RESOURCE_MANAGEMENT,
@@ -89,6 +90,12 @@ export function useFetchFourIRToTs(params: any) {
 export function useFetch4IRProjectAnalysis(analysisId: number | null) {
   return useAxiosSWR(
     analysisId ? API_4IR_PROJECT_ANALYSIS + '/' + analysisId : null,
+  );
+}
+
+export function useFetch4IRInitiativeAnalysis(analysisId: number | null) {
+  return useAxiosSWR(
+    analysisId ? API_4IR_INITIATIVE_ANALYSIS + '/' + analysisId : null,
   );
 }
 

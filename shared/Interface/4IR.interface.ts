@@ -83,11 +83,20 @@ export interface IGuideline extends IIdTitleCreateUpdateAt {
 }
 
 export interface IScaleUp extends IIdTitleCreateUpdateAt {
-  project_advancement: string;
-  project_budget: string | number;
-  previous_budget: string | number;
-  scale_up: string;
-  project_details: string;
+  four_ir_initiative_id?: any;
+  project_name?: string;
+  project_name_en?: string;
+  budget?: string;
+  implement_timeline?: string;
+  start_date?: string;
+  end_date?: string;
+  beneficiary_target?: string;
+  number_of_beneficiary?: string;
+  implement_area?: string;
+  approval_status?: string;
+  approve_by?: string;
+  'documents_approval-status'?: string;
+  file_path?: string;
 }
 
 export interface ITNAReport {

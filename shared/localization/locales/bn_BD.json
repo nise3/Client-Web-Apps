@@ -2056,5 +2056,18 @@
   "showcasing.initiative_name": "উদ্যোগের নাম",
   "showcasing.initiative_name_en": "উদ্যোগের নাম (ইংরেজি)",
   "4ir.tot_date": "টিওটি তারিখ",
-  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)"
+  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)",
+  "4ir.initiative-alalysis_recharge_upload": "আপলোড রিসার্চ টীম ইনফরমেশন (এক্সেল)",
+  "4ir.initiative-alalysis_report_upload": "আপলোড রিপোর্ট ফাইল (ওয়ার্ড / পিডিএফ)",
+  "common.only_word_pdf": "শুধুমাত্র .doc/.pdf ফাইল দিতে পারবেন",
+  "4ir_initiative_analysis.label": "ইনিশিয়েটিভ এনালাইসিস",
+  "4ir.research_method": "গবেষণা পদ্ধতি",
+  "4ir.scaleup_implement_timeline":"টাইমলাইন বাস্তবায়ন করুন",
+  "4ir.scaleup_beneficiary_target":"বেনিফিশিয়ারি টার্গেট",
+  "4ir.scaleup_number_of_beneficiary":"বেনিফিশিয়ারি সংখ্যা",
+  "4ir.scaleup_implement_area":"এলাকা বাস্তবায়ন",
+  "4ir.scaleup_document_approved_by":"ডকুমেন্ট কী অনুমোদিত?",
+  "common.budget_reuired" : "বাজেট আবশ্যক  প্রদান করুন"
+
+
 }
