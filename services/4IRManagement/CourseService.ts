@@ -4,6 +4,7 @@ import {
   API_4IR_COURSE,
   API_4IR_CS,
   API_COURSES,
+  API_FOUR_IR_COURSE_APPROVE,
 } from '../../@softbd/common/apiRoutes';
 
 export const getAllCS = async (params = {}) => {
@@ -49,6 +50,17 @@ export const updateFourIRCourse = async (courseId: number, data: any) => {
 export const deleteFourIRCourse = async (courseId: number) => {
   try {
     let response: any = await apiDelete(API_COURSES + '/' + courseId);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const approveFourIRCourse = async (courseId: number) => {
+  try {
+    let response: any = await apiPut(
+      API_FOUR_IR_COURSE_APPROVE + '/' + courseId,
+    );
     return response.data;
   } catch (error) {
     catchBlockHandler(error);

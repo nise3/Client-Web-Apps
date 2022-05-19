@@ -26,10 +26,14 @@ import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import {getBrowserCookie} from '../../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
 import {LEVEL} from '../../courses/CourseEnums';
-import {deleteFourIRCourse} from '../../../../services/4IRManagement/CourseService';
+import {
+  approveFourIRCourse,
+  deleteFourIRCourse,
+} from '../../../../services/4IRManagement/CourseService';
 import CommonButton from '../../../../@softbd/elements/button/CommonButton/CommonButton';
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
+import ApproveButton from '../../industry-associations/ApproveButton';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
@@ -122,6 +126,16 @@ const FourIRCoursePage = ({
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
+  const approveCourse = async (courseId: number) => {
+    let response = await approveFourIRCourse(courseId);
+    if (isResponseSuccess(response)) {
+      {
+        successStack(<IntlMessages id='course.approved' />);
+      }
+      refreshDataTable();
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -203,6 +217,13 @@ const FourIRCoursePage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
+              {data?.row_status == 0 && (
+                <ApproveButton
+                  approveAction={() => approveCourse(data.id)}
+                  approveTitle={messages['course.approve'] as string}
+                  buttonText={messages['course.approve'] as string}
+                />
+              )}
               <DeleteButton
                 deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}

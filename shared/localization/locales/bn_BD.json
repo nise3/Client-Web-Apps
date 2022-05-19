@@ -2065,5 +2065,8 @@
   "4ir.scaleup_number_of_beneficiary":"বেনিফিশিয়ারি সংখ্যা",
   "4ir.scaleup_implement_area":"এলাকা বাস্তবায়ন",
   "4ir.scaleup_document_approved_by":"ডকুমেন্ট কী অনুমোদিত?",
-  "role.role_in_application": "অ্যাপ্লিকেশনে রোল"
+  "role.role_in_application": "অ্যাপ্লিকেশনে রোল",
+  "tot.proof_of_report_file": "প্রতিবেদনের প্রমাণ (ছবি/এক্সেল)",
+  "course.approve": "কোর্স অনুমোদন করুন",
+  "course.approved": "কোর্স অনুমোদিত"
 }

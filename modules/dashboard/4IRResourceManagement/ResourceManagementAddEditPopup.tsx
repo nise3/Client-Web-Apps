@@ -76,7 +76,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
             .number()
             .required()
             .label(messages['4ir_rm.given_budget'] as string)
-        : yup.number().nullable(),
+        : yup.string(),
       file_path: isDevelopedFinancialProposal
         ? yup
             .string()

@@ -230,6 +230,8 @@ export const API_FOUR_IR_INITIATIVE_IMPORT =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel';
 export const API_FOUR_IR_INITIATIVE_IMPORT_FORMAT =
   FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel-format';
+export const API_FOUR_IR_COURSE_APPROVE =
+  FOUR_IR_SERVICE_PATH + '/approve-four-ir-course';
 /** 4IR service routes section end*/
 
 /** All institute service privates routes section end */
