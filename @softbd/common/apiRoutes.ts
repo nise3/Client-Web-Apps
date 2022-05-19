@@ -175,6 +175,7 @@ export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
 export const API_EXAMS_PUBLISH = INSTITUTE_SERVICE_PATH + '/exam-publish';
 export const API_BATCHES_EXAMS = '/exams';
+export const API_BATCHES_YOUTH_EXAMS = '/youth-exams';
 export const API_ASSIGN_EXAMS_TO_BATCH = '/assign-exams-to-batch';
 
 /**             eRPL            */

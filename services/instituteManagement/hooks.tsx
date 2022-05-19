@@ -7,6 +7,7 @@ import {
   API_BATCHES,
   API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
+  API_BATCHES_YOUTH_EXAMS,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
   API_COURSE_RESULT_CONFIG,
@@ -277,9 +278,16 @@ export function useFetchPreviewYouthExam(
   );
 }
 
-export function useFetchBatchExams(batchId: any, params?: any) {
+export function useFetchBatchExams(batchId: any) {
   let path = batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null;
-  return useAxiosSWR(path ? (params ? [path, params] : path) : null);
+  return useAxiosSWR(path);
+}
+
+export function useFetchYouthBatchExams(batchId: any, params: any) {
+  let path = batchId
+    ? API_BATCHES + '/' + batchId + API_BATCHES_YOUTH_EXAMS
+    : null;
+  return useAxiosSWR(path ? [path, params] : null);
 }
 
 export function useFetchResultConfigs(params: any) {
@@ -287,5 +295,7 @@ export function useFetchResultConfigs(params: any) {
 }
 
 export function useFetchBatchResult(batchId: number | null) {
-  return useAxiosSWR(batchId ? API_BATCHES + '/' + batchId + API_BATCH_RESULT : null);
+  return useAxiosSWR(
+    batchId ? API_BATCHES + '/' + batchId + API_BATCH_RESULT : null,
+  );
 }

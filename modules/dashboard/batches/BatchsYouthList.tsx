@@ -179,10 +179,11 @@ const YouthPage = () => {
             pageCount={pageCount}
             totalCount={totalCount}
           />
-          {isOpenExamListModal && batchId && selectedYouthId && (
+          {isOpenExamListModal && batch && selectedYouthId && (
             <ExamListPopup
               key={1}
               batchId={Number(batchId)}
+              courseId={Number(batch.course_id)}
               youthId={selectedYouthId}
               onClose={closeExamListModal}
             />

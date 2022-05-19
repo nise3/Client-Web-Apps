@@ -10,7 +10,10 @@ import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitBu
 import Grid from '@mui/material/Grid';
 import yup from '../../../@softbd/libs/yup';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {useFetchBatchExams} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchResultConfigs,
+  useFetchYouthBatchExams,
+} from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
@@ -23,16 +26,19 @@ import IconExam from '../../../@softbd/icons/IconExam';
 import {youthExamMarking} from '../../../services/instituteManagement/BatchService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import InputAdornment from '@mui/material/InputAdornment';
 
 interface ExamListPopupProps {
-  batchId: number | null;
+  batchId: number;
+  courseId: number;
   onClose: () => void;
-  youthId: number | null;
+  youthId: number;
 }
 
 const ExamListPopup: FC<ExamListPopupProps> = ({
   batchId,
   youthId,
+  courseId,
   ...props
 }) => {
   const {messages, formatNumber} = useIntl();
@@ -40,11 +46,13 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   const path = router.asPath;
   const {errorStack, successStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
+  const [configParams] = useState({course_id: courseId});
+  const {data: resultConfig} = useFetchResultConfigs(configParams);
 
   const [exams, setExams] = useState<Array<any>>([]);
 
   const [batchExamParams] = useState<any>({youth_id: youthId});
-  const {data: batchExams, isLoading} = useFetchBatchExams(
+  const {data: batchYouthExams, isLoading} = useFetchYouthBatchExams(
     batchId,
     batchExamParams,
   );
@@ -63,9 +71,9 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   });
 
   useEffect(() => {
-    if (batchExams) {
+    if (batchYouthExams) {
       let examsData: any = [];
-      (batchExams || []).map((exam_type: any) => {
+      (batchYouthExams.exams || []).map((exam_type: any) => {
         (exam_type.exams || []).map((exam: any) => {
           let examObj = {
             title: exam_type.title,
@@ -77,13 +85,14 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
             obtained_mark: exam.obtained_mark,
             file_paths: exam.file_paths,
             auto_marking: exam.auto_marking,
+            total_marks: exam.total_marks,
           };
           examsData.push(examObj);
         });
       });
       setExams(examsData);
     }
-  }, [batchExams]);
+  }, [batchYouthExams]);
 
   console.log('errors->', errors);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
@@ -93,6 +102,12 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
         youth_id: youthId,
         batch_id: batchId,
       }));
+      if (Number(resultConfig?.result_percentages?.attendance) > 0) {
+        data.attendance.youth_id = youthId;
+        data.attendance.batch_id = batchId;
+      } else {
+        delete data.attendance;
+      }
       const response = await youthExamMarking(data);
       if (isResponseSuccess(response)) {
         successStack(messages['batch.youth_exam_marking']);
@@ -188,8 +203,13 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                 })`}
                 register={register}
                 type={'number'}
-                inputProps={{
+                InputProps={{
                   step: 1,
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      Total Marks: {parseInt(exam?.total_marks)}
+                    </InputAdornment>
+                  ),
                 }}
                 defaultValue={exam.obtained_mark}
                 errorInstance={errors}
@@ -227,6 +247,26 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
             </Grid>
           );
         })}
+
+        <Grid item xs={6}>
+          {Number(resultConfig?.result_percentages?.attendance) > 0 && (
+            <CustomTextInput
+              required
+              id={`attendance[total_obtained_marks]`}
+              label={messages['common.attendance']}
+              register={register}
+              type={'number'}
+              inputProps={{
+                step: 1,
+              }}
+              defaultValue={
+                batchYouthExams?.attendance ? batchYouthExams?.attendance : '0'
+              }
+              errorInstance={errors}
+              isLoading={isLoading}
+            />
+          )}
+        </Grid>
       </Grid>
     </HookFormMuiModal>
   );
