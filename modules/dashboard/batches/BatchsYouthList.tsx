@@ -115,15 +115,18 @@ const YouthPage = () => {
                   style={{marginTop: '10px'}}
                 />
               </Link>
-
-              <CommonButton
-                key={2}
-                onClick={() => openExamListModal(data.youth_id)}
-                btnText={'batches.mark_distribution'}
-                variant={'outlined'}
-                color={'primary'}
-                style={{marginLeft: '20px'}}
-              />
+              {data?.result_published_at ? (
+                <></>
+              ) : (
+                <CommonButton
+                  key={2}
+                  onClick={() => openExamListModal(data.youth_id)}
+                  btnText={'batches.mark_distribution'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '20px'}}
+                />
+              )}
             </DatatableButtonGroup>
           );
         },
