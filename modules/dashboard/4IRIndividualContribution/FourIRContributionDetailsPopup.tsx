@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRCBLM} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRProjectContribution} from '../../../services/4IRManagement/hooks';
 type Props = {
   itemId: number;
   onClose: () => void;
@@ -21,8 +21,15 @@ const FourIRContributionDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRCBLM(itemId);
+  console.log('itemId');
+  console.log(itemId);
+  const [contributionFilter] = useState<any>({
+    four_ir_initiative_id: itemId,
+  });
+  const {data: itemData, isLoading} =
+    useFetch4IRProjectContribution(contributionFilter);
 
+  console.log(itemData && itemData[0]);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -31,7 +38,7 @@ const FourIRContributionDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.Contribution' />
+            <IntlMessages id='common.contributions' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -54,7 +61,8 @@ const FourIRContributionDetailsPopup = ({
               value={
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: itemData?.description,
+                    __html:
+                      itemData && itemData[0] && itemData[0]?.contribution,
                   }}
                 />
               }

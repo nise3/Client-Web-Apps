@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-// import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
+import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {useFetch4IRProjectContribution} from '../../../services/4IRManagement/hooks';
 
 type Props = {
@@ -23,17 +23,16 @@ const FourIRInitiativeUserDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const [rplSectorFilter] = useState<any>({
+  const [contributionFilter] = useState<any>({
     four_ir_initiative_id: initiativeId,
     user_id: itemId,
   });
 
   console.log(itemId, initiativeId);
   const {data: itemData, isLoading} =
-    useFetch4IRProjectContribution(rplSectorFilter);
-  console.log('itemData');
-  console.log(itemData);
+    useFetch4IRProjectContribution(contributionFilter);
 
+  console.log(itemData);
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -42,7 +41,7 @@ const FourIRInitiativeUserDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.CBLM' />
+            <IntlMessages id='common.contributions' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -53,61 +52,68 @@ const FourIRInitiativeUserDetailsPopup = ({
         }>
         <Grid container spacing={5}>
           <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.team_name']}
-              value={itemData?.approved_by}
-              isLoading={isLoading}
-            />
-          </Grid>
-          {/* <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.name']}
-              value={itemData?.developed_organization_name}
+            <ImageView
+              label={messages['common.file']}
+              imageUrl={itemData && itemData[0] && itemData[0]?.file_path}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['common.designation']}
-              value={itemData?.developed_organization_name_en}
+              label={messages['common.name']}
+              value={itemData && itemData[0] && itemData[0]?.team_member_name}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.organization']}
-              value={itemData?.supported_organization_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['4ir.role_or_responsibility']}
-              value={itemData?.supported_organization_name_en}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DetailsInputView
-              label={messages['common.email']}
-              value={itemData?.sector_name}
+              value={itemData && itemData[0] && itemData[0]?.organization}
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['common.contact_number']}
-              value={itemData?.comments}
+              value={
+                itemData && itemData[0] && itemData[0]?.team_member_phone_number
+              }
               isLoading={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['4IR.contribution']}
-              value={itemData?.file_path}
+              label={messages['common.designation']}
+              value={
+                itemData && itemData[0] && itemData[0]?.team_member_designation
+              }
               isLoading={isLoading}
             />
-          </Grid> */}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['common.email']}
+              value={itemData && itemData[0] && itemData[0]?.team_member_email}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DetailsInputView
+              label={messages['4ir.role_or_responsibility']}
+              value={
+                itemData && itemData[0] && itemData[0]?.role_responsibility
+              }
+              isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={12}>
+            <DetailsInputView
+              label={messages['4IR.contribution']}
+              value={itemData && itemData[0] && itemData[0]?.contribution}
+              isLoading={isLoading}
+            />
+          </Grid>
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

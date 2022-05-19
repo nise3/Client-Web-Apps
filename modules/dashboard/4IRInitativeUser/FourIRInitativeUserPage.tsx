@@ -8,12 +8,14 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 // import FourIRImplementingTeamDetailsPopup from './FourIRImplementingTeamDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+// import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
-import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+// import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import {useRouter} from 'next/router';
 import FourIRInitiativeUserDetailsPopup from './FourIRInitiativeUserDetailsPopup';
+import BackButton from '../../../@softbd/elements/button/BackButton';
+
 interface IFourIRImplementingTeamPageProps {
   fourIRInitiativeId: number;
 }
@@ -79,7 +81,7 @@ const FourIRInitativeUserPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data?.id)} />
+              <ReadButton onClick={() => openDetailsModal(data?.user_id)} />
             </DatatableButtonGroup>
           );
         },
@@ -122,7 +124,8 @@ const FourIRInitativeUserPage = ({
           <>
             <IconBranch /> <IntlMessages id='common.contributions' />
           </>
-        }>
+        }
+        extra={[<BackButton key={1} url={'/job-requirement'} />]}>
         {modifiedData && (
           <ReactTable
             columns={columns}
@@ -133,7 +136,6 @@ const FourIRInitativeUserPage = ({
             totalCount={totalCount}
           />
         )}
-
         {isOpenDetailsModal && selectedItemId && (
           <FourIRInitiativeUserDetailsPopup
             key={1}

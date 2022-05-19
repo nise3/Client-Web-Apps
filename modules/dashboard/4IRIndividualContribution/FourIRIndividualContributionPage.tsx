@@ -9,16 +9,11 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {API_4IR_CBLM} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_PROJECT_CONTRIBUTIONS} from '../../../@softbd/common/apiRoutes';
 import FourIRContributionAddEditPopup from './FourIRContributionAddEditPopup';
 import FourIRContributionDetailsPopup from './FourIRContributionDetailsPopup';
-interface FourIRIndividualContributionProps {
-  fourIRInitiativeId: number;
-}
 
-const FourIRIndividualContributionPage = ({
-  fourIRInitiativeId,
-}: FourIRIndividualContributionProps) => {
+const FourIRIndividualContributionPage = () => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -51,11 +46,6 @@ const FourIRIndividualContributionPage = ({
     setIsToggleTable((prevToggle: any) => !prevToggle);
   }, [isToggleTable]);
 
-  // Project tagline[ To Developer: this column will show the project tagline]
-  // Initiative name
-  // Role/responsibility
-  // Contribution [ To Developer: Initially this column will be blank, the User will click on ‘update’ to add his contribution ]
-
   const columns = useMemo(
     () => [
       {
@@ -70,14 +60,13 @@ const FourIRIndividualContributionPage = ({
           );
         },
       },
-
-      {
-        Header: messages['common.tagline'],
-        accessor: 'initiative_name',
-      },
       {
         Header: messages['common.initiative'],
-        accessor: 'tagline_name',
+        accessor: 'four_ir_tagline_name',
+      },
+      {
+        Header: messages['common.tagline'],
+        accessor: 'four_ir_initiative_name',
       },
       {
         Header: messages['4ir.role_or_responsibility'],
@@ -89,8 +78,12 @@ const FourIRIndividualContributionPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} />
+              <ReadButton
+                onClick={() => openDetailsModal(data.four_ir_initiative_id)}
+              />
+              <EditButton
+                onClick={() => openAddEditModal(data.four_ir_initiative_id)}
+              />
             </DatatableButtonGroup>
           );
         },
@@ -100,13 +93,10 @@ const FourIRIndividualContributionPage = ({
     [messages, locale],
   );
 
+  // send intiative_id_contribution and intiative_id
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_CBLM,
-      paramsValueModifier: (params) => {
-        params['four_ir_initiative_id'] = fourIRInitiativeId;
-        return params;
-      },
+      urlPath: API_4IR_PROJECT_CONTRIBUTIONS,
     });
 
   return (
@@ -130,8 +120,7 @@ const FourIRIndividualContributionPage = ({
           <FourIRContributionAddEditPopup
             key={1}
             onClose={closeAddEditModal}
-            fourIRInitiativeId={fourIRInitiativeId}
-            itemId={selectedItemId}
+            initiativeId={selectedItemId}
             refreshDataTable={refreshDataTable}
           />
         )}

@@ -41,9 +41,9 @@ const FourIRContributionPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <Link href={`contributions/initiatives/${data.id}`}>
+              <Link href={`4ir-contributions/initiatives/${data.id}`}>
                 <CommonButton
-                  btnText='common.view_contributions'
+                  btnText='common.team_member_list'
                   startIcon={<FiUser style={{marginLeft: '5px'}} />}
                   variant={'text'}
                 />
@@ -67,7 +67,7 @@ const FourIRContributionPage = () => {
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='4IR.contribution' />
+            <IconSkill /> <IntlMessages id='4IR.contributions' />
           </>
         }>
         <ReactTable

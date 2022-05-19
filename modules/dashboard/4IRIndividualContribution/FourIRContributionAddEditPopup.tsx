@@ -4,11 +4,9 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
-import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useIntl} from 'react-intl';
-import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -16,74 +14,51 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  useFetch4IRCBLM,
-  useFetch4IRSectors,
-} from '../../../services/4IRManagement/hooks';
-import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
-import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
-import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
-import CustomExpertFieldArray from '../4IRCS/CustomExpertFieldArray';
-import {
-  createCBLM,
-  updateCBLM,
-} from '../../../services/4IRManagement/CBLMServices';
-import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
+import {useFetch4IRProjectContribution} from '../../../services/4IRManagement/hooks';
+import {createOrUpdateContribution} from '../../../services/4IRManagement/ContributionServies';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
-interface CBLMAddEditPopupProps {
-  itemId: number | null;
+interface ContributionAddEditPopupProps {
+  initiativeId: number | null;
   onClose: () => void;
-  fourIRInitiativeId: number | string;
   refreshDataTable: () => void;
 }
 
 const initialValues = {
-  experts: [{}],
-  approved_by: '',
-  approve_date: '',
-  developed_organization_name: '',
-  developed_organization_name_en: '',
-  sector_name: '',
-  supported_organization_name: '',
-  supported_organization_name_en: '',
-  comments: '',
-  file_path: '',
-  row_status: 1,
+  contribution: '',
 };
 
-const FourIRContributionAddEditPopup: FC<CBLMAddEditPopupProps> = ({
-  itemId,
+const FourIRContributionAddEditPopup: FC<ContributionAddEditPopupProps> = ({
+  initiativeId,
   refreshDataTable,
-  fourIRInitiativeId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
-  const isEdit = itemId != null;
+  const isEdit = initiativeId != null;
+  console.log(initiativeId);
 
-  const [showSuccessPopUp, setShowSuccessPopUp] = useState<boolean>(false);
-  const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+  const [contributionFilter] = useState<any>({
+    four_ir_initiative_id: initiativeId,
+  });
+  const {updateSuccessMessage} = useSuccessMessage();
   const {
     data: itemData,
     isLoading,
-    mutate: mutateCBLM,
-  } = useFetch4IRCBLM(itemId);
-  // const {data: sectors, isLoading: isLoadingSectors} = useFetch4IRSectors();
+    mutate: mutateContribution,
+  } = useFetch4IRProjectContribution(contributionFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       contribution: yup
         .string()
-        .trim()
         .required()
         .label(messages['common.file'] as string),
     });
   }, [messages]);
 
   const {
-    control,
+    // control,
     register,
     reset,
     setError,
@@ -98,7 +73,7 @@ const FourIRContributionAddEditPopup: FC<CBLMAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
-        approved_by: itemData?.contributon,
+        contribution: itemData?.contribution,
       };
       reset(data);
     } else {
@@ -114,19 +89,15 @@ const FourIRContributionAddEditPopup: FC<CBLMAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {
-        four_ir_initiative_id: fourIRInitiativeId,
+        four_ir_initiative_id: initiativeId,
         ...data,
       };
-
-      if (itemId) {
-        await updateCBLM(itemId, payload);
-        updateSuccessMessage('4ir.CBLM');
-        mutateCBLM();
+      console.log(payload);
+      if (initiativeId) {
+        await createOrUpdateContribution(initiativeId, payload);
+        updateSuccessMessage('4IR.contribution');
+        mutateContribution();
         await closeAction();
-      } else {
-        await createCBLM(payload);
-        createSuccessMessage('4ir.CBLM');
-        setShowSuccessPopUp(true);
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -143,12 +114,12 @@ const FourIRContributionAddEditPopup: FC<CBLMAddEditPopupProps> = ({
           {isEdit ? (
             <IntlMessages
               id='common.edit'
-              values={{subject: <IntlMessages id='common.contributions' />}}
+              values={{subject: <IntlMessages id='4IR.contribution' />}}
             />
           ) : (
             <IntlMessages
               id='common.add_new'
-              values={{subject: <IntlMessages id='common.contributions' />}}
+              values={{subject: <IntlMessages id='4IR.contribution' />}}
             />
           )}
         </>
@@ -165,23 +136,15 @@ const FourIRContributionAddEditPopup: FC<CBLMAddEditPopupProps> = ({
         <Grid item xs={12} md={12}>
           <TextEditor
             id={'contribution'}
-            label={messages['common.contribution']}
+            label={messages['4IR.contributions']}
             errorInstance={errors}
-            value={itemData?.content}
+            value={itemData && itemData[0] && itemData[0]?.contribution}
             height={'300px'}
             key={1}
             register={register}
             setValue={setValue}
             clearErrors={clearErrors}
             setError={setError}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormRowStatus
-            id='row_status'
-            control={control}
-            defaultValue={initialValues?.row_status}
-            isLoading={isLoading}
           />
         </Grid>
       </Grid>

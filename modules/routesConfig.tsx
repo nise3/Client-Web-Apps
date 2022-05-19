@@ -703,6 +703,15 @@ const routesConfig: NavItemProps[] = [
             icon: 'work',
             url: '/4ir-contributions',
           },
+          {
+            id: 'contributions',
+            title: 'Contributions',
+            messageId: '4IR.contribution',
+            permissionKey: 'view_any_4ir_contributions',
+            type: 'item',
+            icon: 'work',
+            url: '/contribution',
+          },
         ],
       },
       {
