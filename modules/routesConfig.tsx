@@ -182,7 +182,6 @@ const routesConfig: NavItemProps[] = [
           },
         ],
       },
-
       {
         id: 'institute_management',
         title: 'Institutes Management',
@@ -694,6 +693,24 @@ const routesConfig: NavItemProps[] = [
             type: 'item',
             icon: 'work',
             url: '/4ir-occupations',
+          },
+          {
+            id: '4ir_contributions',
+            title: '4IR Contributions',
+            messageId: 'menu.contributions',
+            permissionKey: 'view_team_member_contribution',
+            type: 'item',
+            icon: 'work',
+            url: '/4ir-contributions',
+          },
+          {
+            id: 'contribution',
+            title: 'Contribution',
+            messageId: '4IR.contribution',
+            permissionKey: 'view_any_4ir_contributions',
+            type: 'item',
+            icon: 'work',
+            url: '/contribution',
           },
           {
             id: '4ir_showcasing',

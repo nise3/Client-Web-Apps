@@ -311,4 +311,12 @@ export const routePermissions: any = {
     routePrefix: '/4ir-showcasing',
     permissionKeys: ['view_any_4ir_showcasing'],
   },
+  '/contribution': {
+    routePrefix: '/contribution',
+    permissionKeys: ['view_any_4ir_contributions'],
+  },
+  '/4ir-contributions': {
+    routePrefix: '/4ir-contributions',
+    permissionKeys: ['view_team_member_contribution'],
+  },
 };
