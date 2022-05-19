@@ -174,10 +174,12 @@ const YouthRegistration = () => {
     return yup.object().shape({
       first_name: yup
         .string()
+        .required()
         .title('bn')
         .label(messages['common.first_name_bn'] as string),
       last_name: yup
         .string()
+        .required()
         .title('bn')
         .label(messages['common.last_name_bn'] as string),
       skills: yup

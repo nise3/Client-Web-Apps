@@ -279,7 +279,23 @@ const YouthCourseRegistrationPage = () => {
               messages['common.special_character_error'] as string,
             )
             .label(messages['common.first_name_bn'] as string),
+          first_name_en: yup
+            .string()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
+            .label(messages['common.first_name_bn'] as string),
           last_name: yup
+            .string()
+            .title(
+              'bn',
+              true,
+              messages['common.special_character_error'] as string,
+            )
+            .label(messages['common.last_name_bn'] as string),
+          last_name_en: yup
             .string()
             .title(
               'bn',

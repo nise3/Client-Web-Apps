@@ -140,10 +140,22 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
     return yup.object().shape({
       first_name: yup
         .string()
+        .required()
+        .title('bn')
+        .label(messages['common.first_name_bn'] as string),
+      first_name_en: yup
+        .string()
+        .required()
         .title('bn')
         .label(messages['common.first_name_bn'] as string),
       last_name: yup
         .string()
+        .required()
+        .title('bn')
+        .label(messages['common.last_name_bn'] as string),
+      last_name_en: yup
+        .string()
+        .required()
         .title('bn')
         .label(messages['common.last_name_bn'] as string),
       date_of_birth: yup
@@ -531,6 +543,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='first_name_en'
                 label={messages['common.first_name_en']}
                 register={register}
@@ -550,6 +563,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='last_name_en'
                 label={messages['common.last_name_en']}
                 register={register}
