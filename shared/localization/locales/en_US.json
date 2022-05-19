@@ -2052,5 +2052,7 @@
   "showcasing.organization_name": "Organization Name",
   "showcasing.organization_name_en": "Organization Name (EN)",
   "showcasing.initiative_name": "Initiative Name",
-  "showcasing.initiative_name_en": "Initiative Name (EN)"
+  "showcasing.initiative_name_en": "Initiative Name (EN)",
+  "common.start_year" : "Start Year",
+  "common.end_year": "End Year"
 }

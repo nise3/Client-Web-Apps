@@ -2056,5 +2056,7 @@
   "showcasing.initiative_name": "উদ্যোগের নাম",
   "showcasing.initiative_name_en": "উদ্যোগের নাম (ইংরেজি)",
   "4ir.tot_date": "টিওটি তারিখ",
-  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)"
+  "tot.proof_of_report_file": "রিপোর্টের প্রমাণ (ছবি / এক্সেল)",
+  "common.start_year" : "শুরুর বছর",
+  "common.end_year": "শেষের বছর"
 }
