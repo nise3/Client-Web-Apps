@@ -24,7 +24,6 @@ const ScaleUpStep = ({
   useEffect(() => {
     if (itemData && itemData?.completion_step) {
       const latestStep = itemData?.completion_step;
-      delete itemData?.completion_step;
       if (latestStep >= 14) {
         setIsReady(true);
       }
