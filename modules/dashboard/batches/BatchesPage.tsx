@@ -193,6 +193,17 @@ const BatchesPage = () => {
         accessor: 'title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
+
+      {
+        Header: messages['training_center.label'],
+        accessor: 'training_center_title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+      {
+        Header: messages['training_center.label'],
+        accessor: 'training_center_title_en',
+        isVisible: locale == LocaleLanguage.EN,
+      },
       {
         Header: messages['training_center.label'],
         accessor: 'training_center_title',

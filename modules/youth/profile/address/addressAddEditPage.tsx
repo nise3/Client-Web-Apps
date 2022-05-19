@@ -15,9 +15,9 @@ import {processServerSideErrors} from '../../../../@softbd/utilities/validationE
 import {Box, Grid, Zoom} from '@mui/material';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../../services/locationManagement/hooks';
 import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import CustomHookForm from '../component/CustomHookForm';
@@ -32,21 +32,6 @@ import {
   Upazila,
 } from '../../../../shared/Interface/location.interface';
 import CustomTextInput from '../../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-
-const addressType = [
-  {
-    id: 1,
-    label: 'Present Address',
-  },
-  {
-    id: 2,
-    label: 'Permanent Address',
-  },
-  {
-    id: 3,
-    label: 'Other Address',
-  },
-];
 
 interface Porps {
   itemId: number | null;
@@ -83,11 +68,26 @@ const AddressAddEditPage = ({
   const [upazilasData, setUpazilasData] = useState<Array<Upazila> | []>([]);
 
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(divisionsFilters);
+    useFetchLocalizedDivisions(divisionsFilters);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
+
+  const addressType = [
+    {
+      id: 1,
+      label: messages['common.present_address'],
+    },
+    {
+      id: 2,
+      label: messages['common.permanent_address'],
+    },
+    {
+      id: 3,
+      label: messages['common.others'],
+    },
+  ];
 
   const {
     data: itemData,

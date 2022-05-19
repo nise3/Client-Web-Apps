@@ -12,11 +12,12 @@ import {Search} from '@mui/icons-material';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import CustomFilterableSelect from '../../youth/training/components/CustomFilterableSelect';
 import {useIntl} from 'react-intl';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
-import {useFetchPublicJobSectors} from '../../../services/organaizationManagement/hooks';
-import {IOccupation} from '../../../shared/Interface/occupation.interface';
-import {getAllPublicOccupations} from '../../../services/organaizationManagement/OccupationService';
+import {
+  useFetchLocalizedPublicJobSectors,
+  useFetchLocalizedPublicOccupations,
+} from '../../../services/organaizationManagement/hooks';
 import {useRouter} from 'next/router';
 //import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
 import {FilterItem} from '../../../shared/Interface/common.interface';
@@ -74,30 +75,30 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
   // const [selectedLocUpazilaId, setSelectedLocUpazilaId] = useState<any>('');
   const {search_text} = router.query;
 
-  const [occupations, setOccupations] = useState<Array<IOccupation>>([]);
+  const [occupationFilter, setOccupationFilter] = useState<any>(null);
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(skillFilter);
+    useFetchLocalizedSkills(skillFilter);
 
   /*const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
   const {data: upazilas} = useFetchUpazilas(upazilasFilter);*/
 
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isLoadingJobSector}: any =
-    useFetchPublicJobSectors(jobSectorFilters);
+    useFetchLocalizedPublicJobSectors(jobSectorFilters);
+
+  const {data: occupations, isLoading: isLoadingOccupation} =
+    useFetchLocalizedPublicOccupations(occupationFilter);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await getAllPublicOccupations({
+        setOccupationFilter({
           row_status: RowStatus.ACTIVE,
           job_sector_ids: selectJobSectorsId,
         });
-        setOccupations(response.data);
-      } catch (e) {
-        setOccupations([]);
-      }
+      } catch (e) {}
     })();
   }, [selectJobSectorsId]);
 
@@ -358,7 +359,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={skills}
                   isLoading={isLoadingSkills}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>
 
@@ -371,7 +372,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={jobSectors}
                   isLoading={isLoadingJobSector}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -381,9 +382,9 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   label={messages['occupations.label'] as string}
                   onChange={onOccupationChange}
                   options={occupations}
-                  isLoading={false}
+                  isLoading={isLoadingOccupation}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={2}>
@@ -407,7 +408,7 @@ const JobListSearchSection = ({addFilterKey, routeParamsFilters}: IProps) => {
                   options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>*/}
             </Grid>

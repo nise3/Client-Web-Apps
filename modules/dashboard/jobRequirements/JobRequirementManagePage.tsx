@@ -2,7 +2,7 @@ import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {
   useFetchHumanResourceDemand,
-  useFetchInstituteHumanResourceDemands,
+  useFetchLocalizedInstituteHumanResourceDemands,
 } from '../../../services/IndustryManagement/hooks';
 import {Button} from '@mui/material';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -39,7 +39,9 @@ const JobRequirementManagePage = () => {
     data: HRDemandInstitutes,
     isLoading: isLoadingHumanResourceDemandInstitutes,
     mutate: mutateHRDemandInstitutes,
-  } = useFetchInstituteHumanResourceDemands(instituteHumanResourceDemandFilter);
+  } = useFetchLocalizedInstituteHumanResourceDemands(
+    instituteHumanResourceDemandFilter,
+  );
 
   useEffect(() => {
     setInstituteHumanResourceDemandFilter({hr_demand_id: jobRequirementId});

@@ -2,14 +2,16 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import NiseFrontPage from '../../../@softbd/layouts/hoc/NiseFrontPage';
+import {useIntl} from 'react-intl';
 
 const SimilarCourseList = asyncComponent(
   () => import('../../../modules/similarCourseList'),
 );
 export default NiseFrontPage(() => {
+  const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={'Course List'} />
+      <PageMeta title={messages['common.courses']} />
       <SimilarCourseList />
     </>
   );

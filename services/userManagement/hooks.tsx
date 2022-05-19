@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_PERMISSION_GROUPS,
   API_PERMISSION_SUB_GROUPS,
@@ -10,6 +13,9 @@ import {
 export function useFetchRoles(params: any) {
   return useAxiosSWR([API_ROLES, params]);
 }
+export function useFetchLocalizedRoles(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_ROLES, params] : null);
+}
 
 export function useFetchRole(roleId: number | null) {
   return useAxiosSWR(roleId ? API_ROLES + '/' + roleId : null);
@@ -17,6 +23,10 @@ export function useFetchRole(roleId: number | null) {
 
 export function useFetchPermissions(params: any) {
   return useAxiosSWR([API_PERMISSIONS, params]);
+}
+
+export function useFetchLocalizedPermissions(params: any) {
+  return useDataLocalizationAxiosSWR([API_PERMISSIONS, params]);
 }
 
 export function useFetchPermission(permissionId: number | null) {
@@ -27,6 +37,10 @@ export function useFetchPermission(permissionId: number | null) {
 
 export function useFetchPermissionGroups(params: any) {
   return useAxiosSWR([API_PERMISSION_GROUPS, params]);
+}
+
+export function useFetchLocalizedPermissionGroups(params: any) {
+  return useDataLocalizationAxiosSWR([API_PERMISSION_GROUPS, params]);
 }
 
 export function useFetchPermissionGroup(permissionGroupId: number | null) {
@@ -49,10 +63,20 @@ export function useFetchPermissionSubGroups(params: any) {
   return useAxiosSWR(params ? [API_PERMISSION_SUB_GROUPS, params] : null);
 }
 
+export function useFetchLocalizedPermissionSubGroups(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PERMISSION_SUB_GROUPS, params] : null,
+  );
+}
+
 export function useFetchUser(userId: number | null) {
   return useAxiosSWR(userId ? API_USERS + '/' + userId : null);
 }
 
 export function useFetchUsers(params: any) {
   return useAxiosSWR([API_USERS, params]);
+}
+
+export function useFetchLocalizedUsers(params: any) {
+  return useDataLocalizationAxiosSWR([API_USERS, params]);
 }

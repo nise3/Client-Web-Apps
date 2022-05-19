@@ -10,7 +10,7 @@ import {InfoOutlined} from '@mui/icons-material';
 import CustomFormSelect from '../../../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {S1} from '../../../../../@softbd/elements/common';
 import {useFetchJobContactInformation} from '../../../../../services/IndustryManagement/hooks';
-import {useFetchUsers} from '../../../../../services/userManagement/hooks';
+import {useFetchLocalizedUsers} from '../../../../../services/userManagement/hooks';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import {saveContactInformation} from '../../../../../services/IndustryManagement/JobService';
 import usePageLoadToTop from './usePageLoadToTop';
@@ -34,7 +34,7 @@ const ContactInformation = ({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [userFilters] = useState<any>({row_status: RowStatus.ACTIVE});
-  const {data: users, isLoading: isLoadingUsers} = useFetchUsers(userFilters);
+  const {data: users, isLoading: isLoadingUsers} = useFetchLocalizedUsers(userFilters);
 
   const id = 'top';
   usePageLoadToTop({id, dependency: isReady});

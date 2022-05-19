@@ -19,10 +19,10 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUnions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUnions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -45,7 +45,7 @@ import {Body1, H1, H2} from '../../../@softbd/elements/common';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import ImportExportType from './constants/ImportExportType';
 import RegistrationSuccessBox from '../memberRegistration/RegistrationSuccessBox';
-import {useFetchSMEFMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
+import {useFetchLocalizedSMEFMemberStaticData} from '../../../services/IndustryAssociationManagement/hooks';
 import {registerSMEFMember} from '../../../services/IndustryManagement/SMEFMemberRegistrationService';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
@@ -92,15 +92,15 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
   const [unionsFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(districtsFilter);
+    useFetchLocalizedDivisions(districtsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
   const {data: unions, isLoading: isLoadingUnions} =
-    useFetchUnions(unionsFilter);
+    useFetchLocalizedUnions(unionsFilter);
   const {data: memberStaticData, isLoading: isLoadingMemberStaticData} =
-    useFetchSMEFMemberStaticData();
+    useFetchLocalizedSMEFMemberStaticData();
 
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
@@ -953,7 +953,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                           control={control}
                           options={districts}
                           optionValueProp={'id'}
-                          optionTitleProp={['title_en', 'title']}
+                          optionTitleProp={['title']}
                           errorInstance={errors}
                         />
                       </Grid>
@@ -966,7 +966,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                           control={control}
                           options={unions}
                           optionValueProp={'id'}
-                          optionTitleProp={['title_en', 'title']}
+                          optionTitleProp={['title']}
                           errorInstance={errors}
                         />
                       </Grid>
@@ -1013,7 +1013,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                           control={control}
                           options={districts}
                           optionValueProp={'id'}
-                          optionTitleProp={['title_en', 'title']}
+                          optionTitleProp={['title']}
                           errorInstance={errors}
                         />
                       </Grid>
@@ -1026,7 +1026,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                             control={control}
                             options={[{id: 1, title: 'Boidonath union'}]}
                             optionValueProp={'id'}
-                            optionTitleProp={['title_en', 'title']}
+                            optionTitleProp={[ 'title']}
                             errorInstance={errors}
                           />
                         </Grid>*/}
@@ -1235,7 +1235,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                     control={control}
                     options={divisions}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                     onChange={changeDivisionAction}
                   />
@@ -1250,7 +1250,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                     control={control}
                     options={districtsList}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                     onChange={changeDistrictAction}
                   />
@@ -1263,7 +1263,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                     control={control}
                     options={upazilasList}
                     optionValueProp={'id'}
-                    optionTitleProp={['title_en', 'title']}
+                    optionTitleProp={['title']}
                     errorInstance={errors}
                   />
                 </Grid>
@@ -1324,7 +1324,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                         control={control}
                         options={divisions}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                         onChange={onChangeFactoryDivision}
                       />
@@ -1339,7 +1339,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                         control={control}
                         options={factoryDistrictsList}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                         onChange={onChangeFactoryDistrict}
                       />
@@ -1353,7 +1353,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                         control={control}
                         options={factoryUpazilasList}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                       />
                     </Grid>
@@ -1620,7 +1620,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                         control={control}
                         options={memberStaticData?.smef_clusters || []}
                         optionValueProp={'id'}
-                        optionTitleProp={['title_en', 'title']}
+                        optionTitleProp={['title']}
                         errorInstance={errors}
                       />
                     )}
@@ -1673,7 +1673,7 @@ const SMEFMemberRegistrationForm: FC<SMEFMemberRegistrationFormProps> = ({
                       control={control}
                       options={memberStaticData?.sector || []}
                       optionValueProp={'id'}
-                      optionTitleProp={['title_en', 'title']}
+                      optionTitleProp={['title']}
                       errorInstance={errors}
                       onChange={handleSectorChange}
                     />

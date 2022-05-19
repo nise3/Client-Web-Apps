@@ -15,22 +15,19 @@ import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {useFetchLocalizedCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
+import showInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {Box, Button, IconButton} from '@mui/material';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
-import {
-  getStaticPageOrBlockByPageCode,
-  updateStaticPage,
-} from '../../../services/cmsManagement/StaticPageService';
+import {getStaticPageOrBlockByPageCode, updateStaticPage} from '../../../services/cmsManagement/StaticPageService';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import {IStaticPageContent} from '../../../shared/Interface/common.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import showInTypes from '../../../@softbd/utilities/ShowInTypes';
 
 // import {IStaticPage} from '../../../shared/Interface/common.interface';
 
@@ -58,7 +55,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
   const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<CommonAuthUser>();
   const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);

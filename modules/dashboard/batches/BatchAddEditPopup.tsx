@@ -22,11 +22,11 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {
   useFetchBatch,
-  useFetchBranches,
-  useFetchCourses,
-  useFetchInstitute,
+  useFetchLocalizedBranches,
+  useFetchLocalizedCourses,
+  useFetchLocalizedInstitutes,
   useFetchLocalizedTrainers,
-  useFetchTrainingCenters,
+  useFetchLocalizedTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -75,7 +75,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitute(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const {
     data: itemData,
@@ -90,13 +90,13 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   });
 
   const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
+    useFetchLocalizedBranches(branchFilters);
 
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchTrainingCenters(trainingCenterFilters);
+    useFetchLocalizedTrainingCenters(trainingCenterFilters);
 
   const {data: courses, isLoading: isLoadingCourses} =
-    useFetchCourses(coursesFilters);
+    useFetchLocalizedCourses(coursesFilters);
 
   const [trainersFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: trainers, isLoading: isLoadingTrainers} =
@@ -414,7 +414,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
               control={control}
               options={institutes}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onInstituteChange}
             />
@@ -432,7 +432,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
                   control={control}
                   options={branches}
                   optionValueProp='id'
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={onBranchChange}
                 />
@@ -447,7 +447,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
                 control={control}
                 options={trainingCenters}
                 optionValueProp='id'
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -463,7 +463,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={courses}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

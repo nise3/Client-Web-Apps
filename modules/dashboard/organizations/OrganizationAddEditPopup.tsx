@@ -24,18 +24,22 @@ import IconOrganization from '../../../@softbd/icons/IconOrganization';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
+  useFetchLocalizedOrganizationTypes,
   useFetchOrganization,
-  useFetchOrganizationTypes,
 } from '../../../services/organaizationManagement/hooks';
 import {
+  useFetchLocalizedPermissionSubGroups,
   useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
-import {PERMISSION_GROUP_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  FORM_PLACEHOLDER,
+  isLatLongValid,
+  PERMISSION_GROUP_ORGANIZATION_KEY,
+} from '../../../@softbd/common/constants';
+import {
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -46,19 +50,15 @@ import {IOrganization} from '../../../shared/Interface/organization.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {
-  useFetchIndustryAssociations,
-  useFetchIndustryAssociationSubTrades,
-  useFetchIndustryAssociationTrades,
+  useFetchLocalizedIndustryAssociations,
+  useFetchLocalizedIndustryAssociationSubTrades,
+  useFetchLocalizedIndustryAssociationTrades,
 } from '../../../services/IndustryAssociationManagement/hooks';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import {Box} from '@mui/system';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {cloneDeep} from 'lodash';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {
-  FORM_PLACEHOLDER,
-  isLatLongValid,
-} from '../../../@softbd/common/constants';
 import {
   getMobilePhoneValidationSchema,
   getObjectArrayFromValueArray,
@@ -144,23 +144,23 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   });
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [tradeFilter] = useState({});
   const {
     data: industryAssociationTrades,
     isLoading: isLoadingIndustryAssociationTrades,
-  } = useFetchIndustryAssociationTrades(tradeFilter);
+  } = useFetchLocalizedIndustryAssociationTrades(tradeFilter);
 
   const [subTradeFilter, setSubTradeFilter] = useState({});
   const {
     data: industryAssociationSubTrades,
     isLoading: isLoadingIndustryAssociationSubTrades,
-  } = useFetchIndustryAssociationSubTrades(subTradeFilter);
+  } = useFetchLocalizedIndustryAssociationSubTrades(subTradeFilter);
 
   const [selectedTradeId, setSelectedTradeId] = useState<any>(null);
   const [selectedAllSubTrades, setSelectedAllSubTrades] = useState<any>([]);
@@ -172,7 +172,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
   } = useFetchOrganization(itemId);
 
   const {data: organizationTypes, isLoading: isOrganizationTypeLoading} =
-    useFetchOrganizationTypes(organizationTypeFilters);
+    useFetchLocalizedOrganizationTypes(organizationTypeFilters);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -181,13 +181,13 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
     useState<any>(null);
 
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
-    useFetchIndustryAssociations(industryAssociationFilter);
+    useFetchLocalizedIndustryAssociations(industryAssociationFilter);
 
   const {data: permissionGroups} = useFetchPermissionGroups(
     permissionGroupFilters,
   );
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -587,7 +587,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               control={control}
               options={permissionSubGroups}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -601,7 +601,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={organizationTypes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -615,7 +615,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
               control={control}
               options={industryAssociations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -628,7 +628,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={industryAssociationTrades}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onTradeChange}
           />
@@ -830,7 +830,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -844,7 +844,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -857,7 +857,7 @@ const OrganizationAddEditPopup: FC<OrganizationAddEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

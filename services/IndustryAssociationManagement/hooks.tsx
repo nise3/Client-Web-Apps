@@ -21,6 +21,12 @@ export function useFetchIndustryAssociations(params: any) {
   return useAxiosSWR(params ? [API_INDUSTRY_ASSOCIATIONS, params] : null);
 }
 
+export function useFetchLocalizedIndustryAssociations(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_INDUSTRY_ASSOCIATIONS, params] : null,
+  );
+}
+
 export const useFetchContactInfo = (contactInfoId: number | null) => {
   return useAxiosSWR(
     contactInfoId
@@ -37,8 +43,21 @@ export function useFetchIndustryAssociationTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_TRADES, params]);
 }
 
+export function useFetchLocalizedIndustryAssociationTrades(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_INDUSTRY_ASSOCIATION_TRADES, params] : null,
+  );
+}
+
 export function useFetchIndustryAssociationSubTrades(params: any) {
   return useAxiosSWR([API_INDUSTRY_ASSOCIATION_SUB_TRADES, params]);
+}
+
+export function useFetchLocalizedIndustryAssociationSubTrades(params: any) {
+  return useDataLocalizationAxiosSWR([
+    API_INDUSTRY_ASSOCIATION_SUB_TRADES,
+    params,
+  ]);
 }
 
 export function useFetchPublicJob(jobId: any, params?: any) {
@@ -73,6 +92,14 @@ export function useFetchNascibMemberStaticData() {
   return useAxiosSWR(API_PUBLIC_NASCIB_MEMBER_STATIC_DATA);
 }
 
+export function useFetchLocalizedNascibMemberStaticData() {
+  return useDataLocalizationAxiosSWR(API_PUBLIC_NASCIB_MEMBER_STATIC_DATA);
+}
+
 export function useFetchSMEFMemberStaticData() {
   return useAxiosSWR(API_PUBLIC_SMEF_MEMBER_STATIC_DATA);
+}
+
+export function useFetchLocalizedSMEFMemberStaticData() {
+  return useDataLocalizationAxiosSWR(API_PUBLIC_SMEF_MEMBER_STATIC_DATA);
 }

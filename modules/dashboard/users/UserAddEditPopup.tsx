@@ -2,7 +2,7 @@ import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
-  useFetchRoles,
+  useFetchLocalizedRoles,
   useFetchUser,
 } from '../../../services/userManagement/hooks';
 import RowStatus from './RowStatus';
@@ -29,9 +29,9 @@ import {
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -42,8 +42,8 @@ import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonG
 import {getUserType} from '../../../@softbd/utilities/helpers';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {
-  useFetchBranches,
-  useFetchTrainingCenters,
+  useFetchLocalizedBranches,
+  useFetchLocalizedTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
@@ -96,23 +96,24 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
   const [districtsFilter] = useState({});
   const [upazilasFilter] = useState({});
 
-  const {data: roles, isLoading: isLoadingRoles} = useFetchRoles(roleFilters);
+  const {data: roles, isLoading: isLoadingRoles} =
+    useFetchLocalizedRoles(roleFilters);
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [branchFilters, setBranchFilters] = useState<any>(null);
 
   const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
 
   const {data: branchList, isLoading: isBranchListLoading} =
-    useFetchBranches(branchFilters);
+    useFetchLocalizedBranches(branchFilters);
 
   const {data: trainingCenterList, isLoading: isTrainingCenterLoading} =
-    useFetchTrainingCenters(trainingCenterFilters);
+    useFetchLocalizedTrainingCenters(trainingCenterFilters);
 
   const [districtsList, setDistrictsList] = useState<Array<any> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<any> | []>([]);
@@ -461,7 +462,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -474,7 +475,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -487,7 +488,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -547,7 +548,7 @@ const UserAddEditPopup: FC<UserAddEditPopupProps> = ({
             control={control}
             options={roles}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

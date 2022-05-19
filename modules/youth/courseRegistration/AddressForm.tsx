@@ -4,9 +4,9 @@ import {useIntl} from 'react-intl';
 import {Typography} from '@mui/material';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
@@ -35,17 +35,17 @@ const AddressForm: FC<AddressFormProps> = ({
   const {messages} = useIntl();
   const [filters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: districts} = useFetchDistricts(districtsFilter);
+  const {data: districts} = useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
 
   const [presentDistricts, setPresentDistricts] = useState<
     Array<District> | []
@@ -134,7 +134,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={divisions}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
           onChange={onPresentDivisionChange}
         />
@@ -148,7 +148,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={presentDistricts}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
           onChange={onPresentDistrictChange}
         />
@@ -161,7 +161,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={presentUpazilas}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
         />
       </Grid>
@@ -236,7 +236,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={divisions}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
           defaultValue={1}
           onChange={onPermanentDivisionChange}
@@ -252,7 +252,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={permanentDistricts}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
           onChange={onPermanentDistrictChange}
           isDisabled={disabledPermanentAddress}
@@ -266,7 +266,7 @@ const AddressForm: FC<AddressFormProps> = ({
           control={control}
           options={permanentUpazilas}
           optionValueProp={'id'}
-          optionTitleProp={['title_en', 'title']}
+          optionTitleProp={['title']}
           errorInstance={errors}
           isDisabled={disabledPermanentAddress}
         />
