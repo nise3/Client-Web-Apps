@@ -87,8 +87,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
     setExam(exam);
   }, []);
 
-  const onCloseUploadAnsFileModal = useCallback(() => {
+  const onCloseUploadAnsFileModal = useCallback((submitted?: boolean) => {
     setIsOpenUploadAnsFileModal(false);
+    if (submitted) {
+      onClose();
+    }
   }, []);
 
   return (
@@ -156,7 +159,9 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
                           getIntlTimeFromString(formatTime, exam?.start_date)
                         : ''}
                     </TableCell>
-                    <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
+                    <TableCell>
+                      {exam?.duration ? getExamTimeDuration(exam.duration) : ''}
+                    </TableCell>
                     <TableCell>
                       {isOver && exam?.participated && exam?.marks_obtained
                         ? formatNumber(exam?.marks_obtained) +

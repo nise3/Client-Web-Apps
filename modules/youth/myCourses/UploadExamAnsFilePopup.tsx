@@ -15,7 +15,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 
 interface IProps {
-  onClose: () => void;
+  onClose: (submitted?: boolean) => void;
   exam: any;
   batchId: any;
 }
@@ -52,7 +52,7 @@ const UploadExamAnsFilePopup = ({onClose, exam, batchId}: IProps) => {
 
       await submitExamPaper(data);
       submissionSuccessMessage('common.file_upload');
-      onClose();
+      onClose(true);
     } catch (error: any) {
       console.log('error->', error);
       processServerSideErrors({error, setError, validationSchema, errorStack});
@@ -61,7 +61,7 @@ const UploadExamAnsFilePopup = ({onClose, exam, batchId}: IProps) => {
 
   return (
     <FrontendCustomModal
-      onClose={onClose}
+      onClose={() => onClose(false)}
       open={true}
       title={<>{exam.title}</>}
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
@@ -70,7 +70,7 @@ const UploadExamAnsFilePopup = ({onClose, exam, batchId}: IProps) => {
           <Button
             startIcon={<CancelIcon />}
             variant='outlined'
-            onClick={onClose}
+            onClick={() => onClose(false)}
             color={'warning'}>
             {'Cancel'}
           </Button>
