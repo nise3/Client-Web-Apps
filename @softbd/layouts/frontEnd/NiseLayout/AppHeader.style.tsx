@@ -81,7 +81,7 @@ export const StyledAppBar = styled(AppBar)(({theme}) => ({
 
   [`& .${classes.menuItem}`]: {
     fontSize: '1.13rem',
-    padding: '20px 10px',
+    padding: '20px 5px',
     color: '#746F6F',
     '&>a': {
       display: 'flex',
