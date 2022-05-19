@@ -60,7 +60,9 @@ interface PersonalInformationEditProps {
 
 const initialValues = {
   first_name: '',
+  first_name_en: '',
   last_name: '',
+  last_name_en: '',
   date_of_birth: '',
   physical_disability_status: PhysicalDisabilityStatus.NO,
   physical_disabilities: [],
@@ -147,7 +149,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .string()
         .required()
         .title('bn')
-        .label(messages['common.first_name_bn'] as string),
+        .label(messages['common.first_name_en'] as string),
       last_name: yup
         .string()
         .required()
@@ -157,7 +159,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
         .string()
         .required()
         .title('bn')
-        .label(messages['common.last_name_bn'] as string),
+        .label(messages['common.last_name_en'] as string),
       date_of_birth: yup
         .string()
         .trim()
@@ -553,12 +555,12 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomTextInput
+                required
                 id='last_name'
                 label={messages['common.last_name_bn']}
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
-                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
