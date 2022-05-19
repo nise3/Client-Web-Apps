@@ -60,7 +60,6 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
   const { messages, formatNumber } = useIntl();
   const authUser = useAuthUser();
   const [certificateIssue, setCertificateIssue] = useState<any>({});
-  // const [certificateIssue] = useState<ICertificateIssue>(certificateIssueMock.data[0]);
 
   getCertificateIssue({youth_id: youthId})
     .then((res:any)=>{
@@ -175,7 +174,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                       color={'primary'}
                     />
                   )}
-                  {certificateIssue?.id && <Link
+                  {/* {certificateIssue?.id && <Link
                     className={classes.certificateViewButton}
                     href={
                       authUser
@@ -187,7 +186,20 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                     <Button variant={'contained'} color={'primary'}>
                       {messages['common.certificate_view']}
                     </Button>
-                  </Link>}
+                  </Link>} */}
+                  <Link
+                    className={classes.certificateViewButton}
+                    href={
+                      authUser
+                        ? youthDomain() +
+                        LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
+                        certificateIssue?.id
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button variant={'contained'} color={'primary'}>
+                      {messages['common.certificate_view']}
+                    </Button>
+                  </Link>
                 </Box>
               )}
             </Box>

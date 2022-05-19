@@ -73,11 +73,11 @@ const BatchesPage = () => {
       .then((res: any)=> {
         setIsOpenAddEditTemplateModal(true);
         item.certificate_type = res?.data?.result_type;
-                                            
         setSelectedBatchItem(item)
       })
     } else {
       setIsOpenAddEditTemplateModal(true);
+      setSelectedBatchItem(item)
     }
     
     // const certificate = certificatesList.find(item=> item.id === certificateId);

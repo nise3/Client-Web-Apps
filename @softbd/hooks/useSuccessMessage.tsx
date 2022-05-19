@@ -23,8 +23,18 @@ export default function useSuccessMessage() {
     );
   };
 
+  const selectSuccessMessage = (messageId: string) => {
+    successStack(
+      <IntlMessages
+        id='common.subject_selected_successfully'
+        values={{subject: <IntlMessages id={messageId} />}}
+      />,
+    );
+  };
+
   return {
     createSuccessMessage,
     updateSuccessMessage,
+    selectSuccessMessage
   };
 }

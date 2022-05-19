@@ -92,7 +92,7 @@ const CertificateIssuedPage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <Link href={`/certificate/certificate-view/${data.certificate_id}`} passHref={true}>
+              <Link href={`/certificate/certificate-view/${data.id}`} passHref={true}>
                   <CommonButton
                     btnText='common.certificate_view'
                     startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}

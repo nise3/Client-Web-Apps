@@ -1,6 +1,6 @@
 import { useEventCallback } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
@@ -115,12 +115,16 @@ const CertificateIssuePage = () => {
             <DatatableButtonGroup>
               {/* <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} /> */}
-              <ApproveButton
+              {
+                !data.certificate_issued_id ?
+                <ApproveButton
                 approveAction={() =>
                   issueCerrificate(data)
                 }
-                buttonText={messages['certificate.certificate_issue'] as string}
-              />
+                buttonText={messages['certificate.certificate_issued'] as string}
+              /> : <IntlMessages id={messages['certificate.certificate_issued_done'] as string} />
+              }
+              
             </DatatableButtonGroup>
           );
         },
@@ -135,24 +139,36 @@ const CertificateIssuePage = () => {
       urlPath: API_COURSE_ENROLLMENTS,
       paramsValueModifier: (params: any) => {
         if (batchId) params['batch_id'] = batchId;
+        // params['certificate_issued_id'] = null;
         return params;
-      }
+      },
+      // filters: {
+      //   certificate_issued_id: null
+      // }
     });
 
-  useEffect(() => {
-    if (data) {
+  // useEffect(() => {
+  //   if (data) {
+  //     data.map((e:any)=> {
 
-      const filteredData = data.map((item: any) => {
-        const isIssued = issuedData.find((issue: ICertificateIssueView) => issue.certificate_id == item.certificate_id && issue.youth_id == item.youth_id) !== undefined;
-        return { ...item, ...{ isIssued: isIssued } }
-      })
-        .filter((e: any) => !e.isIssued)
+  //       if(!!e.certificate_issued_id > 0)
+  //       {
+  //         return e;
+  //       }
+        
+  //     });
+  //     console.log(data);
+  //     // const filteredData = data.map((item: any) => {
+  //     //   const isIssued = issuedData.find((issue: ICertificateIssueView) => issue.certificate_id == item.certificate_id && issue.youth_id == item.youth_id) !== undefined;
+  //     //   return { ...item, ...{ isIssued: isIssued } }
+  //     // })
+  //     //   .filter((e: any) => !e.isIssued)
 
-      if (filteredData && filteredData.length > 0) {
-        setCertificatesIssueList(filteredData);
-      }
-    }
-  }, [data, issuedData])
+  //     // if (filteredData && filteredData.length > 0) {
+  //     //   setCertificatesIssueList(filteredData);
+  //     // }
+  //   }
+  // }, [data, issuedData])
 
   // console.log('checking ', isLoading, data);
 
@@ -167,8 +183,8 @@ const CertificateIssuePage = () => {
         {/* <div>{certificatesIssueList[0]?.isIssued}</div> */}
         <ReactTable
           columns={columns}
-          data={certificatesIssueList}
-          // data={data}
+          // data={certificatesIssueList}
+          data={data}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}
