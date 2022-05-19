@@ -238,6 +238,15 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
           messages['common.special_character_error'] as string,
           (value) => !Boolean(value?.match(SPECIAL_CHARACTER_VALIDATION)),
         ),
+      trainer_name_en: yup
+        .string()
+        .required()
+        .label(messages['common.name'] as string)
+        .test(
+          'special character validation',
+          messages['common.special_character_error'] as string,
+          (value) => !Boolean(value?.match(SPECIAL_CHARACTER_VALIDATION)),
+        ),
       mobile: yup
         .string()
         .trim()
@@ -570,6 +579,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='trainer_name_en'
             label={messages['trainer.title_en']}
             register={register}
