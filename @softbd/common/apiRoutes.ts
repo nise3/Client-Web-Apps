@@ -89,6 +89,7 @@ export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
+export const API_FOUR_IR_ROLES = CORE_SERVICE_PATH + '/roles-for-4IR';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
 export const API_YOUTH_EXIST_CHECK = YOUTH_SERVICE_PATH + '/youth-exist-check';
