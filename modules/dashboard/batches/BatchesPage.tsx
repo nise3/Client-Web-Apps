@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { API_BATCHES } from '../../../@softbd/common/apiRoutes';
+import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
@@ -14,24 +14,15 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
   getMomentDateFormat,
-  isResponseSuccess
+  isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import { createCertificateById } from '../../../services/CertificateAuthorityManagement/CertificateService';
-import { deleteBatch } from '../../../services/instituteManagement/BatchService';
-import { ICertificateBatchSetting } from '../../../shared/Interface/certificates';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {API_BATCHES} from '../../../@softbd/common/apiRoutes';
+import {createCertificateById} from '../../../services/CertificateAuthorityManagement/CertificateService';
 import {
   deleteBatch,
   processResult,
 } from '../../../services/instituteManagement/BatchService';
-import IconBatch from '../../../@softbd/icons/IconBatch';
+import {ICertificateBatchSetting} from '../../../shared/Interface/certificates';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
@@ -45,26 +36,23 @@ import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
 import {Add} from '@mui/icons-material';
 import {Link} from '../../../@softbd/elements/common';
 import Visibility from '@mui/icons-material/Visibility';
-import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 const BatchesPage = () => {
-  const { messages, locale } = useIntl();
-  const { successStack } = useNotiStack();
   const {messages, locale} = useIntl();
   const {successStack, errorStack} = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
 
-  const url = LINK_BATCH_RESULT;
-
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedBatchItem, setSelectedBatchItem] = useState<ICertificateBatchSetting | null>(null);
+  const [selectedBatchItem, setSelectedBatchItem] =
+    useState<ICertificateBatchSetting | null>(null);
   const [courseId, setCourseId] = useState<number>();
 
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-  const [isOpenAddEditTemplateModal, setIsOpenAddEditTemplateModal] = useState(false);
+  const [isOpenAddEditTemplateModal, setIsOpenAddEditTemplateModal] =
+    useState(false);
 
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
@@ -101,29 +89,28 @@ const BatchesPage = () => {
     setIsOpenImportModal(false);
   }, []);
 
-  const openDetailsTemplateModal = useCallback((item: ICertificateBatchSetting) => {
-    const certificateId = item.certificate_id as number;
-    if(certificateId){
-      createCertificateById(certificateId)
-      .then((res: any)=> {
+  const openDetailsTemplateModal = useCallback(
+    (item: ICertificateBatchSetting) => {
+      const certificateId = item.certificate_id as number;
+      if (certificateId) {
+        createCertificateById(certificateId).then((res: any) => {
+          setIsOpenAddEditTemplateModal(true);
+          item.certificate_type = res?.data?.result_type;
+
+          setSelectedBatchItem(item);
+        });
+      } else {
+        setSelectedBatchItem(item);
         setIsOpenAddEditTemplateModal(true);
-        item.certificate_type = res?.data?.result_type;
+      }
 
-        setSelectedBatchItem(item)
-      })
-    } else {
-      setSelectedBatchItem(item)
-      setIsOpenAddEditTemplateModal(true);
-    }
-
-    // const certificate = certificatesList.find(item=> item.id === certificateId);
-
-
-
-  }, []);
+      // const certificate = certificatesList.find(item=> item.id === certificateId);
+    },
+    [],
+  );
 
   const closeDetailsTemplateModal = useCallback(() => {
-    setSelectedBatchItem(null)
+    setSelectedBatchItem(null);
     setIsOpenAddEditTemplateModal(false);
   }, []);
 
@@ -147,15 +134,6 @@ const BatchesPage = () => {
             values={{subject: <IntlMessages id='batches.label' />}}
           />,
         );
-    let response = await deleteBatch(itemId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{ subject: <IntlMessages id='batches.label' /> }}
-        />,
-      );
-
         refreshDataTable();
       }
     } catch (error) {}
@@ -313,22 +291,24 @@ const BatchesPage = () => {
               />
               <CommonButton
                 btnText='common.certificate_template'
-                style={{ marginLeft: '10px' }}
+                style={{marginLeft: '10px'}}
                 variant='outlined'
                 onClick={() => openDetailsTemplateModal(data)}
                 color='primary'
               />
-              {data.certificate_id &&
-                <Link href={`/${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+              {data?.certificate_id && (
+                <Link
+                  href={`/${path}/${data?.id}/certificates/certificate-issue`}
+                  passHref={true}>
                   <CommonButton
                     btnText='certificate.certificate_issue'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
-                    style={{ marginLeft: '10px' }}
+                    startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                    style={{marginLeft: '10px'}}
                     variant='outlined'
                     color='primary'
                   />
                 </Link>
-              }
+              )}
 
               <CommonButton
                 key={2}
@@ -357,19 +337,6 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {data.result_published_at && (
-                <Link href={`${url}${data.id}`} passHref={true}>
-                  <CommonButton
-                    key={4}
-                    onClick={() => console.log('clicked')}
-                    btnText={'common.batch_result'}
-                    variant={'outlined'}
-                    color={'primary'}
-                    style={{marginLeft: '5px'}}
-                    startIcon={<Visibility />}
-                  />
-                </Link>
-              )}
               {!data.result_published_at && (
                 <CommonButton
                   key={5}
@@ -390,7 +357,7 @@ const BatchesPage = () => {
     [messages, locale],
   );
 
-  const { onFetchData, data, loading, pageCount, totalCount } =
+  const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_BATCHES,
     });
