@@ -12,6 +12,7 @@ import {
   API_4IR_SECTORS,
   API_4IR_TAGLINES,
   API_4IR_TOT,
+  API_4IR_PROJECT_CONTRIBUTIONS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetch4IRInitiative(initiativeId: number | null) {
@@ -94,4 +95,7 @@ export function useFetch4IRProjectAnalysis(analysisId: number | null) {
 
 export function useFetchAll4IRProjectAnalysis(params: any) {
   return useAxiosSWR([API_4IR_PROJECT_ANALYSIS, params]);
+}
+export function useFetch4IRProjectContribution(params: any) {
+  return useAxiosSWR([API_4IR_PROJECT_CONTRIBUTIONS, params]);
 }
