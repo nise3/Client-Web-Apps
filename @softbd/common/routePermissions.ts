@@ -313,6 +313,6 @@ export const routePermissions: any = {
   },
   '/4ir-contributions': {
     routePrefix: '/4ir-contributions',
-    permissionKeys: ['view_any_4ir_tagline'],
+    permissionKeys: ['view_team_member_contribution'],
   },
 };

@@ -12,9 +12,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
 // import {FourIRTeamType} from '../../../shared/constants/AppEnums';
-import {useRouter} from 'next/router';
+import Router, {useRouter} from 'next/router';
 import FourIRInitiativeUserDetailsPopup from './FourIRInitiativeUserDetailsPopup';
 import BackButton from '../../../@softbd/elements/button/BackButton';
+import {Button} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface IFourIRImplementingTeamPageProps {
   fourIRInitiativeId: number;
@@ -125,7 +127,15 @@ const FourIRInitativeUserPage = ({
             <IconBranch /> <IntlMessages id='common.contributions' />
           </>
         }
-        extra={[<BackButton key={1} url={'/job-requirement'} />]}>
+        extra={[
+          <Button
+            startIcon={<ArrowBackIcon />}
+            variant='outlined'
+            onClick={() => Router.back()}
+            style={{float: 'right', right: '10px', top: '10px'}}>
+            {messages['common.back']}
+          </Button>,
+        ]}>
         {modifiedData && (
           <ReactTable
             columns={columns}

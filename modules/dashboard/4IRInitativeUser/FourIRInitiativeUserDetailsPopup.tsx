@@ -107,10 +107,17 @@ const FourIRInitiativeUserDetailsPopup = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12}>
             <DetailsInputView
-              label={messages['4IR.contribution']}
-              value={itemData && itemData[0] && itemData[0]?.contribution}
+              label={messages['common.contribution']}
+              value={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      itemData && itemData[0] && itemData[0]?.contribution,
+                  }}
+                />
+              }
               isLoading={isLoading}
             />
           </Grid>

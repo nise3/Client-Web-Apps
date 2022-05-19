@@ -67,7 +67,7 @@ const FourIRContributionPage = () => {
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='4IR.contributions' />
+            <IconSkill /> <IntlMessages id='common.contributions' />
           </>
         }>
         <ReactTable
