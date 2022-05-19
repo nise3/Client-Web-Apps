@@ -4,6 +4,7 @@ import {
   API_4IR_CELL,
   API_4IR_CS,
   API_4IR_CURRICULUM,
+  API_4IR_EMPLOYMENT,
   API_4IR_INITIATIVE,
   API_4IR_INITIATIVE_ANALYSIS,
   API_4IR_OCCUPATIONS,
@@ -34,6 +35,10 @@ export function useFetch4IRCell(cellId: number | null) {
 
 export function useFetch4IRCS(CSId: number | null) {
   return useAxiosSWR(CSId ? API_4IR_CS + '/' + CSId : null);
+}
+
+export function useFetchEmployment(employedId: number | null) {
+  return useAxiosSWR(employedId ? API_4IR_EMPLOYMENT + '/' + employedId : null);
 }
 
 export function useFetch4IRSectors() {

@@ -2064,7 +2064,9 @@
   "showcasing.organization_name": "Organization Name",
   "showcasing.organization_name_en": "Organization Name (EN)",
   "showcasing.initiative_name": "Initiative Name",
-  "role.role_in_application": "Role in application",
   "course.approve": "Approve Course",
-  "course.approved": "Course Approved"
+  "course.approved": "Course Approved",
+  "role.role_in_application": "Role in application",
+  "4ir.employment_status" : "Employment Status",
+  "common.industry_name_en": "Industry Name (EN)"
 }

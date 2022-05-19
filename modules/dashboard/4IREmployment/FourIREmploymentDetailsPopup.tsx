@@ -6,10 +6,9 @@ import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import DetailsInputView from '../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRCS} from '../../../services/4IRManagement/hooks';
+import {useFetchEmployment} from '../../../services/4IRManagement/hooks';
 
 type Props = {
   itemId: number;
@@ -23,7 +22,7 @@ const FourIREmploymentDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IRCS(itemId);
+  const {data: itemData, isLoading} = useFetchEmployment(itemId);
 
   return (
     <>
@@ -50,64 +49,96 @@ const FourIREmploymentDetailsPopup = ({
           </>
         }>
         <Grid container spacing={5}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DetailsInputView
-              label={messages['4ir_cs.experts_list']}
-              value={itemData?.experts_list}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.level']}
-              value={itemData?.level}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['4ir_cs.approved_by']}
-              value={itemData?.approved_by}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['4ir_cs.organization_name']}
-              value={itemData?.organization_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['rpl_sector.name']}
-              value={itemData?.sector_name}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['4ir_cs.supported_by']}
-              value={itemData?.supported_by}
+              label={messages['common.name']}
+              value={
+                itemData?.employment_status == 1
+                  ? 'Self Employed'
+                  : itemData?.employment_status == 2
+                  ? 'Employed'
+                  : 'Not Applicable'
+              }
               isLoading={isLoading}
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <DetailsInputView
-              label={messages['common.comment']}
-              value={itemData?.comment}
-              isLoading={isLoading}
-            />
-          </Grid>
+          {itemData?.employment_status === 2 && (
+            <>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.name']}
+                  value={itemData?.name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.name_en']}
+                  value={itemData?.name_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.contact_number']}
+                  value={itemData?.contact_number}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.email']}
+                  value={itemData?.email}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_name']}
+                  value={itemData?.industry_name}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.industry_name_en']}
+                  value={itemData?.industry_name_en}
+                  isLoading={isLoading}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <CustomChipRowStatus
-              label={messages['common.active_status']}
-              value={itemData?.row_status}
-              isLoading={isLoading}
-            />
-          </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.designation']}
+                  value={itemData?.designation}
+                  isLoading={isLoading}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.starting_salary']}
+                  value={itemData?.starting_salary}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.job_starting_date']}
+                  value={itemData?.job_starting_date}
+                  isLoading={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DetailsInputView
+                  label={messages['common.job_medium']}
+                  value={itemData?.medium_of_job}
+                  isLoading={isLoading}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

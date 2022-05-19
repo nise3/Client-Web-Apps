@@ -2068,5 +2068,7 @@
   "role.role_in_application": "অ্যাপ্লিকেশনে রোল",
   "tot.proof_of_report_file": "প্রতিবেদনের প্রমাণ (ছবি/এক্সেল)",
   "course.approve": "কোর্স অনুমোদন করুন",
-  "course.approved": "কোর্স অনুমোদিত"
+  "course.approved": "কোর্স অনুমোদিত",
+  "4ir.employment_status" : "চাকুরির অবস্থা",
+  "common.industry_name_en": "সংস্থা নাম (ইংরেজি)"
 }

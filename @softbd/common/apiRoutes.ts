@@ -199,6 +199,7 @@ export const API_4IR_GUIDELINE = FOUR_IR_SERVICE_PATH + '/guidelines';
 export const API_4IR_SHOWCASE = FOUR_IR_SERVICE_PATH + '/showcasing';
 export const API_4IR_INITIATIVE = FOUR_IR_SERVICE_PATH + '/initiatives';
 export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_EMPLOYMENT = FOUR_IR_SERVICE_PATH + '/employments';
 export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
 export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
 export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
