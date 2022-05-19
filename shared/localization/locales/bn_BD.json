@@ -2004,5 +2004,6 @@
   "batch.process_result_failed": "ফলাফল প্রসেস করতে ব্যর্থ হয়েছে",
   "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে",
   "batch.grad_min_will_greater_max": "গ্রেডিং ন্যূনতম মান আগের সর্বোচ্চ থেকে বেশি হওয়া উচিত",
-  "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত"
+  "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত",
+  "common.attendance_total_mark": "মোট উপস্থিতি মার্কস"
 }

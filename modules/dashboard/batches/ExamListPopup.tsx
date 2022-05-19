@@ -256,8 +256,14 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
               label={messages['common.attendance']}
               register={register}
               type={'number'}
-              inputProps={{
+              InputProps={{
                 step: 1,
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    Total Marks:{' '}
+                    {parseInt(resultConfig?.total_attendance_marks)}
+                  </InputAdornment>
+                ),
               }}
               defaultValue={
                 batchYouthExams?.attendance ? batchYouthExams?.attendance : '0'

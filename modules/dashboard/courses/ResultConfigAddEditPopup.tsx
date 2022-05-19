@@ -43,6 +43,8 @@ const ResultConfigAddEditPopup = ({
 
   const [selectedResultType, setSelectedResultType] = useState<any>(null);
   const [totalPercentage, setTotalPercentage] = useState<any>(0);
+  const [isAttendanceRequired, setIsAttendanceRequired] =
+    useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -77,8 +79,14 @@ const ResultConfigAddEditPopup = ({
           },
         ),
       total_gradings: yup.number().nullable(),
+      total_attendance_marks: isAttendanceRequired
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.attendance_total_mark'] as string)
+        : yup.mixed().nullable(),
     });
-  }, [messages, totalPercentage]);
+  }, [messages, totalPercentage, isAttendanceRequired]);
 
   const {
     control,
@@ -125,6 +133,7 @@ const ResultConfigAddEditPopup = ({
         pass_marks: itemData?.pass_marks,
         result_percentages: itemData?.result_percentages,
         gradings: itemData?.gradings,
+        total_attendance_marks: itemData?.total_attendance_marks,
       });
       setSelectedResultType(Number(itemData?.result_type));
     } else {
@@ -299,7 +308,6 @@ const ResultConfigAddEditPopup = ({
             </Grid>
           </>
         )}
-
         {selectedResultType == ResultTypes.MARKING && (
           <Grid item xs={12}>
             <CustomTextInput
@@ -314,7 +322,6 @@ const ResultConfigAddEditPopup = ({
             />
           </Grid>
         )}
-
         {selectedResultType !== null && (
           <>
             <Grid item xs={12}>
@@ -433,6 +440,9 @@ const ResultConfigAddEditPopup = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={false}
+                onInput={(value: any) => {
+                  setIsAttendanceRequired(!isNaN(value) && Number(value) > 0);
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>%</InputAdornment>
@@ -445,6 +455,20 @@ const ResultConfigAddEditPopup = ({
                 <Typography sx={{color: 'red'}}>
                   {errors['total_percentage']?.message}
                 </Typography>
+              </Grid>
+            )}
+
+            {isAttendanceRequired && (
+              <Grid item xs={6}>
+                <CustomTextInput
+                  required
+                  id='total_attendance_marks'
+                  type={'number'}
+                  label={messages['common.attendance_total_mark']}
+                  register={register}
+                  errorInstance={errors}
+                  isLoading={isLoading}
+                />
               </Grid>
             )}
           </>

@@ -117,6 +117,17 @@ const BatchesPage = () => {
       if (isResponseSuccess(response)) {
         successStack(messages['batch.process_result_success']);
         refreshDataTable();
+      } else {
+        let msg = 'Failed to process result';
+        let error_code = response?.data.error_code;
+        if (error_code == 'no_exams') {
+          msg = 'No exams to process results';
+        } else if (error_code == 'already_published') {
+          msg = 'Results already published';
+        } else if (error_code == 'no_config') {
+          msg = 'No result config configured for course';
+        }
+        errorStack(msg);
       }
     } catch (error) {
       errorStack(messages['batch.process_result_failed']);

@@ -2003,5 +2003,6 @@
   "batch.process_result_failed": "Failed to process result",
   "batch.youth_exam_marking": "Exams mark updated successfully",
   "batch.grad_min_will_greater_max": "Grading min value should be greater than previous max",
-  "batch.grad_max_will_greater_min": "Grading max value should be greater than min"
+  "batch.grad_max_will_greater_min": "Grading max value should be greater than min",
+  "common.attendance_total_mark": "Total attendance mark"
 }
