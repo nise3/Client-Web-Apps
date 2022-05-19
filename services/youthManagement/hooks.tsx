@@ -33,6 +33,9 @@ export function useFetchSkill(skillId: number | null) {
 export function useFetchSkills(params: any) {
   return useAxiosSWR([API_SKILLS, params]);
 }
+export function useFetchLocalizedSkills(params: any) {
+  return useDataLocalizationAxiosSWR([API_SKILLS, params]);
+}
 
 export function useFetchPublicSkills(params: any) {
   return useAxiosSWR([API_SKILLS, params]);
@@ -66,11 +69,11 @@ export function useFetchJobExperience(jobExperienceId: number | null) {
 }
 
 export function useFetchPublicAreaOfBusiness() {
-  return useAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
+  return useDataLocalizationAxiosSWR(API_PUBLIC_GET_BUSINESS_AREAS);
 }
 
 export function useFetchPublicAreaOfExperience() {
-  return useAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
+  return useDataLocalizationAxiosSWR(API_PUBLIC_GET_EXPERIENCE_AREAS);
 }
 
 export function useFetchYouthCertificates(params?: any) {

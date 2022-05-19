@@ -19,8 +19,8 @@ import {
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import IconUpazila from '../../../@softbd/icons/IconUpazila';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
   useFetchUpazila,
 } from '../../../services/locationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -62,9 +62,9 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
     mutate: mutateUpazila,
   } = useFetchUpazila(itemId);
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -193,7 +193,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -207,7 +207,7 @@ const UpazilaAddEditPopup: FC<UpazilaAddEditPopupProps> = ({
             control={control}
             options={districts}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

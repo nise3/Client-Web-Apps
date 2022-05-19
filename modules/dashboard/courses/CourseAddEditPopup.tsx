@@ -20,13 +20,13 @@ import IconCourse from '../../../@softbd/icons/IconCourse';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
   useFetchCourse,
-  useFetchInstitute,
+  useFetchLocalizedInstitutes,
   useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/CustomCheckbox';
 import {LANGUAGE_MEDIUM, LEVEL} from './CourseEnums';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CourseConfigKeys from '../../../@softbd/utilities/CourseConfigKeys';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
@@ -72,7 +72,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitute(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const {
     data: itemData,
@@ -96,7 +96,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
   const {data: programmes, isLoading: isLoadingProgrammes} =
     useFetchPrograms(programmeFilters);
 
-  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+  const {data: skills} = useFetchLocalizedSkills(youthSkillsFilter);
 
   const [configItemsState, setConfigItemsState] = useState<any>([]);
   const [configRequiredItems, setConfigRequiredItems] = useState<any>([]);
@@ -300,7 +300,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         prerequisite: itemData?.prerequisite,
         prerequisite_en: itemData?.prerequisite_en,
         row_status: String(itemData?.row_status),
-        skills: getSkillIds(itemData?.skills),
+        skills: itemData?.skills,
         cover_image: itemData?.cover_image,
       });
       setValuesOfConfigs(itemData?.application_form_settings);
@@ -308,10 +308,6 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
       reset(initialValues);
     }
   }, [itemData]);
-
-  const getSkillIds = (skills: any) => {
-    return skills.map((item: any) => item.id);
-  };
 
   const setValuesOfConfigs = (config: string | undefined | null) => {
     try {
@@ -472,7 +468,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
               control={control}
               options={institutes || []}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onInstituteChange}
             />
@@ -486,7 +482,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             control={control}
             options={programmes}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -498,7 +494,7 @@ const CourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
             control={control}
             options={skills}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

@@ -144,11 +144,11 @@ const ExamMarkingViewPage = () => {
             </S1>
             <S1>
               {messages['common.date']} {': '}
-              {getIntlDateFromString(formatDate, examSheet?.exam_date)}
+              {getIntlDateFromString(formatDate, examSheet?.start_date)}
             </S1>
             <S1>
               {messages['common.time']} {': '}
-              {getIntlTimeFromString(formatTime, examSheet?.exam_date)}
+              {getIntlTimeFromString(formatTime, examSheet?.start_date)}
             </S1>
           </Grid>
 

@@ -18,7 +18,7 @@ import {
 } from '../../../services/instituteManagement/ProgrammeService';
 import IconProgramme from '../../../@softbd/icons/IconProgramme';
 import {
-  useFetchAllInstitutes,
+  useFetchLocalizedInstitutes,
   useFetchProgramme,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
@@ -66,7 +66,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchAllInstitutes(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -208,7 +208,7 @@ const ProgrammeAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
               options={institutes}
               isLoading={isLoadingInstitutes}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>

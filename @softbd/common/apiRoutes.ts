@@ -126,6 +126,13 @@ export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
 export const API_CERTIFICATES_ISSUE = INSTITUTE_SERVICE_PATH + '/certificate-issued';
 export const API_CERTIFICATES_ISSUE_PUBLIC = INSTITUTE_SERVICE_PATH + '/public/youth-certificate-issued';
 
+export const API_COURSE_RESULT_CONFIG =
+  INSTITUTE_SERVICE_PATH + '/course-result-configs';
+export const API_PROCESS_RESULT = '/process-result';
+export const API_BATCH_RESULT = '/results';
+export const API_YOUTH_BATCH_EXAMS_MARK_UPDATE =
+  INSTITUTE_SERVICE_PATH + '/youth-batch-exams-mark-update';
+
 //Course enrollment apis
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
@@ -141,6 +148,8 @@ export const API_COURSE_ENROLL_PAYMENT_PAY =
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
 export const API_ASSESSMENT_ASSIGN_BATCH =
   INSTITUTE_SERVICE_PATH + '/assign-to-batch';
+export const API_ASSIGN_TRAINERS_TO_BATCH = '/assign-trainer-to-batch';
+
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
 
 export const COURSE_ENROLL_VERIFICATION = '/verify-sms-code';
@@ -182,6 +191,9 @@ export const API_YOUTH_EXAM_MARK_UPDATE =
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
 export const API_EXAMS_PUBLISH = INSTITUTE_SERVICE_PATH + '/exam-publish';
+export const API_BATCHES_EXAMS = '/exams';
+export const API_BATCHES_YOUTH_EXAMS = '/youth-exams';
+export const API_ASSIGN_EXAMS_TO_BATCH = '/assign-exams-to-batch';
 
 /**             eRPL            */
 

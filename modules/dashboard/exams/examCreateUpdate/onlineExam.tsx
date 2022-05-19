@@ -17,9 +17,7 @@ interface IProps {
 
 const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
   const {messages} = useIntl();
-  const [totalMarks, setTotalMarks] = useState<Array<number>>([
-    0, 0, 0, 0, 0, 0, 0,
-  ]);
+  const [totalMarks, setTotalMarks] = useState<Array<number>>([0, 0, 0, 0]);
 
   const isMixed = examType == ExamTypes.MIXED;
 
@@ -36,18 +34,6 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
       {
         id: QuestionType.YES_NO,
         label: messages['question.type.y_n'],
-      },
-      {
-        id: QuestionType.PRACTICAL,
-        label: messages['common.practical'],
-      },
-      {
-        id: QuestionType.FIELD_WORK,
-        label: messages['common.field_work'],
-      },
-      {
-        id: QuestionType.PRESENTATION,
-        label: messages['common.presentation'],
       },
       {
         id: QuestionType.DESCRIPTIVE,
@@ -71,7 +57,7 @@ const OnlineExam = ({useFrom, examType, subjectId}: IProps) => {
           <Grid item xs={4}>
             <CustomDateTimePicker
               required
-              id={isMixed ? `online[exam_date]` : 'exam_date'}
+              id={isMixed ? `online[start_date]` : 'start_date'}
               label={messages['common.exam_date']}
               register={useFrom.register}
               errorInstance={useFrom.errors}

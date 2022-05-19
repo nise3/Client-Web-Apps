@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import {useIntl} from 'react-intl';
 import {ArrowBack, Call, Email} from '@mui/icons-material';
-import {Body1, H4, H6, S2} from '../../../@softbd/elements/common';
+import {Body1, H3, H4, H6, S2} from '../../../@softbd/elements/common';
 import Box from '@mui/material/Box';
 import TagChip from '../../../@softbd/elements/display/TagChip';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
@@ -165,6 +165,9 @@ const MemberDetails = () => {
       </Box>
 
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <H3>{data?.title}</H3>
+        </Grid>
         <Grid
           item
           xs={12}

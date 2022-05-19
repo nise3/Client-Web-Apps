@@ -20,7 +20,7 @@ import {
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
   useFetchSlider,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -64,7 +64,7 @@ const SliderAddEditPopup: FC<SliderAddEditPopupProps> = ({
   } = useFetchSlider(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);

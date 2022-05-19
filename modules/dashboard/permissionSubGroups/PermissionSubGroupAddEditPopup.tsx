@@ -12,7 +12,7 @@ import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRow
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
-  useFetchPermissionGroups,
+  useFetchLocalizedPermissionGroups,
   useFetchPermissionSubGroup,
 } from '../../../services/userManagement/hooks';
 import {
@@ -60,7 +60,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
   } = useFetchPermissionSubGroup(itemId);
 
   const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
-    useFetchPermissionGroups(permissionGroupsFilter);
+    useFetchLocalizedPermissionGroups(permissionGroupsFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -200,7 +200,7 @@ const PermissionSubGroupAddEditPopup: FC<PermissionGroupAddEditPopupProps> = ({
             control={control}
             options={permissionGroups}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

@@ -19,6 +19,7 @@ import {useFetchJobPreview} from '../../../../../services/IndustryManagement/hoo
 import {LINK_JOB_LIST} from '../../../../../@softbd/common/appLinks';
 import {useRouter} from 'next/router';
 import useNotiStack from '../../../../../@softbd/hooks/useNotifyStack';
+import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
 
 interface Props {
   jobId: string;
@@ -602,7 +603,10 @@ const PreviewJob = ({jobId, onBack, onContinue, setLatestStep}: Props) => {
             {jobData?.additional_job_information?.festival_bonus && (
               <li>
                 {messages['job_preview.festival_bonus']}{' '}
-                {jobData?.additional_job_information?.festival_bonus} (
+                {getIntlNumber(
+                  formatNumber,
+                  jobData?.additional_job_information?.festival_bonus,
+                )}
                 {messages['common.yearly']})
               </li>
             )}

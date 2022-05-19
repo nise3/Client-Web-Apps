@@ -17,8 +17,8 @@ import {Add, Delete} from '@mui/icons-material';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
+  useFetchLocalizedRTOCountries,
   useFetchRPLSector,
-  useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
   createRPLSector,
@@ -55,7 +55,7 @@ const RPLSectorsAddEditPopup: FC<RPLSectorsAddEditPopupProps> = ({
   } = useFetchRPLSector(itemId);
 
   const {data: countries, isLoading: isFetchingCountries} =
-    useFetchRTOCountries();
+    useFetchLocalizedRTOCountries();
 
   const [countryList, setCountryList] = useState<any>([]);
 

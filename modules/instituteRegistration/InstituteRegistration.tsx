@@ -16,9 +16,9 @@ import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {createRegistration} from '../../services/instituteManagement/RegistrationService';
 import FormRadioButtons from '../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../services/locationManagement/hooks';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import {
@@ -39,17 +39,17 @@ const InstituteRegistration = () => {
   const {errorStack} = useNotiStack();
   const [filters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: districts} = useFetchDistricts(districtsFilter);
+  const {data: districts} = useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
 
@@ -286,7 +286,7 @@ const InstituteRegistration = () => {
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDivisionChange}
               />
@@ -300,7 +300,7 @@ const InstituteRegistration = () => {
                 control={control}
                 options={districtList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDistrictChange}
               />
@@ -313,7 +313,7 @@ const InstituteRegistration = () => {
                 control={control}
                 options={upazilaList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

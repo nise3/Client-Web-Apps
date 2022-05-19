@@ -3,10 +3,14 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_BATCH_RESULT,
   API_BATCHES,
+  API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
+  API_BATCHES_YOUTH_EXAMS,
   API_BRANCHES,
   API_COURSE_ENROLLMENTS,
+  API_COURSE_RESULT_CONFIG,
   API_COURSES,
   API_EXAM_QUESTION_BANK,
   API_EXAM_QUESTION_PAPER,
@@ -59,12 +63,20 @@ export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
 }
 
+export function useFetchLocalizedInstitutes(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
+
 export function useFetchBranch(branchId: number | null) {
   return useAxiosSWR(branchId ? API_BRANCHES + '/' + branchId : null);
 }
 
 export function useFetchBranches(params: any) {
   return useAxiosSWR(params ? [API_BRANCHES, params] : null);
+}
+
+export function useFetchLocalizedBranches(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_BRANCHES, params] : null);
 }
 
 export function useFetchProgramme(programmeId: number | null) {
@@ -95,12 +107,22 @@ export function useFetchTrainingCenters(params: any) {
   return useAxiosSWR(params ? [API_TRAINING_CENTERS, params] : null);
 }
 
+export function useFetchLocalizedTrainingCenters(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_TRAINING_CENTERS, params] : null,
+  );
+}
+
 export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
 export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
+}
+
+export function useFetchLocalizedCourses(params: any) {
+  return useDataLocalizationAxiosSWR([API_COURSES, params]);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {
@@ -150,6 +172,7 @@ export function useFetchTrainer(trainerId: any) {
 export function useFetchTrainers(params: any) {
   return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
+
 export function useFetchLocalizedTrainers(params: any) {
   return useDataLocalizationAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
@@ -191,6 +214,12 @@ export function useFetchBatchesToAssign(courseId: number | null) {
   );
 }
 
+export function useFetchLocalizedBatchesToAssign(courseId: number | null) {
+  return useDataLocalizationAxiosSWR(
+    courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
+  );
+}
+
 /**hr-demand**/
 export function useFetchHrDemand(hrDemandId: any) {
   return useAxiosSWR(
@@ -199,7 +228,7 @@ export function useFetchHrDemand(hrDemandId: any) {
 }
 
 export function useFetchInstituteTraineeYouths() {
-  return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
+  return useDataLocalizationAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
@@ -257,24 +286,16 @@ export function useFetchSubjects(params: any) {
   return useAxiosSWR([API_EXAM_SUBJECTS, params]);
 }
 
-export function useFetchExam(examId: any, params?: any) {
-  return useAxiosSWR(
-    examId
-      ? params
-        ? [API_EXAMS + '/' + examId, params]
-        : API_EXAMS + '/' + examId
-      : null,
-  );
+export function useFetchExams(params: any) {
+  return useAxiosSWR(params ? [API_EXAMS, params] : null);
 }
 
-export function useFetchExamDetails(examId: any, params?: any) {
-  return useAxiosSWR(
-    examId
-      ? params
-        ? [API_EXAMS + '/' + examId, params]
-        : API_EXAMS + '/' + examId
-      : null,
-  );
+export function useFetchExam(examId: any) {
+  return useAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
+}
+
+export function useFetchExamDetails(examId: any) {
+  return useDataLocalizationAxiosSWR(examId ? API_EXAMS + '/' + examId : null);
 }
 
 export function useFetchExamQuestionPaper(examId: number | null) {
@@ -293,5 +314,27 @@ export function useFetchPreviewYouthExam(
 ) {
   return useAxiosSWR(
     examId ? API_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId : null,
+  );
+}
+
+export function useFetchBatchExams(batchId: any) {
+  let path = batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null;
+  return useAxiosSWR(path);
+}
+
+export function useFetchYouthBatchExams(batchId: any, params: any) {
+  let path = batchId
+    ? API_BATCHES + '/' + batchId + API_BATCHES_YOUTH_EXAMS
+    : null;
+  return useAxiosSWR(path ? [path, params] : null);
+}
+
+export function useFetchResultConfigs(params: any) {
+  return useAxiosSWR([API_COURSE_RESULT_CONFIG, params]);
+}
+
+export function useFetchBatchResult(batchId: number | null) {
+  return useAxiosSWR(
+    batchId ? API_BATCHES + '/' + batchId + API_BATCH_RESULT : null,
   );
 }

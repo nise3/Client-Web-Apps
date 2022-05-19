@@ -263,10 +263,10 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                 label={messages['course_details.lesson']}
                 value={CourseDetailsTabs.TAB_LESSON}
               />
-              <Tab
+              {/*<Tab
                 label={messages['course_details.objective']}
                 value={CourseDetailsTabs.TAB_OBJECTIVE}
-              />
+              />*/}
               <Tab
                 label={messages['course_details.assessment_method']}
                 value={CourseDetailsTabs.TAB_EVALUATION_SYSTEM}
@@ -309,7 +309,7 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
                     <Box className={classes.courseBadgeTitle}>
                       {messages['common.certificate']}
                     </Box>
-                    <Box>{messages['course_details.earn_certificate']}</Box>
+                    {/*<Box>{messages['course_details.earn_certificate']}</Box>*/}
                   </Box>
                 </Box>
               </Grid>
@@ -517,9 +517,9 @@ const CourseContentSection: FC<CourseContentProps> = ({course}) => {
             </Box>
 
             <Box ref={objectiveRef} className={classes.boxMargin}>
-              <h2 className={classes.sectionTitleStyle}>
+              {/*<h2 className={classes.sectionTitleStyle}>
                 {messages['course_details.objective']}
-              </h2>
+              </h2>*/}
               <Box>
                 {course?.objective ? (
                   <Typography>{course?.objective}</Typography>

@@ -20,7 +20,7 @@ import {Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
 import AllFreelancerListSection from './AllFreelancerListSection';
 import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
-import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../../services/locationManagement/hooks';
 import FreelanceProfileComponent from '../common/FreelanceProfileComponent';
 import NearbySkilledYouthSection from './NearbySkilledYouthSection';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
@@ -84,7 +84,7 @@ const FreelanceCorner = () => {
 
   const {data: skills} = useFetchPublicSkills(skillFilters);
   const [upazilaFilters] = useState<any>({});
-  const {data: upazilas} = useFetchUpazilas(upazilaFilters);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilaFilters);
 
   const handleSearchAction = useCallback(() => {
     setSearchInputText(searchTextField.current?.value);
@@ -135,7 +135,7 @@ const FreelanceCorner = () => {
                     options={upazilas || []}
                     isLoading={false}
                     optionValueProp={'id'}
-                    optionTitleProp={['title', 'title_en']}
+                    optionTitleProp={['title']}
                   />
                   <Box sx={{fontWeight: 'bold', marginTop: 4}}>
                     {messages['freelance_corner.filter_title']}

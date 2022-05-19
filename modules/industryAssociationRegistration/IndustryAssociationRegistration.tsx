@@ -13,10 +13,10 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
-import {useFetchAssociationTrades} from '../../services/organaizationManagement/hooks';
+import {useFetchLocalizedAssociationTrades} from '../../services/organaizationManagement/hooks';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
 } from '../../services/locationManagement/hooks';
 import {Link} from '../../@softbd/elements/common';
 import {getSSOLoginUrl} from '../../@softbd/common/SSOConfig';
@@ -36,14 +36,14 @@ const IndustryAssociationRegistration = () => {
   const [filters] = useState({});
   const [districtFilters] = useState({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const {data: districts, isLoading: isLoadingDistricts}: any =
-    useFetchDistricts(districtFilters);
+    useFetchLocalizedDistricts(districtFilters);
 
   const [associationTradeFilter] = useState({});
 
-  const {data: associationTrades} = useFetchAssociationTrades(
+  const {data: associationTrades} = useFetchLocalizedAssociationTrades(
     associationTradeFilter,
   );
 
@@ -208,7 +208,7 @@ const IndustryAssociationRegistration = () => {
                 control={control}
                 options={associationTrades}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -232,7 +232,7 @@ const IndustryAssociationRegistration = () => {
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onchangeDivision}
               />
@@ -246,7 +246,7 @@ const IndustryAssociationRegistration = () => {
                 control={control}
                 options={districtsList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

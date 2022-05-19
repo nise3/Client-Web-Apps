@@ -13,13 +13,14 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 
 import {
-  useFetchCourses,
+  useFetchLocalizedCourses,
+  useFetchLocalizedInstitutes,
   useFetchPrograms,
 } from '../../../services/instituteManagement/hooks';
 import {
-  useFetchCMSGlobalConfig,
   useFetchGalleryAlbum,
-  useFetchGalleryAlbums,
+  useFetchLocalizedCMSGlobalConfig,
+  useFetchLocalizedGalleryAlbums,
 } from '../../../services/cmsManagement/hooks';
 import {
   createGalleryAlbum,
@@ -40,10 +41,9 @@ import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import AlbumTypes from './AlbumTypes';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
-import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchLocalizedOrganizations} from '../../../services/organaizationManagement/hooks';
+import {useFetchLocalizedIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface GalleryAddEditPopupProps {
   itemId: number | null;
@@ -83,12 +83,8 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
-  const [instituteList, setInstituteList] = useState([]);
-  const [industryList, setIndustryList] = useState([]);
-  const [industryAssociationList, setIndustryAssociationList] = useState([]);
-  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
-    useState<boolean>(false);
+    useFetchLocalizedCMSGlobalConfig();
+
   const [languageList, setLanguageList] = useState<any>([]);
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [showInId, setShowInId] = useState<number | null>(null);
@@ -108,14 +104,28 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: courses, isLoading: isLoadingCourse} =
-    useFetchCourses(courseFilters);
+    useFetchLocalizedCourses(courseFilters);
 
   const [galleryAlbumFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const [filteredGalleryAlbums, setFilteredGalleryAlbums] = useState([]);
+  const [instituteFilter, setInstituteFilter] = useState<any>(null);
+  const [industryFilter, setIndustryFilter] = useState<any>(null);
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
+
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchLocalizedInstitutes(instituteFilter);
+
+  const {data: organizations, isLoading: isLoadingOrganizations} =
+    useFetchLocalizedOrganizations(industryFilter);
+
+  const {data: industryAssociations, isLoading: isLoadingIndustryAssociations} =
+    useFetchLocalizedIndustryAssociations(industryAssociationFilter);
+
   const {data: galleryAlbums, isLoading: isLoadingGalleryAlbums} =
-    useFetchGalleryAlbums(galleryAlbumFilters);
+    useFetchLocalizedGalleryAlbums(galleryAlbumFilters);
 
   useEffect(() => {
     if (cmsGlobalConfig) {
@@ -349,8 +359,6 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
-      setIsLoadingSectionNameList(true);
-
       if (id != ShowInTypes.TSP) {
         setValue('institute_id', '');
       }
@@ -363,35 +371,20 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
       }
 
       try {
-        if (id === ShowInTypes.TSP && instituteList.length == 0) {
-          const response = await getAllInstitutes({
+        if (id === ShowInTypes.TSP) {
+          setInstituteFilter({row_status: RowStatus.ACTIVE});
+        } else if (id == ShowInTypes.INDUSTRY) {
+          setIndustryFilter({
             row_status: RowStatus.ACTIVE,
           });
-          if (response && response?.data) {
-            setInstituteList(response.data);
-          }
-        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-          const response = await getAllOrganizations({
+        } else if (id == ShowInTypes.INDUSTRY_ASSOCIATION) {
+          setIndustryAssociationFilter({
             row_status: RowStatus.ACTIVE,
           });
-          if (response && response?.data) {
-            setIndustryList(response.data);
-          }
-        } else if (
-          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
-          industryAssociationList.length == 0
-        ) {
-          const response = await getAllIndustryAssociations({
-            row_status: RowStatus.ACTIVE,
-          });
-          if (response && response?.data) {
-            setIndustryAssociationList(response.data);
-          }
         }
       } catch (e) {}
 
       setShowInId(id);
-      setIsLoadingSectionNameList(false);
     })();
   }, []);
 
@@ -547,9 +540,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   required
                   id={'institute_id'}
                   label={messages['institute.label']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingInstitutes}
                   control={control}
-                  options={instituteList}
+                  options={institutes}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -562,9 +555,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   required
                   id={'organization_id'}
                   label={messages['organization.label']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingOrganizations}
                   control={control}
-                  options={industryList}
+                  options={organizations}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -577,9 +570,9 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
                   required
                   id={'industry_association_id'}
                   label={messages['common.industry_association']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingIndustryAssociations}
                   control={control}
-                  options={industryAssociationList}
+                  options={industryAssociations}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -630,7 +623,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             control={control}
             options={programmes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -642,7 +635,7 @@ const GalleryAlbumAddEditPopup: FC<GalleryAddEditPopupProps> = ({
             control={control}
             options={courses}
             optionValueProp={'id'}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

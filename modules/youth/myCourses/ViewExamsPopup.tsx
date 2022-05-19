@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
@@ -23,14 +23,19 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import {LINK_FRONTEND_YOUTH_EXAMS} from '../../../@softbd/common/appLinks';
 import {ExamTypes} from '../../dashboard/exams/ExamEnums';
+import UploadExamAnsFilePopup from './UploadExamAnsFilePopup';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
   exams: any;
+  batchId: any;
 }
 
-const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
+const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
   const {messages, formatDate, formatTime, formatNumber} = useIntl();
+  const [isOpenUploadAnsFileModal, setIsOpenUploadAnsFileModal] =
+    useState(false);
+  const [exam, setExam] = useState<any>([]);
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
@@ -77,6 +82,18 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
     }
   };
 
+  const onOpenUploadAnsFileModal = useCallback((exam: any) => {
+    setIsOpenUploadAnsFileModal(true);
+    setExam(exam);
+  }, []);
+
+  const onCloseUploadAnsFileModal = useCallback((submitted?: boolean) => {
+    setIsOpenUploadAnsFileModal(false);
+    if (submitted) {
+      onClose();
+    }
+  }, []);
+
   return (
     <FrontendCustomModal
       onClose={onClose}
@@ -117,9 +134,12 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
             {exams && exams.length ? (
               (exams || []).map((exam: any, index: number) => {
                 let isOver =
-                  new Date(exam?.exam_date).getTime() +
+                  new Date(exam?.start_date).getTime() +
                     Number(exam?.duration) * 60 * 1000 <
                   new Date().getTime();
+
+                let isOverOthers =
+                  new Date(exam?.end_date).getTime() < new Date().getTime();
 
                 return (
                   <TableRow key={index}>
@@ -127,19 +147,21 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                       {exam?.title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
-                      {exam?.exam_title} {exam?.subject_title}
+                      {exam?.subject_title}
                     </TableCell>
                     <TableCell component='th' scope='language'>
                       {getType(exam?.type)}
                     </TableCell>
                     <TableCell component='th' scope='language'>
-                      {exam?.exam_date
-                        ? getIntlDateFromString(formatDate, exam?.exam_date) +
+                      {exam?.start_date
+                        ? getIntlDateFromString(formatDate, exam?.start_date) +
                           ',' +
-                          getIntlTimeFromString(formatTime, exam?.exam_date)
+                          getIntlTimeFromString(formatTime, exam?.start_date)
                         : ''}
                     </TableCell>
-                    <TableCell>{getExamTimeDuration(exam?.duration)}</TableCell>
+                    <TableCell>
+                      {exam?.duration ? getExamTimeDuration(exam.duration) : ''}
+                    </TableCell>
                     <TableCell>
                       {isOver && exam?.participated && exam?.marks_obtained
                         ? formatNumber(exam?.marks_obtained) +
@@ -160,10 +182,31 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
                             href={
                               LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`
                             }>
-                            <Button variant={'outlined'}>
+                            <Button
+                              variant={'outlined'}
+                              onClick={() =>
+                                localStorage.setItem(
+                                  'batchId',
+                                  JSON.stringify(batchId),
+                                )
+                              }>
                               {messages['common.attend_exam']}
                             </Button>
                           </Link>
+                        ))}
+                      {exam.type !== ExamTypes.ONLINE &&
+                        exam.type !== ExamTypes.OFFLINE &&
+                        exam.type !== ExamTypes.MIXED &&
+                        (exam?.participated ? (
+                          <Body1>{messages['exam.already_participated']}</Body1>
+                        ) : isOverOthers ? (
+                          <Body1>{messages['exam.exam_over']}</Body1>
+                        ) : (
+                          <Button
+                            variant={'outlined'}
+                            onClick={() => onOpenUploadAnsFileModal(exam)}>
+                            {messages['common.file_upload']}
+                          </Button>
                         ))}
                     </TableCell>
                   </TableRow>
@@ -175,6 +218,14 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams}) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isOpenUploadAnsFileModal && (
+        <UploadExamAnsFilePopup
+          onClose={onCloseUploadAnsFileModal}
+          exam={exam}
+          batchId={batchId}
+        />
+      )}
     </FrontendCustomModal>
   );
 };

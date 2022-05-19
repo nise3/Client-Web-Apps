@@ -18,16 +18,16 @@ import {
 } from '../../../services/instituteManagement/TrainingCenterService';
 import IconTrainingCenter from '../../../@softbd/icons/IconTrainingCenter';
 import {
-  useFetchBranches,
-  useFetchInstitute,
+  useFetchLocalizedBranches,
+  useFetchLocalizedInstitutes,
   useFetchTrainingCenter,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -49,12 +49,6 @@ interface ProgrammeAddEditPopupProps {
   onClose: () => void;
   refreshDataTable: () => void;
 }
-
-const center_location_type = [
-  {id: 1, title: 'On Institute Premises'},
-  {id: 2, title: 'On Branch Premises'},
-  {id: 3, title: 'On Training Center Premises'},
-];
 
 const initialValues = {
   title_en: '',
@@ -85,24 +79,30 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
   const isEdit = itemId != null;
   const authUser = useAuthUser<CommonAuthUser>();
 
+  const center_location_type = [
+    {id: 1, title: messages['common.on_institute_premises']},
+    {id: 2, title: messages['common.on_branch_premises']},
+    {id: 3, title: messages['common.on_training_premises']},
+  ];
+
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitute(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [branchFilters, setBranchFilters] = useState<any>(null);
   const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
+    useFetchLocalizedBranches(branchFilters);
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
@@ -328,7 +328,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
               control={control}
               options={institutes}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={handleInstituteChange}
             />
@@ -343,7 +343,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
               control={control}
               options={branches}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -357,7 +357,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             control={control}
             options={center_location_type}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -387,7 +387,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -400,7 +400,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -413,7 +413,7 @@ const TrainingCenterAddEditPopup: FC<ProgrammeAddEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
