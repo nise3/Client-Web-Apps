@@ -18,11 +18,15 @@ const SkillDevelopmentStep = ({
   setLatestStep,
 }: Props) => {
   const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
 
   useEffect(() => {
     if (itemData && itemData?.completion_step) {
+      if (itemData?.completion_step < 10) {
+        setIsDisabled(true);
+      }
       const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
       if (latestStep >= 9) {
@@ -39,7 +43,11 @@ const SkillDevelopmentStep = ({
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
         </Button>
-        <Button onClick={onContinue} variant={'contained'} color={'primary'}>
+        <Button
+          onClick={onContinue}
+          variant={'contained'}
+          color={'primary'}
+          disabled={isDisabled}>
           {messages['common.next']}
         </Button>
       </Box>
