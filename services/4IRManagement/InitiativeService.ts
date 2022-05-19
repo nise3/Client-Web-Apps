@@ -20,6 +20,8 @@ export const getAllInitiatives = async (params = {}) => {
 /**
  * @deprecated
  */
+
+
 export const getInitiative = async (initiativeId: number) => {
   try {
     let response: any = await apiGet(API_4IR_INITIATIVE + '/' + initiativeId);

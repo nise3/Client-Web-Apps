@@ -2059,4 +2059,10 @@
   "4ir.scaleup_implement_area":"Implement Area",
   "4ir.scaleup_document_approved_by":"Is Document Approved?",
   "common.budget_reuired" : "Budget is required."
+  "showcasing.invite_other_organization": "Invite other organization",
+  "showcasing.invite_other_organization_en": "Invite other organization (EN)",
+  "showcasing.organization_name": "Organization Name",
+  "showcasing.organization_name_en": "Organization Name (EN)",
+  "showcasing.initiative_name": "Initiative Name",
+  "showcasing.initiative_name_en": "Initiative Name (EN)"
 }

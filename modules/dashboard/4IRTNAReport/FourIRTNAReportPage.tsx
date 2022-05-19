@@ -106,6 +106,8 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
       },
     });
 
+  console.log('tna data : ', data);
+
   return (
     <>
       <PageBlock
@@ -163,9 +165,8 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         />
         {isOpenAddEditModal && (
           <FourIRTNAReportAddEditPopup
-            key={1}
-            // isEdit={data != null && data != []}
-            isEdit={false}
+            key={'tna_add_edit'}
+            isEdit={data != null && data != []}
             onClose={closeAddEditModal}
             itemData={data}
             fourIRInitiativeId={fourIRInitiativeId}

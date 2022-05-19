@@ -206,7 +206,7 @@ const FourIRInitiativesPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {data?.tasks?.length == 3 && (
+              {data?.tasks?.length == 3 && data?.completion_step < 15 && (
                 <CommonButton
                   onClick={() => {
                     openIncompleteStep(

@@ -32,6 +32,7 @@ import {
   API_4IR_TEAM_MEMBERS,
   API_4IR_GUIDELINE,
   API_4IR_COURSE,
+  API_4IR_SHOWCASE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -120,6 +121,10 @@ export function useFetchFourIRCourse(courseId: number | null) {
 
 export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
+}
+
+export function useFetchShowcase(showcaseId: any) {
+  return useAxiosSWR(showcaseId ? API_4IR_SHOWCASE + '/' + showcaseId : null);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {

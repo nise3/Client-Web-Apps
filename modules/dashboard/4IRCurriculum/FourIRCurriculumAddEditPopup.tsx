@@ -358,11 +358,10 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
             register={register}
             acceptedFileTypes={[
               'application/pdf',
-              '.docx',
-              'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
             sizeLimitText={'3MB'}
-            label={messages['common.file_upload']}
+            label={messages['common.word_or_pdf_file']}
             required={true}
           />
         </Grid>
@@ -381,7 +380,7 @@ const FourIRCurriculumAddEditPopup: FC<CurriculumAddEditPopupProps> = ({
           stepNo={5}
           initiativeId={fourIRInitiativeId}
           completionStep={5}
-          formStep={6}
+          formStep={7}
         />
       )}
     </HookFormMuiModal>

@@ -359,10 +359,9 @@ const FourIRCBLMAddEditPopUp: FC<CBLMAddEditPopupProps> = ({
             sizeLimitText={'3MB'}
             acceptedFileTypes={[
               'application/pdf',
-              '.docx',
-              'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
-            label={messages['common.file_upload']}
+            label={messages['common.word_or_pdf_file']}
             required={true}
           />
         </Grid>

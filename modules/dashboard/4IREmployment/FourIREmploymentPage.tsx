@@ -20,9 +20,15 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
-import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
+import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 
-const FourIREmploymentPage = () => {
+interface IFourEmploymentPageProps {
+  fourIRInitiativeId: number;
+}
+
+const FourIREmploymentPage = ({
+  fourIRInitiativeId,
+}: IFourEmploymentPageProps) => {
   const {messages, locale} = useIntl();
   const {successStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -124,7 +130,7 @@ const FourIREmploymentPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_CS,
+      urlPath: API_4IR_CERTIFICATE + `/${fourIRInitiativeId}`,
     });
 
   return (

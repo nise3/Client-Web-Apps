@@ -12,6 +12,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {BATCH_BY_4IR_INITIATIVE_ID} from '../../../@softbd/common/apiRoutes';
+import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -49,6 +50,17 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
         },
       },
       {
+        Header: messages['common.title'],
+        accessor: 'title',
+        isVisible: locale == LocaleLanguage.BN,
+      },
+
+      {
+        Header: messages['common.courses'],
+        accessor: 'course_title',
+        disableFilters: true,
+      },
+      {
         Header: messages['4ir.skill_development_traning_center'],
         accessor: 'training_center_title',
       },
@@ -70,16 +82,6 @@ const FourIRSkillDevelopmentPage = ({fourIRInitiativeId}: Props) => {
             <span>{data?.available_seats + '/' + data?.number_of_seats}</span>
           );
         },
-      },
-      {
-        Header: messages['common.title'],
-        accessor: 'title',
-        isVisible: false,
-      },
-      {
-        Header: messages['common.title_en'],
-        accessor: 'title_en',
-        isVisible: false,
       },
       {
         Header: messages['common.actions'],

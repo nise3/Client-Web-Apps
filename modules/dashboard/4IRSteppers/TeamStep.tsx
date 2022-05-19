@@ -28,6 +28,7 @@ const TeamStep = ({
 }: Props) => {
   const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
@@ -40,6 +41,9 @@ const TeamStep = ({
 
   useEffect(() => {
     if (itemData && itemData?.completion_step) {
+      if (itemData?.completion_step < 2) {
+        setIsDisabled(true);
+      }
       const latestStep = itemData?.completion_step;
       delete itemData?.completion_step;
       if (latestStep >= 1) {
@@ -113,7 +117,11 @@ const TeamStep = ({
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
         </Button>
-        <Button onClick={onContinue} variant={'contained'} color={'primary'}>
+        <Button
+          onClick={onContinue}
+          variant={'contained'}
+          color={'primary'}
+          disabled={isDisabled}>
           {messages['common.next']}
         </Button>
       </Box>

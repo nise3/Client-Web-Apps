@@ -448,10 +448,9 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
             sizeLimitText={'3MB'}
             acceptedFileTypes={[
               'application/pdf',
-              '.docx',
-              'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ]}
-            label={messages['common.file_upload']}
+            label={messages['common.word_or_pdf_file']}
             required={true}
           />
         </Grid>
@@ -470,7 +469,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
           stepNo={4}
           initiativeId={fourIRInitiativeId}
           completionStep={4}
-          formStep={5}
+          formStep={6}
         />
       )}
     </HookFormMuiModal>
