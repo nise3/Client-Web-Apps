@@ -136,7 +136,7 @@ const FourIRScaleUpDetailsPopUp = ({
           <Grid item xs={12} md={6}>
             <CustomChipRowStatus
               label={messages['4ir.scaleup_document_approved_by']}
-              value={itemData?.['documents_approval-status']}
+              value={itemData?.['documents_approval_status']}
               isLoading={isLoading}
             />
           </Grid>

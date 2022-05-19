@@ -95,7 +95,7 @@ export interface IScaleUp extends IIdTitleCreateUpdateAt {
   implement_area?: string;
   approval_status?: string;
   approve_by?: string;
-  'documents_approval-status'?: string;
+  documents_approval_status?: string;
   file_path?: string;
 }
 

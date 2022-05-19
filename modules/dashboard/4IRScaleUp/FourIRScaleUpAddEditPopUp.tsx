@@ -44,7 +44,7 @@ const initialValues = {
   implement_area: '',
   approval_status: '0',
   approve_by: '',
-  'documents_approval-status': '0',
+  documents_approval_status: '0',
   file_path: '',
 };
 
@@ -119,7 +119,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
             .required()
             .label(messages['4ir_cs.approved_by'] as string)
         : yup.string().label(messages['4ir_cs.approved_by'] as string),
-      'documents_approval-status': yup
+      documents_approval_status: yup
         .string()
         .label(messages['4ir.scaleup_document_approved_by'] as string),
       file_path: yup
@@ -157,7 +157,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
       data['approval_status'] = data['approval_status'] ? '1' : '0';
       data['number_of_beneficiary'] = data['number_of_beneficiary'] ? '1' : '0';
       data['approve_by'] = data['approve_by'] ?? '';
-      data['documents_approval-status'] = data['documents_approval-status']
+      data['documents_approval_status'] = data['documents_approval_status']
         ? '1'
         : '0';
 
@@ -303,7 +303,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomCheckbox
-            id='documents_approval-status'
+            id='documents_approval_status'
             label={messages['4ir.scaleup_document_approved_by']}
             register={register}
             errorInstance={errors}
