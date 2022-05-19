@@ -1,6 +1,5 @@
 import FourIRCoursePage from './Course/FourIRCoursePage';
 import {useState} from 'react';
-import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import EnrolledYouthList from './4IREnrollmentApproval/EnrolledYouthList';
 
 interface IFourIRCoursePageProps {
@@ -23,13 +22,6 @@ const FourIRCourseStepPage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
 
   return (
     <>
-      {showEnrollments && selectedCourseId && (
-        <CommonButton
-          onClick={() => previousHandler()}
-          btnText={'common.previous'}
-        />
-      )}
-
       {!showEnrollments && (
         <FourIRCoursePage
           fourIRInitiativeId={fourIRInitiativeId}
@@ -38,7 +30,10 @@ const FourIRCourseStepPage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
       )}
 
       {showEnrollments && selectedCourseId && (
-        <EnrolledYouthList selectedCourseId={selectedCourseId} />
+        <EnrolledYouthList
+          selectedCourseId={selectedCourseId}
+          previousHandler={previousHandler}
+        />
       )}
     </>
   );
