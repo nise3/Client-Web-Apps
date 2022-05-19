@@ -10,9 +10,10 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {useFetch4IRInitiativeAnalysis} from '../../../services/4IRManagement/hooks';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
-import {FiUser} from 'react-icons/fi';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import Link from 'next/link';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '../../../@softbd/elements/common';
 
 type Props = {
   itemId: number;
@@ -68,28 +69,6 @@ const InitiativeAnalysisDetailsPopUp = ({
             />
           </Grid>
 
-          {/* // todo: file path should be added */}
-          <Grid item xs={12} md={6}>
-            <Link href={`/`}>
-              <CommonButton
-                btnText='common.download'
-                startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                variant={'text'}
-              />
-            </Link>
-          </Grid>
-
-          {/* // todo: file path should be added */}
-          <Grid item xs={12} md={6}>
-            <Link href={`/`}>
-              <CommonButton
-                btnText='common.download'
-                startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                variant={'text'}
-              />
-            </Link>
-          </Grid>
-
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['4ir.research_method']}
@@ -97,6 +76,59 @@ const InitiativeAnalysisDetailsPopUp = ({
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'common.download_file'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          </Grid>
+
+          {/* // todo: file path should be added */}
+          {/*<Grid item xs={12} md={6}>*/}
+          {/*  <Link*/}
+          {/*    underline='none'*/}
+          {/*    href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}*/}
+          {/*    download*/}
+          {/*    target={'_blank'}*/}
+          {/*    style={{*/}
+          {/*      display: 'flex',*/}
+          {/*      justifyContent: 'flex-start',*/}
+          {/*      marginTop: '2rem',*/}
+          {/*    }}>*/}
+          {/*    <CommonButton*/}
+          {/*      startIcon={<DownloadIcon />}*/}
+          {/*      key={1}*/}
+          {/*      onClick={() => console.log('file downloading')}*/}
+          {/*      btnText={'common.download_file'}*/}
+          {/*      variant={'outlined'}*/}
+          {/*      color={'primary'}*/}
+          {/*    />*/}
+          {/*  </Link>*/}
+
+          {/*<Link href={`/`}>*/}
+          {/*  <CommonButton*/}
+          {/*    btnText='common.download'*/}
+          {/*    startIcon={<FiUser style={{marginLeft: '5px'}} />}*/}
+          {/*    variant={'text'}*/}
+          {/*  />*/}
+          {/*</Link>*/}
+          {/*</Grid>*/}
 
           <Grid item xs={12}>
             <CustomChipRowStatus

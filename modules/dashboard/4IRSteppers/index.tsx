@@ -95,7 +95,7 @@ const steps: Array<StepObj> = [
   },
   {
     id: 14,
-    langKey: '4ir.project_analysis',
+    langKey: '4ir_initiative_analysis.label',
   },
   {
     id: 15,
