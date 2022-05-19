@@ -14,7 +14,7 @@ export default DashboardPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['4IR_steps.label'] as string} />
+      <PageMeta title={messages['4IR.contribution'] as string} />
       <FourIRInitativeUserPage />
     </>
   );

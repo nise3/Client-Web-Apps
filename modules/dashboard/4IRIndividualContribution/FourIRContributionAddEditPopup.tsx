@@ -1,8 +1,8 @@
 import yup from '../../../@softbd/libs/yup';
-import {Grid, Typography} from '@mui/material';
+import {Grid} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo} from 'react';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -14,7 +14,7 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRProjectContribution} from '../../../services/4IRManagement/hooks';
+import {useFetch4IROneProjectContribution} from '../../../services/4IRManagement/hooks';
 import {createOrUpdateContribution} from '../../../services/4IRManagement/ContributionServies';
 import TextEditor from '../../../@softbd/components/editor/TextEditor';
 
@@ -22,6 +22,7 @@ interface ContributionAddEditPopupProps {
   initiativeId: number | null;
   onClose: () => void;
   refreshDataTable: () => void;
+  memberId: number;
 }
 
 const initialValues = {
@@ -31,22 +32,17 @@ const initialValues = {
 const FourIRContributionAddEditPopup: FC<ContributionAddEditPopupProps> = ({
   initiativeId,
   refreshDataTable,
+  memberId,
   ...props
 }) => {
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const isEdit = initiativeId != null;
-  console.log(initiativeId);
 
-  const [contributionFilter] = useState<any>({
-    four_ir_initiative_id: initiativeId,
-  });
+  const {data: itemData, isLoading} =
+    useFetch4IROneProjectContribution(memberId);
+
   const {updateSuccessMessage} = useSuccessMessage();
-  const {
-    data: itemData,
-    isLoading,
-    mutate: mutateContribution,
-  } = useFetch4IRProjectContribution(contributionFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -73,7 +69,7 @@ const FourIRContributionAddEditPopup: FC<ContributionAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       let data: any = {
-        contribution: itemData?.contribution,
+        contribution: itemData?.contribution?.contribution,
       };
       reset(data);
     } else {
@@ -92,11 +88,10 @@ const FourIRContributionAddEditPopup: FC<ContributionAddEditPopupProps> = ({
         four_ir_initiative_id: initiativeId,
         ...data,
       };
-      console.log(payload);
       if (initiativeId) {
-        await createOrUpdateContribution(initiativeId, payload);
+        await createOrUpdateContribution(payload);
         updateSuccessMessage('4IR.contribution');
-        mutateContribution();
+        // mutateContribution();
         await closeAction();
       }
     } catch (error: any) {
@@ -136,9 +131,9 @@ const FourIRContributionAddEditPopup: FC<ContributionAddEditPopupProps> = ({
         <Grid item xs={12} md={12}>
           <TextEditor
             id={'contribution'}
-            label={messages['4IR.contributions']}
+            label={messages['common.contributions']}
             errorInstance={errors}
-            value={itemData && itemData[0] && itemData[0]?.contribution}
+            value={itemData?.contribution?.contribution}
             height={'300px'}
             key={1}
             register={register}

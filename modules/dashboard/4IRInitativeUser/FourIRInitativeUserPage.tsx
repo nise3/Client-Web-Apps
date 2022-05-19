@@ -27,15 +27,18 @@ const FourIRInitativeUserPage = ({
   const router = useRouter();
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
+
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const {initiativeId} = router.query;
   const [selectedInitiativeIdId] = useState<number>(
     parseInt(initiativeId as string),
   );
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (itemId: number, memeberId: number) => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
+      setSelectedMemberId(memeberId);
     },
     [selectedItemId],
   );
@@ -82,7 +85,9 @@ const FourIRInitativeUserPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data?.user_id)} />
+              <ReadButton
+                onClick={() => openDetailsModal(data?.user_id, data?.id)}
+              />
             </DatatableButtonGroup>
           );
         },
@@ -91,7 +96,6 @@ const FourIRInitativeUserPage = ({
     ],
     [messages, locale],
   );
-  console.log();
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_4IR_TEAM_MEMBERS,
@@ -117,7 +121,6 @@ const FourIRInitativeUserPage = ({
     };
   });
 
-  console.log(modifiedData);
   return (
     <>
       <PageBlock
@@ -152,6 +155,7 @@ const FourIRInitativeUserPage = ({
             itemId={selectedItemId}
             initiativeId={selectedInitiativeIdId!}
             onClose={closeDetailsModal}
+            memberId={selectedMemberId}
           />
         )}
       </PageBlock>

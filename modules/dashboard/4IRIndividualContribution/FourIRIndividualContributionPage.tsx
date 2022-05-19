@@ -16,6 +16,8 @@ import FourIRContributionDetailsPopup from './FourIRContributionDetailsPopup';
 const FourIRIndividualContributionPage = () => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
+
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
@@ -24,16 +26,21 @@ const FourIRIndividualContributionPage = () => {
     setSelectedItemId(null);
   }, []);
 
-  const openAddEditModal = useCallback((itemId: number | null = null) => {
-    setIsOpenDetailsModal(false);
-    setIsOpenAddEditModal(true);
-    setSelectedItemId(itemId);
-  }, []);
+  const openAddEditModal = useCallback(
+    (itemId: number | null = null, memberId: number | null) => {
+      setIsOpenDetailsModal(false);
+      setIsOpenAddEditModal(true);
+      setSelectedItemId(itemId);
+      setSelectedMemberId(memberId);
+    },
+    [],
+  );
 
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (itemId: number, memberId: number) => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
+      setSelectedMemberId(memberId);
     },
     [selectedItemId],
   );
@@ -79,10 +86,14 @@ const FourIRIndividualContributionPage = () => {
           return (
             <DatatableButtonGroup>
               <ReadButton
-                onClick={() => openDetailsModal(data.four_ir_initiative_id)}
+                onClick={() =>
+                  openDetailsModal(data.four_ir_initiative_id, data.id)
+                }
               />
               <EditButton
-                onClick={() => openAddEditModal(data.four_ir_initiative_id)}
+                onClick={() =>
+                  openAddEditModal(data.four_ir_initiative_id, data.id)
+                }
               />
             </DatatableButtonGroup>
           );
@@ -93,7 +104,6 @@ const FourIRIndividualContributionPage = () => {
     [messages, locale],
   );
 
-  // send intiative_id_contribution and intiative_id
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_4IR_PROJECT_CONTRIBUTIONS,
@@ -116,21 +126,23 @@ const FourIRIndividualContributionPage = () => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
-        {isOpenAddEditModal && (
+        {isOpenAddEditModal && selectedMemberId && (
           <FourIRContributionAddEditPopup
             key={1}
             onClose={closeAddEditModal}
             initiativeId={selectedItemId}
             refreshDataTable={refreshDataTable}
+            memberId={selectedMemberId}
           />
         )}
 
-        {isOpenDetailsModal && selectedItemId && (
+        {isOpenDetailsModal && selectedItemId && selectedMemberId && (
           <FourIRContributionDetailsPopup
             key={1}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+            memberId={selectedMemberId}
           />
         )}
       </PageBlock>

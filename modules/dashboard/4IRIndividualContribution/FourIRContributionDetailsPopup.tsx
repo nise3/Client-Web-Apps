@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Grid} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -8,28 +8,25 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IRProjectContribution} from '../../../services/4IRManagement/hooks';
+import {useFetch4IROneProjectContribution} from '../../../services/4IRManagement/hooks';
 type Props = {
   itemId: number;
   onClose: () => void;
-  openEditModal: (id: number) => void;
+  openEditModal: any;
+  memberId: number;
 };
 
 const FourIRContributionDetailsPopup = ({
   itemId,
   openEditModal,
+  memberId,
   ...props
 }: Props) => {
   const {messages} = useIntl();
-  console.log('itemId');
-  console.log(itemId);
-  const [contributionFilter] = useState<any>({
-    four_ir_initiative_id: itemId,
-  });
-  const {data: itemData, isLoading} =
-    useFetch4IRProjectContribution(contributionFilter);
 
-  console.log(itemData && itemData[0]);
+  const {data: itemData, isLoading} =
+    useFetch4IROneProjectContribution(memberId);
+
   return (
     <>
       <CustomDetailsViewMuiModal
@@ -57,12 +54,11 @@ const FourIRContributionDetailsPopup = ({
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <DetailsInputView
-              label={messages['common.contribution']}
+              label={messages['common.contributions']}
               value={
                 <div
                   dangerouslySetInnerHTML={{
-                    __html:
-                      itemData && itemData[0] && itemData[0]?.contribution,
+                    __html: itemData?.contribution?.contribution,
                   }}
                 />
               }
