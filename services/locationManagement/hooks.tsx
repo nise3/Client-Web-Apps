@@ -3,18 +3,18 @@ import {
   API_DISTRICTS,
   API_DIVISIONS,
   API_UNIONS,
-  API_UPAZILAS
+  API_UPAZILAS,
 } from '../../@softbd/common/apiRoutes';
 import {
   useAxiosSWR,
   useDataLocalizationAxiosSWR,
   useLocalizedAxiosSWR,
-  useLocalizedAxiosSWR
 } from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchDivisions(params: any = null) {
   return useAxiosSWR([API_DIVISIONS, params]);
 }
+
 export function useFetchLocalizedDivisions(params: any = null) {
   return useDataLocalizationAxiosSWR([API_DIVISIONS, params]);
 }
@@ -26,6 +26,7 @@ export function useFetchDivision(divisionId: number | null) {
 export function useFetchDistricts(params: any) {
   return useAxiosSWR([API_DISTRICTS, params]);
 }
+
 export function useFetchLocalizedDistricts(params: any) {
   return useDataLocalizationAxiosSWR([API_DISTRICTS, params]);
 }
@@ -37,6 +38,7 @@ export function useFetchDistrict(districtId: number | null) {
 export function useFetchUpazilas(params: any) {
   return useAxiosSWR([API_UPAZILAS, params]);
 }
+
 export function useFetchLocalizedUpazilas(params: any) {
   return useDataLocalizationAxiosSWR([API_UPAZILAS, params]);
 }

@@ -22,7 +22,6 @@ import {
   API_RTO_BATCH,
   API_RTO_COUNTRIES,
 } from '../../@softbd/common/apiRoutes';
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
 
 export function useFetchRTO(rtoId: number | null) {
   return useAxiosSWR(

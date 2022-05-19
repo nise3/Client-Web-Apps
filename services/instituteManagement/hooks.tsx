@@ -37,7 +37,6 @@ import {
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_CERTIFICATES_ISSUE,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
