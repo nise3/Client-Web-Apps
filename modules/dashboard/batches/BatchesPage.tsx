@@ -1,13 +1,16 @@
-import { DownloadIcon } from '@heroicons/react/outline';
-import { Add, Visibility } from '@mui/icons-material';
+import {DownloadIcon} from '@heroicons/react/outline';
+import {Add, Visibility} from '@mui/icons-material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
-import { FiUserCheck } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
+import {useRouter} from 'next/router';
+import React, {useCallback, useMemo, useState} from 'react';
+import {FiUserCheck} from 'react-icons/fi';
+import {useIntl} from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { apiGet } from '../../../@softbd/common/api';
-import { API_BATCHES, API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
+import {apiGet} from '../../../@softbd/common/api';
+import {
+  API_BATCHES,
+  API_COURSE_ENROLLMENTS,
+} from '../../../@softbd/common/apiRoutes';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -22,21 +25,22 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
   getMomentDateFormat,
-  isResponseSuccess
+  isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import { createCertificateById } from '../../../services/CertificateAuthorityManagement/CertificateService';
+import {createCertificateById} from '../../../services/CertificateAuthorityManagement/CertificateService';
 import {
   deleteBatch,
-  processResult
+  processResult,
 } from '../../../services/instituteManagement/BatchService';
-import { ICertificateBatchSetting } from '../../../shared/Interface/certificates';
+import {ICertificateBatchSetting} from '../../../shared/Interface/certificates';
 import BatchAddEditPopup from './BatchAddEditPopup';
 import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
+import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -318,35 +322,36 @@ const BatchesPage = () => {
                 onClick={() => openDetailsTemplateModal(data)}
                 color='primary'
               />
-              {
-                data.certificate_id &&
+              {data.certificate_id && (
                 <CommonButton
                   btnText='certificate.certificate_issue'
-                  startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
-                  style={{ marginLeft: '10px' }}
+                  startIcon={<FiUserCheck style={{marginLeft: '5px'}} />}
+                  style={{marginLeft: '10px'}}
                   variant='outlined'
                   color='primary'
                   onClick={() => {
-                    const params: any = { batch_id: data.id };
-                    console.log(params)
-                    apiGet(API_COURSE_ENROLLMENTS, { params })
-                      .then(res => {
-                        const dta = res.data.data;
-                        if (dta && dta.length > 0) {
-                          router.push(`${path}/${data?.id}/certificates/certificate-issue`)
-                        } else {
-                          errorStack(
-                            <IntlMessages
-                              id='common.no_data_found_dynamic'
-                              values={{ messageType: <IntlMessages id='common.youth' /> }}
-                            />
-                          )
-                        }
-                      })
+                    const params: any = {batch_id: data.id};
+                    console.log(params);
+                    apiGet(API_COURSE_ENROLLMENTS, {params}).then((res) => {
+                      const dta = res.data.data;
+                      if (dta && dta.length > 0) {
+                        router.push(
+                          `${path}/${data?.id}/certificates/certificate-issue`,
+                        );
+                      } else {
+                        errorStack(
+                          <IntlMessages
+                            id='common.no_data_found_dynamic'
+                            values={{
+                              messageType: <IntlMessages id='common.youth' />,
+                            }}
+                          />,
+                        );
+                      }
+                    });
                   }}
                 />
-              }
-
+              )}
 
               <CommonButton
                 key={2}
@@ -386,8 +391,19 @@ const BatchesPage = () => {
                   startIcon={<Visibility />}
                 />
               )}
-
-
+              {data.result_published_at && (
+                <Link href={`${LINK_BATCH_RESULT}${data.id}`} passHref={true}>
+                  <CommonButton
+                    key={4}
+                    onClick={() => console.log('clicked')}
+                    btnText={'common.batch_result'}
+                    variant={'outlined'}
+                    color={'primary'}
+                    style={{marginLeft: '5px'}}
+                    startIcon={<Visibility />}
+                  />
+                </Link>
+              )}
             </DatatableButtonGroup>
           );
         },
