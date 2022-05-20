@@ -213,10 +213,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0.5rem;
+  padding: 0.5rem;
   border: transparent;
   border-top: 2px;
-  background-color: rgb(17, 24, 39);
+  background-color: rgb(255, 255, 255);
 }
 .logo > img {
   height: 2.15rem;
