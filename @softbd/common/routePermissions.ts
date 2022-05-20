@@ -344,4 +344,28 @@ export const routePermissions: any = {
     routePrefix: 'exams/details',
     permissionKeys: ['view_any_exam'],
   },
+  '/4ir-occupations': {
+    routePrefix: '/4ir-occupations',
+    permissionKeys: ['view_any_4ir_occupations'],
+  },
+  '/4ir-tagline': {
+    routePrefix: '/4ir-tagline',
+    permissionKeys: ['view_any_4ir_taglines'],
+  },
+  '/4ir-guideline': {
+    routePrefix: '/4ir-guideline',
+    permissionKeys: ['view_any_4ir_guideline'],
+  },
+  '/4ir-showcasing': {
+    routePrefix: '/4ir-showcasing',
+    permissionKeys: ['view_any_4ir_showcasing'],
+  },
+  '/contribution': {
+    routePrefix: '/contribution',
+    permissionKeys: ['view_any_4ir_contributions'],
+  },
+  '/4ir-contributions': {
+    routePrefix: '/4ir-contributions',
+    permissionKeys: ['view_team_member_contribution'],
+  },
 };
