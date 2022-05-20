@@ -845,6 +845,7 @@
   "certificate.name_en": "Certificate Name (En)",
   "certificate_template.name_en": "Certificate Template",
   "certificate.upload": "Upload certificate",
+  "certificate.result_publish_date": "Result Publish Date",
   "contact.institute": "Contact",
   "videos.institute": "Videos",
   "common.video_album": "Video Albums",

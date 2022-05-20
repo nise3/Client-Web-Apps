@@ -1,9 +1,14 @@
-import { useEventCallback } from '@mui/material';
+import { Typography, useEventCallback } from '@mui/material';
+import Link from 'next/link';
+import { Box, display } from '@mui/system';
 import { useRouter } from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
+import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
@@ -14,6 +19,7 @@ import {
   getCalculatedSerialNo,
   isResponseSuccess
 } from '../../../@softbd/utilities/helpers';
+import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
@@ -27,12 +33,9 @@ const CertificateIssuePage = () => {
   const route = useRouter();
   const { batchId } = route.query;
 
-  // const [certificatesIssueList, setCertificatesIssueList] = useState<
-  //   Array<ICertificateIssueView> | []
-  // >([]);
-  // const { data: issuedData, mutate: mutateIssuedData } = useFetchCertificateIssued();
-
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [batchTitle, setBatchTitle] = useState<string>();
+  const [courseTitle, setCourstTitle] = useState<string>();
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((previousToggle) => !previousToggle);
@@ -90,21 +93,20 @@ const CertificateIssuePage = () => {
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['menu.batch'],
-        accessor: 'batch_title',
+        Header: messages['common.date_of_birth'],
+        accessor: 'date_of_birth',
       },
       {
-        Header: messages['course.label'],
-        accessor: 'course_title',
+        Header: messages['youth.mobile'],
+        accessor: 'mobile',
       },
       {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
+        Header: messages['certificate.result_publish_date'],
+        accessor: 'result_published_at',
+      },
+      {
+        Header: messages['menu.district'],
+        accessor: 'youth_profile.district_title',
       },
       {
         Header: messages['common.actions'],
@@ -112,8 +114,6 @@ const CertificateIssuePage = () => {
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              {/* <ReadButton onClick={() => openDetailsModal(data.id)} />
-              <EditButton onClick={() => openAddEditModal(data.id)} /> */}
               {
                 !data.certificate_issued_id ?
                 <ApproveButton
@@ -121,7 +121,17 @@ const CertificateIssuePage = () => {
                   issueCerrificate(data)
                 }
                 buttonText={messages['certificate.certificate_issue'] as string}
-              /> : <IntlMessages id={messages['certificate.certificate_issued_done'] as string} />
+              /> : 
+              // <IntlMessages id={messages['certificate.certificate_issued_done'] as string} />
+              <Link href={`/certificate/certificate-view/${data.certificate_issued_id}`} passHref={true}>
+                  <CommonButton
+                    btnText='common.certificate_view'
+                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    style={{ marginLeft: '10px' }}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Link>
               }
               
             </DatatableButtonGroup>
@@ -145,6 +155,19 @@ const CertificateIssuePage = () => {
       //   certificate_issued_id: null
       // }
     });
+
+    
+
+    useEffect(() => {
+      if(data && data.length > 0){
+        setBatchTitle(data[0][locale === LanguageCodes.BN ? 'batch_title': 'batch_title_en'] )
+        setCourstTitle(data[0][locale === LanguageCodes.BN ? 'course_title': 'course_title_en'])
+        // data[0].result_published_at = '2022-05-19T09:28:46.000000Z';
+      }
+      // console.log(data)
+      
+    }, [data])
+    
 
   // useEffect(() => {
   //   if (data) {
@@ -176,14 +199,23 @@ const CertificateIssuePage = () => {
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='certificate.certificate_issue' />
-          </>
-        }>
+            <IconCourse /> <IntlMessages id='certificate.certificate_issue' /> |
+            <IntlMessages id='menu.batch' />: {batchTitle} | 
+            <IntlMessages id='applicationManagement.courseTitle' /> : {courseTitle}
+        </>
+        }
+        >
         {/* <div>{certificatesIssueList[0]?.isIssued}</div> */}
         <ReactTable
           columns={columns}
           // data={certificatesIssueList}
           data={data}
+          // data={data.map(e=> {
+          //   return {
+          //     ...e,
+          //     ...{result_published_at: "2022-05-19T09:28:46.000000Z"}
+          //   }
+          // })}
           fetchData={onFetchData}
           loading={loading}
           pageCount={pageCount}

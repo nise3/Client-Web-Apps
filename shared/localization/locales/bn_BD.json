@@ -827,6 +827,7 @@
   "certificate_template.name_en": "সনদপত্রের টেম্প্লেট",
   "certificate.upload": "সনদপত্র ফাইলটি আপলোড করুন",
   "certificate.result_type": "ফলাফলের ধরন",
+  "certificate.result_publish_date": "ফলাফলের তারিখ",
   "institute.name": "প্রতিষ্ঠানের নাম",
   "institute.name_en": "প্রতিষ্ঠানের নাম(ইংরেজি)",
   "institute.type": "প্রতিষ্ঠানের ধরন",
