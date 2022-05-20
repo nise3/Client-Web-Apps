@@ -33,7 +33,7 @@ export function useFetchLocalizedSkills(params: any) {
 }
 
 export function useFetchPublicSkills(params: any) {
-  return useAxiosSWR([API_SKILLS, params]);
+  return useDataLocalizationAxiosSWR([API_SKILLS, params]);
 }
 export function useFetchCertificateIssue(params: any) {
   return useDataLocalizationAxiosSWR([API_CERTIFICATES, params]);

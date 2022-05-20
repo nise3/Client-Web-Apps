@@ -3,12 +3,18 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_4IR_COURSE,
+  API_4IR_GUIDELINE,
+  API_4IR_SHOWCASE,
+  API_4IR_TEAM_MEMBERS,
+  API_4IR_TNA_REPORT,
   API_BATCH_RESULT,
   API_BATCHES,
   API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
   API_BATCHES_YOUTH_EXAMS,
   API_BRANCHES,
+  API_CERTIFICATES_ISSUE,
   API_COURSE_ENROLLMENTS,
   API_COURSE_RESULT_CONFIG,
   API_COURSES,
@@ -36,7 +42,6 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
-  API_CERTIFICATES_ISSUE,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -65,6 +70,22 @@ export function useFetchAllInstitutes(params: any) {
 
 export function useFetchLocalizedInstitutes(params: any) {
   return useDataLocalizationAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
+
+export function useFetchGuideline(guidelineId: number | null) {
+  return useAxiosSWR(
+    guidelineId ? API_4IR_GUIDELINE + '/' + guidelineId : null,
+  );
+}
+
+export function useFetchTNAReport(TNAReportId: number | null) {
+  return useAxiosSWR(
+    TNAReportId ? API_4IR_TNA_REPORT + '/' + TNAReportId : null,
+  );
+}
+
+export function useFetch4IRTeam(itemId: number | null) {
+  return useAxiosSWR(itemId ? API_4IR_TEAM_MEMBERS + '/' + itemId : null);
 }
 
 export function useFetchBranch(branchId: number | null) {
@@ -117,12 +138,20 @@ export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
+export function useFetchFourIRCourse(courseId: number | null) {
+  return useAxiosSWR(courseId ? API_4IR_COURSE + '/' + courseId : null);
+}
+
 export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
 }
 
 export function useFetchLocalizedCourses(params: any) {
   return useDataLocalizationAxiosSWR([API_COURSES, params]);
+}
+
+export function useFetchShowcase(showcaseId: any) {
+  return useAxiosSWR(showcaseId ? API_4IR_SHOWCASE + '/' + showcaseId : null);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {

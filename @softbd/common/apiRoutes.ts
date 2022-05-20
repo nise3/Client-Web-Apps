@@ -1,4 +1,3 @@
-
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
   ? process.env.NEXT_PUBLIC_API_BASE_URL
   : 'https://gateway.bus-staging.softbdltd.com';
@@ -38,14 +37,15 @@ export const ORGANIZATION_SERVICE_PATH = process.env
 export const INSTITUTE_SERVICE_PATH = process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_TSP_SERVICE_PATH
   : '/institute';
-// TODO Remove this
-// export const INSTITUTE_SERVICE_PATH = CERTIFICATE_API_URL;
 export const YOUTH_SERVICE_PATH = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
   : '/youth';
 export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   : '/cms';
+export const FOUR_IR_SERVICE_PATH = process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
+  : '/4ir';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
   .NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
@@ -97,6 +97,7 @@ export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
 export const API_PERMISSION_SUB_GROUPS =
   CORE_SERVICE_PATH + '/permission-sub-groups';
 export const API_ROLES = CORE_SERVICE_PATH + '/roles';
+export const API_FOUR_IR_ROLES = CORE_SERVICE_PATH + '/roles-for-4IR';
 export const API_PERMISSIONS = CORE_SERVICE_PATH + '/permissions';
 export const API_USERS = CORE_SERVICE_PATH + '/users';
 export const API_YOUTH_EXIST_CHECK = YOUTH_SERVICE_PATH + '/youth-exist-check';
@@ -123,8 +124,10 @@ export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
 export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
-export const API_CERTIFICATES_ISSUE = INSTITUTE_SERVICE_PATH + '/certificate-issued';
-export const API_CERTIFICATES_ISSUE_PUBLIC = INSTITUTE_SERVICE_PATH + '/public/youth-certificate-issued';
+export const API_CERTIFICATES_ISSUE =
+  INSTITUTE_SERVICE_PATH + '/certificate-issued';
+export const API_CERTIFICATES_ISSUE_PUBLIC =
+  INSTITUTE_SERVICE_PATH + '/public/youth-certificate-issued';
 
 export const API_COURSE_RESULT_CONFIG =
   INSTITUTE_SERVICE_PATH + '/course-result-configs';
@@ -137,17 +140,17 @@ export const API_YOUTH_BATCH_EXAMS_MARK_UPDATE =
 export const API_COURSE_ENROLLMENTS =
   INSTITUTE_SERVICE_PATH + '/course-enrollments';
 // TODO Remove this
-  // export const API_COURSE_ENROLLMENTS =
-  // CERTIFICATE_API_URL + '/course-enrollments';
+// export const API_COURSE_ENROLLMENTS =
+// CERTIFICATE_API_URL + '/course-enrollments';
 export const API_REJECT_COURSE_ENROLLMENT =
   INSTITUTE_SERVICE_PATH + '/reject-course-enrollment';
 export const API_COURSE_ENROLL = INSTITUTE_SERVICE_PATH + '/course-enroll';
 export const API_COURSE_ENROLL_PAYMENT_PAY =
   INSTITUTE_SERVICE_PATH + '/course-enrollment/payment-by-ek-pay/pay-now';
+export const BATCH_BY_4IR_INITIATIVE_ID =
+  TSP_PUBLIC_SERVICE_PATH + '/batches-by-four-ir-initiative-id';
 
 export const API_ASSIGN_BATCH = INSTITUTE_SERVICE_PATH + '/batch-assign';
-export const API_ASSESSMENT_ASSIGN_BATCH =
-  INSTITUTE_SERVICE_PATH + '/assign-to-batch';
 export const API_ASSIGN_TRAINERS_TO_BATCH = '/assign-trainer-to-batch';
 
 export const API_BATCHES_TO_ASSIGN = '/training-centers/batches';
@@ -236,6 +239,50 @@ export const API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE =
 
 /**training center report end*/
 
+/** 4IR service routes section start*/
+export const API_4IR_PROJECTS = FOUR_IR_SERVICE_PATH + '/projects';
+export const API_4IR_GUIDELINE = FOUR_IR_SERVICE_PATH + '/guidelines';
+export const API_4IR_SHOWCASE = FOUR_IR_SERVICE_PATH + '/showcasing';
+export const API_4IR_INITIATIVE = FOUR_IR_SERVICE_PATH + '/initiatives';
+export const API_4IR_ALL_INITIATIVE = FOUR_IR_SERVICE_PATH + '/all-initiatives';
+export const API_4IR_OCCUPATIONS = FOUR_IR_SERVICE_PATH + '/4ir-occupations';
+export const API_4IR_EMPLOYMENT = FOUR_IR_SERVICE_PATH + '/employments';
+export const API_4IR_TAGLINES = FOUR_IR_SERVICE_PATH + '/taglines';
+export const API_4IR_CELL = FOUR_IR_SERVICE_PATH + '/project-cells';
+export const API_4IR_CS = FOUR_IR_SERVICE_PATH + '/initiative-cs';
+export const API_4IR_SECTORS = FOUR_IR_SERVICE_PATH + '/sectors';
+export const API_4IR_TNA_REPORT = FOUR_IR_SERVICE_PATH + '/tna-formats';
+export const API_4IR_TEAM_MEMBERS = FOUR_IR_SERVICE_PATH + '/team-members';
+export const API_4IR_CBLM = FOUR_IR_SERVICE_PATH + '/initiative-cblms';
+export const API_4IR_SCALE_UP = FOUR_IR_SERVICE_PATH + '/scale-up';
+export const API_4IR_PROJECT_CONTRIBUTIONS =
+  FOUR_IR_SERVICE_PATH + '/contributions';
+export const API_4IR_CERTIFICATE =
+  FOUR_IR_SERVICE_PATH + '/get-4ir-certificate-list';
+
+export const API_4IR_ASSESSMENT =
+  FOUR_IR_SERVICE_PATH + '/get-four-ir-youth-assessment-list';
+export const API_4IR_CURRICULUM =
+  FOUR_IR_SERVICE_PATH + '/initiative-curriculums';
+export const API_4IR_RESOURCE_MANAGEMENT =
+  FOUR_IR_SERVICE_PATH + '/resource-managements';
+export const API_4IR_TOT = FOUR_IR_SERVICE_PATH + '/tots';
+export const API_4IR_TOT_UPDATE = FOUR_IR_SERVICE_PATH + '/tots-update';
+export const API_4IR_COURSE = FOUR_IR_SERVICE_PATH + '/create-approve-courses';
+export const API_4IR_PROJECT_ANALYSIS =
+  FOUR_IR_SERVICE_PATH + '/project-analysis';
+export const API_4IR_INITIATIVE_ANALYSIS =
+  FOUR_IR_SERVICE_PATH + '/initiative-analysis';
+export const API_4IR_PROJECT_TASK_UPDATE =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-task-update';
+export const API_FOUR_IR_INITIATIVE_IMPORT =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel';
+export const API_FOUR_IR_INITIATIVE_IMPORT_FORMAT =
+  FOUR_IR_SERVICE_PATH + '/four-ir-initiatives-import-excel-format';
+export const API_FOUR_IR_COURSE_APPROVE =
+  FOUR_IR_SERVICE_PATH + '/approve-four-ir-course';
+/** 4IR service routes section end*/
+
 /** All institute service privates routes section end */
 
 /** All institute service public routes section start */
@@ -314,7 +361,8 @@ export const API_YOUTH_UPDATE_PASSWORD =
 export const API_YOUTH_ADDRESSES = YOUTH_SERVICE_PATH + '/youth-addresses';
 export const API_YOUTH_REFERENCES = YOUTH_SERVICE_PATH + '/youth-references';
 export const API_YOUTH_GUARDIANS = YOUTH_SERVICE_PATH + '/youth-guardians';
-export const API_YOUTH_GUARDIANS_BY_YOUTH = YOUTH_SERVICE_PATH + '/youth-guardians-by-youth';
+export const API_YOUTH_GUARDIANS_BY_YOUTH =
+  YOUTH_SERVICE_PATH + '/youth-guardians-by-youth';
 
 export const API_YOUTH_SETTINGS_CHANGE_USERID =
   YOUTH_SERVICE_PATH + '/settings/changeUserId';
@@ -492,9 +540,6 @@ export const API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT =
 
 export const API_INSTITUTE_HUMAN_RESOURCE_DEMANDS =
   ORGANIZATION_SERVICE_PATH + '/hr-demands';
-
-export const API_HUMAN_RESOURCE_DEMAND_LIST =
-  ORGANIZATION_SERVICE_PATH + '/hr-demand';
 
 export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
