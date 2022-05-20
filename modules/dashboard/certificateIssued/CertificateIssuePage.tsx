@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -13,12 +13,36 @@ import {
   getCalculatedSerialNo
 } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
+import { getAllBatches } from '../../../services/instituteManagement/BatchService';
 
 
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
-  // const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  
+  
+  const [batchFilterItems, setBatchFilterItems] = useState([]);
 
+
+  useEffect(() => {
+    getAllBatches().then(res=>{
+      setBatchFilterItems(
+        res.data.map((batch: any) => {
+          return {id: batch?.id, title: batch?.title};
+        }),
+      );
+    })
+  }, [])
+  
+  
+  // useEffect(() => {
+  //   if (batches) {
+  //     setBatchFilterItems(
+  //       batches.map((skill: any) => {
+  //         return {id: skill?.id, title: skill?.title};
+  //       }),
+  //     );
+  //   }
+  // }, [batches]);
 
   const columns = useMemo(
     () => [
@@ -40,12 +64,19 @@ const CertificateIssuedPage = () => {
       //   accessor: 'certificate_id',
       // },
       {
-        Header: messages['common.title'],
+        Header: messages['certificate.name_bn'],
         accessor: 'certificate_title',
       },
       {
         Header: messages['common.youth_2'],
         accessor: 'youth_profile.first_name',
+      },
+      {
+        Header: messages['batches.label'],
+        accessor: 'batch_title',
+        filter: 'selectFilter',
+        selectFilterItems: batchFilterItems,
+        isVisible: false,
       },
       {
         Header: messages['common.identity_number'],
@@ -54,10 +85,6 @@ const CertificateIssuedPage = () => {
       {
         Header: messages['youth.email'],
         accessor: 'youth_profile.email',
-      },
-      {
-        Header: messages['batches.label'],
-        accessor: 'batch_title'
       },
       {
         Header: messages['common.actions'],
@@ -86,16 +113,13 @@ const CertificateIssuedPage = () => {
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_CERTIFICATES_ISSUE,
+      // paramsValueModifier: (params: any) => {
+      //   if (batchId) params['batch_id'] = batchId;
+      //   return params;
+      // },
     });
 
-    // useEffect(() => {
-    //   console.log('inside effect', data);
-    //   const youthid = data.map((item:any)=>item.youth_id)
-    //   // getYouthProfiles(youthid).then(res=>{
-    //   //   console.log('youth id', youthid, res);
-    //   // })
-      
-    // }, [data])
+    
 
   return (
     <>

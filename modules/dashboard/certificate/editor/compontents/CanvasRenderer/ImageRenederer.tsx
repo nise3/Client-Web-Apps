@@ -16,6 +16,7 @@ const enabledAnchors = [
   'top-right',
   'bottom-left',
   'bottom-right',
+  'bottom-center',
 ];
 function ImageRenderer({id, props}: Props) {
   const imageRef = useRef<Konva.Image | null>(null);

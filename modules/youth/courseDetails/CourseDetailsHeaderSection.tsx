@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -60,16 +60,19 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
   const { messages, formatNumber } = useIntl();
   const authUser = useAuthUser();
   const [certificateIssue, setCertificateIssue] = useState<any>({});
-  // const [certificateIssue] = useState<ICertificateIssue>(certificateIssueMock.data[0]);
 
-  getCertificateIssue({youth_id: youthId})
-    .then((res:any)=>{
-      if(res && res.length > 0){
-        setCertificateIssue(res[0]);
-      }
-    })
+  useEffect(() => {
+    if(course.certificate_issued){
+      getCertificateIssue({youth_id: youthId})
+      .then((res:any)=>{
+        if(res && res.length > 0){
+          setCertificateIssue(res[0]);
+        }
+      })
+    }
+  }, [course, youthId])
   
-  // console.log('const {data: certificateIssue} ', certificateIssue);
+  
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={2}>
@@ -175,7 +178,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                       color={'primary'}
                     />
                   )}
-                  <Link
+                  {course?.certificate_issued && <Link
                     className={classes.certificateViewButton}
                     href={
                       authUser
@@ -187,7 +190,20 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                     <Button variant={'contained'} color={'primary'}>
                       {messages['common.certificate_view']}
                     </Button>
-                  </Link>
+                  </Link>}
+                  {/* <Link
+                    className={classes.certificateViewButton}
+                    href={
+                      authUser
+                        ? youthDomain() +
+                        LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
+                        certificateIssue?.id
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button variant={'contained'} color={'primary'}>
+                      {messages['common.certificate_view']}
+                    </Button>
+                  </Link> */}
                 </Box>
               )}
             </Box>
