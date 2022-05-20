@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import { API_BATCHES } from '../../../@softbd/common/apiRoutes';
+import { apiGet } from '../../../@softbd/common/api';
+import { API_BATCHES, API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
@@ -32,7 +32,7 @@ import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 
 const BatchesPage = () => {
   const { messages, locale } = useIntl();
-  const { successStack } = useNotiStack();
+  const { successStack, errorStack } = useNotiStack();
   const router = useRouter();
   const path = router.pathname;
 
@@ -68,22 +68,17 @@ const BatchesPage = () => {
 
   const openDetailsTemplateModal = useCallback((item: ICertificateBatchSetting) => {
     const certificateId = item.certificate_id as number;
-    if(certificateId){
+    if (certificateId) {
       createCertificateById(certificateId)
-      .then((res: any)=> {
-        setIsOpenAddEditTemplateModal(true);
-        item.certificate_type = res?.data?.result_type;
-        setSelectedBatchItem(item)
-      })
+        .then((res: any) => {
+          setIsOpenAddEditTemplateModal(true);
+          item.certificate_type = res?.data?.result_type;
+          setSelectedBatchItem(item)
+        })
     } else {
       setIsOpenAddEditTemplateModal(true);
       setSelectedBatchItem(item)
     }
-    
-    // const certificate = certificatesList.find(item=> item.id === certificateId);
-
-
-    
   }, []);
 
   const closeDetailsTemplateModal = useCallback(() => {
@@ -218,17 +213,47 @@ const BatchesPage = () => {
                 onClick={() => openDetailsTemplateModal(data)}
                 color='primary'
               />
-              {data.certificate_id &&
-                <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
-                  <CommonButton
-                    btnText='certificate.certificate_issue'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
-                    style={{ marginLeft: '10px' }}
-                    variant='outlined'
-                    color='primary'
-                  />
-                </Link>
+              {
+                data.certificate_id &&
+                <CommonButton
+                  btnText='certificate.certificate_issue'
+                  startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                  style={{ marginLeft: '10px' }}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    const params: any = { batch_id: data.id };
+                    console.log(params)
+                    apiGet(API_COURSE_ENROLLMENTS, { params })
+                      .then(res => {
+                        const dta = res.data.data;
+                        if (dta && dta.length > 0) {
+                          router.push(`${path}/${data?.id}/certificates/certificate-issue`)
+                        } else {
+                          errorStack(
+                            <IntlMessages
+                              id='common.no_data_found_dynamic'
+                              values={{ messageType: <IntlMessages id='common.youth' /> }}
+                            />
+                          )
+                        }
+                      })
+                  }}
+                />
               }
+
+              {/* {
+                data.certificate_id &&
+                  <Link href={`${path}/${data?.id}/certificates/certificate-issue`} passHref={true}>
+                    <CommonButton
+                      btnText='certificate.certificate_issue'
+                      startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                      style={{ marginLeft: '10px' }}
+                      variant='outlined'
+                      color='primary'
+                    />
+                  </Link>
+              } */}
 
               {/* <CommonButton
                 key={2}

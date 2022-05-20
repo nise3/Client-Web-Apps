@@ -1,26 +1,23 @@
-import { Typography, useEventCallback } from '@mui/material';
+import { useEventCallback } from '@mui/material';
 import Link from 'next/link';
-import { Box, display } from '@mui/system';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_COURSE_ENROLLMENTS } from '../../../@softbd/common/apiRoutes';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
+  getMomentDateFormat,
   isResponseSuccess
 } from '../../../@softbd/utilities/helpers';
-import LanguageCodes from '../../../@softbd/utilities/LocaleLanguage';
-import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import { default as LanguageCodes, default as LocaleLanguage } from '../../../@softbd/utilities/LocaleLanguage';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { processServerSideErrors } from '../../../@softbd/utilities/validationErrorHandler';
 import { createCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
@@ -103,6 +100,12 @@ const CertificateIssuePage = () => {
       {
         Header: messages['certificate.result_publish_date'],
         accessor: 'result_published_at',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.result_published_at)}</span>
+          );
+        },
       },
       {
         Header: messages['menu.district'],
@@ -208,12 +211,11 @@ const CertificateIssuePage = () => {
         {/* <div>{certificatesIssueList[0]?.isIssued}</div> */}
         <ReactTable
           columns={columns}
-          // data={certificatesIssueList}
           data={data}
           // data={data.map(e=> {
           //   return {
           //     ...e,
-          //     ...{result_published_at: "2022-05-19T09:28:46.000000Z"}
+          //     ...{result_published_at: "2022-05-20T09:28:46.000000Z"}
           //   }
           // })}
           fetchData={onFetchData}
