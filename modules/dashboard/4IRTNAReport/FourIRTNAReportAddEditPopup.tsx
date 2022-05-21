@@ -778,19 +778,19 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required={isDesktopResearchFile}
-                  id='desktop_research_file'
-                  name='desktop_research_file'
-                  label={messages['common.upload_excel_file']}
-                  register={register}
-                  type={'file'}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onInput={(files: any) =>
-                    fileUploadHandler(files, 'desktop_research_file')
-                  }
-                  errorInstance={errors}
+                    required={isDesktopResearchFile}
+                    id='desktop_research_file'
+                    name='desktop_research_file'
+                    label={messages['common.upload_excel_file']}
+                    register={register}
+                    type={'file'}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onInput={(files: any) =>
+                        fileUploadHandler(files, 'desktop_research_file')
+                    }
+                    errorInstance={errors}
                 />
               </Grid>
 
@@ -939,19 +939,19 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <CustomTextInput
-                  required={isOthersFile}
-                  id='others_file'
-                  name='others_file'
-                  label={messages['common.upload_excel_file']}
-                  register={register}
-                  type={'file'}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onInput={(files: any) =>
-                    fileUploadHandler(files, 'others_file')
-                  }
-                  errorInstance={errors}
+                    required={isOthersFile}
+                    id='others_file'
+                    name='others_file'
+                    label={messages['common.upload_excel_file']}
+                    register={register}
+                    type={'file'}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onInput={(files: any) =>
+                        fileUploadHandler(files, 'others_file')
+                    }
+                    errorInstance={errors}
                 />
               </Grid>
 
