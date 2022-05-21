@@ -368,6 +368,24 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
       if (data?.file_path) payload.append('file_path', data?.file_path);
 
+
+      // let all_files = [1,2,3,4,5,6]
+      // all_files.forEach((fileId) => {
+      //   if (data?.[ methodType[fileId]?.checkbox ] ) {
+      //     payload.append(
+      //         methodType?.[fileId].item_number
+      //         ,
+      //         String(data?.[methodType?.[fileId].item_number]),
+      //     );
+      //
+      //     if (!isEdit || (isEdit && data?.[methodType?.[fileId].item_file]?.[0]))
+      //       payload.append(
+      //           methodType?.[fileId].item_file,
+      //           data?.[methodType?.[fileId].item_file]?.[0],
+      //       );
+      //   }
+      // })
+
       if (data?.workshop_method_workshop) {
         payload.append(
           'workshop_method_workshop_numbers',
