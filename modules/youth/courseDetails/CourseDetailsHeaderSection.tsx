@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { useIntl } from 'react-intl';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -23,7 +23,6 @@ import {
   getCourseDuration,
   getIntlNumber
 } from '../../../@softbd/utilities/helpers';
-import { getCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -52,26 +51,11 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 interface CourseDetailsHeaderProps {
   course: any;
-  youthId: number;
 }
 
-const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, youthId }) => {
-  // console.log('course details: youthId', youthId)
+const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course }) => {
   const { messages, formatNumber } = useIntl();
   const authUser = useAuthUser();
-  const [certificateIssue, setCertificateIssue] = useState<any>({});
-
-  useEffect(() => {
-    if(course.certificate_issued){
-      getCertificateIssue({youth_id: youthId})
-      .then((res:any)=>{
-        if(res && res.length > 0){
-          setCertificateIssue(res[0]);
-        }
-      })
-    }
-  }, [course, youthId])
-  
   
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -178,19 +162,22 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                       color={'primary'}
                     />
                   )}
-                  {course?.certificate_issued && <Link
+                  {course?.certificate_issued_id && 
+                  <Link
                     className={classes.certificateViewButton}
                     href={
                       authUser
                         ? youthDomain() +
                         LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
-                        certificateIssue?.id
+                        course?.certificate_issued_id
                         : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                     }>
-                    <Button variant={'contained'} color={'primary'}>
+                    <Button
+                    variant={'contained'} color={'primary'}>
                       {messages['common.certificate_view']}
                     </Button>
-                  </Link>}
+                  </Link>
+                  }
                   {/* <Link
                     className={classes.certificateViewButton}
                     href={

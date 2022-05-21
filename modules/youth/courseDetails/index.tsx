@@ -44,7 +44,6 @@ const CourseDetails = () => {
     <>
       <CourseDetailsHeaderSection 
       course={courseDetails} 
-      youthId={ (courseDetailsFilter && courseDetailsFilter?.youth_id) ? courseDetailsFilter?.youth_id : null}
       />
       <CourseContentSection course={courseDetails} />
       <SimilarCourseSection skillIds={skillIds} courseId={Number(courseId)} />
