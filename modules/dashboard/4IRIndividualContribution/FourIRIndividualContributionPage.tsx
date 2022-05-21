@@ -73,7 +73,7 @@ const FourIRIndividualContributionPage = () => {
       },
       {
         Header: messages['common.tagline'],
-        accessor: 'four_ir_initiative_name',
+        accessor: 'four_ir_tagline_name',
       },
       {
         Header: messages['4ir.role_or_responsibility'],

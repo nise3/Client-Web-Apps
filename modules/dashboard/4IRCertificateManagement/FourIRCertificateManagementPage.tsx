@@ -14,7 +14,7 @@ import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {FiUser} from 'react-icons/fi';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-import {useRouter} from 'next/router';
+//import {useRouter} from 'next/router';
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -25,8 +25,8 @@ const FourIRCertificateManagementPage = ({
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
 
-  const router = useRouter();
-  const path = router.pathname;
+  //const router = useRouter();
+  //const path = router.pathname;
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -97,7 +97,10 @@ const FourIRCertificateManagementPage = ({
                 />
               </Link>
 
-              <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+              <Link
+                  href={`/batches/${data?.batch_id}/youths/youth-cv/${data?.youth_id}`}
+                 // href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
+                >
                 <CommonButton
                   btnText='common.download_label'
                   startIcon={<FiUser style={{marginLeft: '5px'}} />}

@@ -2230,5 +2230,8 @@
   "common.team_member_list": "Team Member List",
   "common.team_name": "Team Name",
   "common.contributions": "Contributions",
-  "menu.contributions": "Contributions"
+  "menu.contributions": "Contributions",
+  "4ir.research_method": "Research Method",
+  "common.start_year": "Start Year",
+  "common.end_year": "End Year"
 }

@@ -136,6 +136,10 @@
   "common.resetPassword": "পাসওয়ার্ড পুন:স্থাপন",
   "common.oldPassword": "পুরানো পাসওয়ার্ড",
   "common.newPassword": "নতুন পাসওয়ার্ড",
+  "common.resetMyPassword": "আমার পাসওয়ার্ড পুন:স্থাপন",
+  "common.dashboardMessages": "ড্যাশবোর্ড মেসেজ",
+  "common.emailVerification": "ইমেল যাচাই",
+  "common.verificationMessage": "আপনার ইমেইলে পাঠানো ভেরিফিকেশন কোড লিখুন.",
   "common.noRecordFound": "কোন লিখিত বিবরণী পাওয়া যাইনি ",
   "common.searchHere": "অনুসন্ধান",
   "common.notifications": "বিজ্ঞপ্তি",
@@ -589,6 +593,7 @@
   "common.old_email": "পুরাতন ইমেইল অথবা আইডি",
   "common.change_userId": "চেঞ্জ ইউজার আইডি",
   "common.change_password": "পাসওয়ার্ড পরিবর্তন",
+  "common.forgot_password": "Forgot password",
   "common.passwordHint": "পাসওয়ার্ডে 1টি বড় হাতের অক্ষর, ১টি ছোট হাতের অক্ষর এবং ১টি সংখ্যা সহ কমপক্ষে ৮টি অক্ষর থাকতে হবে",
   "common.confirm_email": "Confirm Email",
   "common.deactivate": "Deactivate",
@@ -2226,4 +2231,11 @@
   "batch.grad_min_will_greater_max": "গ্রেডিং ন্যূনতম মান আগের সর্বোচ্চ থেকে বেশি হওয়া উচিত",
   "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত",
   "common.attendance_total_mark": "মোট উপস্থিতি মার্কস"
+  "common.industry_name_en": "সংস্থা নাম (ইংরেজি)",
+  "common.approved_date": "অনুমোদনের তারিখ",
+  "common.certificate_view": "সনদপত্র দেখুন",
+  "4ir.research_method": "গবেষণা পদ্ধতি",
+  "4ir.researcher_name": "গবেষকের নাম",
+  "common.start_year": "শুরুর বছর",
+  "common.end_year": "শেষ বছর"
 }
