@@ -118,7 +118,6 @@ const TeamAndCellView = () => {
 
   useEffect(() => {
     if (
-      completionStep &&
       initiativeId &&
       presentStep &&
       stepNames.includes(Number(presentStep))
@@ -127,7 +126,7 @@ const TeamAndCellView = () => {
     } else if (presentStep) {
       setIsValid(false);
     }
-  }, [router?.query]);
+  }, [initiativeId, presentStep]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);

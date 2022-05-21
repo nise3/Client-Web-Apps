@@ -145,7 +145,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
       if (isEdit) {
         payload.append('operation_type', 'UPDATE');
-        payload.append('four_ir_initiative_id', String(itemId));
+        payload.append('four_ir_initiative_analysis_id', String(itemId));
         await createInitiativeAnalysis(payload);
         updateSuccessMessage('4ir_initiative_analysis.label');
         await closeAction();
@@ -282,6 +282,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
             <Grid item xs={8}>
               <FileUploadComponent
+                required
                 id='file_path'
                 defaultFileUrl={itemData?.file_path}
                 sizeLimitText='3MB'
@@ -289,7 +290,6 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 setValue={setValue}
                 register={register}
                 label={messages['4ir.initiative-alalysis_report_upload']}
-                required={false}
                 acceptedFileTypes={[
                   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                   'application/pdf',
