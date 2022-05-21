@@ -18,10 +18,7 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {useFetch4IRInitiativeAnalysis} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {
-  createInitiativeAnalysis,
-  updateInitiativeAnalysis,
-} from '../../../services/4IRManagement/initiativeAnalysis';
+import {createInitiativeAnalysis} from '../../../services/4IRManagement/initiativeAnalysis';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface FourIRTNAReportAddEditPopupProps {
@@ -148,7 +145,8 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
       if (isEdit) {
         payload.append('operation_type', 'UPDATE');
-        await updateInitiativeAnalysis(payload, itemId);
+        payload.append('four_ir_initiative_id', String(itemId));
+        await createInitiativeAnalysis(payload);
         updateSuccessMessage('4ir_initiative_analysis.label');
         await closeAction();
       } else {
@@ -231,6 +229,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='researcher_name'
             label={messages['4ir.researcher_name']}
             register={register}
@@ -240,6 +239,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='organization_name'
             label={messages['common.organization_name']}
             register={register}
