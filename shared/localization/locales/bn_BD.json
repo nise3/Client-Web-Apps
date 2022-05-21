@@ -2070,5 +2070,7 @@
   "course.approve": "কোর্স অনুমোদন করুন",
   "course.approved": "কোর্স অনুমোদিত",
   "4ir.employment_status" : "চাকুরির অবস্থা",
-  "common.industry_name_en": "সংস্থা নাম (ইংরেজি)"
+  "common.industry_name_en": "সংস্থা নাম (ইংরেজি)",
+  "common.approved_date": "অনুমোদনের তারিখ",
+  "common.certificate_view": "সনদপত্র দেখুন"
 }
