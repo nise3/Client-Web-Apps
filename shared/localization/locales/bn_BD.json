@@ -2072,5 +2072,9 @@
   "4ir.employment_status" : "চাকুরির অবস্থা",
   "common.industry_name_en": "সংস্থা নাম (ইংরেজি)",
   "common.approved_date": "অনুমোদনের তারিখ",
-  "common.certificate_view": "সনদপত্র দেখুন"
+  "common.certificate_view": "সনদপত্র দেখুন",
+  "4ir.research_method": "গবেষণা পদ্ধতি",
+  "4ir.researcher_name": "গবেষকের নাম",
+  "common.start_year": "শুরুর বছর",
+  "common.end_year": "শেষ বছর"
 }
