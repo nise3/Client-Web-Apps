@@ -21,9 +21,11 @@ const FourIRIndividualContributionPage = () => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
+    setSelectedMemberId(null);
   }, []);
 
   const openAddEditModal = useCallback(
@@ -47,6 +49,8 @@ const FourIRIndividualContributionPage = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+    setSelectedItemId(null);
+    setSelectedMemberId(null);
   }, []);
 
   const refreshDataTable = useCallback(() => {
@@ -69,7 +73,7 @@ const FourIRIndividualContributionPage = () => {
       },
       {
         Header: messages['common.initiative'],
-        accessor: 'four_ir_tagline_name',
+        accessor: 'four_ir_initiative_id',
       },
       {
         Header: messages['common.tagline'],
