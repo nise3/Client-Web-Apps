@@ -1977,8 +1977,7 @@
   "forgot_password.otp_verification": "OTP verification successfully completed",
   "forgot_password.reset_password": "Password has been changed successfully",
   "industry.institute_information": "Your Institute's Information",
-  "industry.enrollment.sector": "Which sector does your institute belong to?"
-  "common.subject_en": "Subject(En)",
+  "industry.enrollment.sector": "Which sector does your institute belong to?",
   "common.on_institute_premises": "On institute premises",
   "common.on_branch_premises": "On branch premises",
   "common.on_training_premises": "On training center premises",

@@ -182,45 +182,6 @@ const SearchBox = () => {
       // @ts-ignore
       component='form'
       className={classes.rootPaper}>
-      <Hidden mdDown>
-        <IconButton sx={{p: '20px'}} aria-label='menu'>
-          <SearchIcon />
-        </IconButton>
-      </Hidden>
-      <InputBase
-        sx={{ml: 1, flex: 1}}
-        placeholder={messages['common.search_2'] as string}
-        inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
-        inputRef={searchTextField}
-      />
-      <Hidden mdDown>
-        <Paper component='span' elevation={0} sx={{minWidth: '200px'}}>
-          <CustomFilterableSelect
-            id={'loc_upazila_id'}
-            defaultValue={locationValue}
-            label={messages['common.location_2'] as string}
-            onChange={(upazilaId: any) => {
-              setLocationValue(upazilaId);
-            }}
-            options={upazilas}
-            isLoading={false}
-            optionValueProp={'id'}
-            optionTitleProp={['title']}
-            size='medium'
-            dropdownStyle={{
-              width: '400px',
-            }}
-          />
-        </Paper>
-      </Hidden>
-      <Button
-        variant='contained'
-        size={'large'}
-        className={classes.searchButton}
-        disableElevation
-        onClick={onSearchClick}>
-        {messages['common.search']}
-      </Button>
       <FormControl
         sx={{
           position: 'absolute',
@@ -289,7 +250,7 @@ const SearchBox = () => {
             isLoading={false}
             optionValueProp={'id'}
             placeholder={messages['common.location_2'] as string}
-            optionTitleProp={['title', 'title_en']}
+            optionTitleProp={['title']}
             size='medium'
             dropdownStyle={{
               width: '400px',

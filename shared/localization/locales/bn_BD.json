@@ -1979,8 +1979,7 @@
   "forgot_password.otp_verification": "ওটিপি যাচাইকরণ সফলভাবে সম্পন্ন হয়েছে",
   "forgot_password.reset_password": "পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে",
   "industry.institute_information": "আপনার প্রতিষ্ঠানের তথ্য",
-  "industry.enrollment.sector": "আপনার প্রতিষ্ঠানটি কোন সেক্টরের অর্ন্তভূক্ত?"
-  "common.subject_en": "সাবজেক্ট(ইংরেজি)",
+  "industry.enrollment.sector": "আপনার প্রতিষ্ঠানটি কোন সেক্টরের অর্ন্তভূক্ত?",
   "common.on_institute_premises": "ইনস্টিটিউট প্রাঙ্গনে",
   "common.on_branch_premises": "ব্রাঞ্চ প্রাঙ্গনে",
   "common.on_training_premises": "ট্রেইনিং সেন্টার প্রাঙ্গনে",
