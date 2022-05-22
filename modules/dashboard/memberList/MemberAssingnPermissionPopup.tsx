@@ -13,8 +13,8 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
+  useFetchLocalizedPermissionGroups,
+  useFetchLocalizedPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {IPermissionSubGroupAssignInstitute} from '../../../shared/Interface/institute.interface';
@@ -46,7 +46,7 @@ const MemberAssignPermissionPopup: FC<AssignPermissionSubGroupPopup> = ({
     row_status: RowStatus.ACTIVE,
     key: PERMISSION_GROUP_ORGANIZATION_KEY,
   });
-  const {data: permissionGroups} = useFetchPermissionGroups(
+  const {data: permissionGroups} = useFetchLocalizedPermissionGroups(
     permissionGroupFilters,
   );
 
@@ -56,7 +56,7 @@ const MemberAssignPermissionPopup: FC<AssignPermissionSubGroupPopup> = ({
     });
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   useEffect(() => {
     if (permissionGroups && permissionGroups.length > 0) {
@@ -158,7 +158,7 @@ const MemberAssignPermissionPopup: FC<AssignPermissionSubGroupPopup> = ({
             control={control}
             options={permissionSubGroups}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

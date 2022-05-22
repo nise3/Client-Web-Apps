@@ -33,15 +33,15 @@ import {ITrainer} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 
 import {
-  useFetchAllInstitutes,
-  useFetchBranches,
+  useFetchLocalizedBranches,
+  useFetchLocalizedInstitutes,
+  useFetchLocalizedTrainingCenters,
   useFetchTrainer,
-  useFetchTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -53,10 +53,10 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetchRoles} from '../../../services/userManagement/hooks';
+import {useFetchLocalizedRoles} from '../../../services/userManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-import {useFetchSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import {Gender} from '../../industry/enrollment/constants/GenderEnums';
 import moment from 'moment';
 import {DATE_OF_BIRTH_MIN_AGE} from '../../../@softbd/common/constants';
@@ -177,19 +177,19 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
 
   const [filters] = useState({row_status: RowStatus.ACTIVE});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
 
-  const {data: districts} = useFetchDistricts(districtsFilter);
+  const {data: districts} = useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
 
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
 
   const [presentDistricts, setPresentDistricts] = useState<
     Array<District> | []
@@ -212,20 +212,21 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
   const [trainingCenterFilters, setTrainingCenterFilters] = useState<any>(null);
 
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchAllInstitutes(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
+    useFetchLocalizedBranches(branchFilters);
 
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchTrainingCenters(trainingCenterFilters);
+    useFetchLocalizedTrainingCenters(trainingCenterFilters);
 
   const [roleFilter] = useState({});
-  const {data: roles, isLoading: isLoadingRoles} = useFetchRoles(roleFilter);
+  const {data: roles, isLoading: isLoadingRoles} =
+    useFetchLocalizedRoles(roleFilter);
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchSkills(skillFilter);
+    useFetchLocalizedSkills(skillFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -720,7 +721,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onPresentDivisionChange}
           />
@@ -733,7 +734,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onPermanentDivisionChange}
           />
@@ -747,7 +748,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={presentDistricts}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={onPresentDistrictChange}
           />
@@ -759,7 +760,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={permanentDistricts}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             isLoading={isLoading}
             onChange={onPermanentDistrictChange}
@@ -773,7 +774,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={presentUpazilas}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -785,7 +786,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
             control={control}
             options={permanentUpazilas}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -893,7 +894,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
               control={control}
               label={messages['institute.label']}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onInstituteChange}
             />
@@ -913,7 +914,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
                   control={control}
                   options={branches}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={onBranchChange}
                 />
@@ -926,7 +927,7 @@ const TrainerAddEditPopup: FC<TrainerAddEditPopupProps> = ({
                   control={control}
                   options={trainingCenters}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>

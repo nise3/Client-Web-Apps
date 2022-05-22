@@ -12,9 +12,9 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
-  useFetchPublicRPLLevels,
-  useFetchPublicRPLOccupations,
-  useFetchPublicRPLSectors,
+  useFetchLocalizedPublicRPLLevels,
+  useFetchLocalizedPublicRPLOccupations,
+  useFetchLocalizedPublicRPLSectors,
   useFetchRTOBatch,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
@@ -69,11 +69,11 @@ const RTOBatchAddEditPopup: FC<RTOBatchAddEditPopupProps> = ({
   const {data: institutes, isLoading: isFetchingInstitutes} =
     useFetchPublicInstitutes(institutesFilters);
   const {data: rplLevels, isLoading: isFetchingRPLLevels} =
-    useFetchPublicRPLLevels(rplLevelsFilters);
+    useFetchLocalizedPublicRPLLevels(rplLevelsFilters);
   const {data: rplSectors, isLoading: isFetchingRPLSectors} =
-    useFetchPublicRPLSectors(rplSectorsFilters);
+    useFetchLocalizedPublicRPLSectors(rplSectorsFilters);
   const {data: rplOccupations, isLoading: isFetchingRPLOccupations} =
-    useFetchPublicRPLOccupations(rplOccupationsFilters);
+    useFetchLocalizedPublicRPLOccupations(rplOccupationsFilters);
 
   const handleRplSectorChange = useCallback(
     (sectorId: any) => {

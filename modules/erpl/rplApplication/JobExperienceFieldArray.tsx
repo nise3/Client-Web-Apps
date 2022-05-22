@@ -3,9 +3,9 @@ import {Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import TextInputSkeleton from '../../../@softbd/elements/display/skeleton/TextInputSkeleton/TextInputSkeleton';
 import {
-  useFetchPublicRPLLevels,
-  useFetchPublicRPLOccupations,
-  useFetchPublicRPLSectors,
+  useFetchLocalizedPublicRPLLevels,
+  useFetchLocalizedPublicRPLOccupations,
+  useFetchLocalizedPublicRPLSectors,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 
@@ -36,13 +36,13 @@ const JobExperienceFieldArray = ({
   const [rplOccupationFilters, setRplOccupationFilters] = useState<any>(null);
   const [rplLevelFilters, setRplLevelFilters] = useState<any>(null);
   const {data: rplSectors, isLoading: isSectorLoading} =
-    useFetchPublicRPLSectors(rplSectorFilters);
+    useFetchLocalizedPublicRPLSectors(rplSectorFilters);
 
   const {data: rplOccupations, isLoading: isOccupationLoading} =
-    useFetchPublicRPLOccupations(rplOccupationFilters);
+    useFetchLocalizedPublicRPLOccupations(rplOccupationFilters);
 
   const {data: rplLevels, isLoading: isLevelLoading} =
-    useFetchPublicRPLLevels(rplLevelFilters);
+    useFetchLocalizedPublicRPLLevels(rplLevelFilters);
 
   const onCountryChange = useCallback((countryId: any) => {
     setSelectedCountryId(countryId ? countryId : null);

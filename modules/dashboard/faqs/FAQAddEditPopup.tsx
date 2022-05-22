@@ -14,8 +14,8 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
-  useFetchCMSGlobalConfig,
   useFetchFAQ,
+  useFetchLocalizedCMSGlobalConfig,
 } from '../../../services/cmsManagement/hooks';
 import {createFAQ, updateFAQ} from '../../../services/cmsManagement/FAQService';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -27,11 +27,11 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
-import {getAllIndustryAssociations} from '../../../services/IndustryAssociationManagement/IndustryAssociationService';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import {useFetchLocalizedInstitutes} from '../../../services/instituteManagement/hooks';
+import {useFetchLocalizedOrganizations} from '../../../services/organaizationManagement/hooks';
+import {useFetchLocalizedIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 
 interface FAQAddEditPopupProps {
   itemId: number | null;
@@ -63,23 +63,28 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
   const {data: itemData, isLoading, mutate: mutateFAQ} = useFetchFAQ(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
   const [languageList, setLanguageList] = useState<any>([]);
-
-  const [instituteList, setInstituteList] = useState([]);
-  const [industryList, setIndustryList] = useState([]);
-  const [industryAssociationList, setIndustryAssociationList] = useState([]);
-  const [isLoadingSectionNameList, setIsLoadingSectionNameList] =
-    useState<boolean>(false);
   const [showInId, setShowInId] = useState<number | null>(null);
-
   const [allLanguages, setAllLanguages] = useState<any>([]);
-
   const [selectedLanguageList, setSelectedLanguageList] = useState<any>([]);
   const [selectedLanguageCode, setSelectedLanguageCode] = useState<
     string | null
   >(null);
   const [selectedCodes, setSelectedCodes] = useState<Array<string>>([]);
+  const [instituteFilter, setInstituteFilter] = useState<any>(null);
+  const [industryFilter, setIndustryFilter] = useState<any>(null);
+  const [industryAssociationFilter, setIndustryAssociationFilter] =
+    useState<any>(null);
+
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchLocalizedInstitutes(instituteFilter);
+
+  const {data: organizations, isLoading: isLoadingOrganizations} =
+    useFetchLocalizedOrganizations(industryFilter);
+
+  const {data: industryAssociations, isLoading: isLoadingIndustryAssociations} =
+    useFetchLocalizedIndustryAssociations(industryAssociationFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -241,8 +246,6 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
 
   const changeShowInAction = useCallback((id: number) => {
     (async () => {
-      setIsLoadingSectionNameList(true);
-
       if (id != ShowInTypes.TSP) {
         setValue('institute_id', '');
       }
@@ -255,35 +258,20 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
       }
 
       try {
-        if (id === ShowInTypes.TSP && instituteList.length == 0) {
-          const response = await getAllInstitutes({
+        if (id === ShowInTypes.TSP) {
+          setInstituteFilter({row_status: RowStatus.ACTIVE});
+        } else if (id == ShowInTypes.INDUSTRY) {
+          setIndustryFilter({
             row_status: RowStatus.ACTIVE,
           });
-          if (response && response?.data) {
-            setInstituteList(response.data);
-          }
-        } else if (id == ShowInTypes.INDUSTRY && industryList.length == 0) {
-          const response = await getAllOrganizations({
+        } else if (id == ShowInTypes.INDUSTRY_ASSOCIATION) {
+          setIndustryAssociationFilter({
             row_status: RowStatus.ACTIVE,
           });
-          if (response && response?.data) {
-            setIndustryList(response.data);
-          }
-        } else if (
-          id == ShowInTypes.INDUSTRY_ASSOCIATION &&
-          industryAssociationList.length == 0
-        ) {
-          const response = await getAllIndustryAssociations({
-            row_status: RowStatus.ACTIVE,
-          });
-          if (response && response?.data) {
-            setIndustryAssociationList(response.data);
-          }
         }
       } catch (e) {}
 
       setShowInId(id);
-      setIsLoadingSectionNameList(false);
     })();
   }, []);
 
@@ -438,9 +426,9 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                   required
                   id={'institute_id'}
                   label={messages['institute.label']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingInstitutes}
                   control={control}
-                  options={instituteList}
+                  options={institutes}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -451,9 +439,9 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                   required
                   id={'organization_id'}
                   label={messages['organization.label']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingOrganizations}
                   control={control}
-                  options={industryList}
+                  options={organizations}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}
@@ -464,9 +452,9 @@ const FAQAddEditPopup: FC<FAQAddEditPopupProps> = ({
                   required
                   id={'industry_association_id'}
                   label={messages['common.industry_association']}
-                  isLoading={isLoadingSectionNameList}
+                  isLoading={isLoadingIndustryAssociations}
                   control={control}
-                  options={industryAssociationList}
+                  options={industryAssociations}
                   optionValueProp={'id'}
                   optionTitleProp={['title']}
                   errorInstance={errors}

@@ -12,7 +12,7 @@ import PageBlock from '../../../@softbd/utilities/PageBlock';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {useFetchPermissions} from '../../../services/userManagement/hooks';
+import {useFetchLocalizedPermissions} from '../../../services/userManagement/hooks';
 import {
   assignPermissions,
   getPermissionGroupWithPermissions,
@@ -40,7 +40,7 @@ const AssignPermissionToPermissionGroupPage = () => {
   const [permissionFilters] = useState({});
 
   const {data: allPermissions, isLoading} =
-    useFetchPermissions(permissionFilters);
+    useFetchLocalizedPermissions(permissionFilters);
   const [itemData, setItemData] = useState<any>(null);
 
   useEffect(() => {

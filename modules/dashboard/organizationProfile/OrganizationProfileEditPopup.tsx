@@ -20,9 +20,9 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
@@ -55,11 +55,11 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -254,7 +254,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -269,7 +269,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -282,7 +282,7 @@ const OrganizationProfileEditPopup: FC<OrganizationProfileEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

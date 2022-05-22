@@ -14,7 +14,7 @@ import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
   useFetchApplicationDetails,
-  useFetchBatchesToAssign,
+  useFetchLocalizedBatchesToAssign,
 } from '../../../services/instituteManagement/hooks';
 import {assignBatch} from '../../../services/instituteManagement/RegistrationService';
 import {IBatchAssign} from '../../../shared/Interface/organization.interface';
@@ -43,7 +43,7 @@ const AssignBatchPopup: FC<AssignBatchPopup> = ({
   const {data: itemData, isLoading} = useFetchApplicationDetails(itemId);
 
   const {data: trainingCenters, isLoading: isBatchesLoading} =
-    useFetchBatchesToAssign(courseId);
+    useFetchLocalizedBatchesToAssign(courseId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

@@ -15,7 +15,7 @@ import {useIntl} from 'react-intl';
 import Hidden from '../../@softbd/elements/Hidden';
 import {useRouter} from 'next/router';
 import RowStatus from '../../@softbd/utilities/RowStatus';
-import {useFetchUpazilas} from '../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../services/locationManagement/hooks';
 import {
   LINK_FRONTEND_JOBS,
   LINK_FRONTEND_NISE_TRAINING,
@@ -131,7 +131,7 @@ const SearchBox = () => {
   const {messages} = useIntl();
   const router = useRouter();
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
   const [locationValue, setLocationValue] = useState<any>(null);
   const [typeValue, setTypeValue] = useState<any>('');
   const searchTextField = useRef<any>();
@@ -182,6 +182,45 @@ const SearchBox = () => {
       // @ts-ignore
       component='form'
       className={classes.rootPaper}>
+      <Hidden mdDown>
+        <IconButton sx={{p: '20px'}} aria-label='menu'>
+          <SearchIcon />
+        </IconButton>
+      </Hidden>
+      <InputBase
+        sx={{ml: 1, flex: 1}}
+        placeholder={messages['common.search_2'] as string}
+        inputProps={{'aria-label': 'অনুসন্ধান করুন'}}
+        inputRef={searchTextField}
+      />
+      <Hidden mdDown>
+        <Paper component='span' elevation={0} sx={{minWidth: '200px'}}>
+          <CustomFilterableSelect
+            id={'loc_upazila_id'}
+            defaultValue={locationValue}
+            label={messages['common.location_2'] as string}
+            onChange={(upazilaId: any) => {
+              setLocationValue(upazilaId);
+            }}
+            options={upazilas}
+            isLoading={false}
+            optionValueProp={'id'}
+            optionTitleProp={['title']}
+            size='medium'
+            dropdownStyle={{
+              width: '400px',
+            }}
+          />
+        </Paper>
+      </Hidden>
+      <Button
+        variant='contained'
+        size={'large'}
+        className={classes.searchButton}
+        disableElevation
+        onClick={onSearchClick}>
+        {messages['common.search']}
+      </Button>
       <FormControl
         sx={{
           position: 'absolute',
