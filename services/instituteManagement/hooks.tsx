@@ -3,9 +3,15 @@ import {
   useDataLocalizationAxiosSWR,
 } from '../../@softbd/hooks/useAxiosSWR';
 import {
+  API_4IR_COURSE,
+  API_4IR_GUIDELINE,
+  API_4IR_SHOWCASE,
+  API_4IR_TEAM_MEMBERS,
+  API_4IR_TNA_REPORT,
   API_BATCHES,
   API_BATCHES_TO_ASSIGN,
   API_BRANCHES,
+  API_CERTIFICATES,
   API_COURSE_ENROLLMENTS,
   API_COURSES,
   API_HUMAN_RESOURCE_DEMAND,
@@ -25,14 +31,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
-  API_4IR_TNA_REPORT,
-  API_4IR_TEAM_MEMBERS,
-  API_4IR_GUIDELINE,
-  API_4IR_COURSE,
-  API_4IR_SHOWCASE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -211,6 +212,12 @@ export function useFetchHrDemand(hrDemandId: any) {
 
 export function useFetchInstituteTraineeYouths() {
   return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
+}
+
+export function useFetchCertificate(certiicateId: number | null) {
+  return useAxiosSWR(
+    certiicateId ? API_CERTIFICATES + '/' + certiicateId : null,
+  );
 }
 
 /**
