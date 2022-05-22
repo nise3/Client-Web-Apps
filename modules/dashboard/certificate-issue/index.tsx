@@ -43,6 +43,7 @@ const CertificateIssuePage = () => {
       batch_id: data.batch_id,
       certificate_id: data.certificate_id,
       youth_id: data.youth_id,
+      course_id: data.course_id
     };
 
     try {
