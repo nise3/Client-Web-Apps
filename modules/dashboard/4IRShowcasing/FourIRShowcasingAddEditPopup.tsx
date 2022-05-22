@@ -349,7 +349,7 @@ const FourIRShowcasingAddEditPopUP = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
-            label={messages['common.file_upload']}
+            label={messages['common.file_upload_photo']}
             required={false}
           />
         </Grid>

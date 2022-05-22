@@ -1012,6 +1012,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
+            defaultFileUrl={itemData?.file_path}
             label={messages['tna.final_tna_report']}
             required={false}
             acceptedFileTypes={[
