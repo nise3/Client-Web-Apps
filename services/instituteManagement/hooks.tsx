@@ -9,12 +9,18 @@ import {
   API_4IR_TEAM_MEMBERS,
   API_4IR_TNA_REPORT,
   API_BATCH_RESULT,
+  API_4IR_COURSE,
+  API_4IR_GUIDELINE,
+  API_4IR_SHOWCASE,
+  API_4IR_TEAM_MEMBERS,
+  API_4IR_TNA_REPORT,
   API_BATCHES,
   API_BATCHES_EXAMS,
   API_BATCHES_TO_ASSIGN,
   API_BATCHES_YOUTH_EXAMS,
   API_BRANCHES,
   API_CERTIFICATES_ISSUE,
+  API_CERTIFICATES,
   API_COURSE_ENROLLMENTS,
   API_COURSE_RESULT_CONFIG,
   API_COURSES,
@@ -25,6 +31,7 @@ import {
   API_HUMAN_RESOURCE_DEMAND,
   API_INDUSTRY_PUBLICATIONS,
   API_INSTITUTE_PROFILE,
+  API_INSTITUTE_QUESTION_BANK,
   API_INSTITUTE_TRAINEE_YOUTHS,
   API_INSTITUTES,
   API_PREVIEW_YOUTH_EXAM,
@@ -39,6 +46,7 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
@@ -259,6 +267,21 @@ export function useFetchHrDemand(hrDemandId: any) {
 export function useFetchInstituteTraineeYouths() {
   return useDataLocalizationAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
+
+export function useFetchCertificate(certiicateId: number | null) {
+  return useAxiosSWR(
+    certiicateId ? API_CERTIFICATES + '/' + certiicateId : null,
+  );
+}
+
+/**
+ * Question Bank
+ */
+export const useFetchQuestionBank = (questionId: number | null) => {
+  return useAxiosSWR(
+    questionId ? API_INSTITUTE_QUESTION_BANK + '/' + questionId : null,
+  );
+};
 
 export const useFetchTrainingCentersWithBatches = (courseId: number | null) => {
   return useDataLocalizationAxiosSWR(

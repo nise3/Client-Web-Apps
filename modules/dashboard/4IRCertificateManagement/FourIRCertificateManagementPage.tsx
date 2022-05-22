@@ -1,20 +1,29 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
-import FourIRCertificateManagementDetailsPopUp from './FourIRCertificateManagementDetailsPopUp';
 import Link from 'next/link';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {FiUser} from 'react-icons/fi';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
-//import {useRouter} from 'next/router';
+import {Typography} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+
+const CERTIFICATE_TYPE_LABEL = {
+  COMPETENT: 'Competent',
+  NOT_COMPETENT: 'Not Competent',
+  GRADING: 'Grading',
+  MARKS: 'Marks',
+  PARTICIPATION: 'Participation',
+};
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -25,20 +34,21 @@ const FourIRCertificateManagementPage = ({
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
 
-  //const router = useRouter();
-  //const path = router.pathname;
-
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  /** details modal */
-  const openDetailsModal = useCallback((itemId: number) => {
-    setIsOpenDetailsModal(true);
-    setSelectedItemId(itemId);
-  }, []);
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
+  const getCertificateType = useCallback((id: number): string => {
+    switch (id) {
+      case 1:
+        return CERTIFICATE_TYPE_LABEL['COMPETENT'];
+      case 2:
+        return CERTIFICATE_TYPE_LABEL['NOT_COMPETENT'];
+      case 3:
+        return CERTIFICATE_TYPE_LABEL['GRADING'];
+      case 4:
+        return CERTIFICATE_TYPE_LABEL['MARKS'];
+      case 5:
+        return CERTIFICATE_TYPE_LABEL['PARTICIPATION'];
+      default:
+        return CERTIFICATE_TYPE_LABEL['COMPETENT'];
+    }
   }, []);
 
   const columns = useMemo(
@@ -66,16 +76,38 @@ const FourIRCertificateManagementPage = ({
         isVisible: locale == LocaleLanguage.EN,
       },
       {
-        Header: messages['common.type'],
-        accessor: 'type',
+        Header: messages['certificate.type'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+
+          return (
+            <Typography>
+              {getCertificateType(data?.certificate_result_type)}
+            </Typography>
+          );
+        },
       },
       {
         Header: messages['certificate.recipient_name'],
-        accessor: 'recipient_name',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>
+              {`${data?.youth_profile?.first_name} ${data?.youth_profile?.last_name}`}
+            </Typography>
+          );
+        },
       },
       {
-        Header: messages['common.date'],
-        accessor: 'date',
+        Header: messages['certificate.issued_date'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>
+              {getMomentDateFormat(data?.issued_at, 'DD-MM-YYYY')}
+            </Typography>
+          );
+        },
       },
       {
         Header: messages['common.actions'],
@@ -83,27 +115,12 @@ const FourIRCertificateManagementPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
-
               <Link
                 href={`/certificate/certificate-view/${data.id}`}
                 passHref={true}>
                 <CommonButton
-                  btnText='common.certificate_view'
-                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
-                  style={{marginLeft: '10px'}}
-                  variant='outlined'
-                  color='primary'
-                />
-              </Link>
-
-              <Link
-                  href={`/batches/${data?.batch_id}/youths/youth-cv/${data?.youth_id}`}
-                 // href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
-                >
-                <CommonButton
-                  btnText='common.download_label'
-                  startIcon={<FiUser style={{marginLeft: '5px'}} />}
+                  btnText='certificate.view_and_download'
+                  startIcon={<Visibility style={{marginLeft: '5px'}} />}
                   style={{marginTop: '10px'}}
                 />
               </Link>
@@ -142,14 +159,6 @@ const FourIRCertificateManagementPage = ({
           pageCount={pageCount}
           totalCount={totalCount}
         />
-
-        {isOpenDetailsModal && selectedItemId && (
-          <FourIRCertificateManagementDetailsPopUp
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-          />
-        )}
       </PageBlock>
     </>
   );

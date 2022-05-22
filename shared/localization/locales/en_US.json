@@ -2233,5 +2233,8 @@
   "menu.contributions": "Contributions",
   "4ir.research_method": "Research Method",
   "common.start_year": "Start Year",
-  "common.end_year": "End Year"
+  "common.end_year": "End Year",
+  "certificate.view_and_download": "View and Download",
+  "certificate.issued_date" : "Issued Date",
+  "certificate.type" : "Certificate Type"
 }

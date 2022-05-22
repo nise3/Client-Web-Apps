@@ -2234,5 +2234,8 @@
   "4ir.research_method": "গবেষণা পদ্ধতি",
   "4ir.researcher_name": "গবেষকের নাম",
   "common.start_year": "শুরুর বছর",
-  "common.end_year": "শেষ বছর"
+  "common.end_year": "শেষ বছর",
+  "certificate.view_and_download": "দেখুন এবং ডাউনলোড করুন",
+  "certificate.issued_date" : "ইসু তারিখ",
+  "certificate.type" : "সার্টিফিকেটের ধরণ"
 }
