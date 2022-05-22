@@ -248,6 +248,9 @@ export const API_PUBLIC_INSTITUTE_DETAILS =
   TSP_PUBLIC_SERVICE_PATH + '/institute-details';
 export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_COURSE_DETAILS = TSP_PUBLIC_SERVICE_PATH + '/courses';
+
+export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
+
 export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
 
