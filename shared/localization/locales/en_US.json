@@ -2041,7 +2041,7 @@
   "certificate.certificate_title_en": "Certificate title (en)",
   "4ir_project_analysis.label" : "4IR Project Analysis",
   "tna.number_of_workshop": "Number of Workshops",
-  "tna.final_tna_report": "Final TNA Report",
+  "tna.final_tna_report": "Final TNA Report (Word)",
   "common.word_or_pdf_file": "Upload word / pdf file",
   "4ir.tot_date": "ToT Date",
   "tot.proof_of_report_file": "Proof of Report (Image/ Excel)",
@@ -2079,5 +2079,6 @@
   "common.end_year": "End Year",
   "certificate.view_and_download": "View and Download",
   "certificate.issued_date" : "Issued Date",
-  "certificate.type" : "Certificate Type"
+  "certificate.type" : "Certificate Type",
+  "4ir.scaleup_file_upload": "Upload File (Word / PDF)"
 }

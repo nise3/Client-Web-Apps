@@ -2047,7 +2047,7 @@
   "common.contributions": "অবদান সমূহ",
   "menu.contributions": "অবদান সমূহ",
   "tna.number_of_workshop": "ওয়ার্কশপের সংখ্যা",
-  "tna.final_tna_report": "ফাইনাল টিএনএ রিপোর্ট",
+  "tna.final_tna_report": "ফাইনাল টিএনএ রিপোর্ (ওয়ার্ড)",
   "common.word_or_pdf_file": "ওয়ার্ড / পিডিএফ ফাইল আপলোড করুন",
   "showcasing.invite_other_organization": "অন্য সংস্থাকে আমন্ত্রণ জানান",
   "showcasing.invite_other_organization_en": "অন্য সংস্থাকে আমন্ত্রণ জানান (ইংরেজি)" ,
@@ -2079,5 +2079,6 @@
   "common.end_year": "শেষ বছর",
   "certificate.view_and_download": "দেখুন এবং ডাউনলোড করুন",
   "certificate.issued_date" : "ইসু তারিখ",
-  "certificate.type" : "সার্টিফিকেটের ধরণ"
+  "certificate.type" : "সার্টিফিকেটের ধরণ",
+  "4ir.scaleup_file_upload": "আপলোড ফাইল (ওয়ার্ড / পিডিএফ)"
 }
