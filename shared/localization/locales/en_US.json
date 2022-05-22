@@ -2004,5 +2004,10 @@
   "batch.youth_exam_marking": "Exams mark updated successfully",
   "batch.grad_min_will_greater_max": "Grading min value should be greater than previous max",
   "batch.grad_max_will_greater_min": "Grading max value should be greater than min",
-  "common.attendance_total_mark": "Total attendance mark"
+  "common.attendance_total_mark": "Total attendance mark",
+  "batch.result_no_exams": "No exams to process results",
+  "batch.result_failed_already_published": "Results already published",
+  "batch.result_failed_no_config": "No result config configured for course",
+  "batch.result_failed_configured_exams_not_found": "Configured exam type is missing",
+  "batch.result_failed_exams_not_finished": "Some assigned exams is not finished"
 }

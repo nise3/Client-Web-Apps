@@ -94,6 +94,15 @@ export const processResult = async (batchId: number) => {
   }
 };
 
+export const publishResult = async (batchId: number, data: any) => {
+  try {
+    let response: any = await apiPut(API_BATCHES + '/' + batchId, data);
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
 export const youthExamMarking = async (data: any) => {
   try {
     let response: any = await apiPost(API_YOUTH_BATCH_EXAMS_MARK_UPDATE, data);

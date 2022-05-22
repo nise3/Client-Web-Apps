@@ -35,16 +35,14 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const isMixed = examType == ExamTypes.MIXED;
 
   useEffect(() => {
-    let sets = [];
-    if (isMixed) {
-      sets = useFrom.getValues('offline').sets;
-    } else {
-      sets = useFrom.getValues('sets');
-    }
+    let sets = isMixed
+      ? useFrom.getValues('offline').sets
+      : useFrom.getValues('sets');
 
     if (sets) {
       let array = sets.map((set: any, i: number) => {
         return {
+          ...set,
           index: i,
           id: `SET##${i + 1}`,
         };
@@ -55,19 +53,43 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
 
   const onInput = useCallback(() => {
     if (examSetField.current.value <= 5) {
-      let arr: any = Array.from(
-        Array(Number(examSetField.current.value)).keys(),
-      );
+      let formKey = isMixed ? 'offline[sets]' : 'sets';
 
-      let array: any = arr.map((item: any, i: any) => {
-        return {
-          index: i,
-          id: `SET##${item}`,
-        };
-      });
-      setExamSets(array);
+      if (examSets.length > 0) {
+        let prevExamSets = [...examSets];
+        if (examSetField.current.value > examSets.length) {
+          let idx = examSets.length;
+          for (
+            let i = 0;
+            i < examSetField.current.value - examSets.length;
+            i++
+          ) {
+            prevExamSets.push({
+              index: idx,
+              id: `SET##${idx + 1}`,
+            });
+            idx++;
+          }
+          useFrom.setValue(formKey, prevExamSets);
+          setExamSets(prevExamSets);
+        } else {
+          let newSet = prevExamSets.slice(0, examSetField.current.value);
+          useFrom.setValue(formKey, newSet);
+          setExamSets(newSet);
+        }
+      } else {
+        let array: any = [];
+        for (let i = 0; i < examSetField.current.value; i++) {
+          array.push({
+            index: i,
+            id: `SET##${i + 1}`,
+          });
+        }
+        useFrom.setValue(formKey, array);
+        setExamSets(array);
+      }
     }
-  }, []);
+  }, [examSets, useFrom]);
 
   const questionTypes = useMemo(
     () => [

@@ -2005,5 +2005,10 @@
   "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে",
   "batch.grad_min_will_greater_max": "গ্রেডিং ন্যূনতম মান আগের সর্বোচ্চ থেকে বেশি হওয়া উচিত",
   "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত",
-  "common.attendance_total_mark": "মোট উপস্থিতি মার্কস"
+  "common.attendance_total_mark": "মোট উপস্থিতি মার্কস",
+  "batch.result_no_exams": "ফলাফল প্রসেস করার জন্য কোন পরীক্ষা নেই",
+  "batch.result_failed_already_published": "ফলাফল ইতিমধ্যে প্রকাশিত হয়েছে",
+  "batch.result_failed_no_config": "কোর্সের জন্য কোনো ফলাফল কনফিগার করা হয়নি",
+  "batch.result_failed_configured_exams_not_found": "কনফিগার করা পরীক্ষার ধরন অনুপস্থিত",
+  "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি"
 }

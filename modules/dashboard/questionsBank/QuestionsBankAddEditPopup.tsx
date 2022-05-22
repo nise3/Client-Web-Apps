@@ -269,11 +269,11 @@ const QuestionsBankAddEditPopup = ({
     try {
       if (itemId) {
         await updateQuestionsBank(itemId, data);
-        updateSuccessMessage('question-bank.label');
+        updateSuccessMessage('question.label');
         mutateQuestionBank();
       } else {
         await createQuestionsBank(data);
-        createSuccessMessage('question-bank.label');
+        createSuccessMessage('question.label');
       }
       props.onClose();
       refreshDataTable();
