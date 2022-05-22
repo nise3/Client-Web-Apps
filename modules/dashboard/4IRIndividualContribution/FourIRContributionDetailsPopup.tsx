@@ -45,7 +45,9 @@ const FourIRContributionDetailsPopup = ({
             {itemData && (
               <EditButton
                 variant='contained'
-                onClick={() => openEditModal(itemData.id)}
+                onClick={() =>
+                  openEditModal(itemData.four_ir_initiative_id, itemData.id)
+                }
                 isLoading={isLoading}
               />
             )}
