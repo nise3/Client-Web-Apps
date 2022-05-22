@@ -200,9 +200,9 @@ function ViewRenderer() {
             values={{ messageType: <IntlMessages id='common.certificate' /> }}
           />,
         );
-        setTimeout(() => {
-          router.push('/certificate-issued')
-        }, 1500);
+        // setTimeout(() => {
+        //   router.push('/certificate-issued')
+        // }, 1500);
       })
       // .finally((res) => {
       //   if(res){
