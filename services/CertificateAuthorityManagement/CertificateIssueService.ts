@@ -27,10 +27,10 @@ export const getCertificateIssueByIssueId = async (issue_id: any) => {
   }
 }
 
-export const getPublicCertificateIssueByIssueId = async (issue_id: any) => {
+export const getPublicCertificateIssueByBatchId = async (course_id:any) => {
   try {
     let response: any = await apiGet(
-      YOUTH_SERVICE_PATH + '/youth-issued-certificate'
+      `${YOUTH_SERVICE_PATH}/youth-issued-certificate/${course_id}`
     );
     return response.data;
 
