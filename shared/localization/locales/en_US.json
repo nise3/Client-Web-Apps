@@ -2080,5 +2080,6 @@
   "certificate.view_and_download": "View and Download",
   "certificate.issued_date" : "Issued Date",
   "certificate.type" : "Certificate Type",
-  "4ir.scaleup_file_upload": "Upload File (Word / PDF)"
+  "4ir.scaleup_file_upload": "Upload File (Word / PDF)",
+  "common.file_upload_photo": "File Upload (Photo)"
 }
