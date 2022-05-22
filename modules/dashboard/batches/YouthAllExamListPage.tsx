@@ -1,24 +1,80 @@
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
-import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import {
-  API_BATCHES,
-  API_BATCHES_YOUTH_EXAMS,
-} from '../../../@softbd/common/apiRoutes';
+import {useFetchYouthBatchExams} from '../../../services/instituteManagement/hooks';
+import {ExamTypes} from '../exams/ExamEnums';
+import Tooltip from '@mui/material/Tooltip';
+import {InsertDriveFile, RemoveRedEye} from '@mui/icons-material';
+import {Link} from '../../../@softbd/elements/common';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 const YouthAllExamListPage = () => {
-  const {messages, locale} = useIntl();
+  const {messages, locale, formatNumber} = useIntl();
 
   const router = useRouter();
   const {batchId, youthId} = router.query;
+  const [batchExamParams] = useState<any>({youth_id: youthId});
+  const {data: batchYouthExams, isLoading} = useFetchYouthBatchExams(
+    batchId,
+    batchExamParams,
+  );
+  const [exams, setExams] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    if (batchYouthExams) {
+      let examsData: any = [];
+      (batchYouthExams.exams || []).map((exam_type: any) => {
+        (exam_type.exams || []).map((exam: any) => {
+          let examObj = {
+            title: exam_type.title,
+            title_en: exam_type.title_en,
+            exam_id: exam.id,
+            type: exam.type,
+            exam_type_id: exam.exam_type_id,
+            exam_type: exam_type.type,
+            obtained_mark: !isNaN(exam?.obtained_mark)
+              ? String(Number(exam.obtained_mark))
+              : '',
+            file_paths: exam.file_paths,
+            auto_marking: exam.auto_marking,
+            total_marks: exam.total_marks,
+            participated: exam.participated,
+          };
+          examsData.push(examObj);
+        });
+      });
+      setExams(examsData);
+    }
+  }, [batchYouthExams]);
+
+  const getTypeLabel = (type: any) => {
+    switch (Number(type)) {
+      case ExamTypes.ONLINE:
+        return messages['common.online'];
+      case ExamTypes.OFFLINE:
+        return messages['common.offline'];
+      case ExamTypes.MIXED:
+        return messages['common.mixed'];
+      case ExamTypes.PRACTICAL:
+        return messages['common.practical'];
+      case ExamTypes.FIELDWORK:
+        return messages['common.field_work'];
+      case ExamTypes.PRESENTATION:
+        return messages['common.presentation'];
+      case ExamTypes.ASSIGNMENT:
+        return messages['common.assignment'];
+      case ExamTypes.ATTENDANCE:
+        return messages['common.attendance'];
+      default:
+        return '';
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -36,166 +92,105 @@ const YouthAllExamListPage = () => {
       },
       {
         Header: messages['common.title'],
-        accessor: 'exam[0].title',
+        accessor: 'title',
         isVisible: locale == LocaleLanguage.BN,
       },
       {
         Header: messages['common.title_en'],
-        accessor: 'exam[0].title_en',
+        accessor: 'title_en',
         isVisible: locale == LocaleLanguage.EN,
       },
-      /*{
-        Header: messages['common.total_marks'],
-        accessor: 'exams.exams[0].total_marks',
-        disableFilters: true,
-      },*/
-      /*{
-        Header: messages['batches.total_and_available_seat'],
-        accessor: 'number_of_seats',
-        disableFilters: true,
+      {
+        Header: messages['common.type'],
+        accessor: 'type',
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <span>{data?.available_seats + '/' + data?.number_of_seats}</span>
-          );
+          return <span>{getTypeLabel(data.type)}</span>;
         },
       },
-
       {
-        Header: messages['batches.registration_start_date'],
-        accessor: 'registration_start_date',
-        disableFilters: true,
-        filter: 'dateTimeFilter',
+        Header: String(
+          messages['common.obtained_mark'] +
+            ' / ' +
+            messages['common.total_marks'],
+        ),
+        accessor: 'obtained_mark',
         Cell: (props: any) => {
           let data = props.row.original;
           return (
             <span>
-              {getMomentDateFormat(
-                data?.registration_start_date,
-                'DD MMMM, YYYY',
-              )}
+              {!isNaN(data?.obtained_mark)
+                ? String(Number(data.obtained_mark))
+                : '0'}
+              /{data?.total_marks}
             </span>
           );
         },
       },
-      {
-        Header: messages['batches.registration_end_date'],
-        accessor: 'registration_end_date',
-        disableFilters: true,
-        filter: 'dateTimeFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <span>
-              {getMomentDateFormat(
-                data?.registration_end_date,
-                'DD MMMM, YYYY',
-              )}
-            </span>
-          );
-        },
-      },
-      {
-        Header: messages['batches.start_date'],
-        accessor: 'batch_start_date',
-        filter: 'dateTimeFilter',
-        isVisible: false,
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <span>{getMomentDateFormat(data?.batch_start_date)}</span>;
-        },
-      },
-      {
-        Header: messages['batches.end_date'],
-        accessor: 'batch_end_date',
-        filter: 'dateTimeFilter',
-        isVisible: false,
-        disableFilters: true,
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <span>{getMomentDateFormat(data?.batch_end_date)}</span>;
-        },
-      },
-      //download upload
-
       {
         Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
+        accessor: 'participated',
         Cell: (props: any) => {
           let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
+          return (
+            <span>
+              {data.participated
+                ? messages['common.participated']
+                : messages['common.not_participated']}
+            </span>
+          );
         },
-      },*/
-      /*{
+      },
+      {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => console.log('read', data)} />
-              <CommonButton
-                key={3}
-                onClick={() => console.log('common')}
-                btnText={'batch.assign_exam'}
-                variant={'outlined'}
-                color={'primary'}
-                style={{marginLeft: '5px'}}
-                startIcon={<Add />}
-              />
-            </DatatableButtonGroup>
+          let markSheetPath = `/batches/${batchId}/youths/${youthId}/marksheet/${data.exam_id}`;
+          return Number(data.type) == ExamTypes.ONLINE ? (
+            <Link href={markSheetPath} passHref={true}>
+              <Tooltip title={messages['common.answer_sheet'] as any} arrow>
+                <RemoveRedEye sx={{color: 'blue'}} />
+              </Tooltip>
+            </Link>
+          ) : Number(data.type) != ExamTypes.OFFLINE &&
+            data.file_paths &&
+            data.file_paths.length > 0 ? (
+            <div>
+              {data.file_paths.map((file: any, i: number) => (
+                <Link
+                  href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
+                  passHref={true}
+                  key={i}
+                  target={'_blank'}>
+                  <Tooltip
+                    title={`${
+                      messages['common.file_path'] as any
+                    } ${formatNumber(i + 1)}`}
+                    arrow>
+                    <InsertDriveFile sx={{color: 'blue', marginLeft: '10px'}} />
+                  </Tooltip>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <></>
           );
         },
-        sortable: false,
-      },*/
+      },
     ],
     [messages, locale],
   );
-
-  const {onFetchData, data, loading, pageCount, totalCount} =
-    useReactTableFetchData({
-      urlPath: API_BATCHES + '/' + batchId + API_BATCHES_YOUTH_EXAMS,
-      paramsValueModifier: (params: any) => {
-        params['youth_id'] = youthId;
-        return params;
-      },
-    });
-
-  console.log('datas->', data.exams);
 
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBatch /> <IntlMessages id='batches.label' />
+            <IconBatch /> <IntlMessages id='exam.label' />
           </>
         }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => console.log('add->')}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['batches.label'],
-                }}
-              />
-            }
-          />,
-        ]}>
-        <ReactTable
-          columns={columns}
-          data={data.exams}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={false}
-        />
+        extra={[]}>
+        <ReactTable columns={columns} data={exams || []} loading={isLoading} />
       </PageBlock>
     </>
   );
