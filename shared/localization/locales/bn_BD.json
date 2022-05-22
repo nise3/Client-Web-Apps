@@ -2005,5 +2005,8 @@
   "batch.youth_exam_marking": "পরীক্ষার মার্ক সফলভাবে আপডেট হয়েছে",
   "batch.grad_min_will_greater_max": "গ্রেডিং ন্যূনতম মান আগের সর্বোচ্চ থেকে বেশি হওয়া উচিত",
   "batch.grad_max_will_greater_min": "গ্রেডিং সর্বোচ্চ মান সর্বনিম্ন থেকে বেশি হওয়া উচিত",
-  "common.attendance_total_mark": "মোট উপস্থিতি মার্কস"
+  "common.attendance_total_mark": "মোট উপস্থিতি মার্কস",
+  "common.percentage": "শতাংশ",
+  "common.final_marks": "চূড়ান্ত নাম্বার",
+  "common.all_result": "সমস্ত ফলাফল"
 }

@@ -2004,5 +2004,8 @@
   "batch.youth_exam_marking": "Exams mark updated successfully",
   "batch.grad_min_will_greater_max": "Grading min value should be greater than previous max",
   "batch.grad_max_will_greater_min": "Grading max value should be greater than min",
-  "common.attendance_total_mark": "Total attendance mark"
+  "common.attendance_total_mark": "Total attendance mark",
+  "common.percentage": "Percentage",
+  "common.final_marks": "Final marks",
+  "common.all_result": "All result"
 }

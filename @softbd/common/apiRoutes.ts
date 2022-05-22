@@ -171,6 +171,9 @@ export const API_SUBMIT_EXAM_PAPER =
 export const API_YOUTH_EXAM_MARK_UPDATE =
   INSTITUTE_SERVICE_PATH + '/youth-exam-mark-update';
 
+export const API_YOUTH_EXAM_RESULT_SUMMARIES =
+  INSTITUTE_SERVICE_PATH + '/exam-result-summaries/';
+
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
 export const API_EXAMS_PUBLISH = INSTITUTE_SERVICE_PATH + '/exam-publish';

@@ -36,6 +36,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
+  API_YOUTH_EXAM_RESULT_SUMMARIES,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -297,5 +298,11 @@ export function useFetchResultConfigs(params: any) {
 export function useFetchBatchResult(batchId: number | null) {
   return useAxiosSWR(
     batchId ? API_BATCHES + '/' + batchId + API_BATCH_RESULT : null,
+  );
+}
+
+export function useFetchYouthResult(resultId: number | null) {
+  return useAxiosSWR(
+    resultId ? API_YOUTH_EXAM_RESULT_SUMMARIES + resultId : null,
   );
 }
