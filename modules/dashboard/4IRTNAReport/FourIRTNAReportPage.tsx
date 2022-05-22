@@ -117,7 +117,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           </>
         }
         extra={[
-          data && data != [] ? (
+          data && data?.length ? (
             <>
               <Link
                 href='/template/TNA-Guideline.docx'
@@ -166,7 +166,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         {isOpenAddEditModal && (
           <FourIRTNAReportAddEditPopup
             key={'tna_add_edit'}
-            isEdit={data != null && data != []}
+            isEdit={data && data?.length}
             onClose={closeAddEditModal}
             itemData={data}
             fourIRInitiativeId={fourIRInitiativeId}

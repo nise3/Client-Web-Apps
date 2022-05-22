@@ -123,7 +123,6 @@ export const API_TRAINING_CENTERS =
 export const API_COURSES = INSTITUTE_SERVICE_PATH + '/courses';
 export const API_BATCHES = INSTITUTE_SERVICE_PATH + '/batches';
 export const API_TRAINERS = INSTITUTE_SERVICE_PATH + '/trainers';
-export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
 export const API_CERTIFICATES_ISSUE =
   INSTITUTE_SERVICE_PATH + '/certificate-issued';
 export const API_CERTIFICATES_ISSUE_PUBLIC =
@@ -292,6 +291,9 @@ export const API_PUBLIC_INSTITUTE_DETAILS =
   TSP_PUBLIC_SERVICE_PATH + '/institute-details';
 export const API_PUBLIC_COURSE_LIST = TSP_PUBLIC_SERVICE_PATH + '/course-list';
 export const API_PUBLIC_COURSE_DETAILS = TSP_PUBLIC_SERVICE_PATH + '/courses';
+
+export const API_CERTIFICATES = INSTITUTE_SERVICE_PATH + '/certificates';
+
 export const API_PUBLIC_TRAINING_CENTERS =
   TSP_PUBLIC_SERVICE_PATH + '/training-centers';
 

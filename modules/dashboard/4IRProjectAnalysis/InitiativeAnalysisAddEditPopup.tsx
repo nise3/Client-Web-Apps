@@ -18,10 +18,7 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {useFetch4IRInitiativeAnalysis} from '../../../services/4IRManagement/hooks';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
-import {
-  createInitiativeAnalysis,
-  updateInitiativeAnalysis,
-} from '../../../services/4IRManagement/initiativeAnalysis';
+import {createInitiativeAnalysis} from '../../../services/4IRManagement/initiativeAnalysis';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 
 interface FourIRTNAReportAddEditPopupProps {
@@ -34,7 +31,6 @@ interface FourIRTNAReportAddEditPopupProps {
 const initialValues = {
   researcher_name: '',
   organization_name: '',
-  report_file: null,
   research_team_information: null,
   research_method: '',
   file_path: '',
@@ -83,16 +79,6 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
           },
         )
         .label(messages['4ir.research_team_information'] as string),
-      report_file: yup
-        .mixed()
-        .required()
-        .test('rrrrr', messages['4ir.report_file'] as string, (value: any) => {
-          if (!value) return false;
-          if (value === '') return false;
-          if (value.length === 0) return false;
-          return true;
-        })
-        .label(messages['4ir.report_file'] as string),
       row_status: yup.string(),
     });
   }, [isEdit, messages]);
@@ -114,7 +100,6 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       reset({
         researcher_name: itemData?.researcher_name,
         organization_name: itemData?.organization_name,
-        report_file: itemData?.report_file,
         research_team_information: itemData?.research_team_information,
         research_method: itemData?.research_method,
         file_path: itemData?.file_path,
@@ -158,14 +143,10 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
           );
       }
 
-      if (data?.report_file) {
-        if (!isEdit || (isEdit && data?.report_file?.[0]))
-          payload.append('report_file', data?.report_file?.[0]);
-      }
-
       if (isEdit) {
         payload.append('operation_type', 'UPDATE');
-        await updateInitiativeAnalysis(payload, itemId);
+        payload.append('four_ir_initiative_analysis_id', String(itemId));
+        await createInitiativeAnalysis(payload);
         updateSuccessMessage('4ir_initiative_analysis.label');
         await closeAction();
       } else {
@@ -248,6 +229,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='researcher_name'
             label={messages['4ir.researcher_name']}
             register={register}
@@ -257,6 +239,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={6}>
           <CustomTextInput
+            required
             id='organization_name'
             label={messages['common.organization_name']}
             register={register}
@@ -299,13 +282,14 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
             <Grid item xs={8}>
               <FileUploadComponent
-                id='report_file'
-                //  defaultFileUrl={authUser?.profile_pic}
+                required
+                id='file_path'
+                defaultFileUrl={itemData?.file_path}
+                sizeLimitText='3MB'
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}
                 label={messages['4ir.initiative-alalysis_report_upload']}
-                required={false}
                 acceptedFileTypes={[
                   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                   'application/pdf',
@@ -333,7 +317,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             label={messages['4ir.research_method']}
             register={register}
             errorInstance={errors}
-            //isLoading={isLoading}
+            isLoading={false}
             multiline={true}
             rows={3}
           />

@@ -352,12 +352,12 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
             errorInstance={errors}
             setValue={setValue}
             register={register}
-            label={messages['common.file_path']}
+            label={messages['4ir.scaleup_file_upload']}
             defaultFileUrl={itemData?.file_path}
-            // acceptedFileTypes={[
-            //   //      '.docx',
-            //   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            // ]}
+            acceptedFileTypes={[
+              'application/pdf',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]}
           />
         </Grid>
       </Grid>

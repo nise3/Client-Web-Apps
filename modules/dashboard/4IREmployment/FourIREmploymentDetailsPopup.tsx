@@ -32,7 +32,7 @@ const FourIREmploymentDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir_cs.label' />
+            <IntlMessages id='employment.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}

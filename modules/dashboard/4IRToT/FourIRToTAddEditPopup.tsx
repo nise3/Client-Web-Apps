@@ -196,7 +196,6 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
         await createToT(formData);
         createSuccessMessage('4ir_tot.label');
         setShowSuccessPopUp(true);
-        await closeAction();
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});
