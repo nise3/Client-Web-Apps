@@ -12,13 +12,13 @@ import CustomFormSelect from '../../../../@softbd/elements/input/CustomFormSelec
 import CancelButton from '../../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../../@softbd/elements/button/SubmitButton/SubmitButton';
 import CustomHookForm from '../component/CustomHookForm';
-import {useFetchPublicSkills} from '../../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../../services/youthManagement/hooks';
 import {updateYouthPersonalInfo} from '../../../../services/youthManagement/YouthService';
 import {YouthPersonalInfo} from '../../../../services/youthManagement/typing';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../../services/locationManagement/hooks';
 import RowStatus from '../../../../@softbd/utilities/RowStatus';
 import {
@@ -44,7 +44,6 @@ import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import {YouthAuthUser} from '../../../../redux/types/models/CommonAuthUser';
 import EthnicGroupStatus from '../../../../@softbd/utilities/EthnicGroupStatus';
 import useSuccessMessage from '../../../../@softbd/hooks/useSuccessMessage';
-import {nationalities} from '../../../../@softbd/utilities/Nationalities';
 import CustomFilterableFormSelect from '../../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
   District,
@@ -92,27 +91,47 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
   const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<YouthAuthUser>();
 
+  const nationalities = [
+    {
+      id: 1,
+      title: messages['nationality.bangladeshi'],
+    },
+    {
+      id: 2,
+      title: messages['nationality.indian'],
+    },
+    {
+      id: 3,
+      title: messages['nationality.pakistani'],
+    },
+    {
+      id: 4,
+      title: messages['nationality.nepali'],
+    },
+  ];
+
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(youthSkillsFilter);
+    useFetchLocalizedSkills(youthSkillsFilter);
 
   const [divisionFilters] = useState<any>({});
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(divisionFilters);
+    useFetchLocalizedDivisions(divisionFilters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
+
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
@@ -609,7 +628,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 options={skills}
                 multiple={true}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 defaultValue={[]}
               />
@@ -708,7 +727,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 control={control}
                 options={nationalities}
                 optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -786,7 +805,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDivisionChange}
               />
@@ -800,7 +819,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 control={control}
                 options={districtList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDistrictChange}
               />
@@ -813,7 +832,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
                 control={control}
                 options={upazilaList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

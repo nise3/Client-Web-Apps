@@ -11,9 +11,9 @@ import yup from '../../../@softbd/libs/yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
@@ -22,7 +22,7 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import Genders from '../../../@softbd/utilities/Genders';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import {youthRegistrationCDAP} from '../../../services/youthManagement/YouthRegistrationService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -112,21 +112,22 @@ const YouthRegistration = () => {
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+  const {data: skills} = useFetchLocalizedSkills(youthSkillsFilter);
 
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: districts} = useFetchDistricts(districtsFilter);
+  const {data: districts} = useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
 
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
+
   const [districtList, setDistrictList] = useState<Array<District> | []>([]);
   const [upazilaList, setUpazilaList] = useState<Array<Upazila> | []>([]);
   const [disabilityStatus, setDisabilityStatus] = useState<number>(
@@ -458,7 +459,7 @@ const YouthRegistration = () => {
                 label={messages['common.skills']}
                 control={control}
                 options={skills}
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 optionValueProp={'id'}
                 errorInstance={errors}
               />
@@ -540,7 +541,7 @@ const YouthRegistration = () => {
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDivisionChange}
               />
@@ -554,7 +555,7 @@ const YouthRegistration = () => {
                 control={control}
                 options={districtList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDistrictChange}
               />
@@ -567,7 +568,7 @@ const YouthRegistration = () => {
                 control={control}
                 options={upazilaList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

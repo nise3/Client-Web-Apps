@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_ASSOCIATION_TRADES,
   API_HUMAN_RESOURCE_TEMPLATES,
@@ -13,6 +16,7 @@ import {
   API_ORGANIZATION_UNITS,
   API_ORGANIZATIONS,
   API_PUBLIC_JOB_SECTORS,
+  API_PUBLIC_OCCUPATIONS,
   API_PUBLIC_ORGANIZATION_TYPES,
   API_RANK_TYPES,
   API_RANKS,
@@ -21,6 +25,11 @@ import {
 export function useFetchOccupation(occupationId: number | null) {
   return useAxiosSWR(
     occupationId ? API_OCCUPATIONS + '/' + occupationId : null,
+  );
+}
+export function useFetchLocalizedPublicOccupations(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_OCCUPATIONS, params] : null,
   );
 }
 
@@ -32,8 +41,16 @@ export function useFetchJobSectors(params: any) {
   return useAxiosSWR([API_JOB_SECTORS, params]);
 }
 
+export function useFetchLocalizedJobSectors(params: any) {
+  return useDataLocalizationAxiosSWR([API_JOB_SECTORS, params]);
+}
+
 export function useFetchPublicJobSectors(params: any) {
   return useAxiosSWR([API_PUBLIC_JOB_SECTORS, params]);
+}
+
+export function useFetchLocalizedPublicJobSectors(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_JOB_SECTORS, params]);
 }
 
 export function useFetchOrganizationType(organizationTypeId: number | null) {
@@ -48,12 +65,24 @@ export function useFetchOrganizationTypes(params: any) {
   return useAxiosSWR([API_ORGANIZATION_TYPES, params]);
 }
 
+export function useFetchLocalizedOrganizationTypes(params: any) {
+  return useDataLocalizationAxiosSWR([API_ORGANIZATION_TYPES, params]);
+}
+
 export function useFetchPublicOrganizationTypes(params: any) {
   return useAxiosSWR([API_PUBLIC_ORGANIZATION_TYPES, params]);
 }
 
+export function useFetchLocalizedPublicOrganizationTypes(params: any) {
+  return useDataLocalizationAxiosSWR([API_PUBLIC_ORGANIZATION_TYPES, params]);
+}
+
 export function useFetchAssociationTrades(params: any) {
   return useAxiosSWR([API_ASSOCIATION_TRADES, params]);
+}
+
+export function useFetchLocalizedAssociationTrades(params: any) {
+  return useDataLocalizationAxiosSWR([API_ASSOCIATION_TRADES, params]);
 }
 
 export function useFetchOrganization(organizationId: number | null) {
@@ -64,6 +93,10 @@ export function useFetchOrganization(organizationId: number | null) {
 
 export function useFetchOrganizations(params: any) {
   return useAxiosSWR([API_ORGANIZATIONS, params]);
+}
+
+export function useFetchLocalizedOrganizations(params: any) {
+  return useDataLocalizationAxiosSWR([API_ORGANIZATIONS, params]);
 }
 
 export function useFetchOrganizationUnitType(
@@ -78,6 +111,10 @@ export function useFetchOrganizationUnitType(
 
 export function useFetchOrganizationUnitTypes(params: any) {
   return useAxiosSWR([API_ORGANIZATION_UNIT_TYPES, params]);
+}
+
+export function useFetchLocalizedOrganizationUnitTypes(params: any) {
+  return useDataLocalizationAxiosSWR([API_ORGANIZATION_UNIT_TYPES, params]);
 }
 
 export function useFetchOrganizationUnit(organizationUnitId: number | null) {
@@ -96,6 +133,10 @@ export function useFetchOrganizationServices(params: any) {
   return useAxiosSWR([API_ORGANIZATION_SERVICES, params]);
 }
 
+export function useFetchLocalizedOrganizationServices(params: any) {
+  return useDataLocalizationAxiosSWR([API_ORGANIZATION_SERVICES, params]);
+}
+
 export function useFetchOrganizationService(serviceId: number | null) {
   return useAxiosSWR(
     serviceId ? API_ORGANIZATION_SERVICES + '/' + serviceId : null,
@@ -110,12 +151,20 @@ export function useFetchRankTypes(params: any) {
   return useAxiosSWR([API_RANK_TYPES, params]);
 }
 
+export function useFetchLocalizedRankTypes(params: any) {
+  return useDataLocalizationAxiosSWR([API_RANK_TYPES, params]);
+}
+
 export function useFetchRank(rankId: number | null) {
   return useAxiosSWR(rankId ? API_RANKS + '/' + rankId : null);
 }
 
 export function useFetchRanks(params: any) {
   return useAxiosSWR([API_RANKS, params]);
+}
+
+export function useFetchLocalizedRanks(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_RANKS, params] : null);
 }
 
 export function useOrganizationUnitHierarchy(organizationId: number | null) {
@@ -146,6 +195,11 @@ export function useFetchHumanResource(humanResourceId: number | null) {
 
 export function useFetchHumanResources(params: any) {
   return useAxiosSWR([API_HUMAN_RESOURCES, params]);
+}
+export function useFetchLocalizedHumanResources(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_HUMAN_RESOURCES, params] : null,
+  );
 }
 
 export function useFetchOrganizationProfile(params: any) {

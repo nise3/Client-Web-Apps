@@ -13,9 +13,9 @@ import FileUploadComponent from '../../filepond/FileUploadComponent';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {
@@ -27,7 +27,7 @@ import {updateIndustryAssocProfile} from '../../../services/IndustryAssociationM
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
-import {useFetchSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
   FORM_PLACEHOLDER,
@@ -65,16 +65,16 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
 
   const [skillFilter] = useState({});
   const {data: skillData, isLoading: isLoadingSkillData} =
-    useFetchSkills(skillFilter);
+    useFetchLocalizedSkills(skillFilter);
 
   const [selectedSkillList, setSelectedSkillList] = useState<any>([]);
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -302,7 +302,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -316,7 +316,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -329,7 +329,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -435,7 +435,7 @@ const AssociationProfileEditPopup: FC<AssociationProfileEditPopupProps> = ({
             control={control}
             options={skillData}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             defaultValue={selectedSkillList}
             errorInstance={errors}
             onChange={onSkillChange}

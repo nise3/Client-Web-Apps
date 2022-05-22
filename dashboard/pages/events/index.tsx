@@ -12,7 +12,7 @@ export default DashboardPage(() => {
 
   return (
     <>
-      <PageMeta title={messages['menu.faq'] as string} />
+      <PageMeta title={messages['menu.events'] as string} />
       <EventCalendarPage />
     </>
   );

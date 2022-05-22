@@ -15,8 +15,8 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 import {
-  useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
+  useFetchLocalizedPermissionGroups,
+  useFetchLocalizedPermissionSubGroups,
   useFetchRole,
 } from '../../../services/userManagement/hooks';
 import {
@@ -71,10 +71,10 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
   });
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   const {data: permissionGroups, isLoading: isLoadingPermissionGroups} =
-    useFetchPermissionGroups(permissionGroupFilters);
+    useFetchLocalizedPermissionGroups(permissionGroupFilters);
 
   const changePermissionGroupAction = (value: number) => {
     setPermissionSubGroupFilters({
@@ -255,7 +255,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
                 options={permissionGroups}
                 onChange={changePermissionGroupAction}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -267,7 +267,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
                 control={control}
                 options={permissionSubGroups}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -281,7 +281,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
             control={control}
             options={organizations}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={[ 'title']}
             errorInstance={errors}
           />
         </Grid>
@@ -293,7 +293,7 @@ const RoleAddEditPopup: FC<RoleAddEditPopupProps> = ({
             control={control}
             options={institutes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={[ 'title']}
             errorInstance={errors}
           />
         </Grid>*/}

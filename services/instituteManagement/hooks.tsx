@@ -25,9 +25,9 @@ import {
   API_RPL_APPLICATION,
   API_TRAINERS,
   API_TRAINING_CENTERS,
-  API_TRAINING_CENTERS_REPORTING_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
+  API_TRAINING_CENTERS_REPORTING_PROGRESS,
 } from '../../@softbd/common/apiRoutes';
 
 export function useFetchInstitute(instituteId: number | null) {
@@ -53,6 +53,9 @@ export function useFetchPublicInstituteDetailsWithParams(params: any) {
 export function useFetchAllInstitutes(params: any) {
   return useAxiosSWR(params ? [API_INSTITUTES, params] : null);
 }
+export function useFetchLocalizedInstitutes(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_INSTITUTES, params] : null);
+}
 
 export function useFetchBranch(branchId: number | null) {
   return useAxiosSWR(branchId ? API_BRANCHES + '/' + branchId : null);
@@ -60,6 +63,10 @@ export function useFetchBranch(branchId: number | null) {
 
 export function useFetchBranches(params: any) {
   return useAxiosSWR(params ? [API_BRANCHES, params] : null);
+}
+
+export function useFetchLocalizedBranches(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_BRANCHES, params] : null);
 }
 
 export function useFetchProgramme(programmeId: number | null) {
@@ -90,12 +97,22 @@ export function useFetchTrainingCenters(params: any) {
   return useAxiosSWR(params ? [API_TRAINING_CENTERS, params] : null);
 }
 
+export function useFetchLocalizedTrainingCenters(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_TRAINING_CENTERS, params] : null,
+  );
+}
+
 export function useFetchCourse(courseId: number | null) {
   return useAxiosSWR(courseId ? API_COURSES + '/' + courseId : null);
 }
 
 export function useFetchCourses(params: any) {
   return useAxiosSWR([API_COURSES, params]);
+}
+
+export function useFetchLocalizedCourses(params: any) {
+  return useDataLocalizationAxiosSWR([API_COURSES, params]);
 }
 
 export function useFetchCourseList(pathVariable: string, params: any) {
@@ -145,6 +162,7 @@ export function useFetchTrainer(trainerId: any) {
 export function useFetchTrainers(params: any) {
   return useAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
+
 export function useFetchLocalizedTrainers(params: any) {
   return useDataLocalizationAxiosSWR(params ? [API_TRAINERS, params] : null);
 }
@@ -175,6 +193,11 @@ export function useFetchBatchesToAssign(courseId: number | null) {
     courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
   );
 }
+export function useFetchLocalizedBatchesToAssign(courseId: number | null) {
+  return useDataLocalizationAxiosSWR(
+    courseId ? API_COURSES + '/' + courseId + API_BATCHES_TO_ASSIGN : null,
+  );
+}
 
 /**hr-demand**/
 export function useFetchHrDemand(hrDemandId: any) {
@@ -184,7 +207,7 @@ export function useFetchHrDemand(hrDemandId: any) {
 }
 
 export function useFetchInstituteTraineeYouths() {
-  return useAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
+  return useDataLocalizationAxiosSWR(API_INSTITUTE_TRAINEE_YOUTHS);
 }
 
 /**

@@ -15,10 +15,10 @@ import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFi
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
+  useFetchLocalizedRPLLevels,
+  useFetchLocalizedRPLOccupations,
+  useFetchLocalizedRPLSectors,
   useFetchRPLAssessment,
-  useFetchRPLLevels,
-  useFetchRPLOccupations,
-  useFetchRPLSectors,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {IAssessment} from '../../../shared/Interface/common.interface';
 import {
@@ -62,13 +62,13 @@ const RPLAssessmentAddEditPopup: FC<AssessmentAddEditPopupProps> = ({
   } = useFetchRPLAssessment(itemId);
 
   const {data: rplSectors, isLoading: isLoadingRplSectors} =
-    useFetchRPLSectors(rplSectorFilter);
+    useFetchLocalizedRPLSectors(rplSectorFilter);
 
   const {data: occupations, isLoading: isLoadingOccupations} =
-    useFetchRPLOccupations(occupationFilter);
+    useFetchLocalizedRPLOccupations(occupationFilter);
 
   const {data: levels, isLoading: isLoadingLevels} =
-    useFetchRPLLevels(levelFilter);
+    useFetchLocalizedRPLLevels(levelFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

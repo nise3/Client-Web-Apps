@@ -19,7 +19,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import IconOccupation from '../../../@softbd/icons/IconOccupation';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchJobSectors,
+  useFetchLocalizedJobSectors,
   useFetchOccupation,
 } from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -57,7 +57,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
   } = useFetchOccupation(itemId);
   const [jobSectorFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: jobSectors, isLoading: isJobSectorsLoading} =
-    useFetchJobSectors(jobSectorFilters);
+    useFetchLocalizedJobSectors(jobSectorFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -182,7 +182,7 @@ const OccupationAddEditPopup: FC<OccupationAddEditPopupProps> = ({
             control={control}
             options={jobSectors}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
