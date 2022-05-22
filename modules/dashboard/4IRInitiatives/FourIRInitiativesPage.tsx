@@ -305,7 +305,7 @@ const FourIRInitiativesPage = () => {
               key={3}
               startIcon={<ArrowBackIcon />}
               variant='outlined'
-              onClick={() => Router.back()}
+              onClick={() => Router.push('/4ir-tagline')}
               style={{marginLeft: '10px'}}>
               {messages['common.back']}
             </Button>,
