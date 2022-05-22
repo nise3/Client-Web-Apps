@@ -13,6 +13,7 @@ type Props = {
   defaultValue?: number | string | Array<string>;
   optionValueProp?: any;
   optionTitleProp?: Array<string>;
+  placeholder?: string;
   onChange?: (e: any) => any;
   [x: string]: any;
 };
@@ -27,6 +28,7 @@ const CustomFilterableSelect = ({
   options,
   optionValueProp,
   optionTitleProp,
+  placeholder,
   ...rest
 }: Props) => {
   const {messages} = useIntl();
@@ -74,13 +76,17 @@ const CustomFilterableSelect = ({
       isOptionEqualToValue={(option: any, value: any) => {
         return String(option[optionValueProp]) === String(value);
       }}
+      openText={'Open Dropdown'}
       renderInput={(params) => (
         <TextField
           style={{borderRadius: '5px'}}
           {...params}
+          id={id}
           name={id}
+          placeholder={placeholder || ''}
           label={
             <Box
+              aria-hidden={true}
               sx={{
                 background: '#fff',
                 padding: '0px 5px',

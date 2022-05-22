@@ -34,7 +34,7 @@ const AppLogo = ({height = 40}) => {
               ? '/images/logo-white-with-name.png'
               : '/images/logo-with-name.png'
           }
-          alt='Nise'
+          alt='Nise logo image'
         />
       </Box>
     </Box>
