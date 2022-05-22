@@ -18,6 +18,7 @@ export interface ICertificateIssue {
   id?: number;
   youth_id: number;
   batch_id: number;
+  course_id: number;
   certificate_id: number;
 }
 
