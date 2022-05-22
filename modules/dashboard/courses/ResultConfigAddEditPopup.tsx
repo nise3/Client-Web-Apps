@@ -136,6 +136,10 @@ const ResultConfigAddEditPopup = ({
         total_attendance_marks: itemData?.total_attendance_marks,
       });
       setSelectedResultType(Number(itemData?.result_type));
+      setIsAttendanceRequired(
+        !isNaN(itemData?.result_percentages?.attendance) &&
+          Number(itemData.result_percentages.attendance) > 0,
+      );
     } else {
       reset({
         gradings: [{min: 0}],

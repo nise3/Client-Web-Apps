@@ -58,7 +58,7 @@ const QuestionsBankPage = () => {
       successStack(
         <IntlMessages
           id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='question-bank.label' />}}
+          values={{subject: <IntlMessages id='question.label' />}}
         />,
       );
 
