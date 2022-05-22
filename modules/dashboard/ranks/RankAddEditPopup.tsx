@@ -18,8 +18,9 @@ import {
 import IconRank from '../../../@softbd/icons/IconRank';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import {
+  useFetchLocalizedOrganizations,
+  useFetchLocalizedRankTypes,
   useFetchRank,
-  useFetchRankTypes,
 } from '../../../services/organaizationManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -27,7 +28,6 @@ import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {IRank} from '../../../shared/Interface/rank.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
-import {getAllOrganizations} from '../../../services/organaizationManagement/OrganizationService';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface RankAddEditPopupProps {
@@ -62,11 +62,12 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: rankTypes, isLoading: isLoadingRankTypes} =
-    useFetchRankTypes(rankTypeFilters);
+    useFetchLocalizedRankTypes(rankTypeFilters);
 
-  const [organizations, setOrganizations] = useState<Array<any>>([]);
-  const [isLoadingOrganizations, setIsLoadingOrganizations] =
-    useState<boolean>(false);
+  const [organizationFilter, setOrganizationFilter] = useState<any>(null);
+
+  const {data: organizations, isLoading: isLoadingOrganization} =
+    useFetchLocalizedOrganizations(organizationFilter);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -113,16 +114,11 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser?.isSystemUser) {
-      setIsLoadingOrganizations(true);
       (async () => {
         try {
-          let response = await getAllOrganizations({
+          setOrganizationFilter({
             row_status: RowStatus.ACTIVE,
           });
-          setIsLoadingOrganizations(false);
-          if (response && response?.data) {
-            setOrganizations(response.data);
-          }
         } catch (e) {}
       })();
     }
@@ -227,11 +223,11 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
               required
               id='organization_id'
               label={messages['organization.label']}
-              isLoading={isLoadingOrganizations}
+              isLoading={isLoadingOrganization}
               control={control}
               options={organizations}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={handleOrganizationChange}
             />
@@ -246,7 +242,7 @@ const RankAddEditPopup: FC<RankAddEditPopupProps> = ({
             control={control}
             options={rankTypes}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

@@ -12,7 +12,7 @@ import {
 import Tile from '../../../@softbd/Tile/Tile';
 import {Close, Search} from '@mui/icons-material';
 import {useIntl} from 'react-intl';
-import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../../services/locationManagement/hooks';
 import {useFetchYouthFeedStatistics} from '../../../services/youthManagement/hooks';
 import CustomFilterableSelect from '../training/components/CustomFilterableSelect';
 import Hidden from '../../../@softbd/elements/Hidden';
@@ -63,7 +63,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
   const {messages, formatNumber} = useIntl();
   const [selectedUpazilaId, setSelectedUpazilaId] = useState<any>('');
   const [upazilasFilter] = useState({});
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
   const searchTextField = useRef<any>();
   const [hasInputValue, setHasInputValue] = useState<boolean>(false);
 
@@ -203,7 +203,7 @@ const OverviewSection = ({addFilter}: OverviewSectionProps) => {
                       options={upazilas}
                       isLoading={false}
                       optionValueProp={'id'}
-                      optionTitleProp={['title', 'title_en']}
+                      optionTitleProp={['title']}
                       size='medium'
                       dropdownStyle={{
                         width: '300px',

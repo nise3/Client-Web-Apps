@@ -15,7 +15,7 @@ import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
   useFetchPublication,
 } from '../../../services/cmsManagement/hooks';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
@@ -70,7 +70,7 @@ const NisePublicationsAddEditPopup: FC<Props> = ({
   } = useFetchPublication(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);

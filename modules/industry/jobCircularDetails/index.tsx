@@ -33,6 +33,7 @@ import JobApplyPopup from '../../../@softbd/components/JobApplyPopup';
 import {ArrowBack} from '@mui/icons-material';
 import CustomChip from '../../../@softbd/elements/display/CustomChip/CustomChip';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
+import {getIntlNumber} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'JobPreview';
 
@@ -635,7 +636,10 @@ const JobCircularDetails = () => {
             {jobData?.additional_job_information?.festival_bonus && (
               <li>
                 {messages['job_preview.festival_bonus']}{' '}
-                {jobData?.additional_job_information?.festival_bonus} (
+                {getIntlNumber(
+                  formatNumber,
+                  jobData?.additional_job_information?.festival_bonus,
+                )}
                 {messages['common.yearly']})
               </li>
             )}

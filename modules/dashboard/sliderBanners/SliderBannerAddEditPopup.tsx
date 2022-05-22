@@ -16,9 +16,9 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
+  useFetchLocalizedSliders,
   useFetchSliderBanner,
-  useFetchSliders,
 } from '../../../services/cmsManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
@@ -70,13 +70,13 @@ const SliderBannerAddEditPopup: FC<SliderBannerAddEditPopupProps> = ({
   } = useFetchSliderBanner(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [sliderFilters] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
   const {data: sliders, isLoading: isSliderLoading} =
-    useFetchSliders(sliderFilters);
+    useFetchLocalizedSliders(sliderFilters);
 
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);

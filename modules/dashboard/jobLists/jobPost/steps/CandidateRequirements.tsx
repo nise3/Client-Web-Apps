@@ -28,7 +28,7 @@ import {
 import {saveCandidateRequirements} from '../../../../../services/IndustryManagement/JobService';
 import RowStatus from '../../../../../@softbd/utilities/RowStatus';
 import CustomSelectAutoComplete from '../../../../youth/registration/CustomSelectAutoComplete';
-import {useFetchPublicSkills} from '../../../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../../../services/youthManagement/hooks';
 import usePageLoadToTop from './usePageLoadToTop';
 
 interface Props {
@@ -96,7 +96,7 @@ const CandidateRequirements = ({
 
   const [skillFilters] = useState<any>({row_status: RowStatus.ACTIVE});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(skillFilters);
+    useFetchLocalizedSkills(skillFilters);
 
   const {data: educationLevels} = useFetchEducationLevels();
   const {data: examDegrees} = useFetchExamDegrees();

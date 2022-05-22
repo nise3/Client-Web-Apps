@@ -1,4 +1,7 @@
-import {useAxiosSWR} from '../../@softbd/hooks/useAxiosSWR';
+import {
+  useAxiosSWR,
+  useDataLocalizationAxiosSWR,
+} from '../../@softbd/hooks/useAxiosSWR';
 import {
   API_RPL_QUESTION_BANK,
   API_RPL_ASSESSMENTS,
@@ -29,8 +32,18 @@ export function useFetchRTOCountries() {
   return useAxiosSWR(API_RTO_COUNTRIES);
 }
 
+export function useFetchLocalizedRTOCountries() {
+  return useDataLocalizationAxiosSWR(API_RTO_COUNTRIES);
+}
+
 export function useFetchPublicRTOCountries(params: any) {
   return useAxiosSWR(params ? [API_PUBLIC_RTO_COUNTRIES, params] : null);
+}
+
+export function useFetchLocalizedPublicRTOCountries(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_RTO_COUNTRIES, params] : null,
+  );
 }
 
 export function useFetchRPLSector(RPLSectorId: number | null) {
@@ -41,8 +54,18 @@ export function useFetchRPLSectors(params: any) {
   return useAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
 }
 
+export function useFetchLocalizedRPLSectors(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_RPL_SECTORS, params] : null);
+}
+
 export function useFetchPublicRPLSectors(params: any) {
   return useAxiosSWR(params ? [API_PUBLIC_RPL_SECTORS, params] : null);
+}
+
+export function useFetchLocalizedPublicRPLSectors(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_RPL_SECTORS, params] : null,
+  );
 }
 
 export function useFetchRPLOccupation(RPLOccupationId: number | null) {
@@ -55,16 +78,38 @@ export function useFetchRPLOccupations(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_OCCUPATIONS, params] : null);
 }
 
+export function useFetchLocalizedRPLOccupations(params: any = null) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_RPL_OCCUPATIONS, params] : null,
+  );
+}
+
 export function useFetchPublicRPLOccupations(params: any) {
   return useAxiosSWR(params ? [API_PUBLIC_RPL_OCCUPATIONS, params] : null);
+}
+
+export function useFetchLocalizedPublicRPLOccupations(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_PUBLIC_RPL_OCCUPATIONS, params] : null,
+  );
 }
 
 export function useFetchRPLLevels(params: any = null) {
   return useAxiosSWR(params ? [API_RPL_LEVELS, params] : null);
 }
 
+export function useFetchLocalizedRPLLevels(params: any = null) {
+  return useDataLocalizationAxiosSWR(params ? [API_RPL_LEVELS, params] : null);
+}
+
 export function useFetchPublicRPLLevels(params: any) {
   return useAxiosSWR(params ? [API_RPL_PUBLIC_LEVELS, params] : null);
+}
+
+export function useFetchLocalizedPublicRPLLevels(params: any) {
+  return useDataLocalizationAxiosSWR(
+    params ? [API_RPL_PUBLIC_LEVELS, params] : null,
+  );
 }
 
 export function useFetchRPLLevel(rplLevelId: number | null) {
@@ -79,8 +124,16 @@ export function useFetchRPLSubjects(params: any) {
   return useAxiosSWR([API_RPL_SUBJECTS, params]);
 }
 
+export function useFetchLocalizedRPLSubjects(params: any) {
+  return useDataLocalizationAxiosSWR([API_RPL_SUBJECTS, params]);
+}
+
 export function useFetchRPLAssessments(params: any) {
   return useAxiosSWR([API_RPL_ASSESSMENTS, params]);
+}
+
+export function useFetchLocalizedRPLAssessments(params: any) {
+  return useDataLocalizationAxiosSWR([API_RPL_ASSESSMENTS, params]);
 }
 
 export function useFetchRPLAssessment(assessmentId: number | null) {
@@ -97,6 +150,11 @@ export function useFetchRTOS(params: any) {
 
 export function useFetchPublicRTOS(params: any) {
   return useAxiosSWR(
+    params ? [API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS, params] : null,
+  );
+}
+export function useFetchLocalizedPublicRTOS(params: any) {
+  return useDataLocalizationAxiosSWR(
     params ? [API_PUBLIC_REGISTERED_TRAINING_ORGANIZATIONS, params] : null,
   );
 }
@@ -117,6 +175,10 @@ export function useFetchRTOBatch(rtoBatchId: number | null) {
 
 export function useFetchRTOBatches(params: any) {
   return useAxiosSWR(params ? [API_RTO_BATCH, params] : null);
+}
+
+export function useFetchLocalizedRTOBatches(params: any) {
+  return useDataLocalizationAxiosSWR(params ? [API_RTO_BATCH, params] : null);
 }
 
 export function useFetchPublicYouthAssessmentQuestions(params: any) {

@@ -17,13 +17,16 @@ import {
   updateBranch,
 } from '../../../services/instituteManagement/BranchService';
 import IconBranch from '../../../@softbd/icons/IconBranch';
-import {useFetchBranch} from '../../../services/instituteManagement/hooks';
+import {
+  useFetchBranch,
+  useFetchLocalizedInstitutes,
+} from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -32,7 +35,6 @@ import {
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {IBranch} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
@@ -68,16 +70,16 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
   const [divisionsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [districtsFilter] = useState({row_status: RowStatus.ACTIVE});
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
+  const [institutesFilter, setInstitutesFilter] = useState<any>(null);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
-  const [institutes, setInstitutes] = useState<Array<any>>([]);
-  const [isLoadingInstitutes, setIsLoadingInstitutes] =
-    useState<boolean>(false);
+    useFetchLocalizedUpazilas(upazilasFilter);
+  const {data: institutes, isLoading: isLoadingInstitutes} =
+    useFetchLocalizedInstitutes(institutesFilter);
 
   const {
     data: itemData,
@@ -128,21 +130,9 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
 
   useEffect(() => {
     if (authUser?.isSystemUser) {
-      setIsLoadingInstitutes(true);
-      (async () => {
-        try {
-          let response = await getAllInstitutes({
-            row_status: RowStatus.ACTIVE,
-          });
-
-          setIsLoadingInstitutes(false);
-          if (response && response?.data) {
-            setInstitutes(response.data);
-          }
-        } catch (e) {}
-      })();
+      setInstitutesFilter({row_status: RowStatus.ACTIVE});
     }
-  }, []);
+  }, [authUser]);
 
   useEffect(() => {
     if (itemData) {
@@ -265,7 +255,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
               control={control}
               options={institutes}
               optionValueProp={'id'}
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -296,7 +286,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             control={control}
             options={divisions}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDivisionAction}
           />
@@ -309,7 +299,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             control={control}
             options={districtsList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
             onChange={changeDistrictAction}
           />
@@ -322,7 +312,7 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
             control={control}
             options={upazilasList}
             optionValueProp={'id'}
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>

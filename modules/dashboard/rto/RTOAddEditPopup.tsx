@@ -23,9 +23,9 @@ import CustomFieldArray from '../../../@softbd/elements/input/CustomFieldArray';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {
@@ -34,8 +34,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
+  useFetchLocalizedPermissionGroups,
+  useFetchLocalizedPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_REGISTERED_TRAINING_ORGANIZATION_KEY} from '../../../@softbd/common/constants';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
@@ -44,9 +44,9 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import {
-  useFetchPublicRPLOccupations,
-  useFetchPublicRPLSectors,
-  useFetchPublicRTOCountries,
+  useFetchLocalizedPublicRPLOccupations,
+  useFetchLocalizedPublicRPLSectors,
+  useFetchLocalizedPublicRTOCountries,
   useFetchRTO,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
@@ -107,7 +107,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
 
   const [countryFilters] = useState<any>({});
   const {data: countries, isLoading: isLoadingCountries} =
-    useFetchPublicRTOCountries(countryFilters);
+    useFetchLocalizedPublicRTOCountries(countryFilters);
 
   const [permissionGroupFilters] = useState({
     row_status: RowStatus.ACTIVE,
@@ -122,11 +122,11 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
@@ -135,20 +135,20 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     useState<any>([]);
   const [selectedRtoSectorId, setSelectedRtoSectorId] = useState<any>(null);
 
-  const {data: permissionGroups} = useFetchPermissionGroups(
+  const {data: permissionGroups} = useFetchLocalizedPermissionGroups(
     permissionGroupFilters,
   );
 
   const [rplSectorFilter] = useState<any>({});
   const {data: rplSectors, isLoading: isFetchingRPLSectors} =
-    useFetchPublicRPLSectors(rplSectorFilter);
+    useFetchLocalizedPublicRPLSectors(rplSectorFilter);
 
   const [rplOccupationFilters, setRplOccupationFilters] = useState<any>({});
   const {data: rplOccupations, isLoading: isLoadingOccupations} =
-    useFetchPublicRPLOccupations(rplOccupationFilters);
+    useFetchLocalizedPublicRPLOccupations(rplOccupationFilters);
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   const nonRequiredPhoneValidationSchema = useMemo(() => {
     return yup.object().shape({
@@ -534,7 +534,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                   control={control}
                   options={permissionSubGroups}
                   optionValueProp='id'
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -578,7 +578,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDivisionAction}
               />
@@ -591,7 +591,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={upazilasList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -763,7 +763,7 @@ const ERPLInstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={districtsList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDistrictAction}
               />

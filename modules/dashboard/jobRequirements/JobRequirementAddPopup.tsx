@@ -18,11 +18,11 @@ import JobRequirementFields from './JobRequirementFields';
 import {Box} from '@mui/system';
 import IconHumanResourceDemand from '../../../@softbd/icons/HumanResourceDemand';
 import {createHumanResourceDemand} from '../../../services/IndustryManagement/HrDemandService';
-import {useFetchIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
+import {useFetchLocalizedIndustryAssociations} from '../../../services/IndustryAssociationManagement/hooks';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import _ from 'lodash';
-import {useFetchPublicSkills} from '../../../services/youthManagement/hooks';
+import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 
 interface JobRequirementAddEditPopupProps {
@@ -63,7 +63,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
   const [industryAssociationFilter, setIndustryAssociationFilter] =
     useState<any>(null);
   const {data: industryAssociations, isLoading: isLoadingIndustryAssociation} =
-    useFetchIndustryAssociations(industryAssociationFilter);
+    useFetchLocalizedIndustryAssociations(industryAssociationFilter);
 
   const [instituteFilter] = useState({});
   const {data: institutes, isLoading: isLoadingInstitute} =
@@ -71,7 +71,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
 
   const [skillFilter] = useState({});
   const {data: skills, isLoading: isLoadingSkills} =
-    useFetchPublicSkills(skillFilter);
+    useFetchLocalizedSkills(skillFilter);
 
   const onAddHrDemand = useCallback(() => {
     setHrDemandFields((prev: any) => {
@@ -241,7 +241,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
                 isLoading={isLoadingIndustryAssociation}
                 options={industryAssociations}
                 optionValueProp={'id'}
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 control={control}
                 errorInstance={errors}
               />
@@ -256,7 +256,7 @@ const JobRequirementAddEditPopup: FC<JobRequirementAddEditPopupProps> = ({
               isLoading={isLoadingIndustryAssocMembers}
               options={industryAssociationMembers}
               optionValueProp={'id'}
-              optionTitleProp={['title', 'title_en']}
+              optionTitleProp={['title']}
               control={control}
               errorInstance={errors}
             />
