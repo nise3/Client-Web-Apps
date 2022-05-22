@@ -21,13 +21,16 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {useRouter} from 'next/router';
+import Router, {useRouter} from 'next/router';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_INITIATIVE} from '../../../@softbd/common/apiRoutes';
 import {deleteInitiative} from '../../../services/4IRManagement/InitiativeService';
 import DownloadIcon from '@mui/icons-material/Download';
 import FourIRProjectActivationPopup from './FourIRProjectActivationPopup';
 import InitiativeImportPopup from './InitiativeImportPopup';
+import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
+import {Button} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
@@ -52,6 +55,7 @@ const FourIRInitiativesPage = () => {
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
 
   const taglineId = Number(router.query.taglineId);
+  const {data: tagline, isLoading} = useFetchFourIRTagline(Number(taglineId));
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -266,84 +270,95 @@ const FourIRInitiativesPage = () => {
 
   return (
     <>
-      <PageBlock
-        title={
-          <>
-            <IconBranch /> <IntlMessages id='4ir_initiative.label' />
-          </>
-        }
-        extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['initiative.label'],
-                }}
-              />
-            }
-          />,
-          <CommonButton
-            key={2}
-            onClick={() => openImportModal()}
-            btnText={messages['common.import'] as string}
-            variant={'outlined'}
-            color={'primary'}
-            style={{marginLeft: '5px'}}
-            startIcon={<DownloadIcon />}
-          />,
-        ]}>
-        <ReactTable
-          columns={columns}
-          data={data}
-          fetchData={onFetchData}
-          loading={loading}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          toggleResetTable={isToggleTable}
-        />
-
-        {isOpenImportModal && (
-          <InitiativeImportPopup
-            key={2}
-            onClose={closeImportModal}
-            userData={null}
-            fourIRTaglineId={taglineId}
-            refreshDataTable={refreshDataTable}
+      {!isLoading && (
+        <PageBlock
+          title={
+            <>
+              <IconBranch /> <IntlMessages id='4ir_initiative.label' />{' '}
+              {`(${tagline?.name})`}
+            </>
+          }
+          extra={[
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal(null)}
+              isLoading={loading}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['initiative.label'],
+                  }}
+                />
+              }
+            />,
+            <CommonButton
+              key={2}
+              onClick={() => openImportModal()}
+              btnText={messages['common.import'] as string}
+              variant={'outlined'}
+              color={'primary'}
+              style={{marginLeft: '5px'}}
+              startIcon={<DownloadIcon />}
+            />,
+            <Button
+              key={3}
+              startIcon={<ArrowBackIcon />}
+              variant='outlined'
+              onClick={() => Router.back()}
+              style={{marginLeft: '10px'}}>
+              {messages['common.back']}
+            </Button>,
+          ]}>
+          <ReactTable
+            columns={columns}
+            data={data}
+            fetchData={onFetchData}
+            loading={loading}
+            pageCount={pageCount}
+            totalCount={totalCount}
+            toggleResetTable={isToggleTable}
           />
-        )}
 
-        {isOpenAddEditModal && (
-          <FourIRInitiativeAddEditPopup
-            key={1}
-            fourIRTaglineId={taglineId}
-            onClose={closeAddEditModal}
-            itemId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
+          {isOpenImportModal && (
+            <InitiativeImportPopup
+              key={2}
+              onClose={closeImportModal}
+              userData={null}
+              fourIRTaglineId={taglineId}
+              refreshDataTable={refreshDataTable}
+            />
+          )}
 
-        {isOpenProjectActivationModal && (
-          <FourIRProjectActivationPopup
-            key={1}
-            onClose={closeProjectActivationModal}
-            initiativeId={selectedItemId}
-            refreshDataTable={refreshDataTable}
-          />
-        )}
+          {isOpenAddEditModal && (
+            <FourIRInitiativeAddEditPopup
+              key={1}
+              fourIRTaglineId={taglineId}
+              onClose={closeAddEditModal}
+              itemId={selectedItemId}
+              refreshDataTable={refreshDataTable}
+            />
+          )}
 
-        {isOpenDetailsModal && selectedItemId && (
-          <FourIRInitiativeDetailsPopup
-            key={1}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-            openEditModal={openAddEditModal}
-          />
-        )}
-      </PageBlock>
+          {isOpenProjectActivationModal && (
+            <FourIRProjectActivationPopup
+              key={1}
+              onClose={closeProjectActivationModal}
+              initiativeId={selectedItemId}
+              refreshDataTable={refreshDataTable}
+            />
+          )}
+
+          {isOpenDetailsModal && selectedItemId && (
+            <FourIRInitiativeDetailsPopup
+              key={1}
+              itemId={selectedItemId}
+              onClose={closeDetailsModal}
+              openEditModal={openAddEditModal}
+            />
+          )}
+        </PageBlock>
+      )}
     </>
   );
 };
