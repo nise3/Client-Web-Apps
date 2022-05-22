@@ -123,9 +123,11 @@ const FourIREmploymentPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton
-                onClick={() => openDetailsModal(data?.employment_info?.id)}
-              />
+              {data?.employment_info?.id && (
+                <ReadButton
+                  onClick={() => openDetailsModal(data?.employment_info?.id)}
+                />
+              )}
               <EditButton onClick={() => openAddEditModal(data.id)} />
             </DatatableButtonGroup>
           );
