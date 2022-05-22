@@ -2009,5 +2009,8 @@
   "batch.result_failed_already_published": "Results already published",
   "batch.result_failed_no_config": "No result config configured for course",
   "batch.result_failed_configured_exams_not_found": "Configured exam type is missing",
-  "batch.result_failed_exams_not_finished": "Some assigned exams is not finished"
+  "batch.result_failed_exams_not_finished": "Some assigned exams is not finished",
+  "common.percentage": "Percentage",
+  "common.final_marks": "Final marks",
+  "common.all_result": "All result"
 }

@@ -6,6 +6,7 @@ export enum ExamTypes {
   FIELDWORK = 5,
   PRESENTATION = 6,
   ASSIGNMENT = 7,
+  ATTENDANCE = 8,
 }
 
 export enum QuestionSelectionType {

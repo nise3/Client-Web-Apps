@@ -67,6 +67,8 @@ export const LINK_FRONTEND_INSTITUTE_NOTICE_BOARD = '/notice-board';
 export const LINK_FRONTEND_INSTITUTE_RECENT_ACTIVITIES = '/recent-activities';
 export const LINK_HUMAN_RESOURCE_DEMAND = '/hr-demand';
 export const LINK_BATCH_RESULT = 'batches/batch-result/';
+export const LINK_BATCH = '/batches/';
+export const LINK_YOUTH_EXAM = '/youth-exams/';
 
 /** industry links  */
 export const LINK_FRONTEND_INDUSTRY_ROOT = '/';

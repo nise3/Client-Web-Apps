@@ -2010,5 +2010,8 @@
   "batch.result_failed_already_published": "ফলাফল ইতিমধ্যে প্রকাশিত হয়েছে",
   "batch.result_failed_no_config": "কোর্সের জন্য কোনো ফলাফল কনফিগার করা হয়নি",
   "batch.result_failed_configured_exams_not_found": "কনফিগার করা পরীক্ষার ধরন অনুপস্থিত",
-  "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি"
+  "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি",
+  "common.percentage": "শতাংশ",
+  "common.final_marks": "চূড়ান্ত নাম্বার",
+  "common.all_result": "সমস্ত ফলাফল"
 }
