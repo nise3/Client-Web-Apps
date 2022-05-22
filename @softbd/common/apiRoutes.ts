@@ -116,6 +116,7 @@ export const API_COURSE_RESULT_CONFIG =
   INSTITUTE_SERVICE_PATH + '/course-result-configs';
 export const API_PROCESS_RESULT = '/process-result';
 export const API_BATCH_RESULT = '/results';
+export const API_BATCH_PUBLISH_RESULT = '/result-publish';
 export const API_YOUTH_BATCH_EXAMS_MARK_UPDATE =
   INSTITUTE_SERVICE_PATH + '/youth-batch-exams-mark-update';
 
