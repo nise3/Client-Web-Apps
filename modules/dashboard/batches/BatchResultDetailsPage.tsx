@@ -2,7 +2,7 @@ import {useIntl} from 'react-intl';
 import IconBatch from '../../../@softbd/icons/IconBatch';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {Button, Divider, Grid} from '@mui/material';
-import React, {Fragment} from 'react';
+import React, {Fragment, useCallback, useState} from 'react';
 import {Body1} from '../../../@softbd/elements/common';
 import {
   useFetchBatch,
@@ -13,6 +13,8 @@ import {ArrowBack} from '@mui/icons-material';
 import {useRouter} from 'next/router';
 import {getIntlDateFromString} from '../../../@softbd/utilities/helpers';
 import TableSkeleton from '../../../@softbd/elements/display/skeleton/TableSkeleton/TableSkeleton';
+import {LINK_BATCH, LINK_YOUTH_EXAM} from '../../../@softbd/common/appLinks';
+import YouthSingleExamDetailsPopup from './YouthSingleExamDetailsPopup';
 
 const BatchResultDetailsPage = () => {
   const {messages, formatDate} = useIntl();
@@ -20,6 +22,22 @@ const BatchResultDetailsPage = () => {
   const batchId = Number(router.query.id);
   const {data: results, isLoading} = useFetchBatchResult(batchId);
   const {data: batchData} = useFetchBatch(batchId);
+
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedItemName, setSelectedItemName] = useState<string | null>('');
+  const [isOpenSingleExam, setIsOpenSingleExam] = useState(false);
+
+  const openExamModal = useCallback((itemId: number, firstName, lastName) => {
+    let name = firstName + lastName;
+    setSelectedItemName(name);
+
+    setIsOpenSingleExam(true);
+    setSelectedItemId(itemId);
+  }, []);
+
+  const closeDetailsModal = useCallback(() => {
+    setIsOpenSingleExam(false);
+  }, []);
 
   return (
     <>
@@ -103,7 +121,7 @@ const BatchResultDetailsPage = () => {
               </Grid>
               <Grid
                 item
-                xs={3}
+                xs={2}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -113,13 +131,23 @@ const BatchResultDetailsPage = () => {
               </Grid>
               <Grid
                 item
-                xs={3}
+                xs={1}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
                 <Body1>{messages['education.result']}</Body1>
+              </Grid>
+              <Grid
+                item
+                xs={3}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Body1>{messages['common.actions']}</Body1>
               </Grid>
             </Grid>
           </Grid>
@@ -159,7 +187,7 @@ const BatchResultDetailsPage = () => {
                       </Grid>
                       <Grid
                         item
-                        xs={3}
+                        xs={2}
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
@@ -169,13 +197,48 @@ const BatchResultDetailsPage = () => {
                       </Grid>
                       <Grid
                         item
-                        xs={3}
+                        xs={1}
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
                         <Body1>{result?.result}</Body1>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Button
+                          variant={'contained'}
+                          color={'primary'}
+                          size={'small'}
+                          onClick={() =>
+                            openExamModal(
+                              result.id,
+                              result?.youth_profile?.first_name,
+                              result?.youth_profile?.last_name,
+                            )
+                          }>
+                          {messages['common.details']}
+                        </Button>
+
+                        <Button
+                          sx={{marginLeft: '5px'}}
+                          variant={'contained'}
+                          color={'primary'}
+                          size={'small'}
+                          onClick={() =>
+                            router.push(
+                              `${LINK_BATCH}${batchId}${LINK_YOUTH_EXAM}${result.youth_id}`,
+                            )
+                          }>
+                          {messages['common.all_result']}
+                        </Button>
                       </Grid>
                     </Grid>
                     <Divider sx={{marginY: 2}} />
@@ -184,6 +247,15 @@ const BatchResultDetailsPage = () => {
             </Grid>
           )}
         </Grid>
+
+        {isOpenSingleExam && (
+          <YouthSingleExamDetailsPopup
+            itemId={selectedItemId}
+            onClose={closeDetailsModal}
+            batchTitle={batchData?.title}
+            YouthTitle={selectedItemName}
+          />
+        )}
       </PageBlock>
     </>
   );

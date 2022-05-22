@@ -3,6 +3,7 @@ import {catchBlockHandler} from '../../@softbd/utilities/helpers';
 import {
   API_ASSIGN_EXAMS_TO_BATCH,
   API_ASSIGN_TRAINERS_TO_BATCH,
+  API_BATCH_PUBLISH_RESULT,
   API_BATCHES,
   API_PROCESS_RESULT,
   API_YOUTH_BATCH_EXAMS_MARK_UPDATE,
@@ -87,6 +88,18 @@ export const processResult = async (batchId: number) => {
   try {
     let response: any = await apiPost(
       API_BATCHES + '/' + batchId + API_PROCESS_RESULT,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const publishResult = async (batchId: number, data: any) => {
+  try {
+    let response: any = await apiPut(
+      API_BATCHES + '/' + batchId + API_BATCH_PUBLISH_RESULT,
+      data,
     );
     return response.data;
   } catch (error) {

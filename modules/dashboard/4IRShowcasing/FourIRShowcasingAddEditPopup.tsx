@@ -28,6 +28,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
 
 const initiativeValues = {
+  four_ir_tagline_id: '',
   four_ir_initiative_id: '',
   organization_name: '',
   organization_name_en: '',
@@ -131,7 +132,7 @@ const FourIRShowcasingAddEditPopUP = ({
       const response = await getAllInitiatives({
         four_ir_tagline_id: selectedTagline,
       });
-      setInitiativeData(response.data);
+      setInitiativeData(response?.data);
       setIsInitiativeLoading(false);
     };
     fetchInitiative();
@@ -146,6 +147,7 @@ const FourIRShowcasingAddEditPopUP = ({
   useEffect(() => {
     if (itemData) {
       reset({
+        four_ir_tagline_id: itemData?.four_ir_tagline_id,
         four_ir_initiative_id: itemData?.four_ir_initiative_id,
         organization_name: itemData?.organization_name,
         organization_name_en: itemData?.organization_name_en,
@@ -158,6 +160,7 @@ const FourIRShowcasingAddEditPopUP = ({
         file_path: itemData?.file_path,
         row_status: itemData?.row_status,
       });
+      setSelectedTagline(itemData?.four_ir_tagline_id);
     } else {
       reset(initiativeValues);
     }
@@ -346,7 +349,7 @@ const FourIRShowcasingAddEditPopUP = ({
             setValue={setValue}
             register={register}
             sizeLimitText={'3MB'}
-            label={messages['common.file_upload']}
+            label={messages['common.file_upload_photo']}
             required={false}
           />
         </Grid>

@@ -74,7 +74,7 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       },
       {
         Header: messages['common.sector'],
-        accessor: 'sector_name',
+        accessor: 'sector_title',
         disableFilters: true,
       },
       {
@@ -122,7 +122,7 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       },
     });
   let modifiedData = data?.map((fourIrCs: any) => {
-    let approved_by: string, sector_name: string;
+    let approved_by: string;
     if (parseInt(fourIrCs?.approved_by) === 1) {
       approved_by = 'NSDA';
     } else if (parseInt(fourIrCs?.approved_by) === 2) {
@@ -131,18 +131,9 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       approved_by = '';
     }
 
-    if (parseInt(fourIrCs?.sector_name) === 1) {
-      sector_name = 'Sector 1';
-    } else if (parseInt(fourIrCs?.sector_name) === 2) {
-      sector_name = 'Sector 2';
-    } else {
-      sector_name = '';
-    }
-
     return {
       ...fourIrCs,
       approved_by,
-      sector_name,
     };
   });
   return (

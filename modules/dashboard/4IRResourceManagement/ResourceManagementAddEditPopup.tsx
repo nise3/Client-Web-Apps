@@ -142,7 +142,6 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
         await createFourIRResource(payload);
         createSuccessMessage('4ir_rm.resource');
         setShowSuccessPopUp(true);
-        await closeAction();
       }
     } catch (error: any) {
       processServerSideErrors({error, setError, validationSchema, errorStack});

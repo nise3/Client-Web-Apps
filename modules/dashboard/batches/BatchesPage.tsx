@@ -33,6 +33,7 @@ import {createCertificateById} from '../../../services/CertificateAuthorityManag
 import {
   deleteBatch,
   processResult,
+  publishResult,
 } from '../../../services/instituteManagement/BatchService';
 import {ICertificateBatchSetting} from '../../../shared/Interface/certificates';
 import BatchAddEditPopup from './BatchAddEditPopup';
@@ -40,6 +41,7 @@ import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
+import ApproveButton from '../industry-associations/ApproveButton';
 import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
 
 const BatchesPage = () => {
@@ -144,6 +146,24 @@ const BatchesPage = () => {
     } catch (error) {}
   };
 
+  const publishAction = async (batchId: number, result_published_at: any) => {
+    try {
+      let data = {
+        is_published: result_published_at ? 0 : 1,
+      };
+      let response = await publishResult(batchId, data);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_publish_successfully'
+            values={{subject: <IntlMessages id='batches.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error) {}
+  };
+
   const processBatchResult = async (itemId: number) => {
     try {
       setIsProcessing(true);
@@ -152,14 +172,18 @@ const BatchesPage = () => {
         successStack(messages['batch.process_result_success']);
         refreshDataTable();
       } else {
-        let msg = 'Failed to process result';
+        let msg = messages['batch.process_result_failed'];
         let error_code = response?.data.error_code;
         if (error_code == 'no_exams') {
-          msg = 'No exams to process results';
+          msg = messages['batch.result_no_exams'];
         } else if (error_code == 'already_published') {
-          msg = 'Results already published';
+          msg = messages['batch.result_failed_already_published'];
         } else if (error_code == 'no_config') {
-          msg = 'No result config configured for course';
+          msg = messages['batch.result_failed_no_config'];
+        } else if (error_code == 'configured_exams_not_found') {
+          msg = messages['batch.result_failed_configured_exams_not_found'];
+        } else if (error_code == 'exams_not_finished') {
+          msg = messages['batch.result_failed_exams_not_finished'];
         }
         errorStack(msg);
       }
@@ -376,7 +400,7 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {!data.result_published_at && (
+              {!data?.result_published_at && (
                 <CommonButton
                   key={5}
                   onClick={() => processBatchResult(data.id)}
@@ -387,7 +411,7 @@ const BatchesPage = () => {
                   startIcon={<Visibility />}
                 />
               )}
-              {data.result_published_at && (
+              {data.result_processed_at && (
                 <Link href={`${LINK_BATCH_RESULT}${data.id}`} passHref={true}>
                   <CommonButton
                     key={4}
@@ -399,6 +423,27 @@ const BatchesPage = () => {
                     startIcon={<Visibility />}
                   />
                 </Link>
+              )}
+              {data?.result_processed_at && (
+                <ApproveButton
+                  approveAction={() =>
+                    publishAction(data.id, data?.result_published_at)
+                  }
+                  approveTitle={
+                    messages[
+                      data?.result_published_at
+                        ? 'common.un_publish'
+                        : 'common.publishing'
+                    ] as string
+                  }
+                  buttonText={
+                    messages[
+                      data?.result_published_at
+                        ? 'common.un_publish'
+                        : 'common.publishing'
+                    ] as string
+                  }
+                />
               )}
             </DatatableButtonGroup>
           );

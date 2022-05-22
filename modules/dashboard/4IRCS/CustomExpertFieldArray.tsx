@@ -44,6 +44,7 @@ const CustomExpertFieldArray = ({
             <Grid container item spacing={4}>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomTextInput
+                  required
                   id={nameId}
                   label={messages['common.name']}
                   register={register}
@@ -53,6 +54,7 @@ const CustomExpertFieldArray = ({
               </Grid>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomTextInput
+                  required
                   id={designationId}
                   label={messages['common.designation']}
                   register={register}
@@ -62,6 +64,7 @@ const CustomExpertFieldArray = ({
               </Grid>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomTextInput
+                  required
                   id={organizationId}
                   label={messages['common.organization']}
                   register={register}
@@ -71,6 +74,7 @@ const CustomExpertFieldArray = ({
               </Grid>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomTextInput
+                  required
                   id={mobileId}
                   label={messages['common.mobile']}
                   register={register}
@@ -80,6 +84,7 @@ const CustomExpertFieldArray = ({
               </Grid>
               <Grid item xs={12} md={4} style={{paddingBottom: 20}}>
                 <CustomTextInput
+                  required
                   id={emailId}
                   label={messages['common.email']}
                   register={register}

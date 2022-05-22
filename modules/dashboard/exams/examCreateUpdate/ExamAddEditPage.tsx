@@ -99,6 +99,26 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
                 then: yup.array().required(),
               })
           : yup.array().of(yup.object()),
+        question_sets: !isOnline
+          ? yup
+              .array()
+              .of(
+                yup.object().shape({
+                  questions: yup
+                    .array()
+                    .of(yup.object())
+                    .label(messages['exam.no_question_selected'] as string)
+                    .required()
+                    .min(1),
+                }),
+              )
+              .label(messages['exam.no_question_selected'] as string)
+              .when('question_selection_type', {
+                is: (value: any) =>
+                  value && value !== QuestionSelectionType.RANDOM,
+                then: yup.array().required(),
+              })
+          : yup.array().of(yup.object()),
       }),
     );
   };
@@ -245,13 +265,14 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     data.duration = exam?.duration;
 
     if (exam?.type == ExamTypes.OFFLINE) {
-      data.venue = exam.venue;
-      if (exam.exam_sets) {
+      data.venue = exam?.venue;
+      if (exam?.exam_sets) {
         data.total_set = exam.exam_sets.length;
         data.sets = exam.exam_sets.map((set: any) => {
           return {
-            title: set.title,
-            title_en: set.title_en,
+            title: set?.title,
+            title_en: set?.title_en,
+            uuid: set?.uuid,
           };
         });
       }
@@ -262,7 +283,7 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
     if (exam?.exam_sections) {
       questionTypesArray.map((type) => {
         let section = exam.exam_sections.find(
-          (sec: any) => sec.question_type == Number(type),
+          (sec: any) => sec?.question_type == Number(type),
         );
 
         (section?.questions || []).map((qu: any) => {
@@ -379,7 +400,6 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         data.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
-      data.end_date = data.start_date;
 
       let arr: any = data.exam_questions.filter(
         (item: any) => item.is_question_checked != false,
@@ -408,13 +428,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
         data.online.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
-      data.online.end_date = data.online.start_date;
 
       data.offline.start_date =
         data.offline.start_date
           .replace(/T(\d\d):(\d\d):\d\d/, 'T$1:$2')
           .replace('T', ' ') + ':00';
-      data.offline.end_date = data.offline.start_date;
 
       let arrOnline: any = data.online.exam_questions.filter(
         (item: any) => item.is_question_checked != false,

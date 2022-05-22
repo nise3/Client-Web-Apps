@@ -33,6 +33,33 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   '& .MuiStepIcon-text': {
     fontSize: '1rem',
   },
+  '& .MuiStepper-root': {
+    display: 'block',
+    height: '220px',
+  },
+  '& .MuiStepper-root .MuiStep-root': {
+    float: 'left',
+    height: '110px',
+    width: '100px',
+  },
+  '& .MuiStepper-root .MuiStep-root.second-row': {
+    float: 'right',
+  },
+  '& .MuiStepper-root .MuiStep-root.second-row::before': {
+    content: "''",
+    backgroundColor: theme.palette.primary.main,
+    position: 'absolute',
+    width: '2px',
+    height: '36px',
+    left: 'calc(50% - 1px)',
+    top: '-46px',
+  },
+  '& .MuiStepper-root .MuiStep-root.second-row+.second-row::before': {
+    display: 'none',
+  },
+  '& .MuiStepper-root .MuiStep-root:last-of-type .MuiStepConnector-root': {
+    display: 'none',
+  },
 }));
 
 interface StepObj {
@@ -118,7 +145,6 @@ const TeamAndCellView = () => {
 
   useEffect(() => {
     if (
-      completionStep &&
       initiativeId &&
       presentStep &&
       stepNames.includes(Number(presentStep))
@@ -127,7 +153,7 @@ const TeamAndCellView = () => {
     } else if (presentStep) {
       setIsValid(false);
     }
-  }, [router?.query]);
+  }, [initiativeId, presentStep]);
 
   const handleNext = () => {
     gotoStep(activeStep + 1);
@@ -244,14 +270,14 @@ const TeamAndCellView = () => {
           );
 
         /*        case 10:
-          return (
-            <EnrollmentApprovalStep
-              fourIRInitiativeId={initiativeId}
-              onBack={handleBack}
-              onContinue={handleNext}
-              setLatestStep={setLatestStep}
-            />
-          );*/
+            return (
+              <EnrollmentApprovalStep
+                fourIRInitiativeId={initiativeId}
+                onBack={handleBack}
+                onContinue={handleNext}
+                setLatestStep={setLatestStep}
+              />
+            );*/
 
         case 10:
           return (
@@ -330,10 +356,30 @@ const TeamAndCellView = () => {
       .then(() => {});
   }
 
+  const [numColumns, setNumColumns] = useState(9);
+
+  const ref = (re: any) => {
+    console.log('useRef >>', re?.offsetWidth);
+    const cb = () => {
+      if (re?.parentElement?.offsetWidth) {
+        setNumColumns(
+          Math.floor((re.parentElement.offsetWidth - 15 * 2) / 100),
+        );
+        const w =
+          100 * Math.floor((re.parentElement.offsetWidth - 15 * 2) / 100);
+        re.style.width = w + 'px';
+        re.style.marginLeft =
+          (re.parentElement.offsetWidth - w) / 2 - 15 + 'px';
+      }
+      requestAnimationFrame(cb);
+    };
+    requestAnimationFrame(cb);
+  };
+
   return isValid ? (
     <StyledPaper>
-      <Stepper activeStep={activeStep - 1} alternativeLabel>
-        {steps.map((step: StepObj) => {
+      <Stepper activeStep={activeStep - 1} alternativeLabel ref={ref}>
+        {steps.map((step: StepObj, i) => {
           const stepProps: {completed?: boolean} = {
             completed: step.id < lastestStep,
           };
@@ -353,7 +399,10 @@ const TeamAndCellView = () => {
           };
 
           return (
-            <Step key={'key' + step.id} {...stepProps}>
+            <Step
+              key={'key' + step.id}
+              className={numColumns <= i ? 'second-row' : ''}
+              {...stepProps}>
               <StepLabel {...labelProps}>{messages[step.langKey]}</StepLabel>
             </Step>
           );

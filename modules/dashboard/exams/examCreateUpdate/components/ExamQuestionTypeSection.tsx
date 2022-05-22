@@ -92,7 +92,6 @@ const ExamQuestionTypeSection = ({
         setSelectedSelectionType(
           obj.question_selection_type ? obj.question_selection_type : null,
         );
-
         if (obj.questions) {
           if (examSets) {
             let grouped = _.mapValues(
@@ -100,13 +99,23 @@ const ExamQuestionTypeSection = ({
             );
 
             let ques: any = [];
-            Object.keys(grouped).map((key) => {
-              ques.push({questions: grouped[key]});
+            (examSets || []).map((set: any) => {
+              ques.push({
+                id: set.id,
+                questions:
+                  set?.uuid && grouped[set.uuid] ? grouped[set.uuid] : [],
+              });
             });
             setLocalQuestions(ques);
+            setOfflineQuestions(ques);
           } else {
             setLocalQuestions([{questions: obj.questions}]);
           }
+        } else {
+          let initialOfflineQue = (examSets || []).map((data: any) => {
+            return {id: data.id, questions: []};
+          });
+          setOfflineQuestions(initialOfflineQue);
         }
       }
     }
@@ -115,15 +124,6 @@ const ExamQuestionTypeSection = ({
   const onChangeQuestionSelectionType = (type: any) => {
     setSelectedSelectionType(type ? String(type) : null);
   };
-
-  useEffect(() => {
-    if (examSets) {
-      let initialOfflineQue = examSets.map((data: any) => {
-        return {id: data.id, questions: []};
-      });
-      setOfflineQuestions(initialOfflineQue);
-    }
-  }, [examSets]);
 
   const openAddQuestionModal = useCallback((index?: any) => {
     if (isOffline || isMixed) {
@@ -152,6 +152,49 @@ const ExamQuestionTypeSection = ({
       useFrom.setValue(`${idPrefix}[${index}][questions]`, data.questions);
     }
   };
+
+  const onTotalMarkUpdate = useCallback(
+    (value: string) => {
+      setMarks(value ? Number(value) : null);
+      setTotalMarks(index, value ? Number(value) : 0);
+
+      if (
+        value &&
+        numberOfQuestion &&
+        localQuestions &&
+        localQuestions.length > 0
+      ) {
+        let individualMark = Number(
+          (Number(value) / numberOfQuestion).toFixed(2),
+        );
+
+        if (isOffline || isMixed) {
+          let localQues = [...localQuestions];
+          localQues.map((ques: any) => {
+            ques.questions = (ques.questions || []).map((qu: any) => ({
+              ...qu,
+              individual_marks: individualMark,
+            }));
+          });
+          setLocalQuestions(localQues);
+          setOfflineQuestions(localQues);
+          useFrom.setValue(`${idPrefix}[${index}][question_sets]`, localQues);
+        } else if (localQuestions[0]?.questions) {
+          let localQues = [...localQuestions];
+          (localQues[0].questions || []).map((question: any) => {
+            question.individual_marks = individualMark;
+          });
+          setLocalQuestions(localQues);
+
+          useFrom.setValue(
+            `${idPrefix}[${index}][questions]`,
+            localQues[0]?.questions,
+          );
+        }
+      }
+    },
+    [localQuestions],
+  );
 
   return (
     <Grid container spacing={1}>
@@ -205,10 +248,7 @@ const ExamQuestionTypeSection = ({
                 register={useFrom.register}
                 errorInstance={useFrom.errors}
                 isLoading={false}
-                onInput={(value: string) => {
-                  setMarks(value ? Number(value) : null);
-                  setTotalMarks(index, value ? Number(value) : 0);
-                }}
+                onInput={onTotalMarkUpdate}
               />
             </Grid>
 
@@ -235,7 +275,7 @@ const ExamQuestionTypeSection = ({
             examSets.length > 0 ? (
               <Grid item xs={examSets.length < 3 ? 4 : 12}>
                 <Grid container>
-                  {examSets.map((examSet: any, index: number) => (
+                  {examSets.map((examSet: any, idx: number) => (
                     <Grid
                       key={examSet.index}
                       item
@@ -246,11 +286,11 @@ const ExamQuestionTypeSection = ({
                         wordBreak: 'break-word',
                       }}>
                       <S2 sx={{whiteSpace: 'nowrap'}}>
-                        {messages['common.set']} {formatNumber(index + 1)}
+                        {messages['common.set']} {formatNumber(idx + 1)}
                       </S2>
                       <AddButton
                         key={1}
-                        onClick={() => openAddQuestionModal(index)}
+                        onClick={() => openAddQuestionModal(idx)}
                         isLoading={false}
                         tooltip={
                           <IntlMessages
@@ -271,13 +311,23 @@ const ExamQuestionTypeSection = ({
                           wordBreak: 'normal',
                           lineBreak: 'strict',
                         }}>
-                        {localQuestions?.[index]?.questions
-                          ? formatNumber(
-                              localQuestions?.[index]?.questions.length,
-                            ) + messages['exam.question_selected']
-                          : useFrom.errors?.exam_questions
-                          ? messages['exam.no_question_selected']
-                          : ''}
+                        {localQuestions?.[idx]?.questions &&
+                        localQuestions?.[idx]?.questions.length > 0 ? (
+                          formatNumber(
+                            localQuestions?.[idx]?.questions.length,
+                          ) + messages['exam.question_selected']
+                        ) : useFrom.errors?.exam_questions?.[index]
+                            ?.question_sets ||
+                          useFrom.errors?.exam_questions?.[index]
+                            ?.question_sets?.[idx] ||
+                          useFrom.errors?.exam_questions?.[index]
+                            ?.question_sets?.[idx]?.questions ? (
+                          <span style={{color: 'red'}}>
+                            {messages['exam.no_question_selected']}
+                          </span>
+                        ) : (
+                          ''
+                        )}
                       </Body2>
                     </Grid>
                   ))}
