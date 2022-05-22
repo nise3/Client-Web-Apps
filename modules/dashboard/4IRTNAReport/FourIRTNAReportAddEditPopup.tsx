@@ -217,7 +217,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               .label(
                 messages['4ir.tna_report_desktop_research_workshop'] as string,
               )
-          : yup.string().nullable(),
+          : yup.mixed().nullable(),
       existing_report_review_workshop_numbers: isExistingReportReviewFile
         ? yup
             .string()
@@ -271,7 +271,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
                 },
               )
               .label(messages['4ir.tna_report.others_workshop'] as string)
-          : yup.string().nullable(),
+          : yup.mixed().nullable(),
       file_path: yup.string().label(messages['common.file_path'] as string),
       row_status: yup.number(),
     });
@@ -360,6 +360,7 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
+      console.log('ddadad', data);
       const payload = new FormData();
 
       payload.append('four_ir_initiative_id', String(fourIRInitiativeId));
@@ -369,92 +370,94 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
       if (data?.file_path) payload.append('file_path', data?.file_path);
 
       // todo: the commented code includes the solution
-      // let all_files = [1,2,3,4,5,6]
-      // all_files.forEach((fileId) => {
-      //   if (data?.[ methodType[fileId]?.checkbox ] ) {
-      //     payload.append(
-      //         methodType?.[fileId].item_number
-      //         ,
-      //         String(data?.[methodType?.[fileId].item_number]),
-      //     );
-      //
-      //     if (!isEdit || (isEdit && data?.[methodType?.[fileId].item_file]?.[0]))
-      //       payload.append(
-      //           methodType?.[fileId].item_file,
-      //           data?.[methodType?.[fileId].item_file]?.[0],
-      //       );
-      //   }
-      // })
-
-      if (data?.workshop_method_workshop) {
-        payload.append(
-          'workshop_method_workshop_numbers',
-          String(data?.workshop_method_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.workshop_method_file?.[0]))
+      let all_files = [1, 2, 3, 4, 5, 6];
+      all_files.forEach((fileId) => {
+        if (data?.[methodType[fileId]?.checkbox]) {
           payload.append(
-            'workshop_method_file',
-            data?.workshop_method_file?.[0],
+            methodType?.[fileId].item_number,
+            String(data?.[methodType?.[fileId].item_number]),
           );
-      }
 
-      if (data?.fgd_workshop) {
-        payload.append(
-          'fgd_workshop_numbers',
-          String(data?.fgd_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.fgd_workshop_file?.[0]))
-          payload.append('fgd_workshop_file', data?.fgd_workshop_file?.[0]);
-      }
-
-      if (data?.industry_visit_workshop) {
-        payload.append(
-          'industry_visit_workshop_numbers',
-          String(data?.industry_visit_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.industry_visit_file?.[0]))
-          payload.append('industry_visit_file', data?.industry_visit_file?.[0]);
-      }
-
-      if (data?.desktop_research_workshop) {
-        payload.append(
-          'desktop_research_workshop_numbers',
-          String(data?.desktop_research_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.desktop_research_file?.[0]))
-          payload.append(
-            'desktop_research_file',
-            data?.desktop_research_file?.[0],
-          );
-      }
-
-      if (data?.existing_report_review_workshop) {
-        payload.append(
-          'existing_report_review_workshop_numbers',
-          String(data?.existing_report_review_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.existing_report_review_file?.[0])) {
-          payload.append(
-            'existing_report_review_file',
-            data?.existing_report_review_file?.[0],
-          );
+          if (
+            !isEdit ||
+            (isEdit && data?.[methodType?.[fileId].item_file]?.[0])
+          )
+            payload.append(
+              methodType?.[fileId].item_file,
+              data?.[methodType?.[fileId].item_file]?.[0],
+            );
         }
-      }
+      });
 
-      if (data?.others_workshop) {
-        payload.append(
-          'others_workshop_numbers',
-          String(data?.others_workshop_numbers),
-        );
-
-        if (!isEdit || (isEdit && data?.others_file?.[0]))
-          payload.append('others_file', data?.others_file?.[0]);
-      }
+      // if (data?.workshop_method_workshop) {
+      //   payload.append(
+      //     'workshop_method_workshop_numbers',
+      //     String(data?.workshop_method_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.workshop_method_file?.[0]))
+      //     payload.append(
+      //       'workshop_method_file',
+      //       data?.workshop_method_file?.[0],
+      //     );
+      // }
+      //
+      // if (data?.fgd_workshop) {
+      //   payload.append(
+      //     'fgd_workshop_numbers',
+      //     String(data?.fgd_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.fgd_workshop_file?.[0]))
+      //     payload.append('fgd_workshop_file', data?.fgd_workshop_file?.[0]);
+      // }
+      //
+      // if (data?.industry_visit_workshop) {
+      //   payload.append(
+      //     'industry_visit_workshop_numbers',
+      //     String(data?.industry_visit_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.industry_visit_file?.[0]))
+      //     payload.append('industry_visit_file', data?.industry_visit_file?.[0]);
+      // }
+      //
+      // if (data?.desktop_research_workshop) {
+      //   payload.append(
+      //     'desktop_research_workshop_numbers',
+      //     String(data?.desktop_research_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.desktop_research_file?.[0]))
+      //     payload.append(
+      //       'desktop_research_file',
+      //       data?.desktop_research_file?.[0],
+      //     );
+      // }
+      //
+      // if (data?.existing_report_review_workshop) {
+      //   payload.append(
+      //     'existing_report_review_workshop_numbers',
+      //     String(data?.existing_report_review_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.existing_report_review_file?.[0])) {
+      //     payload.append(
+      //       'existing_report_review_file',
+      //       data?.existing_report_review_file?.[0],
+      //     );
+      //   }
+      // }
+      //
+      // if (data?.others_workshop) {
+      //   payload.append(
+      //     'others_workshop_numbers',
+      //     String(data?.others_workshop_numbers),
+      //   );
+      //
+      //   if (!isEdit || (isEdit && data?.others_file?.[0]))
+      //     payload.append('others_file', data?.others_file?.[0]);
+      // }
 
       if (isEdit) {
         payload.append('operation_type', 'UPDATE');
