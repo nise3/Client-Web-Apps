@@ -56,6 +56,32 @@ interface CourseDetailsHeaderProps {
 const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course }) => {
   const { messages, formatNumber } = useIntl();
   const authUser = useAuthUser();
+  // const router = useRouter();
+  // const path = router.pathname;
+
+  // const goToCertificate = () => {
+  //   if (course && course.certificate_issued_id) {
+  //     const params: any = {certificate_issued_id: course.certificate_issued_id};
+  //     apiGet(API_COURSE_ENROLLMENTS, params)
+  //     .then((res) => {
+  //       const dta = res.data.data;
+  //       if (dta && dta.length > 0) {
+  //         router.push(
+  //           `${path}/certificate-view/${dta.batch_id}`,
+  //         );
+  //       } else {
+  //         errorStack(
+  //           <IntlMessages
+  //             id='common.no_data_found_dynamic'
+  //             values={{
+  //               messageType: <IntlMessages id='certificate.certificate_issue' />,
+  //             }}
+  //           />,
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
   
   return (
     <StyledContainer maxWidth={'lg'}>
@@ -168,8 +194,8 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course }) =>
                     href={
                       authUser
                         ? youthDomain() +
-                        LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
-                        course?.certificate_issued_id
+                      LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
+                        course?.id
                         : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                     }>
                     <Button
@@ -187,9 +213,6 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course }) =>
                         certificateIssue?.id
                         : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                     }>
-                    <Button variant={'contained'} color={'primary'}>
-                      {messages['common.certificate_view']}
-                    </Button>
                   </Link> */}
                 </Box>
               )}
