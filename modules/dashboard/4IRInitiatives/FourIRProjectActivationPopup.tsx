@@ -95,7 +95,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
       });
 
       setTasks(tasks);
-      setIsSkillProvide(itemData?.is_skill_provide);
+      //setIsSkillProvide(itemData?.is_skill_provide);
     } else {
       reset(initialValues);
     }
