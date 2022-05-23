@@ -144,19 +144,21 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
           </>
         }
         extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal()}
-            isLoading={false}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_initiative_analysis.label'],
-                }}
-              />
-            }
-          />,
+          !(data && data?.length) && (
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal()}
+              isLoading={false}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['4ir_initiative_analysis.label'],
+                  }}
+                />
+              }
+            />
+          ),
         ]}>
         <ReactTable
           columns={columns}
