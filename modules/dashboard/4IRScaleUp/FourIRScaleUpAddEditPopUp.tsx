@@ -262,6 +262,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='end_date'
             label={messages['common.end_date']}
             register={register}
@@ -354,6 +355,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id={'file_path'}
+            required
             errorInstance={errors}
             setValue={setValue}
             register={register}

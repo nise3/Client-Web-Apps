@@ -137,7 +137,7 @@ const InitiativeImportPopup: FC<InitiativeImportPopupProps> = ({
           <CommonButton
             key={1}
             onClick={() => fileDownloadHandler()}
-            btnText={messages['common.download_excel_file'] as string}
+            btnText={'common.download_excel_file'}
             variant={'outlined'}
             color={'primary'}
           />
