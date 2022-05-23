@@ -2081,5 +2081,6 @@
   "certificate.issued_date" : "ইসু তারিখ",
   "certificate.type" : "সার্টিফিকেটের ধরণ",
   "4ir.scaleup_file_upload": "আপলোড ফাইল (ওয়ার্ড / পিডিএফ)",
-  "common.file_upload_photo": "ফাইল আপলোড (ফটো)"
+  "common.file_upload_photo": "ফাইল আপলোড (ফটো)",
+  "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন"
 }

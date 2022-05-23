@@ -12,7 +12,6 @@ import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelBu
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
 
 interface Props {
-  fourIRInitiativeId: number;
   onFetchData: any;
   data: any;
   loading: any;
@@ -34,7 +33,6 @@ const method_names: any = {
 
 // todo: data will come from tnaReport Page ; data.methods
 const FourIRTNAReportDetailsPopup = ({
-  fourIRInitiativeId,
   onFetchData,
   data,
   loading,
@@ -79,17 +77,27 @@ const FourIRTNAReportDetailsPopup = ({
         Header: messages['4ir.tna_report_attachment'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
-            <Link href={`/${data?.tna_file_path}`} download>
+          return data?.method_file_path ? (
+            <Link href={data?.method_file_path} download>
               <CommonButton
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'common.file'}
+                btnText={'common.download'}
                 variant={'outlined'}
                 color={'primary'}
                 startIcon={<DownloadIcon />}
               />
             </Link>
+          ) : (
+            <CommonButton
+              disabled
+              key={1}
+              onClick={() => console.log('file downloading')}
+              btnText={'common.download'}
+              variant={'outlined'}
+              color={'primary'}
+              startIcon={<DownloadIcon />}
+            />
           );
         },
       },
@@ -105,7 +113,7 @@ const FourIRTNAReportDetailsPopup = ({
         title={
           <>
             <IconBatch />
-            <IntlMessages id='batches.label' />
+            <IntlMessages id='4ir.tna_report_view' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
