@@ -38,6 +38,9 @@ mod_ssl
 
 127.0.0.1	rpl.nise.asm
 ::1	rpl.nise.asm
+
+127.0.0.1	migration-portal.nise.asm
+::1	migration-portal.nise.asm
 ```
 
 ### After that add the following entries in your apache virtual host file:
@@ -200,6 +203,26 @@ mod_ssl
 
 	ProxyPass / http://localhost:3005/
 	ProxyPassReverse / http://localhost:3005/
+
+	Header set Access-Control-Allow-Origin "*"
+
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerAdmin nise@mydomain.com
+	ServerName migration-portal.nise.asm
+
+	UseCanonicalName on
+	ProxyPreserveHost On
+	ProxyRequests Off
+
+	<Proxy *>
+		Order allow,deny
+		Allow from all
+	</Proxy>
+
+	ProxyPass / http://localhost:3006/
+	ProxyPassReverse / http://localhost:3006/
 
 	Header set Access-Control-Allow-Origin "*"
 
