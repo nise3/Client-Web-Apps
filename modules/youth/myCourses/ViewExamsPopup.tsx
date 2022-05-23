@@ -24,18 +24,34 @@ import {
 import {LINK_FRONTEND_YOUTH_EXAMS} from '../../../@softbd/common/appLinks';
 import {ExamTypes} from '../../dashboard/exams/ExamEnums';
 import UploadExamAnsFilePopup from './UploadExamAnsFilePopup';
+import {useFetchPublicYouthBatchExams} from '../../../services/instituteManagement/hooks';
+import TableSkeleton from '../../../@softbd/elements/display/skeleton/TableSkeleton/TableSkeleton';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
+import Tooltip from '@mui/material/Tooltip';
+import {InsertDriveFile, RemoveRedEye} from '@mui/icons-material';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
-  exams: any;
+  youthId: any;
   batchId: any;
 }
 
-const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
+const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
+  onClose,
+  youthId,
+  batchId,
+}) => {
   const {messages, formatDate, formatTime, formatNumber} = useIntl();
+
   const [isOpenUploadAnsFileModal, setIsOpenUploadAnsFileModal] =
     useState(false);
   const [exam, setExam] = useState<any>([]);
+
+  const [batchExamParams] = useState<any>({youth_id: youthId});
+  const {data: examsData, isLoading} = useFetchPublicYouthBatchExams(
+    batchId,
+    batchExamParams,
+  );
 
   const getExamTimeDuration = useCallback((duration: any) => {
     let hour = Math.floor(duration / 60);
@@ -77,6 +93,18 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
         return messages['common.online'];
       case ExamTypes.OFFLINE:
         return messages['common.offline'];
+      case ExamTypes.MIXED:
+        return messages['common.mixed'];
+      case ExamTypes.PRACTICAL:
+        return messages['common.practical'];
+      case ExamTypes.FIELDWORK:
+        return messages['common.field_work'];
+      case ExamTypes.PRESENTATION:
+        return messages['common.presentation'];
+      case ExamTypes.ASSIGNMENT:
+        return messages['common.assignment'];
+      case ExamTypes.ATTENDANCE:
+        return messages['common.attendance'];
       default:
         return '';
     }
@@ -130,92 +158,148 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({onClose, exams, batchId}) => {
               <TableCell>{messages['common.status']}</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {exams && exams.length ? (
-              (exams || []).map((exam: any, index: number) => {
-                let isOver =
-                  new Date(exam?.start_date).getTime() +
-                    Number(exam?.duration) * 60 * 1000 <
-                  new Date().getTime();
+          {isLoading ? (
+            <TableSkeleton rowSize={5} columnNumbers={4} />
+          ) : (
+            <TableBody>
+              {examsData?.exams && examsData?.exams.length ? (
+                (examsData?.exams || []).map((exam: any, index: number) => {
+                  let isOver =
+                    new Date(exam?.exams[0]?.start_date).getTime() +
+                      Number(exam?.exams[0]?.duration) * 60 * 1000 <
+                    new Date().getTime();
 
-                let isOverOthers =
-                  new Date(exam?.end_date).getTime() < new Date().getTime();
+                  let isOverOthers =
+                    new Date(exam?.exams[0]?.end_date).getTime() <
+                    new Date().getTime();
 
-                return (
-                  <TableRow key={index}>
-                    <TableCell component='th' scope='language'>
-                      {exam?.title}
-                    </TableCell>
-                    <TableCell component='th' scope='language'>
-                      {exam?.subject_title}
-                    </TableCell>
-                    <TableCell component='th' scope='language'>
-                      {getType(exam?.type)}
-                    </TableCell>
-                    <TableCell component='th' scope='language'>
-                      {exam?.start_date
-                        ? getIntlDateFromString(formatDate, exam?.start_date) +
-                          ',' +
-                          getIntlTimeFromString(formatTime, exam?.start_date)
-                        : ''}
-                    </TableCell>
-                    <TableCell>
-                      {exam?.duration ? getExamTimeDuration(exam.duration) : ''}
-                    </TableCell>
-                    <TableCell>
-                      {isOver && exam?.participated && exam?.marks_obtained
-                        ? formatNumber(exam?.marks_obtained) +
-                          '/' +
-                          formatNumber(exam?.total_marks)
-                        : exam?.participated
-                        ? messages['common.in_progress']
-                        : messages['common.not_participated']}
-                    </TableCell>
-                    <TableCell>
-                      {exam.type == ExamTypes.ONLINE &&
-                        (exam?.participated ? (
-                          <Body1>{messages['exam.already_participated']}</Body1>
-                        ) : isOver ? (
-                          <Body1>{messages['exam.exam_over']}</Body1>
-                        ) : (
-                          <Link
-                            href={
-                              LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`
-                            }>
+                  let markSheetPath = `/batches/${batchId}/youths/${youthId}/marksheet/${exam.id}`;
+
+                  return (
+                    <TableRow key={index}>
+                      <TableCell component='th' scope='language'>
+                        {exam?.title}
+                      </TableCell>
+                      <TableCell component='th' scope='language'>
+                        {exam?.subject?.subject_title}
+                      </TableCell>
+                      <TableCell component='th' scope='language'>
+                        {getType(exam?.type)}
+                      </TableCell>
+                      <TableCell component='th' scope='language'>
+                        {exam?.exams[0]?.start_date
+                          ? getIntlDateFromString(
+                              formatDate,
+                              exam?.exams[0]?.start_date,
+                            ) +
+                            ',' +
+                            getIntlTimeFromString(
+                              formatTime,
+                              exam?.exams[0]?.start_date,
+                            )
+                          : ''}
+                      </TableCell>
+                      <TableCell>
+                        {exam?.exams[0]?.duration
+                          ? getExamTimeDuration(exam.exams[0]?.duration)
+                          : ''}
+                      </TableCell>
+                      <TableCell>
+                        {isOver && exam?.participated && exam?.marks_obtained
+                          ? formatNumber(exam?.marks_obtained) +
+                            '/' +
+                            formatNumber(exam?.total_marks)
+                          : exam?.participated
+                          ? messages['common.in_progress']
+                          : messages['common.not_participated']}
+                      </TableCell>
+                      <TableCell>
+                        {exam.type == ExamTypes.ONLINE &&
+                          (exam?.participated ? (
+                            <Body1>
+                              {messages['exam.already_participated']}
+                            </Body1>
+                          ) : isOver ? (
+                            <Body1>{messages['exam.exam_over']}</Body1>
+                          ) : (
+                            <Link
+                              href={
+                                LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`
+                              }>
+                              <Button
+                                variant={'outlined'}
+                                onClick={() =>
+                                  localStorage.setItem(
+                                    'batchId',
+                                    JSON.stringify(batchId),
+                                  )
+                                }>
+                                {messages['common.attend_exam']}
+                              </Button>
+                            </Link>
+                          ))}
+                        {exam.type !== ExamTypes.ONLINE &&
+                          exam.type !== ExamTypes.OFFLINE &&
+                          exam.type !== ExamTypes.MIXED &&
+                          (exam?.participated ? (
+                            <Body1>
+                              {messages['exam.already_participated']}
+                            </Body1>
+                          ) : isOverOthers ? (
+                            <Body1>{messages['exam.exam_over']}</Body1>
+                          ) : (
                             <Button
                               variant={'outlined'}
-                              onClick={() =>
-                                localStorage.setItem(
-                                  'batchId',
-                                  JSON.stringify(batchId),
-                                )
-                              }>
-                              {messages['common.attend_exam']}
+                              onClick={() => onOpenUploadAnsFileModal(exam)}>
+                              {messages['common.file_upload']}
                             </Button>
+                          ))}
+
+                        {Number(exam.type) == ExamTypes.ONLINE ? (
+                          <Link
+                            href={markSheetPath}
+                            passHref={true}
+                            style={{marginLeft: '5px'}}>
+                            <Tooltip
+                              title={messages['common.answer_sheet'] as any}
+                              arrow>
+                              <RemoveRedEye sx={{color: 'blue'}} />
+                            </Tooltip>
                           </Link>
-                        ))}
-                      {exam.type !== ExamTypes.ONLINE &&
-                        exam.type !== ExamTypes.OFFLINE &&
-                        exam.type !== ExamTypes.MIXED &&
-                        (exam?.participated ? (
-                          <Body1>{messages['exam.already_participated']}</Body1>
-                        ) : isOverOthers ? (
-                          <Body1>{messages['exam.exam_over']}</Body1>
+                        ) : Number(exam.type) != ExamTypes.OFFLINE &&
+                          exam.file_paths &&
+                          exam.file_paths.length > 0 ? (
+                          <div>
+                            {exam.file_paths.map((file: any, i: number) => (
+                              <Link
+                                href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
+                                passHref={true}
+                                key={i}
+                                target={'_blank'}>
+                                <Tooltip
+                                  title={`${
+                                    messages['common.file_path'] as any
+                                  } ${formatNumber(i + 1)}`}
+                                  arrow>
+                                  <InsertDriveFile
+                                    sx={{color: 'blue', marginLeft: '10px'}}
+                                  />
+                                </Tooltip>
+                              </Link>
+                            ))}
+                          </div>
                         ) : (
-                          <Button
-                            variant={'outlined'}
-                            onClick={() => onOpenUploadAnsFileModal(exam)}>
-                            {messages['common.file_upload']}
-                          </Button>
-                        ))}
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </TableBody>
+                          <></>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
 

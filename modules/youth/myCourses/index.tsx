@@ -6,28 +6,50 @@ import {useFetchYouthCourses} from '../../../services/youthManagement/hooks';
 import {Link} from '../../../@softbd/elements/common';
 import BoxCardsSkeleton from '../../institute/Components/BoxCardsSkeleton';
 import ViewExamsPopup from './ViewExamsPopup';
+import ViewResultPopup from './ViewResultPopup';
 
 const MyCoursePage = () => {
   const {messages} = useIntl();
+
   const [courseFilters] = useState({});
   const [isOpenViewExamModal, setIsOpenViewExamModal] = useState(false);
-  const [courseExam, setCourseExam] = useState([]);
+  const [youthId, setYouthId] = useState<any>(null);
   const [batchId, setBatchId] = useState<any>(null);
+  const [batchTitle, setBatchTitle] = useState<string | null>('');
+  const [isOpenResultModal, setIsOpenResultModal] = useState(false);
 
   const {data: courseList, isLoading: isLoadingCourses} =
     useFetchYouthCourses(courseFilters);
 
   const onCloseViewExamModal = useCallback(() => {
-    setCourseExam([]);
+    setYouthId(null);
     setIsOpenViewExamModal(false);
   }, []);
 
-  const handleViewExam = (e: any, exams: any, batchId: any) => {
+  const handleViewResult = (
+    e: any,
+    batchId: any,
+    youthId: any,
+    batchTitle: string | null,
+  ) => {
     e.preventDefault();
-    setCourseExam(exams);
+    setIsOpenResultModal(true);
+    setBatchId(batchId);
+    setYouthId(youthId);
+    setBatchTitle(batchTitle);
+  };
+
+  const onCloseResultModal = useCallback(() => {
+    setIsOpenResultModal(false);
+  }, []);
+
+  const handleViewExam = (e: any, youthId: any, batchId: any) => {
+    e.preventDefault();
+    setYouthId(youthId);
     setIsOpenViewExamModal(true);
     setBatchId(batchId);
   };
+
   return (
     <Container maxWidth={'lg'} sx={{padding: 5}}>
       {isLoadingCourses ? (
@@ -57,8 +79,13 @@ const MyCoursePage = () => {
                           progress: (course.id * 40) % 100,
                           exams: course?.exams,
                           batch_id: course.batch_id,
+                          youth_id: course.youth_id,
+                          result_published_at: course.result_published_at,
+                          result_processed_at: course.result_processed_at,
+                          batch_title: course.batch_title,
                         }}
                         handleViewExam={handleViewExam}
+                        handleViewResult={handleViewResult}
                       />
                     </Link>
                   </Grid>
@@ -74,11 +101,21 @@ const MyCoursePage = () => {
           </Typography>
         </Grid>
       )}
+
       {isOpenViewExamModal && (
         <ViewExamsPopup
           onClose={onCloseViewExamModal}
-          exams={courseExam}
+          youthId={youthId}
           batchId={batchId}
+        />
+      )}
+
+      {isOpenResultModal && (
+        <ViewResultPopup
+          onClose={onCloseResultModal}
+          batchId={batchId}
+          youthId={youthId}
+          batchTitle={batchTitle}
         />
       )}
     </Container>
