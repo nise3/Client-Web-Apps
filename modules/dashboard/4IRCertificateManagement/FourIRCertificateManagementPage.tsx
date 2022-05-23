@@ -16,6 +16,11 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Typography} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 const CERTIFICATE_TYPE_LABEL = {
   COMPETENT: 'Competent',
@@ -33,6 +38,12 @@ const FourIRCertificateManagementPage = ({
   fourIRInitiativeId,
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const getCertificateType = useCallback((id: number): string => {
     switch (id) {
@@ -141,14 +152,13 @@ const FourIRCertificateManagementPage = ({
       },
     });
 
-  console.log(data);
-
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='certification.label' />
+            <IconCourse /> <IntlMessages id='certification.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }>
         <ReactTable

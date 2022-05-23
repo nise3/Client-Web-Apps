@@ -22,6 +22,11 @@ import {deleteToT} from '../../../services/4IRManagement/ToTService';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface IFourIRToTPageProps {
   fourIRInitiativeId: number;
@@ -38,6 +43,12 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -159,7 +170,8 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_tot.label' />
+            <IconBranch /> <IntlMessages id='4ir_tot.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[

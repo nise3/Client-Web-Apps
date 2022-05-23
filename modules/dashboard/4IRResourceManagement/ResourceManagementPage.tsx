@@ -18,6 +18,11 @@ import {
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
@@ -35,6 +40,12 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -133,7 +144,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='4ir_rm.label' />
+            <IconSkill /> <IntlMessages id='4ir_rm.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={

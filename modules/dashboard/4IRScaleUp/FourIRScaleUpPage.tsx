@@ -22,6 +22,11 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_SCALE_UP} from '../../../@softbd/common/apiRoutes';
 import {deleteScaleUp} from '../../../services/4IRManagement/ScaleUpService';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -38,6 +43,12 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -156,7 +167,8 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.scale_up' />
+            <IconBranch /> <IntlMessages id='4ir.scale_up' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[

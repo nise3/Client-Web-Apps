@@ -155,21 +155,23 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           </>
         }
         extra={[
-          !(data && data?.length) && (
-            <AddButton
-              isLoading={loading}
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['4ir.TNA_report'],
-                  }}
-                />
-              }
-            />
-          ),
+          <>
+            {!(data && data?.length) && (
+              <AddButton
+                isLoading={loading}
+                key={1}
+                onClick={() => openAddEditModal(null)}
+                tooltip={
+                  <IntlMessages
+                    id={'common.add_new'}
+                    values={{
+                      subject: messages['4ir.TNA_report'],
+                    }}
+                  />
+                }
+              />
+            )}
+          </>,
         ]}>
         <ReactTable
           columns={columns}
