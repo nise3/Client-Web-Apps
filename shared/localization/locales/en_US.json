@@ -2081,5 +2081,6 @@
   "certificate.issued_date" : "Issued Date",
   "certificate.type" : "Certificate Type",
   "4ir.scaleup_file_upload": "Upload File (Word / PDF)",
-  "common.file_upload_photo": "File Upload (Photo)"
+  "common.file_upload_photo": "File Upload (Photo)",
+  "4ir.tna_report_view" :  "View TNA Report details"
 }
