@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import yup from '../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {youthRegistrationVerification} from '../../services/youthManagement/YouthRegistrationService';
+//import {youthRegistrationVerification} from '../../services/youthManagement/YouthRegistrationService';
 import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
@@ -17,6 +17,7 @@ import {createVerificationCode} from '../../services/youthManagement/Registratio
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_SEND_TIME} from '../../shared/constants/AppConst';
 import {RESEND_CODE_RETRY_TIME_IN_MILLIS} from '../../@softbd/common/constants';
+import {useRouter} from "next/router";
 
 const inputProps = {
   maxLength: 1,
@@ -33,6 +34,7 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   userEmailAndMobile,
 }) => {
   const {messages} = useIntl();
+  const router = useRouter();
   const {successStack, errorStack} = useNotiStack();
   const [resendTime, setResendTime] = useState<string | null>(null);
   const [resendCode, setResendCode] = useState<boolean>(false);
@@ -108,7 +110,8 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   };
 
   const redirectToSSO = () => {
-    window.location.href = getSSOLoginUrl();
+    window.location.href = getSSOLoginUrl(router.query);
+    //getSSOLoginUrl({redirected_from:'redirected_from=http://nise.asm/course-details/'+userEmailAndMobile.courseId});
   };
 
   const resendVerificationCode = useCallback(
@@ -160,10 +163,11 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 
       if (userEmailAndMobile?.mobile)
         requestData.mobile = userEmailAndMobile.mobile;
+        requestData.courseId=userEmailAndMobile.courseId;
       if (userEmailAndMobile?.email)
         requestData.email = userEmailAndMobile.email;
-
-      await youthRegistrationVerification(requestData);
+        requestData.courseId=userEmailAndMobile.courseId;
+      //await youthRegistrationVerification(requestData);
       successStack(
         <IntlMessages id='youth_registration.verification_success' />,
       );

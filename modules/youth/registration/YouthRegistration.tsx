@@ -26,7 +26,7 @@ import {
 import Genders from '../../../@softbd/utilities/Genders';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
 import {useFetchLocalizedSkills} from '../../../services/youthManagement/hooks';
-import {youthRegistration} from '../../../services/youthManagement/YouthRegistrationService';
+//import {youthRegistration} from '../../../services/youthManagement/YouthRegistrationService';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -313,7 +313,8 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam = {mobile: data?.mobile};
+      const queryParam = {mobile: data?.mobile,redirected_from:router.query.redirected_from};
+      console.log('redirected from course id',router.query.redirected_from?.toString().split('/')[4]);
       /*const queryParam =
             userNameType == UserNameType.MOBILE
                 ? {mobile: data.mobile}
@@ -338,7 +339,8 @@ const YouthRegistration = () => {
       });
       data.skills = skillIds;
 
-      await youthRegistration(data);
+
+      //await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       setIsFormSubmitted(true);
       router
@@ -586,6 +588,7 @@ const YouthRegistration = () => {
                 *({messages['youth.registration_username_note']})
               </Typography>
               <Typography style={{marginTop: '15px'}} variant={'body1'}>
+                {console.log('ROUTER QUERY',getSSOLoginUrl(router.query))}
                 {messages['common.already_have_account']}{' '}
                 <Link
                   href={getSSOLoginUrl(router.query)}
