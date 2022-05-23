@@ -150,10 +150,7 @@ const CerrtificateTemplatePopup: FC<CertificateTemplatePopupProps> = ({
       title={
         <>
           <IconBatch />
-          <IntlMessages
-            id='common.add_new'
-            values={{ subject: <IntlMessages id='common.certificate_template' /> }}
-          />
+          <IntlMessages id='common.certificate_template_setting_for_batch' />
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}

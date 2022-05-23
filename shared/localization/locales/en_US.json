@@ -463,6 +463,7 @@
   "certificate_authority.details": "Certificate Authority Details",
   "certificate_authority.management": "Certificate Authority Management",
   "certificate.certificate_issue": "Certificate Issue",
+  "certificate.certificate_issue_action": "Certificate Issue",
   "certificate.certificate_added_alreadt_batch": "This Certificate Already Added to Batch",
   "common.issue_date": "Issue Date",
   "certificate.certificate_issued": "Certificate Issued",
@@ -2251,5 +2252,6 @@
   "batch.result_failed_exams_not_finished": "Some assigned exams is not finished",
   "common.percentage": "Percentage",
   "common.final_marks": "Final marks",
-  "common.all_result": "All result"
+  "common.all_result": "All result",
+  "common.certificate_template_setting_for_batch": "Certificate Template Setting for Batch"
 }

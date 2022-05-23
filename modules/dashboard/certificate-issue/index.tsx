@@ -81,18 +81,28 @@ const CertificateIssuePage = () => {
         },
       },
       {
-        Header: messages['common.name'],
+        Header: messages['common.training_center'],
+        accessor: 'training_center_title',
+      },
+      {
+        Header: messages['common.youth_2'],
         accessor: 'youth_profile.first_name',
         isVisible: locale == LocaleLanguage.BN,
       },
       {
-        Header: messages['common.name_en'],
+        Header: messages['common.youth_2'],
         accessor: 'youth_profile.first_name_en',
         isVisible: locale == LocaleLanguage.EN,
       },
       {
         Header: messages['common.date_of_birth'],
         accessor: 'date_of_birth',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.date_of_birth)}</span>
+          );
+        },
       },
       {
         Header: messages['youth.mobile'],
@@ -124,7 +134,7 @@ const CertificateIssuePage = () => {
                 approveAction={() =>
                   issueCerrificate(data)
                 }
-                buttonText={messages['certificate.certificate_issue'] as string}
+                buttonText={messages['certificate.certificate_issue_action'] as string}
               /> : 
               // <IntlMessages id={messages['certificate.certificate_issued_done'] as string} />
               <Link href={`/certificate/certificate-view/${data.certificate_issued_id}`} passHref={true}>

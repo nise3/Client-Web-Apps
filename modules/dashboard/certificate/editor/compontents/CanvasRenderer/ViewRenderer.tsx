@@ -165,11 +165,7 @@ function ViewRenderer() {
       .then((res) => {
         const issueInfo = res.data;
         setCertificateId(issueInfo.certificate_id);
-
-
-
         const isBangla = issueInfo.certificate_language == CERTIRICATE_LANGUAGE.BANGLA;
-
         setYouthInfoData((prev) => {
           // const identity = isBangla ? convertEnglishDigitsToBengali(youth.identity_number) : youth.identity_number;
           const youboj = {
