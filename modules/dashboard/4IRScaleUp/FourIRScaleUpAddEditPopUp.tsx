@@ -218,6 +218,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='budget'
             type={'number'}
             label={messages['initiative.budget']}
@@ -228,6 +229,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='timeline_start_year'
             type={'number'}
             label={messages['common.start_year']}
@@ -238,6 +240,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='timeline_end_year'
             type={'number'}
             label={messages['common.end_year']}
@@ -249,6 +252,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='start_date'
             label={messages['common.start_date']}
             register={register}
@@ -258,6 +262,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='end_date'
             label={messages['common.end_date']}
             register={register}
@@ -268,6 +273,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='beneficiary_target'
             label={messages['4ir.scaleup_beneficiary_target']}
             register={register}
@@ -349,6 +355,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id={'file_path'}
+            required
             errorInstance={errors}
             setValue={setValue}
             register={register}

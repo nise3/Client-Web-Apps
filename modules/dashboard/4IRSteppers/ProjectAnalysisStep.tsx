@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
 import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
-import ProjectAnalysisPage from '../4IRProjectAnalysis/InitiativeAnalysisPage';
+import ProjectAnalysisPage from '../4IRInitiativeAnalysis/InitiativeAnalysisPage';
 
 interface Props {
   fourIRInitiativeId: any;
