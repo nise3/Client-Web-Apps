@@ -124,8 +124,6 @@ const BranchAddEditPopup: FC<BranchAddEditPopupProps> = ({
     resolver: yupResolver(validationSchema),
   });
 
-  console.log('forms errors title: ', errors);
-
   useEffect(() => {
     if (authUser?.isSystemUser) {
       setIsLoadingInstitutes(true);
