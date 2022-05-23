@@ -48,7 +48,6 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
   const {data: tagline, isLoading: isTaglineLoading} = useFetchFourIRTagline(
     Number(taglineId),
   );
-
   const {data: initaitive, isLoading: isInitiativeLoading} =
     useFetch4IRInitiative(initativeId);
 
