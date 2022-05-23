@@ -34,6 +34,7 @@ import CommonButton from '../../../../@softbd/elements/button/CommonButton/Commo
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
 import ApproveButton from '../../industry-associations/ApproveButton';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
@@ -45,7 +46,7 @@ const FourIRCoursePage = ({
   showEnrollmentHandler,
 }: IFourIRCoursePageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -104,15 +105,22 @@ const FourIRCoursePage = ({
   }, []);
 
   const deleteCourseItem = async (courseId: number) => {
-    let response = await deleteFourIRCourse(courseId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_course.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteFourIRCourse(courseId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir_course.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

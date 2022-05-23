@@ -22,6 +22,7 @@ import {deleteTeamMember} from '../../../services/4IRManagement/ImplementingTeam
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
 import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface IFourIRImplementingTeamPageProps {
   fourIRInitiativeId: number;
@@ -31,7 +32,7 @@ const FourIRImplementingTeamPage = ({
   fourIRInitiativeId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -60,15 +61,22 @@ const FourIRImplementingTeamPage = ({
   }, []);
 
   const deleteImplementingTeamMember = async (memberId: number) => {
-    let response = await deleteTeamMember(memberId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.team_member' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteTeamMember(memberId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir.team_member' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

@@ -129,10 +129,19 @@ const FourIRShowcasingAddEditPopUP = ({
     }
     const fetchInitiative = async () => {
       setIsInitiativeLoading(true);
-      const response = await getAllInitiatives({
-        four_ir_tagline_id: selectedTagline,
-      });
-      setInitiativeData(response?.data);
+      try {
+        const response = await getAllInitiatives({
+          four_ir_tagline_id: selectedTagline,
+        });
+        setInitiativeData(response?.data);
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          setError,
+          validationSchema,
+          errorStack,
+        });
+      }
       setIsInitiativeLoading(false);
     };
     fetchInitiative();

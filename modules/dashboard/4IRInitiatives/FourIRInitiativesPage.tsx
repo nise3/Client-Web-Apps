@@ -31,12 +31,13 @@ import InitiativeImportPopup from './InitiativeImportPopup';
 import {useFetchFourIRTagline} from '../../../services/4IRManagement/hooks';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const FourIRInitiativesPage = () => {
   const router = useRouter();
   const presentPath = router.asPath;
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenProjectActivationModal, setIsOpenProjectActivationModal] =
@@ -95,15 +96,22 @@ const FourIRInitiativesPage = () => {
   }, []);
 
   const deleteInitiativeItem = async (initiativeId: number) => {
-    let response = await deleteInitiative(initiativeId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='initiative.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteInitiative(initiativeId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='initiative.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

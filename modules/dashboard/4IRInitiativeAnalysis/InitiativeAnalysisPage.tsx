@@ -4,23 +4,17 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import InitiativeAnalysisAddEditPopup from './InitiativeAnalysisAddEditPopup';
 import InitiativeAnalysisDetailsPopUp from './InitiativeAnalysisDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_INITIATIVE_ANALYSIS} from '../../../@softbd/common/apiRoutes';
-import {deleteInitiativeAnalysis} from '../../../services/4IRManagement/initiativeAnalysis';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -28,7 +22,7 @@ interface Props {
 
 const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  // const {successStack, errorStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -60,20 +54,27 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
     setSelectedItemId(null);
   }, []);
 
-  const deleteInitiativeAnalysisItem = async (projectId: number) => {
-    let response = await deleteInitiativeAnalysis(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{
-            subject: <IntlMessages id='4ir_initiative_analysis.label' />,
-          }}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
+  /*const deleteInitiativeAnalysisItem = async (projectId: number) => {
+      try {
+        let response = await deleteInitiativeAnalysis(projectId);
+        if (isResponseSuccess(response)) {
+          successStack(
+            <IntlMessages
+              id='common.subject_deleted_successfully'
+              values={{
+                subject: <IntlMessages id='4ir_initiative_analysis.label' />,
+              }}
+            />,
+          );
+          refreshDataTable();
+        }
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          errorStack,
+        });
+      }
+    };*/
 
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prev) => !prev);
@@ -113,10 +114,10 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
+              {/*              <DeleteButton
                 deleteAction={() => deleteInitiativeAnalysisItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              />*/}
             </DatatableButtonGroup>
           );
         },

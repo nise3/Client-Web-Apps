@@ -22,10 +22,11 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {FiUser} from 'react-icons/fi';
 import {Link} from '../../../@softbd/elements/common';
 import {deleteTagline} from '../../../services/4IRManagement/TaglineService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const FourIRTagLinePage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -62,15 +63,22 @@ const FourIRTagLinePage = () => {
   }, []);
 
   const deleteTaglineItem = async (taglineId: number) => {
-    let response = await deleteTagline(taglineId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='menu.tagline' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteTagline(taglineId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='menu.tagline' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

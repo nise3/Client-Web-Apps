@@ -66,7 +66,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
   const {data: itemData, isLoading, mutate: mutateCS} = useFetch4IRCS(itemId);
   const {data: sectors, isLoading: isLoadingSectors} = useFetch4IRSectors();
-  console.log(sectors);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       experts: yup.array().of(
@@ -268,7 +268,7 @@ const FourIRCSAddEditPopup: FC<CSAddEditPopupProps> = ({
         four_ir_initiative_id: fourIRInitiativeId,
         ...data,
       };
-      console.log(payload);
+
       if (itemId) {
         await updateCS(itemId, payload);
         updateSuccessMessage('4ir_cs.label');

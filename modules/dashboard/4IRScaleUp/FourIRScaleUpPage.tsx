@@ -21,6 +21,7 @@ import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_SCALE_UP} from '../../../@softbd/common/apiRoutes';
 import {deleteScaleUp} from '../../../services/4IRManagement/ScaleUpService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -28,7 +29,7 @@ interface Props {
 
 const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -61,17 +62,24 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
   }, []);
 
   const deleteScaleUpItem = async (projectId: number) => {
-    let response = await deleteScaleUp(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{
-            subject: <IntlMessages id='4ir_initiative_analysis.label' />,
-          }}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteScaleUp(projectId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{
+              subject: <IntlMessages id='4ir_initiative_analysis.label' />,
+            }}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
