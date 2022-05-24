@@ -4,7 +4,6 @@ import {
   Button,
   Divider,
   FormControl,
-  IconButton,
   InputBase,
   InputLabel,
   MenuItem,
@@ -183,10 +182,54 @@ const SearchBox = () => {
       // @ts-ignore
       component='form'
       className={classes.rootPaper}>
+      <FormControl
+        sx={{
+          position: 'absolute',
+          left: 0,
+          top: '-40px',
+          color: 'primary.contrastText',
+        }}>
+        <InputLabel
+          id='type-select-label'
+          aria-hidden={true}
+          className={
+            typeValue
+              ? clsx(classes.inputLabel, classes.inputLabelBackground)
+              : classes.inputLabel
+          }>
+          {messages['common.select']}
+        </InputLabel>
+
+        <Select
+          className={classes.topSelect}
+          variant='filled'
+          open={isOpenDropDown}
+          value={typeValue}
+          labelId={'type-select-label'}
+          label={messages['common.select']}
+          MenuProps={{disableScrollLock: true}}
+          defaultValue={typeValue}
+          onClick={() => {
+            setIsOpenDropDown((prevState) => !prevState);
+          }}
+          onChange={(e: any) => {
+            setTypeValue(e.target.value);
+          }}>
+          <MenuItem value='1' tabIndex={0}>
+            {messages['common.skills']}
+          </MenuItem>
+          <Divider className={classes.resetDivider} />
+          <MenuItem value='2' tabIndex={0}>
+            {messages['menu.jobs']}
+          </MenuItem>
+          {/*<Divider className={classes.resetDivider} />
+        <MenuItem value='3'>{messages['common.business']}</MenuItem>
+        <Divider className={classes.resetDivider} />
+        <MenuItem value='4'>{messages['common.educations']}</MenuItem>*/}
+        </Select>
+      </FormControl>
       <Hidden mdDown>
-        <IconButton sx={{p: '20px'}} aria-label='menu'>
-          <SearchIcon />
-        </IconButton>
+        <SearchIcon sx={{p: '20px'}} aria-label='Search icon' tabIndex={0} />
       </Hidden>
       <InputBase
         sx={{ml: 1, flex: 1}}
@@ -206,6 +249,7 @@ const SearchBox = () => {
             options={upazilas}
             isLoading={false}
             optionValueProp={'id'}
+            placeholder={messages['common.location_2'] as string}
             optionTitleProp={['title']}
             size='medium'
             dropdownStyle={{
@@ -222,46 +266,6 @@ const SearchBox = () => {
         onClick={onSearchClick}>
         {messages['common.search']}
       </Button>
-      <FormControl
-        sx={{
-          position: 'absolute',
-          left: 0,
-          top: '-40px',
-          color: 'primary.contrastText',
-        }}>
-        <InputLabel
-          id='type-select-label'
-          className={
-            typeValue
-              ? clsx(classes.inputLabel, classes.inputLabelBackground)
-              : classes.inputLabel
-          }>
-          {messages['common.select']}
-        </InputLabel>
-        <Select
-          className={classes.topSelect}
-          variant='filled'
-          open={isOpenDropDown}
-          value={typeValue}
-          labelId={'type-select-label'}
-          label={messages['common.select']}
-          MenuProps={{disableScrollLock: true}}
-          defaultValue={typeValue}
-          onClick={() => {
-            setIsOpenDropDown((prevState) => !prevState);
-          }}
-          onChange={(e: any) => {
-            setTypeValue(e.target.value);
-          }}>
-          <MenuItem value='1'>{messages['common.skills']}</MenuItem>
-          <Divider className={classes.resetDivider} />
-          <MenuItem value='2'>{messages['menu.jobs']}</MenuItem>
-          {/*<Divider className={classes.resetDivider} />
-        <MenuItem value='3'>{messages['common.business']}</MenuItem>
-        <Divider className={classes.resetDivider} />
-        <MenuItem value='4'>{messages['common.educations']}</MenuItem>*/}
-        </Select>
-      </FormControl>
     </StyledPaper>
   );
 };

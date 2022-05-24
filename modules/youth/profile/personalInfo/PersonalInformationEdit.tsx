@@ -586,6 +586,7 @@ const PersonalInformationEdit: FC<PersonalInformationEditProps> = ({
               <CustomTextInput
                 required
                 id='last_name_en'
+                required
                 label={messages['common.last_name_en']}
                 register={register}
                 errorInstance={errors}
