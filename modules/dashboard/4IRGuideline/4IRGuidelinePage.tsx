@@ -26,10 +26,11 @@ import {deleteGuideline} from '../../../services/4IRManagement/GuidelineService'
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import {Link} from '../../../@softbd/elements/common';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const FourIRGuidelinePage = () => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -62,17 +63,23 @@ const FourIRGuidelinePage = () => {
   }, []);
 
   const deleteGuideLinetItem = async (itemId: number) => {
-    let response = await deleteGuideline(itemId);
+    try {
+      let response = await deleteGuideline(itemId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='footer.guideline' />}}
+          />,
+        );
 
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='footer.guideline' />}}
-        />,
-      );
-
-      refreshDataTable();
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

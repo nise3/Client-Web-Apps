@@ -34,6 +34,12 @@ import CommonButton from '../../../../@softbd/elements/button/CommonButton/Commo
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
 import ApproveButton from '../../industry-associations/ApproveButton';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../../services/4IRManagement/hooks';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
@@ -45,13 +51,19 @@ const FourIRCoursePage = ({
   showEnrollmentHandler,
 }: IFourIRCoursePageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -104,15 +116,22 @@ const FourIRCoursePage = ({
   }, []);
 
   const deleteCourseItem = async (courseId: number) => {
-    let response = await deleteFourIRCourse(courseId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_course.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteFourIRCourse(courseId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir_course.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
@@ -255,7 +274,8 @@ const FourIRCoursePage = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='course.label' />
+            <IconCourse /> <IntlMessages id='course.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[

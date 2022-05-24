@@ -298,7 +298,7 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             </Grid>
 
             <Grid item xs={4}>
-              <Link href='/template/organization-list.xlsx' download>
+              <Link href='/template/initiative-analysis.docx' download>
                 <CommonButton
                   key={1}
                   onClick={() => console.log('file downloading')}

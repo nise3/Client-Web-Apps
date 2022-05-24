@@ -17,6 +17,11 @@ import {getBrowserCookie} from '../../../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_APP_CURRENT_LANG} from '../../../../shared/constants/AppConst';
 import {LEVEL} from '../../courses/CourseEnums';
 import CommonButton from '../../../../@softbd/elements/button/CommonButton/CommonButton';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../../services/4IRManagement/hooks';
 
 interface ICourseListPage {
   fourIRInitiativeId: number;
@@ -44,6 +49,12 @@ const CourseListPage = ({
     row_status: RowStatus.ACTIVE,
   });
   const {data: skills} = useFetchPublicSkills(youthSkillsFilter);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const [skillFilterItems, setSkillFilterItems] = useState([]);
 
@@ -164,7 +175,8 @@ const CourseListPage = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='course.label' />
+            <IconCourse /> <IntlMessages id='course.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }>
         <ReactTable

@@ -22,6 +22,12 @@ import {deleteTeamMember} from '../../../services/4IRManagement/ImplementingTeam
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
 import {FourIRTeamType} from '../../../shared/constants/AppEnums';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface IFourIRImplementingTeamPageProps {
   fourIRInitiativeId: number;
@@ -31,7 +37,7 @@ const FourIRImplementingTeamPage = ({
   fourIRInitiativeId,
 }: IFourIRImplementingTeamPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -40,6 +46,15 @@ const FourIRImplementingTeamPage = ({
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline, isLoading: isTaglineLoading} = useFetchFourIRTagline(
+    Number(taglineId),
+  );
+  const {data: initaitive, isLoading: isInitiativeLoading} =
+    useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -60,15 +75,22 @@ const FourIRImplementingTeamPage = ({
   }, []);
 
   const deleteImplementingTeamMember = async (memberId: number) => {
-    let response = await deleteTeamMember(memberId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.team_member' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteTeamMember(memberId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir.team_member' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
@@ -139,19 +161,22 @@ const FourIRImplementingTeamPage = ({
       },
     });
 
+  const isLoading = isInitiativeLoading || isTaglineLoading;
+
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.implementing_team' />
+            <IconBranch /> <IntlMessages id='4ir.implementing_team' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[
           <AddButton
             key={1}
             onClick={() => openAddEditModal(null)}
-            isLoading={false}
+            isLoading={isLoading}
             tooltip={
               <IntlMessages
                 id={'common.add_new'}

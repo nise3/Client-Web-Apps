@@ -15,6 +15,11 @@ import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../../services/4IRManagement/hooks';
 
 interface IEnrolledYouthList {
   selectedCourseId: number;
@@ -30,6 +35,12 @@ const EnrolledYouthList = ({
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   //const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -117,22 +128,6 @@ const EnrolledYouthList = ({
           return <CustomChipPaymentStatus value={data?.payment_status} />;
         },
       },
-      // {
-      //   Header: messages['applicationManagement.status'],
-      //   isVisible: false,
-      //   Cell: (props: any) => {
-      //     let data = props.row.original;
-      //     if (data.row_status === 0) {
-      //       return <p>Inactive</p>;
-      //     } else if (data.row_status === 1) {
-      //       return <p>Approved</p>;
-      //     } else if (data.row_status === 2) {
-      //       return <p>Pending</p>;
-      //     } else {
-      //       return <p>Rejected</p>;
-      //     }
-      //   },
-      // },
 
       {
         Header: messages['common.actions'],
@@ -179,7 +174,8 @@ const EnrolledYouthList = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />
+            <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={
