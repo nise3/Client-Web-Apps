@@ -2253,5 +2253,7 @@
   "common.percentage": "Percentage",
   "common.final_marks": "Final marks",
   "common.all_result": "All result",
-  "common.certificate_template_setting_for_batch": "Certificate Template Setting for Batch"
+  "common.certificate_template_setting_for_batch": "Certificate Template Setting for Batch",
+  "4ir.tna_report_view": "View TNA Report details",
+  "4ir.tna_report_demo": "Demo TNA Report"
 }

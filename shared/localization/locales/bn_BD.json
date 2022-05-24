@@ -2254,5 +2254,7 @@
   "common.percentage": "শতাংশ",
   "common.final_marks": "চূড়ান্ত নাম্বার",
   "common.all_result": "সমস্ত ফলাফল",
-  "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ"
+  "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ",
+  "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
+  "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো"
 }
