@@ -403,7 +403,7 @@ const routesConfig: NavItemProps[] = [
         title: 'Certificate',
         messageId: 'common.certificate',
         type: 'collapse',
-        icon: 'WorkspacePremiumIcon ',
+        icon: 'schoolIcon ',
         children: [
           {
             id: 'certificate',
@@ -411,25 +411,16 @@ const routesConfig: NavItemProps[] = [
             messageId: 'common.certificate_template',
             permissionKey: 'view_any_user',
             type: 'item',
-            icon: 'list',
+            icon: 'bookmarkAddedIcon',
             url: '/certificate',
           },
-          // {
-          //   id: 'certificate-issue',
-          //   title: 'Certificate Issue',
-          //   messageId: 'certificate.certificate_issue',
-          //   permissionKey: 'view_any_user',
-          //   type: 'item',
-          //   icon: 'list',
-          //   url: '/certificates/certificate-issue',
-          // },
           {
             id: 'certificate-issued',
             title: 'Certificate Issued',
             messageId: 'certificate.certificate_issued',
             permissionKey: 'view_any_user',
             type: 'item',
-            icon: 'list',
+            icon: 'gradeIcon',
             url: '/certificate-issued',
           }
         ],

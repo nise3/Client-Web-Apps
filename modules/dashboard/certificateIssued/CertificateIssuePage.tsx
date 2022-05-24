@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
-import { FiUserCheck } from 'react-icons/fi';
+import PreviewIcon from '@mui/icons-material/Preview';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_CERTIFICATES_ISSUE } from '../../../@softbd/common/apiRoutes';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import IconBranch from '../../../@softbd/icons/IconBranch';
+import GradeIcon from '@mui/icons-material/Grade';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo, getMomentDateFormat
@@ -145,7 +145,7 @@ const CertificateIssuedPage = () => {
               <Link href={`/certificate/certificate-view/${data.id}`} passHref={true}>
                   <CommonButton
                     btnText='common.certificate_view'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    startIcon={<PreviewIcon style={{ marginLeft: '5px' }} />}
                     style={{ marginLeft: '10px' }}
                     variant='outlined'
                     color='primary'
@@ -176,7 +176,7 @@ const CertificateIssuedPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='certificate.certificate_issued' />
+            <GradeIcon /> <IntlMessages id='certificate.certificate_issued' />
           </>
         }
         
