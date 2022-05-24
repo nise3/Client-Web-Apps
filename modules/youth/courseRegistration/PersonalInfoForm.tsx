@@ -234,7 +234,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <CustomTextInput
           required
           id='first_name_en'
-          required
           label={messages['common.first_name_en']}
           register={register}
           errorInstance={errors}
@@ -256,7 +255,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <CustomTextInput
           required
           id='last_name_en'
-          required
           label={messages['common.last_name_en']}
           register={register}
           errorInstance={errors}
