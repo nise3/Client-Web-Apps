@@ -19,10 +19,12 @@ const RegistrationVerification = () => {
     if (params.mobile) {
       setUserEmailAndMobile({
         mobile: params.mobile,
+        redirected_from:params.redirected_from
       });
     } else if (params.email) {
       setUserEmailAndMobile({
         email: params.email,
+        redirected_from:params.redirected_from
       });
     }
   }, [params]);
