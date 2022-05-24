@@ -15,6 +15,11 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_INITIATIVE_ANALYSIS} from '../../../@softbd/common/apiRoutes';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -28,6 +33,12 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -141,7 +152,8 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_initiative_analysis.label' />
+            <IconBranch /> <IntlMessages id='4ir_initiative_analysis.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[

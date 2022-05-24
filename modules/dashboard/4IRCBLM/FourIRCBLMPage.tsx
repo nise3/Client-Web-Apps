@@ -15,6 +15,11 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CBLM} from '../../../@softbd/common/apiRoutes';
 import FourIRCBLMAddEditPopUp from './FourIRCBLMAddEditPopUp';
 import FourIRCBLMDetailsPopUp from './FourIRCBLMDetailsPopUp';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface IFourIRCBLMPageProps {
   fourIRInitiativeId: number;
@@ -30,6 +35,12 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -141,7 +152,8 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.CBLM' />
+            <IconBranch /> <IntlMessages id='4ir.CBLM' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[

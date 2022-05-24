@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -22,6 +21,7 @@ import {
 import {useRouter} from 'next/router';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import AddIcon from '@mui/icons-material/Add';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -70,6 +70,20 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     setIsToggleTable((prev) => !prev);
   }, []);
 
+  const {
+    onFetchData,
+    data: tnaReportData,
+    loading,
+    pageCount,
+    totalCount,
+  } = useReactTableFetchData({
+    urlPath: API_4IR_TNA_REPORT,
+    paramsValueModifier: (params: any) => {
+      params['four_ir_initiative_id'] = fourIRInitiativeId;
+      return params;
+    },
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -94,7 +108,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         Header: messages['4ir.tna_report_attachment'],
         Cell: (props: any) => {
           let data = props.row.original;
-          return (
+          return data?.file_path ? (
             <Link href={data?.file_path} download>
               <CommonButton
                 key={1}
@@ -105,6 +119,16 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
                 startIcon={<DownloadIcon />}
               />
             </Link>
+          ) : (
+            <CommonButton
+              disabled
+              key={1}
+              onClick={() => console.log('file downloading')}
+              btnText={'4ir.tna_report_attachment'}
+              variant={'outlined'}
+              color={'primary'}
+              startIcon={<DownloadIcon />}
+            />
           );
         },
       },
@@ -114,28 +138,26 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           return (
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal()} />
-              <EditButton onClick={() => openAddEditModal()} />
+              {tnaReportData &&
+              tnaReportData?.methods &&
+              tnaReportData?.methods?.length ? (
+                <EditButton onClick={() => openAddEditModal()} />
+              ) : (
+                <ReadButton
+                  key={1}
+                  onClick={() => openAddEditModal(null)}
+                  // btnText={'common.create_report'}
+                  startIcon={<AddIcon />}>
+                  {messages['common.create_report']}
+                </ReadButton>
+              )}
             </DatatableButtonGroup>
           );
         },
       },
     ],
-    [messages, locale],
+    [messages, locale, loading, tnaReportData],
   );
-
-  const {
-    onFetchData,
-    data: tnaReportData,
-    loading,
-    pageCount,
-    totalCount,
-  } = useReactTableFetchData({
-    urlPath: API_4IR_TNA_REPORT,
-    paramsValueModifier: (params: any) => {
-      params['four_ir_initiative_id'] = fourIRInitiativeId;
-      return params;
-    },
-  });
 
   const data = [
     {
@@ -144,6 +166,8 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
   ];
 
   const isLoading = isInitiativeLoading || isTaglineLoading;
+
+  console.log(tnaReportData?.methods);
 
   return (
     <>
@@ -155,21 +179,40 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           </>
         }
         extra={[
-          !(data && data?.length) && (
-            <AddButton
-              isLoading={loading}
-              key={1}
-              onClick={() => openAddEditModal(null)}
-              tooltip={
-                <IntlMessages
-                  id={'common.add_new'}
-                  values={{
-                    subject: messages['4ir.TNA_report'],
-                  }}
-                />
-              }
-            />
-          ),
+          <>
+            <Link
+              href='/template/TNA-Guideline.docx'
+              download
+              underline={'none'}>
+              <CommonButton
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'4ir.tna_report_demo'}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginRight: '10px'}}
+              />
+            </Link>
+            {/*{!(*/}
+            {/*  tnaReportData &&*/}
+            {/*  tnaReportData?.methods &&*/}
+            {/*  tnaReportData?.methods?.length*/}
+            {/*) && (*/}
+            {/*  <AddButton*/}
+            {/*    isLoading={loading}*/}
+            {/*    key={1}*/}
+            {/*    onClick={() => openAddEditModal(null)}*/}
+            {/*    tooltip={*/}
+            {/*      <IntlMessages*/}
+            {/*        id={'common.add_new'}*/}
+            {/*        values={{*/}
+            {/*          subject: messages['4ir.TNA_report'],*/}
+            {/*        }}*/}
+            {/*      />*/}
+            {/*    }*/}
+            {/*  />*/}
+            {/*)}*/}
+          </>,
         ]}>
         <ReactTable
           columns={columns}
@@ -180,6 +223,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           totalCount={totalCount}
           toggleResetTable={isToggleTable}
         />
+
         {isOpenAddEditModal && (
           <FourIRTNAReportAddEditPopup
             key={'tna_add_edit'}

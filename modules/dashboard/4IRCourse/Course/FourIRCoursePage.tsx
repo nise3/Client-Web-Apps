@@ -35,6 +35,11 @@ import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetch
 import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
 import ApproveButton from '../../industry-associations/ApproveButton';
 import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../../services/4IRManagement/hooks';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
@@ -53,6 +58,12 @@ const FourIRCoursePage = ({
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
   const language = getBrowserCookie(COOKIE_KEY_APP_CURRENT_LANG) || 'bn';
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const [youthSkillsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
@@ -263,7 +274,8 @@ const FourIRCoursePage = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='course.label' />
+            <IconCourse /> <IntlMessages id='course.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }
         extra={[
