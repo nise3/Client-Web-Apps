@@ -408,6 +408,7 @@
   "certificate_authority.details": "সার্টিফিকেট অথোরিটি বিস্তারিত",
   "certificate_authority.management": "সার্টিফিকেট অথোরিটি ব্যবস্থাপনা",
   "certificate.certificate_issue": "সার্টিফিকেট ইস্যু",
+  "certificate.certificate_issue_action": "সার্টিফিকেট ইস্যু করুন",
   "certificate.certificate_added_alreadt_batch": "সার্টিফিকেটি ইতোমধ্যে ব্যাচে যোগ করা হয়েছে",
   "common.issue_date": "ইস্যুর তারিখ",
   "certificate.certificate_issued": "ইস্যুকৃত সার্টিফিকেট",
@@ -2252,5 +2253,6 @@
   "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি",
   "common.percentage": "শতাংশ",
   "common.final_marks": "চূড়ান্ত নাম্বার",
-  "common.all_result": "সমস্ত ফলাফল"
+  "common.all_result": "সমস্ত ফলাফল",
+  "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ"
 }

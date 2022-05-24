@@ -106,7 +106,7 @@ const CertificateTemplatePage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.title'],
+        Header: messages['certificate.certificate_title'],
         accessor: 'title',
       },
       {

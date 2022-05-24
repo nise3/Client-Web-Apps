@@ -10,8 +10,9 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
-  getCalculatedSerialNo
+  getCalculatedSerialNo, getMomentDateFormat
 } from '../../../@softbd/utilities/helpers';
+import IdentityNumberTypes from '../../../@softbd/utilities/IdentityNumberTypes';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import { getAllBatches } from '../../../services/instituteManagement/BatchService';
 
@@ -19,9 +20,7 @@ import { getAllBatches } from '../../../services/instituteManagement/BatchServic
 const CertificateIssuedPage = () => {
   const {messages, locale} = useIntl();
   
-  
   const [batchFilterItems, setBatchFilterItems] = useState([]);
-
 
   useEffect(() => {
     getAllBatches().then(res=>{
@@ -33,16 +32,25 @@ const CertificateIssuedPage = () => {
     })
   }, [])
   
-  
-  // useEffect(() => {
-  //   if (batches) {
-  //     setBatchFilterItems(
-  //       batches.map((skill: any) => {
-  //         return {id: skill?.id, title: skill?.title};
-  //       }),
-  //     );
-  //   }
-  // }, [batches]);
+  const getNumberTypeValue = (numberType: any) => {
+    let val = "";
+    numberType = numberType + "";
+    switch (numberType) {
+      case IdentityNumberTypes.NID:
+        val = 'NID: ';
+        break;
+      case IdentityNumberTypes.BIRTH_CERT:
+          val = 'Birth Cert.: ';
+          break;
+      case IdentityNumberTypes.PASSPORT:
+          val = 'Passport: ';
+          break;
+      default:
+        val;
+        break;
+    }
+    return val;
+  }
 
   const columns = useMemo(
     () => [
@@ -58,11 +66,16 @@ const CertificateIssuedPage = () => {
           );
         },
       },
-
-      // {
-      //   Header: messages['common.certificate'],
-      //   accessor: 'certificate_id',
-      // },
+      {
+        Header: messages['certificate.issued_date'],
+        accessor: 'issued_at',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.issued_at)}</span>
+          );
+        },
+      },
       {
         Header: messages['certificate.name_bn'],
         accessor: 'certificate_title',
@@ -72,8 +85,36 @@ const CertificateIssuedPage = () => {
         accessor: 'youth_profile.first_name',
       },
       {
-        Header: messages['batches.label'],
+        Header: messages['common.batch_name'],
         accessor: 'batch_title',
+      },
+      {
+        Header: messages['batches.start_date'],
+        accessor: 'batch_start_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.batch_start_date)}</span>
+          );
+        },
+      },
+      {
+        Header: messages['batches.end_date'],
+        accessor: 'batch_end_date',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.batch_end_date)}</span>
+          );
+        },
+      },
+      {
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
+      },
+      {
+        Header: messages['batches.label'],
+        accessor: 'batch_title_en',
         filter: 'selectFilter',
         selectFilterItems: batchFilterItems,
         isVisible: false,
@@ -81,6 +122,15 @@ const CertificateIssuedPage = () => {
       {
         Header: messages['common.identity_number'],
         accessor: 'youth_profile.identity_number',
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <>
+            <span>{getNumberTypeValue(data?.youth_profile.identity_number_type)}</span>
+            <span>{data?.youth_profile.identity_number}</span>
+            </>
+          );
+        },
       },
       {
         Header: messages['youth.email'],
