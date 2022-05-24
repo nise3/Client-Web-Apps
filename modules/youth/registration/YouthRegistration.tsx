@@ -313,7 +313,10 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam = {mobile: data?.mobile};
+      const queryParam: any = {mobile: data?.mobile};
+      if (router.query?.redirected_from) {
+        queryParam.redirected_from = router.query.redirected_from;
+      }
       /*const queryParam =
             userNameType == UserNameType.MOBILE
                 ? {mobile: data.mobile}
