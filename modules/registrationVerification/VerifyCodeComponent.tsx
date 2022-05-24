@@ -162,10 +162,8 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
 
       if (userEmailAndMobile?.mobile)
         requestData.mobile = userEmailAndMobile.mobile;
-        requestData.courseId=userEmailAndMobile.courseId;
       if (userEmailAndMobile?.email)
         requestData.email = userEmailAndMobile.email;
-        requestData.courseId=userEmailAndMobile.courseId;
       await youthRegistrationVerification(requestData);
       successStack(
         <IntlMessages id='youth_registration.verification_success' />,
