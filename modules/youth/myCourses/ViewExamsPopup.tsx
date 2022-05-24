@@ -251,7 +251,8 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                             </Button>
                           )}
 
-                        {Number(exam.type) == ExamTypes.ONLINE ? (
+                        {Number(exam.type) == ExamTypes.ONLINE &&
+                        exam?.participated ? (
                           <Link
                             href={markSheetPath}
                             passHref={true}
