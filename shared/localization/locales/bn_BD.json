@@ -1989,5 +1989,8 @@
   "nationality.pakistani": "পাকিস্তানী",
   "common.course_details": "কোর্সের বিস্তারিত",
   "youth_feed.label": "ইয়ুথ ফিড",
-  "migration_portal.label": "মাইগ্রেশন পোর্টাল"
+  "migration_portal.label": "মাইগ্রেশন পোর্টাল",
+  "migration_portal.immigrant": "অভিবাসী",
+  "migration_portal.lifecycle": "জীবনচক্র",
+  "migration_portal.go_abroad_knowingly": "জেনে বুঝে বিদেশ যাই"
 }

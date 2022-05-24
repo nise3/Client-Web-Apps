@@ -1988,5 +1988,8 @@
   "common.course_details": "Course details",
   "human_resource_demand.label": "Human resource demand",
   "youth_feed.label": "Youth feed",
-  "migration_portal.label": "Migration Portal"
+  "migration_portal.label": "Migration Portal",
+  "migration_portal.immigrant": "Immigrant",
+  "migration_portal.lifecycle": "Lifecycle",
+  "migration_portal.go_abroad_knowingly": "Go abroad knowingly"
 }
