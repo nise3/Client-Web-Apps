@@ -255,6 +255,9 @@ export const API_COURSE_ENROLLMENT_BULK_IMPORT_FORMAT =
 export const API_PUBLIC_BATCHES = TSP_PUBLIC_SERVICE_PATH + '/batches';
 export const API_YOUTH_EXAM_RESULT = '/youth-exam-results';
 
+export const API_PUBLIC_PREVIEW_YOUTH_EXAM =
+  TSP_PUBLIC_SERVICE_PATH + '/preview-youth-exam';
+
 /** All institute service public routes section end */
 
 /** Youth service routes section start */

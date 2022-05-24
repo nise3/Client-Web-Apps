@@ -29,6 +29,7 @@ import {
   API_PUBLIC_COURSE_LIST,
   API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
+  API_PUBLIC_PREVIEW_YOUTH_EXAM,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
   API_RPL_APPLICATION,
@@ -278,6 +279,17 @@ export function useFetchPreviewYouthExam(
 ) {
   return useAxiosSWR(
     examId ? API_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId : null,
+  );
+}
+
+export function useFetchPublicPreviewYouthExam(
+  examId: number | null,
+  youthId: number | null,
+) {
+  return useAxiosSWR(
+    examId
+      ? API_PUBLIC_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId
+      : null,
   );
 }
 

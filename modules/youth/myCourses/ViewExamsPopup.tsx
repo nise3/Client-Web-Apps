@@ -28,7 +28,7 @@ import {useFetchPublicYouthBatchExams} from '../../../services/instituteManageme
 import TableSkeleton from '../../../@softbd/elements/display/skeleton/TableSkeleton/TableSkeleton';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 import Tooltip from '@mui/material/Tooltip';
-import {InsertDriveFile, RemoveRedEye} from '@mui/icons-material';
+import {InsertDriveFile} from '@mui/icons-material';
 
 interface ViewExamsPopupProps {
   onClose: () => void;
@@ -132,7 +132,7 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
           <IntlMessages id='common.exam_schedule' />
         </>
       }
-      maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
+      maxWidth={isBreakPointUp('xl') ? 'lg' : 'lg'}
       actions={
         <Button
           startIcon={<CancelIcon />}
@@ -169,11 +169,11 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                       Number(exam?.exams[0]?.duration) * 60 * 1000 <
                     new Date().getTime();
 
-                  let isOverOthers =
+                  /*let isOverOthers =
                     new Date(exam?.exams[0]?.end_date).getTime() <
-                    new Date().getTime();
+                    new Date().getTime();*/
 
-                  let markSheetPath = `/batches/${batchId}/youths/${youthId}/marksheet/${exam.id}`;
+                  let markSheetPath = `/my-courses/${batchId}/exam/${youthId}/answersheet/${exam.id}`;
 
                   return (
                     <TableRow key={index}>
@@ -205,27 +205,29 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                           : ''}
                       </TableCell>
                       <TableCell>
-                        {isOver && exam?.participated && exam?.marks_obtained
-                          ? formatNumber(exam?.marks_obtained) +
+                        {isOver &&
+                        exam?.exams[0]?.participated &&
+                        exam?.exams[0]?.obtained_mark
+                          ? formatNumber(exam?.exams[0]?.obtained_mark) +
                             '/' +
-                            formatNumber(exam?.total_marks)
-                          : exam?.participated
+                            formatNumber(exam?.exams[0]?.total_marks)
+                          : exam?.exams[0]?.participated
                           ? messages['common.in_progress']
                           : messages['common.not_participated']}
                       </TableCell>
-                      <TableCell>
-                        {exam.type == ExamTypes.ONLINE &&
-                          (exam?.participated ? (
-                            <Body1>
+                      <TableCell sx={{textAlign: 'center'}}>
+                        {exam.type !== ExamTypes.OFFLINE &&
+                          (exam?.exams[0]?.participated ? (
+                            <Body1 sx={{marginY: '10px'}}>
                               {messages['exam.already_participated']}
                             </Body1>
                           ) : isOver ? (
-                            <Body1>{messages['exam.exam_over']}</Body1>
+                            <Body1 sx={{marginY: '10px'}}>
+                              {messages['exam.exam_over']}
+                            </Body1>
                           ) : (
                             <Link
-                              href={
-                                LINK_FRONTEND_YOUTH_EXAMS + `${exam?.exam_id}`
-                              }>
+                              href={LINK_FRONTEND_YOUTH_EXAMS + `${exam?.id}`}>
                               <Button
                                 variant={'outlined'}
                                 onClick={() =>
@@ -241,52 +243,51 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                         {exam.type !== ExamTypes.ONLINE &&
                           exam.type !== ExamTypes.OFFLINE &&
                           exam.type !== ExamTypes.MIXED &&
-                          (exam?.participated ? (
-                            <Body1>
-                              {messages['exam.already_participated']}
-                            </Body1>
-                          ) : isOverOthers ? (
-                            <Body1>{messages['exam.exam_over']}</Body1>
-                          ) : (
+                          exam?.participated && (
                             <Button
                               variant={'outlined'}
                               onClick={() => onOpenUploadAnsFileModal(exam)}>
                               {messages['common.file_upload']}
                             </Button>
-                          ))}
+                          )}
 
                         {Number(exam.type) == ExamTypes.ONLINE ? (
                           <Link
                             href={markSheetPath}
                             passHref={true}
                             style={{marginLeft: '5px'}}>
-                            <Tooltip
-                              title={messages['common.answer_sheet'] as any}
-                              arrow>
-                              <RemoveRedEye sx={{color: 'blue'}} />
-                            </Tooltip>
+                            <Button
+                              variant={'outlined'}
+                              onClick={() => onOpenUploadAnsFileModal(exam)}>
+                              {messages['common.answer_sheet']}
+                            </Button>
                           </Link>
                         ) : Number(exam.type) != ExamTypes.OFFLINE &&
-                          exam.file_paths &&
-                          exam.file_paths.length > 0 ? (
+                          exam?.exams[0]?.file_paths &&
+                          exam?.exams[0]?.file_paths.length > 0 ? (
                           <div>
-                            {exam.file_paths.map((file: any, i: number) => (
-                              <Link
-                                href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
-                                passHref={true}
-                                key={i}
-                                target={'_blank'}>
-                                <Tooltip
-                                  title={`${
-                                    messages['common.file_path'] as any
-                                  } ${formatNumber(i + 1)}`}
-                                  arrow>
-                                  <InsertDriveFile
-                                    sx={{color: 'blue', marginLeft: '10px'}}
-                                  />
-                                </Tooltip>
-                              </Link>
-                            ))}
+                            {exam?.exams[0]?.file_paths.map(
+                              (file: any, i: number) => (
+                                <Link
+                                  href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
+                                  passHref={true}
+                                  key={i}
+                                  target={'_blank'}>
+                                  <Tooltip
+                                    title={`${
+                                      messages['common.file_path'] as any
+                                    } ${formatNumber(i + 1)}`}
+                                    arrow>
+                                    <InsertDriveFile
+                                      sx={{
+                                        color: '#048340',
+                                        marginLeft: '10px',
+                                      }}
+                                    />
+                                  </Tooltip>
+                                </Link>
+                              ),
+                            )}
                           </div>
                         ) : (
                           <></>
