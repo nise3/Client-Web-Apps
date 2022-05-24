@@ -2256,5 +2256,6 @@
   "common.all_result": "সমস্ত ফলাফল",
   "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ",
   "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
-  "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো"
+  "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো",
+  "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না"
 }
