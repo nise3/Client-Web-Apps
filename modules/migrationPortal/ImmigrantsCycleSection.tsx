@@ -1,5 +1,5 @@
 import {styled} from '@mui/material/styles';
-import {Container, Grid, Paper} from '@mui/material';
+import {Container, Grid} from '@mui/material';
 import React, {useState} from 'react';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import {useFetchPublicGalleryAlbums} from '../../services/cmsManagement/hooks';
@@ -16,6 +16,8 @@ const classes = {
   topOne: `${PREFIX}-topOne`,
   secondRow: `${PREFIX}-secondRow`,
   thirdRow: `${PREFIX}-thirdRow`,
+  fourthRow: `${PREFIX}-fourthRow`,
+  bottomOne: `${PREFIX}-bottomOne`,
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -23,16 +25,23 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.image}`]: {
     backgroundImage: "url('/images/migration-portal-center-image.png')",
     height: '38rem',
-    display: 'block',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     position: 'relative',
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      height: '17rem',
+    },
   },
   [`& .${classes.centralText}`]: {
     position: 'absolute',
     top: '41%',
-    left: '45%',
+    left: '43%',
+    [theme.breakpoints.down('sm')]: {
+      top: '41%',
+      left: '35%',
+    },
   },
   [`& .${classes.topOne}`]: {
     position: 'absolute',
@@ -48,6 +57,16 @@ const StyledContainer = styled(Container)(({theme}) => ({
     textAlign: 'center',
     position: 'absolute',
     top: '46%',
+  },
+  [`& .${classes.fourthRow}`]: {
+    textAlign: 'center',
+    position: 'absolute',
+    top: '80%',
+  },
+  [`& .${classes.bottomOne}`]: {
+    position: 'absolute',
+    left: '45%',
+    bottom: '-5%',
   },
 }));
 
@@ -65,8 +84,11 @@ const ImmigrantsCycleSection = () => {
 
   return (
     <StyledContainer maxWidth='lg'>
-      <Paper className={classes.image} elevation={0}>
-        <Fade direction='up' className={classes.centralText}>
+      <div className={classes.image}>
+        <Fade
+          direction='up'
+          className={classes.centralText}
+          style={{transform: 'translate(-50%, -50%)'}}>
           <ImmigrantsUnderlinedHeading />
         </Fade>
         <Grid className={classes.topOne}>
@@ -88,7 +110,18 @@ const ImmigrantsCycleSection = () => {
             third right
           </Grid>
         </Grid>
-      </Paper>
+        <Grid container className={classes.fourthRow}>
+          <Grid item xs={6}>
+            fourth left
+          </Grid>
+          <Grid item xs={6}>
+            fourth right
+          </Grid>
+        </Grid>
+        <Grid className={classes.bottomOne}>
+          <S2>{messages['migration_portal.go_abroad_knowingly']}</S2>
+        </Grid>
+      </div>
     </StyledContainer>
   );
 };
