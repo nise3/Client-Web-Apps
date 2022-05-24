@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
-import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
@@ -22,6 +21,7 @@ import {
 import {useRouter} from 'next/router';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
+import AddIcon from '@mui/icons-material/Add';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -143,19 +143,13 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
               tnaReportData?.methods?.length ? (
                 <EditButton onClick={() => openAddEditModal()} />
               ) : (
-                <AddButton
-                  isLoading={loading}
+                <ReadButton
                   key={1}
                   onClick={() => openAddEditModal(null)}
-                  tooltip={
-                    <IntlMessages
-                      id={'common.add_new'}
-                      values={{
-                        subject: messages['4ir.TNA_report'],
-                      }}
-                    />
-                  }
-                />
+                  // btnText={'common.create_report'}
+                  startIcon={<AddIcon />}>
+                  {messages['common.create_report']}
+                </ReadButton>
               )}
             </DatatableButtonGroup>
           );
@@ -199,25 +193,25 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
                 style={{marginRight: '10px'}}
               />
             </Link>
-            {!(
-              tnaReportData &&
-              tnaReportData?.methods &&
-              tnaReportData?.methods?.length
-            ) && (
-              <AddButton
-                isLoading={loading}
-                key={1}
-                onClick={() => openAddEditModal(null)}
-                tooltip={
-                  <IntlMessages
-                    id={'common.add_new'}
-                    values={{
-                      subject: messages['4ir.TNA_report'],
-                    }}
-                  />
-                }
-              />
-            )}
+            {/*{!(*/}
+            {/*  tnaReportData &&*/}
+            {/*  tnaReportData?.methods &&*/}
+            {/*  tnaReportData?.methods?.length*/}
+            {/*) && (*/}
+            {/*  <AddButton*/}
+            {/*    isLoading={loading}*/}
+            {/*    key={1}*/}
+            {/*    onClick={() => openAddEditModal(null)}*/}
+            {/*    tooltip={*/}
+            {/*      <IntlMessages*/}
+            {/*        id={'common.add_new'}*/}
+            {/*        values={{*/}
+            {/*          subject: messages['4ir.TNA_report'],*/}
+            {/*        }}*/}
+            {/*      />*/}
+            {/*    }*/}
+            {/*  />*/}
+            {/*)}*/}
           </>,
         ]}>
         <ReactTable
