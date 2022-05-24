@@ -52,22 +52,32 @@ const ResultConfigAddEditPopup = ({
         .string()
         .required()
         .label(messages['common.result_type'] as string),
-      gradings: yup.array().of(
-        yup.object().shape({
-          label: yup
-            .string()
-            .required()
-            .label(messages['common.label'] as string),
-          min: yup
-            .string()
-            .required()
-            .label(messages['common.min'] as string),
-          max: yup
-            .string()
-            .required()
-            .label(messages['common.max'] as string),
-        }),
-      ),
+      gradings:
+        selectedResultType && Number(selectedResultType) == ResultTypes.GRADING
+          ? yup.array().of(
+              yup.object().shape({
+                label: yup
+                  .string()
+                  .required()
+                  .label(messages['common.label'] as string),
+                min: yup
+                  .string()
+                  .required()
+                  .label(messages['common.min'] as string),
+                max: yup
+                  .string()
+                  .required()
+                  .label(messages['common.max'] as string),
+              }),
+            )
+          : yup.string().nullable(),
+      pass_marks:
+        selectedResultType && Number(selectedResultType) == ResultTypes.MARKING
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.pass_marks'] as string)
+          : yup.string().nullable(),
       total_percentage: yup
         .number()
         .required()
@@ -86,7 +96,7 @@ const ResultConfigAddEditPopup = ({
             .label(messages['common.attendance_total_mark'] as string)
         : yup.mixed().nullable(),
     });
-  }, [messages, totalPercentage, isAttendanceRequired]);
+  }, [messages, totalPercentage, isAttendanceRequired, selectedResultType]);
 
   const {
     control,
