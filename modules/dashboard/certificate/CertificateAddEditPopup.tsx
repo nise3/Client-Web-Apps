@@ -45,7 +45,8 @@ interface Certificate {
 const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   ...props
 }) => {
-  const {query} = useRouter();
+  const router = useRouter();
+  const query = router.query;
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
@@ -145,7 +146,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: Certificate) => {
     const template = await setCurrentTemplateToSave();
     const templateJson = await toTemplateJSON(template);
-    console.log(templateJson);
+    // console.log(templateJson);
     const dataToSave: Partial<ICertificate> = {
       title: data.title!,
       title_en: data.title_en!,
@@ -153,7 +154,6 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       template: templateJson,
       language: data.language
     };
-    console.log(dataToSave);
     try {
       if (query.certificateId && !query.new) {
         await updateCertificate(Number(query.certificateId), dataToSave);
@@ -162,6 +162,7 @@ const CertificateAddEditPopup: FC<CertificateAddEditPopupProps> = ({
       } else {
         await createCertificate(dataToSave);
         createSuccessMessage('common.certificate');
+        router.back();
       }
       props.onClose();
     } catch (error: any) {
