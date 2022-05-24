@@ -227,7 +227,10 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                             </Body1>
                           ) : (
                             <Link
-                              href={LINK_FRONTEND_YOUTH_EXAMS + `${exam?.id}`}>
+                              href={
+                                LINK_FRONTEND_YOUTH_EXAMS +
+                                `${exam?.exams[0].exam_id}`
+                              }>
                               <Button
                                 variant={'outlined'}
                                 onClick={() =>
