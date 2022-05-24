@@ -15,6 +15,10 @@ const classes = {
 };
 
 const StyledContainer = styled(Container)(({theme}) => ({
+  marginTop: '-2rem',
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '-1rem',
+  },
   [`& .${classes.mainBox}`]: {
     width: '100%',
     display: 'flex',
@@ -59,7 +63,6 @@ const ImmigrantsUnderlinedHeading = () => {
         sx={{
           color: 'primary.main',
           textAlign: 'center',
-          marginBottom: '5px',
         }}
         gutterBottom={true}
         fontWeight='fontWeightBold'>
@@ -71,7 +74,6 @@ const ImmigrantsUnderlinedHeading = () => {
         sx={{
           color: 'primary.main',
           textAlign: 'center',
-          marginBottom: '5px',
         }}
         gutterBottom={true}
         fontWeight='fontWeightBold'>
