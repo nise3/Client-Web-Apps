@@ -269,16 +269,6 @@ const TeamAndCellView = () => {
             />
           );
 
-        /*        case 10:
-            return (
-              <EnrollmentApprovalStep
-                fourIRInitiativeId={initiativeId}
-                onBack={handleBack}
-                onContinue={handleNext}
-                setLatestStep={setLatestStep}
-              />
-            );*/
-
         case 10:
           return (
             <SkillDevelopmentStep

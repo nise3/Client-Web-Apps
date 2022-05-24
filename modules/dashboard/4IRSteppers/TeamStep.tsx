@@ -7,11 +7,11 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import FourIRImplementingTeamPage from '../4IRImplementingTeam/FourIRImplementingTeamPage';
 import FourIRExpertTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';
+import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -26,27 +26,34 @@ const TeamStep = ({
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
   >(false);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getInitiative(fourIRInitiativeId);
+        if (response && response.data) {
+          const initiative = response.data;
+          if (initiative?.completion_step) {
+            const latestStep = initiative?.completion_step;
+            if (latestStep >= 1) {
+              setIsReady(true);
+            }
+            setLatestStep(latestStep + 1);
+          }
+        }
+      } catch (error: any) {}
+    })();
+  }, []);
+
   const handleAccordionExpandedChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
-
-  useEffect(() => {
-    if (itemData && itemData?.completion_step) {
-      const latestStep = itemData?.completion_step;
-      if (latestStep >= 1) {
-        setIsReady(true);
-      }
-      setLatestStep(latestStep + 1);
-    }
-  }, [itemData]);
 
   return isReady ? (
     <>
