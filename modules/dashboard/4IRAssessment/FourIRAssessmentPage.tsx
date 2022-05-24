@@ -13,6 +13,11 @@ import Genders from '../../../@softbd/utilities/Genders';
 import FourIRAssessmentDetailsPopUp from './FourIRAssessmentDetailsPopUp';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Typography} from '@mui/material';
+import {useRouter} from 'next/router';
+import {
+  useFetch4IRInitiative,
+  useFetchFourIRTagline,
+} from '../../../services/4IRManagement/hooks';
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
@@ -24,6 +29,12 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedItem, setSelectedItem] = useState<Object | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+
+  const router = useRouter();
+  const taglineId = Number(router.query.taglineId);
+  const initativeId = Number(router.query.initiativeId);
+  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
+  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   /** details modal */
   const openDetailsModal = useCallback((item: any) => {
@@ -119,7 +130,8 @@ const FourIRAssessmentPage = ({fourIRInitiativeId}: IFourIRAssessmentPage) => {
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='assessment.label' />
+            <IconCourse /> <IntlMessages id='assessment.label' />{' '}
+            {`(${tagline?.name} > ${initaitive?.name})`}
           </>
         }>
         <ReactTable

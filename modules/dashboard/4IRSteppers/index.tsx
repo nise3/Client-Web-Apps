@@ -269,16 +269,6 @@ const TeamAndCellView = () => {
             />
           );
 
-        /*        case 10:
-            return (
-              <EnrollmentApprovalStep
-                fourIRInitiativeId={initiativeId}
-                onBack={handleBack}
-                onContinue={handleNext}
-                setLatestStep={setLatestStep}
-              />
-            );*/
-
         case 10:
           return (
             <SkillDevelopmentStep
@@ -359,17 +349,16 @@ const TeamAndCellView = () => {
   const [numColumns, setNumColumns] = useState(9);
 
   const ref = (re: any) => {
-    console.log('useRef >>', re?.offsetWidth);
     const cb = () => {
       if (re?.parentElement?.offsetWidth) {
         setNumColumns(
           Math.floor((re.parentElement.offsetWidth - 15 * 2) / 100),
         );
-        const w =
+        const width =
           100 * Math.floor((re.parentElement.offsetWidth - 15 * 2) / 100);
-        re.style.width = w + 'px';
+        re.style.width = width + 'px';
         re.style.marginLeft =
-          (re.parentElement.offsetWidth - w) / 2 - 15 + 'px';
+          (re.parentElement.offsetWidth - width) / 2 - 15 + 'px';
       }
       requestAnimationFrame(cb);
     };

@@ -21,6 +21,7 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_SHOWCASE} from '../../../@softbd/common/apiRoutes';
 import {deleteShowcasing} from '../../../services/4IRManagement/ShowcasingServices';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface IFourShowcasingPageProps {
   fourIRInitiativeId: number;
@@ -30,7 +31,7 @@ const FourIRShowcasingPage = ({
   fourIRInitiativeId,
 }: IFourShowcasingPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -56,15 +57,22 @@ const FourIRShowcasingPage = ({
   );
 
   const deleteShowcasingHandler = async (memberId: number) => {
-    let response = await deleteShowcasing(memberId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.team_member' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteShowcasing(memberId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir.team_member' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

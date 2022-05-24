@@ -376,7 +376,7 @@ const BatchesPage = () => {
               <CommonButton
                 key={2}
                 onClick={() => openImportModal(data?.course_id, data?.id)}
-                btnText={messages['common.import'] as string}
+                btnText={'common.import'}
                 variant={'outlined'}
                 color={'primary'}
                 style={{marginLeft: '5px'}}

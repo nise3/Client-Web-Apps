@@ -6,12 +6,9 @@ import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButt
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
-// import FourIRImplementingTeamDetailsPopup from './FourIRImplementingTeamDetailsPopup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-// import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_TEAM_MEMBERS} from '../../../@softbd/common/apiRoutes';
-// import {FourIRTeamType} from '../../../shared/constants/AppEnums';
 import Router, {useRouter} from 'next/router';
 import FourIRInitiativeUserDetailsPopup from './FourIRInitiativeUserDetailsPopup';
 import {Button} from '@mui/material';

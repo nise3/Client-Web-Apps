@@ -21,6 +21,7 @@ import {
 } from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {deleteProject} from '../../../services/4IRManagement/ProjectService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface IFourIRCellPage {
   fourIRProjectId: number;
@@ -28,7 +29,7 @@ interface IFourIRCellPage {
 
 const FourIRCellPage = ({fourIRProjectId}: IFourIRCellPage) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -57,15 +58,22 @@ const FourIRCellPage = ({fourIRProjectId}: IFourIRCellPage) => {
   }, []);
 
   const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_project.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteProject(projectId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir_project.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

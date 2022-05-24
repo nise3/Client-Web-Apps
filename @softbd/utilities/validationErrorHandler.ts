@@ -14,7 +14,8 @@ const ERRORS: any = {
   30000: 'yup_validation_invalid_row_status',
   100000: 'yup_validation_invalid_start_date',
   200000: 'yup_validation_invalid_end_date',
-  9000: 'invalid_start_date'
+  9000: 'invalid_start_date',
+  67000: 'yup_validation_invalid_subject_id',
 };
 
 interface TProcessServerSideErrors {

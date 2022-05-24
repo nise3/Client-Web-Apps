@@ -232,8 +232,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='first_name_en'
           required
+          id='first_name_en'
           label={messages['common.first_name_en']}
           register={register}
           errorInstance={errors}
@@ -253,8 +253,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomTextInput
-          id='last_name_en'
           required
+          id='last_name_en'
           label={messages['common.last_name_en']}
           register={register}
           errorInstance={errors}

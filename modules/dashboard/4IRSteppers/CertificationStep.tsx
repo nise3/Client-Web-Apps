@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import FourIRCertificateManagementPage from '../4IRCertificateManagement/FourIRCertificateManagementPage';
 import {Box, Button} from '@mui/material';
 import {useIntl} from 'react-intl';
+import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -17,19 +17,26 @@ const CertificationStep = ({
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
 
   useEffect(() => {
-    if (itemData && itemData?.completion_step) {
-      const latestStep = itemData?.completion_step;
-      if (latestStep >= 11) {
-        setIsReady(true);
-      }
-      setLatestStep(latestStep + 1);
-    }
-  }, [itemData]);
+    (async () => {
+      try {
+        const response = await getInitiative(fourIRInitiativeId);
+        if (response && response.data) {
+          const initiative = response.data;
+          if (initiative?.completion_step) {
+            const latestStep = initiative?.completion_step;
+            if (latestStep >= 11) {
+              setIsReady(true);
+            }
+            setLatestStep(latestStep + 1);
+          }
+        }
+      } catch (error: any) {}
+    })();
+  }, []);
 
   return isReady ? (
     <>

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button} from '@mui/material';
-import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {useIntl} from 'react-intl';
 import FourIRCSPage from '../4IRCS/FourIRCSPage';
+import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -17,19 +17,26 @@ const CSStep = ({
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
 
   useEffect(() => {
-    if (itemData && itemData?.completion_step) {
-      const latestStep = itemData?.completion_step;
-      if (latestStep >= 3) {
-        setIsReady(true);
-      }
-      setLatestStep(latestStep + 1);
-    }
-  }, [itemData]);
+    (async () => {
+      try {
+        const response = await getInitiative(fourIRInitiativeId);
+        if (response && response.data) {
+          const initiative = response.data;
+          if (initiative?.completion_step) {
+            const latestStep = initiative?.completion_step;
+            if (latestStep >= 3) {
+              setIsReady(true);
+            }
+            setLatestStep(latestStep + 1);
+          }
+        }
+      } catch (error: any) {}
+    })();
+  }, []);
 
   return isReady ? (
     <>
