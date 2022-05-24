@@ -211,6 +211,8 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRToTDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

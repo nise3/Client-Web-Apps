@@ -202,6 +202,8 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCurriculumDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

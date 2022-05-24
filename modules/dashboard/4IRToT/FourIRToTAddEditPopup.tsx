@@ -42,7 +42,7 @@ const initialValues = {
   co_organizer_address: '',
   co_organizer_email: '',
   row_status: '1',
-  participants: '',
+  participants_file: '',
   tot_date: '',
   proof_of_report_file: '',
 };
@@ -177,7 +177,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
 
       Object.keys(data).forEach((field) => {
         if (data?.[field]) {
-          if (field == 'participants') {
+          if (field == 'participants_file') {
             formData.append(field, data[field]?.[0]);
           } else if (field == 'master_trainers') {
             formData.append('master_trainers', JSON.stringify(data[field]));
@@ -367,8 +367,8 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
               <Grid item xs={6}>
                 <CustomTextInput
                   required
-                  id='participants'
-                  name='participants'
+                  id='participants_file'
+                  name='participants_file'
                   label={''}
                   register={register}
                   type={'file'}
@@ -376,7 +376,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
                     shrink: true,
                   }}
                   onInput={(files: any) =>
-                    fileUploadHandler(files, 'participants')
+                    fileUploadHandler(files, 'participants_file')
                   }
                   errorInstance={errors}
                 />
@@ -401,7 +401,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
                 <Grid item>
                   <CommonButton
                     key={1}
-                    onClick={() => emptyFile('participants')}
+                    onClick={() => emptyFile('participants_file')}
                     btnText={'common.remove'}
                     variant={'outlined'}
                     color={'secondary'}

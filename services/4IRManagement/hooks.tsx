@@ -9,12 +9,13 @@ import {
   API_4IR_INITIATIVE_ANALYSIS,
   API_4IR_OCCUPATIONS,
   API_4IR_PROJECT_ANALYSIS,
+  API_4IR_PROJECT_CONTRIBUTIONS,
   API_4IR_RESOURCE_MANAGEMENT,
   API_4IR_SCALE_UP,
   API_4IR_SECTORS,
   API_4IR_TAGLINES,
+  API_4IR_TNA_REPORT,
   API_4IR_TOT,
-  API_4IR_PROJECT_CONTRIBUTIONS,
   API_FOUR_IR_ROLES,
 } from '../../@softbd/common/apiRoutes';
 
@@ -120,4 +121,12 @@ export function useFetch4IROneProjectContribution(memberId: any) {
 }
 export function useFetchFourIRRoles(params: any) {
   return useAxiosSWR([API_FOUR_IR_ROLES, params]);
+}
+
+export function useFetchTNAReports(fourIRInitiativeId: number | null) {
+  return useAxiosSWR(
+    fourIRInitiativeId
+      ? API_4IR_TNA_REPORT + `?four_ir_initiative_id=${fourIRInitiativeId}`
+      : null,
+  );
 }

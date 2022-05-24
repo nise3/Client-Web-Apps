@@ -4,11 +4,14 @@ import {useIntl} from 'react-intl';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
 import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
 import {
-  API_4IR_TNA_REPORT,
+  API_4IR_FILE_LOGS,
   FILE_SERVER_FILE_VIEW_ENDPOINT,
 } from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -20,11 +23,15 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {
   useFetch4IRInitiative,
   useFetchFourIRTagline,
+  useFetchTNAReports,
 } from '../../../services/4IRManagement/hooks';
 import {useRouter} from 'next/router';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
+
+import Grid from '@mui/material/Grid';
+import {FILE_LOG_TNA_STEP} from '../4IRSteppers/fourIRFileLogConstant';
 
 interface Props {
   fourIRInitiativeId: number;
@@ -73,19 +80,8 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     setIsToggleTable((prev) => !prev);
   }, []);
 
-  const {
-    onFetchData,
-    data: tnaReportData,
-    loading,
-    pageCount,
-    totalCount,
-  } = useReactTableFetchData({
-    urlPath: API_4IR_TNA_REPORT,
-    paramsValueModifier: (params: any) => {
-      params['four_ir_initiative_id'] = fourIRInitiativeId;
-      return params;
-    },
-  });
+  const {data: tnaReportData, isLoading: loading} =
+    useFetchTNAReports(fourIRInitiativeId);
 
   const columns = useMemo(
     () => [
@@ -102,9 +98,14 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         },
       },
       {
-        Header: messages['menu.occupations'],
+        Header: messages['common.date'],
         Cell: (props: any) => {
-          return <Typography>{initaitive?.name}</Typography>;
+          let data = props.row.original;
+          return (
+            <Typography>
+              {getMomentDateFormat(data?.created_at, 'YYYY-MM-DD')}
+            </Typography>
+          );
         },
       },
       {
@@ -113,12 +114,12 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           let data = props.row.original;
           return data?.file_path ? (
             <Link
-              href={FILE_SERVER_FILE_VIEW_ENDPOINT + '/' + data?.file_path}
+              href={FILE_SERVER_FILE_VIEW_ENDPOINT + data?.file_path}
               download>
               <CommonButton
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'4ir.tna_report_attachment'}
+                btnText={'common.download'}
                 variant={'outlined'}
                 color={'primary'}
                 startIcon={<DownloadIcon />}
@@ -129,50 +130,35 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
               disabled
               key={1}
               onClick={() => console.log('file downloading')}
-              btnText={'4ir.tna_report_attachment'}
+              btnText={'common.download'}
               variant={'outlined'}
               color={'primary'}
               startIcon={<DownloadIcon />}
             />
           );
         },
-      },
-      {
-        Header: messages['common.actions'],
-        Cell: (props: any) => {
-          return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal()} />
-              {tnaReportData &&
-              tnaReportData?.methods &&
-              tnaReportData?.methods?.length ? (
-                <EditButton onClick={() => openAddEditModal()} />
-              ) : (
-                <ReadButton
-                  key={1}
-                  onClick={() => openAddEditModal(null)}
-                  // btnText={'common.create_report'}
-                  startIcon={<AddIcon />}>
-                  {messages['common.create_report']}
-                </ReadButton>
-              )}
-            </DatatableButtonGroup>
-          );
-        },
+        sortable: false,
       },
     ],
-    [messages, locale, loading, tnaReportData],
+    [messages, locale],
   );
 
-  const data = [
-    {
-      file_path: tnaReportData?.file_path,
+  const {
+    onFetchData,
+    data,
+    loading: isFileLogsLoading,
+    pageCount,
+    totalCount,
+  } = useReactTableFetchData({
+    urlPath: API_4IR_FILE_LOGS,
+    paramsValueModifier: (params) => {
+      params['four_ir_initiative_id'] = fourIRInitiativeId;
+      params['file_log_step'] = FILE_LOG_TNA_STEP;
+      return params;
     },
-  ];
+  });
 
   const isLoading = isInitiativeLoading || isTaglineLoading;
-
-  console.log(tnaReportData?.methods);
 
   return (
     <>
@@ -198,32 +184,89 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
                 style={{marginRight: '10px'}}
               />
             </Link>
-            {/*{!(*/}
-            {/*  tnaReportData &&*/}
-            {/*  tnaReportData?.methods &&*/}
-            {/*  tnaReportData?.methods?.length*/}
-            {/*) && (*/}
-            {/*  <AddButton*/}
-            {/*    isLoading={loading}*/}
-            {/*    key={1}*/}
-            {/*    onClick={() => openAddEditModal(null)}*/}
-            {/*    tooltip={*/}
-            {/*      <IntlMessages*/}
-            {/*        id={'common.add_new'}*/}
-            {/*        values={{*/}
-            {/*          subject: messages['4ir.TNA_report'],*/}
-            {/*        }}*/}
-            {/*      />*/}
-            {/*    }*/}
-            {/*  />*/}
-            {/*)}*/}
           </>,
         ]}>
+        <Grid container spacing={2}>
+          <Grid item xs={5}>
+            <Typography>{messages['menu.occupations']}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>{messages['4ir.tna_report_attachment']}</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography> {messages['common.actions']}</Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <hr />
+          </Grid>
+
+          <Grid item xs={5}>
+            <Typography>{initaitive?.name}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            {tnaReportData?.file_path ? (
+              <Link
+                href={FILE_SERVER_FILE_VIEW_ENDPOINT + tnaReportData?.file_path}
+                download>
+                <CommonButton
+                  key={1}
+                  onClick={() => console.log('file downloading')}
+                  btnText={'4ir.tna_report_attachment'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  startIcon={<DownloadIcon />}
+                />
+              </Link>
+            ) : (
+              <CommonButton
+                disabled
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'4ir.tna_report_attachment'}
+                variant={'outlined'}
+                color={'primary'}
+                startIcon={<DownloadIcon />}
+              />
+            )}
+          </Grid>
+          <Grid item xs={4}>
+            {
+              <DatatableButtonGroup>
+                <ReadButton onClick={() => openDetailsModal()} />
+                {tnaReportData &&
+                tnaReportData?.methods &&
+                tnaReportData?.methods?.length ? (
+                  <EditButton onClick={() => openAddEditModal()} />
+                ) : (
+                  <ReadButton
+                    key={1}
+                    onClick={() => openAddEditModal(null)}
+                    // btnText={'common.create_report'}
+                    startIcon={<AddIcon />}>
+                    {messages['common.create_report']}
+                  </ReadButton>
+                )}
+              </DatatableButtonGroup>
+            }
+          </Grid>
+        </Grid>
+
+        <hr />
+
+        <Typography
+          sx={{
+            marginTop: '20px',
+          }}
+          variant={'h5'}>
+          {messages['common.previous_files']}
+        </Typography>
+
         <ReactTable
           columns={columns}
           data={data}
           fetchData={onFetchData}
-          loading={loading}
+          loading={isFileLogsLoading}
           pageCount={pageCount}
           totalCount={totalCount}
           toggleResetTable={isToggleTable}

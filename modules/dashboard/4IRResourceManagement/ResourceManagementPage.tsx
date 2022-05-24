@@ -187,6 +187,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <ResourceManagementDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
