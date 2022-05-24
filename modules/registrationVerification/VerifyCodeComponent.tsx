@@ -17,7 +17,7 @@ import {createVerificationCode} from '../../services/youthManagement/Registratio
 import cookieInstance from '../../@softbd/libs/cookieInstance';
 import {COOKIE_KEY_SEND_TIME} from '../../shared/constants/AppConst';
 import {RESEND_CODE_RETRY_TIME_IN_MILLIS} from '../../@softbd/common/constants';
-import {useRouter} from "next/router";
+import {useRouter} from 'next/router';
 
 const inputProps = {
   maxLength: 1,
@@ -110,7 +110,13 @@ const VerifyCodeComponent: FC<VerifyCodeComponentProps> = ({
   };
 
   const redirectToSSO = () => {
-    window.location.href = getSSOLoginUrl({redirected_from: router.query.redirected_from});
+    if (router.query?.redirected_from) {
+      window.location.href = getSSOLoginUrl({
+        redirected_from: router.query.redirected_from,
+      });
+    } else {
+      window.location.href = getSSOLoginUrl();
+    }
   };
 
   const resendVerificationCode = useCallback(

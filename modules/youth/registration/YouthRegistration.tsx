@@ -313,7 +313,10 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam = {mobile: data?.mobile,redirected_from:router.query.redirected_from};
+      const queryParam: any = {mobile: data?.mobile};
+      if (router.query?.redirected_from) {
+        queryParam.redirected_from = router.query.redirected_from;
+      }
       /*const queryParam =
             userNameType == UserNameType.MOBILE
                 ? {mobile: data.mobile}
@@ -337,7 +340,6 @@ const YouthRegistration = () => {
         skillIds.push(skill.id);
       });
       data.skills = skillIds;
-
 
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);

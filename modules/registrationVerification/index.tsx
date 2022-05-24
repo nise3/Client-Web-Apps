@@ -17,15 +17,9 @@ const RegistrationVerification = () => {
 
   useEffect(() => {
     if (params.mobile) {
-      setUserEmailAndMobile({
-        mobile: params.mobile,
-        redirected_from:params.redirected_from
-      });
+      setUserEmailAndMobile({mobile: params.mobile});
     } else if (params.email) {
-      setUserEmailAndMobile({
-        email: params.email,
-        redirected_from:params.redirected_from
-      });
+      setUserEmailAndMobile({email: params.email});
     }
   }, [params]);
 
