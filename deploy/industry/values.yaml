@@ -17,7 +17,7 @@ variables:
   ltsAcme: false
   # app version, changing version will auto deploy the app to current version
 
-  imageAppVersion: "prod-1.14"
+  imageAppVersion: "prod-1.15"
 
   # increase this when you need scale up
   replicaCount: 3
