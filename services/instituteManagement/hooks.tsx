@@ -24,10 +24,12 @@ import {
   API_PREVIEW_YOUTH_EXAM,
   API_PROGRAMMES,
   API_PROGRAMS,
+  API_PUBLIC_BATCHES,
   API_PUBLIC_COURSE_DETAILS,
   API_PUBLIC_COURSE_LIST,
   API_PUBLIC_INSTITUTE_DETAILS,
   API_PUBLIC_INSTITUTES,
+  API_PUBLIC_PREVIEW_YOUTH_EXAM,
   API_PUBLIC_PROGRAMS,
   API_PUBLIC_TRAINING_CENTERS,
   API_RPL_APPLICATION,
@@ -36,6 +38,7 @@ import {
   API_TRAINING_CENTERS_REPORTING_COMBINED_PROGRESS,
   API_TRAINING_CENTERS_REPORTING_INCOME_EXPENDITURE,
   API_TRAINING_CENTERS_REPORTING_PROGRESS,
+  API_YOUTH_EXAM_RESULT,
   API_YOUTH_EXAM_RESULT_SUMMARIES,
 } from '../../@softbd/common/apiRoutes';
 
@@ -279,6 +282,17 @@ export function useFetchPreviewYouthExam(
   );
 }
 
+export function useFetchPublicPreviewYouthExam(
+  examId: number | null,
+  youthId: number | null,
+) {
+  return useAxiosSWR(
+    examId
+      ? API_PUBLIC_PREVIEW_YOUTH_EXAM + '/' + examId + '/' + youthId
+      : null,
+  );
+}
+
 export function useFetchBatchExams(batchId: any) {
   let path = batchId ? API_BATCHES + '/' + batchId + API_BATCHES_EXAMS : null;
   return useAxiosSWR(path);
@@ -287,6 +301,13 @@ export function useFetchBatchExams(batchId: any) {
 export function useFetchYouthBatchExams(batchId: any, params: any) {
   let path = batchId
     ? API_BATCHES + '/' + batchId + API_BATCHES_YOUTH_EXAMS
+    : null;
+  return useAxiosSWR(path ? [path, params] : null);
+}
+
+export function useFetchPublicYouthBatchExams(batchId: any, params: any) {
+  let path = batchId
+    ? API_PUBLIC_BATCHES + '/' + batchId + API_BATCHES_YOUTH_EXAMS
     : null;
   return useAxiosSWR(path ? [path, params] : null);
 }
@@ -305,4 +326,11 @@ export function useFetchYouthResult(resultId: number | null) {
   return useAxiosSWR(
     resultId ? API_YOUTH_EXAM_RESULT_SUMMARIES + resultId : null,
   );
+}
+
+export function useFetchPublicYouthResult(batchId: any, params: any) {
+  let path = batchId
+    ? API_PUBLIC_BATCHES + '/' + batchId + API_YOUTH_EXAM_RESULT
+    : null;
+  return useAxiosSWR(path ? [path, params] : null);
 }

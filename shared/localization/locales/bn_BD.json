@@ -2014,5 +2014,6 @@
   "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি",
   "common.percentage": "শতাংশ",
   "common.final_marks": "চূড়ান্ত নাম্বার",
-  "common.all_result": "সমস্ত ফলাফল"
+  "common.all_result": "সমস্ত ফলাফল",
+  "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না"
 }

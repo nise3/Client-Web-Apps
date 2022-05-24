@@ -2013,5 +2013,6 @@
   "batch.result_failed_exams_not_finished": "Some assigned exams is not finished",
   "common.percentage": "Percentage",
   "common.final_marks": "Final marks",
-  "common.all_result": "All result"
+  "common.all_result": "All result",
+  "yup_validation_invalid_subject_id": "Subject can not be updated"
 }

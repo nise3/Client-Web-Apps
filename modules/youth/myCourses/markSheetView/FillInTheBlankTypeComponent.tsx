@@ -1,10 +1,12 @@
 import React, {FC} from 'react';
-import {Body2} from '../../../../../@softbd/elements/common';
+
 import {styled} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import {Fonts} from '../../../../../shared/constants/AppEnums';
+
 import {useIntl} from 'react-intl';
-import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {Body2} from '../../../../@softbd/elements/common';
+import {Fonts} from '../../../../shared/constants/AppEnums';
 
 const PREFIX = 'FillInTheBlankTypeComponent';
 
@@ -23,41 +25,32 @@ const StyledGrid = styled(Grid)(() => {
     },
   };
 });
+
 interface FillInTheBlankTypeComponentProps {
   question: any;
   index: number;
 }
+
 const FillInTheBlankTypeComponent: FC<FillInTheBlankTypeComponentProps> = ({
   question,
   index,
 }) => {
-  const {formatNumber} = useIntl();
-  let fillInTheBlankItems = question?.title.split(
-    /(?=\[\[\]\])|(?<=\[\[\]\])/g,
-  );
-  let questionIndex = 0;
+  const {messages, formatNumber} = useIntl();
   return (
     <StyledGrid container spacing={2}>
       <Grid item xs={10} display={'flex'} key={1}>
         <Body2 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
           {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
-        {fillInTheBlankItems.map((item: any) => {
-          if (item == '[[]]') {
-            return (
-              <>
-                {' '}
-                <Body2 className={classes.inputView}>
-                  {question?.answer[questionIndex++]}
-                </Body2>
-              </>
-            );
-          } else {
-            return <Body2 sx={{whiteSpace: 'pre'}}>{item}</Body2>;
-          }
-        })}
-        <Body2 sx={{fontWeight: 'bold'}}>
+        <Body2 sx={{whiteSpace: 'pre'}}>{question?.title}</Body2>
+        <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
           {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
+        </Body2>
+        <Body2 sx={{marginLeft: '10px'}}>
+          {messages['question.given_answer']}:
+          <span style={{fontWeight: 'bold'}}>
+            {question?.answers?.join(', ')}
+          </span>
         </Body2>
       </Grid>
       <Grid item xs={2}>
