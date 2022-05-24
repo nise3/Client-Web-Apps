@@ -75,10 +75,10 @@ export const cookieDomain = () => {
     : 'nise.gov.bd';
 };
 
-export const gotoLoginSignUpPage = (path: string) => {
+export const gotoLoginSignUpPage = (path: string, redirect_url?: string) => {
   const params =
     typeof window !== 'undefined'
-      ? 'redirected_from=' + window?.location?.href
+      ? 'redirected_from=' + (redirect_url? redirect_url : window?.location?.href)
       : '';
   console.log(params);
 
