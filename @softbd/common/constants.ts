@@ -80,7 +80,6 @@ export const gotoLoginSignUpPage = (path: string, redirect_url?: string) => {
     typeof window !== 'undefined'
       ? 'redirected_from=' + (redirect_url? redirect_url : window?.location?.href)
       : '';
-  console.log(params);
 
   const niseUrl = new URL(niseDomain());
   niseUrl.pathname = path;
