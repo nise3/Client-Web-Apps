@@ -7,7 +7,10 @@ import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import FourIRTNAReportAddEditPopup from './FourIRTNAReportAddEditPopup';
 import FourIRTNAReportDetailsPopup from './FourIRTNAReportDetailsPopup';
-import {API_4IR_TNA_REPORT} from '../../../@softbd/common/apiRoutes';
+import {
+  API_4IR_TNA_REPORT,
+  FILE_SERVER_FILE_VIEW_ENDPOINT,
+} from '../../../@softbd/common/apiRoutes';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 
 import IconBranch from '../../../@softbd/icons/IconBranch';
@@ -109,7 +112,9 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         Cell: (props: any) => {
           let data = props.row.original;
           return data?.file_path ? (
-            <Link href={data?.file_path} download>
+            <Link
+              href={FILE_SERVER_FILE_VIEW_ENDPOINT + '/' + data?.file_path}
+              download>
               <CommonButton
                 key={1}
                 onClick={() => console.log('file downloading')}
