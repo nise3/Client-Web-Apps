@@ -3,7 +3,7 @@ import {Box, Container, Grid, useMediaQuery} from '@mui/material';
 import {Fade} from 'react-awesome-reveal';
 import React from 'react';
 import ImmigrantsUnderlinedHeading from '../../@softbd/elements/common/ImmigrantsUnderlinedHeading';
-import {Link, S2} from '../../@softbd/elements/common';
+import {Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {Theme} from '@mui/system';
 
@@ -77,33 +77,69 @@ const StyledContainer = styled(Container)(({theme}) => ({
     },
   },
 
+  /** Link Styles*/
+
   [`& .${classes.topButton}`]: {
     textAlign: 'center',
     position: 'absolute',
     top: '15%',
+    [`& a`]: {
+      color: 'red',
+      padding: '20px',
+    },
     [theme.breakpoints.down('md')]: {},
   },
   [`& .${classes.secondButton}`]: {
     textAlign: 'center',
     position: 'absolute',
-    top: '13%',
+    top: '25%',
+    '& .linkTwoOne': {
+      color: 'red',
+      padding: '30px',
+    },
+    '& .linkTwoTwo': {
+      color: 'red',
+      padding: '20px',
+    },
     [theme.breakpoints.down('md')]: {},
   },
   [`& .${classes.thirdButton}`]: {
     textAlign: 'center',
     position: 'absolute',
     top: '46%',
+    '& .linkThreeOne': {
+      color: 'red',
+      padding: '20px 51px',
+      marginRight: '50px',
+    },
+    '& .linkThreeTwo': {
+      color: 'red',
+      padding: '30px 49px',
+      marginLeft: '25px',
+    },
   },
   [`& .${classes.fourthButton}`]: {
     textAlign: 'center',
     position: 'absolute',
-    top: '80%',
+    top: '68%',
+    '& .linkFourOne': {
+      color: 'red',
+      padding: '20px',
+    },
+    '& .linkFourTwo': {
+      color: 'red',
+      padding: '20px',
+    },
     [theme.breakpoints.down('md')]: {},
   },
   [`& .${classes.bottomButton}`]: {
     textAlign: 'center',
     position: 'absolute',
-    bottom: '-5%',
+    top: '75%',
+    [`& a`]: {
+      color: 'red',
+      padding: '20px',
+    },
     [theme.breakpoints.down('md')]: {},
   },
 }));
@@ -116,21 +152,39 @@ const ImmigrantsCycleSection = () => {
 
   const LINK_GO_ABROAD_KNOWINGLY =
     'https://probashi.gov.bd/site/page/040aceb5-cde3-4017-b90a-1bb23abf6df3/%E0%A6%AC%E0%A6%BF%E0%A6%A6%E0%A7%87%E0%A6%B6-%E0%A6%AF%E0%A6%BE%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0-%E0%A6%AA%E0%A7%82%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A7%87%E0%A6%B0-%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%B8%E0%A7%8D%E0%A6%A4%E0%A7%81%E0%A6%A4%E0%A6%BF-%E0%A6%93-%E0%A6%95%E0%A6%B0%E0%A6%A3%E0%A7%80%E0%A7%9F';
+  const LINK_TRAINING_BMET = 'bmet.nise.gov.bd';
+  const LINK_TRAINING_MUKTOPATH = 'http://bmet.muktopaath.gov.bd';
+  const LINK_TRAINING_PRE_DEPARTURE =
+    'http://muktopaath.gov.bd/course-details/206';
+  const LINK_BMET_REGISTRATION = '/';
+  const LINK_RECRUITING_AGENCY_LIST =
+    'http://www.old.bmet.gov.bd/BMET/agentlistpreview.action?type=valid';
+  const LINK_SERVICES_OF_EXPATRIATE_WELFARE_BANK = '/';
+  const LINK_LABOR_ATTACHE = 'http://migration.gov.bd/bn/sromo-kalyan-atashe';
+  const LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD =
+    'http://migration.gov.bd/bn/sromo-kalyan-atashe';
+  const LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION = '/';
 
   return (
     <StyledContainer maxWidth='lg'>
       <Box className={classes.image}>
         <Grid container className={classes.topOne}>
           <Grid item xs={12}>
-            <S2>{messages['migration_portal.go_abroad_knowingly']}</S2>
+            {messages['migration_portal.go_abroad_knowingly']}
           </Grid>
         </Grid>
         <Grid container className={classes.secondRow}>
           <Grid item xs={6}>
-            second left
+            {
+              messages[
+                'migration_portal.returned_expatriate_online_application'
+              ]
+            }
+            <br />
+            {messages['migration_portal.online_application']}
           </Grid>
           <Grid item xs={6}>
-            second right
+            {messages['menu.training']}
           </Grid>
         </Grid>
         {isMDDown ? (
@@ -144,72 +198,128 @@ const ImmigrantsCycleSection = () => {
         ) : (
           <Grid container className={classes.thirdRow}>
             <Grid item xs={4}>
-              third left
+              {
+                messages[
+                  'migration_portal.services_of_wage_earners_welfare_board'
+                ]
+              }
+              <br />
+              {messages['migration_portal.services']}
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
-              third right
+              {messages['migration_portal.bmet_registration']}
             </Grid>
           </Grid>
         )}
         <Grid container className={classes.fourthRow}>
           <Grid item xs={6}>
-            fourth left
+            {messages['migration_portal.labor_attache']}
+            <br />
+            {messages['migration_portal.labor']}
           </Grid>
           <Grid item xs={6}>
-            fourth right
+            {messages['migration_portal.recruiting_agency_list']}
           </Grid>
         </Grid>
         <Grid container className={classes.bottomOne}>
           <Grid item xs={12}>
-            <S2>{messages['migration_portal.go_abroad_knowingly']}</S2>
+            {messages['migration_portal.services_of_expatriate_welfare_bank']}
           </Grid>
         </Grid>
 
-        {/** link buttons */}
+        {/** Links */}
         <Grid container className={classes.topButton}>
           <Grid item xs={12}>
             <Link
               href={LINK_GO_ABROAD_KNOWINGLY}
               target='_blank'
-              style={{color: 'red', padding: '20px'}}
               title={messages['migration_portal.go_abroad_knowingly']}>
               click
             </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.secondButton}>
-          <Grid item xs={6}>
-            second left
+          <Grid item xs={3} />
+          <Grid item xs={3}>
+            <Link
+              href={LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION}
+              target='_blank'
+              className='linkTwoOne'
+              title={
+                messages[
+                  'migration_portal.returned_expatriate_online_application'
+                ]
+              }>
+              click
+            </Link>
           </Grid>
-          <Grid item xs={6}>
-            second right
+          <Grid item xs={3}>
+            <Link
+              href={LINK_TRAINING_BMET}
+              target='_blank'
+              className='linkTwoTwo'
+              title={messages['menu.training']}>
+              click
+            </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.thirdButton}>
-          <Grid item xs={4}>
-            third left
+          <Grid item xs={3} />
+          <Grid item xs={3}>
+            <Link
+              href={LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD}
+              target='_blank'
+              className='linkThreeOne'
+              title={
+                messages[
+                  'migration_portal.services_of_wage_earners_welfare_board'
+                ]
+              }>
+              click
+            </Link>
           </Grid>
-          <Grid item xs={4}>
-            <Fade direction='up'>
-              <ImmigrantsUnderlinedHeading />
-            </Fade>
-          </Grid>
-          <Grid item xs={4}>
-            third right
+          <Grid item xs={3}>
+            <Link
+              href={LINK_BMET_REGISTRATION}
+              target='_blank'
+              className='linkThreeTwo'
+              title={messages['migration_portal.bmet_registration']}>
+              click
+            </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.fourthButton}>
-          <Grid item xs={6}>
-            fourth left
+          <Grid item xs={3} />
+          <Grid item xs={3}>
+            <Link
+              href={LINK_LABOR_ATTACHE}
+              target='_blank'
+              className='linkFourOne'
+              title={messages['migration_portal.labor_attache']}>
+              click
+            </Link>
           </Grid>
-          <Grid item xs={6}>
-            fourth right
+          <Grid item xs={3}>
+            <Link
+              href={LINK_RECRUITING_AGENCY_LIST}
+              target='_blank'
+              className='linkFourTwo'
+              title={messages['migration_portal.recruiting_agency_list']}>
+              click
+            </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.bottomButton}>
           <Grid item xs={12}>
-            <S2>{messages['migration_portal.go_abroad_knowingly']}</S2>
+            <Link
+              href={LINK_SERVICES_OF_EXPATRIATE_WELFARE_BANK}
+              target='_blank'
+              title={
+                messages['migration_portal.services_of_expatriate_welfare_bank']
+              }>
+              click
+            </Link>
           </Grid>
         </Grid>
       </Box>
