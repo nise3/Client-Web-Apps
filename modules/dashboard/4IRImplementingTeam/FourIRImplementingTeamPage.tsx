@@ -46,15 +46,6 @@ const FourIRImplementingTeamPage = ({
     setSelectedItemId(null);
   }, []);
 
-  // const router = useRouter();
-  // const taglineId = Number(router.query.taglineId);
-  // const initativeId = Number(router.query.initiativeId);
-  // const {data: tagline, isLoading: isTaglineLoading} = useFetchFourIRTagline(
-  //   Number(taglineId),
-  // );
-  // const {data: initaitive, isLoading: isInitiativeLoading} =
-  //   useFetch4IRInitiative(initativeId);
-
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
     setIsOpenAddEditModal(true);
