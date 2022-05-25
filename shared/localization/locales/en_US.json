@@ -2232,7 +2232,7 @@
   "batch.result_no_exams": "No exams to process results",
   "batch.result_failed_already_published": "Results already published",
   "batch.result_failed_no_config": "No result config configured for course",
-  "batch.result_failed_configured_exams_not_found": "Configured exam type is missing",
+  "batch.result_failed_configured_exams_not_found": "Exam configuration doesn't match with total created exam",
   "batch.result_failed_exams_not_finished": "Some assigned exams is not finished",
   "common.percentage": "Percentage",
   "common.final_marks": "Final marks",
@@ -2241,5 +2241,7 @@
   "4ir.tna_report_view": "View TNA Report details",
   "4ir.tna_report_demo": "Demo TNA Report",
   "yup_validation_invalid_subject_id": "Subject can not be updated",
-  "youth_feed.label": "Youth feed"
+  "youth_feed.label": "Youth feed",
+  "exam.exam_duration_min": "Exam duration must be greater than 0 minutes",
+  "exam.result_publish": "Publish result"
 }

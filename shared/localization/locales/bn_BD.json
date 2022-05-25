@@ -2233,7 +2233,7 @@
   "batch.result_no_exams": "ফলাফল প্রসেস করার জন্য কোন পরীক্ষা নেই",
   "batch.result_failed_already_published": "ফলাফল ইতিমধ্যে প্রকাশিত হয়েছে",
   "batch.result_failed_no_config": "কোর্সের জন্য কোনো ফলাফল কনফিগার করা হয়নি",
-  "batch.result_failed_configured_exams_not_found": "কনফিগার করা পরীক্ষার ধরন অনুপস্থিত",
+  "batch.result_failed_configured_exams_not_found": "পরীক্ষার কনফিগারেশন মোট তৈরি পরীক্ষার সাথে মিলে নি",
   "batch.result_failed_exams_not_finished": "কিছু নির্ধারিত পরীক্ষা শেষ হয়নি",
   "common.percentage": "শতাংশ",
   "common.final_marks": "চূড়ান্ত নাম্বার",
@@ -2241,5 +2241,7 @@
   "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ",
   "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
   "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো",
-  "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না"
+  "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না",
+  "exam.exam_duration_min": "পরীক্ষার সময়কাল অবশ্যই ০ মিনিটের বেশি হতে হবে",
+  "exam.result_publish": "ফলাফল প্রকাশ"
 }
