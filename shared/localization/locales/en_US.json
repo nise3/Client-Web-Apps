@@ -2002,5 +2002,6 @@
   "migration_portal.returned_expatriate_online_application": "online application",
   "migration_portal.online_application": "online application",
   "migration_portal.bmet_registration": "BMET Registration",
-  "migration_portal.recruiting_agency_list": "Recruiting agency list"
+  "migration_portal.recruiting_agency_list": "Recruiting agency list",
+  "migration_portal.complaints": "Complaints"
 }

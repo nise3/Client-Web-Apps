@@ -4,13 +4,13 @@ import {Box, Button, Container, Grid, Skeleton} from '@mui/material';
 import {Fade, Zoom} from 'react-awesome-reveal';
 import {H1, Link} from '../../@softbd/elements/common';
 import {
-  BLOCK_ID_INSTITUTE_DETAILS,
-  CONTENT_ID_INSTITUTE_DETAILS,
+  BLOCK_ID_MIGRATION_PORTAL_DETAILS,
+  CONTENT_ID_MIGRATION_PORTAL_DETAILS,
 } from '../../@softbd/utilities/StaticContentConfigs';
 import ContentTypes from '../dashboard/recentActivities/ContentTypes';
 import {getEmbeddedVideoUrl} from '../../@softbd/utilities/helpers';
 import PageBlockTemplateTypes from '../../@softbd/utilities/PageBlockTemplateTypes';
-import {LINK_INSTITUTE_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
+import {LINK_MIGRATION_PORTAL_FRONTEND_STATIC_CONTENT} from '../../@softbd/common/appLinks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import {useFetchStaticPageBlock} from '../../services/cmsManagement/hooks';
@@ -107,7 +107,7 @@ const AboutSection = () => {
   const [staticPageParams] = useState<any>({});
 
   const {data: blockData, isLoading} = useFetchStaticPageBlock(
-    BLOCK_ID_INSTITUTE_DETAILS,
+      BLOCK_ID_MIGRATION_PORTAL_DETAILS,
     staticPageParams,
   );
 
@@ -162,8 +162,8 @@ const AboutSection = () => {
                 {blockData?.is_button_available == 1 ? (
                   <Link
                     href={
-                      LINK_INSTITUTE_FRONTEND_STATIC_CONTENT +
-                      CONTENT_ID_INSTITUTE_DETAILS
+                        LINK_MIGRATION_PORTAL_FRONTEND_STATIC_CONTENT +
+                        CONTENT_ID_MIGRATION_PORTAL_DETAILS
                     }>
                     <Button
                       variant='contained'

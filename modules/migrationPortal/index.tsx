@@ -5,7 +5,7 @@ import AboutSection from './AboutSection';
 import EventSection from './EventSection';
 import ImmigrantsCycleSection from './ImmigrantsCycleSection';
 
-const Institute = () => {
+const MigrationPortal = () => {
   return (
     <>
       <CoverArea />
@@ -17,4 +17,4 @@ const Institute = () => {
   );
 };
 
-export default Institute;
+export default MigrationPortal;

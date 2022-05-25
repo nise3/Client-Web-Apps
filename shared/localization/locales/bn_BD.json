@@ -2004,5 +2004,7 @@
   "migration_portal.online_application": "অনলাইন আবেদন",
   "migration_portal.expatriate_online_application": "প্রবাস ফেরত অভিবাসীর অনলাইন আবেদন",
   "migration_portal.bmet_registration": "বিএমইটি রেজিস্ট্রেশন",
-  "migration_portal.recruiting_agency_list": "রিক্রুটিং এজেন্সী তালিকা"
+  "migration_portal.recruiting_agency_list": "রিক্রুটিং এজেন্সী তালিকা",
+  "migration_portal.expatriate_worker_monitoring": "প্রবাসী কর্মী পর্যবেক্ষণ",
+  "migration_portal.complaints": "অভিযোগ"
 }

@@ -5,7 +5,7 @@ import {Fade} from 'react-awesome-reveal';
 import UnderlinedHeading from '../../@softbd/elements/common/UnderlinedHeading';
 import CustomCarousel from '../../@softbd/elements/display/CustomCarousel/CustomCarousel';
 import {Link} from '../../@softbd/elements/common';
-import {LINK_FRONTEND_INSTITUTE_GALLERY} from '../../@softbd/common/appLinks';
+import {LINK_FRONTEND_MIGRATION_PORTAL_GALLERY} from '../../@softbd/common/appLinks';
 import {useIntl} from 'react-intl';
 import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 import React, {useState} from 'react';
@@ -81,7 +81,7 @@ const GallerySection = () => {
                   </CustomCarousel>
                 </Box>
                 <Box display='flex' justifyContent='center'>
-                  <Link href={LINK_FRONTEND_INSTITUTE_GALLERY}>
+                  <Link href={LINK_FRONTEND_MIGRATION_PORTAL_GALLERY}>
                     <Button
                       variant='outlined'
                       size='large'
