@@ -16,7 +16,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import {updateProjectActivation} from '../../../services/4IRManagement/InitiativeService';
-import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 
 interface ProjectAddEditPopupProps {
   initiativeId: number | null;
@@ -52,7 +52,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateInitiativeTasks,
-  } = useFetch4IInitiative(initiativeId);
+  } = useFetch4IRInitiative(initiativeId);
 
   const {
     register,
