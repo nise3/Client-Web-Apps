@@ -20,6 +20,7 @@ import {
   AdminPanelSettings,
   DesktopMac,
   KeyboardArrowDown,
+  Login,
   Logout,
   Person,
   Receipt,
@@ -48,7 +49,6 @@ import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
 import Divider from '../../../components/Divider/Divider';
 import {getMyGovLoginUrl} from '../../../common/CDAPConfig';
-import IconUser from '../../../icons/IconUser';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -79,12 +79,25 @@ const YouthProfileMenu = () => {
       removeBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
       removeBrowserCookie(COOKIE_KEY_AUTH_ID_TOKEN);
       removeBrowserCookie(COOKIE_KEY_CDAP_SESSION_STATE);
+      removeBrowserCookie(CDAPUSER_NONCE);
       await dispatch(signOut());
       router.push(niseDomain());
     } catch (error) {}
   }, []);
 
+  let isCDAPUser =
+    authUser?.youth_auth_source && Number(authUser.youth_auth_source) == 1;
   let nonce = getBrowserCookie(CDAPUSER_NONCE);
+  let authTokenData = getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
+
+  let access_token = null;
+  let showMyGovLogin = false;
+  if (isCDAPUser && authTokenData && nonce) {
+    access_token = authTokenData.access_token;
+    if (access_token) {
+      showMyGovLogin = true;
+    }
+  }
 
   return (
     <div>
@@ -198,44 +211,34 @@ const YouthProfileMenu = () => {
                 </ListItemText>
               </MenuItem>
             </Link>
-            {authUser?.youth_auth_source &&
-              Number(authUser.youth_auth_source) != 1 && <Divider />}
-            {authUser?.youth_auth_source &&
-              Number(authUser.youth_auth_source) != 1 && (
-                <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <LockResetIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                      {messages['update_password.label']}
-                    </ListItemText>
-                  </MenuItem>
-                </Link>
-              )}
-            {authUser?.youth_auth_source &&
-              Number(authUser.youth_auth_source) == 1 && <Divider />}
-            {authUser?.youth_auth_source &&
-              Number(authUser.youth_auth_source) == 1 && (
-                <Link
-                  href={getMyGovLoginUrl(
-                    getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA)
-                      .access_token,
-                    nonce,
-                  )}>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <IconUser />
-                    </ListItemIcon>
-                    <ListItemText>
-                      {messages['youth_layout.my_gov']}
-                    </ListItemText>
-                  </MenuItem>
-                </Link>
-              )}
+            {!isCDAPUser && <Divider />}
+            {!isCDAPUser && (
+              <Link href={LINK_FRONTEND_YOUTH_UPDATE_PASSWORD}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <LockResetIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {messages['update_password.label']}
+                  </ListItemText>
+                </MenuItem>
+              </Link>
+            )}
+            {showMyGovLogin && <Divider />}
+            {showMyGovLogin && (
+              <Link
+                href={getMyGovLoginUrl(access_token, nonce)}
+                target={'_blank'}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Login />
+                  </ListItemIcon>
+                  <ListItemText>{messages['youth.my_gov_login']}</ListItemText>
+                </MenuItem>
+              </Link>
+            )}
             <Divider />
-            {authUser?.youth_auth_source &&
-            Number(authUser.youth_auth_source) == 1 ? (
+            {isCDAPUser ? (
               <MenuItem onClick={onCDAPLogout}>
                 <ListItemIcon>
                   <Logout />
