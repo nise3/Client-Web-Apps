@@ -195,6 +195,8 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCBLMDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

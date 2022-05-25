@@ -195,6 +195,8 @@ const FourIRInitiativeAnalysisPage = ({fourIRInitiativeId}: Props) => {
         {isOpenDetailsModal && selectedItemId && (
           <InitiativeAnalysisDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             openEditModal={openAddEditModal}
             onClose={closeDetailsModal}
