@@ -171,6 +171,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               .string()
               .label(messages['common.duration_min'] as string)
               .required()
+              .test(
+                'duration_min_validation',
+                messages['exam.exam_duration_min'] as string,
+                (value) => Boolean(Number(value) > 0),
+              )
           : yup.mixed(),
       total_set:
         Number(examType) == ExamTypes.OFFLINE
@@ -194,6 +199,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               duration: yup
                 .string()
                 .required()
+                .test(
+                  'duration_min_validation',
+                  messages['exam.exam_duration_min'] as string,
+                  (value) => Boolean(Number(value) > 0),
+                )
                 .label(messages['common.duration_min'] as string),
               exam_questions: examQuestionsSchema(true),
             })
@@ -208,6 +218,11 @@ const ExamAddEditPage: FC<ExamAddEditPopupProps> = ({
               duration: yup
                 .string()
                 .required()
+                .test(
+                  'duration_min_validation',
+                  messages['exam.exam_duration_min'] as string,
+                  (value) => Boolean(Number(value) > 0),
+                )
                 .label(messages['common.duration_min'] as string),
               total_set: yup
                 .mixed()

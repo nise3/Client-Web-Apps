@@ -169,6 +169,20 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                       Number(exam?.exams[0]?.duration) * 60 * 1000 <
                     new Date().getTime();
 
+                  let isStarted =
+                    new Date(exam?.exams[0]?.start_date).getTime() <=
+                    new Date().getTime();
+
+                  if (
+                    exam.type !== ExamTypes.ONLINE &&
+                    exam.type !== ExamTypes.OFFLINE &&
+                    exam.type !== ExamTypes.MIXED
+                  ) {
+                    isOver =
+                      new Date(exam?.exams[0]?.end_date).getTime() <
+                      new Date().getTime();
+                  }
+
                   /*let isOverOthers =
                     new Date(exam?.exams[0]?.end_date).getTime() <
                     new Date().getTime();*/
@@ -225,7 +239,8 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                             <Body1 sx={{marginY: '10px'}}>
                               {messages['exam.exam_over']}
                             </Body1>
-                          ) : (
+                          ) : isStarted &&
+                            exam?.exams[0]?.type == ExamTypes.ONLINE ? (
                             <Link
                               href={
                                 LINK_FRONTEND_YOUTH_EXAMS +
@@ -242,11 +257,13 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                                 {messages['common.attend_exam']}
                               </Button>
                             </Link>
+                          ) : (
+                            <></>
                           ))}
                         {exam.type !== ExamTypes.ONLINE &&
                           exam.type !== ExamTypes.OFFLINE &&
                           exam.type !== ExamTypes.MIXED &&
-                          exam?.participated && (
+                          !exam?.exams[0]?.participated && (
                             <Button
                               variant={'outlined'}
                               onClick={() => onOpenUploadAnsFileModal(exam)}>
