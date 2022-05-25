@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Card, Grid, Typography} from '@mui/material';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import CustomDetailsViewMuiModal from '../../../@softbd/modals/CustomDetailsViewMuiModal/CustomDetailsViewMuiModal';
@@ -31,6 +31,7 @@ type Props = {
   fourIRInitiativeId: number;
   isToggleTable: boolean;
   onClose: () => void;
+  setIsToggleTable: any;
   openEditModal: (id: number) => void;
 };
 
@@ -38,6 +39,7 @@ const FourIRShowcasingDetailsPopup = ({
   itemId,
   openEditModal,
   isToggleTable,
+  setIsToggleTable,
   fourIRInitiativeId,
   ...props
 }: Props) => {
@@ -108,11 +110,19 @@ const FourIRShowcasingDetailsPopup = ({
     useReactTableFetchData({
       urlPath: API_4IR_FILE_LOGS,
       paramsValueModifier: (params) => {
+        console.log(
+          'four_ir_initiative_id is : ',
+          itemData?.four_ir_initiative_id,
+        );
         params['four_ir_initiative_id'] = itemData?.four_ir_initiative_id;
         params['file_log_step'] = FILE_LOG_SHOWCASING_STEP;
         return params;
       },
     });
+
+  useEffect(() => {
+    setIsToggleTable((prev: boolean) => !prev);
+  }, [itemData]);
 
   return (
     <>
@@ -122,7 +132,7 @@ const FourIRShowcasingDetailsPopup = ({
         title={
           <>
             <IconBranch />
-            <IntlMessages id='4ir.expert_team' />
+            <IntlMessages id='4ir_showcasing.label' />
           </>
         }
         maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
