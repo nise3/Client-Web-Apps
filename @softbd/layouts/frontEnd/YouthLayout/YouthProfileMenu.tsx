@@ -47,7 +47,7 @@ import {signOut} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
 import Divider from '../../../components/Divider/Divider';
-import {getCDAPLoginUrl2} from '../../../common/CDAPConfig';
+import {getMyGovLoginUrl} from '../../../common/CDAPConfig';
 import IconUser from '../../../icons/IconUser';
 
 const YouthProfileMenu = () => {
@@ -218,7 +218,7 @@ const YouthProfileMenu = () => {
             {authUser?.youth_auth_source &&
               Number(authUser.youth_auth_source) == 1 && (
                 <Link
-                  href={getCDAPLoginUrl2(
+                  href={getMyGovLoginUrl(
                     getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA)
                       .access_token,
                     nonce,
