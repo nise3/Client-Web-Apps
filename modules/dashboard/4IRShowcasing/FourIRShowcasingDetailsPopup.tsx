@@ -114,7 +114,7 @@ const FourIRShowcasingDetailsPopup = ({
           'four_ir_initiative_id is : ',
           itemData?.four_ir_initiative_id,
         );
-        params['four_ir_initiative_id'] = itemData?.four_ir_initiative_id;
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
         params['file_log_step'] = FILE_LOG_SHOWCASING_STEP;
         return params;
       },
