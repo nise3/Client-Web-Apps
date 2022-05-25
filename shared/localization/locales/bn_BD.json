@@ -1996,10 +1996,13 @@
   "migration_portal.services_of_expatriate_welfare_bank": "প্রবাসী কল্যাণ ব্যাংকের সেবাসমূহ",
   "migration_portal.labor_attache": "শ্রম কল্যাণ অফিসার/",
   "migration_portal.labor": "লেবার এট্যাশে",
+  "migration_portal.labor_attache_labor": "শ্রম কল্যাণ অফিসার / লেবার এট্যাশে",
   "migration_portal.services_of_wage_earners_welfare_board": "ওয়েজ আর্নার্স কল্যাণ",
   "migration_portal.services": "বোর্ডের সেবাসমূহ",
+  "migration_portal.services_welfare_board": "ওয়েজ আর্নার্স কল্যাণ বোর্ডের সেবাসমূহ",
   "migration_portal.returned_expatriate_online_application": "প্রবাস ফেরত অভিবাসীর",
   "migration_portal.online_application": "অনলাইন আবেদন",
+  "migration_portal.expatriate_online_application": "প্রবাস ফেরত অভিবাসীর অনলাইন আবেদন",
   "migration_portal.bmet_registration": "বিএমইটি রেজিস্ট্রেশন",
   "migration_portal.recruiting_agency_list": "রিক্রুটিং এজেন্সী তালিকা"
 }

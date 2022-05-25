@@ -84,38 +84,68 @@ const StyledContainer = styled(Container)(({theme}) => ({
     position: 'absolute',
     top: '15%',
     [`& a`]: {
-      color: 'red',
       padding: '20px',
     },
-    [theme.breakpoints.down('md')]: {},
+    [theme.breakpoints.down('sm')]: {
+      [`& a`]: {
+        padding: '5px',
+      },
+    },
   },
   [`& .${classes.secondButton}`]: {
     textAlign: 'center',
     position: 'absolute',
     top: '25%',
     '& .linkTwoOne': {
-      color: 'red',
       padding: '30px',
     },
     '& .linkTwoTwo': {
-      color: 'red',
       padding: '20px',
     },
-    [theme.breakpoints.down('md')]: {},
+    [theme.breakpoints.down('md')]: {
+      '& .linkTwoOne': {
+        padding: '40px',
+        marginLeft: '93px',
+      },
+      '& .linkTwoTwo': {
+        padding: '40px',
+        marginRight: '93px',
+      },
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '23%',
+      '& .linkTwoOne': {
+        padding: '13px',
+        marginLeft: '68px',
+      },
+      '& .linkTwoTwo': {
+        padding: '10px',
+        marginRight: '68px',
+      },
+    },
   },
   [`& .${classes.thirdButton}`]: {
     textAlign: 'center',
     position: 'absolute',
     top: '46%',
     '& .linkThreeOne': {
-      color: 'red',
       padding: '20px 51px',
       marginRight: '50px',
     },
     '& .linkThreeTwo': {
-      color: 'red',
       padding: '30px 49px',
       marginLeft: '25px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '46%',
+      '& .linkThreeOne': {
+        padding: '10px',
+        marginLeft: '68px',
+      },
+      '& .linkThreeTwo': {
+        padding: '13px',
+        marginRight: '68px',
+      },
     },
   },
   [`& .${classes.fourthButton}`]: {
@@ -123,24 +153,43 @@ const StyledContainer = styled(Container)(({theme}) => ({
     position: 'absolute',
     top: '68%',
     '& .linkFourOne': {
-      color: 'red',
       padding: '20px',
     },
     '& .linkFourTwo': {
-      color: 'red',
       padding: '20px',
     },
-    [theme.breakpoints.down('md')]: {},
+    [theme.breakpoints.down('md')]: {
+      '& .linkFourOne': {
+        padding: '30px',
+        marginLeft: '93px',
+      },
+      '& .linkFourTwo': {
+        padding: '40px',
+        marginRight: '93px',
+      },
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '68%',
+      '& .linkFourOne': {
+        padding: '10px',
+        marginLeft: '68px',
+      },
+      '& .linkFourTwo': {
+        padding: '13px',
+        marginRight: '68px',
+      },
+    },
   },
   [`& .${classes.bottomButton}`]: {
     textAlign: 'center',
     position: 'absolute',
     top: '75%',
     [`& a`]: {
-      color: 'red',
       padding: '20px',
     },
-    [theme.breakpoints.down('md')]: {},
+    [theme.breakpoints.down('md')]: {
+      top: '78%',
+    },
   },
 }));
 
@@ -234,92 +283,173 @@ const ImmigrantsCycleSection = () => {
             <Link
               href={LINK_GO_ABROAD_KNOWINGLY}
               target='_blank'
-              title={messages['migration_portal.go_abroad_knowingly']}>
-              click
-            </Link>
+              anchorProps={{
+                title: messages['migration_portal.go_abroad_knowingly'],
+              }}
+            />
           </Grid>
         </Grid>
-        <Grid container className={classes.secondButton}>
-          <Grid item xs={3} />
-          <Grid item xs={3}>
-            <Link
-              href={LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION}
-              target='_blank'
-              className='linkTwoOne'
-              title={
-                messages[
-                  'migration_portal.returned_expatriate_online_application'
-                ]
-              }>
-              click
-            </Link>
+        {isMDDown ? (
+          <Grid container className={classes.secondButton}>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION}
+                target='_blank'
+                className='linkTwoOne'
+                anchorProps={{
+                  title:
+                    messages['migration_portal.expatriate_online_application'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_TRAINING_BMET}
+                target='_blank'
+                className='linkTwoTwo'
+                anchorProps={{
+                  title: messages['menu.training'],
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <Link
-              href={LINK_TRAINING_BMET}
-              target='_blank'
-              className='linkTwoTwo'
-              title={messages['menu.training']}>
-              click
-            </Link>
+        ) : (
+          <Grid container className={classes.secondButton}>
+            <Grid item xs={3} />
+            <Grid item xs={3}>
+              <Link
+                href={LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION}
+                target='_blank'
+                className='linkTwoOne'
+                anchorProps={{
+                  title:
+                    messages['migration_portal.expatriate_online_application'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Link
+                href={LINK_TRAINING_BMET}
+                target='_blank'
+                className='linkTwoTwo'
+                anchorProps={{
+                  title: messages['menu.training'],
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container className={classes.thirdButton}>
-          <Grid item xs={3} />
-          <Grid item xs={3}>
-            <Link
-              href={LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD}
-              target='_blank'
-              className='linkThreeOne'
-              title={
-                messages[
-                  'migration_portal.services_of_wage_earners_welfare_board'
-                ]
-              }>
-              click
-            </Link>
+        )}
+
+        {isMDDown ? (
+          <Grid container className={classes.thirdButton}>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD}
+                target='_blank'
+                className='linkThreeOne'
+                anchorProps={{
+                  title: messages['migration_portal.services_welfare_board'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_BMET_REGISTRATION}
+                target='_blank'
+                className='linkThreeTwo'
+                anchorProps={{
+                  title: messages['migration_portal.bmet_registration'],
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <Link
-              href={LINK_BMET_REGISTRATION}
-              target='_blank'
-              className='linkThreeTwo'
-              title={messages['migration_portal.bmet_registration']}>
-              click
-            </Link>
+        ) : (
+          <Grid container className={classes.thirdButton}>
+            <Grid item xs={3} />
+            <Grid item xs={3}>
+              <Link
+                href={LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD}
+                target='_blank'
+                className='linkThreeOne'
+                anchorProps={{
+                  title: messages['migration_portal.services_welfare_board'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Link
+                href={LINK_BMET_REGISTRATION}
+                target='_blank'
+                className='linkThreeTwo'
+                anchorProps={{
+                  title: messages['migration_portal.bmet_registration'],
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container className={classes.fourthButton}>
-          <Grid item xs={3} />
-          <Grid item xs={3}>
-            <Link
-              href={LINK_LABOR_ATTACHE}
-              target='_blank'
-              className='linkFourOne'
-              title={messages['migration_portal.labor_attache']}>
-              click
-            </Link>
+        )}
+
+        {isMDDown ? (
+          <Grid container className={classes.fourthButton}>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_LABOR_ATTACHE}
+                target='_blank'
+                className='linkFourOne'
+                anchorProps={{
+                  title: messages['migration_portal.labor_attache_labor'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Link
+                href={LINK_RECRUITING_AGENCY_LIST}
+                target='_blank'
+                className='linkFourTwo'
+                anchorProps={{
+                  title: messages['migration_portal.recruiting_agency_list'],
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <Link
-              href={LINK_RECRUITING_AGENCY_LIST}
-              target='_blank'
-              className='linkFourTwo'
-              title={messages['migration_portal.recruiting_agency_list']}>
-              click
-            </Link>
+        ) : (
+          <Grid container className={classes.fourthButton}>
+            <Grid item xs={3} />
+            <Grid item xs={3}>
+              <Link
+                href={LINK_LABOR_ATTACHE}
+                target='_blank'
+                className='linkFourOne'
+                anchorProps={{
+                  title: messages['migration_portal.labor_attache_labor'],
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Link
+                href={LINK_RECRUITING_AGENCY_LIST}
+                target='_blank'
+                className='linkFourTwo'
+                anchorProps={{
+                  title: messages['migration_portal.recruiting_agency_list'],
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
+
         <Grid container className={classes.bottomButton}>
           <Grid item xs={12}>
             <Link
               href={LINK_SERVICES_OF_EXPATRIATE_WELFARE_BANK}
               target='_blank'
-              title={
-                messages['migration_portal.services_of_expatriate_welfare_bank']
-              }>
-              click
-            </Link>
+              anchorProps={{
+                title:
+                  messages[
+                    'migration_portal.services_of_expatriate_welfare_bank'
+                  ],
+              }}
+            />
           </Grid>
         </Grid>
       </Box>
