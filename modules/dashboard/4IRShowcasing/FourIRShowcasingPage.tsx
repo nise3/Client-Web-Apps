@@ -36,6 +36,7 @@ const FourIRShowcasingPage = ({
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [itemInitiativeId, setItemInitiativeId] = useState<number>(0);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -49,9 +50,10 @@ const FourIRShowcasingPage = ({
   }, []);
 
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (itemId: number, initiativeId: number) => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
+      setItemInitiativeId(initiativeId);
     },
     [selectedItemId],
   );
@@ -78,6 +80,7 @@ const FourIRShowcasingPage = ({
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+    setItemInitiativeId(0);
   }, []);
 
   const refreshDataTable = useCallback(() => {
@@ -141,7 +144,11 @@ const FourIRShowcasingPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <ReadButton
+                onClick={() =>
+                  openDetailsModal(data.id, data?.four_ir_initiative_id)
+                }
+              />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteShowcasingHandler(data.id)}
@@ -210,6 +217,9 @@ const FourIRShowcasingPage = ({
         {isOpenDetailsModal && selectedItemId && (
           <FourIRShowcasingDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            setIsToggleTable={setIsToggleTable}
+            fourIRInitiativeId={itemInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

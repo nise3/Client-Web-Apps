@@ -25,12 +25,6 @@ export function useFetch4IRInitiative(initiativeId: number | null) {
   );
 }
 
-export function useFetch4IInitiative(initiativeId: number | null) {
-  return useAxiosSWR(
-    initiativeId ? API_4IR_INITIATIVE + '/' + initiativeId : null,
-  );
-}
-
 export function useFetch4IRCell(cellId: number | null) {
   return useAxiosSWR(cellId ? API_4IR_CELL + '/' + cellId : null);
 }

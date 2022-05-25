@@ -20,21 +20,18 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import DownloadIcon from '@mui/icons-material/Download';
 import {Link, Typography} from '@mui/material';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-  useFetchTNAReports,
-} from '../../../services/4IRManagement/hooks';
-import {useRouter} from 'next/router';
+import {useFetchTNAReports} from '../../../services/4IRManagement/hooks';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 
 import Grid from '@mui/material/Grid';
 import {FILE_LOG_TNA_STEP} from '../4IRSteppers/fourIRFileLogConstant';
+import {IPageHeader} from '../4IRSteppers';
 
 interface Props {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
 // const method_names: any = {
@@ -46,20 +43,11 @@ interface Props {
 //   6: '4ir.tna_report_others_workshop',
 // };
 
-const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
+const FourIRTNAReportPage = ({fourIRInitiativeId, pageHeader}: Props) => {
   const {messages, locale} = useIntl();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState<boolean>(false);
   const [isOpenDetailsPopup, setIsOpenDetailsPopup] = useState<boolean>(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline, isLoading: isTaglineLoading} = useFetchFourIRTagline(
-    Number(taglineId),
-  );
-  const {data: initaitive, isLoading: isInitiativeLoading} =
-    useFetch4IRInitiative(initativeId);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -76,12 +64,16 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     setIsOpenDetailsPopup(false);
   }, []);
 
+  const {
+    data: tnaReportData,
+    isLoading: loading,
+    mutate: tnaMutate,
+  } = useFetchTNAReports(fourIRInitiativeId);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prev) => !prev);
+    tnaMutate();
   }, []);
-
-  const {data: tnaReportData, isLoading: loading} =
-    useFetchTNAReports(fourIRInitiativeId);
 
   const columns = useMemo(
     () => [
@@ -158,15 +150,13 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     },
   });
 
-  const isLoading = isInitiativeLoading || isTaglineLoading;
-
   return (
     <>
       <PageBlock
         title={
           <>
             <IconBranch /> <IntlMessages id='4ir.TNA_report' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -186,7 +176,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
             </Link>
           </>,
         ]}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} key={111}>
           <Grid item xs={5}>
             <Typography>{messages['menu.occupations']}</Typography>
           </Grid>
@@ -202,7 +192,7 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
           </Grid>
 
           <Grid item xs={5}>
-            <Typography>{initaitive?.name}</Typography>
+            <Typography>{pageHeader?.initative_name}</Typography>
           </Grid>
           <Grid item xs={3}>
             {tnaReportData?.file_path ? (
@@ -290,12 +280,13 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
         {isOpenDetailsPopup && (
           <FourIRTNAReportDetailsPopup
             onFetchData={onFetchData}
+            key={2}
             data={tnaReportData?.methods ?? []}
             loading={loading}
             pageCount={pageCount}
             totalCount={totalCount}
             isToggleTable={isToggleTable}
-            isLoading={isLoading}
+            isLoading={loading}
             onClose={closeDetailsPopup}
           />
         )}

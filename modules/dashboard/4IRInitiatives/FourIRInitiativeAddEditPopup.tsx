@@ -20,7 +20,7 @@ import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {getAll4IROccupations} from '../../../services/4IRManagement/OccupationService';
 import {IInitiative} from '../../../shared/Interface/4IR.interface';
 
-import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {
@@ -72,7 +72,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateInitiative,
-  } = useFetch4IInitiative(itemId);
+  } = useFetch4IRInitiative(itemId);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -309,6 +309,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
+            type={'number'}
             id='budget'
             label={messages['initiative.initiative_budget']}
             register={register}

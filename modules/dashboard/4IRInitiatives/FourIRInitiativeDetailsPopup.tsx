@@ -9,7 +9,7 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import {
   getCalculatedSerialNo,
   getMomentDateFormat,
@@ -43,7 +43,7 @@ const FourIRInitiativeDetailsPopup = ({
   ...props
 }: Props) => {
   const {messages, locale} = useIntl();
-  const {data: itemData, isLoading} = useFetch4IInitiative(itemId);
+  const {data: itemData, isLoading} = useFetch4IRInitiative(itemId);
 
   const columns = useMemo(
     () => [

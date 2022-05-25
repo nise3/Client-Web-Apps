@@ -2028,7 +2028,7 @@
   "4ir_tot.master_trainer": "Master Trainer",
   "4ir_tot.organiser": "Organiser",
   "4ir_tot.co_organiser": "Co-Organiser",
-  "4ir_tot.participants": "Participants",
+  "4ir_tot.participants": "Demo Participants File",
   "4ir_tot.label": "4IR ToT",
   "4ir_tot.tot": "ToT",
   "4ir.enrollment_approval": "Enrollment Approval",
@@ -2084,5 +2084,6 @@
   "common.file_upload_photo": "File Upload (Photo)",
   "4ir.tna_report_view" :  "View TNA Report details",
   "4ir.tna_report_demo" :  "Demo TNA Report",
-  "common.previous_files" : "Previous Files"
+  "common.previous_files" : "Previous Files",
+  "4ir.tot_participants_file" : "Participants File (Excel)"
 }

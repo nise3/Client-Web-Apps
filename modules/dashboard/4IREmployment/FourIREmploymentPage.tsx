@@ -13,18 +13,16 @@ import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import {Typography} from '@mui/material';
-import {useRouter} from 'next/router';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../services/4IRManagement/hooks';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourEmploymentPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
 const FourIREmploymentPage = ({
   fourIRInitiativeId,
+  pageHeader,
 }: IFourEmploymentPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -35,12 +33,6 @@ const FourIREmploymentPage = ({
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -107,7 +99,6 @@ const FourIREmploymentPage = ({
         Cell: (props: any) => {
           let data = props.row.original;
 
-          // todo: key will be changed
           const e_status =
             data?.employment_status == 1
               ? 'Self Employed'
@@ -160,7 +151,7 @@ const FourIREmploymentPage = ({
         title={
           <>
             <IconBranch /> <IntlMessages id='4ir.employment' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }>
         <ReactTable
