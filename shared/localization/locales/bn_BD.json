@@ -2239,9 +2239,11 @@
   "common.final_marks": "চূড়ান্ত নাম্বার",
   "common.all_result": "সমস্ত ফলাফল",
   "common.certificate_template_setting_for_batch": "ব্যাচের জন্য সনদপত্র টেম্প্লেট বরাদ্দ",
-  "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
-  "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো",
+  "4ir.tna_report_view": "টিএনএ রিপোর্ট দেখুন",
+  "4ir.tna_report_demo": "টিএনএ রিপোর্ট ডেমো",
   "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না",
   "exam.exam_duration_min": "পরীক্ষার সময়কাল অবশ্যই ০ মিনিটের বেশি হতে হবে",
-  "exam.result_publish": "ফলাফল প্রকাশ"
+  "exam.result_publish": "ফলাফল প্রকাশ",
+  "common.previous_files": "পূর্ববর্তী ফাইল",
+  "4ir.tot_participants_file": "অংশগ্রহণকারীদের ফাইল (এক্সেল)"
 }

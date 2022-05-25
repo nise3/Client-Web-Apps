@@ -2243,5 +2243,7 @@
   "yup_validation_invalid_subject_id": "Subject can not be updated",
   "youth_feed.label": "Youth feed",
   "exam.exam_duration_min": "Exam duration must be greater than 0 minutes",
-  "exam.result_publish": "Publish result"
+  "exam.result_publish": "Publish result",
+  "common.previous_files": "Previous Files",
+  "4ir.tot_participants_file": "Participants File (Excel)"
 }
