@@ -108,7 +108,7 @@ const FourIRShowcasingDetailsPopup = ({
     useReactTableFetchData({
       urlPath: API_4IR_FILE_LOGS,
       paramsValueModifier: (params) => {
-        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        params['four_ir_initiative_id'] = itemData?.four_ir_initiative_id;
         params['file_log_step'] = FILE_LOG_SHOWCASING_STEP;
         return params;
       },
