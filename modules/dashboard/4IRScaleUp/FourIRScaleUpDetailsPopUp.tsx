@@ -148,7 +148,7 @@ const FourIRScaleUpDetailsPopUp = ({
           <Grid item xs={12} md={6}>
             <DetailsInputView
               label={messages['project.name_en']}
-              value={itemData?.project_name_en}
+              value={itemData?.project_name_enl}
               isLoading={isLoading}
             />
           </Grid>

@@ -3,6 +3,7 @@ import FourIRCertificateManagementPage from '../4IRCertificateManagement/FourIRC
 import {Box, Button} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
+import {IPageHeader} from './index';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -20,10 +21,21 @@ const CertificationStep = ({
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
 
+  const [pageHeader, setPageHeader] = useState<IPageHeader>({
+    tagline_name: '',
+    initative_name: '',
+  });
+
   useEffect(() => {
     (async () => {
       try {
         const response = await getInitiative(fourIRInitiativeId);
+
+        setPageHeader({
+          tagline_name: response?.data?.four_ir_tagline_name ?? '',
+          initative_name: response?.data?.name ?? '',
+        });
+
         if (response && response.data) {
           const initiative = response.data;
           if (initiative?.completion_step) {
@@ -41,6 +53,7 @@ const CertificationStep = ({
   return isReady ? (
     <>
       <FourIRCertificateManagementPage
+        pageHeader={pageHeader}
         fourIRInitiativeId={fourIRInitiativeId}
       />
       <Box display={'flex'} justifyContent={'space-between'} mt={3}>
