@@ -18,17 +18,17 @@ import {
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
-import {useRouter} from 'next/router';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../services/4IRManagement/hooks';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
+const ResourceManagementPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRRMPageProps) => {
   const {messages} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -40,12 +40,6 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -145,7 +139,7 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         title={
           <>
             <IconSkill /> <IntlMessages id='4ir_rm.label' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={
@@ -187,6 +181,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <ResourceManagementDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

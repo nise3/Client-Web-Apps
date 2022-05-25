@@ -19,6 +19,11 @@ import ProjectAnalysisStep from './ProjectAnalysisStep';
 import ScaleUpStep from './ScaleUpStep';
 import EmploymentStep from './EmploymentStep';
 
+export interface IPageHeader {
+  tagline_name: string;
+  initative_name: string;
+}
+
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 15,
   '& .MuiStepLabel-iconContainer .Mui-active': {

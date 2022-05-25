@@ -77,7 +77,8 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         .label(messages['project.name'] as string),
       project_name_en: yup
         .string()
-        .label(messages['project.name_en'] as string),
+        .label(messages['project.name_en'] as string)
+        .nullable(),
       budget: yup
         .number()
         .min(1, messages['common.budget_reuired'] as string)
@@ -176,6 +177,8 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
     }
   };
 
+  console.log(errors);
+
   return (
     <HookFormMuiModal
       open={true}
@@ -212,6 +215,15 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
             required
             id='project_name'
             label={messages['project.name']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
+            id='project_name_en'
+            label={messages['project.name_en']}
             register={register}
             errorInstance={errors}
           />

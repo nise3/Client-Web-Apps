@@ -1,12 +1,17 @@
 import FourIRCoursePage from './Course/FourIRCoursePage';
 import {useState} from 'react';
 import EnrolledYouthList from './4IREnrollmentApproval/EnrolledYouthList';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCourseStepPage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
+const FourIRCourseStepPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRCoursePageProps) => {
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [showEnrollments, setShowEnrollments] = useState<boolean>(false);
 
@@ -24,6 +29,7 @@ const FourIRCourseStepPage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
     <>
       {!showEnrollments && (
         <FourIRCoursePage
+          pageHeader={pageHeader}
           fourIRInitiativeId={fourIRInitiativeId}
           showEnrollmentHandler={showEnrollmentHandler}
         />
@@ -31,6 +37,7 @@ const FourIRCourseStepPage = ({fourIRInitiativeId}: IFourIRCoursePageProps) => {
 
       {showEnrollments && selectedCourseId && (
         <EnrolledYouthList
+          pageHeader={pageHeader}
           selectedCourseId={selectedCourseId}
           previousHandler={previousHandler}
         />

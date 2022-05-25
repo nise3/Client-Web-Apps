@@ -14,30 +14,22 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {BATCH_BY_4IR_INITIATIVE_ID} from '../../../@softbd/common/apiRoutes';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
-import {useRouter} from 'next/router';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../services/4IRManagement/hooks';
+import {IPageHeader} from '../4IRSteppers';
 
 interface Props {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
   showYouthListHandler: (batchId: number | null) => void;
 }
 
 const SkillDevelopmentPage = ({
   fourIRInitiativeId,
+  pageHeader,
   showYouthListHandler,
 }: Props) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openDetailsModal = useCallback(
     (item: any) => {
@@ -135,7 +127,7 @@ const SkillDevelopmentPage = ({
         title={
           <>
             <IconBranch /> <IntlMessages id='4ir.skill_development' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }>
         <ReactTable

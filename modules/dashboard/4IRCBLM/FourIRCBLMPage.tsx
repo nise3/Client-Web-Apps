@@ -15,17 +15,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CBLM} from '../../../@softbd/common/apiRoutes';
 import FourIRCBLMAddEditPopUp from './FourIRCBLMAddEditPopUp';
 import FourIRCBLMDetailsPopUp from './FourIRCBLMDetailsPopUp';
-import {useRouter} from 'next/router';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../services/4IRManagement/hooks';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCBLMPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
+const FourIRCBLMPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRCBLMPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -35,12 +35,6 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -153,7 +147,7 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
         title={
           <>
             <IconBranch /> <IntlMessages id='4ir.CBLM' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -195,6 +189,8 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCBLMDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

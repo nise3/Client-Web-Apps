@@ -17,13 +17,15 @@ import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import {useFetchBatch} from '../../../services/instituteManagement/hooks';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {IPageHeader} from '../4IRSteppers';
 
 interface Props {
   batchId: number;
+  pageHeader: IPageHeader;
   previousHandler: () => void;
 }
 
-const YouthPage = ({batchId, previousHandler}: Props) => {
+const YouthPage = ({batchId, previousHandler, pageHeader}: Props) => {
   const {messages} = useIntl();
 
   const {data: batch, isLoading} = useFetchBatch(Number(batchId));
@@ -100,7 +102,6 @@ const YouthPage = ({batchId, previousHandler}: Props) => {
     [messages],
   );
 
-  // TODO:: Change the api route whenever its ready
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
       urlPath: API_COURSE_ENROLLMENTS,
@@ -134,7 +135,8 @@ const YouthPage = ({batchId, previousHandler}: Props) => {
           title={
             <>
               <IconUser /> <IntlMessages id='youth.label' />{' '}
-              {`(${batch.title})`}
+              {`(${batch.title})`}{' '}
+              {`(${pageHeader.tagline_name} > ${pageHeader?.initative_name})`}
             </>
           }
           extra={

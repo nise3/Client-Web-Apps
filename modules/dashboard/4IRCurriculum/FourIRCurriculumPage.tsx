@@ -15,17 +15,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CURRICULUM} from '../../../@softbd/common/apiRoutes';
 import FourIRCurriculumAddEditPopup from './FourIRCurriculumAddEditPopup';
 import FourIRCurriculumDetailsPopup from './FourIRCurriculumDetailsPopup';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../services/4IRManagement/hooks';
-import {useRouter} from 'next/router';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCSPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
+const FourIRCurriculumPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -35,12 +35,6 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
   }, []);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   const openAddEditModal = useCallback((itemId: number | null = null) => {
     setIsOpenDetailsModal(false);
@@ -160,7 +154,7 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         title={
           <>
             <IconBranch /> <IntlMessages id='4ir_curriculum.label' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -202,6 +196,8 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCurriculumDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

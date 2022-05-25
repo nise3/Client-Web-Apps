@@ -15,19 +15,17 @@ import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useRouter} from 'next/router';
-import {
-  useFetch4IRInitiative,
-  useFetchFourIRTagline,
-} from '../../../../services/4IRManagement/hooks';
+import {IPageHeader} from '../../4IRSteppers';
 
 interface IEnrolledYouthList {
   selectedCourseId: number;
+  pageHeader: IPageHeader;
   previousHandler: () => void;
 }
 
 const EnrolledYouthList = ({
   selectedCourseId,
+  pageHeader,
   previousHandler,
 }: IEnrolledYouthList) => {
   const {messages, locale} = useIntl();
@@ -35,12 +33,6 @@ const EnrolledYouthList = ({
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   //const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
-
-  const router = useRouter();
-  const taglineId = Number(router.query.taglineId);
-  const initativeId = Number(router.query.initiativeId);
-  const {data: tagline} = useFetchFourIRTagline(Number(taglineId));
-  const {data: initaitive} = useFetch4IRInitiative(initativeId);
 
   /** details modal */
   const openDetailsModal = useCallback((itemId: number) => {
@@ -175,7 +167,7 @@ const EnrolledYouthList = ({
         title={
           <>
             <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />{' '}
-            {`(${tagline?.name} > ${initaitive?.name})`}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={
