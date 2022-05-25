@@ -286,6 +286,7 @@ const FourIRCSDetailsPopup = ({
               />
             </Link>
           </Grid>
+
           <Grid item xs={12}>
             <Typography variant={'h5'}>
               {messages['common.previous_files']}
@@ -300,6 +301,7 @@ const FourIRCSDetailsPopup = ({
               toggleResetTable={isToggleTable}
             />
           </Grid>
+
           <Grid item xs={12}>
             <CustomChipRowStatus
               label={messages['common.row_status']}

@@ -131,6 +131,21 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['tot.proof_of_report_file'] as string),
+      participants_file: !itemId
+        ? yup
+            .mixed()
+            .required()
+            .test(
+              'rrrrr',
+              messages['4ir.tot_participants_file'] as string,
+              (value: any) => {
+                if (!value) return false;
+                if (value === '') return false;
+                return value.length !== 0;
+              },
+            )
+            .label(messages['4ir.tot_participants_file'] as string)
+        : yup.mixed().nullable(),
     });
   }, [messages]);
 
@@ -149,16 +164,18 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
+        ...initialValues,
+        ...itemData,
         master_trainers: getMasterTrainers(itemData?.master_trainers),
-        organizer_name: itemData?.organizer_name,
-        organizer_address: itemData?.organizer_address,
-        organizer_email: itemData?.organizer_email,
-        co_organizer_name: itemData?.co_organizer_name,
-        co_organizer_address: itemData?.co_organizer_address,
-        co_organizer_email: itemData?.co_organizer_email,
-        row_status: itemData?.row_status,
-        tot_date: itemData?.tot_date,
-        proof_of_report_file: itemData?.proof_of_report_file,
+        // organizer_name: itemData?.organizer_name,
+        // organizer_address: itemData?.organizer_address,
+        // organizer_email: itemData?.organizer_email,
+        // co_organizer_name: itemData?.co_organizer_name,
+        // co_organizer_address: itemData?.co_organizer_address,
+        // co_organizer_email: itemData?.co_organizer_email,
+        // row_status: itemData?.row_status,
+        // tot_date: itemData?.tot_date,
+        // proof_of_report_file: itemData?.proof_of_report_file,
       });
     } else {
       reset(initialValues);

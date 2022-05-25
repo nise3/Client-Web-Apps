@@ -76,12 +76,16 @@ const FourIRTNAReportPage = ({fourIRInitiativeId}: Props) => {
     setIsOpenDetailsPopup(false);
   }, []);
 
+  const {
+    data: tnaReportData,
+    isLoading: loading,
+    mutate: tnaMutate,
+  } = useFetchTNAReports(fourIRInitiativeId);
+
   const refreshDataTable = useCallback(() => {
     setIsToggleTable((prev) => !prev);
+    tnaMutate();
   }, []);
-
-  const {data: tnaReportData, isLoading: loading} =
-    useFetchTNAReports(fourIRInitiativeId);
 
   const columns = useMemo(
     () => [

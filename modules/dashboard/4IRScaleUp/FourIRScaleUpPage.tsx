@@ -208,6 +208,7 @@ const FourIRImplemntingTeamPage = ({fourIRInitiativeId}: Props) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRScaleUpDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
             itemId={selectedItemId}
             fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeDetailsModal}

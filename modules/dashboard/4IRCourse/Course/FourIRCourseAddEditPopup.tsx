@@ -460,6 +460,7 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         <Grid item xs={6} sm={3} md={3}>
           <CustomTextInput
             required
+            type={'number'}
             id='course_fee'
             label={messages['course.fee']}
             register={register}
@@ -470,6 +471,7 @@ const FourIRCourseAddEditPopup: FC<CourseAddEditPopupProps> = ({
         <Grid item xs={6} sm={3} md={3}>
           <CustomTextInput
             id='duration'
+            type={'number'}
             label={messages['course.duration']}
             register={register}
             errorInstance={errors}

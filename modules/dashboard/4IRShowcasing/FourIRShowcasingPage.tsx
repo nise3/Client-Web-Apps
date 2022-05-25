@@ -210,6 +210,8 @@ const FourIRShowcasingPage = ({
         {isOpenDetailsModal && selectedItemId && (
           <FourIRShowcasingDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

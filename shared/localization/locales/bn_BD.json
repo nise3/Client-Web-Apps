@@ -2029,7 +2029,7 @@
   "4ir_tot.master_trainer": "মাস্টার ট্রেইনার",
   "4ir_tot.organiser": "অর্গানাইজার",
   "4ir_tot.co_organiser": "কো-অর্গানাইজার",
-  "4ir_tot.participants": "অংশগ্রহণকারী",
+  "4ir_tot.participants": "ডেমো অংশগ্রহণকারী ফাইল",
   "4ir_tot.label": "4 আই আর টিওটি",
   "4ir_tot.tot": "টিওটি",
   "4ir.enrollment_approval": "এনরোলমেন্ট এপ্রোভাল",
@@ -2084,5 +2084,6 @@
   "common.file_upload_photo": "ফাইল আপলোড (ফটো)",
   "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
   "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো",
-  "common.previous_files" : "পূর্ববর্তী ফাইল"
+  "common.previous_files" : "পূর্ববর্তী ফাইল",
+  "4ir.tot_participants_file" : "অংশগ্রহণকারীদের ফাইল (এক্সেল)"
 }

@@ -309,6 +309,7 @@ const FourIRInitiativeAddEditPopup: FC<ProjectAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <CustomTextInput
             required
+            type={'number'}
             id='budget'
             label={messages['initiative.initiative_budget']}
             register={register}
