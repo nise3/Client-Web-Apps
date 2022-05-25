@@ -9,7 +9,7 @@ interface TConfig {
 
 const CDAP_CONFIG: TConfig = {
   authUrl: 'https://identity-dev.nise3.xyz/oauth2/authorize/',
-  authUrl2: 'https://www.training.mygov.bd/users/myGovLoginProcessFromSSOUsers',
+  authUrl2: 'https://idp.training.mygov.bd/oauth2/nise3-auth',
   clientId: 'ATqvU8EKNKl6st6YjuUM0VNbQ1oa',
   callbackUrl: '/callback',
 };
@@ -27,7 +27,7 @@ export const getCDAPLoginUrl = () => {
   );
 };
 
-export const getCDAPLoginUrl2 = (accessToken: any, nonce: any) => {
+export const getMyGovLoginUrl = (accessToken: any, nonce: any) => {
   return (
     CDAP_CONFIG.authUrl2 +
     '?response_type=code&access_token=' +
