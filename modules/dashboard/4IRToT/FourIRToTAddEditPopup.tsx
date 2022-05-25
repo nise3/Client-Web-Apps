@@ -42,7 +42,7 @@ const initialValues = {
   co_organizer_address: '',
   co_organizer_email: '',
   row_status: '1',
-  participants: '',
+  participants_file: '',
   tot_date: '',
   proof_of_report_file: '',
 };
@@ -131,6 +131,21 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
         .string()
         .required()
         .label(messages['tot.proof_of_report_file'] as string),
+      participants_file: !itemId
+        ? yup
+            .mixed()
+            .required()
+            .test(
+              'rrrrr',
+              messages['4ir.tot_participants_file'] as string,
+              (value: any) => {
+                if (!value) return false;
+                if (value === '') return false;
+                return value.length !== 0;
+              },
+            )
+            .label(messages['4ir.tot_participants_file'] as string)
+        : yup.mixed().nullable(),
     });
   }, [messages]);
 
@@ -149,16 +164,18 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
   useEffect(() => {
     if (itemData) {
       reset({
+        ...initialValues,
+        ...itemData,
         master_trainers: getMasterTrainers(itemData?.master_trainers),
-        organizer_name: itemData?.organizer_name,
-        organizer_address: itemData?.organizer_address,
-        organizer_email: itemData?.organizer_email,
-        co_organizer_name: itemData?.co_organizer_name,
-        co_organizer_address: itemData?.co_organizer_address,
-        co_organizer_email: itemData?.co_organizer_email,
-        row_status: itemData?.row_status,
-        tot_date: itemData?.tot_date,
-        proof_of_report_file: itemData?.proof_of_report_file,
+        // organizer_name: itemData?.organizer_name,
+        // organizer_address: itemData?.organizer_address,
+        // organizer_email: itemData?.organizer_email,
+        // co_organizer_name: itemData?.co_organizer_name,
+        // co_organizer_address: itemData?.co_organizer_address,
+        // co_organizer_email: itemData?.co_organizer_email,
+        // row_status: itemData?.row_status,
+        // tot_date: itemData?.tot_date,
+        // proof_of_report_file: itemData?.proof_of_report_file,
       });
     } else {
       reset(initialValues);
@@ -177,7 +194,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
 
       Object.keys(data).forEach((field) => {
         if (data?.[field]) {
-          if (field == 'participants') {
+          if (field == 'participants_file') {
             formData.append(field, data[field]?.[0]);
           } else if (field == 'master_trainers') {
             formData.append('master_trainers', JSON.stringify(data[field]));
@@ -367,8 +384,8 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
               <Grid item xs={6}>
                 <CustomTextInput
                   required
-                  id='participants'
-                  name='participants'
+                  id='participants_file'
+                  name='participants_file'
                   label={''}
                   register={register}
                   type={'file'}
@@ -376,7 +393,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
                     shrink: true,
                   }}
                   onInput={(files: any) =>
-                    fileUploadHandler(files, 'participants')
+                    fileUploadHandler(files, 'participants_file')
                   }
                   errorInstance={errors}
                 />
@@ -401,7 +418,7 @@ const FourIRToTAddEditPopup: FC<ToTAddEditPopupProps> = ({
                 <Grid item>
                   <CommonButton
                     key={1}
-                    onClick={() => emptyFile('participants')}
+                    onClick={() => emptyFile('participants_file')}
                     btnText={'common.remove'}
                     variant={'outlined'}
                     color={'secondary'}

@@ -360,6 +360,8 @@ const FourIRInitiativesPage = () => {
           {isOpenDetailsModal && selectedItemId && (
             <FourIRInitiativeDetailsPopup
               key={1}
+              isToggleTable={isToggleTable}
+              fourIRInitiativeId={selectedItemId}
               itemId={selectedItemId}
               onClose={closeDetailsModal}
               openEditModal={openAddEditModal}

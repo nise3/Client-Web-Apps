@@ -12,6 +12,7 @@ import FourIRExpertTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';
 import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
+import {IPageHeader} from './index';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -32,10 +33,21 @@ const TeamStep = ({
     string | false
   >(false);
 
+  const [pageHeader, setPageHeader] = useState<IPageHeader>({
+    tagline_name: '',
+    initative_name: '',
+  });
+
   useEffect(() => {
     (async () => {
       try {
         const response = await getInitiative(fourIRInitiativeId);
+
+        setPageHeader({
+          tagline_name: response?.data?.four_ir_tagline_name ?? '',
+          initative_name: response?.data?.name ?? '',
+        });
+
         if (response && response.data) {
           const initiative = response.data;
           if (initiative?.completion_step) {
@@ -74,6 +86,7 @@ const TeamStep = ({
           <AccordionDetails>
             <FourIRImplementingTeamPage
               fourIRInitiativeId={fourIRInitiativeId}
+              pageHeader={pageHeader}
             />
           </AccordionDetails>
         </Accordion>
@@ -92,7 +105,10 @@ const TeamStep = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FourIRExpertTeamPage fourIRInitiativeId={fourIRInitiativeId} />
+            <FourIRExpertTeamPage
+              pageHeader={pageHeader}
+              fourIRInitiativeId={fourIRInitiativeId}
+            />
           </AccordionDetails>
         </Accordion>
 

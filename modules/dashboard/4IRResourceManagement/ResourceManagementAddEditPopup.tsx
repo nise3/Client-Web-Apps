@@ -215,6 +215,7 @@ const ResourceManagementAddEditPopup: FC<FourIRRMAddEditPopupProps> = ({
             <Grid item xs={6}>
               <CustomTextInput
                 required
+                type={'number'}
                 id='total_amount'
                 label={messages['4ir_rm.given_budget']}
                 register={register}

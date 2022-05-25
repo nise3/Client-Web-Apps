@@ -52,10 +52,28 @@ const ExamPage = () => {
     } catch (error) {}
   };
 
-  const publishAction = async (examId: number, published_at: any) => {
+  const publishAction = async (examId: number) => {
     try {
       let data = {
-        is_published: published_at ? 0 : 1,
+        is_published: 1,
+      };
+      let response = await publishExam(examId, data);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_publish_successfully'
+            values={{subject: <IntlMessages id='exam.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error) {}
+  };
+
+  const unPublishAction = async (examId: number) => {
+    try {
+      let data = {
+        is_published: 0,
       };
       let response = await publishExam(examId, data);
       if (isResponseSuccess(response)) {
@@ -157,6 +175,22 @@ const ExamPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let isStartDateOver: any = '';
+
+          if (ExamTypes.MIXED != data.type && data?.exams.length == 1) {
+            isStartDateOver =
+              new Date(data?.exams[0]?.start_date).getTime() <
+              new Date().getTime();
+          }
+
+          if (ExamTypes.MIXED == data.type && data?.exams.length == 2) {
+            isStartDateOver =
+              new Date(data?.exams[0]?.start_date).getTime() <
+                new Date().getTime() ||
+              new Date(data?.exams[1]?.start_date).getTime() <
+                new Date().getTime();
+          }
+
           return (
             <DatatableButtonGroup>
               <ReadButton
@@ -177,23 +211,22 @@ const ExamPage = () => {
                   deleteTitle={messages['common.delete_confirm'] as string}
                 />
               )}
-              <ApproveButton
-                approveAction={() => publishAction(data.id, data.published_at)}
-                approveTitle={
-                  messages[
-                    data.published_at
-                      ? 'common.un_publish'
-                      : 'common.publishing'
-                  ] as string
-                }
-                buttonText={
-                  messages[
-                    data.published_at
-                      ? 'common.un_publish'
-                      : 'common.publishing'
-                  ] as string
-                }
-              />
+
+              {!isStartDateOver && !data?.published_at && (
+                <ApproveButton
+                  approveAction={() => publishAction(data.id)}
+                  approveTitle={messages['common.publishing'] as string}
+                  buttonText={messages['common.publishing'] as string}
+                />
+              )}
+
+              {!isStartDateOver && data?.published_at && (
+                <ApproveButton
+                  approveAction={() => unPublishAction(data.id)}
+                  approveTitle={messages['common.un_publish'] as string}
+                  buttonText={messages['common.un_publish'] as string}
+                />
+              )}
             </DatatableButtonGroup>
           );
         },
