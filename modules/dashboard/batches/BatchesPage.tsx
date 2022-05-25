@@ -344,14 +344,14 @@ const BatchesPage = () => {
                     messages[
                       data?.result_published_at
                         ? 'common.un_publish'
-                        : 'common.publishing'
+                        : 'exam.result_publish'
                     ] as string
                   }
                   buttonText={
                     messages[
                       data?.result_published_at
                         ? 'common.un_publish'
-                        : 'common.publishing'
+                        : 'exam.result_publish'
                     ] as string
                   }
                 />

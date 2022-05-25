@@ -2009,10 +2009,12 @@
   "batch.result_no_exams": "No exams to process results",
   "batch.result_failed_already_published": "Results already published",
   "batch.result_failed_no_config": "No result config configured for course",
-  "batch.result_failed_configured_exams_not_found": "Configured exam type is missing",
+  "batch.result_failed_configured_exams_not_found": "Exam configuration doesn't match with total created exam",
   "batch.result_failed_exams_not_finished": "Some assigned exams is not finished",
   "common.percentage": "Percentage",
   "common.final_marks": "Final marks",
   "common.all_result": "All result",
-  "yup_validation_invalid_subject_id": "Subject can not be updated"
+  "yup_validation_invalid_subject_id": "Subject can not be updated",
+  "exam.exam_duration_min": "Exam duration must be greater than 0 minutes",
+  "exam.result_publish": "Publish result"
 }

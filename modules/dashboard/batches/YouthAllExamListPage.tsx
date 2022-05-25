@@ -34,7 +34,7 @@ const YouthAllExamListPage = () => {
           let examObj = {
             title: exam_type.title,
             title_en: exam_type.title_en,
-            exam_id: exam.id,
+            exam_id: exam.exam_id,
             type: exam.type,
             exam_type_id: exam.exam_type_id,
             exam_type: exam_type.type,
