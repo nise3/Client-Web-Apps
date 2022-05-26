@@ -222,43 +222,6 @@ const FourIRInitiativeDetailsPopup = ({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12} md={6}></Grid>
-          <Grid item xs={12} md={6}>
-            <Link
-              underline='none'
-              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
-              download
-              target={'_blank'}
-              style={{
-                display: 'flex',
-                justifyContent: 'end',
-                marginTop: '2rem',
-              }}>
-              <CommonButton
-                startIcon={<DownloadIcon />}
-                key={1}
-                onClick={() => console.log('file downloading')}
-                btnText={'common.download_file'}
-                variant={'outlined'}
-                color={'primary'}
-              />
-            </Link>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
-            </Typography>
-            <ReactTable
-              columns={columns}
-              data={data}
-              fetchData={onFetchData}
-              loading={loading}
-              pageCount={pageCount}
-              totalCount={totalCount}
-              toggleResetTable={isToggleTable}
-            />
-          </Grid>
 
           <Grid item xs={12}>
             <List>
@@ -349,6 +312,48 @@ const FourIRInitiativeDetailsPopup = ({
               label={messages['common.active_status']}
               value={itemData?.row_status}
               isLoading={isLoading}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}></Grid>
+          <Grid item xs={12} md={6}>
+            <Link
+              underline='none'
+              href={`${FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.file_path}`}
+              download
+              target={'_blank'}
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '2rem',
+              }}>
+              <CommonButton
+                startIcon={<DownloadIcon />}
+                key={1}
+                onClick={() => console.log('file downloading')}
+                btnText={'4ir.initiative_guideline_download'}
+                variant={'outlined'}
+                color={'primary'}
+              />
+            </Link>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.initiative_guideline_previous_files']}
+            </Typography>
+            <ReactTable
+              columns={columns}
+              data={data}
+              fetchData={onFetchData}
+              loading={loading}
+              pageCount={pageCount}
+              totalCount={totalCount}
+              toggleResetTable={isToggleTable}
             />
           </Grid>
         </Grid>

@@ -60,9 +60,6 @@ const ScaleUpStep = ({
         <Button onClick={onBack} variant={'outlined'} color={'primary'}>
           {messages['common.previous']}
         </Button>
-        <Button onClick={onContinue} variant={'contained'} color={'primary'}>
-          {messages['common.next']}
-        </Button>
       </Box>
     </>
   ) : (

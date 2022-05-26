@@ -1,8 +1,6 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
@@ -10,7 +8,6 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
-import FourIRAssessmentDetailsPopUp from './FourIRAssessmentDetailsPopUp';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Typography} from '@mui/material';
 import {IPageHeader} from '../4IRSteppers';
@@ -26,21 +23,21 @@ const FourIRAssessmentPage = ({
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Object | null>(null);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  // const [selectedItem, setSelectedItem] = useState<Object | null>(null);
+  // const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
-  /** details modal */
-  const openDetailsModal = useCallback((item: any) => {
-    setSelectedItem(item);
-    setIsOpenDetailsModal(true);
-    setSelectedItemId(item.id);
-  }, []);
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-    setSelectedItem(null);
-  }, []);
+  // /** details modal */
+  // const openDetailsModal = useCallback((item: any) => {
+  //   setSelectedItem(item);
+  //   setIsOpenDetailsModal(true);
+  //   setSelectedItemId(item.id);
+  // }, []);
+  //
+  // const closeDetailsModal = useCallback(() => {
+  //   setIsOpenDetailsModal(false);
+  //   setSelectedItem(null);
+  // }, []);
 
   const columns = useMemo(
     () => [
@@ -57,15 +54,6 @@ const FourIRAssessmentPage = ({
         },
       },
       {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
-      },
-      {
-        Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: locale === LocaleLanguage.EN,
-      },
-      {
         Header: messages['assessment.examinee'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -76,20 +64,31 @@ const FourIRAssessmentPage = ({
         },
       },
       {
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
+      },
+      {
+        Header: messages['applicationManagement.courseTitle_en'],
+        accessor: 'course_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+
+      {
         Header: messages['assessment.examiner'],
         accessor: 'examiner_name',
       },
-      {
-        Header: messages['common.actions'],
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data)} />
-            </DatatableButtonGroup>
-          );
-        },
-      },
+
+      // {
+      //   Header: messages['common.actions'],
+      //   Cell: (props: any) => {
+      //     let data = props.row.original;
+      //     return (
+      //       <DatatableButtonGroup>
+      //         <ReadButton onClick={() => openDetailsModal(data)} />
+      //       </DatatableButtonGroup>
+      //     );
+      //   },
+      // },
     ],
     [messages, locale],
   );
@@ -137,14 +136,14 @@ const FourIRAssessmentPage = ({
           totalCount={totalCount}
         />
 
-        {isOpenDetailsModal && selectedItem && selectedItemId && (
-          <FourIRAssessmentDetailsPopUp
-            key={1}
-            itemData={selectedItem}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-          />
-        )}
+        {/*{isOpenDetailsModal && selectedItem && selectedItemId && (*/}
+        {/*  <FourIRAssessmentDetailsPopUp*/}
+        {/*    key={1}*/}
+        {/*    itemData={selectedItem}*/}
+        {/*    itemId={selectedItemId}*/}
+        {/*    onClose={closeDetailsModal}*/}
+        {/*  />*/}
+        {/*)}*/}
       </PageBlock>
     </>
   );

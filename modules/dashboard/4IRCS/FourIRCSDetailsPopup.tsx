@@ -288,8 +288,12 @@ const FourIRCSDetailsPopup = ({
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.cs_previous_files']}
             </Typography>
             <ReactTable
               columns={columns}

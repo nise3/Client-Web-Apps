@@ -176,16 +176,20 @@ const InitiativeAnalysisDetailsPopUp = ({
                 startIcon={<DownloadIcon />}
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'common.download_file'}
+                btnText={'4ir.report_file'}
                 variant={'outlined'}
                 color={'primary'}
               />
             </Link>
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
+          <Grid item xs={12} sx={{marginTop: '2rem'}}>
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.initiative_analysis_previous_report_file']}
             </Typography>
             <ReactTable
               columns={columns}

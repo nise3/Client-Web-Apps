@@ -190,7 +190,7 @@ const ResourceManagementDetailsPopup = ({
                 startIcon={<DownloadIcon />}
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'common.download_file'}
+                btnText={'4ir.resource_management_file'}
                 variant={'outlined'}
                 color={'primary'}
               />
@@ -198,8 +198,12 @@ const ResourceManagementDetailsPopup = ({
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.resource_management_previous_files']}
             </Typography>
             <ReactTable
               columns={columns}
