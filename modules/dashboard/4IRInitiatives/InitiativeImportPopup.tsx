@@ -10,7 +10,6 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {useIntl} from 'react-intl';
 import DownloadIcon from '@mui/icons-material/Download';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createInitiativeExcelImport,
