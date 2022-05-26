@@ -2016,5 +2016,7 @@
   "common.all_result": "All result",
   "yup_validation_invalid_subject_id": "Subject can not be updated",
   "exam.exam_duration_min": "Exam duration must be greater than 0 minutes",
-  "exam.result_publish": "Publish result"
+  "exam.result_publish": "Publish result",
+  "common.add": "Add",
+  "common.exam_list": "Exam list"
 }
