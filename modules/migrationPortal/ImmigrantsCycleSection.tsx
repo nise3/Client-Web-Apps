@@ -201,10 +201,7 @@ const ImmigrantsCycleSection = () => {
 
   const LINK_GO_ABROAD_KNOWINGLY =
     'https://probashi.gov.bd/site/page/040aceb5-cde3-4017-b90a-1bb23abf6df3/%E0%A6%AC%E0%A6%BF%E0%A6%A6%E0%A7%87%E0%A6%B6-%E0%A6%AF%E0%A6%BE%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0-%E0%A6%AA%E0%A7%82%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A7%87%E0%A6%B0-%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%B8%E0%A7%8D%E0%A6%A4%E0%A7%81%E0%A6%A4%E0%A6%BF-%E0%A6%93-%E0%A6%95%E0%A6%B0%E0%A6%A3%E0%A7%80%E0%A7%9F';
-  const LINK_TRAINING_BMET = 'bmet.nise.gov.bd';
-  /*  const LINK_TRAINING_MUKTOPATH = 'http://bmet.muktopaath.gov.bd';
-    const LINK_TRAINING_PRE_DEPARTURE =
-      'http://muktopaath.gov.bd/course-details/206';*/
+  const TRAINING_LINKS = '/training-links';
   const LINK_BMET_REGISTRATION = '/';
   const LINK_RECRUITING_AGENCY_LIST =
     'http://www.old.bmet.gov.bd/BMET/agentlistpreview.action?type=valid';
@@ -308,8 +305,7 @@ const ImmigrantsCycleSection = () => {
             </Grid>
             <Grid item xs={6}>
               <Link
-                href={LINK_TRAINING_BMET}
-                target='_blank'
+                href={TRAINING_LINKS}
                 className='linkTwoTwo'
                 anchorProps={{
                   title: messages['menu.training'],
@@ -333,8 +329,7 @@ const ImmigrantsCycleSection = () => {
             </Grid>
             <Grid item xs={3}>
               <Link
-                href={LINK_TRAINING_BMET}
-                target='_blank'
+                href={TRAINING_LINKS}
                 className='linkTwoTwo'
                 anchorProps={{
                   title: messages['menu.training'],
