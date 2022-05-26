@@ -53,7 +53,7 @@ const InitiativeImportPopup: FC<InitiativeImportPopupProps> = ({
     register,
     handleSubmit,
     // errors,
-    setError,
+    // setError,
     setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>();
