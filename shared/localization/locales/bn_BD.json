@@ -2085,5 +2085,6 @@
   "4ir.tna_report_view" :  "টিএনএ রিপোর্ট দেখুন",
   "4ir.tna_report_demo" :  "টিএনএ রিপোর্ট ডেমো",
   "common.previous_files" : "পূর্ববর্তী ফাইল",
-  "4ir.tot_participants_file" : "অংশগ্রহণকারীদের ফাইল (এক্সেল)"
+  "4ir.tot_participants_file" : "অংশগ্রহণকারীদের ফাইল (এক্সেল)",
+  "4ir.application_permission": "অ্যাপ্লিকেশন রোল"
 }

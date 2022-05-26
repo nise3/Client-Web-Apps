@@ -2085,5 +2085,6 @@
   "4ir.tna_report_view" :  "View TNA Report details",
   "4ir.tna_report_demo" :  "Demo TNA Report",
   "common.previous_files" : "Previous Files",
-  "4ir.tot_participants_file" : "Participants File (Excel)"
+  "4ir.tot_participants_file" : "Participants File (Excel)",
+  "4ir.application_permission": "Application Role"
 }
