@@ -18,12 +18,17 @@ import {
 import {Link} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DownloadIcon from '@mui/icons-material/Download';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRRMPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
+const ResourceManagementPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRRMPageProps) => {
   const {messages} = useIntl();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -133,7 +138,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
       <PageBlock
         title={
           <>
-            <IconSkill /> <IntlMessages id='4ir_rm.label' />
+            <IconSkill /> <IntlMessages id='4ir_rm.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={
@@ -175,6 +181,8 @@ const ResourceManagementPage = ({fourIRInitiativeId}: IFourIRRMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <ResourceManagementDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

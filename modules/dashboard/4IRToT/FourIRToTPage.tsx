@@ -21,14 +21,20 @@ import {API_4IR_TOT} from '../../../@softbd/common/apiRoutes';
 import {deleteToT} from '../../../services/4IRManagement/ToTService';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRToTPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
+const FourIRToTPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRToTPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
@@ -61,15 +67,22 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
   }, [isToggleTable]);
 
   const deleteToTItem = async (totId: number) => {
-    let response = await deleteToT(totId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='initiative.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteToT(totId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='initiative.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
@@ -151,7 +164,8 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_tot.label' />
+            <IconBranch /> <IntlMessages id='4ir_tot.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -191,6 +205,8 @@ const FourIRToTPage = ({fourIRInitiativeId}: IFourIRToTPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRToTDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

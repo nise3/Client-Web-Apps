@@ -272,7 +272,12 @@ const FourIRTNAReportAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
               )
               .label(messages['4ir.tna_report.others_workshop'] as string)
           : yup.mixed().nullable(),
-      file_path: yup.string().label(messages['common.file_path'] as string),
+      file_path: !isEdit
+        ? yup
+            .string()
+            .required()
+            .label(messages['common.file_path'] as string)
+        : yup.string().label(messages['common.file_path'] as string),
       row_status: yup.number(),
     });
   }, [

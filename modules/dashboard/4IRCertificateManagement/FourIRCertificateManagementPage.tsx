@@ -16,6 +16,7 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Typography} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
+import {IPageHeader} from '../4IRSteppers';
 
 const CERTIFICATE_TYPE_LABEL = {
   COMPETENT: 'Competent',
@@ -27,9 +28,11 @@ const CERTIFICATE_TYPE_LABEL = {
 
 interface IFourIRAssessmentPage {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
 const FourIRCertificateManagementPage = ({
+  pageHeader,
   fourIRInitiativeId,
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
@@ -141,14 +144,13 @@ const FourIRCertificateManagementPage = ({
       },
     });
 
-  console.log(data);
-
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='certification.label' />
+            <IconCourse /> <IntlMessages id='certification.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }>
         <ReactTable

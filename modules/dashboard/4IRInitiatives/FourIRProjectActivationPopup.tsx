@@ -16,7 +16,7 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import {ProjectStatus} from '../../../shared/constants/AppEnums';
 import SuccessPopup from '../../../@softbd/modals/SuccessPopUp/SuccessPopUp';
 import {updateProjectActivation} from '../../../services/4IRManagement/InitiativeService';
-import {useFetch4IInitiative} from '../../../services/4IRManagement/hooks';
+import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 
 interface ProjectAddEditPopupProps {
   initiativeId: number | null;
@@ -24,8 +24,10 @@ interface ProjectAddEditPopupProps {
   refreshDataTable: () => void;
 }
 
+//TODO:: change this one 'is_skill_provide: 1,' to 'is_skill_provide: 0,' when working with 'initiative cell' requirements
+
 const initialValues = {
-  is_skill_provide: 0,
+  is_skill_provide: 1,
   tasks: [],
 };
 
@@ -37,7 +39,8 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack} = useNotiStack();
 
-  const [isSkillProvide, setIsSkillProvide] = useState<boolean>(false);
+  //TODO:: change initial value: setIsSkillProvide(false)  when working with 'initiative cell' requirements
+  const [isSkillProvide, setIsSkillProvide] = useState<boolean>(true);
   const [isProjectFinalized, setIsProjectFinalized] = useState<boolean>(false);
   const [isProjectReviewed, setIsProjectReviewed] = useState<boolean>(false);
   const [isProjectApproved, setIsProjectApproved] = useState<boolean>(false);
@@ -49,7 +52,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
     data: itemData,
     isLoading,
     mutate: mutateInitiativeTasks,
-  } = useFetch4IInitiative(initiativeId);
+  } = useFetch4IRInitiative(initiativeId);
 
   const {
     register,
@@ -92,7 +95,7 @@ const FourIRProjectActivationPopup: FC<ProjectAddEditPopupProps> = ({
       });
 
       setTasks(tasks);
-      setIsSkillProvide(itemData?.is_skill_provide);
+      //setIsSkillProvide(itemData?.is_skill_provide);
     } else {
       reset(initialValues);
     }

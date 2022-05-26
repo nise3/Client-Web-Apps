@@ -7,11 +7,12 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import {useFetch4IRInitiative} from '../../../services/4IRManagement/hooks';
 import FourIRImplementingTeamPage from '../4IRImplementingTeam/FourIRImplementingTeamPage';
 import FourIRExpertTeamPage from '../4IRExpertTeam/FourIRExpertTeamPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useIntl} from 'react-intl';
+import {getInitiative} from '../../../services/4IRManagement/InitiativeService';
+import {IPageHeader} from './index';
 
 interface Props {
   fourIRInitiativeId: any;
@@ -26,27 +27,45 @@ const TeamStep = ({
   onContinue,
   setLatestStep,
 }: Props) => {
-  const {data: itemData} = useFetch4IRInitiative(fourIRInitiativeId);
   const [isReady, setIsReady] = useState<boolean>(false);
   const {messages} = useIntl();
   const [accordionExpandedState, setAccordionExpandedState] = useState<
     string | false
   >(false);
 
+  const [pageHeader, setPageHeader] = useState<IPageHeader>({
+    tagline_name: '',
+    initative_name: '',
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getInitiative(fourIRInitiativeId);
+
+        setPageHeader({
+          tagline_name: response?.data?.four_ir_tagline_name ?? '',
+          initative_name: response?.data?.name ?? '',
+        });
+
+        if (response && response.data) {
+          const initiative = response.data;
+          if (initiative?.completion_step) {
+            const latestStep = initiative?.completion_step;
+            if (latestStep >= 1) {
+              setIsReady(true);
+            }
+            setLatestStep(latestStep + 1);
+          }
+        }
+      } catch (error: any) {}
+    })();
+  }, []);
+
   const handleAccordionExpandedChange =
     (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
       setAccordionExpandedState(isExpanded ? panel : false);
     };
-
-  useEffect(() => {
-    if (itemData && itemData?.completion_step) {
-      const latestStep = itemData?.completion_step;
-      if (latestStep >= 1) {
-        setIsReady(true);
-      }
-      setLatestStep(latestStep + 1);
-    }
-  }, [itemData]);
 
   return isReady ? (
     <>
@@ -67,6 +86,7 @@ const TeamStep = ({
           <AccordionDetails>
             <FourIRImplementingTeamPage
               fourIRInitiativeId={fourIRInitiativeId}
+              pageHeader={pageHeader}
             />
           </AccordionDetails>
         </Accordion>
@@ -85,7 +105,10 @@ const TeamStep = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FourIRExpertTeamPage fourIRInitiativeId={fourIRInitiativeId} />
+            <FourIRExpertTeamPage
+              pageHeader={pageHeader}
+              fourIRInitiativeId={fourIRInitiativeId}
+            />
           </AccordionDetails>
         </Accordion>
 

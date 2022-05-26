@@ -13,13 +13,16 @@ import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CERTIFICATE} from '../../../@softbd/common/apiRoutes';
 import {Typography} from '@mui/material';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourEmploymentPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
 const FourIREmploymentPage = ({
   fourIRInitiativeId,
+  pageHeader,
 }: IFourEmploymentPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -96,7 +99,6 @@ const FourIREmploymentPage = ({
         Cell: (props: any) => {
           let data = props.row.original;
 
-          // todo: key will be changed
           const e_status =
             data?.employment_status == 1
               ? 'Self Employed'
@@ -123,9 +125,11 @@ const FourIREmploymentPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton
-                onClick={() => openDetailsModal(data?.employment_info?.id)}
-              />
+              {data?.employment_info?.id && (
+                <ReadButton
+                  onClick={() => openDetailsModal(data?.employment_info?.id)}
+                />
+              )}
               <EditButton onClick={() => openAddEditModal(data.id)} />
             </DatatableButtonGroup>
           );
@@ -146,7 +150,8 @@ const FourIREmploymentPage = ({
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.employment' />
+            <IconBranch /> <IntlMessages id='4ir.employment' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }>
         <ReactTable

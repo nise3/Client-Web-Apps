@@ -15,12 +15,14 @@ import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
 import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCSPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
+const FourIRCSPage = ({fourIRInitiativeId, pageHeader}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -136,12 +138,14 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       approved_by,
     };
   });
+
   return (
     <>
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_cs.label' />
+            <IconBranch /> <IntlMessages id='4ir_cs.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -183,6 +187,8 @@ const FourIRCSPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCSDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

@@ -260,7 +260,7 @@ const FourIRImplementingTeamAddEditPopup: FC<
             isLoading={isLoadingRoles}
             options={roles}
             control={control}
-            label={messages['role.label']}
+            label={messages['4ir.application_permission']}
             optionValueProp={'id'}
             optionTitleProp={['title']}
             errorInstance={errors}

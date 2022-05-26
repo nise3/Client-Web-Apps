@@ -145,7 +145,9 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
         medium_of_job: certificate?.employment_info?.medium_of_job,
         employment_status: certificate?.employment_info?.employment_status,
       });
-      setEmploymentStatus(certificate?.employment_status);
+
+      if (certificate?.employment_status)
+        setEmploymentStatus(certificate?.employment_status);
     } else {
       reset(initialValues);
     }
@@ -154,6 +156,7 @@ const FourIREmploymentAddEditPopup: FC<CSAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       let payload = {};
+      console.log(data);
 
       const youthID = certificateData?.find(
         (certificate: any) => certificate?.id === itemId,

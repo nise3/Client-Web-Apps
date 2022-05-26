@@ -16,10 +16,11 @@ import IconSkill from '../../../@softbd/icons/IconSkill';
 import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
 import {useFetchFourIROccupations} from '../../../services/4IRManagement/hooks';
 import {deleteFourIROccupation} from '../../../services/4IRManagement/OccupationService';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 const FourIROccupationPage = () => {
   const {messages} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -55,15 +56,22 @@ const FourIROccupationPage = () => {
   }, []);
 
   const deleteOccupationItem = async (occupationId: number) => {
-    let response = await deleteFourIROccupation(occupationId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='menu.occupations' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteFourIROccupation(occupationId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='menu.occupations' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 

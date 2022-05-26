@@ -15,14 +15,17 @@ import CustomChipPaymentStatus from './CustomChipPaymentStatus';
 import LocaleLanguage from '../../../../@softbd/utilities/LocaleLanguage';
 import {Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {IPageHeader} from '../../4IRSteppers';
 
 interface IEnrolledYouthList {
   selectedCourseId: number;
+  pageHeader: IPageHeader;
   previousHandler: () => void;
 }
 
 const EnrolledYouthList = ({
   selectedCourseId,
+  pageHeader,
   previousHandler,
 }: IEnrolledYouthList) => {
   const {messages, locale} = useIntl();
@@ -117,22 +120,6 @@ const EnrolledYouthList = ({
           return <CustomChipPaymentStatus value={data?.payment_status} />;
         },
       },
-      // {
-      //   Header: messages['applicationManagement.status'],
-      //   isVisible: false,
-      //   Cell: (props: any) => {
-      //     let data = props.row.original;
-      //     if (data.row_status === 0) {
-      //       return <p>Inactive</p>;
-      //     } else if (data.row_status === 1) {
-      //       return <p>Approved</p>;
-      //     } else if (data.row_status === 2) {
-      //       return <p>Pending</p>;
-      //     } else {
-      //       return <p>Rejected</p>;
-      //     }
-      //   },
-      // },
 
       {
         Header: messages['common.actions'],
@@ -179,7 +166,8 @@ const EnrolledYouthList = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />
+            <IconCourse /> <IntlMessages id='enrollment_view_enrollment' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={

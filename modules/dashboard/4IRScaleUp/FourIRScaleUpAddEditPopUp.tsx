@@ -62,6 +62,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   const [isApprovalStatus, setIsApprovalStatus] = useState<boolean>(false);
   const [isDocumentApproved, setIsDocumentApproved] = useState<boolean>(false);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
   const {
     data: itemData,
     isLoading,
@@ -77,7 +78,8 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         .label(messages['project.name'] as string),
       project_name_en: yup
         .string()
-        .label(messages['project.name_en'] as string),
+        .label(messages['project.name_en'] as string)
+        .nullable(),
       budget: yup
         .number()
         .min(1, messages['common.budget_reuired'] as string)
@@ -142,6 +144,20 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    console.log('itemData :', itemData);
+
+    if (Number(itemData?.number_of_beneficiary)) {
+      setIsNumberOfBeneficiaries(true);
+    }
+
+    if (Number(itemData?.documents_approval_status)) {
+      setIsDocumentApproved(true);
+    }
+
+    if (Number(itemData?.approval_status)) {
+      setIsApprovalStatus(true);
+    }
+
     if (itemData) {
       reset({
         ...initialValues,
@@ -154,12 +170,10 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IScaleUp> = async (data: IScaleUp) => {
     try {
       data['four_ir_initiative_id'] = fourIRInitiativeId;
-      data['approval_status'] = data['approval_status'] ? '1' : '0';
-      data['number_of_beneficiary'] = data['number_of_beneficiary'] ? '1' : '0';
+      data['approval_status'] = isApprovalStatus ? '1' : '0';
+      data['number_of_beneficiary'] = isNumberOfBeneficiaries ? '1' : '0';
       data['approve_by'] = data['approve_by'] ?? '';
-      data['documents_approval_status'] = data['documents_approval_status']
-        ? '1'
-        : '0';
+      data['documents_approval_status'] = isDocumentApproved ? '1' : '0';
 
       if (itemId) {
         await updateScaleUp(itemId, data);
@@ -218,6 +232,16 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
+            id='project_name_en'
+            label={messages['project.name_en']}
+            register={register}
+            errorInstance={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomTextInput
+            required
             id='budget'
             type={'number'}
             label={messages['initiative.budget']}
@@ -228,6 +252,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='timeline_start_year'
             type={'number'}
             label={messages['common.start_year']}
@@ -238,6 +263,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='timeline_end_year'
             type={'number'}
             label={messages['common.end_year']}
@@ -249,6 +275,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='start_date'
             label={messages['common.start_date']}
             register={register}
@@ -258,6 +285,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <CustomDateTimeField
+            required
             id='end_date'
             label={messages['common.end_date']}
             register={register}
@@ -268,6 +296,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
 
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='beneficiary_target'
             label={messages['4ir.scaleup_beneficiary_target']}
             register={register}
@@ -349,6 +378,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
         <Grid item xs={12} md={6}>
           <FileUploadComponent
             id={'file_path'}
+            required
             errorInstance={errors}
             setValue={setValue}
             register={register}

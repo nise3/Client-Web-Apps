@@ -14,14 +14,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {BATCH_BY_4IR_INITIATIVE_ID} from '../../../@softbd/common/apiRoutes';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import {IPageHeader} from '../4IRSteppers';
 
 interface Props {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
   showYouthListHandler: (batchId: number | null) => void;
 }
 
 const SkillDevelopmentPage = ({
   fourIRInitiativeId,
+  pageHeader,
   showYouthListHandler,
 }: Props) => {
   const {messages, locale} = useIntl();
@@ -123,7 +126,8 @@ const SkillDevelopmentPage = ({
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.skill_development' />
+            <IconBranch /> <IntlMessages id='4ir.skill_development' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }>
         <ReactTable

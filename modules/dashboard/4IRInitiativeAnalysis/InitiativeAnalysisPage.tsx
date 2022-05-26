@@ -4,31 +4,36 @@ import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import {useIntl} from 'react-intl';
 import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
 import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
-import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
-import FourIRCACAddEditPopup from './FourIRCACAddEditPopup';
-import FourIRCACDetailsPopup from './FourIRCACDetailsPopup';
-import CustomChipRowStatus from '../../../@softbd/elements/display/CustomChipRowStatus/CustomChipRowStatus';
+import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import InitiativeAnalysisAddEditPopup from './InitiativeAnalysisAddEditPopup';
+import InitiativeAnalysisDetailsPopUp from './InitiativeAnalysisDetailsPopUp';
 
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {
-  getCalculatedSerialNo,
-  isResponseSuccess,
-} from '../../../@softbd/utilities/helpers';
-import IconBranch from '../../../@softbd/icons/IconBranch';
-import {deleteProject} from '../../../services/4IRManagement/ProjectService';
-import {API_4IR_CS} from '../../../@softbd/common/apiRoutes';
 
-const FourIRCACPage = () => {
+import IconBranch from '../../../@softbd/icons/IconBranch';
+import {API_4IR_INITIATIVE_ANALYSIS} from '../../../@softbd/common/apiRoutes';
+import {IPageHeader} from '../4IRSteppers';
+
+interface Props {
+  fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
+}
+
+const FourIRInitiativeAnalysisPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: Props) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  // const {successStack, errorStack} = useNotiStack();
+
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
     setSelectedItemId(null);
@@ -43,6 +48,7 @@ const FourIRCACPage = () => {
   const openDetailsModal = useCallback(
     (itemId: number) => {
       setIsOpenDetailsModal(true);
+      setIsOpenAddEditModal(false);
       setSelectedItemId(itemId);
     },
     [selectedItemId],
@@ -50,24 +56,34 @@ const FourIRCACPage = () => {
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+    setSelectedItemId(null);
   }, []);
 
-  const deleteProjectItem = async (projectId: number) => {
-    let response = await deleteProject(projectId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_cac.label' />}}
-        />,
-      );
-      refreshDataTable();
-    }
-  };
+  /*const deleteInitiativeAnalysisItem = async (projectId: number) => {
+      try {
+        let response = await deleteInitiativeAnalysis(projectId);
+        if (isResponseSuccess(response)) {
+          successStack(
+            <IntlMessages
+              id='common.subject_deleted_successfully'
+              values={{
+                subject: <IntlMessages id='4ir_initiative_analysis.label' />,
+              }}
+            />,
+          );
+          refreshDataTable();
+        }
+      } catch (error: any) {
+        processServerSideErrors({
+          error,
+          errorStack,
+        });
+      }
+    };*/
 
   const refreshDataTable = useCallback(() => {
-    setIsToggleTable((prevToggle: any) => !prevToggle);
-  }, [isToggleTable]);
+    setIsToggleTable((prev) => !prev);
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -83,31 +99,17 @@ const FourIRCACPage = () => {
           );
         },
       },
-
       {
-        Header: messages['common.title'],
-        accessor: 'title',
+        Header: messages['4ir.researcher_name'],
+        accessor: 'researcher_name',
       },
       {
-        Header: messages['course.fee'],
-        accessor: 'fee',
+        Header: messages['common.organization_name'],
+        accessor: 'organization_name',
       },
       {
-        Header: messages['course.language_medium'],
-        accessor: 'language_medium',
-      },
-      {
-        Header: messages['course.course_level'],
-        accessor: 'level',
-      },
-      {
-        Header: messages['common.status'],
-        accessor: 'row_status',
-        filter: 'rowStatusFilter',
-        Cell: (props: any) => {
-          let data = props.row.original;
-          return <CustomChipRowStatus value={data?.row_status} />;
-        },
+        Header: messages['4ir.research_method'],
+        accessor: 'research_method',
       },
       {
         Header: messages['common.actions'],
@@ -117,10 +119,10 @@ const FourIRCACPage = () => {
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              <DeleteButton
-                deleteAction={() => deleteProjectItem(data.id)}
+              {/*              <DeleteButton
+                deleteAction={() => deleteInitiativeAnalysisItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
-              />
+              />*/}
             </DatatableButtonGroup>
           );
         },
@@ -132,7 +134,11 @@ const FourIRCACPage = () => {
 
   const {onFetchData, data, loading, pageCount, totalCount} =
     useReactTableFetchData({
-      urlPath: API_4IR_CS,
+      urlPath: API_4IR_INITIATIVE_ANALYSIS,
+      paramsValueModifier: (params) => {
+        params['four_ir_initiative_id'] = fourIRInitiativeId;
+        return params;
+      },
     });
 
   return (
@@ -140,23 +146,26 @@ const FourIRCACPage = () => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_cac.label' />
+            <IconBranch /> <IntlMessages id='4ir_initiative_analysis.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
-          <AddButton
-            key={1}
-            onClick={() => openAddEditModal(null)}
-            isLoading={loading}
-            tooltip={
-              <IntlMessages
-                id={'common.add_new'}
-                values={{
-                  subject: messages['4ir_cac.label'],
-                }}
-              />
-            }
-          />,
+          !(data && data?.length) && (
+            <AddButton
+              key={1}
+              onClick={() => openAddEditModal()}
+              isLoading={false}
+              tooltip={
+                <IntlMessages
+                  id={'common.add_new'}
+                  values={{
+                    subject: messages['4ir_initiative_analysis.label'],
+                  }}
+                />
+              }
+            />
+          ),
         ]}>
         <ReactTable
           columns={columns}
@@ -168,8 +177,9 @@ const FourIRCACPage = () => {
           toggleResetTable={isToggleTable}
         />
         {isOpenAddEditModal && (
-          <FourIRCACAddEditPopup
+          <InitiativeAnalysisAddEditPopup
             key={1}
+            fourIRInitiativeId={fourIRInitiativeId}
             onClose={closeAddEditModal}
             itemId={selectedItemId}
             refreshDataTable={refreshDataTable}
@@ -177,11 +187,13 @@ const FourIRCACPage = () => {
         )}
 
         {isOpenDetailsModal && selectedItemId && (
-          <FourIRCACDetailsPopup
+          <InitiativeAnalysisDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
-            onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
+            onClose={closeDetailsModal}
           />
         )}
       </PageBlock>
@@ -189,4 +201,4 @@ const FourIRCACPage = () => {
   );
 };
 
-export default FourIRCACPage;
+export default FourIRInitiativeAnalysisPage;

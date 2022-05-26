@@ -65,20 +65,34 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
         .trim()
         .required()
         .label(messages['common.organization_name'] as string),
-      research_team_information: yup
+      research_team_information: !isEdit
+        ? yup
+            .mixed()
+            .required()
+            .test(
+              'rrrrr',
+              messages['4ir.research_team_information'] as string,
+              (value: any) => {
+                if (!value) return false;
+                if (value === '') return false;
+                if (value.length === 0) return false;
+                return true;
+              },
+            )
+            .label(messages['4ir.research_team_information'] as string)
+        : yup
+            .mixed()
+            .label(messages['4ir.research_team_information'] as string)
+            .nullable(),
+      research_method: yup
+        .string()
+        .required()
+        .label(messages['4ir.research_method'] as string),
+
+      file_path: yup
         .mixed()
         .required()
-        .test(
-          'rrrrr',
-          messages['4ir.research_team_information'] as string,
-          (value: any) => {
-            if (!value) return false;
-            if (value === '') return false;
-            if (value.length === 0) return false;
-            return true;
-          },
-        )
-        .label(messages['4ir.research_team_information'] as string),
+        .label(messages['4ir.initiative-alalysis_report_upload'] as string),
       row_status: yup.string(),
     });
   }, [isEdit, messages]);
@@ -248,71 +262,9 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <Grid container spacing={4}>
-            <Grid item xs={8}>
-              <CustomTextInput
-                required
-                id='research_team_information'
-                name='research_team_information'
-                label={messages['4ir.initiative-alalysis_recharge_upload']}
-                register={register}
-                type={'file'}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onInput={(files: any) =>
-                  fileUploadHandler(files, 'research_team_information')
-                }
-                errorInstance={errors}
-              />
-            </Grid>
-
-            <Grid item xs={4}>
-              <Link href='/template/organization-list.xlsx' download>
-                <CommonButton
-                  key={1}
-                  onClick={() => console.log('file downloading')}
-                  btnText={'4ir.tna_report_demo_file'}
-                  variant={'outlined'}
-                  color={'primary'}
-                />
-              </Link>
-            </Grid>
-
-            <Grid item xs={8}>
-              <FileUploadComponent
-                required
-                id='file_path'
-                defaultFileUrl={itemData?.file_path}
-                sizeLimitText='3MB'
-                errorInstance={errors}
-                setValue={setValue}
-                register={register}
-                label={messages['4ir.initiative-alalysis_report_upload']}
-                acceptedFileTypes={[
-                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                  'application/pdf',
-                ]}
-              />
-            </Grid>
-
-            <Grid item xs={4}>
-              <Link href='/template/organization-list.xlsx' download>
-                <CommonButton
-                  key={1}
-                  onClick={() => console.log('file downloading')}
-                  btnText={'4ir.tna_report_demo_file'}
-                  variant={'outlined'}
-                  color={'primary'}
-                />
-              </Link>
-            </Grid>
-          </Grid>
-        </Grid>
-
         <Grid item xs={12} md={6}>
           <CustomTextInput
+            required
             id='research_method'
             label={messages['4ir.research_method']}
             register={register}
@@ -321,6 +273,67 @@ const InitiativeAnalysisAddEditPopup: FC<FourIRTNAReportAddEditPopupProps> = ({
             multiline={true}
             rows={3}
           />
+        </Grid>
+
+        <Grid xs={6}></Grid>
+        <Grid item xs={6}>
+          <CustomTextInput
+            required
+            id='research_team_information'
+            name='research_team_information'
+            label={messages['4ir.initiative-alalysis_recharge_upload']}
+            register={register}
+            type={'file'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onInput={(files: any) =>
+              fileUploadHandler(files, 'research_team_information')
+            }
+            errorInstance={errors}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Link href='/template/organization-list.xlsx' download>
+            <CommonButton
+              key={1}
+              onClick={() => console.log('file downloading')}
+              btnText={'4ir.tna_report_demo_file'}
+              variant={'outlined'}
+              color={'primary'}
+            />
+          </Link>
+        </Grid>
+
+        <Grid item xs={6}>
+          <FileUploadComponent
+            required
+            id='file_path'
+            defaultFileUrl={itemData?.file_path}
+            sizeLimitText='3MB'
+            errorInstance={errors}
+            setValue={setValue}
+            register={register}
+            label={messages['4ir.initiative-alalysis_report_upload']}
+            acceptedFileTypes={[
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              'application/pdf',
+            ]}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Link href='/template/initiative-analysis.docx' download>
+            <CommonButton
+              sx={{marginTop: '15px'}}
+              key={1}
+              onClick={() => console.log('file downloading')}
+              btnText={'4ir.tna_report_demo_file'}
+              variant={'outlined'}
+              color={'primary'}
+            />
+          </Link>
         </Grid>
 
         <Grid item xs={12}>

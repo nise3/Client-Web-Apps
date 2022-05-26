@@ -227,7 +227,7 @@ const MemberListPage = () => {
           <CommonButton
             key={2}
             onClick={() => openImportModal()}
-            btnText={messages['common.import'] as string}
+            btnText={'common.import'}
             variant={'outlined'}
             color={'primary'}
             style={{marginLeft: '5px'}}

@@ -15,12 +15,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CBLM} from '../../../@softbd/common/apiRoutes';
 import FourIRCBLMAddEditPopUp from './FourIRCBLMAddEditPopUp';
 import FourIRCBLMDetailsPopUp from './FourIRCBLMDetailsPopUp';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCBLMPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
+const FourIRCBLMPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRCBLMPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -141,7 +146,8 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir.CBLM' />
+            <IconBranch /> <IntlMessages id='4ir.CBLM' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -183,6 +189,8 @@ const FourIRCBLMPage = ({fourIRInitiativeId}: IFourIRCBLMPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCBLMDetailsPopUp
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

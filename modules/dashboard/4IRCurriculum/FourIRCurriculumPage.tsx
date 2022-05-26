@@ -15,12 +15,17 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_CURRICULUM} from '../../../@softbd/common/apiRoutes';
 import FourIRCurriculumAddEditPopup from './FourIRCurriculumAddEditPopup';
 import FourIRCurriculumDetailsPopup from './FourIRCurriculumDetailsPopup';
+import {IPageHeader} from '../4IRSteppers';
 
 interface IFourIRCSPageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
 }
 
-const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
+const FourIRCurriculumPage = ({
+  fourIRInitiativeId,
+  pageHeader,
+}: IFourIRCSPageProps) => {
   const {messages, locale} = useIntl();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -148,7 +153,8 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
       <PageBlock
         title={
           <>
-            <IconBranch /> <IntlMessages id='4ir_curriculum.label' />
+            <IconBranch /> <IntlMessages id='4ir_curriculum.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[
@@ -190,6 +196,8 @@ const FourIRCurriculumPage = ({fourIRInitiativeId}: IFourIRCSPageProps) => {
         {isOpenDetailsModal && selectedItemId && (
           <FourIRCurriculumDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            fourIRInitiativeId={fourIRInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}

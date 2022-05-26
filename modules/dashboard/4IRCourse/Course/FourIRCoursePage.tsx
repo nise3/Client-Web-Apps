@@ -34,18 +34,22 @@ import CommonButton from '../../../../@softbd/elements/button/CommonButton/Commo
 import useReactTableFetchData from '../../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_COURSE} from '../../../../@softbd/common/apiRoutes';
 import ApproveButton from '../../industry-associations/ApproveButton';
+import {processServerSideErrors} from '../../../../@softbd/utilities/validationErrorHandler';
+import {IPageHeader} from '../../4IRSteppers';
 
 interface IFourIRCoursePageProps {
   fourIRInitiativeId: number;
+  pageHeader: IPageHeader;
   showEnrollmentHandler: (id: number | null) => void;
 }
 
 const FourIRCoursePage = ({
   fourIRInitiativeId,
+  pageHeader,
   showEnrollmentHandler,
 }: IFourIRCoursePageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const authUser = useAuthUser<CommonAuthUser>();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
@@ -104,15 +108,22 @@ const FourIRCoursePage = ({
   }, []);
 
   const deleteCourseItem = async (courseId: number) => {
-    let response = await deleteFourIRCourse(courseId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir_course.label' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteFourIRCourse(courseId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir_course.label' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
@@ -217,7 +228,7 @@ const FourIRCoursePage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {data?.row_status == 0 && (
+              {data?.row_status == 0 && authUser?.isSystemUser && (
                 <ApproveButton
                   approveAction={() => approveCourse(data.id)}
                   approveTitle={messages['course.approve'] as string}
@@ -228,10 +239,18 @@ const FourIRCoursePage = ({
                 deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <CommonButton
-                btnText={'enrollment_view_enrollment'}
-                onClick={() => showEnrollmentHandler(data.id)}
-              />
+              {data?.row_status == 0 ? (
+                <CommonButton
+                  disabled
+                  btnText={'enrollment_view_enrollment'}
+                  onClick={() => showEnrollmentHandler(data.id)}
+                />
+              ) : (
+                <CommonButton
+                  btnText={'enrollment_view_enrollment'}
+                  onClick={() => showEnrollmentHandler(data.id)}
+                />
+              )}
             </DatatableButtonGroup>
           );
         },
@@ -255,7 +274,8 @@ const FourIRCoursePage = ({
       <PageBlock
         title={
           <>
-            <IconCourse /> <IntlMessages id='course.label' />
+            <IconCourse /> <IntlMessages id='course.label' />{' '}
+            {`(${pageHeader?.tagline_name} > ${pageHeader?.initative_name})`}
           </>
         }
         extra={[

@@ -10,6 +10,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
+  getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import FourIRShowcasingAddEditPopup from './FourIRShowcasingAddEditPopup';
@@ -21,6 +22,7 @@ import IconBranch from '../../../@softbd/icons/IconBranch';
 import {API_4IR_SHOWCASE} from '../../../@softbd/common/apiRoutes';
 import {deleteShowcasing} from '../../../services/4IRManagement/ShowcasingServices';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
+import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 
 interface IFourShowcasingPageProps {
   fourIRInitiativeId: number;
@@ -30,11 +32,12 @@ const FourIRShowcasingPage = ({
   fourIRInitiativeId,
 }: IFourShowcasingPageProps) => {
   const {messages, locale} = useIntl();
-  const {successStack} = useNotiStack();
+  const {successStack, errorStack} = useNotiStack();
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState(false);
   const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
   const [isToggleTable, setIsToggleTable] = useState<boolean>(false);
+  const [itemInitiativeId, setItemInitiativeId] = useState<number>(0);
 
   const closeAddEditModal = useCallback(() => {
     setIsOpenAddEditModal(false);
@@ -48,28 +51,37 @@ const FourIRShowcasingPage = ({
   }, []);
 
   const openDetailsModal = useCallback(
-    (itemId: number) => {
+    (itemId: number, initiativeId: number) => {
       setIsOpenDetailsModal(true);
       setSelectedItemId(itemId);
+      setItemInitiativeId(initiativeId);
     },
     [selectedItemId],
   );
 
   const deleteShowcasingHandler = async (memberId: number) => {
-    let response = await deleteShowcasing(memberId);
-    if (isResponseSuccess(response)) {
-      successStack(
-        <IntlMessages
-          id='common.subject_deleted_successfully'
-          values={{subject: <IntlMessages id='4ir.team_member' />}}
-        />,
-      );
-      refreshDataTable();
+    try {
+      let response = await deleteShowcasing(memberId);
+      if (isResponseSuccess(response)) {
+        successStack(
+          <IntlMessages
+            id='common.subject_deleted_successfully'
+            values={{subject: <IntlMessages id='4ir.team_member' />}}
+          />,
+        );
+        refreshDataTable();
+      }
+    } catch (error: any) {
+      processServerSideErrors({
+        error,
+        errorStack,
+      });
     }
   };
 
   const closeDetailsModal = useCallback(() => {
     setIsOpenDetailsModal(false);
+    setItemInitiativeId(0);
   }, []);
 
   const refreshDataTable = useCallback(() => {
@@ -109,10 +121,26 @@ const FourIRShowcasingPage = ({
       {
         Header: messages['common.start_time'],
         accessor: 'start_time',
+        filter: 'dateTimeFilter',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.start_time, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.end_time'],
         accessor: 'end_time',
+        filter: 'dateTimeFilter',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.end_time, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.venue'],
@@ -133,7 +161,11 @@ const FourIRShowcasingPage = ({
           let data = props.row.original;
           return (
             <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data.id)} />
+              <ReadButton
+                onClick={() =>
+                  openDetailsModal(data.id, data?.four_ir_initiative_id)
+                }
+              />
               <EditButton onClick={() => openAddEditModal(data.id)} />
               <DeleteButton
                 deleteAction={() => deleteShowcasingHandler(data.id)}
@@ -202,6 +234,9 @@ const FourIRShowcasingPage = ({
         {isOpenDetailsModal && selectedItemId && (
           <FourIRShowcasingDetailsPopup
             key={1}
+            isToggleTable={isToggleTable}
+            setIsToggleTable={setIsToggleTable}
+            fourIRInitiativeId={itemInitiativeId}
             itemId={selectedItemId}
             onClose={closeDetailsModal}
             openEditModal={openAddEditModal}
