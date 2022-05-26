@@ -35,7 +35,6 @@ import {
 
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {getAllInstitutes} from '../../../services/instituteManagement/InstituteService';
 import {IBranch} from '../../../shared/Interface/institute.interface';
 import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
