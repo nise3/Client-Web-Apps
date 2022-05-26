@@ -88,6 +88,19 @@ const FourIRAssessmentPage = ({
         accessor: 'batch_title_en',
         isVisible: locale === LocaleLanguage.EN,
       },
+
+      {
+        Header: messages['4ir.assessment_exam_type'],
+        accessor: 'exam_type_title',
+        isVisible: locale === LocaleLanguage.BN,
+      },
+
+      {
+        Header: messages['4ir.assessment_exam_type_en'],
+        accessor: 'exam_type_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+
       {
         Header: messages['common.venue'],
         accessor: 'exam_venue',
