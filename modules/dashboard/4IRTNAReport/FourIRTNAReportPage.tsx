@@ -34,15 +34,6 @@ interface Props {
   pageHeader: IPageHeader;
 }
 
-// const method_names: any = {
-//   1: '4ir.tna_report_workshop_method_workshop',
-//   2: '4ir.tna_report_fgd_workshop',
-//   3: '4ir.tna_report_industry_visit_workshop',
-//   4: '4ir.tna_report_desktop_research_workshop',
-//   5: '4ir.tna_report_existing_report_review_workshop',
-//   6: '4ir.tna_report_others_workshop',
-// };
-
 const FourIRTNAReportPage = ({fourIRInitiativeId, pageHeader}: Props) => {
   const {messages, locale} = useIntl();
   const [isOpenAddEditModal, setIsOpenAddEditModal] = useState<boolean>(false);
@@ -246,10 +237,11 @@ const FourIRTNAReportPage = ({fourIRInitiativeId, pageHeader}: Props) => {
 
         <Typography
           sx={{
-            marginTop: '20px',
-          }}
-          variant={'h5'}>
-          {messages['common.previous_files']}
+            marginTop: '4rem',
+            fontSize: '1.2rem',
+            fontWeight: '500',
+          }}>
+          {messages['4ir.tna_previous_files']}
         </Typography>
 
         <ReactTable

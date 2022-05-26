@@ -228,7 +228,7 @@ const FourIRCoursePage = ({
             <DatatableButtonGroup>
               <ReadButton onClick={() => openDetailsModal(data.id)} />
               <EditButton onClick={() => openAddEditModal(data.id)} />
-              {data?.row_status == 0 && (
+              {data?.row_status == 0 && authUser?.isSystemUser && (
                 <ApproveButton
                   approveAction={() => approveCourse(data.id)}
                   approveTitle={messages['course.approve'] as string}
@@ -239,10 +239,18 @@ const FourIRCoursePage = ({
                 deleteAction={() => deleteCourseItem(data.id)}
                 deleteTitle={messages['common.delete_confirm'] as string}
               />
-              <CommonButton
-                btnText={'enrollment_view_enrollment'}
-                onClick={() => showEnrollmentHandler(data.id)}
-              />
+              {data?.row_status == 0 ? (
+                <CommonButton
+                  disabled
+                  btnText={'enrollment_view_enrollment'}
+                  onClick={() => showEnrollmentHandler(data.id)}
+                />
+              ) : (
+                <CommonButton
+                  btnText={'enrollment_view_enrollment'}
+                  onClick={() => showEnrollmentHandler(data.id)}
+                />
+              )}
             </DatatableButtonGroup>
           );
         },

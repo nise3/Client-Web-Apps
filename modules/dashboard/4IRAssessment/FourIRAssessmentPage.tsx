@@ -1,16 +1,16 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
 import {useIntl} from 'react-intl';
-import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
 import {API_4IR_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
-import FourIRAssessmentDetailsPopUp from './FourIRAssessmentDetailsPopUp';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import {Typography} from '@mui/material';
 import {IPageHeader} from '../4IRSteppers';
@@ -26,21 +26,21 @@ const FourIRAssessmentPage = ({
 }: IFourIRAssessmentPage) => {
   const {messages, locale} = useIntl();
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Object | null>(null);
-  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  // const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  // const [selectedItem, setSelectedItem] = useState<Object | null>(null);
+  // const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
 
-  /** details modal */
-  const openDetailsModal = useCallback((item: any) => {
-    setSelectedItem(item);
-    setIsOpenDetailsModal(true);
-    setSelectedItemId(item.id);
-  }, []);
-
-  const closeDetailsModal = useCallback(() => {
-    setIsOpenDetailsModal(false);
-    setSelectedItem(null);
-  }, []);
+  // /** details modal */
+  // const openDetailsModal = useCallback((item: any) => {
+  //   setSelectedItem(item);
+  //   setIsOpenDetailsModal(true);
+  //   setSelectedItemId(item.id);
+  // }, []);
+  //
+  // const closeDetailsModal = useCallback(() => {
+  //   setIsOpenDetailsModal(false);
+  //   setSelectedItem(null);
+  // }, []);
 
   const columns = useMemo(
     () => [
@@ -57,15 +57,6 @@ const FourIRAssessmentPage = ({
         },
       },
       {
-        Header: messages['applicationManagement.courseTitle'],
-        accessor: 'course_title',
-      },
-      {
-        Header: messages['applicationManagement.courseTitle_en'],
-        accessor: 'course_title_en',
-        isVisible: locale === LocaleLanguage.EN,
-      },
-      {
         Header: messages['assessment.examinee'],
         Cell: (props: any) => {
           let data = props.row.original;
@@ -76,20 +67,78 @@ const FourIRAssessmentPage = ({
         },
       },
       {
-        Header: messages['assessment.examiner'],
-        accessor: 'examiner_name',
+        Header: messages['applicationManagement.courseTitle'],
+        accessor: 'course_title',
+        isVisible: locale === LocaleLanguage.BN,
       },
       {
-        Header: messages['common.actions'],
+        Header: messages['applicationManagement.courseTitle_en'],
+        accessor: 'course_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+
+      {
+        Header: messages['4ir.assessment_batch'],
+        accessor: 'batch_title',
+        isVisible: locale === LocaleLanguage.BN,
+      },
+
+      {
+        Header: messages['4ir.assessment_batch_en'],
+        accessor: 'batch_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+
+      {
+        Header: messages['4ir.assessment_exam_type'],
+        accessor: 'exam_type_title',
+        isVisible: locale === LocaleLanguage.BN,
+      },
+
+      {
+        Header: messages['4ir.assessment_exam_type_en'],
+        accessor: 'exam_type_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+
+      {
+        Header: messages['common.venue'],
+        accessor: 'exam_venue',
+      },
+      {
+        Header: messages['common.start_date'],
         Cell: (props: any) => {
           let data = props.row.original;
           return (
-            <DatatableButtonGroup>
-              <ReadButton onClick={() => openDetailsModal(data)} />
-            </DatatableButtonGroup>
+            <Typography>
+              {getMomentDateFormat(data.exam_start_date, 'MM-DD-YYYY')}
+            </Typography>
           );
         },
       },
+      {
+        Header: messages['common.end_date'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>
+              {getMomentDateFormat(data.exam_end_date, 'MM-DD-YYYY')}
+            </Typography>
+          );
+        },
+      },
+
+      // {
+      //   Header: messages['common.actions'],
+      //   Cell: (props: any) => {
+      //     let data = props.row.original;
+      //     return (
+      //       <DatatableButtonGroup>
+      //         <ReadButton onClick={() => openDetailsModal(data)} />
+      //       </DatatableButtonGroup>
+      //     );
+      //   },
+      // },
     ],
     [messages, locale],
   );
@@ -137,14 +186,14 @@ const FourIRAssessmentPage = ({
           totalCount={totalCount}
         />
 
-        {isOpenDetailsModal && selectedItem && selectedItemId && (
-          <FourIRAssessmentDetailsPopUp
-            key={1}
-            itemData={selectedItem}
-            itemId={selectedItemId}
-            onClose={closeDetailsModal}
-          />
-        )}
+        {/*{isOpenDetailsModal && selectedItem && selectedItemId && (*/}
+        {/*  <FourIRAssessmentDetailsPopUp*/}
+        {/*    key={1}*/}
+        {/*    itemData={selectedItem}*/}
+        {/*    itemId={selectedItemId}*/}
+        {/*    onClose={closeDetailsModal}*/}
+        {/*  />*/}
+        {/*)}*/}
       </PageBlock>
     </>
   );

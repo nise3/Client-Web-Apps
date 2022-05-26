@@ -159,6 +159,22 @@ const ResourceManagementDetailsPopup = ({
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.comment']}
+              value={itemData?.comment}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomChipRowStatus
+              label={messages['common.active_status']}
+              value={itemData?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <Link
               underline='none'
@@ -174,7 +190,7 @@ const ResourceManagementDetailsPopup = ({
                 startIcon={<DownloadIcon />}
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'common.download_file'}
+                btnText={'4ir.resource_management_file'}
                 variant={'outlined'}
                 color={'primary'}
               />
@@ -182,8 +198,12 @@ const ResourceManagementDetailsPopup = ({
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.resource_management_previous_files']}
             </Typography>
             <ReactTable
               columns={columns}
@@ -193,21 +213,6 @@ const ResourceManagementDetailsPopup = ({
               pageCount={pageCount}
               totalCount={totalCount}
               toggleResetTable={isToggleTable}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.comment']}
-              value={itemData?.comment}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomChipRowStatus
-              label={messages['common.active_status']}
-              value={itemData?.row_status}
-              isLoading={isLoading}
             />
           </Grid>
         </Grid>
