@@ -159,6 +159,22 @@ const ResourceManagementDetailsPopup = ({
               isLoading={isLoading}
             />
           </Grid>
+
+          <Grid item xs={12}>
+            <DetailsInputView
+              label={messages['common.comment']}
+              value={itemData?.comment}
+              isLoading={isLoading}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomChipRowStatus
+              label={messages['common.active_status']}
+              value={itemData?.row_status}
+              isLoading={isLoading}
+            />
+          </Grid>
+
           <Grid item xs={12} md={6}>
             <Link
               underline='none'
@@ -193,21 +209,6 @@ const ResourceManagementDetailsPopup = ({
               pageCount={pageCount}
               totalCount={totalCount}
               toggleResetTable={isToggleTable}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DetailsInputView
-              label={messages['common.comment']}
-              value={itemData?.comment}
-              isLoading={isLoading}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CustomChipRowStatus
-              label={messages['common.active_status']}
-              value={itemData?.row_status}
-              isLoading={isLoading}
             />
           </Grid>
         </Grid>
