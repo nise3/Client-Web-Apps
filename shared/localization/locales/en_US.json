@@ -2104,5 +2104,7 @@
   "4ir.scale_up_previous_files": "Previous Scale Up Files",
   "4ir.showcasing_previous_files": "Previous Showcasing Files",
   "4ir.assessment_batch" : "Batch Name",
-  "4ir.assessment_batch_en": "Batch Name (En)"
+  "4ir.assessment_batch_en": "Batch Name (En)",
+  "4ir.assessment_exam_type": "Exam Type",
+  "4ir.assessment_exam_type_en": "Exam Type (En)"
 }
