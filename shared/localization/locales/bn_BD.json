@@ -2245,5 +2245,7 @@
   "exam.exam_duration_min": "পরীক্ষার সময়কাল অবশ্যই ০ মিনিটের বেশি হতে হবে",
   "exam.result_publish": "ফলাফল প্রকাশ",
   "common.previous_files": "পূর্ববর্তী ফাইল",
-  "4ir.tot_participants_file": "অংশগ্রহণকারীদের ফাইল (এক্সেল)"
+  "4ir.tot_participants_file": "অংশগ্রহণকারীদের ফাইল (এক্সেল)",
+  "common.add": "যোগ করুন",
+  "common.exam_list": "পরীক্ষার সমূহ"
 }

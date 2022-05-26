@@ -2245,5 +2245,7 @@
   "exam.exam_duration_min": "Exam duration must be greater than 0 minutes",
   "exam.result_publish": "Publish result",
   "common.previous_files": "Previous Files",
-  "4ir.tot_participants_file": "Participants File (Excel)"
+  "4ir.tot_participants_file": "Participants File (Excel)",
+  "common.add": "Add",
+  "common.exam_list": "Exam list"
 }
