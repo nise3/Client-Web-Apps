@@ -2103,5 +2103,7 @@
   "4ir.report_file": "রিপোর্ট ফাইল",
   "4ir.scale_file" : "স্কেল আপ ফাইল",
   "4ir.scale_up_previous_files": "পূর্ববর্তী ফাইল ফাইলগুলো",
-  "4ir.showcasing_previous_files": "পূর্ববর্তী শোকেসিং ফাইলগুলো"
+  "4ir.showcasing_previous_files": "পূর্ববর্তী শোকেসিং ফাইলগুলো",
+  "4ir.assessment_batch" : "ব্যাচের নাম",
+  "4ir.assessment_batch_en": "ব্যাচের নাম (ইংরেজী)"
 }

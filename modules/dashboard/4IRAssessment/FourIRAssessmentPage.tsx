@@ -5,7 +5,10 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import {API_4IR_ASSESSMENT} from '../../../@softbd/common/apiRoutes';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
-import {getCalculatedSerialNo} from '../../../@softbd/utilities/helpers';
+import {
+  getCalculatedSerialNo,
+  getMomentDateFormat,
+} from '../../../@softbd/utilities/helpers';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 import Genders from '../../../@softbd/utilities/Genders';
 import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
@@ -66,6 +69,7 @@ const FourIRAssessmentPage = ({
       {
         Header: messages['applicationManagement.courseTitle'],
         accessor: 'course_title',
+        isVisible: locale === LocaleLanguage.BN,
       },
       {
         Header: messages['applicationManagement.courseTitle_en'],
@@ -74,8 +78,41 @@ const FourIRAssessmentPage = ({
       },
 
       {
-        Header: messages['assessment.examiner'],
-        accessor: 'examiner_name',
+        Header: messages['4ir.assessment_batch'],
+        accessor: 'batch_title',
+        isVisible: locale === LocaleLanguage.BN,
+      },
+
+      {
+        Header: messages['4ir.assessment_batch_en'],
+        accessor: 'batch_title_en',
+        isVisible: locale === LocaleLanguage.EN,
+      },
+      {
+        Header: messages['common.venue'],
+        accessor: 'exam_venue',
+      },
+      {
+        Header: messages['common.start_date'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>
+              {getMomentDateFormat(data.exam_start_date, 'MM-DD-YYYY')}
+            </Typography>
+          );
+        },
+      },
+      {
+        Header: messages['common.end_date'],
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <Typography>
+              {getMomentDateFormat(data.exam_end_date, 'MM-DD-YYYY')}
+            </Typography>
+          );
+        },
       },
 
       // {
