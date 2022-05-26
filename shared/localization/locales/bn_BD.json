@@ -2017,5 +2017,7 @@
   "common.all_result": "সমস্ত ফলাফল",
   "yup_validation_invalid_subject_id": "বিষয় আপডেট করা যাবে না",
   "exam.exam_duration_min": "পরীক্ষার সময়কাল অবশ্যই ০ মিনিটের বেশি হতে হবে",
-  "exam.result_publish": "ফলাফল প্রকাশ"
+  "exam.result_publish": "ফলাফল প্রকাশ",
+  "common.add": "যোগ করুন",
+  "common.exam_list": "পরীক্ষার সমূহ"
 }

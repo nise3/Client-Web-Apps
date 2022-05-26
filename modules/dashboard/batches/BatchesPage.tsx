@@ -112,10 +112,10 @@ const BatchesPage = () => {
     } catch (error) {}
   };
 
-  const publishAction = async (batchId: number, result_published_at: any) => {
+  const publishAction = async (batchId: number) => {
     try {
       let data = {
-        is_published: result_published_at ? 0 : 1,
+        is_published: 1,
       };
       let response = await publishResult(batchId, data);
       if (isResponseSuccess(response)) {
@@ -335,25 +335,11 @@ const BatchesPage = () => {
                   />
                 </Link>
               )}
-              {data?.result_processed_at && (
+              {data?.result_processed_at && !data?.result_published_at && (
                 <ApproveButton
-                  approveAction={() =>
-                    publishAction(data.id, data?.result_published_at)
-                  }
-                  approveTitle={
-                    messages[
-                      data?.result_published_at
-                        ? 'common.un_publish'
-                        : 'exam.result_publish'
-                    ] as string
-                  }
-                  buttonText={
-                    messages[
-                      data?.result_published_at
-                        ? 'common.un_publish'
-                        : 'exam.result_publish'
-                    ] as string
-                  }
+                  approveAction={() => publishAction(data.id)}
+                  approveTitle={messages['exam.result_publish'] as string}
+                  buttonText={messages['exam.result_publish'] as string}
                 />
               )}
             </DatatableButtonGroup>

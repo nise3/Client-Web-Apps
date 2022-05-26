@@ -10,14 +10,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
-import IconButton from '@mui/material/IconButton';
 import {Body1, S2} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 import {ExamTypes} from '../ExamEnums';
+import Button from '@mui/material/Button';
 
 interface IProps {
   useFrom: any;
@@ -177,15 +176,17 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                   max: 5,
                   min: 1,
                 },
-                endAdornment: (
-                  <InputAdornment position='start'>
-                    <IconButton edge='end' onClick={onInput}>
-                      <DoneIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
               }}
             />
+            <Button
+              sx={{marginTop: '5px'}}
+              variant={'contained'}
+              color={'primary'}
+              size={'small'}
+              onClick={() => onInput()}>
+              <DoneIcon />
+              {messages['common.add']}
+            </Button>
           </Grid>
 
           {/*Exam Sets*/}
@@ -231,29 +232,32 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           })}
 
           {/*Exam Sections*/}
-          <Grid item xs={12}>
-            <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
-          </Grid>
+          {examSets.length > 0 && (
+            <Grid item xs={12}>
+              <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
+            </Grid>
+          )}
 
-          {questionTypes.map((questionType, i) => {
-            const idPrefix = isMixed
-              ? `offline[exam_questions]`
-              : 'exam_questions';
-            return (
-              <Grid key={i} item xs={12}>
-                <ExamQuestionTypeSection
-                  useFrom={useFrom}
-                  questionType={questionType}
-                  index={i}
-                  idPrefix={idPrefix}
-                  subjectId={subjectId}
-                  examSets={examSets}
-                  examType={examType}
-                  setTotalMarks={updateTotalMarks}
-                />
-              </Grid>
-            );
-          })}
+          {examSets.length > 0 &&
+            questionTypes.map((questionType, i) => {
+              const idPrefix = isMixed
+                ? `offline[exam_questions]`
+                : 'exam_questions';
+              return (
+                <Grid key={i} item xs={12}>
+                  <ExamQuestionTypeSection
+                    useFrom={useFrom}
+                    questionType={questionType}
+                    index={i}
+                    idPrefix={idPrefix}
+                    subjectId={subjectId}
+                    examSets={examSets}
+                    examType={examType}
+                    setTotalMarks={updateTotalMarks}
+                  />
+                </Grid>
+              );
+            })}
         </Grid>
       </fieldset>
     </Box>

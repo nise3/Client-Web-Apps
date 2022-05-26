@@ -121,7 +121,8 @@ const YouthPage = () => {
                 <CommonButton
                   key={2}
                   onClick={() => openExamListModal(data.youth_id)}
-                  btnText={'batches.mark_distribution'}
+                  btnText={'common.exam_list'}
+                  // btnText={'batches.mark_distribution'}
                   variant={'outlined'}
                   color={'primary'}
                   style={{marginLeft: '20px'}}
