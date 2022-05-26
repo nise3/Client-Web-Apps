@@ -2106,5 +2106,6 @@
   "4ir.assessment_batch" : "Batch Name",
   "4ir.assessment_batch_en": "Batch Name (En)",
   "4ir.assessment_exam_type": "Exam Type",
-  "4ir.assessment_exam_type_en": "Exam Type (En)"
+  "4ir.assessment_exam_type_en": "Exam Type (En)",
+  "4ir.application_permission": "Application Role"
 }

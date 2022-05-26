@@ -2107,5 +2107,6 @@
   "4ir.assessment_batch" : "ব্যাচের নাম",
   "4ir.assessment_batch_en": "ব্যাচের নাম (ইংরেজী)",
   "4ir.assessment_exam_type": "পরীক্ষার ধরন",
-  "4ir.assessment_exam_type_en": "পরীক্ষার ধরন (ইংরেজী)"
+  "4ir.assessment_exam_type_en": "পরীক্ষার ধরন (ইংরেজী)",
+  "4ir.application_permission": "অ্যাপ্লিকেশন রোল"
 }
