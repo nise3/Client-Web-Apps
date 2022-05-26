@@ -176,8 +176,8 @@ const YouthRegistration = () => {
     return yup.object().shape({
       first_name: yup
         .string()
-        .required()
         .title('bn')
+        .required()
         .label(messages['common.first_name_bn'] as string),
       first_name_en: yup
         .string()
@@ -186,13 +186,13 @@ const YouthRegistration = () => {
         .label(messages['common.first_name_en'] as string),
       last_name: yup
         .string()
-        .required()
         .title('bn')
+        .required()
         .label(messages['common.last_name_bn'] as string),
       last_name_en: yup
         .string()
-        .required()
         .title('bn')
+        .required()
         .label(messages['common.last_name_en'] as string),
       skills: yup
         .array()
@@ -313,7 +313,10 @@ const YouthRegistration = () => {
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      const queryParam = {mobile: data?.mobile};
+      const queryParam: any = {mobile: data?.mobile};
+      if (router.query?.redirected_from) {
+        queryParam.redirected_from = router.query.redirected_from;
+      }
       /*const queryParam =
             userNameType == UserNameType.MOBILE
                 ? {mobile: data.mobile}
@@ -337,7 +340,6 @@ const YouthRegistration = () => {
         skillIds.push(skill.id);
       });
       data.skills = skillIds;
-
       await youthRegistration(data);
       successStack(<IntlMessages id='youth_registration.success' />);
       setIsFormSubmitted(true);

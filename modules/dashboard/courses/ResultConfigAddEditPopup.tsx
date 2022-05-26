@@ -52,22 +52,32 @@ const ResultConfigAddEditPopup = ({
         .string()
         .required()
         .label(messages['common.result_type'] as string),
-      gradings: yup.array().of(
-        yup.object().shape({
-          label: yup
-            .string()
-            .required()
-            .label(messages['common.label'] as string),
-          min: yup
-            .string()
-            .required()
-            .label(messages['common.min'] as string),
-          max: yup
-            .string()
-            .required()
-            .label(messages['common.max'] as string),
-        }),
-      ),
+      gradings:
+        selectedResultType && Number(selectedResultType) == ResultTypes.GRADING
+          ? yup.array().of(
+              yup.object().shape({
+                label: yup
+                  .string()
+                  .required()
+                  .label(messages['common.label'] as string),
+                min: yup
+                  .string()
+                  .required()
+                  .label(messages['common.min'] as string),
+                max: yup
+                  .string()
+                  .required()
+                  .label(messages['common.max'] as string),
+              }),
+            )
+          : yup.mixed().nullable(),
+      pass_marks:
+        selectedResultType && Number(selectedResultType) == ResultTypes.MARKING
+          ? yup
+              .string()
+              .required()
+              .label(messages['common.pass_marks'] as string)
+          : yup.string().nullable(),
       total_percentage: yup
         .number()
         .required()
@@ -86,7 +96,7 @@ const ResultConfigAddEditPopup = ({
             .label(messages['common.attendance_total_mark'] as string)
         : yup.mixed().nullable(),
     });
-  }, [messages, totalPercentage, isAttendanceRequired]);
+  }, [messages, totalPercentage, isAttendanceRequired, selectedResultType]);
 
   const {
     control,
@@ -136,6 +146,10 @@ const ResultConfigAddEditPopup = ({
         total_attendance_marks: itemData?.total_attendance_marks,
       });
       setSelectedResultType(Number(itemData?.result_type));
+      setIsAttendanceRequired(
+        !isNaN(itemData?.result_percentages?.attendance) &&
+          Number(itemData.result_percentages.attendance) > 0,
+      );
     } else {
       reset({
         gradings: [{min: 0}],
@@ -161,45 +175,47 @@ const ResultConfigAddEditPopup = ({
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      let max = 0;
-      let isMaxSmall: boolean = false;
-      let isMinBig: boolean = false;
-      if (data.gradings) {
-        data.gradings.map((grad: any, i: number) => {
-          if (Number(grad.max) > max) {
-            max = Number(grad.max);
-          }
-          if (Number(grad.max) <= Number(grad.min)) {
-            isMaxSmall = true;
-            setFocus(`gradings[${i}][max]`);
-          }
-          if (i > 0) {
-            if (Number(data.gradings[i - 1].max) > Number(grad.min)) {
-              isMinBig = true;
-              setFocus(`gradings[${i - 1}][max]`);
+      if (data.result_type == ResultTypes.GRADING) {
+        let max = 0;
+        let isMaxSmall: boolean = false;
+        let isMinBig: boolean = false;
+        if (data.gradings) {
+          data.gradings.map((grad: any, i: number) => {
+            if (Number(grad.max) > max) {
+              max = Number(grad.max);
             }
-          }
-        });
-      }
+            if (Number(grad.max) <= Number(grad.min)) {
+              isMaxSmall = true;
+              setFocus(`gradings[${i}][max]`);
+            }
+            if (i > 0) {
+              if (Number(data.gradings[i - 1].max) > Number(grad.min)) {
+                isMinBig = true;
+                setFocus(`gradings[${i - 1}][max]`);
+              }
+            }
+          });
+        }
 
-      if (isMaxSmall) {
-        setError('total_gradings', {
-          message: messages['batch.grad_max_will_greater_min'] as string,
-        });
-        return;
-      }
+        if (isMaxSmall) {
+          setError('total_gradings', {
+            message: messages['batch.grad_max_will_greater_min'] as string,
+          });
+          return;
+        }
 
-      if (isMinBig) {
-        setError('total_gradings', {
-          message: messages['batch.grad_min_will_greater_max'] as string,
-        });
-        return;
-      }
-      if (max != 100) {
-        setError('total_gradings', {
-          message: messages['common.total_gradings'] as string,
-        });
-        return;
+        if (isMinBig) {
+          setError('total_gradings', {
+            message: messages['batch.grad_min_will_greater_max'] as string,
+          });
+          return;
+        }
+        if (max != 100) {
+          setError('total_gradings', {
+            message: messages['common.total_gradings'] as string,
+          });
+          return;
+        }
       }
 
       let formData = _.cloneDeep(data);
@@ -214,6 +230,38 @@ const ResultConfigAddEditPopup = ({
 
       formData.course_id = itemId;
       if (itemData?.id) formData.id = itemData.id;
+
+      if (!formData.result_percentages.online) {
+        delete formData.result_percentages.online;
+      }
+
+      if (!formData.result_percentages.offline) {
+        delete formData.result_percentages.offline;
+      }
+
+      if (!formData.result_percentages.mixed) {
+        delete formData.result_percentages.mixed;
+      }
+
+      if (!formData.result_percentages.practical) {
+        delete formData.result_percentages.practical;
+      }
+
+      if (!formData.result_percentages.field_work) {
+        delete formData.result_percentages.field_work;
+      }
+
+      if (!formData.result_percentages.presentation) {
+        delete formData.result_percentages.presentation;
+      }
+
+      if (!formData.result_percentages.assignment) {
+        delete formData.result_percentages.assignment;
+      }
+
+      if (!formData.result_percentages.attendance) {
+        delete formData.result_percentages.attendance;
+      }
 
       await createResultConfig(formData);
       if (itemData && itemData.id) {

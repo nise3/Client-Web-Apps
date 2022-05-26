@@ -96,12 +96,19 @@ const StyledCard = styled(Card)(({theme}) => ({
 
 interface CourseCardComponentProps {
   course: any;
-  handleViewExam?: (e: any, exams: any, batch_id: any) => void;
+  handleViewExam?: (e: any, youth_id: any, batch_id: any) => void;
+  handleViewResult?: (
+    e: any,
+    batch_id: any,
+    youth_id: any,
+    batch_title: string,
+  ) => void;
 }
 
 const CourseCardComponent: FC<CourseCardComponentProps> = ({
   course,
   handleViewExam,
+  handleViewResult,
 }) => {
   const {messages, formatNumber} = useIntl();
   const customStyle = useCustomStyle();
@@ -187,18 +194,43 @@ const CourseCardComponent: FC<CourseCardComponentProps> = ({
             </Box>
           </Box>
         )}
-        {isMyCoursePage && course?.exams && course?.exams?.length > 0 && (
-          <Box sx={{textAlign: 'center', paddingTop: '10px'}}>
-            <Button
-              variant={'outlined'}
-              size={'small'}
-              onClick={(e) => {
-                if (handleViewExam) {
-                  handleViewExam(e, course.exams, course.batch_id);
-                }
-              }}>
-              {messages['common.view_exam']}
-            </Button>
+        {course?.exams && (
+          <Box
+            sx={{
+              textAlign: 'center',
+              paddingTop: '10px',
+              display: 'flex',
+              justifyContent: 'space-around',
+            }}>
+            {(course?.exams || course.result_published_at) && (
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={(e) => {
+                  if (handleViewExam) {
+                    handleViewExam(e, course.youth_id, course.batch_id);
+                  }
+                }}>
+                {messages['common.view_exam']}
+              </Button>
+            )}
+
+            {course.result_published_at && (
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={(e) => {
+                  if (handleViewResult)
+                    handleViewResult(
+                      e,
+                      course.batch_id,
+                      course.youth_id,
+                      course.batch_title,
+                    );
+                }}>
+                {messages['education.result']}
+              </Button>
+            )}
           </Box>
         )}
       </CardContent>

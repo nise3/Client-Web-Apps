@@ -1,19 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
-import { FiUserCheck } from 'react-icons/fi';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useIntl } from 'react-intl';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import { API_CERTIFICATES } from '../../../@softbd/common/apiRoutes';
 import AddButton from '../../../@softbd/elements/button/AddButton/AddButton';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import DatatableButtonGroup from '../../../@softbd/elements/button/DatatableButtonGroup/DatatableButtonGroup';
-// import ReadButton from '../../../@softbd/elements/button/ReadButton/ReadButton';
-// import EditButton from '../../../@softbd/elements/button/EditButton/EditButton';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteButton from '../../../@softbd/elements/button/DeleteButton/DeleteButton';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchData';
-import CertificateTemplateIcon from '../../../@softbd/icons/IconCertificateTemplate';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import { getMomentDateFormat, isResponseSuccess } from '../../../@softbd/utilities/helpers';
 import PageBlock from '../../../@softbd/utilities/PageBlock';
@@ -82,7 +81,7 @@ const CertificateTemplatePage = () => {
         refreshDataTable();
       }
     } else {
-      errorStack("Already added to batch!")
+      errorStack(messages['certificate.certificate_added_alreadt_batch'])
     }
 
     // console.log(batch)
@@ -106,7 +105,7 @@ const CertificateTemplatePage = () => {
         disableSortBy: true,
       },
       {
-        Header: messages['common.title'],
+        Header: messages['certificate.certificate_title'],
         accessor: 'title',
       },
       {
@@ -132,7 +131,6 @@ const CertificateTemplatePage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
-          console.log(data);
           return (
             <DatatableButtonGroup>
               {/* <ReadButton
@@ -147,7 +145,7 @@ const CertificateTemplatePage = () => {
                   passHref={true}>
                   <CommonButton
                     btnText='common.edit_btn'
-                    startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                    startIcon={<EditIcon style={{ marginLeft: '5px' }} />}
                     style={{ marginLeft: '10px' }}
                     variant='outlined'
                     color='primary'
@@ -165,7 +163,7 @@ const CertificateTemplatePage = () => {
                 passHref={true}>
                 <CommonButton
                   btnText='common.duplicate'
-                  startIcon={<FiUserCheck style={{ marginLeft: '5px' }} />}
+                  startIcon={<ContentCopyIcon style={{ marginLeft: '5px' }} />}
                   style={{ marginLeft: '10px' }}
                   variant='outlined'
                   color='primary'
@@ -185,7 +183,7 @@ const CertificateTemplatePage = () => {
       <PageBlock
         title={
           <>
-            <CertificateTemplateIcon /> <IntlMessages id='certificate_template.name_en' />
+            <BookmarkAddedIcon /> <IntlMessages id='certificate_template.name_en' />
           </>
         }
         extra={[

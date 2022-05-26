@@ -1,8 +1,9 @@
 import React, {FC} from 'react';
 import {Checkbox, FormControlLabel, Grid} from '@mui/material';
-import {Body2} from '../../../../../@softbd/elements/common';
+
 import {useIntl} from 'react-intl';
-import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {Body2} from '../../../../@softbd/elements/common';
 
 interface McqTypeComponentProps {
   question: any;
@@ -18,7 +19,7 @@ const MCQTypeComponent: FC<McqTypeComponentProps> = ({question, index}) => {
           {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
         <Body2>{question?.title}</Body2>
-        <Body2 sx={{fontWeight: 'bold'}}>
+        <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
           {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
         </Body2>
       </Grid>

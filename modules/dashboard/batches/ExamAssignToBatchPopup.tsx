@@ -19,6 +19,7 @@ import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoC
 import IconExam from '../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../exams/ExamEnums';
 import {assignExamsToBatch} from '../../../services/instituteManagement/BatchService';
+import {S1} from '../../../@softbd/elements/common';
 
 interface ExamAssignToBatchPopupProps {
   batchId: number;
@@ -32,7 +33,10 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
 
-  const [examFilters] = useState<any>({});
+  const [examFilters] = useState<any>({
+    batch_id: batchId,
+    is_result_config_courses: 1,
+  });
   const {data: batchExams} = useFetchBatchExams(batchId);
   const {data: exams, isLoading} = useFetchExams(examFilters);
 
@@ -58,7 +62,12 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
   });
 
   useEffect(() => {
-    if (batchExams && exams) {
+    if (
+      exams &&
+      exams.error_code &&
+      exams.error_code != 'no_config' &&
+      batchExams
+    ) {
       let ids = (batchExams || []).map((exam_type: any) => exam_type.id);
       reset({
         exams: exams
@@ -128,21 +137,27 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
         </>
       }>
       <Grid container spacing={5}>
-        <Grid item xs={12}>
-          <CustomSelectAutoComplete
-            required
-            id='exams'
-            label={messages['exam.label']}
-            control={control}
-            options={(exams || []).map((exam: any) => ({
-              ...exam,
-              type_label: getTypeLabel(exam.type),
-            }))}
-            optionTitleProp={['title', 'type_label']}
-            optionValueProp={'id'}
-            errorInstance={errors}
-          />
-        </Grid>
+        {exams && exams.error_code == 'no_config' ? (
+          <Grid item xs={12} sx={{textAlign: 'center'}}>
+            <S1>{messages['batch.result_failed_no_config']}</S1>
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <CustomSelectAutoComplete
+              required
+              id='exams'
+              label={messages['exam.label']}
+              control={control}
+              options={(exams || []).map((exam: any) => ({
+                ...exam,
+                type_label: getTypeLabel(exam.type),
+              }))}
+              optionTitleProp={['title', 'type_label']}
+              optionValueProp={'id'}
+              errorInstance={errors}
+            />
+          </Grid>
+        )}
       </Grid>
     </HookFormMuiModal>
   );

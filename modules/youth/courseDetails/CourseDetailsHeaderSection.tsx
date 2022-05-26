@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useIntl } from 'react-intl';
 import { useAuthUser } from '../../../@crema/utility/AppHooks';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
@@ -23,7 +23,6 @@ import {
   getCourseDuration,
   getIntlNumber
 } from '../../../@softbd/utilities/helpers';
-import { getCertificateIssue } from '../../../services/CertificateAuthorityManagement/CertificateIssueService';
 
 const PREFIX = 'CourseDetailsHeaderSection';
 
@@ -52,24 +51,38 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 interface CourseDetailsHeaderProps {
   course: any;
-  youthId: number;
 }
 
-const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, youthId }) => {
-  // console.log('course details: youthId', youthId)
+const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course }) => {
   const { messages, formatNumber } = useIntl();
   const authUser = useAuthUser();
-  const [certificateIssue, setCertificateIssue] = useState<any>({});
-  // const [certificateIssue] = useState<ICertificateIssue>(certificateIssueMock.data[0]);
+  // const router = useRouter();
+  // const path = router.pathname;
 
-  getCertificateIssue({youth_id: youthId})
-    .then((res:any)=>{
-      if(res && res.length > 0){
-        setCertificateIssue(res[0]);
-      }
-    })
+  // const goToCertificate = () => {
+  //   if (course && course.certificate_issued_id) {
+  //     const params: any = {certificate_issued_id: course.certificate_issued_id};
+  //     apiGet(API_COURSE_ENROLLMENTS, params)
+  //     .then((res) => {
+  //       const dta = res.data.data;
+  //       if (dta && dta.length > 0) {
+  //         router.push(
+  //           `${path}/certificate-view/${dta.batch_id}`,
+  //         );
+  //       } else {
+  //         errorStack(
+  //           <IntlMessages
+  //             id='common.no_data_found_dynamic'
+  //             values={{
+  //               messageType: <IntlMessages id='certificate.certificate_issue' />,
+  //             }}
+  //           />,
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
   
-  // console.log('const {data: certificateIssue} ', certificateIssue);
   return (
     <StyledContainer maxWidth={'lg'}>
       <Grid container spacing={2}>
@@ -175,7 +188,23 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                       color={'primary'}
                     />
                   )}
+                  {course?.certificate_issued_id && 
                   <Link
+                    className={classes.certificateViewButton}
+                    href={
+                      authUser
+                        ? youthDomain() +
+                      LINK_FRONTEND_YOUTH_CERTIFICATE_VIEW +
+                        course?.id
+                        : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
+                    }>
+                    <Button
+                    variant={'contained'} color={'primary'}>
+                      {messages['common.certificate_view']}
+                    </Button>
+                  </Link>
+                  }
+                  {/* <Link
                     className={classes.certificateViewButton}
                     href={
                       authUser
@@ -184,10 +213,7 @@ const CourseDetailsHeaderSection: FC<CourseDetailsHeaderProps> = ({ course, yout
                         certificateIssue?.id
                         : gotoLoginSignUpPage(LINK_YOUTH_SIGNUP)
                     }>
-                    <Button variant={'contained'} color={'primary'}>
-                      {messages['common.certificate_view']}
-                    </Button>
-                  </Link>
+                  </Link> */}
                 </Box>
               )}
             </Box>

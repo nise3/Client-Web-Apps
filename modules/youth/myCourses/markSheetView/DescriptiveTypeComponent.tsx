@@ -1,9 +1,9 @@
 import React, {FC, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {Grid} from '@mui/material';
-import {Body2} from '../../../../../@softbd/elements/common';
-import DetailsInputView from '../../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
-import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {Body2} from '../../../../@softbd/elements/common';
+import DetailsInputView from '../../../../@softbd/elements/display/DetailsInputView/DetailsInputView';
 
 interface DescriptiveViewProps {
   question: any;
@@ -24,7 +24,7 @@ const DescriptiveTypeComponent: FC<DescriptiveViewProps> = ({
           {getIntlNumber(formatNumber, index) + '. ' + ' '}
         </Body2>
         <Body2>{question?.title}</Body2>
-        <Body2 sx={{fontWeight: 'bold'}}>
+        <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
           {'(' + getIntlNumber(formatNumber, question?.individual_marks) + ')'}
         </Body2>
       </Grid>

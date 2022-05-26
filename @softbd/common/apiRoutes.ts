@@ -132,6 +132,7 @@ export const API_COURSE_RESULT_CONFIG =
   INSTITUTE_SERVICE_PATH + '/course-result-configs';
 export const API_PROCESS_RESULT = '/process-result';
 export const API_BATCH_RESULT = '/results';
+export const API_BATCH_PUBLISH_RESULT = '/result-publish';
 export const API_YOUTH_BATCH_EXAMS_MARK_UPDATE =
   INSTITUTE_SERVICE_PATH + '/youth-batch-exams-mark-update';
 
@@ -189,6 +190,9 @@ export const API_SUBMIT_EXAM_PAPER =
   INSTITUTE_SERVICE_PATH + '/submit-exam-paper';
 export const API_YOUTH_EXAM_MARK_UPDATE =
   INSTITUTE_SERVICE_PATH + '/youth-exam-mark-update';
+
+export const API_YOUTH_EXAM_RESULT_SUMMARIES =
+  INSTITUTE_SERVICE_PATH + '/exam-result-summaries/';
 
 export const API_PREVIEW_YOUTH_EXAM =
   INSTITUTE_SERVICE_PATH + '/preview-youth-exam';
@@ -314,6 +318,12 @@ export const API_PUBLIC_RPL_APPLICATIONS =
   TSP_PUBLIC_SERVICE_PATH + '/rpl-applications';
 export const API_COURSE_ENROLLMENT_BULK_IMPORT_FORMAT =
   TSP_PUBLIC_SERVICE_PATH + '/course-enrollment-bulk-import-file-format';
+
+export const API_PUBLIC_BATCHES = TSP_PUBLIC_SERVICE_PATH + '/batches';
+export const API_YOUTH_EXAM_RESULT = '/youth-exam-results';
+
+export const API_PUBLIC_PREVIEW_YOUTH_EXAM =
+  TSP_PUBLIC_SERVICE_PATH + '/preview-youth-exam';
 
 /** All institute service public routes section end */
 

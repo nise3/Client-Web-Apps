@@ -97,8 +97,11 @@ const InteractiveKonvaElement = ({
       if (!shape) {
         return;
       }
+      // console.log(evt.currentTarget.attrs.skewX);
+      // console.log(evt.currentTarget.attrs.rotation);
 
       if (transformerRef.current && transform) {
+        console.log(evt);
         shape.setAttrs(transform(evt, transformerRef.current));
       }
 

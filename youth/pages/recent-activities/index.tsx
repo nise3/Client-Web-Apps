@@ -12,7 +12,7 @@ export default YouthFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.recent_activities']} />
-      <RecentActivities />;
+      <RecentActivities />
     </>
   );
 });

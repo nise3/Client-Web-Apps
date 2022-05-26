@@ -118,9 +118,12 @@ const CustomFormSelect = ({
                 }
               }}
               inputProps={inputProps}>
-              <MenuItem value=''>
-                <em>{messages['common.select']}</em>
-              </MenuItem>
+              {!multiple && (
+                <MenuItem value=''>
+                  <em>{messages['common.select']}</em>
+                </MenuItem>
+              )}
+
               {(options || []).map((option: any, index: number) => {
                 if (!isGroupData) {
                   let value =

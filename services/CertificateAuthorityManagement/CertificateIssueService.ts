@@ -1,5 +1,5 @@
 import { apiGet, apiPost } from '../../@softbd/common/api';
-import { API_CERTIFICATES_ISSUE, API_CERTIFICATES_ISSUE_PUBLIC } from '../../@softbd/common/apiRoutes';
+import { API_CERTIFICATES_ISSUE, YOUTH_SERVICE_PATH } from '../../@softbd/common/apiRoutes';
 import { catchBlockHandler } from '../../@softbd/utilities/helpers';
 import { ICertificateIssue } from '../../shared/Interface/certificates';
 
@@ -27,10 +27,10 @@ export const getCertificateIssueByIssueId = async (issue_id: any) => {
   }
 }
 
-export const getPublicCertificateIssueByIssueId = async (issue_id: any) => {
+export const getPublicCertificateIssueByBatchId = async (course_id:any) => {
   try {
     let response: any = await apiGet(
-      API_CERTIFICATES_ISSUE_PUBLIC + '/' + issue_id
+      `${YOUTH_SERVICE_PATH}/youth-issued-certificate/${course_id}`
     );
     return response.data;
 

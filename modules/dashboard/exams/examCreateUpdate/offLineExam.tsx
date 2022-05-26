@@ -10,14 +10,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import InputAdornment from '@mui/material/InputAdornment';
 import DoneIcon from '@mui/icons-material/Done';
-import IconButton from '@mui/material/IconButton';
 import {Body1, S2} from '../../../../@softbd/elements/common';
 import ExamQuestionTypeSection from './components/ExamQuestionTypeSection';
 import {QuestionType} from '../../questionsBank/QuestionBanksEnums';
 import CustomDateTimePicker from '../../../../@softbd/elements/input/CustomDateTimePicker';
 import {ExamTypes} from '../ExamEnums';
+import Button from '@mui/material/Button';
 
 interface IProps {
   useFrom: any;
@@ -35,16 +34,14 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
   const isMixed = examType == ExamTypes.MIXED;
 
   useEffect(() => {
-    let sets = [];
-    if (isMixed) {
-      sets = useFrom.getValues('offline').sets;
-    } else {
-      sets = useFrom.getValues('sets');
-    }
+    let sets = isMixed
+      ? useFrom.getValues('offline').sets
+      : useFrom.getValues('sets');
 
     if (sets) {
       let array = sets.map((set: any, i: number) => {
         return {
+          ...set,
           index: i,
           id: `SET##${i + 1}`,
         };
@@ -55,19 +52,43 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
 
   const onInput = useCallback(() => {
     if (examSetField.current.value <= 5) {
-      let arr: any = Array.from(
-        Array(Number(examSetField.current.value)).keys(),
-      );
+      let formKey = isMixed ? 'offline[sets]' : 'sets';
 
-      let array: any = arr.map((item: any, i: any) => {
-        return {
-          index: i,
-          id: `SET##${item}`,
-        };
-      });
-      setExamSets(array);
+      if (examSets.length > 0) {
+        let prevExamSets = [...examSets];
+        if (examSetField.current.value > examSets.length) {
+          let idx = examSets.length;
+          for (
+            let i = 0;
+            i < examSetField.current.value - examSets.length;
+            i++
+          ) {
+            prevExamSets.push({
+              index: idx,
+              id: `SET##${idx + 1}`,
+            });
+            idx++;
+          }
+          useFrom.setValue(formKey, prevExamSets);
+          setExamSets(prevExamSets);
+        } else {
+          let newSet = prevExamSets.slice(0, examSetField.current.value);
+          useFrom.setValue(formKey, newSet);
+          setExamSets(newSet);
+        }
+      } else {
+        let array: any = [];
+        for (let i = 0; i < examSetField.current.value; i++) {
+          array.push({
+            index: i,
+            id: `SET##${i + 1}`,
+          });
+        }
+        useFrom.setValue(formKey, array);
+        setExamSets(array);
+      }
     }
-  }, []);
+  }, [examSets, useFrom]);
 
   const questionTypes = useMemo(
     () => [
@@ -155,15 +176,17 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
                   max: 5,
                   min: 1,
                 },
-                endAdornment: (
-                  <InputAdornment position='start'>
-                    <IconButton edge='end' onClick={onInput}>
-                      <DoneIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
               }}
             />
+            <Button
+              sx={{marginTop: '5px'}}
+              variant={'contained'}
+              color={'primary'}
+              size={'small'}
+              onClick={() => onInput()}>
+              <DoneIcon />
+              {messages['common.add']}
+            </Button>
           </Grid>
 
           {/*Exam Sets*/}
@@ -209,29 +232,32 @@ const OffLineExam = ({useFrom, examType, subjectId}: IProps) => {
           })}
 
           {/*Exam Sections*/}
-          <Grid item xs={12}>
-            <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
-          </Grid>
+          {examSets.length > 0 && (
+            <Grid item xs={12}>
+              <Body1 sx={{color: '#0a8fdc'}}>{messages['question.type']}</Body1>
+            </Grid>
+          )}
 
-          {questionTypes.map((questionType, i) => {
-            const idPrefix = isMixed
-              ? `offline[exam_questions]`
-              : 'exam_questions';
-            return (
-              <Grid key={i} item xs={12}>
-                <ExamQuestionTypeSection
-                  useFrom={useFrom}
-                  questionType={questionType}
-                  index={i}
-                  idPrefix={idPrefix}
-                  subjectId={subjectId}
-                  examSets={examSets}
-                  examType={examType}
-                  setTotalMarks={updateTotalMarks}
-                />
-              </Grid>
-            );
-          })}
+          {examSets.length > 0 &&
+            questionTypes.map((questionType, i) => {
+              const idPrefix = isMixed
+                ? `offline[exam_questions]`
+                : 'exam_questions';
+              return (
+                <Grid key={i} item xs={12}>
+                  <ExamQuestionTypeSection
+                    useFrom={useFrom}
+                    questionType={questionType}
+                    index={i}
+                    idPrefix={idPrefix}
+                    subjectId={subjectId}
+                    examSets={examSets}
+                    examType={examType}
+                    setTotalMarks={updateTotalMarks}
+                  />
+                </Grid>
+              );
+            })}
         </Grid>
       </fieldset>
     </Box>

@@ -128,12 +128,21 @@ const OfflineDetails = ({
                   {': '}
                   {examData?.exam_subject_title}
                 </S1>
-                <S1 sx={{margin: 'auto'}}>
-                  {messages['common.date']} {': '}
+                <S1>
+                  {messages['common.start_date']} {': '}
                   {getIntlDateFromString(formatTime, exam?.start_date)}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {messages['common.end_date']} {': '}
+                  {getIntlDateFromString(formatTime, exam?.end_date)}
                 </S1>
                 <S1 sx={{margin: 'auto'}}>
-                  {filteredSet ? filteredSet.title : ''}
+                  {messages['common.duration']} {': '}
+                  {getIntlNumber(formatNumber, exam?.duration)}{' '}
+                  {messages['common.minute']}
+                </S1>
+                <S1 sx={{margin: 'auto'}}>
+                  {messages['common.set']}
+                  {': '} {filteredSet ? filteredSet.title : ''}
                 </S1>
               </Grid>
               <Grid

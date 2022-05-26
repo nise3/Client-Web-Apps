@@ -38,6 +38,23 @@ const OnlineDetails = ({
   let answerIndex = 0;
   let questionIndex = 1;
 
+  // FIXED = '1',
+  //   RANDOM = '2',
+  //   RANDOM_FROM_QUESTION_BANK = '3',
+
+  const questionSelection = (type: string) => {
+    switch (type) {
+      case QuestionSelectionType.FIXED:
+        return messages['common.fixed'];
+      case QuestionSelectionType.RANDOM:
+        return messages['common.random'];
+      case QuestionSelectionType.RANDOM_FROM_QUESTION_BANK:
+        return messages['common.random_from_elect'];
+      default:
+        return '';
+    }
+  };
+
   return (
     <fieldset style={{borderRadius: '5px', border: '1px solid #b8b8b8'}}>
       <legend style={{color: '#0a8fdc', fontSize: '1.5rem'}}>
@@ -57,9 +74,17 @@ const OnlineDetails = ({
             {': '}
             {examData?.exam_subject_title}
           </S1>
-          <S1 sx={{margin: 'auto'}}>
-            {messages['common.date']} {': '}
+          <S1>
+            {messages['common.start_date']} {': '}
             {getIntlDateFromString(formatTime, exam?.start_date)}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {messages['common.end_date']} {': '}
+            {getIntlDateFromString(formatTime, exam?.end_date)}
+          </S1>
+          <S1 sx={{margin: 'auto'}}>
+            {messages['common.duration']} {': '}
+            {getIntlNumber(formatNumber, exam?.duration)}{' '}
+            {messages['common.minute']}
           </S1>
         </Grid>
         <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
@@ -87,11 +112,22 @@ const OnlineDetails = ({
                             question_type[section?.question_type - 1].label
                           ] +
                             ' | ' +
-                            messages['common.total_marks'] +
+                            messages['common.marks'] +
                             ': '}
                         </Body1>
                         <Body2 sx={{marginTop: '3px'}}>
                           {getIntlNumber(formatNumber, section?.total_marks)}
+                        </Body2>
+                        &nbsp;&nbsp;&nbsp;
+                        <Body2
+                          sx={{
+                            marginTop: '3px',
+                            fontWeight: 'bold',
+                            whiteSpace: 'pre',
+                          }}>
+                          {messages['common.question_selection_type']}
+                          {': '}
+                          {questionSelection(section?.question_selection_type)}
                         </Body2>
                       </Grid>
 

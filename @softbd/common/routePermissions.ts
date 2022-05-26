@@ -122,7 +122,7 @@ export const routePermissions: any = {
   },
   '/batches': {
     routePrefix: '/batches',
-    permissionKeys: ['view_any_batch'],
+    permissionKeys: ['view_any_batch', 'view_any_result'],
   },
   '/trainers': {
     routePrefix: '/trainers',

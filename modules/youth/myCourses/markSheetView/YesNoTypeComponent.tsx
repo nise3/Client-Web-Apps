@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {FormControlLabel, Grid, Radio, RadioGroup} from '@mui/material';
 import {useIntl} from 'react-intl';
-import {Body2} from '../../../../../@softbd/elements/common';
-import {getIntlNumber} from '../../../../../@softbd/utilities/helpers';
+import {getIntlNumber} from '../../../../@softbd/utilities/helpers';
+import {Body2} from '../../../../@softbd/elements/common';
 
 interface YesNoTypeViewProps {
   question: any;
@@ -24,7 +24,7 @@ const YesNoTypeComponent: FC<YesNoTypeViewProps> = ({question, index}) => {
             {getIntlNumber(formatNumber, index) + '. ' + ' '}
           </Body2>
           <Body2>{question?.title}</Body2>
-          <Body2 sx={{fontWeight: 'bold'}}>
+          <Body2 sx={{fontWeight: 'bold', marginLeft: '5px'}}>
             {'(' +
               getIntlNumber(formatNumber, question?.individual_marks) +
               ')'}

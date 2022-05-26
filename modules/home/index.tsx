@@ -17,7 +17,7 @@ const Home = () => {
     <div style={{background: '#fff', paddingBottom: '80px'}}>
       <CoverArea />
 
-      {/*Todo: These sections are hided on feedback demand*/}
+      {/*Todo: These sections are hid on feedback demand*/}
       {/*<InfoCardSection />*/}
       {/*<SelfAssessment />*/}
       {/*<StatisticsCardSection />*/}
@@ -30,7 +30,7 @@ const Home = () => {
       <PopularCourse />
       <PopularJobs />
 
-      {/*Todo: Partners section is hided on feedback demand*/}
+      {/*Todo: Partners section is hid on feedback demand*/}
       {/*<Partners />*/}
     </div>
   );

@@ -14,7 +14,7 @@ function ViewHeader() {
   const handleClick = useCallback(() => {
     setLoading(true);
     const template = getStageAreaRef();
-    console.log(template);
+    // console.log(template);
     if (template) {
       const uri = template.toDataURL({pixelRatio: 4});
       const orientation =

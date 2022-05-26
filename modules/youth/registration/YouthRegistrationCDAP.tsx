@@ -138,22 +138,18 @@ const YouthRegistration = () => {
     return yup.object().shape({
       first_name: yup
         .string()
-        .required()
         .title('bn')
         .label(messages['common.first_name_bn'] as string),
       first_name_en: yup
         .string()
-        .required()
         .title('bn')
         .label(messages['common.first_name_en'] as string),
       last_name: yup
         .string()
-        .required()
         .title('bn')
         .label(messages['common.last_name_bn'] as string),
       last_name_en: yup
         .string()
-        .required()
         .title('bn')
         .label(messages['common.last_name_en'] as string),
       skills: yup
@@ -421,6 +417,7 @@ const YouthRegistration = () => {
                 errorInstance={errors}
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
               <CustomTextInput
                 required

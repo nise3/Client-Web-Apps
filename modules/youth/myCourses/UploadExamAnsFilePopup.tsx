@@ -47,7 +47,7 @@ const UploadExamAnsFilePopup = ({onClose, exam, batchId}: IProps) => {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
       data.batch_id = batchId;
-      data.exam_id = exam.exam_id;
+      data.exam_id = exam?.exams[0]?.exam_id;
       data.youth_id = authUser?.youthId;
 
       await submitExamPaper(data);
