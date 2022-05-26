@@ -10,12 +10,28 @@ import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonBu
 import {useIntl} from 'react-intl';
 import DownloadIcon from '@mui/icons-material/Download';
 import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/CustomTextInput';
-import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {
   createInitiativeExcelImport,
   getInitiativeFileFormat,
 } from '../../../services/4IRManagement/InitiativeService';
+
+const ERRORS: any = {
+  32000: 'yup_validation_integer',
+  62000: 'yup_validation_exist',
+  50000: 'yup_validation_required_field',
+  46000: 'yup_validation_number',
+  47000: 'yup_validation_password',
+  49000: 'yup_validation_regex',
+  22000: 'yup_validation_email',
+  39003: 'yup_validation_text_length',
+  42003: 'yup_validation_digit_length',
+  3000: 'yup_validation_date',
+  30000: 'yup_validation_invalid_row_status',
+  100000: 'yup_validation_invalid_start_date',
+  200000: 'yup_validation_invalid_end_date',
+  9000: 'invalid_start_date',
+};
 
 interface InitiativeImportPopupProps {
   onClose: () => void;
@@ -37,7 +53,7 @@ const InitiativeImportPopup: FC<InitiativeImportPopupProps> = ({
     register,
     handleSubmit,
     // errors,
-    setError,
+    // setError,
     setValue,
     formState: {errors, isSubmitting},
   } = useForm<any>();
@@ -64,7 +80,27 @@ const InitiativeImportPopup: FC<InitiativeImportPopupProps> = ({
       props.onClose();
       refreshDataTable();
     } catch (error: any) {
-      processServerSideErrors({error, setError, errorStack});
+      console.log('Server Errors is :');
+
+      Object.keys(error?.response?.data?.errors).map((err) => {
+        const errMsg = error?.response?.data?.errors?.[err][0];
+
+        const match = errMsg?.match(/\[([0-9]+)]$/i);
+        console.log(error);
+        console.log('Error msg is :', errMsg);
+
+        if (match && match[1] && ERRORS[match[1]]) {
+          var r = /\d+/;
+          // var s = 'you can enter maximum 500 choices 8823';
+          console.log('regx result is : ', errMsg.match(r)[0]);
+
+          console.log(messages[ERRORS[match[1]]]);
+        }
+
+        errorStack(err);
+      });
+
+      //  processServerSideErrors({error, setError, errorStack});
     }
   };
 

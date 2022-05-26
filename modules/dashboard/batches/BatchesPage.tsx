@@ -315,6 +315,24 @@ const BatchesPage = () => {
       //download upload
 
       {
+        Header: messages['batches.total_and_available_seat'],
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <CommonButton
+              key={2}
+              onClick={() => openImportModal(data?.course_id, data?.id)}
+              btnText={'common.import'}
+              variant={'outlined'}
+              color={'primary'}
+              style={{marginLeft: '5px'}}
+              startIcon={<DownloadIcon />}
+            />
+          );
+        },
+      },
+      {
         Header: messages['common.status'],
         accessor: 'row_status',
         filter: 'rowStatusFilter',

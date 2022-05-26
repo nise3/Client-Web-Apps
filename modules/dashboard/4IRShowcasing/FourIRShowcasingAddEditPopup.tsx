@@ -7,7 +7,6 @@ import yup from '../../../@softbd/libs/yup';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useIntl} from 'react-intl';
-import CustomTimePicker from '../../../@softbd/elements/input/TimePicker';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -26,6 +25,7 @@ import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import FormRowStatus from '../../../@softbd/elements/input/FormRowStatus/FormRowStatus';
+import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 
 const initiativeValues = {
   four_ir_tagline_id: '',
@@ -303,19 +303,23 @@ const FourIRShowcasingAddEditPopUP = ({
         </Grid>
 
         <Grid item xs={3}>
-          <CustomTimePicker
+          <CustomDateTimeField
             required
             id='start_time'
             label={messages['common.start_time']}
             register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={3}>
-          <CustomTimePicker
+          <CustomDateTimeField
             required
             id='end_time'
             label={messages['common.end_time']}
             register={register}
+            errorInstance={errors}
+            isLoading={isLoading}
           />
         </Grid>
 

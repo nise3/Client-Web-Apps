@@ -108,8 +108,8 @@ const FourIRInitiativeAnalysisPage = ({
         accessor: 'organization_name',
       },
       {
-        Header: messages['4ir.scale_up'],
-        accessor: 'scale_up',
+        Header: messages['4ir.research_method'],
+        accessor: 'research_method',
       },
       {
         Header: messages['common.actions'],

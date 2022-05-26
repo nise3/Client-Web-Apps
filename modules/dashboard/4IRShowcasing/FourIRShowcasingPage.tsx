@@ -10,6 +10,7 @@ import useReactTableFetchData from '../../../@softbd/hooks/useReactTableFetchDat
 import ReactTable from '../../../@softbd/table/Table/ReactTable';
 import {
   getCalculatedSerialNo,
+  getMomentDateFormat,
   isResponseSuccess,
 } from '../../../@softbd/utilities/helpers';
 import FourIRShowcasingAddEditPopup from './FourIRShowcasingAddEditPopup';
@@ -120,10 +121,26 @@ const FourIRShowcasingPage = ({
       {
         Header: messages['common.start_time'],
         accessor: 'start_time',
+        filter: 'dateTimeFilter',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.start_time, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.end_time'],
         accessor: 'end_time',
+        filter: 'dateTimeFilter',
+        disableFilters: true,
+        Cell: (props: any) => {
+          let data = props.row.original;
+          return (
+            <span>{getMomentDateFormat(data?.end_time, 'DD MMM, YYYY')}</span>
+          );
+        },
       },
       {
         Header: messages['common.venue'],

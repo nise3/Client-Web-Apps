@@ -308,7 +308,7 @@ const FourIRToTDetailsPopup = ({
                 startIcon={<DownloadIcon />}
                 key={1}
                 onClick={() => console.log('file downloading')}
-                btnText={'4ir_tot.participants'}
+                btnText={'4ir.tot_file'}
                 variant={'outlined'}
                 color={'primary'}
               />
@@ -316,8 +316,13 @@ const FourIRToTDetailsPopup = ({
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant={'h5'}>
-              {messages['common.previous_files']}
+            <Typography
+              sx={{
+                marginTop: '2rem',
+                fontSize: '1.2rem',
+                fontWeight: '500',
+              }}>
+              {messages['4ir.tot_previous_files']}
             </Typography>
             <ReactTable
               columns={columns}

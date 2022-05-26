@@ -62,6 +62,7 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   const [isApprovalStatus, setIsApprovalStatus] = useState<boolean>(false);
   const [isDocumentApproved, setIsDocumentApproved] = useState<boolean>(false);
   const {createSuccessMessage, updateSuccessMessage} = useSuccessMessage();
+
   const {
     data: itemData,
     isLoading,
@@ -143,6 +144,20 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   });
 
   useEffect(() => {
+    console.log('itemData :', itemData);
+
+    if (Number(itemData?.number_of_beneficiary)) {
+      setIsNumberOfBeneficiaries(true);
+    }
+
+    if (Number(itemData?.documents_approval_status)) {
+      setIsDocumentApproved(true);
+    }
+
+    if (Number(itemData?.approval_status)) {
+      setIsApprovalStatus(true);
+    }
+
     if (itemData) {
       reset({
         ...initialValues,
@@ -155,12 +170,10 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
   const onSubmit: SubmitHandler<IScaleUp> = async (data: IScaleUp) => {
     try {
       data['four_ir_initiative_id'] = fourIRInitiativeId;
-      data['approval_status'] = data['approval_status'] ? '1' : '0';
-      data['number_of_beneficiary'] = data['number_of_beneficiary'] ? '1' : '0';
+      data['approval_status'] = isApprovalStatus ? '1' : '0';
+      data['number_of_beneficiary'] = isNumberOfBeneficiaries ? '1' : '0';
       data['approve_by'] = data['approve_by'] ?? '';
-      data['documents_approval_status'] = data['documents_approval_status']
-        ? '1'
-        : '0';
+      data['documents_approval_status'] = isDocumentApproved ? '1' : '0';
 
       if (itemId) {
         await updateScaleUp(itemId, data);
@@ -176,8 +189,6 @@ const FourIRScaleUpAddEditPopUp: FC<ScaleUpAddEditPopupProps> = ({
       processServerSideErrors({error, setError, validationSchema, errorStack});
     }
   };
-
-  console.log(errors);
 
   return (
     <HookFormMuiModal
