@@ -2006,5 +2006,6 @@
   "migration_portal.bmet_registration": "বিএমইটি রেজিস্ট্রেশন",
   "migration_portal.recruiting_agency_list": "রিক্রুটিং এজেন্সী তালিকা",
   "migration_portal.expatriate_worker_monitoring": "প্রবাসী কর্মী পর্যবেক্ষণ",
-  "migration_portal.complaints": "অভিযোগ"
+  "migration_portal.complaints": "অভিযোগ",
+  "migration_portal.send_complaints": "আপনার অভিযোগ জানান"
 }

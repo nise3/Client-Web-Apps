@@ -147,7 +147,7 @@ export const LINK_FRONTEND_MIGRATION_PORTAL_ROOT = '/';
 export const LINK_FRONTEND_MIGRATION_PORTAL_EXPATRIATE_WORKER_MONITORING =
   '/expatriate-worker-monitoring';
 export const LINK_FRONTEND_MIGRATION_PORTAL_COMPLAINTS = '/complaints';
-export const LINK_FRONTEND_MIGRATION_PORTAL_NOTICE = '/notice';
+export const LINK_FRONTEND_MIGRATION_PORTAL_NOTICE = '/notice-board';
 export const LINK_FRONTEND_MIGRATION_PORTAL_CONTACT = '/contact';
 export const LINK_FRONTEND_MIGRATION_PORTAL_RECENT_ACTIVITIES =
   '/recent-activities';

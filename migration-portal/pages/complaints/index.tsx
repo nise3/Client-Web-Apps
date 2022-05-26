@@ -1,19 +1,19 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage';
 import React from 'react';
-import PageMeta from '../../../@crema/core/PageMeta';
 import {useIntl} from 'react-intl';
+import PageMeta from '../../../@crema/core/PageMeta';
 
-const MigrationPortalContact = asyncComponent(
-  () => import('../../../modules/migrationPortal/contact'),
+const MigrationPortalComplaints = asyncComponent(
+  () => import('../../../modules/migrationPortal/complaints'),
 );
 
 export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['menu.contact'] as string} />
-      <MigrationPortalContact />
+      <PageMeta title={messages['migration_portal.complaints']} />
+      <MigrationPortalComplaints />
     </>
   );
 });

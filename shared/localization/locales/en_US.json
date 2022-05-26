@@ -2003,5 +2003,6 @@
   "migration_portal.online_application": "online application",
   "migration_portal.bmet_registration": "BMET Registration",
   "migration_portal.recruiting_agency_list": "Recruiting agency list",
-  "migration_portal.complaints": "Complaints"
+  "migration_portal.complaints": "Complaints",
+  "migration_portal.send_complaints": "Send us your complaints"
 }

@@ -2,17 +2,17 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import InstituteFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage';
 
-const InstituteNoticeDetailsPage = asyncComponent(
+const MigrationPortalNoticeDetailsPage = asyncComponent(
   () => import('../../../modules/youth/noticeDetails'),
 );
-export default InstituteFrontPage(() => {
+export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
       <PageMeta title={messages['common.notice_details'] as string} />
-      <InstituteNoticeDetailsPage />
+      <MigrationPortalNoticeDetailsPage />
     </>
   );
 });

@@ -2,12 +2,12 @@ import asyncComponent from '../../../@crema/utility/asyncComponent';
 import PageMeta from '../../../@crema/core/PageMeta';
 import React from 'react';
 import {useIntl} from 'react-intl';
-import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
+import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage';
 
 const YouthNoticeBoardPage = asyncComponent(
   () => import('../../../modules/youth/noticeBoard/YouthNoticeBoard'),
 );
-export default InstituteDefaultFrontPage(() => {
+export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
