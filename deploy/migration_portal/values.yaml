@@ -5,7 +5,7 @@
 
 variables:
 
-  hostName: smef-dev.nise3.xyz
+  hostName: migration-portal-dev.nise3.xyz
 
   # if values is false, then creating ingress will be escape
   enableEngress: true
