@@ -46,6 +46,10 @@ export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
 export const FOUR_IR_SERVICE_PATH = process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_FOUR_IR_SERVICE_PATH
   : '/4ir';
+export const MIGRATION_PORTAL_SERVICE_PATH = process.env
+  .NEXT_PUBLIC_MIGRATION_PORTAL_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_MIGRATION_PORTAL_SERVICE_PATH
+  : '/migration-portal';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
   .NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
@@ -54,6 +58,11 @@ export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
 
 export const TSP_PUBLIC_SERVICE_PATH =
   INSTITUTE_SERVICE_PATH +
+  (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    : '/public');
+export const MIGRATION_PORTAL_PUBLIC_SERVICE_PATH =
+  MIGRATION_PORTAL_SERVICE_PATH +
   (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
     ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
     : '/public');
@@ -554,6 +563,9 @@ export const API_INDUSTRY_ASSOCIATION_JOB_REQUIREMENT =
 export const API_INSTITUTE_HUMAN_RESOURCE_DEMANDS =
   ORGANIZATION_SERVICE_PATH + '/hr-demands';
 
+export const API_HUMAN_RESOURCE_DEMAND_LIST =
+  ORGANIZATION_SERVICE_PATH + '/hr-demand';
+
 export const API_HUMAN_RESOURCE_DEMAND_APPROVED_BY_INSTITUTE =
   ORGANIZATION_SERVICE_PATH + '/hr-demand-approved-by-institute';
 
@@ -670,3 +682,7 @@ export const API_PUBLIC_PUBLICATIONS =
   CMS_SERVICE_PUBLIC_PATH + '/publications';
 
 /** CMS service public routes section end */
+
+/** Migration Portal API Routes*/
+export const API_PUBLIC_MIGRATION_PORTAL_DETAILS =
+  MIGRATION_PORTAL_PUBLIC_SERVICE_PATH + '/migration-portal-details';
