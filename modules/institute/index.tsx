@@ -5,8 +5,15 @@ import CoursesSection from './CoursesSection';
 import GallerySection from './GallerySection';
 import AboutSection from './AboutSection';
 import EventSection from './EventSection';
+import PopNiseLanding from '../home/PopNiseLanding';
+
+// 'sit.nise.gov.bd'
+// 'sit.nise.asm'
+const INSTITUTE_HOST = 'sit.nise.gov.bd';
 
 const Institute = () => {
+  let host = window?.location?.host;
+
   return (
     <>
       <CoverArea />
@@ -15,6 +22,8 @@ const Institute = () => {
       <CoursesSection />
       <EventSection />
       <GallerySection />
+
+      {host == INSTITUTE_HOST && <PopNiseLanding />}
     </>
   );
 };
