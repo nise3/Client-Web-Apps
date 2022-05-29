@@ -14,7 +14,6 @@ import {getSSOLoginUrl} from '../../../common/SSOConfig';
 import {ButtonProps} from '@mui/material/Button/Button';
 import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
 import Divider from '../../../components/Divider/Divider';
-import {getCDAPLoginUrl} from '../../../common/CDAPConfig';
 
 interface Props extends ButtonProps {
   onClick: () => void;
