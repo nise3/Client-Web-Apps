@@ -125,13 +125,27 @@ const OnlineDetails = ({
                             fontWeight: 'bold',
                             whiteSpace: 'pre',
                           }}>
+                          {'('}
                           {messages['common.question_selection_type']}
                           {': '}
-                          {questionSelection(section?.question_selection_type)}
+                          {questionSelection(
+                            section?.question_selection_type,
+                          )}{' '}
+                          {section?.question_selection_type ==
+                          QuestionSelectionType.RANDOM_FROM_QUESTION_BANK
+                            ? getIntlNumber(
+                                formatNumber,
+                                section?.number_of_questions,
+                              ) + messages['exam.question']
+                            : ''}
+                          {')'}
                         </Body2>
                       </Grid>
 
-                      {section?.questions && section?.questions.length ? (
+                      {section?.questions &&
+                      section?.questions.length &&
+                      QuestionSelectionType.RANDOM !=
+                        section?.question_selection_type ? (
                         section.questions.map((question: any) => {
                           let ansIndex = answerIndex++;
 

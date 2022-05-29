@@ -3,7 +3,6 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
 import CancelButton from '../../../@softbd/elements/button/CancelButton/CancelButton';
 import SubmitButton from '../../../@softbd/elements/button/SubmitButton/SubmitButton';
@@ -18,28 +17,33 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import {Body2, Link} from '../../../@softbd/elements/common';
+import {Body2, Link, Body1} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
 import {ExamTypes} from '../exams/ExamEnums';
-import IconExam from '../../../@softbd/icons/IconExam';
 import {youthExamMarking} from '../../../services/instituteManagement/BatchService';
 import {isResponseSuccess} from '../../../@softbd/utilities/helpers';
 import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
-import InputAdornment from '@mui/material/InputAdornment';
+// import InputAdornment from '@mui/material/InputAdornment';
 import Tooltip from '@mui/material/Tooltip';
 import {DriveFileRenameOutline, InsertDriveFile} from '@mui/icons-material';
+import {FiUser} from 'react-icons/fi';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+import Divider from '@mui/material/Divider';
 
 interface ExamListPopupProps {
   batchId: number;
   courseId: number;
   onClose: () => void;
   youthId: number;
+  youthName: string;
 }
 
 const ExamListPopup: FC<ExamListPopupProps> = ({
   batchId,
   youthId,
   courseId,
+  youthName,
   ...props
 }) => {
   const {messages, formatNumber} = useIntl();
@@ -51,6 +55,7 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
   const {data: resultConfig} = useFetchResultConfigs(configParams);
 
   const [exams, setExams] = useState<Array<any>>([]);
+  const [showEditField, setShowEditField] = useState<boolean>(false);
 
   const [batchExamParams] = useState<any>({youth_id: youthId});
   const {data: batchYouthExams, isLoading} = useFetchYouthBatchExams(
@@ -150,8 +155,8 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
       open={true}
       title={
         <>
-          <IconExam />
-          <IntlMessages id='batches.marking' />
+          <FiUser />
+          {youthName}
         </>
       }
       handleSubmit={handleSubmit(onSubmit)}
@@ -162,14 +167,169 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
           <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
         </>
       }>
-      <Grid container spacing={5}>
+      <Grid container spacing={2}>
+        <Grid item xs={3} sx={{textAlign: 'center'}}>
+          <Body1>{messages['common.exam_name']}</Body1>
+        </Grid>
+        <Grid item xs={3} sx={{textAlign: 'center'}}>
+          <Body1>{messages['common.total_marks']}</Body1>
+        </Grid>
+        <Grid item xs={3} sx={{textAlign: 'center'}}>
+          <Body1>{messages['common.obtained_mark']}</Body1>
+        </Grid>
+        <Grid item xs={3} sx={{textAlign: 'center'}}>
+          <Body1>{messages['common.actions']}</Body1>
+        </Grid>
+
         {exams.map((exam: any, i) => {
+          console.log('exam->', exam);
           let markingOrMarkSheetPath = `${path}/${youthId}/${
             exam.auto_marking ? 'marksheet' : 'marking'
           }/${exam.exam_id}`;
 
           return (
-            <Grid item xs={6} key={i} display={'flex'}>
+            <Grid item xs={12} key={i}>
+              <Grid container spacing={1}>
+                <Grid item xs={3} sx={{textAlign: 'center'}}>
+                  <Body1>{exam.title}</Body1>
+                </Grid>
+                <Grid item xs={3} sx={{textAlign: 'center'}}>
+                  <Body1>{formatNumber(exam.total_marks)}</Body1>
+                </Grid>
+                <Grid item xs={3} sx={{textAlign: 'center'}}>
+                  {showEditField ? (
+                    <>
+                      <CustomTextInput
+                        sx={{display: 'none'}}
+                        id={`exams[${i}][exam_id]`}
+                        label={''}
+                        type={'hidden'}
+                        register={register}
+                        errorInstance={errors}
+                        defaultValue={exam.exam_id}
+                      />
+                      <CustomTextInput
+                        sx={{display: 'none'}}
+                        id={`exams[${i}][exam_type_id]`}
+                        label={''}
+                        type={'hidden'}
+                        register={register}
+                        errorInstance={errors}
+                        defaultValue={exam.exam_type_id}
+                      />
+                      <CustomTextInput
+                        sx={{display: 'none'}}
+                        id={`exams[${i}][type]`}
+                        label={''}
+                        type={'hidden'}
+                        register={register}
+                        errorInstance={errors}
+                        defaultValue={exam.type}
+                      />
+                      <CustomTextInput
+                        required={Number(exam.type) != ExamTypes.ONLINE}
+                        id={`exams[${i}][total_obtained_marks]`}
+                        label={`${exam.title} (${getTypeLabel(exam.exam_type)}${
+                          exam.exam_type == ExamTypes.MIXED
+                            ? ' - ' + getTypeLabel(exam.type)
+                            : ''
+                        })`}
+                        register={register}
+                        type={'number'}
+                        inputProps={{
+                          step: 0.01,
+                        }}
+                        defaultValue={exam.obtained_mark}
+                        errorInstance={errors}
+                        disabled={Number(exam.type) == ExamTypes.ONLINE}
+                        isLoading={isLoading}
+                      />
+
+                      <Tooltip
+                        onClick={() => setShowEditField(false)}
+                        title={messages['common.cancel'] as any}
+                        arrow>
+                        <CloseIcon
+                          fontSize='small'
+                          sx={{marginLeft: '10px', cursor: 'pointer'}}
+                        />
+                      </Tooltip>
+                    </>
+                  ) : (
+                    <Body1>
+                      {formatNumber(exam.obtained_mark)}
+                      <Tooltip
+                        onClick={() => setShowEditField(true)}
+                        title={messages['common.edit_btn'] as any}
+                        arrow>
+                        <DriveFileRenameOutline
+                          fontSize='small'
+                          sx={{marginLeft: '10px', cursor: 'pointer'}}
+                        />
+                      </Tooltip>
+                    </Body1>
+                  )}
+                </Grid>
+                <Grid item xs={3} sx={{textAlign: 'center'}}>
+                  {exam.type == ExamTypes.ONLINE && exam.participated && (
+                    <Link href={markingOrMarkSheetPath} passHref={true}>
+                      <Button
+                        key={1}
+                        variant={'contained'}
+                        color={'primary'}
+                        size={'small'}>
+                        {
+                          messages[
+                            exam.auto_marking
+                              ? 'common.answer_sheet'
+                              : 'batches.mark_distribution'
+                          ] as any
+                        }
+                      </Button>
+                    </Link>
+                  )}
+
+                  {exam.type !== ExamTypes.OFFLINE && !exam.participated && (
+                    <Body2>{messages['common.not_participated']}</Body2>
+                  )}
+
+                  {![
+                    ExamTypes.ONLINE,
+                    ExamTypes.OFFLINE,
+                    ExamTypes.MIXED,
+                  ].includes(exam.type) &&
+                    exam.file_paths &&
+                    exam.file_paths?.length > 0 &&
+                    exam.file_paths.map((file: any, i: number) => (
+                      <Link
+                        href={FILE_SERVER_FILE_VIEW_ENDPOINT + file}
+                        passHref={true}
+                        key={i}
+                        target={'_blank'}
+                        style={{
+                          marginLeft: '10px',
+                          alignSelf: 'center',
+                          border: '1px solid #3a7edc',
+                          padding: '15px 5px 0px 5px',
+                          borderRadius: '5px',
+                          cursor: 'pointer',
+                        }}>
+                        <Tooltip
+                          title={`${
+                            messages['common.file_path'] as any
+                          } ${formatNumber(i + 1)}`}
+                          arrow>
+                          <InsertDriveFile />
+                        </Tooltip>
+                      </Link>
+                    ))}
+                </Grid>
+              </Grid>
+
+              <Divider sx={{marginY: 2}} />
+            </Grid>
+
+            /*<Grid item xs={6} key={i} display={'flex'}>
               <CustomTextInput
                 sx={{display: 'none'}}
                 id={`exams[${i}][exam_id]`}
@@ -278,11 +438,11 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
                     </Tooltip>
                   </Link>
                 ))}
-            </Grid>
+            </Grid>*/
           );
         })}
 
-        <Grid item xs={6}>
+        {/*<Grid item xs={6}>
           {Number(resultConfig?.result_percentages?.attendance) > 0 && (
             <CustomTextInput
               required
@@ -309,7 +469,7 @@ const ExamListPopup: FC<ExamListPopupProps> = ({
               isLoading={isLoading}
             />
           )}
-        </Grid>
+        </Grid>*/}
       </Grid>
     </HookFormMuiModal>
   );

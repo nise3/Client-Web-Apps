@@ -293,15 +293,17 @@ const BatchesPage = () => {
                 style={{marginLeft: '5px'}}
                 startIcon={<DownloadIcon />}
               />
-              <CommonButton
-                key={3}
-                onClick={() => openExamAssignModal(data?.id)}
-                btnText={'batch.assign_exam'}
-                variant={'outlined'}
-                color={'primary'}
-                style={{marginLeft: '5px'}}
-                startIcon={<Add />}
-              />
+              {!data?.result_published_at && (
+                <CommonButton
+                  key={3}
+                  onClick={() => openExamAssignModal(data?.id)}
+                  btnText={'batch.assign_exam'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '5px'}}
+                  startIcon={<Add />}
+                />
+              )}
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton
                   btnText='youth.label'
@@ -311,7 +313,7 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {!data?.result_published_at && (
+              {!data?.result_published_at && data?.result_processed_at && (
                 <CommonButton
                   key={5}
                   onClick={() => processBatchResult(data.id)}
