@@ -29,3 +29,4 @@ export const IS_LOCAL_APM = true;
 export const NOT_LOGOUT_ERROR_CODE = 'access_denied';
 export const COOKIE_KEY_FORGOT_PASSWORD_USERNAME = 'forgot_user_name';
 export const COOKIE_KEY_FORGOT_PASSWORD_VERIFY_OTP = 'forgot_otp_verify';
+export const CDAPUSER_NONCE = 'cdap_user_nonce';
