@@ -43,6 +43,10 @@ export const YOUTH_SERVICE_PATH = process.env.NEXT_PUBLIC_YOUTH_SERVICE_PATH
 export const CMS_SERVICE_PATH = process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   ? process.env.NEXT_PUBLIC_CMS_SERVICE_PATH
   : '/cms';
+export const MIGRATION_PORTAL_SERVICE_PATH = process.env
+  .NEXT_PUBLIC_MIGRATION_PORTAL_SERVICE_PATH
+  ? process.env.NEXT_PUBLIC_MIGRATION_PORTAL_SERVICE_PATH
+  : '/migration-portal';
 
 export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
   .NEXT_PUBLIC_INDUSTRY_ASSOCIATION_SERVICE_PATH
@@ -51,6 +55,11 @@ export const INDUSTRY_ASSOCIATION_SERVICE_PATH = process.env
 
 export const TSP_PUBLIC_SERVICE_PATH =
   INSTITUTE_SERVICE_PATH +
+  (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
+    : '/public');
+export const MIGRATION_PORTAL_PUBLIC_SERVICE_PATH =
+  MIGRATION_PORTAL_SERVICE_PATH +
   (process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
     ? process.env.NEXT_PUBLIC_PUBLIC_SERVICE_PATH
     : '/public');
@@ -566,3 +575,7 @@ export const API_PUBLIC_PUBLICATIONS =
   CMS_SERVICE_PUBLIC_PATH + '/publications';
 
 /** CMS service public routes section end */
+
+/** Migration Portal API Routes*/
+export const API_PUBLIC_MIGRATION_PORTAL_DETAILS =
+  MIGRATION_PORTAL_PUBLIC_SERVICE_PATH + '/migration-portal-details';

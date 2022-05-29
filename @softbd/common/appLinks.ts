@@ -137,6 +137,19 @@ export const LINK_RESET_PASSWORD = '/reset-password';
 /** static content links */
 export const LINK_NICE3_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INSTITUTE_FRONTEND_STATIC_CONTENT = '/sc/';
+export const LINK_MIGRATION_PORTAL_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_YOUTH_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_INDUSTRY_FRONTEND_STATIC_CONTENT = '/sc/';
 export const RPL_FRONTEND_STATIC_CONTENT = '/sc/';
+
+/** Migration portal links */
+export const LINK_FRONTEND_MIGRATION_PORTAL_ROOT = '/';
+export const LINK_FRONTEND_MIGRATION_PORTAL_EXPATRIATE_WORKER_MONITORING =
+  '/expatriate-worker-monitoring';
+export const LINK_FRONTEND_MIGRATION_PORTAL_COMPLAINTS = '/complaints';
+export const LINK_FRONTEND_MIGRATION_PORTAL_NOTICE = '/notice-board';
+export const LINK_FRONTEND_MIGRATION_PORTAL_CONTACT = '/contact';
+export const LINK_FRONTEND_MIGRATION_PORTAL_RECENT_ACTIVITIES =
+  '/recent-activities';
+export const LINK_FRONTEND_MIGRATION_PORTAL_FAQ = '/faqs';
+export const LINK_FRONTEND_MIGRATION_PORTAL_GALLERY = '/gallery-albums';
