@@ -596,7 +596,6 @@
   "common.old_email": "পুরাতন ইমেইল অথবা আইডি",
   "common.change_userId": "চেঞ্জ ইউজার আইডি",
   "common.change_password": "পাসওয়ার্ড পরিবর্তন",
-  "common.forgot_password": "Forgot password",
   "common.passwordHint": "পাসওয়ার্ডে 1টি বড় হাতের অক্ষর, ১টি ছোট হাতের অক্ষর এবং ১টি সংখ্যা সহ কমপক্ষে ৮টি অক্ষর থাকতে হবে",
   "common.confirm_email": "Confirm Email",
   "common.deactivate": "Deactivate",
@@ -1944,7 +1943,6 @@
   "PM": "অপরাহ্ন",
   "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
   "common.submitted_feedback": "আপনার প্রতিক্রিয়া লক্ষ্য করা হয়েছে। আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ।",
-  "cdap.required_info": "আবশ্যক তথ্যসমূহ প্রদান করুন",
   "filePond.file_type": "ফাইলের ধরন সঠিক নয়",
   "filePond.max_file_size": "সর্বোচ্চ ফাইল সাইজ ",
   "filePond.total_max_file_size": "মোট সর্বোচ্চ ফাইল সাইজ ৫০ MB",
@@ -2032,7 +2030,6 @@
   "institute.corresponding_industry": "আপনার প্রতিষ্ঠানটি কোন শিল্পের অর্ন্তভূক্ত?",
   "membership.id_number": "সদস্যতা আইডি/ নম্বর",
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
-  "business_type.services": "সেবা সমূহ",
   "common.subject": "সাবজেক্ট",
   "common.subject_en": "সাবজেক্ট(ইংরেজি)",
   "common.forgot_password": "পাসওয়ার্ড ভুলে গেছেন?",
@@ -2310,7 +2307,7 @@
   "migration_portal.training_links": "প্রশিক্ষণ লিঙ্কসমূহ",
   "migration_portal.bmet_training": "বিএমইটি প্রশিক্ষণ",
   "migration_portal.muktopaath_training": "মুক্তপাঠ প্রশিক্ষণ",
-  "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ"
+  "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ",
   "business_type.services": "সেবা সমূহ",
   "youth.my_gov_login": "মাইগভ লগইন"
 }
