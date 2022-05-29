@@ -64,4 +64,3 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 
 
 
-
