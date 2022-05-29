@@ -45,7 +45,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 const TrainingLinks = () => {
   const {messages} = useIntl();
 
-  const LINK_TRAINING_BMET = 'bmet.nise.gov.bd';
+  const LINK_TRAINING_BMET = 'http://bmet.nise.gov.bd';
   const LINK_TRAINING_MUKTOPATH = 'http://bmet.muktopaath.gov.bd';
   const LINK_TRAINING_PRE_DEPARTURE =
     'http://muktopaath.gov.bd/course-details/206';
