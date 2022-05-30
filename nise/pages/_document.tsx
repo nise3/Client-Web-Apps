@@ -23,6 +23,9 @@ export default class MyDocument extends Document {
           <div id='root' />
           <Main />
           <NextScript />
+          <script
+            src='https://plugin.live.mygov.bd/js/npc.script.js'
+            defer></script>
         </body>
       </Html>
     );
