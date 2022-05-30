@@ -216,9 +216,9 @@ const ImmigrantsCycleSection = () => {
       <Box className={classes.image}>
         <Grid container className={classes.topOne}>
           <Grid item xs={12}>
-            <a href={LINK_GO_ABROAD_KNOWINGLY}>
+            <Link href={LINK_GO_ABROAD_KNOWINGLY}>
               {messages['migration_portal.go_abroad_knowingly']}
-            </a>
+            </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.secondRow}>
@@ -232,7 +232,7 @@ const ImmigrantsCycleSection = () => {
             {messages['migration_portal.online_application']}
           </Grid>
           <Grid item xs={6}>
-            <a href={TRAINING_LINKS}>{messages['menu.training']}</a>
+            <Link href={TRAINING_LINKS}>{messages['menu.training']}</Link>
           </Grid>
         </Grid>
         {isMDDown ? (
@@ -260,24 +260,24 @@ const ImmigrantsCycleSection = () => {
               </Fade>
             </Grid>
             <Grid item xs={4}>
-              <a>{messages['migration_portal.bmet_registration']}</a>
+              <Link>{messages['migration_portal.bmet_registration']}</Link>
             </Grid>
           </Grid>
         )}
         <Grid container className={classes.fourthRow}>
           <Grid item xs={6}>
-            <a href={LINK_LABOR_ATTACHE}>
+            <Link href={LINK_LABOR_ATTACHE}>
               {messages['migration_portal.labor_attache']}
-            </a>
+            </Link>
             <br />
-            <a href={LINK_LABOR_ATTACHE}>
+            <Link href={LINK_LABOR_ATTACHE}>
               {messages['migration_portal.labor']}
-            </a>
+            </Link>
           </Grid>
           <Grid item xs={6}>
-            <a href={LINK_RECRUITING_AGENCY_LIST}>
+            <Link href={LINK_RECRUITING_AGENCY_LIST}>
               {messages['migration_portal.recruiting_agency_list']}
-            </a>
+            </Link>
           </Grid>
         </Grid>
         <Grid container className={classes.bottomOne}>
