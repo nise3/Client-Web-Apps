@@ -49,7 +49,7 @@ const Registration = () => {
           <TrainingLinkCard
             redirectUrl={''}
             alt={messages['migration_portal.online_registration'] as string}
-            image={'/images/placeholder.jpg'}
+            image={'/images/online_reg.png'}
             pointerEvents={'none'}
           />
         </Grid>
@@ -57,7 +57,7 @@ const Registration = () => {
           <TrainingLinkCard
             redirectUrl={''}
             alt={messages['migration_portal.offline_registration'] as string}
-            image={'/images/placeholder.jpg'}
+            image={'/images/Registration.png'}
             pointerEvents={'none'}
           />
         </Grid>
