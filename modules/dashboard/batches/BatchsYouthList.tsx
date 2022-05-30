@@ -193,6 +193,7 @@ const YouthPage = () => {
               courseId={Number(batch.course_id)}
               youthId={selectedYouthId}
               onClose={closeExamListModal}
+              onOpen={openExamListModal}
               youthName={youthName}
             />
           )}
