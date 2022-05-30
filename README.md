@@ -65,8 +65,8 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 
 
 # Deploytment to Kubernetes
-1. go to develop folder
-2. Inside develop folder we have multiple chart package in different sub folder which contain `values.yaml` file
+1. go to deploy folder
+2. Inside deploy folder we have multiple chart package in different sub folder which contain `values.yaml` file
 3. Inspect folder and browse `values.yaml` file and change necessary key value. Keys are describe bellow - 
 
 
@@ -96,8 +96,6 @@ You can deploy image manually or make ci/cd for your target environment. Inside 
 
 Repositories
 ============
-
-_Estimated reading time: 6 minutes_
 
 Docker Hub repositories allow you share container images with your team, customers, or the Docker community at large.
 
