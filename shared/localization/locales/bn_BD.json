@@ -2011,5 +2011,7 @@
   "migration_portal.training_links": "প্রশিক্ষণ লিঙ্কসমূহ",
   "migration_portal.bmet_training": "বিএমইটি প্রশিক্ষণ",
   "migration_portal.muktopaath_training": "মুক্তপাঠ প্রশিক্ষণ",
-  "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ"
+  "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ",
+  "migration_portal.online_registration": "অনলাইন রেজিস্ট্রেশন",
+  "migration_portal.offline_registration": "অফলাইন রেজিস্ট্রেশন"
 }

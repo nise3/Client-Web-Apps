@@ -146,7 +146,8 @@ export const RPL_FRONTEND_STATIC_CONTENT = '/sc/';
 export const LINK_FRONTEND_MIGRATION_PORTAL_ROOT = '/';
 export const LINK_FRONTEND_MIGRATION_PORTAL_EXPATRIATE_WORKER_MONITORING =
   '/expatriate-worker-monitoring';
-export const LINK_FRONTEND_MIGRATION_PORTAL_COMPLAINTS = '/complaints';
+export const LINK_FRONTEND_MIGRATION_PORTAL_COMPLAINTS =
+  'http://migration.gov.bd/bn/c/page/complaint';
 export const LINK_FRONTEND_MIGRATION_PORTAL_NOTICE = '/notice-board';
 export const LINK_FRONTEND_MIGRATION_PORTAL_CONTACT = '/contact';
 export const LINK_FRONTEND_MIGRATION_PORTAL_RECENT_ACTIVITIES =

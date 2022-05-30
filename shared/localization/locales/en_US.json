@@ -2009,5 +2009,7 @@
   "migration_portal.training_links": "Training Links",
   "migration_portal.bmet_training": "BMET Training",
   "migration_portal.muktopaath_training": "Muktopaath Training",
-  "migration_portal.pre_departure_training": "Pre-departure Training"
+  "migration_portal.pre_departure_training": "Pre-departure Training",
+  "migration_portal.online_registration": "Online Registration",
+  "migration_portal.offline_registration": "Offline Registration"
 }
