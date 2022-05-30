@@ -5,6 +5,7 @@ enum ShowInTypes {
   INDUSTRY = 4,
   INDUSTRY_ASSOCIATION = 5,
   RPL = 6,
+  MIGRATION_PORTAL = 7,
 }
 
 export default ShowInTypes;
