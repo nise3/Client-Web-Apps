@@ -107,6 +107,7 @@ const ExamMarkingViewPage = () => {
             index={questionIndex++}
             inputField={
               <TextField
+                required
                 id={`${id}[marks_achieved]`}
                 label={messages['common.mark']}
                 type={'number'}
@@ -118,6 +119,7 @@ const ExamMarkingViewPage = () => {
                   step: 0.01,
                 }}
                 InputProps={{
+                  inputProps: {min: 0},
                   endAdornment: (
                     <InputAdornment position='end' sx={{width: '20px'}}>
                       <EditIcon />
@@ -250,78 +252,73 @@ const ExamMarkingViewPage = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} />
                 {examSheet && examSheet?.exam_sections.length ? (
-                  examSheet?.exam_sections.map(
-                    (section: any, index: number) => {
-                      return (
-                        <React.Fragment key={section?.uuid}>
-                          <Grid item xs={12} display={'flex'}>
-                            <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
-                              {messages[
-                                question_type[section?.question_type - 1].label
-                              ] +
-                                ' | ' +
-                                messages['common.total_marks'] +
-                                ': '}
-                            </Body1>
-                            <Body2 sx={{marginTop: '3px'}}>
-                              {getIntlNumber(
-                                formatNumber,
-                                section?.total_marks,
-                              )}
-                            </Body2>
-                          </Grid>
+                  examSheet?.exam_sections.map((section: any) => {
+                    return (
+                      <React.Fragment key={section?.uuid}>
+                        <Grid item xs={12} display={'flex'}>
+                          <Body1 sx={{fontWeight: 'bold', whiteSpace: 'pre'}}>
+                            {messages[
+                              question_type[section?.question_type - 1].label
+                            ] +
+                              ' | ' +
+                              messages['common.total_marks'] +
+                              ': '}
+                          </Body1>
+                          <Body2 sx={{marginTop: '3px'}}>
+                            {getIntlNumber(formatNumber, section?.total_marks)}
+                          </Body2>
+                        </Grid>
 
-                          {section?.questions && section?.questions.length ? (
-                            section?.questions.map((question: any) => {
-                              let id = `marks[${marksIndex}]`;
-                              marksIndex++;
-                              let questionType = String(section?.question_type);
-                              return (
-                                <Grid item xs={12} key={question?.question_id}>
+                        {section?.questions && section?.questions.length ? (
+                          section?.questions.map((question: any) => {
+                            let id = `marks[${marksIndex}]`;
+                            marksIndex++;
+                            let questionType = String(section?.question_type);
+                            return (
+                              <Grid item xs={12} key={question?.question_id}>
+                                <TextField
+                                  id={`${id}[exam_answer_id]`}
+                                  label={''}
+                                  sx={{display: 'none'}}
+                                  {...register(`${id}[exam_answer_id]`)}
+                                  defaultValue={question?.exam_answer_id}
+                                />
+                                <TextField
+                                  id={`${id}[youth_exam_id]`}
+                                  label={''}
+                                  sx={{display: 'none'}}
+                                  {...register(`${id}[youth_exam_id]`)}
+                                  defaultValue={question?.youth_exam_id}
+                                />
+                                {(questionType == QuestionType.YES_NO ||
+                                  questionType == QuestionType.MCQ ||
+                                  questionType ==
+                                    QuestionType.FILL_IN_THE_BLANK) && (
                                   <TextField
-                                    id={`${id}[exam_answer_id]`}
+                                    id={`${id}[marks_achieved]`}
                                     label={''}
                                     sx={{display: 'none'}}
-                                    {...register(`${id}[exam_answer_id]`)}
-                                    defaultValue={question?.exam_answer_id}
+                                    {...register(`${id}[marks_achieved]`)}
+                                    defaultValue={question?.marks_achieved}
                                   />
-                                  <TextField
-                                    id={`${id}[youth_exam_id]`}
-                                    label={''}
-                                    sx={{display: 'none'}}
-                                    {...register(`${id}[youth_exam_id]`)}
-                                    defaultValue={question?.youth_exam_id}
-                                  />
-                                  {(questionType == QuestionType.YES_NO ||
-                                    questionType == QuestionType.MCQ ||
-                                    questionType ==
-                                      QuestionType.FILL_IN_THE_BLANK) && (
-                                    <TextField
-                                      id={`${id}[marks_achieved]`}
-                                      label={''}
-                                      sx={{display: 'none'}}
-                                      {...register(`${id}[marks_achieved]`)}
-                                      defaultValue={question?.marks_achieved}
-                                    />
-                                  )}
-                                  {getQuestionTypeComponent(
-                                    section?.question_type,
-                                    question,
-                                    id,
-                                  )}
-                                </Grid>
-                              );
-                            })
-                          ) : (
-                            <NoDataFoundComponent
-                              messageType={messages['common.question']}
-                              messageTextType={'h6'}
-                            />
-                          )}
-                        </React.Fragment>
-                      );
-                    },
-                  )
+                                )}
+                                {getQuestionTypeComponent(
+                                  section?.question_type,
+                                  question,
+                                  id,
+                                )}
+                              </Grid>
+                            );
+                          })
+                        ) : (
+                          <NoDataFoundComponent
+                            messageType={messages['common.question']}
+                            messageTextType={'h6'}
+                          />
+                        )}
+                      </React.Fragment>
+                    );
+                  })
                 ) : (
                   <NoDataFoundComponent
                     messageType={messages['common.question']}

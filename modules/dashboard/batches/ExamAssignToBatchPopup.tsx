@@ -62,12 +62,7 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
   });
 
   useEffect(() => {
-    if (
-      exams &&
-      exams.error_code &&
-      exams.error_code != 'no_config' &&
-      batchExams
-    ) {
+    if (exams && exams.length > 0 && batchExams) {
       let ids = (batchExams || []).map((exam_type: any) => exam_type.id);
       reset({
         exams: exams
