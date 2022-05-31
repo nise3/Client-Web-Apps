@@ -73,7 +73,6 @@ const LogoCustomizable = ({instituteName, instituteLogo, className}: Prop) => {
       <Box className={classes.logoRoot}>
         <Box sx={{display: {sm: 'block'}}}>
           <CardMediaImageView
-            className={classes.logo}
             image={instituteLogo}
             alt={instituteName}
           />

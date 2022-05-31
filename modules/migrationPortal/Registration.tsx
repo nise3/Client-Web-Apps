@@ -6,7 +6,7 @@ import {H1} from '../../@softbd/elements/common';
 import TrainingLinkCard from './trainingLinks/TrainingLinkCard';
 import {styled} from '@mui/material/styles';
 
-const PREFIX = 'TrainingLinks';
+const PREFIX = 'Registration';
 
 const classes = {
   noticeBoardText: `${PREFIX}-noticeBoardText`,
@@ -16,6 +16,8 @@ const classes = {
 const StyledContainer = styled(Container)(({theme}) => ({
   padding: 20,
   [`& .${classes.noticeBoardText}`]: {
+    width: '100%',
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: '1.421875rem',
     color: theme.palette.primary.main,
@@ -24,7 +26,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
   [`& .${classes.noticeTopBox}`]: {
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       alignItems: 'center',
     },
   },

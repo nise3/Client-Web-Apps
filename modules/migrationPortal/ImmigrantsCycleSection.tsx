@@ -6,6 +6,10 @@ import ImmigrantsUnderlinedHeading from '../../@softbd/elements/common/Immigrant
 import {Link} from '../../@softbd/elements/common';
 import {useIntl} from 'react-intl';
 import {Theme} from '@mui/system';
+import {LINK_MIGRATION_PORTAL_FRONTEND_STATIC_CONTENT} from "../../@softbd/common/appLinks";
+import {
+  CONTENT_ID_SROMO_KALYAN_ATACHE
+} from "../../@softbd/utilities/StaticContentConfigs";
 
 const PREFIX = 'ImmigrantsCycleSection';
 
@@ -206,7 +210,8 @@ const ImmigrantsCycleSection = () => {
   const LINK_RECRUITING_AGENCY_LIST =
     'http://www.old.bmet.gov.bd/BMET/agentlistpreview.action?type=valid';
   const LINK_SERVICES_OF_EXPATRIATE_WELFARE_BANK = '/';
-  const LINK_LABOR_ATTACHE = '/sromo-kalyan-atashe';
+  const LINK_LABOR_ATTACHE = LINK_MIGRATION_PORTAL_FRONTEND_STATIC_CONTENT +
+      CONTENT_ID_SROMO_KALYAN_ATACHE;
   const LINK_SERVICES_OF_WAGE_EARNERS_WELFARE_BOARD =
     'http://migration.gov.bd/bn/sromo-kalyan-atashe';
   const LINK_RETURNED_EXPATRIATE_ONLINE_APPLICATION = '/';
@@ -405,7 +410,6 @@ const ImmigrantsCycleSection = () => {
             <Grid item xs={6}>
               <Link
                 href={LINK_LABOR_ATTACHE}
-                target='_blank'
                 className='linkFourOne'
                 anchorProps={{
                   title: messages['migration_portal.labor_attache_labor'],

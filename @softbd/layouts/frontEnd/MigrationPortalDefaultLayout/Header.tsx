@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import clsx from 'clsx';
 import Box from '@mui/material/Box';
-import {NavLink as Link, Text} from '../../../elements/common';
+import {NavLink as Link} from '../../../elements/common';
 import {
   LINK_FRONTEND_MIGRATION_PORTAL_ROOT,
   LINK_FRONTEND_MIGRATION_PORTAL_EXPATRIATE_WORKER_MONITORING,
@@ -22,7 +22,6 @@ import GotoDashboardButton from '../../../elements/button/GotoDashboardButton/Go
 import {useAuthUser} from '../../../../@crema/utility/AppHooks';
 import GotoSignInOrUpButton from '../../../elements/button/GotoSigninOrUpButton/GotoSignInOrUpButton';
 import CardMediaImageView from '../../../elements/display/ImageView/CardMediaImageView';
-import {useFetchPublicMigrationPortalDetails} from '../../../../services/MigrationPortalManagement/hooks';
 
 interface AppHeaderProps {}
 
@@ -32,8 +31,6 @@ const Header: React.FC<AppHeaderProps> = () => {
   const {messages} = useIntl();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
-
-  const {data: migrationPortal} = useFetchPublicMigrationPortalDetails();
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
@@ -96,24 +93,23 @@ const Header: React.FC<AppHeaderProps> = () => {
           <Link
             href={LINK_FRONTEND_MIGRATION_PORTAL_ROOT}
             className={classes.headerHalfLogo}>
-            {migrationPortal?.logo && (
               <Box>
                 <CardMediaImageView
                   className={classes.logoInstitute}
-                  image={migrationPortal?.logo}
-                  alt='miration portal logo'
+                  image={''}
+                  defaultImage='/images/migration-portal-top-logo.png'
+                  alt='migration portal logo'
                 />
               </Box>
-            )}
           </Link>
 
-          <Grid item md={4} className={classes.instituteName}>
+          {/*<Grid item md={4} className={classes.instituteName}>
             <Text
               fontWeight={'bold'}
               style={{color: '#6C91C5', fontWeight: '700'}}>
               {migrationPortal?.title}
             </Text>
-          </Grid>
+          </Grid>*/}
 
           <Grid item md={4} className={classes.headerHalf} mr={5}>
             <img
