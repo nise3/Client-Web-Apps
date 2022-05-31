@@ -6,8 +6,8 @@ variables:
   imageRepository: "registry.nise.gov.bd"
 
   #admin frontend
-  imageAdminRelease: "false"
-  imageAdminAppVersion: "2.0.41"
+  imageAdminRelease: "true"
+  imageAdminAppVersion: "2.0.42"
   imageAdminRepository: "registry.nise.gov.bd/nise3-cube-client-web-admin"
 
   #Industry frontend
@@ -36,6 +36,6 @@ variables:
   imageRplRepository: "registry.nise.gov.bd/nise3-cube-client-web-erpl"
 
   #migration-portal frontend
-  imageMgPRelease: "true"
+  imageMgPRelease: "false"
   imageMgPAppVersion: "1.0.1"
   imageMgPRepository: "registry.nise.gov.bd/nise3-cube-client-web-migration-portal"
