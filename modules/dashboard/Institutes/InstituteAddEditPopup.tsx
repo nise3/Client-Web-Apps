@@ -607,11 +607,12 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <FileUploadComponent
                 id='user_manual_path'
                 defaultFileUrl={itemData?.user_manual_path}
                 acceptedFileTypes={['application/pdf']}
+                sizeLimitText={'10MB'}
                 errorInstance={errors}
                 setValue={setValue}
                 register={register}

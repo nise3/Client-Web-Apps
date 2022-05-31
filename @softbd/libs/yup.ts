@@ -97,12 +97,12 @@ function defaultTitleValidation(
         .required()
         .test(
           'special_character_validation',
-          msg ?? "None of these $&+:;=@#|'<>^*% characters are acceptable",
+          msg ?? 'None of these $&+:;=@#|<>^*% characters are acceptable',
           (value: any) => !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION)),
         )
     : this.test(
         'special_character_validation',
-        msg ?? "None of these $&+:;=@#|'<>^*% characters are acceptable",
+        msg ?? 'None of these $&+:;=@#|<>^*% characters are acceptable',
         (value: any) =>
           !value ||
           (value && !Boolean(value.match(SPECIAL_CHARACTER_VALIDATION))),

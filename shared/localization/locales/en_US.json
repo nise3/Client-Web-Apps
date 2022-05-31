@@ -1585,7 +1585,7 @@
   "common.subject_approved": "{subject} Approved",
   "common.type_of_employee": "Employee Type",
   "common.taka": "Taka",
-  "common.special_character_error": "None of these $&+:;=@#|'<>^*% characters are acceptable",
+  "common.special_character_error": "None of these $&+:;=@#|<>^*% characters are acceptable",
   "job_requirement.vacancy_provided_by_institute": "Vacancy Provided by Institute",
   "job_requirement.vacancy_provided_by_industry_association": "Vacancy Provided by Industry Association",
   "common.vacancy_approval": "Vacancy Approval",

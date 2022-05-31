@@ -276,19 +276,21 @@ const Footer = () => {
                     />{' '}
                     {messages['footer.contact']}
                   </Link>
-                  <Link
-                    target={'_blank'}
-                    href={
-                      FILE_SERVER_FILE_VIEW_ENDPOINT +
-                      'tx9keh3ZscWs1v1M1CJOH0Aj1exPoa1638871975.pdf'
-                    }
-                    className={classes.bullet}>
-                    <ArrowForwardIos
-                      sx={{fontSize: '0.625rem', marginRight: '2px'}}
-                      className={classes.primary}
-                    />{' '}
-                    {messages['common.user_manual']}
-                  </Link>
+                  {institute?.user_manual_path && (
+                    <Link
+                      target={'_blank'}
+                      href={
+                        FILE_SERVER_FILE_VIEW_ENDPOINT +
+                        institute.user_manual_path
+                      }
+                      className={classes.bullet}>
+                      <ArrowForwardIos
+                        sx={{fontSize: '0.625rem', marginRight: '2px'}}
+                        className={classes.primary}
+                      />{' '}
+                      {messages['common.user_manual']}
+                    </Link>
+                  )}
                 </Box>
                 <Box>
                   <Link
