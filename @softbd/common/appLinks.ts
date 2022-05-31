@@ -147,8 +147,10 @@ export const LINK_FRONTEND_MIGRATION_PORTAL_ROOT = '/';
 export const LINK_FRONTEND_MIGRATION_PORTAL_EXPATRIATE_WORKER_MONITORING =
   '/expatriate-worker-monitoring';
 export const LINK_FRONTEND_MIGRATION_PORTAL_COMPLAINTS =
-  'http://migration.gov.bd/bn/c/page/complaint';
+  'http://grs.gov.bd/';
 export const LINK_FRONTEND_MIGRATION_PORTAL_NOTICE = '/notice-board';
+export const LINK_FRONTEND_MIGRATION_PORTAL_REGISTRATION = '/registration';
+export const LINK_FRONTEND_MIGRATION_PORTAL_TRAINING_LINKS = '/training-links';
 export const LINK_FRONTEND_MIGRATION_PORTAL_CONTACT = '/contact';
 export const LINK_FRONTEND_MIGRATION_PORTAL_RECENT_ACTIVITIES =
   '/recent-activities';
