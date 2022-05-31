@@ -16,7 +16,7 @@ yarn run dev-local:institute
 yarn run dev-local:industry
 ```
 ### Command to Run Local Dev Environment Using Dev Server as API Server
-```sh
+```bash
 yarn run dev-live:admin
 yarn run dev-live:nise
 yarn run dev-live:youth
@@ -25,7 +25,6 @@ yarn run dev-live:industry
 ```
 
 ### Build Command for Development Server
-
 ```bash
 yarn build:admin-dev
 yarn build:nise-dev
