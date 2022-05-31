@@ -1,11 +1,14 @@
-import asyncComponent from '../../../@crema/utility/asyncComponent';
+// import asyncComponent from '../../../@crema/utility/asyncComponent';
 import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage';
 import React from 'react';
 import PageMeta from '../../../@crema/core/PageMeta';
 import {useIntl} from 'react-intl';
+import dynamic from 'next/dynamic';
 
-const MigrationPortalExpatriateWorkerMonitoring = asyncComponent(
-  () => import('../../../modules/migrationPortal/expatriateWorkerMonitoring'),
+const MigrationPortalExpatriateWorkerMonitoring = dynamic(
+  () => import('../../../modules/migrationPortal/expatriateWorkerMonitoring'),{
+      ssr: false
+    }
 );
 
 export default MigrationPortalDefaultFrontPage(() => {

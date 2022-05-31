@@ -13,7 +13,7 @@ export default InstituteDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['common.gallery_album'] as string} />
-      <InstituteGallery />;
+      <InstituteGallery />
     </>
   );
 });

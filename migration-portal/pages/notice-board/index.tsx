@@ -7,6 +7,7 @@ import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/Migrat
 const YouthNoticeBoardPage = asyncComponent(
   () => import('../../../modules/youth/noticeBoard/YouthNoticeBoard'),
 );
+
 export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (

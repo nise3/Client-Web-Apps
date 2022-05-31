@@ -50,6 +50,7 @@ const StaticPage = () => {
           StaticPageCategoryTypes.NISE3,
           StaticPageCategoryTypes.YOUTH,
           StaticPageCategoryTypes.RPL,
+          StaticPageCategoryTypes.MIGRATION_PORTAL,
         );
         setShowInFilterItems([
           {

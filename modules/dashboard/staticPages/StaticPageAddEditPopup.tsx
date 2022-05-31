@@ -153,6 +153,9 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
         case StaticPageCategoryTypes.RPL:
           setShowIn(ShowInTypes.RPL);
           break;
+        case StaticPageCategoryTypes.MIGRATION_PORTAL:
+          setShowIn(ShowInTypes.MIGRATION_PORTAL);
+          break;
         default:
           setShowIn(null);
       }
@@ -199,7 +202,7 @@ const StaticPageAddEditPopup: FC<StaticPageAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH, showInTypes.RPL].includes(
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, showInTypes.RPL, showInTypes.MIGRATION_PORTAL].includes(
           item.id,
         ),
       );

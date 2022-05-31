@@ -684,5 +684,3 @@ export const API_PUBLIC_PUBLICATIONS =
 /** CMS service public routes section end */
 
 /** Migration Portal API Routes*/
-export const API_PUBLIC_MIGRATION_PORTAL_DETAILS =
-  MIGRATION_PORTAL_PUBLIC_SERVICE_PATH + '/migration-portal-details';

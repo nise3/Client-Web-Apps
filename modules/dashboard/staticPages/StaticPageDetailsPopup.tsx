@@ -21,6 +21,7 @@ import ContentTypes from '../recentActivities/ContentTypes';
 import StaticPageCategoryTypes from '../../../@softbd/utilities/StaticPageCategoryTypes';
 import ImageView from '../../../@softbd/elements/display/ImageView/ImageView';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import showInTypes from "../../../@softbd/utilities/ShowInTypes";
 
 type Props = {
   pageCode: string;
@@ -59,6 +60,9 @@ const StaticPageDetailsPopup = ({
           break;
         case StaticPageCategoryTypes.RPL:
           setShowIn(ShowInTypes.RPL);
+          break;
+        case StaticPageCategoryTypes.MIGRATION_PORTAL:
+          setShowIn(ShowInTypes.MIGRATION_PORTAL);
           break;
         default:
           setShowIn(null);
@@ -99,7 +103,7 @@ const StaticPageDetailsPopup = ({
   useEffect(() => {
     if (cmsGlobalConfig) {
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL].includes(
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL, showInTypes.MIGRATION_PORTAL].includes(
           item.id,
         ),
       );

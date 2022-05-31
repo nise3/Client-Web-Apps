@@ -5430,7 +5430,7 @@ d3-force@3:
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-3.1.0.tgz#9260e23a28ea5cb109e93b21a06e24e2ebd55641"
   integrity sha512-YyUI6AEuY/Wpt8KWLgZHsIU86atmikuoOmCfommt0LYHiQSPjvX2AcFc38PX0CBpr2RCyZhjex+NS/LPOv6YqA==
 
-d3-geo@3:
+d3-geo@3, d3-geo@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-3.0.1.tgz#4f92362fd8685d93e3b1fae0fd97dc8980b1ed7e"
   integrity sha512-Wt23xBych5tSy9IYAM1FR2rWIBFWa52B/oF/GYe5zbdHrg08FU8+BuI6X4PvTwPDdqdAdq04fuWJpELtsaEjeA==
@@ -10467,6 +10467,11 @@ react-overlays@^4.1.1:
     uncontrollable "^7.0.0"
     warning "^4.0.3"
 
+react-path-tooltip@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.17.tgz#2f04042e4c85b4ae56beb4711b8eb87f2c798251"
+  integrity sha512-3zZU6I0kDL5mm0ixSPhrYBGh//AN7s/rQWkJkOJkYgidEADehr7L6qnXWCJzwTGe+Vi5gJpJh3VhLNxpdIVDwA==
+
 react-perfect-scrollbar@^1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/react-perfect-scrollbar/-/react-perfect-scrollbar-1.5.8.tgz#380959387a325c5c9d0268afc08b3f73ed5b3078"
@@ -10576,6 +10581,14 @@ react-smooth@^2.0.0:
     fast-equals "^2.0.0"
     raf "^3.4.0"
     react-transition-group "2.9.0"
+
+react-svg-worldmap@^2.0.0-alpha.1:
+  version "2.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-svg-worldmap/-/react-svg-worldmap-2.0.0-alpha.1.tgz#81dbeb7fe8ba4f9a4442cab63ac25b5523cb311b"
+  integrity sha512-WzAo6PJsGCAgi8v+YKnTrKmlympdbrXEDdMXPgiyZtJ/C+Sb5zGNgaPjmSxK7SAVT+fMmPtE3uPxrtjuyxADCg==
+  dependencies:
+    d3-geo "^3.0.1"
+    react-path-tooltip "^1.0.17"
 
 react-syntax-highlighter@^13.5.3:
   version "13.5.3"

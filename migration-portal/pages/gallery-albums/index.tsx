@@ -1,19 +1,19 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
-import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
 import React from 'react';
 import PageMeta from '../../../@crema/core/PageMeta';
 import {useIntl} from 'react-intl';
+import MigrationPortalDefaultFrontPage from "../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage";
 
-const InstituteGallery = asyncComponent(
-  () => import('../../../modules/institute/gallery'),
+const MigrationPortalGallery = asyncComponent(
+  () => import('../../../modules/migrationPortal/gallery'),
 );
 
-export default InstituteDefaultFrontPage(() => {
+export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
       <PageMeta title={messages['common.gallery_album'] as string} />
-      <InstituteGallery />;
+      <MigrationPortalGallery />
     </>
   );
 });

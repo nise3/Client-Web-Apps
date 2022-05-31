@@ -1,10 +1,10 @@
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import {useIntl} from 'react-intl';
 import PageMeta from '../../../@crema/core/PageMeta';
-import MigrationPortalDefaultFrontPage from "../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage";
+import MigrationPortalDefaultFrontPage from '../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage';
 
-const RecentActivities = asyncComponent(
-  () => import('../../../modules/migrationPortal/recent-activities'),
+const RegistrationPage = asyncComponent(
+  () => import('../../../modules/migrationPortal/Registration'),
 );
 
 export default MigrationPortalDefaultFrontPage(() => {
@@ -12,7 +12,7 @@ export default MigrationPortalDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.recent_activities']} />
-      <RecentActivities />
+      <RegistrationPage />
     </>
   );
 });

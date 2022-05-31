@@ -2030,6 +2030,7 @@
   "institute.corresponding_industry": "আপনার প্রতিষ্ঠানটি কোন শিল্পের অর্ন্তভূক্ত?",
   "membership.id_number": "সদস্যতা আইডি/ নম্বর",
   "membership.last_renew_year": "সর্বশেষ নবায়নের সন",
+  "business_type.services": "সেবা সমূহ",
   "common.subject": "সাবজেক্ট",
   "common.subject_en": "সাবজেক্ট(ইংরেজি)",
   "common.forgot_password": "পাসওয়ার্ড ভুলে গেছেন?",
@@ -2307,7 +2308,8 @@
   "migration_portal.bmet_training": "বিএমইটি প্রশিক্ষণ",
   "migration_portal.muktopaath_training": "মুক্তপাঠ প্রশিক্ষণ",
   "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ",
-  "business_type.services": "সেবা সমূহ",
   "youth.my_gov_login": "মাইগভ লগইন",
-  "common.close": "বন্ধ করুন"
+  "common.close": "বন্ধ করুন",
+  "migration_portal.online_registration": "অনলাইন রেজিস্ট্রেশন",
+  "migration_portal.offline_registration": "অফলাইন রেজিস্ট্রেশন"
 }
