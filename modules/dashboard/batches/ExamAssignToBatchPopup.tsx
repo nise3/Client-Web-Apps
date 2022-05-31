@@ -17,11 +17,15 @@ import {processServerSideErrors} from '../../../@softbd/utilities/validationErro
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import IconExam from '../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../exams/ExamEnums';
-import {assignExamsToBatch} from '../../../services/instituteManagement/BatchService';
+import {
+  assignExamsToBatch,
+  publishSingleResult,
+} from '../../../services/instituteManagement/BatchService';
 import {Body1, S1} from '../../../@softbd/elements/common';
 import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
 import Divider from '@mui/material/Divider';
+import _ from 'lodash';
 
 interface ExamAssignToBatchPopupProps {
   batchId: number;
@@ -66,15 +70,12 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
 
   useEffect(() => {
     if (batchExams && batchExams.length && examsData && examsData.length > 0) {
-      const arrayFiltered = examsData.filter(
-        (item: any) => batchExams.includes(item.id), //todo: have to filter for dropdown for existing data
-      );
-
-      console.log('arrayFiltered->', arrayFiltered);
+      const arrayFiltered = _.xorBy(examsData, batchExams, 'id');
+      setExams(arrayFiltered);
     } else {
       setExams(examsData);
     }
-    setExams(examsData);
+
     setSelectedExams(batchExams ? batchExams : []);
   }, [batchExams, examsData]);
 
@@ -129,10 +130,28 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
         formData.exam_type_ids = (selectedExams || []).map(
           (exam: any) => exam.id,
         );
-        console.log('formData.exam_type_ids->', formData.exam_type_ids);
 
         await assignExamsToBatch(batchId, formData);
         successStack(messages['batch.exam_assign_success']);
+        props.onClose();
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const onSubmitResult = async (examTypeId: number) => {
+    console.log('examId->', examTypeId);
+
+    try {
+      let params = {
+        is_published: 1, //todo: 1 is published 0 is unpublished
+        batch_id: batchId,
+      };
+
+      if (examTypeId) {
+        await publishSingleResult(examTypeId, params);
+        successStack(messages['exam.result_publish']);
         props.onClose();
       }
     } catch (error: any) {
@@ -251,7 +270,7 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
                     <Grid item xs={4} sx={{textAlign: 'center'}}>
                       <CommonButton
                         btnText='common.publish'
-                        onClick={() => onAddClick()}
+                        onClick={() => onSubmitResult(exam.id)}
                         variant='outlined'
                         color='primary'
                       />
