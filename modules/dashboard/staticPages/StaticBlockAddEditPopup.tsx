@@ -37,6 +37,7 @@ import {
 } from '../../../shared/Interface/common.interface';
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import showInTypes from "../../../@softbd/utilities/ShowInTypes";
 
 const initialValues: Partial<IStaticPageContent> = {
   title: '',
@@ -258,6 +259,9 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
         case StaticPageCategoryTypes.RPL:
           setShowIn(ShowInTypes.RPL);
           break;
+        case StaticPageCategoryTypes.MIGRATION_PORTAL:
+          setShowIn(ShowInTypes.MIGRATION_PORTAL);
+          break;
         default:
           setShowIn(null);
       }
@@ -304,7 +308,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
       setLanguageList(filteredLanguage);
 
       const filteredShowIn = cmsGlobalConfig?.show_in?.filter((item: any) =>
-        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL].includes(
+        [ShowInTypes.NICE3, ShowInTypes.YOUTH, ShowInTypes.RPL, showInTypes.MIGRATION_PORTAL].includes(
           item.id,
         ),
       );

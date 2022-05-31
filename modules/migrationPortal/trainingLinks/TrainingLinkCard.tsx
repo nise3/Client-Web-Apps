@@ -35,12 +35,14 @@ interface TrainingLinkCardProps {
   redirectUrl: string;
   alt: string;
   image: string;
+  pointerEvents?: any;
 }
 
 const TrainingLinkCard: FC<TrainingLinkCardProps> = ({
   redirectUrl,
   alt,
   image,
+  pointerEvents,
 }) => {
   const result = useCustomStyle();
   return (
@@ -59,7 +61,10 @@ const TrainingLinkCard: FC<TrainingLinkCardProps> = ({
             </Box>
           </Grid>
           <Grid item xs={9} md={9} style={{margin: 'auto'}}>
-            <Link href={redirectUrl} target='_blank'>
+            <Link
+              href={redirectUrl}
+              style={{pointerEvents: pointerEvents}}
+              target='_blank'>
               <H2 sx={{...result.body1, fontWeight: 'bold', cursor: 'pointer'}}>
                 {alt}
               </H2>

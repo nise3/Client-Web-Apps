@@ -113,6 +113,7 @@
     "react-popper": "^2.2.5",
     "react-redux": "^7.2.4",
     "react-slick": "^0.28.1",
+    "react-svg-worldmap": "^2.0.0-alpha.1",
     "react-table": "^7.7.0",
     "react-to-print": "^2.14.6",
     "react-transition-group": "^4.4.2",

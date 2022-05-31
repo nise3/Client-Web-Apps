@@ -1,16 +1,16 @@
-import InstituteDefaultFrontPage from '../../../@softbd/layouts/hoc/InstituteDefaultFrontPage';
 import PageMeta from '../../../@crema/core/PageMeta';
 import asyncComponent from '../../../@crema/utility/asyncComponent';
 import {useIntl} from 'react-intl';
+import MigrationPortalDefaultFrontPage from "../../../@softbd/layouts/hoc/MigrationPortalDefaultFrontPage";
 
 const RecentActivitiesDetails = asyncComponent(
   () =>
     import(
-      '../../../modules/institute/recent-activities/RecentActivitiesDetails'
+      '../../../modules/migrationPortal/recent-activities/RecentActivitiesDetails'
     ),
 );
 
-export default InstituteDefaultFrontPage(() => {
+export default MigrationPortalDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>

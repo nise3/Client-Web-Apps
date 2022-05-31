@@ -6,9 +6,10 @@ import BannerTemplateBackgroundImage from '../institute/Components/BannerTemplat
 import BannerTemplateRightLeft from '../institute/Components/BannerTemplateRightLeft';
 import BannerTemplateLeftRight from '../institute/Components/BannerTemplateLeftRight';
 import BannerTemplateCenterBackground from '../institute/Components/BannerTemplateCenterBackground';
+import ShowInTypes from '../../@softbd/utilities/ShowInTypes';
 
 const CoverArea = () => {
-  const [sliderFilters] = useState({});
+  const [sliderFilters] = useState({show_in: ShowInTypes.MIGRATION_PORTAL});
   const {data: sliders, isLoading: isLoadingSliders} =
     useFetchPublicSliders(sliderFilters);
   const slider = sliders?.[0];
