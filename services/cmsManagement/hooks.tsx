@@ -22,6 +22,7 @@ import {
   API_PUBLIC_PARTNERS,
   API_PUBLIC_PUBLICATIONS,
   API_PUBLIC_RECENT_ACTIVITIES,
+  API_PUBLIC_RECENT_ACTIVITIES_COLLAGES,
   API_PUBLIC_SLIDERS,
   API_PUBLIC_STATIC_PAGE_BLOCKS,
   API_RECENT_ACTIVITIES,
@@ -68,6 +69,10 @@ export function useFetchRecentActivity(recentActivityId: number | null) {
 
 export function useFetchPublicRecentActivities(params: any) {
   return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
+}
+
+export function useFetchPublicRecentActivitiesCollages(params: any) {
+  return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES_COLLAGES, params]);
 }
 
 export function useFetchPublicRecentActivityDetails(itemId: any) {
@@ -207,6 +212,7 @@ export function useFetchNiseStatics() {
 export function useFetchPublications(params: any) {
   return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
 }
+
 export function useFetchPublicPublications(params: any) {
   return useLocalizedAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
 }

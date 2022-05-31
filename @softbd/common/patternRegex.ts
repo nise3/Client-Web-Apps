@@ -24,6 +24,4 @@ export const EMAIL_REGEX = new RegExp(
 );
 export const NID_REGEX = new RegExp('^[0-9]{10}$|^[0-9]{13}$|^[0-9]{17}$');
 
-export const SPECIAL_CHARACTER_VALIDATION = new RegExp(
-  /[$&+,:;=?@#|'<>.^*()%!-]/g,
-);
+export const SPECIAL_CHARACTER_VALIDATION = new RegExp(/[$&+:;=@#|<>^*%]/g);
