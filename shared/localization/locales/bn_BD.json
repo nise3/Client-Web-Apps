@@ -101,7 +101,7 @@
   "common.none": "কোনটিই নয়",
   "exam.none": "নেই",
   "common.login": "লগইন",
-  "common.cdap_login": "CDAP লগইন",
+  "common.cdap_login": "মাইগভ দিয়ে লগইন",
   "common.rememberMe": "মনে রাখুন",
   "common.forgetPassword": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
   "common.orLoginWith": "অথবা লগইন ",
@@ -239,7 +239,7 @@
   "error.notifyMe": "আমাকে অবহিত করুন",
   "menu.organization_management": "সংস্থা ব্যবস্থাপনা",
   "menu.institute_management": "প্রতিষ্ঠান ব্যবস্থাপনা",
-  "menu.industry_association_management": "শিল্প সমিতি ব্যবস্থাপনা",
+  "menu.industry_association_management": "শিল্প প্রতিষ্ঠান ব্যবস্থাপনা",
   "menu.application": "আবেদন",
   "common.application": "আবেদন",
   "menu.dashboard": "ড্যাশবোর্ড",
@@ -750,7 +750,7 @@
   "industry.apply_now": "আবেদন করুন",
   "common.apply": "আবেদন",
   "common.taka": "টাকা",
-  "common.special_character_error": "এই $&+,:;=?@#|'<>.^*()%!- অক্ষর গুলির কোনটিই গ্রহনযোগ্য নয়",
+  "common.special_character_error": "এই $&+:;=@#|'<>^*% অক্ষর গুলির কোনটিই গ্রহনযোগ্য নয়",
   "common.details": "বিস্তারিত",
   "training.search_header": "যে বিষয়ে প্রশিক্ষণ নিতে ইচ্ছুক",
   "common.see_all": "আরও দেখুন",
@@ -2110,7 +2110,6 @@
   "4ir_curriculum.label": "4 আই আর কারিকুলাম",
   "curriculum.label": "কারিকুলাম",
   "common.event_description": "ঘটনার বিবরণ",
-  "common.close": "বন্ধ",
   "4ir_showcasing.label": "4 আই আর শোকেসিং",
   "4ir_showcasing.invite_others": "অন্যদের আমন্ত্রণ জানান",
   "4ir_showcasing.complete_step": "কমপ্লিট স্টেপ",
@@ -2309,5 +2308,6 @@
   "migration_portal.muktopaath_training": "মুক্তপাঠ প্রশিক্ষণ",
   "migration_portal.pre_departure_training": "প্রাক - বহির্গমন প্রশিক্ষণ",
   "business_type.services": "সেবা সমূহ",
-  "youth.my_gov_login": "মাইগভ লগইন"
+  "youth.my_gov_login": "মাইগভ লগইন",
+  "common.close": "বন্ধ করুন"
 }
