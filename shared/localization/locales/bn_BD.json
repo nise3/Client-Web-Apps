@@ -750,7 +750,7 @@
   "industry.apply_now": "আবেদন করুন",
   "common.apply": "আবেদন",
   "common.taka": "টাকা",
-  "common.special_character_error": "এই $&+,:;=?@#|'<>.^*()%!- অক্ষর গুলির কোনটিই গ্রহনযোগ্য নয়",
+  "common.special_character_error": "এই $&+:;=@#|'<>^*% অক্ষর গুলির কোনটিই গ্রহনযোগ্য নয়",
   "common.details": "বিস্তারিত",
   "training.search_header": "যে বিষয়ে প্রশিক্ষণ নিতে ইচ্ছুক",
   "common.see_all": "আরও দেখুন",
