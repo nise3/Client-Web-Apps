@@ -287,7 +287,7 @@ const Footer = () => {
                       sx={{fontSize: '0.625rem', marginRight: '2px'}}
                       className={classes.primary}
                     />{' '}
-                    {messages['footer.user_manual']}
+                    {messages['common.user_manual']}
                   </Link>
                 </Box>
                 <Box>

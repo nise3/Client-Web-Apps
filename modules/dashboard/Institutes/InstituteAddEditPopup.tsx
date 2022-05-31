@@ -50,6 +50,7 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
 import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -268,6 +269,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     register,
     control,
     reset,
+    setValue,
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
@@ -300,6 +302,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         loc_upazila_id: itemData?.loc_upazila_id,
         address: itemData?.address,
         google_map_src: itemData?.google_map_src,
+        user_manual_path: itemData?.user_manual_path,
         email: itemData?.email,
         name_of_the_office_head: itemData?.name_of_the_office_head,
         name_of_the_office_head_en: itemData?.name_of_the_office_head_en,
@@ -601,6 +604,19 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FileUploadComponent
+                id='user_manual_path'
+                defaultFileUrl={itemData?.user_manual_path}
+                acceptedFileTypes={['application/pdf']}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.user_manual']}
+                required={false}
               />
             </Grid>
           </Grid>
