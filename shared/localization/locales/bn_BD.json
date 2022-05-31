@@ -101,7 +101,7 @@
   "common.none": "কোনটিই নয়",
   "exam.none": "নেই",
   "common.login": "লগইন",
-  "common.cdap_login": "CDAP লগইন",
+  "common.cdap_login": "মাইগভ দিয়ে লগইন",
   "common.rememberMe": "মনে রাখুন",
   "common.forgetPassword": "আপনার পাসওয়ার্ড ভুলে গেছেন?",
   "common.orLoginWith": "অথবা লগইন ",

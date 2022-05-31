@@ -274,7 +274,7 @@
   "common.none": "None",
   "exam.none": "None",
   "common.login": "Login",
-  "common.cdap_login": "Login with CDAP",
+  "common.cdap_login": "Login with MyGov",
   "common.rememberMe": "Remember me",
   "common.forgetPassword": "Forgot password?",
   "common.orLoginWith": "or Login",
