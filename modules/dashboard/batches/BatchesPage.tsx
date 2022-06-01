@@ -311,7 +311,7 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {!data?.result_published_at && data?.result_processed_at && (
+              {!data?.result_published_at && !data?.result_processed_at && (
                 <CommonButton
                   key={5}
                   onClick={() => processBatchResult(data.id)}

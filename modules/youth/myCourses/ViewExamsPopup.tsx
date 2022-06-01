@@ -221,10 +221,13 @@ const ViewExamsPopup: FC<ViewExamsPopupProps> = ({
                       <TableCell>
                         {isOver &&
                         exam?.exams[0]?.participated &&
-                        exam?.exams[0]?.obtained_mark
+                        exam?.exams[0]?.obtained_mark &&
+                        exam.exam_result_published_at
                           ? formatNumber(exam?.exams[0]?.obtained_mark) +
                             '/' +
                             formatNumber(exam?.exams[0]?.total_marks)
+                          : !exam.exam_result_published_at
+                          ? messages['exam.result_not_publish']
                           : exam?.exams[0]?.participated
                           ? messages['common.in_progress']
                           : messages['common.not_participated']}

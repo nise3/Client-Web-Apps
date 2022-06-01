@@ -2020,5 +2020,7 @@
   "exam.result_publish": "ফলাফল প্রকাশ",
   "common.add": "যোগ করুন",
   "common.exam_list": "পরীক্ষা সমূহ",
-  "exam.question": "টি প্রশ্ন"
+  "exam.question": "টি প্রশ্ন",
+  "exam.result_not_publish": "ফলাফল প্রকাশিত হয়নি",
+  "exam.result_already_publish": "ফলাফল প্রকাশ করা হয়েছে"
 }

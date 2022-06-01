@@ -141,8 +141,6 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
   };
 
   const onSubmitResult = async (examTypeId: number) => {
-    console.log('examId->', examTypeId);
-
     try {
       let params = {
         is_published: 1, //todo: 1 is published 0 is unpublished
@@ -202,7 +200,7 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
           />
         </>
       }>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {exams && exams.error_code == 'no_config' ? (
           <Grid item xs={12} sx={{textAlign: 'center'}}>
             <S1>{messages['batch.result_failed_no_config']}</S1>
@@ -212,7 +210,6 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
             <Grid item xs={12} sx={{marginBottom: '10px'}}>
               <Grid container spacing={1}>
                 <Grid item xs={8}>
-                  {/*<CustomFilterableFormSelect*/}
                   <CustomFilterableFormSelect
                     required
                     id='exams'
@@ -254,6 +251,9 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
                 <Grid item xs={4} sx={{textAlign: 'center'}}>
                   <Body1>{messages['common.actions']}</Body1>
                 </Grid>
+                <Grid item xs={12}>
+                  <Divider sx={{marginBottom: 2}} />
+                </Grid>
               </>
             )}
 
@@ -268,22 +268,29 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
                       <Body1>{getTypeLabel(exam.type)}</Body1>
                     </Grid>
                     <Grid item xs={4} sx={{textAlign: 'center'}}>
-                      <CommonButton
-                        btnText='common.publish'
-                        onClick={() => onSubmitResult(exam.id)}
-                        variant='outlined'
-                        color='primary'
-                      />
-                      <CommonButton
-                        btnText='common.remove'
-                        onClick={() => onDeleteClick(exam.id)}
-                        style={{marginLeft: '10px'}}
-                        variant='outlined'
-                        color='primary'
-                      />
+                      {exam.exam_result_published_at ? (
+                        <Body1>{messages['exam.result_already_publish']}</Body1>
+                      ) : (
+                        <>
+                          <CommonButton
+                            btnText='exam.number_publish'
+                            onClick={() => onSubmitResult(exam.id)}
+                            variant='outlined'
+                            color='primary'
+                          />
+
+                          <CommonButton
+                            btnText='common.remove'
+                            onClick={() => onDeleteClick(exam.id)}
+                            style={{marginLeft: '10px'}}
+                            variant='outlined'
+                            color='primary'
+                          />
+                        </>
+                      )}
                     </Grid>
                   </Grid>
-                  <Divider sx={{marginY: 2}} />
+                  <Divider sx={{marginY: '10px'}} />
                 </Grid>
               );
             })}

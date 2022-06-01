@@ -2019,5 +2019,8 @@
   "exam.result_publish": "Publish result",
   "common.add": "Add",
   "common.exam_list": "Exam list",
-  "exam.question": "Question"
+  "exam.question": "Question",
+  "exam.result_not_publish": "Number has not publish",
+  "exam.result_already_publish": "Number has been publish",
+  "exam.number_publish": "Number publish"
 }
