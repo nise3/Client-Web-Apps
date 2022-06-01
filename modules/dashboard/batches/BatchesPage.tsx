@@ -32,7 +32,6 @@ import LocaleLanguage from '../../../@softbd/utilities/LocaleLanguage';
 import DownloadIcon from '@mui/icons-material/Download';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
-import {Add} from '@mui/icons-material';
 import {Link} from '../../../@softbd/elements/common';
 import Visibility from '@mui/icons-material/Visibility';
 import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
@@ -297,11 +296,10 @@ const BatchesPage = () => {
                 <CommonButton
                   key={3}
                   onClick={() => openExamAssignModal(data?.id)}
-                  btnText={'batch.assign_exam'}
+                  btnText={'common.exam_list'}
                   variant={'outlined'}
                   color={'primary'}
                   style={{marginLeft: '5px'}}
-                  startIcon={<Add />}
                 />
               )}
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
@@ -313,7 +311,7 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {!data?.result_published_at && data?.result_processed_at && (
+              {!data?.result_published_at && !data?.result_processed_at && (
                 <CommonButton
                   key={5}
                   onClick={() => processBatchResult(data.id)}
