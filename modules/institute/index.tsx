@@ -5,14 +5,14 @@ import CoursesSection from './CoursesSection';
 import GallerySection from './GallerySection';
 import AboutSection from './AboutSection';
 import EventSection from './EventSection';
-import PopNiseLanding from '../home/PopNiseLanding';
+//import PopNiseLanding from '../home/PopNiseLanding';
 
 // 'sit.nise.gov.bd'
 // 'sit.nise.asm'
-const INSTITUTE_HOST = 'sit.nise.gov.bd';
+//const INSTITUTE_HOST = 'sit.nise.gov.bd';
 
 const Institute = () => {
-  let host = window?.location?.host;
+  //let host = window?.location?.host;
 
   return (
     <>
@@ -23,7 +23,7 @@ const Institute = () => {
       <EventSection />
       <GallerySection />
 
-      {host == INSTITUTE_HOST && <PopNiseLanding />}
+      {/*{host == INSTITUTE_HOST && <PopNiseLanding />}*/}
     </>
   );
 };

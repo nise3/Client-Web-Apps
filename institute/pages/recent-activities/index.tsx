@@ -12,7 +12,7 @@ export default InstituteDefaultFrontPage(() => {
   return (
     <>
       <PageMeta title={messages['menu.recent_activities']} />
-      <RecentActivities />;
+      <RecentActivities />
     </>
   );
 });

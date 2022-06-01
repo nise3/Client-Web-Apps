@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import {
+  Avatar,
   Button,
   Card,
   ListItemIcon,
@@ -20,7 +21,6 @@ import {
   AdminPanelSettings,
   DesktopMac,
   KeyboardArrowDown,
-  Login,
   Logout,
   Person,
   Receipt,
@@ -48,7 +48,10 @@ import {signOut} from '../../../../redux/actions';
 import {useRouter} from 'next/router';
 import {niseDomain} from '../../../common/constants';
 import Divider from '../../../components/Divider/Divider';
-import {getMyGovLoginUrl} from '../../../common/CDAPConfig';
+import {
+  getMyGovLoginUrl,
+  MYGOV_LOGIN_URL_USING_NISE,
+} from '../../../common/CDAPConfig';
 
 const YouthProfileMenu = () => {
   const {messages} = useIntl();
@@ -90,14 +93,22 @@ const YouthProfileMenu = () => {
   let nonce = getBrowserCookie(CDAPUSER_NONCE);
   let authTokenData = getBrowserCookie(COOKIE_KEY_AUTH_ACCESS_TOKEN_DATA);
 
-  let access_token = null;
-  let showMyGovLogin = false;
+  let access_token: any = null;
+  let isMyGovLogin = false;
   if (isCDAPUser && authTokenData && nonce) {
     access_token = authTokenData.access_token;
     if (access_token) {
-      showMyGovLogin = true;
+      isMyGovLogin = true;
     }
   }
+
+  const getSwitchToMyGovUrl = () => {
+    if (isMyGovLogin) {
+      return getMyGovLoginUrl(access_token, nonce);
+    } else {
+      return MYGOV_LOGIN_URL_USING_NISE;
+    }
+  };
 
   return (
     <div>
@@ -224,19 +235,24 @@ const YouthProfileMenu = () => {
                 </MenuItem>
               </Link>
             )}
-            {showMyGovLogin && <Divider />}
-            {showMyGovLogin && (
-              <Link
-                href={getMyGovLoginUrl(access_token, nonce)}
-                target={'_blank'}>
-                <MenuItem>
-                  <ListItemIcon>
-                    <Login />
-                  </ListItemIcon>
-                  <ListItemText>{messages['youth.my_gov_login']}</ListItemText>
-                </MenuItem>
-              </Link>
-            )}
+            <Divider />
+            <Link href={getSwitchToMyGovUrl()} target={'_blank'}>
+              <MenuItem>
+                <ListItemIcon>
+                  <Avatar
+                    src={'./images/mygov_logo.png'}
+                    sx={{
+                      width: '1.2em',
+                      height: '1em',
+                      '& img': {
+                        objectFit: 'contain',
+                      },
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText>{messages['youth.my_gov_login']}</ListItemText>
+              </MenuItem>
+            </Link>
             <Divider />
             {isCDAPUser ? (
               <MenuItem onClick={onCDAPLogout}>
