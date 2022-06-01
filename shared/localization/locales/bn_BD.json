@@ -2314,5 +2314,7 @@
   "migration_portal.offline_registration": "অফলাইন রেজিস্ট্রেশন",
   "exam.question": "টি প্রশ্ন",
   "exam.result_not_publish": "ফলাফল প্রকাশিত হয়নি",
-  "exam.result_already_publish": "ফলাফল প্রকাশ করা হয়েছে"
+  "exam.result_already_publish": "ফলাফল প্রকাশ করা হয়েছে",
+  "exam.number_publish": "নাম্বার প্রকাশ",
+  "batch.mark_update_not_complete": "মার্ক আপডেট সম্পূর্ণ হয়নি"
 }
