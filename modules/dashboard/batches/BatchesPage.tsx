@@ -1,5 +1,5 @@
 import {DownloadIcon} from '@heroicons/react/outline';
-import {Add, Visibility} from '@mui/icons-material';
+import {Visibility} from '@mui/icons-material';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useCallback, useMemo, useState} from 'react';
@@ -41,8 +41,10 @@ import BatchDetailsPopup from './BatchDetailsPopup';
 import CerrtificateTemplatePopup from './CertificateTemplateAddEditPopup';
 import CourseEnrollmentPopup from './CourseEnrollmentPopup';
 import ExamAssignToBatchPopup from './ExamAssignToBatchPopup';
-import ApproveButton from '../industry-associations/ApproveButton';
+import {Link} from '../../../@softbd/elements/common';
+import Visibility from '@mui/icons-material/Visibility';
 import {LINK_BATCH_RESULT} from '../../../@softbd/common/appLinks';
+import ApproveButton from '../industry-associations/ApproveButton';
 
 const BatchesPage = () => {
   const {messages, locale} = useIntl();
@@ -400,15 +402,16 @@ const BatchesPage = () => {
                 style={{marginLeft: '5px'}}
                 startIcon={<DownloadIcon />}
               />
-              <CommonButton
-                key={3}
-                onClick={() => openExamAssignModal(data?.id)}
-                btnText={'batch.assign_exam'}
-                variant={'outlined'}
-                color={'primary'}
-                style={{marginLeft: '5px'}}
-                startIcon={<Add />}
-              />
+              {!data?.result_published_at && (
+                <CommonButton
+                  key={3}
+                  onClick={() => openExamAssignModal(data?.id)}
+                  btnText={'common.exam_list'}
+                  variant={'outlined'}
+                  color={'primary'}
+                  style={{marginLeft: '5px'}}
+                />
+              )}
               <Link href={`${path}/${data?.id}/youths`} passHref={true}>
                 <CommonButton
                   btnText='youth.label'
@@ -418,7 +421,7 @@ const BatchesPage = () => {
                   color='primary'
                 />
               </Link>
-              {!data?.result_published_at && (
+              {!data?.result_published_at && !data?.result_processed_at && (
                 <CommonButton
                   key={5}
                   onClick={() => processBatchResult(data.id)}

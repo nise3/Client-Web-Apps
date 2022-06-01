@@ -28,6 +28,7 @@ const YouthPage = () => {
   const {data: batch, isLoading} = useFetchBatch(Number(batchId));
   const [selectedYouthId, setSelectedYouthId] = useState<number | null>(null);
   const [isOpenExamListModal, setIsOpenExamListModal] = useState(false);
+  const [youthName, setYouthName] = useState<string>('');
 
   const getGenderText = (gender: any) => {
     switch (String(gender)) {
@@ -106,6 +107,7 @@ const YouthPage = () => {
         Header: messages['common.actions'],
         Cell: (props: any) => {
           let data = props.row.original;
+          let youthName = data.first_name + ' ' + data.last_name;
           return (
             <DatatableButtonGroup>
               <Link href={`${path}/youth-cv/${data?.youth_id}`} passHref={true}>
@@ -115,19 +117,16 @@ const YouthPage = () => {
                   style={{marginTop: '10px'}}
                 />
               </Link>
-              {data?.result_published_at ? (
-                <></>
-              ) : (
-                <CommonButton
-                  key={2}
-                  onClick={() => openExamListModal(data.youth_id)}
-                  btnText={'common.exam_list'}
-                  // btnText={'batches.mark_distribution'}
-                  variant={'outlined'}
-                  color={'primary'}
-                  style={{marginLeft: '20px'}}
-                />
-              )}
+
+              <CommonButton
+                key={2}
+                onClick={() => openExamListModal(data.youth_id, youthName)}
+                btnText={'common.exam_list'}
+                // btnText={'batches.mark_distribution'}
+                variant={'outlined'}
+                color={'primary'}
+                style={{marginLeft: '20px'}}
+              />
             </DatatableButtonGroup>
           );
         },
@@ -146,10 +145,14 @@ const YouthPage = () => {
       },
     });
 
-  const openExamListModal = useCallback((youthId: number) => {
-    setIsOpenExamListModal(true);
-    setSelectedYouthId(youthId);
-  }, []);
+  const openExamListModal = useCallback(
+    (youthId: number, youthName: string) => {
+      setIsOpenExamListModal(true);
+      setSelectedYouthId(youthId);
+      setYouthName(youthName);
+    },
+    [],
+  );
 
   const closeExamListModal = useCallback(() => {
     setIsOpenExamListModal(false);
@@ -190,6 +193,8 @@ const YouthPage = () => {
               courseId={Number(batch.course_id)}
               youthId={selectedYouthId}
               onClose={closeExamListModal}
+              onOpen={openExamListModal}
+              youthName={youthName}
             />
           )}
         </PageBlock>
