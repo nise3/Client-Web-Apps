@@ -9,7 +9,10 @@ import {Pagination} from '@mui/lab';
 import NoDataFoundComponent from '../../youth/common/NoDataFoundComponent';
 import {H1, H2} from '../../../@softbd/elements/common';
 import PageSizes from '../../../@softbd/utilities/PageSizes';
-import {useFetchPublicRecentActivities} from '../../../services/cmsManagement/hooks';
+import {
+  useFetchPublicRecentActivities,
+  useFetchPublicRecentActivitiesCollages,
+} from '../../../services/cmsManagement/hooks';
 
 let defaultImage = '/images/recent_activity_blank.avif';
 
@@ -48,42 +51,28 @@ const StyledContainer = styled(Container)(({theme}) => {
 const RecentActivities = () => {
   const {messages} = useIntl();
 
+  const [recentActivityMasonryFilter] = useState<any>({});
+  const {
+    data: collagesRecentActivities,
+    isLoading: isLoadingCollagesRecentActivities,
+  } = useFetchPublicRecentActivitiesCollages(recentActivityMasonryFilter);
+
   const [recentActivityFilter, setRecentActivityFilter] = useState<any>({
     page: 1,
     page_size: PageSizes.EIGHT,
     row_status: RowStatus.ACTIVE,
   });
-  const [recentActivityMasonryFilter] = useState<any>({});
+  const {
+    data: recentActivities,
+    metaData,
+    isLoading: isLoadingRecentActivities,
+  } = useFetchPublicRecentActivities(recentActivityFilter);
 
   const [recentActivitiesMasonryList, setRecentActivitiesMasonryList] =
     useState<any>([]);
-  const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
-
   const page = useRef<any>(1);
 
-  const {
-    data: recentActivitiesFetchedData,
-    metaData,
-    isLoading: isLoadingRecentActivitiesFetchedData,
-  } = useFetchPublicRecentActivities(recentActivityFilter);
-
-  const {
-    data: recentActivitiesFetchedMasonryData,
-    isLoading: isLoadingRecentActivitiesFetchedMasonryData,
-  } = useFetchPublicRecentActivities(recentActivityMasonryFilter);
-
   useEffect(() => {
-    let data = recentActivitiesFetchedData?.filter((item: any) => {
-      return item.collage_position === null;
-    });
-
-    setRecentActivitiesList(data);
-  }, [recentActivitiesFetchedData]);
-
-  useEffect(() => {
-    let data = recentActivitiesFetchedMasonryData?.filter((item: any) => {
-      return item.collage_position !== null;
-    });
     let final = [];
     for (let i = 0; i < 4; i++) {
       final.push({
@@ -91,15 +80,16 @@ const RecentActivities = () => {
         collage_image_path: defaultImage,
       });
     }
-    if (data) {
-      for (let item of data) {
+
+    if (collagesRecentActivities) {
+      for (let item of collagesRecentActivities) {
         let index = item.collage_position - 1;
         final[index] = {...item};
       }
     }
 
     setRecentActivitiesMasonryList(final);
-  }, [recentActivitiesFetchedMasonryData]);
+  }, [collagesRecentActivities]);
 
   const onPaginationChange = useCallback((event: any, currentPage: number) => {
     page.current = currentPage;
@@ -115,17 +105,11 @@ const RecentActivities = () => {
           <H1 className={classes.titleTypography} gutterBottom>
             {messages['recent_activities.label']}
           </H1>
-          {isLoadingRecentActivitiesFetchedMasonryData ? (
+          {isLoadingCollagesRecentActivities ? (
             <Skeleton variant={'rectangular'} width={1150} height={400} />
-          ) : recentActivitiesMasonryList &&
-            recentActivitiesMasonryList.length > 0 ? (
+          ) : (
             <RecentActivityMasonryGroupView
               items={recentActivitiesMasonryList}
-            />
-          ) : (
-            <NoDataFoundComponent
-              messageType={messages['recent_activities.label']}
-              messageTextType={'h6'}
             />
           )}
         </Grid>
@@ -133,7 +117,7 @@ const RecentActivities = () => {
           <H2 className={classes.titleTypography} gutterBottom>
             {messages['all_activities.institute']}
           </H2>
-          {isLoadingRecentActivitiesFetchedData ? (
+          {isLoadingRecentActivities ? (
             <>
               <Box
                 sx={{
@@ -147,11 +131,11 @@ const RecentActivities = () => {
                 <Skeleton variant='rectangular' width={250} height={150} />
               </Box>
             </>
-          ) : recentActivitiesList && recentActivitiesList?.length > 0 ? (
+          ) : recentActivities && recentActivities?.length > 0 ? (
             <Grid container spacing={3}>
-              {recentActivitiesList?.map((data: any) => (
-                <Grid item xs={12} md={3} mt={3} key={data.id}>
-                  <RecentActivityCardView activity={data} />
+              {recentActivities.map((activity: any) => (
+                <Grid item xs={12} md={3} mt={3} key={activity.id}>
+                  <RecentActivityCardView activity={activity} />
                 </Grid>
               ))}
             </Grid>

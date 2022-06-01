@@ -11,6 +11,9 @@ import DecoratedRowStatus from '../../../@softbd/elements/display/DecoratedRowSt
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
+import {Link} from '../../../@softbd/elements/common';
+import Typography from '@mui/material/Typography';
+import {FILE_SERVER_FILE_VIEW_ENDPOINT} from '../../../@softbd/common/apiRoutes';
 
 type Props = {
   itemId: number;
@@ -167,6 +170,24 @@ const InstituteDetailsPopup = ({itemId, openEditModal, ...props}: Props) => {
               isLoading={isLoading}
             />
           </Grid>
+          {itemData?.user_manual_path && (
+            <Grid item xs={12} md={6}>
+              <Link
+                href={
+                  FILE_SERVER_FILE_VIEW_ENDPOINT + itemData?.user_manual_path
+                }
+                passHref={true}
+                target={'_blank'}
+                style={{
+                  color: 'blue',
+                  textDecoration: 'underline',
+                }}>
+                <Typography sx={{marginTop: '30px'}}>
+                  {messages['common.user_manual']}
+                </Typography>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </CustomDetailsViewMuiModal>
     </>

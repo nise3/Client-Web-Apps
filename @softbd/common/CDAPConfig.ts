@@ -14,6 +14,9 @@ const CDAP_CONFIG: TConfig = {
   callbackUrl: '/callback',
 };
 
+export const MYGOV_LOGIN_URL_USING_NISE =
+  'https://idp.training.mygov.bd/nis3/redirect';
+
 export const getCDAPLoginUrl = () => {
   const redirectUrl = new URL(getHostUrl() + CDAP_CONFIG.callbackUrl);
 

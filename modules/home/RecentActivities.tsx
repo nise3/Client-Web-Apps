@@ -4,10 +4,9 @@ import {Container, Grid} from '@mui/material';
 import {useIntl} from 'react-intl';
 import RecentActivityMasonryGroupView from '../institute/recent-activities/RecentActivityMasonryGroupView';
 import {SeeMoreLinkButton} from '../../@softbd/elements/common';
-import {useFetchPublicRecentActivities} from '../../services/cmsManagement/hooks';
+import {useFetchPublicRecentActivitiesCollages} from '../../services/cmsManagement/hooks';
 import SectionTitle from './SectionTitle';
 import {LINK_FRONTEND_NISE_RECENT_ACTIVITIES} from '../../@softbd/common/appLinks';
-import NoDataFoundComponent from '../youth/common/NoDataFoundComponent';
 
 let defaultImage = '/images/recent_activity_blank.avif';
 
@@ -44,14 +43,10 @@ const RecentActivities = () => {
   const [recentActivityFilter] = useState<any>({});
   const [recentActivitiesList, setRecentActivitiesList] = useState<any>([]);
 
-  const {data: recentActivitiesData} =
-    useFetchPublicRecentActivities(recentActivityFilter);
+  const {data: recentActivitiesCollageData} =
+    useFetchPublicRecentActivitiesCollages(recentActivityFilter);
 
   useEffect(() => {
-    let data = recentActivitiesData?.filter((item: any) => {
-      return item.collage_position !== null;
-    });
-
     let final = [];
     for (let i = 0; i < 4; i++) {
       final.push({
@@ -60,14 +55,14 @@ const RecentActivities = () => {
       });
     }
 
-    if (data)
-      for (let item of data) {
+    if (recentActivitiesCollageData) {
+      for (let item of recentActivitiesCollageData) {
         let index = item.collage_position - 1;
         final[index] = {...item};
       }
-
+    }
     setRecentActivitiesList(final);
-  }, [recentActivitiesData]);
+  }, [recentActivitiesCollageData]);
 
   const {messages} = useIntl();
 
@@ -80,25 +75,16 @@ const RecentActivities = () => {
 
       <Grid container>
         <Grid item md={12}>
-          {recentActivitiesList && recentActivitiesList.length > 0 ? (
-            <RecentActivityMasonryGroupView items={recentActivitiesList} />
-          ) : (
-            <NoDataFoundComponent
-              messageType={messages['menu.recent_activity']}
-              messageTextType={'h6'}
-            />
-          )}
+          <RecentActivityMasonryGroupView items={recentActivitiesList} />
         </Grid>
       </Grid>
-      {recentActivitiesList && recentActivitiesList.length > 0 && (
-        <Grid container justifyContent='center'>
-          <SeeMoreLinkButton
-            href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}
-            label={messages['common.see_more'] as string}
-            sx={{marginTop: '31px', marginBottom: '15px'}}
-          />
-        </Grid>
-      )}
+      <Grid container justifyContent='center'>
+        <SeeMoreLinkButton
+          href={LINK_FRONTEND_NISE_RECENT_ACTIVITIES}
+          label={messages['common.see_more'] as string}
+          sx={{marginTop: '31px', marginBottom: '15px'}}
+        />
+      </Grid>
     </StyledContainer>
   );
 };

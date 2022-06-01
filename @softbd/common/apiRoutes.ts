@@ -667,6 +667,8 @@ export const API_PUBLIC_NOTICE_OR_NEWS =
   CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
 export const API_PUBLIC_RECENT_ACTIVITIES =
   CMS_SERVICE_PUBLIC_PATH + '/recent-activities';
+export const API_PUBLIC_RECENT_ACTIVITIES_COLLAGES =
+  CMS_SERVICE_PUBLIC_PATH + '/recent-activities-collages';
 export const API_PUBLIC_PARTNERS = CMS_SERVICE_PUBLIC_PATH + '/nise3-partners';
 export const API_PUBLIC_CALENDAR_EVENTS =
   CMS_SERVICE_PUBLIC_PATH + '/calender-events';
