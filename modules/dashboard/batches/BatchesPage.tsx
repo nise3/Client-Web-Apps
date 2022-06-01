@@ -149,6 +149,8 @@ const BatchesPage = () => {
           msg = messages['batch.result_failed_configured_exams_not_found'];
         } else if (error_code == 'exams_not_finished') {
           msg = messages['batch.result_failed_exams_not_finished'];
+        } else if (error_code == 'mark_update_not_complete') {
+          msg = messages['batch.mark_update_not_complete'];
         }
         errorStack(msg);
       }
