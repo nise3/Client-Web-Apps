@@ -1,4 +1,4 @@
-# NISE3 Platform Admin Panel 
+# NISE Front End Application
 
 
 Install it and run:
@@ -53,17 +53,20 @@ pm2 start yarn --name "industry" --interpreter bash -- start:industry
 
 #Note: Do not merge develop, staging and master with one another
 
-###Deployment Steps
-#####1. Update this branch with the latest code
-#####2. Open version.yaml file from `deploy` folder.
-#####3. To deploy a module change `imageRelease` to `true` and increase `imageAppVersion` to create a new image version
-#####4. Deploy build commit is - `RELEASE = any message`
-#####5. This will build pipeline in gitlab.
-#####6. After build success. Open deploy/module(admin, nise, ....) folder and open values.yaml and change `imageAppVersion` with current version and push to git
+## Deployment Steps
+#### 1. Update this branch with the latest code
+#### 2. Open version.yaml file from `deploy` folder.
+#### 3. To deploy a module change `imageRelease` to `true` and increase `imageAppVersion` to create a new image version
+#### 4. Deploy build commit is - `RELEASE = any message`
+#### 5. This will build pipeline in gitlab.
+#### 6. After build success. Open deploy/module(admin, nise, ....) folder and open values.yaml and change `imageAppVersion` with current version and push to git
 
 
+
+<br/>
 
 # Deploytment to Kubernetes
+
 1. go to deploy folder
 2. Inside deploy folder we have multiple chart package in different sub folder which contain `values.yaml` file
 3. Inspect folder and browse `values.yaml` file and change necessary key value. Keys are describe bellow - 
@@ -145,14 +148,22 @@ Now you can push this repository to the registry designated by its name or tag.
 The image is then uploaded and available for use by your teammates and/or you can use it with out chart.
 
 
-# Automatic Deployment
- We use gitlab CI/CD, we have a gitlab-ci.yaml file to deploy image and push to our private repository. We use `version.yaml` file (which locate inside deploy folder) to deploy image. The file describe bellow - 
 
- | Key | Value | Comments |
-| -------- | -------- |-----|
-|  image*Release| true/false | should the service build or not |
-|  image*AppVersion| 1.0.0 | tag number which you want to build |
-|  image*Repository| image docker repository url | the repo url where you want to upload the image |
-|||
+
+# Licensing & Copyright
+
+Copyright 2022 @a2i, Bangladesh
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 
