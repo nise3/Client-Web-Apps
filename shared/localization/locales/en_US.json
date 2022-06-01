@@ -264,7 +264,7 @@
   "common.all": "All",
   "common.none": "None",
   "common.login": "Login",
-  "common.cdap_login": "Login with CDAP",
+  "common.cdap_login": "Login with MyGov",
   "common.first_name_en": "First Name (En)",
   "common.first_name_bn": "First Name",
   "common.first_name": "First Name",
@@ -1988,5 +1988,6 @@
   "common.course_details": "Course details",
   "human_resource_demand.label": "Human resource demand",
   "youth_feed.label": "Youth feed",
-  "common.close": "Close"
+  "common.close": "Close",
+  "youth.my_gov_login": "Go to MyGov"
 }
