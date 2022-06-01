@@ -1,6 +1,4 @@
 import {DownloadIcon} from '@heroicons/react/outline';
-import {Visibility} from '@mui/icons-material';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useCallback, useMemo, useState} from 'react';
 import {FiUserCheck} from 'react-icons/fi';
