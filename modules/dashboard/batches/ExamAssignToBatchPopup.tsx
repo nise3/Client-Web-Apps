@@ -1,7 +1,7 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import HookFormMuiModal from '../../../@softbd/modals/HookFormMuiModal/HookFormMuiModal';
@@ -15,11 +15,17 @@ import {
 } from '../../../services/instituteManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
-import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 import IconExam from '../../../@softbd/icons/IconExam';
 import {ExamTypes} from '../exams/ExamEnums';
-import {assignExamsToBatch} from '../../../services/instituteManagement/BatchService';
-import {S1} from '../../../@softbd/elements/common';
+import {
+  assignExamsToBatch,
+  publishSingleResult,
+} from '../../../services/instituteManagement/BatchService';
+import {Body1, S1} from '../../../@softbd/elements/common';
+import CommonButton from '../../../@softbd/elements/button/CommonButton/CommonButton';
+import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
+import Divider from '@mui/material/Divider';
+import _ from 'lodash';
 
 interface ExamAssignToBatchPopupProps {
   batchId: number;
@@ -33,12 +39,16 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
   const {messages} = useIntl();
   const {errorStack, successStack} = useNotiStack();
 
+  const [exams, setExams] = useState<any>([]);
+  const [selectedExams, setSelectedExams] = useState<Array<any>>([]);
+  const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
+
   const [examFilters] = useState<any>({
     batch_id: batchId,
     is_result_config_courses: 1,
   });
   const {data: batchExams} = useFetchBatchExams(batchId);
-  const {data: exams, isLoading} = useFetchExams(examFilters);
+  const {data: examsData, isLoading} = useFetchExams(examFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -53,47 +63,97 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
 
   const {
     control,
-    setError,
-    reset,
-    handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: {isSubmitting},
   } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
-    if (
-      exams &&
-      exams.error_code &&
-      exams.error_code != 'no_config' &&
-      batchExams
-    ) {
-      let ids = (batchExams || []).map((exam_type: any) => exam_type.id);
-      reset({
-        exams: exams
-          .filter((exam: any) => ids.includes(exam.id))
-          .map((ex: any) => ({
-            ...ex,
-            type_label: getTypeLabel(ex.type),
-          })),
-      });
+    if (batchExams && batchExams.length && examsData && examsData.length > 0) {
+      const arrayFiltered = _.xorBy(examsData, batchExams, 'id');
+      setExams(arrayFiltered);
     } else {
-      reset({
-        exams: [],
-      });
+      setExams(examsData);
     }
-  }, [batchExams, exams]);
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    setSelectedExams(batchExams ? batchExams : []);
+  }, [batchExams, examsData]);
+
+  const onAddClick = useCallback(() => {
+    if (selectedExamId) {
+      let lists = [...selectedExams];
+      const xm = exams.find((item: any) => item.id == selectedExamId);
+      const xmMain = exams.filter((item: any) => item.id != selectedExamId);
+
+      if (xm) {
+        lists.push(xm);
+        setSelectedExams(lists);
+      }
+
+      if (xmMain) {
+        setExams(xmMain);
+      }
+
+      setSelectedExamId(null);
+    }
+  }, [exams, selectedExamId, selectedExams]);
+
+  const onDeleteClick = useCallback(
+    (examId: number) => {
+      if (examId) {
+        let examList = [...exams];
+        const xm = selectedExams.filter((item: any) => item.id != examId);
+        const xmMain = selectedExams.filter((item: any) => item.id == examId);
+
+        if (xm) {
+          setSelectedExams(xm);
+        }
+
+        if (xmMain) {
+          setExams([...xmMain, ...examList]);
+        }
+
+        setSelectedExamId(null);
+      }
+    },
+    [exams, selectedExams],
+  );
+
+  const onExamChange = useCallback((selected: number) => {
+    setSelectedExamId(selected);
+  }, []);
+
+  const onSubmitExams = async () => {
     try {
       let formData: any = {};
-      formData.exam_type_ids = (data?.exams || []).map((exam: any) => exam.id);
+      if (selectedExams && selectedExams) {
+        formData.exam_type_ids = (selectedExams || []).map(
+          (exam: any) => exam.id,
+        );
 
-      await assignExamsToBatch(batchId, formData);
-      successStack(messages['batch.exam_assign_success']);
-      props.onClose();
+        await assignExamsToBatch(batchId, formData);
+        successStack(messages['batch.exam_assign_success']);
+        props.onClose();
+      }
     } catch (error: any) {
-      processServerSideErrors({error, setError, validationSchema, errorStack});
+      processServerSideErrors({error, errorStack});
+    }
+  };
+
+  const onSubmitResult = async (examTypeId: number) => {
+    try {
+      let params = {
+        is_published: 1, //todo: 1 is published 0 is unpublished
+        batch_id: batchId,
+      };
+
+      if (examTypeId) {
+        await publishSingleResult(examTypeId, params);
+        successStack(messages['exam.result_publish']);
+        props.onClose();
+      }
+    } catch (error: any) {
+      processServerSideErrors({error, errorStack});
     }
   };
 
@@ -128,35 +188,113 @@ const ExamAssignToBatchPopup: FC<ExamAssignToBatchPopupProps> = ({
           <IntlMessages id='batch.assign_exam' />
         </>
       }
-      handleSubmit={handleSubmit(onSubmit)}
       maxWidth={isBreakPointUp('xl') ? 'lg' : 'md'}
       actions={
         <>
           <CancelButton onClick={props.onClose} isLoading={isLoading} />
-          <SubmitButton isSubmitting={isSubmitting} isLoading={isLoading} />
+          <SubmitButton
+            onClick={() => onSubmitExams()}
+            isSubmitting={isSubmitting}
+            isLoading={isLoading}
+            type={'button'}
+          />
         </>
       }>
-      <Grid container spacing={5}>
+      <Grid container spacing={1}>
         {exams && exams.error_code == 'no_config' ? (
           <Grid item xs={12} sx={{textAlign: 'center'}}>
             <S1>{messages['batch.result_failed_no_config']}</S1>
           </Grid>
         ) : (
-          <Grid item xs={12}>
-            <CustomSelectAutoComplete
-              required
-              id='exams'
-              label={messages['exam.label']}
-              control={control}
-              options={(exams || []).map((exam: any) => ({
-                ...exam,
-                type_label: getTypeLabel(exam.type),
-              }))}
-              optionTitleProp={['title', 'type_label']}
-              optionValueProp={'id'}
-              errorInstance={errors}
-            />
-          </Grid>
+          <>
+            <Grid item xs={12} sx={{marginBottom: '10px'}}>
+              <Grid container spacing={1}>
+                <Grid item xs={8}>
+                  <CustomFilterableFormSelect
+                    required
+                    id='exams'
+                    label={messages['exam.label']}
+                    control={control}
+                    options={(exams || []).map((exam: any) => ({
+                      ...exam,
+                      type_label: getTypeLabel(exam.type),
+                    }))}
+                    optionTitleProp={['title', 'type_label']}
+                    optionValueProp={'id'}
+                    isLoading={isLoading}
+                    onChange={onExamChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <CommonButton
+                    btnText='common.add'
+                    onClick={() => onAddClick()}
+                    style={{marginLeft: '10px'}}
+                    variant='outlined'
+                    color='primary'
+                  />
+                </Grid>
+              </Grid>
+              {selectedExams && selectedExams.length > 0 && (
+                <Divider sx={{marginY: 2}} />
+              )}
+            </Grid>
+
+            {selectedExams && selectedExams.length > 0 && (
+              <>
+                <Grid item xs={4} sx={{textAlign: 'center'}}>
+                  <Body1>{messages['common.exam_name']}</Body1>
+                </Grid>
+                <Grid item xs={4} sx={{textAlign: 'center'}}>
+                  <Body1>{messages['common.exam_type']}</Body1>
+                </Grid>
+                <Grid item xs={4} sx={{textAlign: 'center'}}>
+                  <Body1>{messages['common.actions']}</Body1>
+                </Grid>
+                <Grid item xs={12}>
+                  <Divider sx={{marginBottom: 2}} />
+                </Grid>
+              </>
+            )}
+
+            {selectedExams.map((exam: any) => {
+              return (
+                <Grid item xs={12} key={exam.id}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={4} sx={{textAlign: 'center'}}>
+                      <Body1>{exam.title}</Body1>
+                    </Grid>
+                    <Grid item xs={4} sx={{textAlign: 'center'}}>
+                      <Body1>{getTypeLabel(exam.type)}</Body1>
+                    </Grid>
+                    <Grid item xs={4} sx={{textAlign: 'center'}}>
+                      {exam.exam_result_published_at ? (
+                        <Body1>{messages['exam.result_already_publish']}</Body1>
+                      ) : (
+                        <>
+                          <CommonButton
+                            btnText='exam.number_publish'
+                            onClick={() => onSubmitResult(exam.id)}
+                            variant='outlined'
+                            color='primary'
+                          />
+
+                          <CommonButton
+                            btnText='common.remove'
+                            onClick={() => onDeleteClick(exam.id)}
+                            style={{marginLeft: '10px'}}
+                            variant='outlined'
+                            color='primary'
+                          />
+                        </>
+                      )}
+                    </Grid>
+                  </Grid>
+                  <Divider sx={{marginY: '10px'}} />
+                </Grid>
+              );
+            })}
+          </>
         )}
       </Grid>
     </HookFormMuiModal>

@@ -5,6 +5,7 @@ import {
   API_ASSIGN_TRAINERS_TO_BATCH,
   API_BATCH_PUBLISH_RESULT,
   API_BATCHES,
+  API_EXAMS,
   API_PROCESS_RESULT,
   API_YOUTH_BATCH_EXAMS_MARK_UPDATE,
 } from '../../@softbd/common/apiRoutes';
@@ -100,6 +101,18 @@ export const publishResult = async (batchId: number, data: any) => {
     let response: any = await apiPut(
       API_BATCHES + '/' + batchId + API_BATCH_PUBLISH_RESULT,
       data,
+    );
+    return response.data;
+  } catch (error) {
+    catchBlockHandler(error);
+  }
+};
+
+export const publishSingleResult = async (examTypeId: number, params: any) => {
+  try {
+    let response: any = await apiPut(
+      API_EXAMS + '/' + examTypeId + API_BATCH_PUBLISH_RESULT,
+      params,
     );
     return response.data;
   } catch (error) {

@@ -2311,5 +2311,8 @@
   "youth.my_gov_login": "মাইগভ এ যান",
   "common.close": "বন্ধ করুন",
   "migration_portal.online_registration": "অনলাইন রেজিস্ট্রেশন",
-  "migration_portal.offline_registration": "অফলাইন রেজিস্ট্রেশন"
+  "migration_portal.offline_registration": "অফলাইন রেজিস্ট্রেশন",
+  "exam.question": "টি প্রশ্ন",
+  "exam.result_not_publish": "ফলাফল প্রকাশিত হয়নি",
+  "exam.result_already_publish": "ফলাফল প্রকাশ করা হয়েছে"
 }
