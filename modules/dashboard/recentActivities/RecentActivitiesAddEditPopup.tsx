@@ -3,7 +3,7 @@ import {useIntl} from 'react-intl';
 import useNotiStack from '../../../@softbd/hooks/useNotifyStack';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {
-  useFetchCMSGlobalConfig,
+  useFetchLocalizedCMSGlobalConfig,
   useFetchRecentActivity,
 } from '../../../services/cmsManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
@@ -84,7 +84,7 @@ const RecentActivitiesAddEditPopup: FC<RecentActivitiesAddEditPopupProps> = ({
   } = useFetchRecentActivity(itemId);
 
   const {data: cmsGlobalConfig, isLoading: isFetching} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [instituteList, setInstituteList] = useState([]);
   const [industryList, setIndustryList] = useState([]);

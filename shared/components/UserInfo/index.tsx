@@ -140,7 +140,7 @@ const UserInfo: React.FC = () => {
     }
   };
 
-  const getUserTypeName = () => {
+  /*const getUserTypeName = () => {
     if (user?.isSystemUser) {
       return messages['user.type.system'];
     } else if (user?.isTrainingCenterUser) {
@@ -153,7 +153,7 @@ const UserInfo: React.FC = () => {
       return messages['user.type.industry_association'];
     }
     return '';
-  };
+  };*/
 
   return (
     <StyledBox>
@@ -231,9 +231,9 @@ const UserInfo: React.FC = () => {
               </Menu>
             </Box>
           </Box>
-          <Box className={classes.designation}>
+          {/*<Box className={classes.designation}>
             {getUserTypeName()} {messages['user.label']}
-          </Box>
+          </Box>*/}
         </Box>
       </Box>
       {isOpenDetailsModal && (

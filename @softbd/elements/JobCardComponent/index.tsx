@@ -190,7 +190,8 @@ const JobCardComponent: FC<JobCardComponentProps> = ({
     if (authUser) {
       setIsOpenJobApplyModal(true);
     } else {
-      router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP));
+      const redirect_url = window?.location?.origin+'/job-details/'+job?.job_id;
+      router.push(gotoLoginSignUpPage(LINK_YOUTH_SIGNUP, redirect_url));
     }
   }, [authUser]);
 

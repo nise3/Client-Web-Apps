@@ -14,9 +14,9 @@ import CustomCheckbox from '../../../@softbd/elements/input/CustomCheckbox/Custo
 import FileUploadComponent from '../../filepond/FileUploadComponent';
 import AcademicQualificationFieldArray from './AcademicQualificationFieldArray';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
@@ -49,7 +49,7 @@ import {
 import {MOBILE_NUMBER_REGEX} from '../../../@softbd/common/patternRegex';
 import moment from 'moment';
 import JobExperienceFieldArray from './JobExperienceFieldArray';
-import {useFetchPublicRTOCountries} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchLocalizedPublicRTOCountries} from '../../../services/CertificateAuthorityManagement/hooks';
 import {getMomentDateFormat} from '../../../@softbd/utilities/helpers';
 import {AddressTypeId} from '../../youth/profile/utilities/AddressType';
 import {LINK_CHOOSE_SELF_ASSESSMENT_PAYMENT_METHOD_PAGE} from '../../../@softbd/common/appLinks';
@@ -71,7 +71,8 @@ const RPLApplicationForm = () => {
   const authUser = useAuthUser<YouthAuthUser>();
 
   const [rtoCountryFilters] = useState<any>({});
-  const {data: rtoCountries} = useFetchPublicRTOCountries(rtoCountryFilters);
+  const {data: rtoCountries} =
+    useFetchLocalizedPublicRTOCountries(rtoCountryFilters);
 
   const [jobExperiences, setJobExperiences] = useState<any>([1]);
 
@@ -80,11 +81,11 @@ const RPLApplicationForm = () => {
   const [upazilasFilter] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionFilter);
+    useFetchLocalizedDivisions(divisionFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [presentAddressDistrictList, setPresentAddressDistrictList] = useState<
     Array<any> | []
@@ -878,7 +879,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={divisions}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={handlePresentAddressDivisionChange}
                 />
@@ -893,7 +894,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={presentAddressDistrictList}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={handlePresentAddressDistrictChange}
                 />
@@ -907,7 +908,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={presentAddressUplazilaList}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -977,7 +978,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={divisions}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={handlePermanentAddressDivisionChange}
                 />
@@ -991,7 +992,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={permanentAddressDistrictList}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={handlePermanentAddressDistrictChange}
                 />
@@ -1005,7 +1006,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={permanentAddressUpazilaList}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -1070,7 +1071,7 @@ const RPLApplicationForm = () => {
               control={control}
               options={nationalities}
               optionValueProp={'id'}
-              optionTitleProp={['title', 'title_en']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>
@@ -1195,7 +1196,7 @@ const RPLApplicationForm = () => {
                   control={control}
                   options={instituteTypes}
                   optionValueProp={'id'}
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>

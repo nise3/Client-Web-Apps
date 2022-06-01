@@ -75,17 +75,17 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
   const employmentTypes = [
     {
       id: 1,
-      title: 'পূর্ণকালীন',
+      title: messages['job_posting.employment_status_full_time'],
       title_en: 'Full-time',
     },
     {
       id: 2,
-      title: 'খন্ডকালীন',
+      title: messages['job_posting.employment_status_part_time'],
       title_en: 'Part-time',
     },
     {
       id: 3,
-      title: 'ক্যাজুয়াল',
+      title: messages['common.casual'],
       title_en: 'Casual',
     },
     {
@@ -317,7 +317,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                 control={control}
                 options={areaOfExperienceData}
                 optionValueProp='id'
-                optionTitleProp={['title', 'title_en']}
+                optionTitleProp={['title']}
                 defaultValue={selectedAreaOfExperienceList}
                 errorInstance={errors}
                 onChange={onAreaOfExperienceChange}
@@ -349,7 +349,7 @@ const JobExperienceAddEditPage: FC<JobExperienceAddEditProps> = ({
                   control={control}
                   options={employmentTypes}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>

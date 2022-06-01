@@ -15,7 +15,7 @@ import {useIntl} from 'react-intl';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {useFetchCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
+import {useFetchLocalizedCMSGlobalConfig} from '../../../services/cmsManagement/hooks';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import LanguageCodes from '../../../@softbd/utilities/LanguageCodes';
 import CustomFilterableFormSelect from '../../../@softbd/elements/input/CustomFilterableFormSelect';
@@ -60,7 +60,7 @@ const StaticBlockAddEditPopup: FC<IStaticBlockAddEditPopupProps> = ({
   const {updateSuccessMessage} = useSuccessMessage();
   const authUser = useAuthUser<CommonAuthUser>();
   const {data: cmsGlobalConfig, isLoading: isLoadingConfigData} =
-    useFetchCMSGlobalConfig();
+    useFetchLocalizedCMSGlobalConfig();
 
   const [allLanguages, setAllLanguages] = useState<any>([]);
   const [languageList, setLanguageList] = useState<any>([]);

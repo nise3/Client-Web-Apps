@@ -24,7 +24,7 @@ import CustomFilterableSelect from './components/CustomFilterableSelect';
 import ShowInTypes from '../../../@softbd/utilities/ShowInTypes';
 import {H1} from '../../../@softbd/elements/common';
 import {useRouter} from 'next/router';
-import {useFetchUpazilas} from '../../../services/locationManagement/hooks';
+import {useFetchLocalizedUpazilas} from '../../../services/locationManagement/hooks';
 import {FilterItem} from '../../../shared/Interface/common.interface';
 
 const PREFIX = 'CustomListHeaderSection';
@@ -126,7 +126,7 @@ const CourseListHeaderSection = ({
   );
 
   const {data: programmes} = useFetchPublicPrograms(programmeFilters);
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
 
   useEffect(() => {
     let params: any = {...router.query};
@@ -408,7 +408,7 @@ const CourseListHeaderSection = ({
                     options={institutes}
                     isLoading={false}
                     optionValueProp={'id'}
-                    optionTitleProp={['title', 'title_en']}
+                    optionTitleProp={['title']}
                   />
                 </Grid>
               )}
@@ -422,7 +422,7 @@ const CourseListHeaderSection = ({
                   options={programmes}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={3}>
@@ -455,7 +455,7 @@ const CourseListHeaderSection = ({
                 <CustomFilterableSelect
                   id={'availability'}
                   defaultValue={selectedAvailability}
-                  label={messages['common.availability'] as string}
+                  label={messages['course.availability'] as string}
                   onChange={handleAvailabilityChange}
                   options={AVAILABILITIES}
                   isLoading={false}
@@ -484,7 +484,7 @@ const CourseListHeaderSection = ({
                   options={upazilas}
                   isLoading={false}
                   optionValueProp={'id'}
-                  optionTitleProp={['title', 'title_en']}
+                  optionTitleProp={['title']}
                 />
               </Grid>
             </Grid>

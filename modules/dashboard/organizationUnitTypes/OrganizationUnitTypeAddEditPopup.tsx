@@ -19,7 +19,7 @@ import IconOrganizationUnitType from '../../../@softbd/icons/IconOrganizationUni
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/CustomFormSelect';
 import {
-  useFetchOrganizations,
+  useFetchLocalizedOrganizations,
   useFetchOrganizationUnitType,
 } from '../../../services/organaizationManagement/hooks';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
@@ -57,7 +57,7 @@ const OrganizationUnitTypeAddEditPopup: FC<
     mutate: mutateOrganizationUnitType,
   } = useFetchOrganizationUnitType(itemId);
   const {data: organizations, isLoading: isOrganizationLoading} =
-    useFetchOrganizations(organizationFilters);
+    useFetchLocalizedOrganizations(organizationFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -199,7 +199,7 @@ const OrganizationUnitTypeAddEditPopup: FC<
               control={control}
               options={organizations}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
             />
           </Grid>

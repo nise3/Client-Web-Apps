@@ -11,8 +11,8 @@ const withData = (ComposedComponent: any) => (props: any) => {
     ({auth}) => auth,
   );
 
-  const {asPath, query} = useRouter();
-  const queryParams = asPath.split('?')[1];
+  const {query} = useRouter();
+  //const queryParams = asPath.split('?')[1];
   useEffect(() => {
     if (authUser) {
       if (authUser?.isYouthUser) {
@@ -20,25 +20,23 @@ const withData = (ComposedComponent: any) => (props: any) => {
         if (query?.redirected_from) {
           Router.push(String(query.redirected_from));
         } else {
-          Router.push(
-            youthDomain() +
-              LINK_FRONTEND_YOUTH_FEED +
-              (queryParams ? '?' + queryParams : ''),
-          );
+          Router.push(youthDomain() + LINK_FRONTEND_YOUTH_FEED);
         }
       } else if (
         authUser?.isSystemUser ||
         authUser?.isOrganizationUser ||
         authUser?.isInstituteUser
       ) {
-        let params = queryParams
+        /*let params = queryParams
           ?.split('&')
           .filter((param) => !param.startsWith('redirected_from'))
           .join('&');
-        Router.push(adminDomain() + (params ? '?' + params : ''));
+        Router.push(adminDomain() + (params ? '?' + params : ''));*/
+        Router.push(adminDomain());
       } else {
         //TODO: will change logic latter.
-        Router.push(adminDomain() + (queryParams ? '?' + queryParams : ''));
+        //Router.push(adminDomain() + (queryParams ? '?' + queryParams : ''));
+        Router.push(adminDomain());
       }
     }
   }, [authUser]);

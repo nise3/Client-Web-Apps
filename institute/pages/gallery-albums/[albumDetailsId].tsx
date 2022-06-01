@@ -11,7 +11,7 @@ export default InstituteDefaultFrontPage(() => {
   const {messages} = useIntl();
   return (
     <>
-      <PageMeta title={messages['common.notice_details'] as string} />
+      <PageMeta title={messages['common.gallery_album'] as string} />
       <GalleryAlbumDetails />
     </>
   );

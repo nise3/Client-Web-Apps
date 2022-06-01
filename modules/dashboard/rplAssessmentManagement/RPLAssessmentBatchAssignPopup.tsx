@@ -12,7 +12,7 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {assessmentAssignBatch} from '../../../services/CertificateAuthorityManagement/YouthAssessmentService';
-import {useFetchRTOBatches} from '../../../services/CertificateAuthorityManagement/hooks';
+import {useFetchLocalizedRTOBatches} from '../../../services/CertificateAuthorityManagement/hooks';
 import {IAssessmentBatchAssign} from '../../../shared/Interface/assessmentManagement.interface';
 import IconCourse from '../../../@softbd/icons/IconCourse';
 
@@ -41,7 +41,7 @@ const AssignBatchPopup: FC<RPLAssessmentBatchAssignPopup> = ({
   });
 
   const {data: rtoBatches, isLoading: isBatchesLoading} =
-    useFetchRTOBatches(batchFilters);
+    useFetchLocalizedRTOBatches(batchFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({

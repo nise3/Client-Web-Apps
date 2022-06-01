@@ -28,9 +28,9 @@ import CustomFormSelect from '../../../@softbd/elements/input/CustomFormSelect/C
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {useFetchInstitute} from '../../../services/instituteManagement/hooks';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../../services/locationManagement/hooks';
 import yup from '../../../@softbd/libs/yup';
 import {
@@ -39,8 +39,8 @@ import {
 } from '../../../services/locationManagement/locationUtils';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import {
-  useFetchPermissionGroups,
-  useFetchPermissionSubGroups,
+  useFetchLocalizedPermissionGroups,
+  useFetchLocalizedPermissionSubGroups,
 } from '../../../services/userManagement/hooks';
 import {PERMISSION_GROUP_INSTITUTE_KEY} from '../../../@softbd/common/constants';
 import FormRadioButtons from '../../../@softbd/elements/input/CustomRadioButtonGroup/FormRadioButtons';
@@ -50,6 +50,7 @@ import {District, Upazila} from '../../../shared/Interface/location.interface';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {InstituteServiceTypes} from '../../../@softbd/utilities/InstituteServiceTypes';
 import {InstituteTypes} from '../../../@softbd/utilities/InstituteTypes';
+import FileUploadComponent from '../../filepond/FileUploadComponent';
 
 interface InstituteAddEditPopupProps {
   itemId: number | null;
@@ -128,21 +129,21 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
   const [upazilasFilter] = useState({row_status: RowStatus.ACTIVE});
 
   const {data: divisions, isLoading: isLoadingDivisions} =
-    useFetchDivisions(divisionsFilter);
+    useFetchLocalizedDivisions(divisionsFilter);
   const {data: districts, isLoading: isLoadingDistricts} =
-    useFetchDistricts(districtsFilter);
+    useFetchLocalizedDistricts(districtsFilter);
   const {data: upazilas, isLoading: isLoadingUpazilas} =
-    useFetchUpazilas(upazilasFilter);
+    useFetchLocalizedUpazilas(upazilasFilter);
 
   const [districtsList, setDistrictsList] = useState<Array<District> | []>([]);
   const [upazilasList, setUpazilasList] = useState<Array<Upazila> | []>([]);
 
-  const {data: permissionGroups} = useFetchPermissionGroups(
+  const {data: permissionGroups} = useFetchLocalizedPermissionGroups(
     permissionGroupFilters,
   );
 
   const {data: permissionSubGroups, isLoading: isLoadingPermissionSubGroups} =
-    useFetchPermissionSubGroups(permissionSubGroupFilters);
+    useFetchLocalizedPermissionSubGroups(permissionSubGroupFilters);
 
   const nonRequiredPhoneValidationSchema = useMemo(() => {
     return yup.object().shape({
@@ -268,6 +269,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
     register,
     control,
     reset,
+    setValue,
     setError,
     handleSubmit,
     formState: {errors, isSubmitting},
@@ -300,6 +302,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
         loc_upazila_id: itemData?.loc_upazila_id,
         address: itemData?.address,
         google_map_src: itemData?.google_map_src,
+        user_manual_path: itemData?.user_manual_path,
         email: itemData?.email,
         name_of_the_office_head: itemData?.name_of_the_office_head,
         name_of_the_office_head_en: itemData?.name_of_the_office_head_en,
@@ -444,7 +447,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                   control={control}
                   options={permissionSubGroups}
                   optionValueProp='id'
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                 />
               </Grid>
@@ -519,7 +522,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDivisionAction}
               />
@@ -534,7 +537,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={districtsList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={changeDistrictAction}
               />
@@ -547,7 +550,7 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 control={control}
                 options={upazilasList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -601,6 +604,20 @@ const InstituteAddEditPopup: FC<InstituteAddEditPopupProps> = ({
                 register={register}
                 errorInstance={errors}
                 isLoading={isLoading}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <FileUploadComponent
+                id='user_manual_path'
+                defaultFileUrl={itemData?.user_manual_path}
+                acceptedFileTypes={['application/pdf']}
+                sizeLimitText={'10MB'}
+                errorInstance={errors}
+                setValue={setValue}
+                register={register}
+                label={messages['common.user_manual']}
+                required={false}
               />
             </Grid>
           </Grid>

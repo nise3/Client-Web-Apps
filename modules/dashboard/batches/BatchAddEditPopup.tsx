@@ -22,19 +22,20 @@ import CustomTextInput from '../../../@softbd/elements/input/CustomTextInput/Cus
 import CustomDateTimeField from '../../../@softbd/elements/input/CustomDateTimeField';
 import {
   useFetchBatch,
-  useFetchBranches,
-  useFetchCourses,
-  useFetchInstitute,
-  useFetchTrainers,
-  useFetchTrainingCenters,
+  useFetchLocalizedBranches,
+  useFetchLocalizedCourses,
+  useFetchLocalizedInstitutes,
+  useFetchLocalizedTrainers,
+  useFetchLocalizedTrainingCenters,
 } from '../../../services/instituteManagement/hooks';
 import RowStatus from '../../../@softbd/utilities/RowStatus';
 import {processServerSideErrors} from '../../../@softbd/utilities/validationErrorHandler';
 import useSuccessMessage from '../../../@softbd/hooks/useSuccessMessage';
 import {useAuthUser} from '../../../@crema/utility/AppHooks';
-import {IBatch, ITrainer} from '../../../shared/Interface/institute.interface';
+import {IBatch} from '../../../shared/Interface/institute.interface';
 import {CommonAuthUser} from '../../../redux/types/models/CommonAuthUser';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
+import CustomSelectAutoComplete from '../../youth/registration/CustomSelectAutoComplete';
 
 interface BatchAddEditPopupProps {
   itemId: number | null;
@@ -74,7 +75,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
 
   const [instituteFilters, setInstituteFilters] = useState<any>(null);
   const {data: institutes, isLoading: isLoadingInstitutes} =
-    useFetchInstitute(instituteFilters);
+    useFetchLocalizedInstitutes(instituteFilters);
 
   const {
     data: itemData,
@@ -89,17 +90,17 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
   });
 
   const {data: branches, isLoading: isLoadingBranches} =
-    useFetchBranches(branchFilters);
+    useFetchLocalizedBranches(branchFilters);
 
   const {data: trainingCenters, isLoading: isLoadingTrainingCenters} =
-    useFetchTrainingCenters(trainingCenterFilters);
+    useFetchLocalizedTrainingCenters(trainingCenterFilters);
 
   const {data: courses, isLoading: isLoadingCourses} =
-    useFetchCourses(coursesFilters);
+    useFetchLocalizedCourses(coursesFilters);
 
   const [trainersFilters] = useState({row_status: RowStatus.ACTIVE});
   const {data: trainers, isLoading: isLoadingTrainers} =
-    useFetchTrainers(trainersFilters);
+    useFetchLocalizedTrainers(trainersFilters);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -233,7 +234,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           : '',
         number_of_seats: itemData?.number_of_seats,
         // available_seats: itemData?.available_seats,
-        trainers: getTrainerIds(itemData?.trainers),
+        trainers: itemData?.trainers,
         row_status: String(itemData?.row_status),
       });
 
@@ -261,8 +262,8 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
     }
   }, [itemData]);
 
-  const getTrainerIds = (trainers: Array<ITrainer>) => {
-    return trainers.map((item: ITrainer) => item.id);
+  const getTrainerIds = (trainers: any) => {
+    return (trainers || []).map((item: any) => item.id);
   };
 
   const onInstituteChange = useCallback((instituteId: number) => {
@@ -325,7 +326,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         mutateBatch();
         assignTrainersResponse = await assignTrainersToBatch(
           itemId,
-          data.trainers,
+          getTrainerIds(data.trainers),
         );
         if (assignTrainersResponse) {
           updateSuccessMessage('batches.label');
@@ -341,7 +342,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
         ) {
           assignTrainersResponse = await assignTrainersToBatch(
             response.data.id,
-            data.trainers,
+            getTrainerIds(data.trainers),
           );
         }
         if (assignTrainersResponse) {
@@ -413,7 +414,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
               control={control}
               options={institutes}
               optionValueProp='id'
-              optionTitleProp={['title_en', 'title']}
+              optionTitleProp={['title']}
               errorInstance={errors}
               onChange={onInstituteChange}
             />
@@ -431,7 +432,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
                   control={control}
                   options={branches}
                   optionValueProp='id'
-                  optionTitleProp={['title_en', 'title']}
+                  optionTitleProp={['title']}
                   errorInstance={errors}
                   onChange={onBranchChange}
                 />
@@ -446,7 +447,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
                 control={control}
                 options={trainingCenters}
                 optionValueProp='id'
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -462,7 +463,7 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
             control={control}
             options={courses}
             optionValueProp='id'
-            optionTitleProp={['title_en', 'title']}
+            optionTitleProp={['title']}
             errorInstance={errors}
           />
         </Grid>
@@ -518,16 +519,15 @@ const BatchAddEditPopup: FC<BatchAddEditPopupProps> = ({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomFormSelect
+          <CustomSelectAutoComplete
             id='trainers'
             label={messages['trainers.label']}
             isLoading={isLoadingTrainers}
             control={control}
             options={trainers}
             optionValueProp='id'
-            optionTitleProp={['trainer_name_en', 'trainer_name']}
+            optionTitleProp={['trainer_name', 'subject']}
             errorInstance={errors}
-            multiple={true}
             defaultValue={initialValues.trainers}
           />
           {/* <CustomTextInput

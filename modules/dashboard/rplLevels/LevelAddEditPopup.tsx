@@ -17,10 +17,10 @@ import {Add, Delete} from '@mui/icons-material';
 import {objectFilter} from '../../../@softbd/utilities/helpers';
 import {isBreakPointUp} from '../../../@crema/utility/Utils';
 import {
+  useFetchLocalizedRPLOccupations,
+  useFetchLocalizedRPLSectors,
+  useFetchLocalizedRTOCountries,
   useFetchRPLLevel,
-  useFetchRPLOccupations,
-  useFetchRPLSectors,
-  useFetchRTOCountries,
 } from '../../../services/CertificateAuthorityManagement/hooks';
 import {
   createRPLLevel,
@@ -61,13 +61,13 @@ const LevelAddEditPopup: FC<LevelAddEditPopupProps> = ({
   } = useFetchRPLLevel(itemId);
 
   const {data: countries, isLoading: isFetchingCountries} =
-    useFetchRTOCountries();
+    useFetchLocalizedRTOCountries();
 
   const {data: rplSectors, isLoading: isLoadingRplSectors} =
-    useFetchRPLSectors(rplSectorFilter);
+    useFetchLocalizedRPLSectors(rplSectorFilter);
 
   const {data: occupations, isLoading: isLoadingOccupations} =
-    useFetchRPLOccupations(occupationFilter);
+    useFetchLocalizedRPLOccupations(occupationFilter);
 
   const [countryList, setCountryList] = useState<any>([]);
 

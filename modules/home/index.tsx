@@ -11,6 +11,7 @@ import PopularJobs from './PopularJobs';
 import GraphView from './GraphView';
 import GraphMapView from './GraphMapView';
 import Publications from './Publications';
+//import PopNiseLanding from './PopNiseLanding';
 
 const Home = () => {
   return (
@@ -29,6 +30,8 @@ const Home = () => {
       <Publications />
       <PopularCourse />
       <PopularJobs />
+
+      {/*<PopNiseLanding />*/}
 
       {/*Todo: Partners section is hided on feedback demand*/}
       {/*<Partners />*/}

@@ -14,15 +14,15 @@ import IntlMessages from '../../@crema/utility/IntlMessages';
 import {processServerSideErrors} from '../../@softbd/utilities/validationErrorHandler';
 import useNotiStack from '../../@softbd/hooks/useNotifyStack';
 import {organizationRegistration} from '../../services/organaizationManagement/OrganizationRegistrationService';
-import {useFetchOrganizationTypes} from '../../services/organaizationManagement/hooks';
+import {useFetchLocalizedOrganizationTypes} from '../../services/organaizationManagement/hooks';
 import {
   filterDistrictsByDivisionId,
   filterUpazilasByDistrictId,
 } from '../../services/locationManagement/locationUtils';
 import {
-  useFetchDistricts,
-  useFetchDivisions,
-  useFetchUpazilas,
+  useFetchLocalizedDistricts,
+  useFetchLocalizedDivisions,
+  useFetchLocalizedUpazilas,
 } from '../../services/locationManagement/hooks';
 import RowStatus from '../../@softbd/utilities/RowStatus';
 import {Link} from '../../@softbd/elements/common';
@@ -41,19 +41,19 @@ const OrganizationRegistration = () => {
   const [filters] = useState({});
 
   const {data: divisions, isLoading: isLoadingDivisions}: any =
-    useFetchDivisions(filters);
+    useFetchLocalizedDivisions(filters);
 
   const [districtsFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: districts} = useFetchDistricts(districtsFilter);
+  const {data: districts} = useFetchLocalizedDistricts(districtsFilter);
 
   const [upazilasFilter] = useState<any>({
     row_status: RowStatus.ACTIVE,
   });
-  const {data: upazilas} = useFetchUpazilas(upazilasFilter);
+  const {data: upazilas} = useFetchLocalizedUpazilas(upazilasFilter);
   const [organizationTypesFilter] = useState({});
-  const {data: organizationTypes} = useFetchOrganizationTypes(
+  const {data: organizationTypes} = useFetchLocalizedOrganizationTypes(
     organizationTypesFilter,
   );
 
@@ -226,7 +226,7 @@ const OrganizationRegistration = () => {
                 control={control}
                 options={organizationTypes}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>
@@ -303,7 +303,7 @@ const OrganizationRegistration = () => {
                 control={control}
                 options={divisions}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDivisionChange}
               />
@@ -317,7 +317,7 @@ const OrganizationRegistration = () => {
                 control={control}
                 options={districtList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
                 onChange={onDistrictChange}
               />
@@ -330,7 +330,7 @@ const OrganizationRegistration = () => {
                 control={control}
                 options={upazilaList}
                 optionValueProp={'id'}
-                optionTitleProp={['title_en', 'title']}
+                optionTitleProp={['title']}
                 errorInstance={errors}
               />
             </Grid>

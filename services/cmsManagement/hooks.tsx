@@ -22,6 +22,7 @@ import {
   API_PUBLIC_PARTNERS,
   API_PUBLIC_PUBLICATIONS,
   API_PUBLIC_RECENT_ACTIVITIES,
+  API_PUBLIC_RECENT_ACTIVITIES_COLLAGES,
   API_PUBLIC_SLIDERS,
   API_PUBLIC_STATIC_PAGE_BLOCKS,
   API_RECENT_ACTIVITIES,
@@ -32,6 +33,10 @@ import {
 
 export function useFetchSliders(params: any) {
   return useAxiosSWR([API_SLIDERS, params]);
+}
+
+export function useFetchLocalizedSliders(params: any) {
+  return useDataLocalizationAxiosSWR([API_SLIDERS, params]);
 }
 
 export function useFetchSlider(sliderId: number | null) {
@@ -66,6 +71,10 @@ export function useFetchPublicRecentActivities(params: any) {
   return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES, params]);
 }
 
+export function useFetchPublicRecentActivitiesCollages(params: any) {
+  return useLocalizedAxiosSWR([API_PUBLIC_RECENT_ACTIVITIES_COLLAGES, params]);
+}
+
 export function useFetchPublicRecentActivityDetails(itemId: any) {
   return useLocalizedAxiosSWR(
     itemId ? API_PUBLIC_RECENT_ACTIVITIES + '/' + itemId : null,
@@ -79,6 +88,10 @@ export function useFetchNoticeOrNews(itemId: number | null) {
 /** fetches CMS Global Config */
 export function useFetchCMSGlobalConfig() {
   return useAxiosSWR(API_CMS_GLOBAL_CONFIG);
+}
+
+export function useFetchLocalizedCMSGlobalConfig() {
+  return useDataLocalizationAxiosSWR(API_CMS_GLOBAL_CONFIG);
 }
 
 export function useFetchPartners(params: any) {
@@ -96,6 +109,10 @@ export function useFetchPartner(partnerId: number | null) {
 /******* For Gallery Albums ******/
 export function useFetchGalleryAlbums(params: any) {
   return useAxiosSWR([API_GALLERY_ALBUMS, params]);
+}
+
+export function useFetchLocalizedGalleryAlbums(params: any) {
+  return useDataLocalizationAxiosSWR([API_GALLERY_ALBUMS, params]);
 }
 
 export function useFetchPublicGalleryAlbums(params: any) {
@@ -195,6 +212,7 @@ export function useFetchNiseStatics() {
 export function useFetchPublications(params: any) {
   return useAxiosSWR([API_NISE_PUBLICATIONS, params]);
 }
+
 export function useFetchPublicPublications(params: any) {
   return useLocalizedAxiosSWR([API_PUBLIC_PUBLICATIONS, params]);
 }

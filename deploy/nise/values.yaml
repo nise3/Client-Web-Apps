@@ -18,10 +18,10 @@ variables:
 
   # app version, changing version will auto deploy the app to current version
 
-  imageAppVersion:  "prod-1.12"
+  imageAppVersion:  "prod-1.17"
 
   # increase this when you need scale up
-  replicaCount: 6
+  replicaCount: 10
 
   imagePullPolicy: IfNotPresent
 
@@ -60,7 +60,7 @@ variables:
 #auto scaling config
 autoScaling:
   enabled: true
-  minReplicas: 6
+  minReplicas: 10
   maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80

@@ -80,6 +80,14 @@ export const INSTITUTE_SERVICE_DASHBOARD_DEMANDED_COURSE =
     ? process.env.NEXT_PUBLIC_TSP_DASHBOARD_DEMANDED_COURSE_PATH
     : '/demanded-courses');
 
+/** Core User service public routes section start */
+
+export const SEND_FORGET_PASSWORD_OTP = '/send-forget-password-otp';
+export const VERIFY_FORGET_PASSWORD_OTP = '/verify-forget-password-otp';
+export const RESET_FORGET_PASSWORD = '/reset-forget-password';
+
+/** Core User service public routes section end */
+
 /** Core User service private routes section start */
 
 export const API_PERMISSION_GROUPS = CORE_SERVICE_PATH + '/permission-groups';
@@ -543,6 +551,8 @@ export const API_PUBLIC_NOTICE_OR_NEWS =
   CMS_SERVICE_PUBLIC_PATH + '/notice-or-news';
 export const API_PUBLIC_RECENT_ACTIVITIES =
   CMS_SERVICE_PUBLIC_PATH + '/recent-activities';
+export const API_PUBLIC_RECENT_ACTIVITIES_COLLAGES =
+  CMS_SERVICE_PUBLIC_PATH + '/recent-activities-collages';
 export const API_PUBLIC_PARTNERS = CMS_SERVICE_PUBLIC_PATH + '/nise3-partners';
 export const API_PUBLIC_CALENDAR_EVENTS =
   CMS_SERVICE_PUBLIC_PATH + '/calender-events';

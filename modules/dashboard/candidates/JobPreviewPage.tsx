@@ -15,6 +15,7 @@ import {
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
 import {styled} from '@mui/material/styles';
+import {getIntlNumber} from '../../../@softbd/utilities/helpers';
 
 const PREFIX = 'JobPreviewPage';
 
@@ -485,8 +486,11 @@ const JobPreviewPage = ({job}: JobPreviewPageProps) => {
             {job?.additional_job_information?.festival_bonus && (
               <li>
                 {messages['job_preview.festival_bonus']}{' '}
-                {job?.additional_job_information?.festival_bonus} (
-                {messages['common.yearly']})
+                {getIntlNumber(
+                  formatNumber,
+                  job?.additional_job_information?.festival_bonus,
+                )}
+                ({messages['common.yearly']})
               </li>
             )}
           </ul>
