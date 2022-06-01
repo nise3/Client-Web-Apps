@@ -2308,5 +2308,6 @@
   "exam.question": "Question",
   "exam.result_not_publish": "Number has not publish",
   "exam.result_already_publish": "Number has been publish",
-  "exam.number_publish": "Number publish"
+  "exam.number_publish": "Number publish",
+  "batch.mark_update_not_complete": "Mark update not complete"
 }
